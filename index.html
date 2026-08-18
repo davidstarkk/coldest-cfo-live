@@ -5516,165 +5516,6 @@ function renderScaling() {
 
 </script>
 <script>
-// ==BEGIN CHANNEL PIES==
-const CHANNEL_DIST_30D = {"as_of": "2026-06-06", "days": 30, "start_date": "2026-05-07", "end_date": "2026-06-06", "revenue": {"shopify": 1153316.19, "amazon": 854045.77, "tiktok": 738891.35, "total": 2746253.31}, "ad_spend": {"shopify": 542636.89, "amazon": 141761.07, "tiktok": 34000.0, "total": 718397.96}, "profit": {"shopify": 116856.48, "amazon": 106782.06, "tiktok": 221755.35, "total": 445393.89}, "channel_mer": {"shopify": 2.1254, "amazon": 6.0245, "tiktok": 21.7321}, "channel_margin_pct": {"shopify": 10.13, "amazon": 12.5, "tiktok": 30.01}, "note": "Per-channel net profit using normalized 22.1% COGS for Shopify+TikTok. Amazon COGS unchanged. Source: reports_30days.json (CFO-grade daily P&L)."};
-
-function renderChannelPies() {
-  if (typeof CHANNEL_DIST_30D === 'undefined') return;
-  const slot = document.getElementById('channel-pies-30d');
-  if (!slot) return;
-
-  const D = CHANNEL_DIST_30D;
-  const fmt = n => '$' + Math.round(+n).toLocaleString('en-US');
-  const fmtK = n => {
-    const v = +n;
-    const abs = Math.abs(v);
-    if (abs >= 1e6) return '$' + (v/1e6).toFixed(2) + 'M';
-    if (abs >= 1e3) return '$' + (v/1e3).toFixed(0) + 'K';
-    return '$' + Math.round(v).toLocaleString('en-US');
-  };
-  const pct = (part, total) => total === 0 ? '0.0%' : (part/total*100).toFixed(1) + '%';
-
-  // Brand-consistent colors (match other charts in dashboard)
-  const COLORS = {
-    shopify: '#22c55e',   // green
-    amazon:  '#f59e0b',   // amber
-    tiktok:  '#ec4899'    // pink (TikTok brand)
-  };
-
-  // SVG donut chart builder
-  function donut(segments, total, centerLabel, centerSubLabel, size) {
-    size = size || 220;
-    const cx = size/2, cy = size/2;
-    const radius = size*0.40;
-    const innerR = size*0.26;
-    let startAngle = -Math.PI/2; // start at 12 o'clock
-    const arcs = segments.map(seg => {
-      const value = seg.value;
-      const sliceAngle = total === 0 ? 0 : (value/total) * 2 * Math.PI;
-      const endAngle = startAngle + sliceAngle;
-      const largeArc = sliceAngle > Math.PI ? 1 : 0;
-      // Outer arc
-      const x1 = cx + radius*Math.cos(startAngle);
-      const y1 = cy + radius*Math.sin(startAngle);
-      const x2 = cx + radius*Math.cos(endAngle);
-      const y2 = cy + radius*Math.sin(endAngle);
-      // Inner arc
-      const ix1 = cx + innerR*Math.cos(endAngle);
-      const iy1 = cy + innerR*Math.sin(endAngle);
-      const ix2 = cx + innerR*Math.cos(startAngle);
-      const iy2 = cy + innerR*Math.sin(startAngle);
-      const d = `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2} L ${ix1} ${iy1} A ${innerR} ${innerR} 0 ${largeArc} 0 ${ix2} ${iy2} Z`;
-      // Label position (midpoint of arc, outside)
-      const midAngle = startAngle + sliceAngle/2;
-      const labelR = radius + 18;
-      const lx = cx + labelR*Math.cos(midAngle);
-      const ly = cy + labelR*Math.sin(midAngle);
-      const anchor = Math.cos(midAngle) > 0.1 ? 'start' : (Math.cos(midAngle) < -0.1 ? 'end' : 'middle');
-      const labelPct = total === 0 ? '0%' : ((value/total)*100).toFixed(1) + '%';
-      const showLabel = (value/total) > 0.03; // hide tiny labels
-      startAngle = endAngle;
-      return { d, color: seg.color, lx, ly, anchor, labelPct, showLabel };
-    });
-
-    const paths = arcs.map(a => `<path d="${a.d}" fill="${a.color}" stroke="#0a0a0f" stroke-width="2"/>`).join('');
-    const labels = arcs.filter(a => a.showLabel).map(a =>
-      `<text x="${a.lx}" y="${a.ly}" fill="#e5e7eb" font-size="11" font-weight="600" text-anchor="${a.anchor}" dominant-baseline="middle">${a.labelPct}</text>`
-    ).join('');
-    const centerTxt = `<text x="${cx}" y="${cy-4}" fill="#e5e7eb" font-size="15" font-weight="700" text-anchor="middle">${centerLabel}</text>` +
-                     `<text x="${cx}" y="${cy+14}" fill="#9ca3af" font-size="10" text-anchor="middle">${centerSubLabel}</text>`;
-
-    return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="display:block;margin:0 auto;overflow:visible;">${paths}${labels}${centerTxt}</svg>`;
-  }
-
-  function legend(items, total) {
-    return `<div style="display:flex;flex-direction:column;gap:6px;font-size:12px;margin-top:12px;">
-      ${items.map(it => `<div style="display:flex;align-items:center;gap:8px;">
-        <span style="width:10px;height:10px;border-radius:2px;background:${it.color};flex-shrink:0;"></span>
-        <span style="opacity:0.8;flex:1;">${it.label}</span>
-        <span style="font-weight:600;">${fmtK(it.value)}</span>
-        <span style="opacity:0.55;min-width:46px;text-align:right;">${pct(it.value, total)}</span>
-      </div>`).join('')}
-    </div>`;
-  }
-
-  function buildPie(title, subtitle, items, total) {
-    // Sort largest-first so the largest slice starts at 12 o'clock
-    const sorted = [...items].sort((a,b) => b.value - a.value);
-    return `<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px 18px 16px;">
-      <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;opacity:0.65;margin-bottom:2px;">${title}</div>
-      <div style="font-size:11px;opacity:0.5;margin-bottom:14px;">${subtitle}</div>
-      ${donut(sorted, total, fmtK(total), '30-day total', 220)}
-      ${legend(sorted, total)}
-    </div>`;
-  }
-
-  const revItems = [
-    { label: 'Shopify', value: D.revenue.shopify, color: COLORS.shopify },
-    { label: 'Amazon',  value: D.revenue.amazon,  color: COLORS.amazon },
-    { label: 'TikTok',  value: D.revenue.tiktok,  color: COLORS.tiktok }
-  ];
-  const spendItems = [
-    { label: 'Meta (Shopify)', value: D.ad_spend.shopify, color: COLORS.shopify },
-    { label: 'Amazon Ads',     value: D.ad_spend.amazon,  color: COLORS.amazon },
-    { label: 'TikTok Ads',     value: D.ad_spend.tiktok,  color: COLORS.tiktok }
-  ];
-  // Profit is now computed with normalized 22.1% COGS at the source (reports_30days.json)
-  const profitItems = [
-    { label: 'Shopify', value: D.profit.shopify, color: COLORS.shopify },
-    { label: 'Amazon',  value: D.profit.amazon,  color: COLORS.amazon },
-    { label: 'TikTok',  value: D.profit.tiktok,  color: COLORS.tiktok }
-  ];
-
-  // Per-channel MER mini-stats bar
-  const merBar = `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px 16px;">
-    <div style="text-align:center;">
-      <div style="font-size:10px;opacity:0.55;letter-spacing:1px;">SHOPIFY MER</div>
-      <div style="font-size:20px;font-weight:700;color:${COLORS.shopify};margin-top:2px;">${(D.channel_mer.shopify||0).toFixed(2)}x</div>
-    </div>
-    <div style="text-align:center;">
-      <div style="font-size:10px;opacity:0.55;letter-spacing:1px;">AMAZON MER</div>
-      <div style="font-size:20px;font-weight:700;color:${COLORS.amazon};margin-top:2px;">${(D.channel_mer.amazon||0).toFixed(2)}x</div>
-    </div>
-    <div style="text-align:center;">
-      <div style="font-size:10px;opacity:0.55;letter-spacing:1px;">TIKTOK MER</div>
-      <div style="font-size:20px;font-weight:700;color:${COLORS.tiktok};margin-top:2px;">${(D.channel_mer.tiktok||0).toFixed(2)}x</div>
-    </div>
-  </div>`;
-
-  const profitSubtitle = `Share of $${Math.round(D.profit.total/1000)}K total profit · channel margin: Shop ${D.channel_margin_pct.shopify}% / Amz ${D.channel_margin_pct.amazon}% / TT ${D.channel_margin_pct.tiktok}%`;
-
-  slot.innerHTML = `
-    <div style="margin-bottom:12px;padding-left:4px;">
-      <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;opacity:0.65;color:#22d3ee;">30-DAY CHANNEL DISTRIBUTION</div>
-      <div style="font-size:11px;opacity:0.5;">${D.start_date} → ${D.end_date} · ${D.days} days · Shopify/TikTok COGS normalized to 22.1% (Amazon unchanged)</div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;">
-      ${buildPie('REVENUE BY CHANNEL', 'Where revenue comes from', revItems, D.revenue.total)}
-      ${buildPie('AD SPEND BY CHANNEL', 'Where ad dollars go', spendItems, D.ad_spend.total)}
-      ${buildPie('PROFIT BY CHANNEL', profitSubtitle, profitItems, D.profit.total)}
-    </div>
-    ${merBar}
-    <div style="font-size:10px;opacity:0.45;margin-top:10px;padding-left:4px;line-height:1.5;">
-      TikTok fee structure 30d: 6% referral + 15% affiliate + 2% processing + 14.5% shipping = 23% in platform/fulfillment costs (already deducted from TikTok profit).
-      Amazon profit includes referral + FBA fees.
-      TikTok's high MER reflects that most TikTok revenue comes from organic/affiliate, not paid ads (paid spend only ~$2K/day since 5/21).
-    </div>
-  `;
-
-}
-
-(function() {
-  function attach() { try { renderChannelPies(); } catch(e) { console.error('renderChannelPies', e); } }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', attach);
-  } else {
-    attach();
-  }
-  setTimeout(attach, 500);
-  setTimeout(attach, 2000);
-})();
-// ==END CHANNEL PIES==
 
 </script>
 <script>
@@ -6202,6 +6043,185 @@ function renderRollingMer() {
   setTimeout(go, 200);
 })();
 // ==END ROLLING_MER WIDGET==
+
+</script>
+<script>
+// ==BEGIN CHANNEL PIES==
+const CHANNEL_DIST_30D = {"as_of": "2026-08-17", "days": 30, "start_date": "2026-07-19", "end_date": "2026-08-17", "revenue": {"shopify": 1186638.58, "amazon": 843052.92, "tiktok": 775964.52, "whatnot": 51835.0, "total": 2857491.02}, "ad_spend": {"shopify": 430739.11, "amazon": 143441.87, "tiktok": 60000.0, "whatnot": 0.0, "total": 634180.98}, "profit": {"shopify": 233917.45, "amazon": 66353.83, "tiktok": 200365.45, "whatnot": 7482.92, "total": 508119.65}, "channel_mer": {"shopify": 2.7549, "amazon": 5.8773, "tiktok": 12.9327, "whatnot": null}, "channel_margin_pct": {"shopify": 19.71, "amazon": 7.87, "tiktok": 25.82, "whatnot": 14.44}, "note": "Per-channel net profit using normalized 22.1% COGS for Shopify+TikTok. Amazon COGS unchanged. Whatnot uses 20% gross margin - allocated OPEX. Source: reports_30days.json (CFO-grade daily P&L)."};
+
+function renderChannelPies() {
+  if (typeof CHANNEL_DIST_30D === 'undefined') return;
+  const slot = document.getElementById('channel-pies-30d');
+  if (!slot) return;
+
+  const D = CHANNEL_DIST_30D;
+  const fmt = n => '$' + Math.round(+n).toLocaleString('en-US');
+  const fmtK = n => {
+    const v = +n;
+    const abs = Math.abs(v);
+    if (abs >= 1e6) return '$' + (v/1e6).toFixed(2) + 'M';
+    if (abs >= 1e3) return '$' + (v/1e3).toFixed(0) + 'K';
+    return '$' + Math.round(v).toLocaleString('en-US');
+  };
+  const pct = (part, total) => total === 0 ? '0.0%' : (part/total*100).toFixed(1) + '%';
+
+  // Brand-consistent colors (match other charts in dashboard)
+  const COLORS = {
+    shopify: '#22c55e',   // green
+    amazon:  '#f59e0b',   // amber
+    tiktok:  '#ec4899',   // pink (TikTok brand)
+    whatnot: '#22d3ee'    // cyan (matches WHATNOT column color in daily P&L)
+  };
+
+  // SVG donut chart builder
+  function donut(segments, total, centerLabel, centerSubLabel, size) {
+    size = size || 220;
+    const cx = size/2, cy = size/2;
+    const radius = size*0.40;
+    const innerR = size*0.26;
+    let startAngle = -Math.PI/2; // start at 12 o'clock
+    const arcs = segments.map(seg => {
+      const value = seg.value;
+      const sliceAngle = total === 0 ? 0 : (value/total) * 2 * Math.PI;
+      const endAngle = startAngle + sliceAngle;
+      const largeArc = sliceAngle > Math.PI ? 1 : 0;
+      // Outer arc
+      const x1 = cx + radius*Math.cos(startAngle);
+      const y1 = cy + radius*Math.sin(startAngle);
+      const x2 = cx + radius*Math.cos(endAngle);
+      const y2 = cy + radius*Math.sin(endAngle);
+      // Inner arc
+      const ix1 = cx + innerR*Math.cos(endAngle);
+      const iy1 = cy + innerR*Math.sin(endAngle);
+      const ix2 = cx + innerR*Math.cos(startAngle);
+      const iy2 = cy + innerR*Math.sin(startAngle);
+      const d = `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2} L ${ix1} ${iy1} A ${innerR} ${innerR} 0 ${largeArc} 0 ${ix2} ${iy2} Z`;
+      // Label position (midpoint of arc, outside)
+      const midAngle = startAngle + sliceAngle/2;
+      const labelR = radius + 18;
+      const lx = cx + labelR*Math.cos(midAngle);
+      const ly = cy + labelR*Math.sin(midAngle);
+      const anchor = Math.cos(midAngle) > 0.1 ? 'start' : (Math.cos(midAngle) < -0.1 ? 'end' : 'middle');
+      const labelPct = total === 0 ? '0%' : ((value/total)*100).toFixed(1) + '%';
+      const showLabel = (value/total) > 0.03; // hide tiny labels
+      startAngle = endAngle;
+      return { d, color: seg.color, lx, ly, anchor, labelPct, showLabel };
+    });
+
+    const paths = arcs.map(a => `<path d="${a.d}" fill="${a.color}" stroke="#0a0a0f" stroke-width="2"/>`).join('');
+    const labels = arcs.filter(a => a.showLabel).map(a =>
+      `<text x="${a.lx}" y="${a.ly}" fill="#e5e7eb" font-size="11" font-weight="600" text-anchor="${a.anchor}" dominant-baseline="middle">${a.labelPct}</text>`
+    ).join('');
+    const centerTxt = `<text x="${cx}" y="${cy-4}" fill="#e5e7eb" font-size="15" font-weight="700" text-anchor="middle">${centerLabel}</text>` +
+                     `<text x="${cx}" y="${cy+14}" fill="#9ca3af" font-size="10" text-anchor="middle">${centerSubLabel}</text>`;
+
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="display:block;margin:0 auto;overflow:visible;">${paths}${labels}${centerTxt}</svg>`;
+  }
+
+  function legend(items, total) {
+    return `<div style="display:flex;flex-direction:column;gap:6px;font-size:12px;margin-top:12px;">
+      ${items.map(it => `<div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:10px;height:10px;border-radius:2px;background:${it.color};flex-shrink:0;"></span>
+        <span style="opacity:0.8;flex:1;">${it.label}</span>
+        <span style="font-weight:600;">${fmtK(it.value)}</span>
+        <span style="opacity:0.55;min-width:46px;text-align:right;">${pct(it.value, total)}</span>
+      </div>`).join('')}
+    </div>`;
+  }
+
+  function buildPie(title, subtitle, items, total) {
+    // Sort largest-first so the largest slice starts at 12 o'clock
+    const sorted = [...items].sort((a,b) => b.value - a.value);
+    return `<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px 18px 16px;">
+      <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;opacity:0.65;margin-bottom:2px;">${title}</div>
+      <div style="font-size:11px;opacity:0.5;margin-bottom:14px;">${subtitle}</div>
+      ${donut(sorted, total, fmtK(total), '30-day total', 220)}
+      ${legend(sorted, total)}
+    </div>`;
+  }
+
+  const revItems = [
+    { label: 'Shopify', value: D.revenue.shopify, color: COLORS.shopify },
+    { label: 'Amazon',  value: D.revenue.amazon,  color: COLORS.amazon },
+    { label: 'TikTok',  value: D.revenue.tiktok,  color: COLORS.tiktok }
+  ];
+  if ((D.revenue.whatnot||0) > 0) revItems.push({ label: 'Whatnot', value: D.revenue.whatnot, color: COLORS.whatnot });
+
+  const spendItems = [
+    { label: 'Meta (Shopify)', value: D.ad_spend.shopify, color: COLORS.shopify },
+    { label: 'Amazon Ads',     value: D.ad_spend.amazon,  color: COLORS.amazon },
+    { label: 'TikTok Ads',     value: D.ad_spend.tiktok,  color: COLORS.tiktok }
+  ];
+  if ((D.ad_spend.whatnot||0) > 0) spendItems.push({ label: 'Whatnot Ads', value: D.ad_spend.whatnot, color: COLORS.whatnot });
+
+  // Profit is now computed with normalized 22.1% COGS at the source (reports_30days.json)
+  const profitItems = [
+    { label: 'Shopify', value: D.profit.shopify, color: COLORS.shopify },
+    { label: 'Amazon',  value: D.profit.amazon,  color: COLORS.amazon },
+    { label: 'TikTok',  value: D.profit.tiktok,  color: COLORS.tiktok }
+  ];
+  if ((D.profit.whatnot||0) !== 0) profitItems.push({ label: 'Whatnot', value: D.profit.whatnot, color: COLORS.whatnot });
+
+  // Per-channel MER mini-stats bar (Whatnot has no ads by design — show N/A)
+  const hasWhatnot = (D.revenue.whatnot||0) > 0;
+  const gridCols = hasWhatnot ? 4 : 3;
+  const wnMerCell = hasWhatnot ? `
+    <div style="text-align:center;">
+      <div style="font-size:10px;opacity:0.55;letter-spacing:1px;">WHATNOT MER</div>
+      <div style="font-size:20px;font-weight:700;color:${COLORS.whatnot};margin-top:2px;">${D.channel_mer.whatnot ? (D.channel_mer.whatnot).toFixed(2) + 'x' : 'N/A'}</div>
+      <div style="font-size:9px;opacity:0.45;margin-top:2px;">${D.channel_mer.whatnot ? '' : 'no paid ads'}</div>
+    </div>` : '';
+
+  const merBar = `<div style="display:grid;grid-template-columns:repeat(${gridCols},1fr);gap:12px;margin-top:18px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:12px 16px;">
+    <div style="text-align:center;">
+      <div style="font-size:10px;opacity:0.55;letter-spacing:1px;">SHOPIFY MER</div>
+      <div style="font-size:20px;font-weight:700;color:${COLORS.shopify};margin-top:2px;">${(D.channel_mer.shopify||0).toFixed(2)}x</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:10px;opacity:0.55;letter-spacing:1px;">AMAZON MER</div>
+      <div style="font-size:20px;font-weight:700;color:${COLORS.amazon};margin-top:2px;">${(D.channel_mer.amazon||0).toFixed(2)}x</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:10px;opacity:0.55;letter-spacing:1px;">TIKTOK MER</div>
+      <div style="font-size:20px;font-weight:700;color:${COLORS.tiktok};margin-top:2px;">${(D.channel_mer.tiktok||0).toFixed(2)}x</div>
+    </div>
+    ${wnMerCell}
+  </div>`;
+
+  const wnMarginStr = hasWhatnot ? ` / WN ${D.channel_margin_pct.whatnot||0}%` : '';
+  const profitSubtitle = `Share of $${Math.round(D.profit.total/1000)}K total profit · channel margin: Shop ${D.channel_margin_pct.shopify}% / Amz ${D.channel_margin_pct.amazon}% / TT ${D.channel_margin_pct.tiktok}%${wnMarginStr}`;
+
+  slot.innerHTML = `
+    <div style="margin-bottom:12px;padding-left:4px;">
+      <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;opacity:0.65;color:#22d3ee;">30-DAY CHANNEL DISTRIBUTION</div>
+      <div style="font-size:11px;opacity:0.5;">${D.start_date} → ${D.end_date} · ${D.days} days · Shopify/TikTok COGS normalized to 22.1% (Amazon unchanged)</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;">
+      ${buildPie('REVENUE BY CHANNEL', 'Where revenue comes from', revItems, D.revenue.total)}
+      ${buildPie('AD SPEND BY CHANNEL', 'Where ad dollars go', spendItems, D.ad_spend.total)}
+      ${buildPie('PROFIT BY CHANNEL', profitSubtitle, profitItems, D.profit.total)}
+    </div>
+    ${merBar}
+    <div style="font-size:10px;opacity:0.45;margin-top:10px;padding-left:4px;line-height:1.5;">
+      TikTok fee structure 30d: 6% referral + 15% affiliate + 2% processing + 14.5% shipping = 23% in platform/fulfillment costs (already deducted from TikTok profit).
+      Amazon profit includes referral + FBA fees.
+      TikTok's high MER reflects that most TikTok revenue comes from organic/affiliate, not paid ads (paid spend only ~$2K/day since 5/21).
+    </div>
+  `;
+
+}
+
+(function() {
+  function attach() { try { renderChannelPies(); } catch(e) { console.error('renderChannelPies', e); } }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attach);
+  } else {
+    attach();
+  }
+  setTimeout(attach, 500);
+  setTimeout(attach, 2000);
+})();
+// ==END CHANNEL PIES==
 
 </script>
 </body>
