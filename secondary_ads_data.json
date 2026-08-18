@@ -1,0 +1,276 @@
+{
+  "as_of": "2026-06-03T06:34:10",
+  "source": "OpenAI Ads API (api.ads.openai.com/v1) \u2014 live",
+  "status": "ok",
+  "platforms": [
+    "chatgpt"
+  ],
+  "daily": [
+    {
+      "date": "2026-05-31",
+      "platform": "all",
+      "spend": 242.04,
+      "impressions": 8285,
+      "clicks": 112
+    },
+    {
+      "date": "2026-06-01",
+      "platform": "all",
+      "spend": 935.92,
+      "impressions": 25590,
+      "clicks": 376
+    },
+    {
+      "date": "2026-06-02",
+      "platform": "all",
+      "spend": 914.32,
+      "impressions": 23285,
+      "clicks": 343
+    }
+  ],
+  "by_campaign": [
+    {
+      "campaign": "Coldest Use Cases",
+      "platform": "chatgpt",
+      "spend": 747.19,
+      "impressions": 24449,
+      "clicks": 288
+    },
+    {
+      "campaign": "Coldest Gifting Occasions",
+      "platform": "chatgpt",
+      "spend": 627.95,
+      "impressions": 12184,
+      "clicks": 217
+    },
+    {
+      "campaign": "Coldest Non Toxic and Eco",
+      "platform": "chatgpt",
+      "spend": 484.51,
+      "impressions": 12951,
+      "clicks": 201
+    },
+    {
+      "campaign": "Coldest Tumblers and Cups",
+      "platform": "chatgpt",
+      "spend": 136.38,
+      "impressions": 4072,
+      "clicks": 80
+    },
+    {
+      "campaign": "Coldest High Intent",
+      "platform": "chatgpt",
+      "spend": 49.55,
+      "impressions": 1805,
+      "clicks": 22
+    },
+    {
+      "campaign": "Coldest Limitless Bottle",
+      "platform": "chatgpt",
+      "spend": 29.36,
+      "impressions": 1357,
+      "clicks": 17
+    },
+    {
+      "campaign": "Coldest Gifts for Her",
+      "platform": "chatgpt",
+      "spend": 10.93,
+      "impressions": 238,
+      "clicks": 4
+    },
+    {
+      "campaign": "Coldest Gifts for Him",
+      "platform": "chatgpt",
+      "spend": 6.41,
+      "impressions": 104,
+      "clicks": 2
+    }
+  ],
+  "by_day_platform": {
+    "2026-06-02": {
+      "chatgpt": 914.32
+    },
+    "2026-06-01": {
+      "chatgpt": 935.92
+    },
+    "2026-05-31": {
+      "chatgpt": 242.04
+    }
+  },
+  "by_day_campaign": {
+    "2026-06-02": [
+      {
+        "campaign": "Coldest Gifting Occasions",
+        "platform": "chatgpt",
+        "spend": 331.9,
+        "impressions": 6390,
+        "clicks": 113
+      },
+      {
+        "campaign": "Coldest Use Cases",
+        "platform": "chatgpt",
+        "spend": 321.06,
+        "impressions": 9781,
+        "clicks": 118
+      },
+      {
+        "campaign": "Coldest Non Toxic and Eco",
+        "platform": "chatgpt",
+        "spend": 171.33,
+        "impressions": 3959,
+        "clicks": 64
+      },
+      {
+        "campaign": "Coldest Tumblers and Cups",
+        "platform": "chatgpt",
+        "spend": 48.41,
+        "impressions": 1705,
+        "clicks": 30
+      },
+      {
+        "campaign": "Coldest High Intent",
+        "platform": "chatgpt",
+        "spend": 22.55,
+        "impressions": 734,
+        "clicks": 10
+      },
+      {
+        "campaign": "Coldest Limitless Bottle",
+        "platform": "chatgpt",
+        "spend": 10.34,
+        "impressions": 543,
+        "clicks": 5
+      },
+      {
+        "campaign": "Coldest Gifts for Him",
+        "platform": "chatgpt",
+        "spend": 6.41,
+        "impressions": 56,
+        "clicks": 2
+      },
+      {
+        "campaign": "Coldest Gifts for Her",
+        "platform": "chatgpt",
+        "spend": 2.32,
+        "impressions": 117,
+        "clicks": 1
+      }
+    ],
+    "2026-06-01": [
+      {
+        "campaign": "Coldest Use Cases",
+        "platform": "chatgpt",
+        "spend": 333.31,
+        "impressions": 10730,
+        "clicks": 130
+      },
+      {
+        "campaign": "Coldest Gifting Occasions",
+        "platform": "chatgpt",
+        "spend": 267.53,
+        "impressions": 5111,
+        "clicks": 94
+      },
+      {
+        "campaign": "Coldest Non Toxic and Eco",
+        "platform": "chatgpt",
+        "spend": 221.81,
+        "impressions": 6734,
+        "clicks": 90
+      },
+      {
+        "campaign": "Coldest Tumblers and Cups",
+        "platform": "chatgpt",
+        "spend": 71.44,
+        "impressions": 1728,
+        "clicks": 42
+      },
+      {
+        "campaign": "Coldest High Intent",
+        "platform": "chatgpt",
+        "spend": 18.3,
+        "impressions": 621,
+        "clicks": 7
+      },
+      {
+        "campaign": "Coldest Limitless Bottle",
+        "platform": "chatgpt",
+        "spend": 14.92,
+        "impressions": 559,
+        "clicks": 10
+      },
+      {
+        "campaign": "Coldest Gifts for Her",
+        "platform": "chatgpt",
+        "spend": 8.61,
+        "impressions": 78,
+        "clicks": 3
+      },
+      {
+        "campaign": "Coldest Gifts for Him",
+        "platform": "chatgpt",
+        "spend": 0.0,
+        "impressions": 29,
+        "clicks": 0
+      }
+    ],
+    "2026-05-31": [
+      {
+        "campaign": "Coldest Use Cases",
+        "platform": "chatgpt",
+        "spend": 92.82,
+        "impressions": 3938,
+        "clicks": 40
+      },
+      {
+        "campaign": "Coldest Non Toxic and Eco",
+        "platform": "chatgpt",
+        "spend": 91.37,
+        "impressions": 2258,
+        "clicks": 47
+      },
+      {
+        "campaign": "Coldest Gifting Occasions",
+        "platform": "chatgpt",
+        "spend": 28.52,
+        "impressions": 683,
+        "clicks": 10
+      },
+      {
+        "campaign": "Coldest Tumblers and Cups",
+        "platform": "chatgpt",
+        "spend": 16.53,
+        "impressions": 639,
+        "clicks": 8
+      },
+      {
+        "campaign": "Coldest High Intent",
+        "platform": "chatgpt",
+        "spend": 8.7,
+        "impressions": 450,
+        "clicks": 5
+      },
+      {
+        "campaign": "Coldest Limitless Bottle",
+        "platform": "chatgpt",
+        "spend": 4.1,
+        "impressions": 255,
+        "clicks": 2
+      },
+      {
+        "campaign": "Coldest Gifts for Her",
+        "platform": "chatgpt",
+        "spend": 0.0,
+        "impressions": 43,
+        "clicks": 0
+      },
+      {
+        "campaign": "Coldest Gifts for Him",
+        "platform": "chatgpt",
+        "spend": 0.0,
+        "impressions": 19,
+        "clicks": 0
+      }
+    ]
+  }
+}

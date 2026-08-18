@@ -1,0 +1,11 @@
+{
+  "as_of": "2026-06-02T06:33:27Z",
+  "status": "ok",
+  "window_days": 30,
+  "revenue_by_campaign": {},
+  "by_day_campaign_revenue": {},
+  "totals": {
+    "revenue": 0.0,
+    "orders": 0
+  }
+}
