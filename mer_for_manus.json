@@ -1,6 +1,6 @@
 {
   "as_of": "2026-09-27",
-  "computed_at": "2026-09-30T13:57:33.872582+00:00",
+  "computed_at": "2026-10-01T13:48:04.701750+00:00",
   "mer_7d_pooled": 3.1952,
   "mer_30d_pooled": 4.6351,
   "mer_target": 3.24,
@@ -13,10 +13,16 @@
   "profit_7d": -15605.4,
   "net_margin_7d_pct": -3.82,
   "budget_recommendation": {
-    "action": "DECREASE",
+    "action": "MAINTAIN",
     "magnitude": "small",
-    "reason": "Rolling MER 3.20x is slightly below target (3.24x). Trim 5\u201310% from lowest-MER campaigns."
+    "reason": "DATA REVIEW REQUIRED: do not change budgets from this feed. Latest closed report is 2026-09-27; expected 2026-09-30. Missing dates in the required 7-day window: 2026-09-28, 2026-09-29, 2026-09-30."
   },
+  "data_ready": false,
+  "missing_report_dates": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30"
+  ],
   "schema_version": "1.0",
   "_notes": "Stable contract for Manus budget agent. Field names will not change without coordinated update. Source: pooled MER over trailing 7 EDT calendar days (sum revenue / sum ad spend)."
 }
