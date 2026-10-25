@@ -4,6 +4,8 @@ var assert = require('assert');
 var Throttles = require('../throttles_module.js');
 var settings = require('../ads_throttle/settings.json');
 var series = require('../ads_throttle/series.json');
+var throttleSettings = require('../throttle_settings.json');
+var snapshot = require('../ad_channel_throttles.json');
 
 var failed = 0;
 function test(name, fn) {
@@ -46,22 +48,49 @@ test('28-day series ends on 2026-10-24 with published totals', function () {
   assert.strictEqual(last.channels.bing.amazon, 76.36);
 });
 
+test('throttle_settings + ad_channel_throttles keys match the 10/24 contract', function () {
+  assert.strictEqual(throttleSettings.threshold, 3.0);
+  assert.strictEqual(throttleSettings.step_pct, 20);
+  assert.strictEqual(throttleSettings.min_spend, 200);
+  assert.strictEqual(throttleSettings.scale_cooldown_days, 7);
+  assert.strictEqual(throttleSettings.cut_cooldown_days, 3);
+  assert.strictEqual(throttleSettings.channels.meta.mode, 'frozen');
+  assert.strictEqual(throttleSettings.channels.google.mode, 'view');
+  assert.strictEqual(throttleSettings.channels.tiktok.mode, 'view');
+  var norm = Throttles.normalizeSettings(throttleSettings);
+  assert.strictEqual(norm.global.roas_threshold, 3.0);
+  assert.strictEqual(norm.global.min_spend_7d, 200);
+  assert.strictEqual(snapshot.total_ad_spend, 21678.86);
+  assert.strictEqual(snapshot.shopify_d2c_revenue, 26598.51);
+  assert.strictEqual(snapshot.blended_mer, 1.84);
+  assert.strictEqual(snapshot.channels.bing.spend_7d, 77.33);
+  assert.strictEqual(snapshot.channels.bing.destination, 'split');
+  assert.strictEqual(snapshot.channels.chatgpt.tracking_verified, false);
+  assert.strictEqual(snapshot.channels.meta.shopify_attributed_revenue, null);
+  assert.strictEqual(snapshot.channels.meta.roas_7d, null);
+});
+
 test('frozen / view / hold never recommend a budget change', function () {
   var frozen = Throttles.recommend('meta', settings, series, { entries: [] });
   assert.strictEqual(frozen.action, 'none');
-  assert.strictEqual(frozen.label, 'Frozen');
+  assert.strictEqual(frozen.label, 'Frozen-view only');
   var view = Throttles.recommend('google', settings, series, { entries: [] });
   assert.strictEqual(view.action, 'none');
+  assert.strictEqual(view.label, 'View only');
+  var tiktok = Throttles.recommend('tiktok', settings, series, { entries: [] });
+  assert.strictEqual(tiktok.label, 'View only');
   var holdSettings = JSON.parse(JSON.stringify(settings));
   holdSettings.channels.reddit.mode = 'hold';
   var hold = Throttles.recommend('reddit', holdSettings, series, { entries: [] });
-  assert.strictEqual(hold.action, 'hold');
+  assert.ok(hold.action === 'hold' || hold.action === 'not_enough_data');
 });
 
-test('auto channel below min_spend_7d holds', function () {
+test('auto channel below min_spend_7d is Not enough data', function () {
+  Throttles._setLive(settings, series, { entries: [] }, snapshot);
   var r = Throttles.recommend('bing', settings, series, { entries: [] });
   assert.strictEqual(r.mode, 'auto');
-  assert.strictEqual(r.action, 'hold');
+  assert.strictEqual(r.action, 'not_enough_data');
+  assert.strictEqual(r.label, 'Not enough data');
   assert.ok(r.spend7 < settings.global.min_spend_7d);
 });
 
@@ -78,15 +107,40 @@ test('what-if auto + low threshold scales; high threshold cuts', function () {
     ]
   };
   var live = JSON.parse(JSON.stringify(settings));
+  Throttles._setLive(live, sample, { entries: [] }, null);
   var scaled = Throttles.recommend('reddit', live, sample, { entries: [] });
   assert.strictEqual(scaled.action, 'scale');
+  assert.strictEqual(scaled.label, 'Scale +20%');
   assert.strictEqual(scaled.recommended, 240);
 
   var cutSet = Throttles.mergeSettings(live, { global: { roas_threshold: 9 } });
   var cut = Throttles.recommend('reddit', cutSet, sample, { entries: [] });
   assert.strictEqual(cut.action, 'cut');
+  assert.strictEqual(cut.label, 'Cut -20% + new strategy');
   assert.strictEqual(cut.recommended, 160);
+  assert.notStrictEqual(cut.action, 'pause');
   assert.strictEqual(live.global.roas_threshold, 3.0);
+});
+
+test('cut cooldown since last change holds; scale cooldown is since last scale', function () {
+  var sample = {
+    days: [
+      { date: '2026-10-18', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-19', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-20', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-21', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-22', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-23', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-24', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } }
+    ]
+  };
+  var live = JSON.parse(JSON.stringify(settings));
+  Throttles._setLive(live, sample, { entries: [] }, null);
+  var yesterday = new Date(Date.now() - 86400000).toISOString();
+  var cutSet = Throttles.mergeSettings(live, { global: { roas_threshold: 9 } });
+  var held = Throttles.recommend('reddit', cutSet, sample, { entries: [{ channel: 'reddit', action: 'cut', at: yesterday }] });
+  assert.strictEqual(held.action, 'hold');
+  assert.strictEqual(held.label, 'Hold-cooldown');
 });
 
 test('Request change link targets the data repo issues form', function () {

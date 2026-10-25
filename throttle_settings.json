@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-10-25",
+  "source": "throttle_settings",
+  "updated_at": "2026-10-25T17:20:00-04:00",
+  "updated_by": "jarvis (David's rules, 10/25)",
+  "threshold": 3.0,
+  "roas_threshold": 3.0,
+  "step_pct": 20,
+  "min_spend": 200,
+  "min_spend_7d": 200,
+  "scale_cooldown_days": 7,
+  "cut_cooldown_days": 3,
+  "window_days": 7,
+  "revenue_scope": "shopify_d2c",
+  "note": "Live rules change only via Jarvis",
+  "channels": {
+    "meta":     {"mode": "frozen", "owner_bot": "Meta · Ad Buyer",      "daily_budget": null, "min_daily_budget": null, "max_daily_budget": null, "destination": "shopify", "strategy_notes": "Meta/Euka freeze since 9/27; view only until David lifts"},
+    "google":   {"mode": "view",   "owner_bot": "Google · Ads",         "daily_budget": null, "min_daily_budget": null, "max_daily_budget": null, "destination": "shopify", "strategy_notes": "sandbox kept separate"},
+    "bing":     {"mode": "auto",   "owner_bot": "Bing Ads bot",         "daily_budget": null, "min_daily_budget": null, "max_daily_budget": null, "destination": "split", "strategy_notes": "main campaign 'bing to amz tumbler listing 1' sends to Amazon, not Shopify"},
+    "reddit":   {"mode": "auto",   "owner_bot": "reddit bot",           "daily_budget": null, "min_daily_budget": null, "max_daily_budget": null, "destination": "shopify", "strategy_notes": ""},
+    "snapchat": {"mode": "auto",   "owner_bot": "snapchat ads bot",     "daily_budget": null, "min_daily_budget": null, "max_daily_budget": null, "destination": "shopify", "strategy_notes": "3 ad accounts"},
+    "chatgpt":  {"mode": "auto",   "owner_bot": "ads bot for chatgpt",  "daily_budget": null, "min_daily_budget": null, "max_daily_budget": null, "destination": "shopify", "strategy_notes": "conversion tracking known-broken"},
+    "tiktok":   {"mode": "view",   "owner_bot": null,                   "daily_budget": null, "min_daily_budget": null, "max_daily_budget": null, "destination": "shopify", "strategy_notes": "Shopify share only"}
+  },
+  "mode_legend": {
+    "auto": "daily rule applies",
+    "hold": "no changes, keep budget",
+    "frozen": "Frozen-view only",
+    "view": "View only"
+  }
+}

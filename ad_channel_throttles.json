@@ -1,0 +1,153 @@
+{
+  "as_of": "2026-10-24",
+  "source": "daily_inputs",
+  "schema": "ad_channel_throttles",
+  "computed_at": "2026-10-25T17:20:00-04:00",
+  "total_ad_spend": 21678.86,
+  "d2c_ad_spend": 14382.78,
+  "shopify_d2c_revenue": 26598.51,
+  "blended_mer": 1.84,
+  "roas_threshold": 3.0,
+  "window_days": 7,
+  "window": ["2026-10-18", "2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-24"],
+  "channels": {
+    "meta": {
+      "daily_budget": null,
+      "spend_7d": 83970.77,
+      "shopify_attributed_revenue": null,
+      "shopify_attributed_revenue_7d": null,
+      "roas_7d": null,
+      "tracking_verified": false,
+      "destination": "shopify",
+      "trend_3d": [
+        {"date": "2026-10-22", "spend": 12870.31},
+        {"date": "2026-10-23", "spend": 15196.4},
+        {"date": "2026-10-24", "spend": 11521.87}
+      ],
+      "last_change_at": null,
+      "next_eligible_at": null,
+      "owner_bot": "Meta · Ad Buyer",
+      "strategy_notes": "Meta/Euka freeze since 9/27; view only until David lifts",
+      "mode": "frozen"
+    },
+    "google": {
+      "daily_budget": null,
+      "spend_7d": 14075.07,
+      "shopify_attributed_revenue": null,
+      "shopify_attributed_revenue_7d": null,
+      "roas_7d": null,
+      "tracking_verified": false,
+      "destination": "shopify",
+      "trend_3d": [
+        {"date": "2026-10-22", "spend": 2208.25},
+        {"date": "2026-10-23", "spend": 2081.14},
+        {"date": "2026-10-24", "spend": 1951.18}
+      ],
+      "last_change_at": null,
+      "next_eligible_at": null,
+      "owner_bot": "Google · Ads",
+      "strategy_notes": "sandbox kept separate",
+      "mode": "view"
+    },
+    "bing": {
+      "daily_budget": null,
+      "spend_7d": 77.33,
+      "d2c_spend_7d": 0.97,
+      "amazon_spend_7d": 76.36,
+      "shopify_attributed_revenue": null,
+      "shopify_attributed_revenue_7d": null,
+      "roas_7d": null,
+      "tracking_verified": false,
+      "destination": "split",
+      "destination_note": "bing to amz tumbler listing 1 → Amazon",
+      "trend_3d": [
+        {"date": "2026-10-22", "spend": 0, "d2c": 0, "amazon": 0},
+        {"date": "2026-10-23", "spend": 0, "d2c": 0, "amazon": 0},
+        {"date": "2026-10-24", "spend": 77.33, "d2c": 0.97, "amazon": 76.36}
+      ],
+      "last_change_at": null,
+      "next_eligible_at": null,
+      "owner_bot": "Bing Ads bot",
+      "strategy_notes": "main campaign 'bing to amz tumbler listing 1' sends to Amazon, not Shopify",
+      "mode": "auto"
+    },
+    "reddit": {
+      "daily_budget": null,
+      "spend_7d": 0,
+      "shopify_attributed_revenue": null,
+      "shopify_attributed_revenue_7d": null,
+      "roas_7d": null,
+      "tracking_verified": false,
+      "destination": "shopify",
+      "trend_3d": [
+        {"date": "2026-10-22", "spend": 0},
+        {"date": "2026-10-23", "spend": 0},
+        {"date": "2026-10-24", "spend": 0}
+      ],
+      "last_change_at": null,
+      "next_eligible_at": null,
+      "owner_bot": "reddit bot",
+      "strategy_notes": "",
+      "mode": "auto"
+    },
+    "snapchat": {
+      "daily_budget": null,
+      "spend_7d": 0,
+      "shopify_attributed_revenue": null,
+      "shopify_attributed_revenue_7d": null,
+      "roas_7d": null,
+      "tracking_verified": false,
+      "destination": "shopify",
+      "trend_3d": [
+        {"date": "2026-10-22", "spend": 0},
+        {"date": "2026-10-23", "spend": 0},
+        {"date": "2026-10-24", "spend": 0}
+      ],
+      "last_change_at": null,
+      "next_eligible_at": null,
+      "owner_bot": "snapchat ads bot",
+      "strategy_notes": "3 ad accounts",
+      "mode": "auto"
+    },
+    "chatgpt": {
+      "daily_budget": null,
+      "spend_7d": 0,
+      "shopify_attributed_revenue": null,
+      "shopify_attributed_revenue_7d": null,
+      "roas_7d": null,
+      "tracking_verified": false,
+      "destination": "shopify",
+      "trend_3d": [
+        {"date": "2026-10-22", "spend": 0},
+        {"date": "2026-10-23", "spend": 0},
+        {"date": "2026-10-24", "spend": 0}
+      ],
+      "last_change_at": null,
+      "next_eligible_at": null,
+      "owner_bot": "ads bot for chatgpt",
+      "strategy_notes": "conversion tracking known-broken",
+      "mode": "auto"
+    },
+    "tiktok": {
+      "daily_budget": null,
+      "spend_7d": 10655.91,
+      "shopify_attributed_revenue": null,
+      "shopify_attributed_revenue_7d": null,
+      "roas_7d": null,
+      "tracking_verified": false,
+      "destination": "shopify",
+      "destination_note": "TikTok shopify_spend only",
+      "trend_3d": [
+        {"date": "2026-10-22", "spend": 2207.12},
+        {"date": "2026-10-23", "spend": 1472.66},
+        {"date": "2026-10-24", "spend": 908.76}
+      ],
+      "last_change_at": null,
+      "next_eligible_at": null,
+      "owner_bot": null,
+      "strategy_notes": "Shopify share only",
+      "mode": "view"
+    }
+  },
+  "_notes": "Spend windows are summed from ads_throttle/series.json (published REPORTS / PARTIAL_REPORTS / mer_for_manus). Shopify-attributed revenue, 7-day ROAS, and daily budgets are not published — left null / tracking_verified:false. Do not invent them."
+}

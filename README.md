@@ -138,16 +138,35 @@ ChatGPT conversion tracking is known-broken (0 conversions on past days). An opt
 
 Reporting only. Do **not** put ad-platform credentials in this public repo.
 
-## Throttles
+## Ad Channel Throttles
 
-The **THROTTLES** tab is a read-only visual dashboard of every channel plus the live ads-throttle rules.
+The **AD CHANNEL THROTTLES** tab is read-only. **Live rules change only via Jarvis.**
 
-- Cross-channel: **D2C ad spend**, Shopify D2C revenue, blended MER (Shopify D2C ÷ D2C ad spend) with a **3.0** reference line, **All ad spend**, and 28-day budget share.
-- Per channel: 28-day spend + ROAS/MER chart (same 3.0 line), mode chip (`auto` / `hold` / `frozen` / `view`).
-- Live controls from `ads_throttle/settings.json` (global threshold / step / min spend / cooldowns + per-channel mode and min/max daily budget). Shown disabled. **Live settings change only through Jarvis in chat.** [Request change](https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new) opens a prefilled issue on `davidstarkk/coldest-cfo-dashboard`.
-- What-if inputs are editable in the browser only and recompute recommended actions (scale / cut / hold). They do not write settings.
-- Change log from `ads_throttle/changes.json`.
-- 28-day series from `ads_throttle/series.json` (`source: daily_inputs`). Missing channel ROAS is not invented; the yellow line is company D2C blended MER when a channel has no attributed ROAS.
+Data (match the data-repo keys; first file that exists wins):
+
+1. `ad_channel_throttles.json` (or `mer_for_manus.json` → `ad_channel_throttles`)
+2. `throttle_settings.json` (fallback `ads_throttle/settings.json`, or `mer_for_manus.json` → `throttle_settings`)
+3. `ads_throttle/changes.json`
+
+Top cards: **total ad spend**, Shopify D2C revenue, blended MER vs **3.0**.
+
+One row per channel (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, TikTok): daily budget, 7-day spend, Shopify-attributed revenue, 7-day ROAS, 3-day trend, destination (Shopify vs Amazon/other), rule badge, last change + next eligible, owner bot, strategy notes. Unpublished daily budget / attributed revenue / ROAS show as **unverified** — never invented.
+
+Rule badges (client-side, also used by what-if):
+
+| Condition | Badge |
+|---|---|
+| Meta `frozen` | Frozen-view only |
+| Google / TikTok `view` | View only |
+| 7d spend &lt; $200 | Not enough data |
+| ROAS &lt; threshold and cut cooldown elapsed | Cut -20% + new strategy (never pause) |
+| ROAS &lt; threshold and still in cut cooldown | Hold-cooldown |
+| ROAS ≥ threshold and scale cooldown elapsed | Scale +20% |
+| ROAS ≥ threshold and still in scale cooldown | Hold-cooldown |
+
+What-if inputs (threshold 3.0, step 20%, min spend $200, scale cooldown 7d, cut cooldown 3d) recompute the badge in the browser only.
+
+Change log columns: date, channel, ROAS, spend, action, old → new budget.
 
 No credentials. This tab never calls an ads API.
 

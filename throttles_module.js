@@ -1,10 +1,10 @@
 /* =====================================================================
-   COLDEST · THROTTLES
+   COLDEST · AD CHANNEL THROTTLES
    ---------------------------------------------------------------------
-   Visual dashboard of every paid channel + read-only live settings
-   from ads_throttle/settings.json. What-if inputs are client-side only.
-   Live settings change only through Jarvis in chat.
-   Reporting only. No credentials.
+   Read-only dashboard. Live rules change only via Jarvis.
+   Data: ad_channel_throttles → throttle_settings → ads_throttle/changes.json
+   (fallbacks: ads_throttle/settings.json, ads_throttle/series.json,
+   mer_for_manus.json blocks). Reporting only. No credentials.
    ===================================================================== */
 (function (root) {
   'use strict';
@@ -19,11 +19,14 @@
     { id: 'tiktok', label: 'TikTok' }
   ];
   var ISSUE_REPO = 'https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new';
-  var SETTINGS_PATH = 'ads_throttle/settings.json';
+  var SNAPSHOT_PATH = 'ad_channel_throttles.json';
+  var SETTINGS_PATH = 'throttle_settings.json';
+  var SETTINGS_FALLBACK = 'ads_throttle/settings.json';
   var CHANGES_PATH = 'ads_throttle/changes.json';
   var SERIES_PATH = 'ads_throttle/series.json';
+  var UNVERIFIED = 'unverified';
 
-  var LIVE = { settings: null, changes: null, series: null };
+  var LIVE = { settings: null, changes: null, series: null, snapshot: null };
   var WHATIF = { global: {}, channels: {} };
   var CHARTS = [];
 
@@ -85,18 +88,77 @@
     return days.length ? days[days.length - 1] : null;
   }
 
+  function normalizeSettings(raw) {
+    if (!raw || typeof raw !== 'object') return { global: {}, channels: {}, mode_legend: {} };
+    if (raw.global && typeof raw.global === 'object') {
+      var g0 = Object.assign({}, raw.global);
+      if (g0.roas_threshold == null && g0.threshold != null) g0.roas_threshold = g0.threshold;
+      if (g0.min_spend_7d == null && g0.min_spend != null) g0.min_spend_7d = g0.min_spend;
+      return {
+        as_of: raw.as_of,
+        source: raw.source,
+        updated_at: raw.updated_at,
+        updated_by: raw.updated_by,
+        note: raw.note,
+        global: g0,
+        channels: raw.channels || {},
+        mode_legend: raw.mode_legend || {}
+      };
+    }
+    return {
+      as_of: raw.as_of,
+      source: raw.source || 'throttle_settings',
+      updated_at: raw.updated_at,
+      updated_by: raw.updated_by,
+      note: raw.note,
+      global: {
+        roas_threshold: raw.roas_threshold != null ? raw.roas_threshold : raw.threshold,
+        threshold: raw.threshold != null ? raw.threshold : raw.roas_threshold,
+        step_pct: raw.step_pct,
+        window_days: raw.window_days,
+        min_spend_7d: raw.min_spend_7d != null ? raw.min_spend_7d : raw.min_spend,
+        min_spend: raw.min_spend != null ? raw.min_spend : raw.min_spend_7d,
+        scale_cooldown_days: raw.scale_cooldown_days,
+        cut_cooldown_days: raw.cut_cooldown_days,
+        revenue_scope: raw.revenue_scope || 'shopify_d2c'
+      },
+      channels: raw.channels || {},
+      mode_legend: raw.mode_legend || {}
+    };
+  }
+
+  function snapshotChannel(id) {
+    var snap = LIVE.snapshot;
+    if (!snap || !snap.channels) return null;
+    return snap.channels[id] || null;
+  }
+
   function lastActionAt(changes, channelId, action) {
     var entries = (changes && changes.entries) || [];
     var i, e, at, best = null;
     for (i = 0; i < entries.length; i++) {
       e = entries[i];
-      if (channelId && e.channel && e.channel !== channelId) continue;
+      if (channelId && e.channel !== channelId) continue;
       if (action && e.action !== action) continue;
-      at = e.at ? Date.parse(e.at) : NaN;
+      at = e.at ? Date.parse(e.at) : (e.date ? Date.parse(e.date) : NaN);
       if (!Number.isFinite(at)) continue;
       if (best == null || at > best) best = at;
     }
     return best;
+  }
+
+  function lastChangeEntry(changes, channelId) {
+    var entries = (changes && changes.entries) || [];
+    var i, e, at, best = null, bestE = null;
+    for (i = 0; i < entries.length; i++) {
+      e = entries[i];
+      if (channelId && e.channel && e.channel !== channelId) continue;
+      if (channelId && !e.channel) continue;
+      at = e.at ? Date.parse(e.at) : (e.date ? Date.parse(e.date) : NaN);
+      if (!Number.isFinite(at)) continue;
+      if (best == null || at > best) { best = at; bestE = e; }
+    }
+    return bestE;
   }
 
   function daysSince(ts) {
@@ -104,8 +166,13 @@
     return (Date.now() - ts) / 86400000;
   }
 
+  function addDays(ts, days) {
+    if (ts == null || !Number.isFinite(ts)) return null;
+    return new Date(ts + days * 86400000).toISOString().slice(0, 10);
+  }
+
   function mergeSettings(live, whatif) {
-    var out = clone(live || { global: {}, channels: {}, mode_legend: {} });
+    var out = clone(normalizeSettings(live));
     out.global = Object.assign({}, out.global, whatif && whatif.global);
     out.channels = out.channels || {};
     Object.keys((whatif && whatif.channels) || {}).forEach(function (id) {
@@ -114,64 +181,111 @@
     return out;
   }
 
-  function recommend(channelId, settings, series, changes) {
-    settings = settings || {};
-    var g = settings.global || {};
-    var ch = (settings.channels && settings.channels[channelId]) || {};
-    var legend = settings.mode_legend || {};
+  function channelRoas(channelId, settings, series) {
+    var snap = snapshotChannel(channelId);
+    if (snap) {
+      if (snap.roas_7d != null && Number.isFinite(Number(snap.roas_7d))) {
+        return { roas: num(snap.roas_7d), source: 'roas_7d', verified: snap.tracking_verified !== false };
+      }
+      var rev = snap.shopify_attributed_revenue != null ? snap.shopify_attributed_revenue : snap.shopify_attributed_revenue_7d;
+      if (rev != null && num(snap.spend_7d) > 0) {
+        return { roas: num(rev) / num(snap.spend_7d), source: 'shopify_attributed_revenue', verified: snap.tracking_verified !== false };
+      }
+    }
+    var g = (settings && settings.global) || {};
+    var days = lastN((series && series.days) || [], num(g.window_days) || 7);
+    var win = windowTotals(days);
+    return { roas: win.blendedMer, source: 'company_d2c_mer', verified: false };
+  }
+
+  function channelSpend7(channelId, settings, series) {
+    var snap = snapshotChannel(channelId);
+    if (snap && snap.spend_7d != null) return num(snap.spend_7d);
+    var g = (settings && settings.global) || {};
     var days = lastN((series && series.days) || [], num(g.window_days) || 7);
     var spend7 = 0;
-    days.forEach(function (d) { spend7 = round2(spend7 + channelSpend(d, channelId)); });
+    days.forEach(function (d) { spend7 = round2(spend7 + channelSpendPublished(d, channelId)); });
+    return spend7;
+  }
+
+  function recommend(channelId, settings, series, changes) {
+    settings = normalizeSettings(settings || {});
+    var g = settings.global || {};
+    var ch = (settings.channels && settings.channels[channelId]) || {};
+    var snap = snapshotChannel(channelId) || {};
+    var spend7 = channelSpend7(channelId, settings, series);
     var last = latestDay(series);
-    var current = last ? channelSpend(last, channelId) : 0;
-    var win = windowTotals(days);
-    var mer = win.blendedMer;
-    var threshold = num(g.roas_threshold);
+    var current = last ? channelSpendPublished(last, channelId) : num(snap.spend_7d);
+    if (ch.daily_budget != null) current = num(ch.daily_budget);
+    else if (snap.daily_budget != null) current = num(snap.daily_budget);
+    var roasInfo = channelRoas(channelId, settings, series);
+    var mer = roasInfo.roas;
+    var threshold = num(g.roas_threshold != null ? g.roas_threshold : g.threshold);
     var step = num(g.step_pct);
+    var minSpend = num(g.min_spend_7d != null ? g.min_spend_7d : g.min_spend);
+    var mode = ch.mode || snap.mode || 'view';
     var base = {
       channel: channelId,
-      mode: ch.mode || 'view',
+      mode: mode,
       current: current,
       spend7: spend7,
       mer: mer,
+      roas: mer,
+      roas_source: roasInfo.source,
+      roas_verified: roasInfo.verified,
       threshold: threshold,
       step_pct: step
     };
 
-    if (ch.mode === 'frozen') return Object.assign(base, { action: 'none', label: 'Frozen', reason: legend.frozen || 'view only, no changes' });
-    if (ch.mode === 'view') return Object.assign(base, { action: 'none', label: 'View only', reason: legend.view || 'tracked only' });
-    if (ch.mode === 'hold') return Object.assign(base, { action: 'hold', label: 'Hold', reason: legend.hold || 'no changes, keep budget' });
+    if (mode === 'frozen') {
+      return Object.assign(base, { action: 'none', label: 'Frozen-view only', reason: 'Meta freeze / frozen mode — view only until lifted' });
+    }
+    if (mode === 'view') {
+      return Object.assign(base, { action: 'none', label: 'View only', reason: 'Tracked only — no budget change' });
+    }
 
-    if (spend7 < num(g.min_spend_7d)) {
-      return Object.assign(base, { action: 'hold', label: 'Hold', reason: '7d spend $' + spend7.toFixed(2) + ' is below min_spend_7d $' + num(g.min_spend_7d).toFixed(0) });
+    if (spend7 < minSpend) {
+      return Object.assign(base, { action: 'not_enough_data', label: 'Not enough data', reason: '7d spend ' + usd(spend7) + ' is under min spend ' + usd(minSpend) });
     }
 
     var wantScale = mer != null && mer >= threshold;
     var action = wantScale ? 'scale' : 'cut';
     var cooldown = wantScale ? num(g.scale_cooldown_days) : num(g.cut_cooldown_days);
-    var lastAt = lastActionAt(changes, channelId, action);
+    var lastAt = wantScale
+      ? lastActionAt(changes, channelId, 'scale')
+      : lastActionAt(changes, channelId, null);
     if (daysSince(lastAt) < cooldown) {
-      return Object.assign(base, { action: 'hold', label: 'Cooldown', reason: action + ' cooldown ' + cooldown + 'd still running' });
+      return Object.assign(base, {
+        action: 'hold',
+        label: 'Hold-cooldown',
+        next_eligible: addDays(lastAt, cooldown),
+        reason: (wantScale ? 'scale' : 'cut') + ' cooldown ' + cooldown + 'd still running'
+      });
+    }
+
+    if (mode === 'hold') {
+      return Object.assign(base, { action: 'hold', label: 'Hold-cooldown', reason: 'mode hold — keep budget' });
     }
 
     var next = wantScale ? current * (1 + step / 100) : current * (1 - step / 100);
     if (ch.min_daily_budget != null && ch.min_daily_budget !== '') next = Math.max(next, num(ch.min_daily_budget));
     if (ch.max_daily_budget != null && ch.max_daily_budget !== '') next = Math.min(next, num(ch.max_daily_budget));
     next = round2(next);
+    var unverifiedNote = roasInfo.verified ? '' : ' · channel ROAS unverified (using ' + roasInfo.source + ')';
     return Object.assign(base, {
       action: action,
-      label: wantScale ? 'Scale +' + step + '%' : 'Cut −' + step + '%',
+      label: wantScale ? ('Scale +' + step + '%') : ('Cut -' + step + '% + new strategy'),
       recommended: next,
-      reason: 'D2C blended MER ' + merTxt(mer) + ' vs threshold ' + merTxt(threshold) + ' (revenue_scope ' + (g.revenue_scope || 'shopify_d2c') + ')'
+      reason: (wantScale ? 'ROAS ' + merTxt(mer) + ' ≥ ' + merTxt(threshold) : 'ROAS ' + merTxt(mer) + ' < ' + merTxt(threshold) + ' — cut, never pause') + unverifiedNote
     });
   }
 
   function requestChangeUrl(settings) {
     var title = 'Throttle settings change request';
     var body = [
-      'Requesting a live settings change. Live settings change only through Jarvis in chat.',
+      'Requesting a live settings change. Live rules change only via Jarvis.',
       '',
-      'Current `' + SETTINGS_PATH + '`:',
+      'Current `throttle_settings` / `ads_throttle/settings.json`:',
       '',
       '```json',
       JSON.stringify(settings || {}, null, 2),
@@ -188,112 +302,45 @@
     CHARTS = [];
   }
 
-  function chartColors() {
-    return {
-      cyan: '#00d4d4',
-      green: '#22c55e',
-      yellow: '#f59e0b',
-      red: '#ef4444',
-      muted: '#8888a8',
-      dim: '#5c5c7a',
-      grid: 'rgba(37,37,72,0.7)',
-      text: '#e8e8f0'
-    };
+  function destLabel(dest, note) {
+    if (dest === 'amazon') return 'Amazon';
+    if (dest === 'other') return 'Other';
+    if (dest === 'split') return 'Shopify + Amazon' + (note ? ' · ' + note : '');
+    if (dest === 'shopify' || dest === 'd2c') return 'Shopify';
+    return dest ? dest : 'Shopify';
   }
 
-  function lineChart(canvas, labels, spend, mer, threshold) {
-    if (typeof Chart === 'undefined' || !canvas) return null;
-    var c = chartColors();
-    var chart = new Chart(canvas.getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Daily spend',
-            data: spend,
-            yAxisID: 'y',
-            borderColor: c.cyan,
-            backgroundColor: 'rgba(0,212,212,0.12)',
-            fill: true,
-            tension: 0.25,
-            pointRadius: 0,
-            borderWidth: 2
-          },
-          {
-            label: 'D2C MER / ROAS',
-            data: mer,
-            yAxisID: 'y1',
-            borderColor: c.yellow,
-            backgroundColor: 'transparent',
-            tension: 0.25,
-            pointRadius: 0,
-            borderWidth: 2
-          },
-          {
-            label: '3.0 reference',
-            data: labels.map(function () { return threshold; }),
-            yAxisID: 'y1',
-            borderColor: c.green,
-            borderDash: [5, 4],
-            pointRadius: 0,
-            borderWidth: 1.5,
-            fill: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: { labels: { color: c.muted, boxWidth: 10, font: { size: 10 } } },
-          tooltip: {
-            backgroundColor: '#12121e',
-            titleColor: c.text,
-            bodyColor: c.muted
-          }
-        },
-        scales: {
-          x: { ticks: { color: c.dim, maxTicksLimit: 8, font: { size: 10 } }, grid: { color: c.grid } },
-          y: {
-            position: 'left',
-            ticks: { color: c.cyan, font: { size: 10 }, callback: function (v) { return '$' + Number(v).toLocaleString(); } },
-            grid: { color: c.grid }
-          },
-          y1: {
-            position: 'right',
-            min: 0,
-            ticks: { color: c.yellow, font: { size: 10 }, callback: function (v) { return Number(v).toFixed(1) + 'x'; } },
-            grid: { drawOnChartArea: false }
-          }
-        }
-      }
-    });
-    CHARTS.push(chart);
-    return chart;
+  function sparkSvg(points) {
+    var vals = (points || []).map(function (p) { return num(p && p.spend != null ? p.spend : p); });
+    if (!vals.length) return '<span class="th-unverified">' + UNVERIFIED + '</span>';
+    var max = Math.max.apply(null, vals.concat([1]));
+    var min = Math.min.apply(null, vals);
+    var span = max - min || 1;
+    var w = 72, h = 22, pad = 2;
+    var d = vals.map(function (v, i) {
+      var x = pad + (vals.length === 1 ? w / 2 : i * (w - pad * 2) / (vals.length - 1));
+      var y = h - pad - ((v - min) / span) * (h - pad * 2);
+      return x.toFixed(1) + ',' + y.toFixed(1);
+    }).join(' ');
+    var first = vals[0], last = vals[vals.length - 1];
+    var arrow = last > first * 1.02 ? '↑' : (last < first * 0.98 ? '↓' : '→');
+    var cls = last > first * 1.02 ? 'up' : (last < first * 0.98 ? 'down' : 'flat');
+    return '<span class="th-trend"><svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true"><polyline fill="none" stroke="#00d4d4" stroke-width="1.6" points="' + d + '"/></svg><span class="th-arrow ' + cls + '">' + arrow + '</span></span>';
   }
 
-  function shareChart(canvas, labels, values) {
-    if (typeof Chart === 'undefined' || !canvas) return null;
-    var c = chartColors();
-    var palette = [c.cyan, '#3b82f6', c.yellow, '#a78bfa', '#fb7185', '#34d399', c.muted];
-    var chart = new Chart(canvas.getContext('2d'), {
-      type: 'doughnut',
-      data: {
-        labels: labels,
-        datasets: [{ data: values, backgroundColor: palette, borderColor: '#131328', borderWidth: 2 }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'right', labels: { color: c.muted, boxWidth: 10, font: { size: 10 } } }
-        }
-      }
-    });
-    CHARTS.push(chart);
-    return chart;
+  function unverifiedOr(value, fmt) {
+    if (value == null || value === '') return '<span class="th-unverified">' + UNVERIFIED + '</span>';
+    return fmt ? fmt(value) : esc(String(value));
+  }
+
+  function badgeClass(label) {
+    if (!label) return 'view';
+    if (label.indexOf('Scale') === 0) return 'scale';
+    if (label.indexOf('Cut') === 0) return 'cut';
+    if (label.indexOf('Hold') === 0) return 'hold';
+    if (label.indexOf('Not enough') === 0) return 'nodata';
+    if (label.indexOf('Frozen') === 0) return 'frozen';
+    return 'view';
   }
 
   function injectCss() {
@@ -304,30 +351,36 @@
       + '.th-h{font-size:1.35rem;font-weight:700;margin:0 0 6px}'
       + '.th-sub{color:var(--text-muted,#8888a8);font-size:.82rem;margin:0 0 16px;line-height:1.5}'
       + '.th-note{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.28);border-radius:8px;padding:10px 12px;color:var(--yellow,#f59e0b);font-size:.8rem;margin:0 0 16px}'
-      + '.th-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}'
+      + '.th-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}'
       + '.th-card{background:var(--card,#171730);border:1px solid var(--border,#252548);border-radius:8px;padding:14px 16px}'
       + '.th-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim,#5c5c7a);margin-bottom:6px}'
       + '.th-val{font-family:var(--font-mono,ui-monospace,monospace);font-size:1.35rem;font-weight:700}'
       + '.th-muted{color:var(--text-muted,#8888a8);font-size:.75rem;margin-top:4px}'
-      + '.th-grid{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:16px}'
-      + '.th-chart{height:220px}'
-      + '.th-channels{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}'
-      + '.th-chip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}'
+      + '.th-chart{height:180px}'
+      + '.th-chip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.65rem;font-weight:700;letter-spacing:.04em}'
       + '.th-chip.auto{background:rgba(0,212,212,.15);color:#00d4d4}'
-      + '.th-chip.hold{background:rgba(245,158,11,.15);color:#f59e0b}'
+      + '.th-chip.hold,.th-chip.hold-cooldown{background:rgba(245,158,11,.15);color:#f59e0b}'
       + '.th-chip.frozen{background:rgba(239,68,68,.15);color:#ef4444}'
-      + '.th-chip.view{background:rgba(136,136,168,.15);color:#8888a8}'
-      + '.th-table{width:100%;border-collapse:collapse;font-size:.8rem}'
-      + '.th-table th{color:var(--text-dim,#5c5c7a);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--border,#252548);text-align:right}'
+      + '.th-chip.view,.th-chip.nodata{background:rgba(136,136,168,.15);color:#8888a8}'
+      + '.th-chip.scale{background:rgba(34,197,94,.15);color:#22c55e}'
+      + '.th-chip.cut{background:rgba(239,68,68,.18);color:#fb7185}'
+      + '.th-unverified{color:var(--yellow,#f59e0b);font-weight:600;font-size:.75rem}'
+      + '.th-scroll{overflow-x:auto}'
+      + '.th-table{width:100%;border-collapse:collapse;font-size:.78rem;min-width:1100px}'
+      + '.th-table th{color:var(--text-dim,#5c5c7a);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--border,#252548);text-align:right;white-space:nowrap}'
       + '.th-table th:first-child,.th-table td:first-child{text-align:left}'
-      + '.th-table td{padding:7px 8px;border-bottom:1px solid var(--border,#252548);font-family:var(--font-mono,ui-monospace,monospace)}'
-      + '.th-form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}'
+      + '.th-table td{padding:8px;border-bottom:1px solid var(--border,#252548);vertical-align:middle}'
+      + '.th-table td.mono{font-family:var(--font-mono,ui-monospace,monospace)}'
+      + '.th-trend{display:inline-flex;align-items:center;gap:4px}'
+      + '.th-arrow.up{color:#22c55e}'
+      + '.th-arrow.down{color:#fb7185}'
+      + '.th-arrow.flat{color:#8888a8}'
+      + '.th-form{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px}'
       + '.th-form label{display:block;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim,#5c5c7a);margin-bottom:4px}'
       + '.th-form input,.th-form select{width:100%;background:var(--card,#171730);color:var(--text,#e8e8f0);border:1px solid var(--border,#252548);border-radius:6px;padding:7px 8px;font-family:var(--font-mono,ui-monospace,monospace);font-size:.8rem}'
       + '.th-form input:disabled,.th-form select:disabled{opacity:.7;cursor:not-allowed}'
       + '.th-btn{display:inline-block;background:var(--cyan,#00d4d4);color:#0d0d1a;border:none;border-radius:6px;padding:8px 12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.7rem;text-decoration:none}'
-      + '.th-ro{opacity:.85}'
-      + '@media (max-width:900px){.th-kpis,.th-grid,.th-channels,.th-form{grid-template-columns:1fr}}';
+      + '@media (max-width:900px){.th-kpis,.th-form{grid-template-columns:1fr}}';
     var st = document.createElement('style');
     st.id = 'th-module-css';
     st.textContent = css;
@@ -351,10 +404,10 @@
         btn = document.createElement('div');
         btn.className = 'tab';
         btn.setAttribute('data-tab', 'throttles');
-        btn.textContent = 'THROTTLES';
         after.parentNode.insertBefore(btn, after.nextSibling);
       }
     }
+    if (btn) btn.textContent = 'AD CHANNEL THROTTLES';
     if (btn && !btn._thBound) {
       btn._thBound = true;
       btn.addEventListener('click', function () {
@@ -369,49 +422,64 @@
     return panel;
   }
 
-  function settingsBlock(live, editable) {
-    var g = (live && live.global) || {};
-    var legend = (live && live.mode_legend) || {};
-    var fields = [
-      ['roas_threshold', 'ROAS threshold', g.roas_threshold],
-      ['step_pct', 'Step %', g.step_pct],
-      ['window_days', 'Window days', g.window_days],
-      ['min_spend_7d', 'Min spend 7d', g.min_spend_7d],
-      ['scale_cooldown_days', 'Scale cooldown', g.scale_cooldown_days],
-      ['cut_cooldown_days', 'Cut cooldown', g.cut_cooldown_days]
-    ];
-    var globalHtml = fields.map(function (f) {
-      var val = WHATIF.global[f[0]] != null && editable ? WHATIF.global[f[0]] : f[2];
-      return '<div><label>' + esc(f[1]) + '</label><input data-th-g="' + f[0] + '" type="number" step="any" value="' + esc(val) + '"' + (editable ? '' : ' disabled') + '></div>';
-    }).join('');
-    var chHtml = CHANNEL_META.map(function (c) {
-      var row = ((live && live.channels) || {})[c.id] || {};
-      var wf = WHATIF.channels[c.id] || {};
-      var mode = editable && wf.mode != null ? wf.mode : (row.mode || 'view');
-      var minB = editable && wf.min_daily_budget != null ? wf.min_daily_budget : (row.min_daily_budget == null ? '' : row.min_daily_budget);
-      var maxB = editable && wf.max_daily_budget != null ? wf.max_daily_budget : (row.max_daily_budget == null ? '' : row.max_daily_budget);
-      return '<div class="th-card">'
-        + '<div class="th-label">' + esc(c.label) + ' <span class="th-chip ' + esc(mode) + '">' + esc(mode) + '</span></div>'
-        + '<div class="th-form" style="grid-template-columns:1fr 1fr 1fr">'
-        + '<div><label>mode</label><select data-th-ch="' + c.id + '" data-th-f="mode"' + (editable ? '' : ' disabled') + '>'
-        + ['auto', 'hold', 'frozen', 'view'].map(function (m) { return '<option value="' + m + '"' + (m === mode ? ' selected' : '') + '>' + m + '</option>'; }).join('')
-        + '</select></div>'
-        + '<div><label>min daily</label><input data-th-ch="' + c.id + '" data-th-f="min_daily_budget" type="number" step="0.01" placeholder="none" value="' + esc(minB) + '"' + (editable ? '' : ' disabled') + '></div>'
-        + '<div><label>max daily</label><input data-th-ch="' + c.id + '" data-th-f="max_daily_budget" type="number" step="0.01" placeholder="none" value="' + esc(maxB) + '"' + (editable ? '' : ' disabled') + '></div>'
-        + '</div>'
-        + (row.notes ? '<div class="th-muted">' + esc(row.notes) + '</div>' : '')
-        + (row.owner_bot ? '<div class="th-muted">Owner: ' + esc(row.owner_bot) + '</div>' : '')
-        + '</div>';
-    }).join('');
-    var legendHtml = Object.keys(legend).map(function (k) {
-      return '<span class="th-chip ' + esc(k) + '">' + esc(k) + '</span> ' + esc(legend[k]);
-    }).join(' · ');
-    return { globalHtml: globalHtml, chHtml: chHtml, legendHtml: legendHtml };
+  function rowHtml(c, rec, settings) {
+    var snap = snapshotChannel(c.id) || {};
+    var chSet = ((settings && settings.channels) || {})[c.id] || {};
+    var dest = snap.destination || chSet.destination || (c.id === 'bing' ? 'split' : 'shopify');
+    var destNote = snap.destination_note || '';
+    var budget = snap.daily_budget != null ? snap.daily_budget : chSet.daily_budget;
+    var rev = snap.shopify_attributed_revenue != null ? snap.shopify_attributed_revenue : snap.shopify_attributed_revenue_7d;
+    var roasPub = snap.roas_7d;
+    var trend = snap.trend_3d;
+    if (!trend || !trend.length) {
+      var days = lastN((LIVE.series && LIVE.series.days) || [], 3);
+      trend = days.map(function (d) { return { date: d.date, spend: channelSpendPublished(d, c.id) }; });
+    }
+    var lastE = lastChangeEntry(LIVE.changes, c.id);
+    var lastAt = snap.last_change_at || (lastE && (lastE.at || lastE.date)) || null;
+    var nextEl = snap.next_eligible_at || rec.next_eligible || '—';
+    var owner = snap.owner_bot != null ? snap.owner_bot : chSet.owner_bot;
+    var notes = snap.strategy_notes != null ? snap.strategy_notes : (chSet.strategy_notes || chSet.notes || '');
+    var lastTxt = lastAt ? String(lastAt).slice(0, 10) : '<span class="th-unverified">no change yet</span>';
+    return '<tr>'
+      + '<td>' + esc(c.label) + '</td>'
+      + '<td class="mono">' + unverifiedOr(budget, usd) + '</td>'
+      + '<td class="mono">' + usd(rec.spend7) + '</td>'
+      + '<td class="mono">' + unverifiedOr(rev, usd) + '</td>'
+      + '<td class="mono">' + (roasPub != null && snap.tracking_verified !== false ? merTxt(roasPub) : '<span class="th-unverified">' + UNVERIFIED + '</span>') + '</td>'
+      + '<td>' + sparkSvg(trend) + '</td>'
+      + '<td>' + esc(destLabel(dest, destNote)) + '</td>'
+      + '<td><span class="th-chip ' + badgeClass(rec.label) + '">' + esc(rec.label) + '</span></td>'
+      + '<td>' + lastTxt + '<div class="th-muted">next ' + (nextEl && nextEl !== '—' ? esc(String(nextEl).slice(0, 10)) : 'eligible now') + '</div></td>'
+      + '<td>' + (owner ? esc(owner) : '<span class="th-unverified">' + UNVERIFIED + '</span>') + '</td>'
+      + '<td>' + (notes ? esc(notes) : '—') + '</td>'
+      + '</tr>';
   }
 
-  function recsTableHtml(recs) {
-    return recs.map(function (r) {
-      return '<tr><td>' + esc(channelLabel(r.channel)) + '</td><td>' + esc(r.mode) + '</td><td>' + usd(r.spend7) + '</td><td>' + esc(r.label) + '</td><td>' + esc(r.reason) + (r.recommended != null ? ' → ' + usd(r.recommended) : '') + '</td></tr>';
+  function recsTableHtml(recs, settings) {
+    return CHANNEL_META.map(function (c) {
+      var rec = recs.filter(function (r) { return r.channel === c.id; })[0] || recommend(c.id, settings, LIVE.series, LIVE.changes);
+      return rowHtml(c, rec, settings);
+    }).join('');
+  }
+
+  function changeRows() {
+    var entries = (LIVE.changes && LIVE.changes.entries) || [];
+    if (!entries.length) return '<tr><td colspan="6">No ads_throttle/changes.json entries.</td></tr>';
+    return entries.map(function (e) {
+      var oldB = e.old_budget != null ? e.old_budget : e.old;
+      var newB = e.new_budget != null ? e.new_budget : e.new;
+      var budget = (oldB != null || newB != null)
+        ? ((oldB != null ? usd(oldB) : '—') + ' → ' + (newB != null ? usd(newB) : '—'))
+        : '—';
+      return '<tr>'
+        + '<td>' + esc((e.date || e.at || '—').toString().slice(0, 10)) + '</td>'
+        + '<td>' + esc(e.channel ? channelLabel(e.channel) : 'all') + '</td>'
+        + '<td class="mono">' + (e.roas != null ? merTxt(e.roas) : '—') + '</td>'
+        + '<td class="mono">' + (e.spend != null ? usd(e.spend) : '—') + '</td>'
+        + '<td>' + esc(e.action || '—') + '</td>'
+        + '<td class="mono">' + esc(budget) + (e.summary ? '<div class="th-muted">' + esc(e.summary) + '</div>' : '') + '</td>'
+        + '</tr>';
     }).join('');
   }
 
@@ -423,7 +491,8 @@
 
   function refreshRecs(rootEl) {
     var body = rootEl.querySelector('#th-recs-body');
-    if (body) body.innerHTML = recsTableHtml(currentRecs());
+    var settings = mergeSettings(LIVE.settings, WHATIF);
+    if (body) body.innerHTML = recsTableHtml(currentRecs(), settings);
   }
 
   function bindWhatIf(rootEl) {
@@ -434,18 +503,46 @@
         refreshRecs(rootEl);
       });
     });
-    rootEl.querySelectorAll('[data-th-ch]').forEach(function (el) {
-      if (el.disabled) return;
-      el.addEventListener('change', onCh);
-      el.addEventListener('input', onCh);
-      function onCh() {
-        var id = el.getAttribute('data-th-ch');
-        var f = el.getAttribute('data-th-f');
-        WHATIF.channels[id] = WHATIF.channels[id] || {};
-        WHATIF.channels[id][f] = (f === 'mode') ? el.value : (el.value === '' ? null : num(el.value));
-        refreshRecs(rootEl);
+  }
+
+  function merVsLine(canvas, labels, mer, threshold) {
+    if (typeof Chart === 'undefined' || !canvas) return null;
+    var chart = new Chart(canvas.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Blended MER',
+            data: mer,
+            borderColor: '#f59e0b',
+            backgroundColor: 'transparent',
+            tension: 0.25,
+            pointRadius: 0,
+            borderWidth: 2
+          },
+          {
+            label: '3.0 reference',
+            data: labels.map(function () { return threshold; }),
+            borderColor: '#22c55e',
+            borderDash: [5, 4],
+            pointRadius: 0,
+            borderWidth: 1.5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#8888a8', boxWidth: 10, font: { size: 10 } } } },
+        scales: {
+          x: { ticks: { color: '#5c5c7a', maxTicksLimit: 8, font: { size: 10 } }, grid: { color: 'rgba(37,37,72,0.7)' } },
+          y: { min: 0, ticks: { color: '#f59e0b', font: { size: 10 }, callback: function (v) { return Number(v).toFixed(1) + 'x'; } }, grid: { color: 'rgba(37,37,72,0.7)' } }
+        }
       }
     });
+    CHARTS.push(chart);
+    return chart;
   }
 
   function render() {
@@ -453,90 +550,57 @@
     if (!panel) return;
     injectCss();
     destroyCharts();
-    var settings = LIVE.settings || { global: {}, channels: {}, mode_legend: {} };
+    var settings = mergeSettings(LIVE.settings, WHATIF);
     var series = LIVE.series || { days: [] };
+    var snap = LIVE.snapshot || {};
     var days = series.days || [];
     var last = latestDay(series);
-    var merged = mergeSettings(settings, WHATIF);
-    var recs = CHANNEL_META.map(function (c) { return recommend(c.id, merged, series, LIVE.changes); });
-    var threshold = num((merged.global || {}).roas_threshold) || 3;
+    var recs = currentRecs();
+    var threshold = num((settings.global || {}).roas_threshold) || 3;
+    var totalSpend = snap.total_ad_spend != null ? snap.total_ad_spend : (last ? last.total_ad_spend : 0);
+    var shop = snap.shopify_d2c_revenue != null ? snap.shopify_d2c_revenue : (last ? last.shopify_d2c_revenue : 0);
+    var mer = snap.blended_mer != null ? snap.blended_mer : (last ? last.blended_mer : null);
+    var merDelta = mer != null ? (num(mer) - threshold) : null;
+    var g = settings.global || {};
     var labels = days.map(function (d) { return d.date.slice(5); });
     var merSeries = days.map(function (d) { return d.blended_mer == null ? null : num(d.blended_mer); });
-    var spendSeries = days.map(function (d) { return num(d.total_ad_spend); });
-    var liveUi = settingsBlock(settings, false);
-    var ifUi = settingsBlock(merged, true);
-    var shareLabels = [];
-    var shareVals = [];
-    CHANNEL_META.forEach(function (c) {
-      var sum = 0;
-      days.forEach(function (d) { sum = round2(sum + channelSpendPublished(d, c.id)); });
-      shareLabels.push(c.label);
-      shareVals.push(sum);
-    });
 
     panel.innerHTML = ''
       + '<div class="th-wrap">'
-      + '<div class="th-title">Throttles</div>'
-      + '<h2 class="th-h">Channel controls</h2>'
-      + '<p class="th-sub">28-day series from <code>' + esc(SERIES_PATH) + '</code> (source ' + esc(series.source || 'daily_inputs') + ', as_of ' + esc(series.as_of || (last && last.date) || '—') + '). Live rules from <code>' + esc(SETTINGS_PATH) + '</code>.</p>'
-      + '<div class="th-note">Live settings change only through Jarvis in chat. '
-      + '<a class="th-btn" style="margin-left:8px" target="_blank" rel="noopener" href="' + esc(requestChangeUrl(settings)) + '">Request change</a></div>'
+      + '<div class="th-title">Ad Channel Throttles</div>'
+      + '<h2 class="th-h">Read-only channel controls</h2>'
+      + '<p class="th-sub">Snapshot <code>' + esc(SNAPSHOT_PATH) + '</code> (as_of ' + esc(snap.as_of || (last && last.date) || '—') + ') · settings <code>' + esc(SETTINGS_PATH) + '</code> · changes <code>' + esc(CHANGES_PATH) + '</code>. Missing attributed revenue / ROAS / daily budget = <span class="th-unverified">unverified</span> — not invented.</p>'
+      + '<div class="th-note">Live rules change only via Jarvis. '
+      + '<a class="th-btn" style="margin-left:8px" target="_blank" rel="noopener" href="' + esc(requestChangeUrl(LIVE.settings)) + '">Request change</a></div>'
       + '<div class="th-kpis">'
-      + '<div class="th-card"><div class="th-label">D2C ad spend</div><div class="th-val">' + usd(last ? last.d2c_ad_spend : 0) + '</div><div class="th-muted">' + esc(last ? last.date : 'no series') + ' · vs Shopify D2C → blended MER</div></div>'
-      + '<div class="th-card"><div class="th-label">Shopify D2C revenue</div><div class="th-val">' + usd(last ? last.shopify_d2c_revenue : 0) + '</div><div class="th-muted">revenue_scope shopify_d2c</div></div>'
-      + '<div class="th-card"><div class="th-label">Blended MER</div><div class="th-val">' + merTxt(last && last.blended_mer) + '</div><div class="th-muted">Shopify D2C ÷ D2C ad spend · vs ' + merTxt(threshold) + ' reference</div></div>'
-      + '<div class="th-card"><div class="th-label">All ad spend</div><div class="th-val">' + usd(last ? last.total_ad_spend : 0) + '</div><div class="th-muted">company · D2C + Amazon-bound + other</div></div>'
+      + '<div class="th-card"><div class="th-label">Total ad spend</div><div class="th-val">' + usd(totalSpend) + '</div><div class="th-muted">' + esc(snap.as_of || (last && last.date) || '—') + ' · total_ad_spend (All ad spend)</div></div>'
+      + '<div class="th-card"><div class="th-label">Shopify D2C revenue</div><div class="th-val">' + usd(shop) + '</div><div class="th-muted">revenue_scope shopify_d2c</div></div>'
+      + '<div class="th-card"><div class="th-label">Blended MER vs 3.0</div><div class="th-val">' + merTxt(mer) + '</div><div class="th-muted">' + (merDelta == null ? 'no MER' : (merDelta >= 0 ? '+' : '') + merDelta.toFixed(2) + ' vs 3.0 reference') + ' · Shopify D2C ÷ D2C ad spend</div></div>'
       + '</div>'
-      + '<div class="th-grid">'
-      + '<div class="th-card"><div class="th-label">Blended MER trend · 28d</div><div class="th-chart"><canvas id="th-mer-chart"></canvas></div></div>'
-      + '<div class="th-card"><div class="th-label">Budget share · 28d spend</div><div class="th-chart"><canvas id="th-share-chart"></canvas></div></div>'
-      + '</div>'
-      + '<div class="th-title">Live settings · read only</div>'
-      + '<div class="th-card th-ro"><div class="th-label">Global</div><div class="th-form">' + liveUi.globalHtml + '</div>'
-      + '<div class="th-muted" style="margin-top:8px">Updated ' + esc(settings.updated_at || '—') + ' · ' + esc(settings.updated_by || '') + '</div>'
-      + '<div class="th-muted" style="margin-top:6px">' + liveUi.legendHtml + '</div></div>'
-      + '<div class="th-channels">' + liveUi.chHtml + '</div>'
-      + '<div class="th-title">What-if · client-side only</div>'
-      + '<p class="th-sub">These inputs do not write ' + esc(SETTINGS_PATH) + '. They recompute recommended actions on this page only.</p>'
-      + '<div class="th-card"><div class="th-form">' + ifUi.globalHtml + '</div></div>'
-      + '<div class="th-channels">' + ifUi.chHtml + '</div>'
-      + '<div class="th-card"><div class="th-label">Recommended actions</div>'
-      + '<table class="th-table"><thead><tr><th>Channel</th><th>Mode</th><th>7d spend</th><th>Action</th><th>Detail</th></tr></thead><tbody id="th-recs-body">'
-      + recsTableHtml(recs)
+      + '<div class="th-card" style="margin-bottom:16px"><div class="th-label">Blended MER trend · 28d vs 3.0</div><div class="th-chart"><canvas id="th-mer-chart"></canvas></div></div>'
+      + '<div class="th-title">Channels</div>'
+      + '<div class="th-card th-scroll"><table class="th-table"><thead><tr>'
+      + '<th>Channel</th><th>Daily budget</th><th>7d spend</th><th>Shopify rev</th><th>7d ROAS</th><th>3d trend</th><th>Destination</th><th>Rule</th><th>Last change / next</th><th>Owner bot</th><th>Strategy notes</th>'
+      + '</tr></thead><tbody id="th-recs-body">'
+      + recsTableHtml(recs, settings)
       + '</tbody></table></div>'
-      + '<div class="th-title">Per channel · 28d spend + ROAS</div>'
-      + '<div class="th-channels" id="th-channel-cards">'
-      + CHANNEL_META.map(function (c) {
-        var rec = recs.filter(function (r) { return r.channel === c.id; })[0];
-        var lastCh = last && last.channels ? last.channels[c.id] : null;
-        var split = (c.id === 'bing' && lastCh && (lastCh.d2c != null || lastCh.amazon != null))
-          ? ('bing.d2c ' + usd(lastCh.d2c) + ' + bing.amazon ' + usd(lastCh.amazon))
-          : '';
-        return '<div class="th-card"><div class="th-label">' + esc(c.label) + ' <span class="th-chip ' + esc((rec && rec.mode) || 'view') + '">' + esc((rec && rec.mode) || 'view') + '</span></div>'
-          + '<div class="th-val">' + usd(lastCh ? lastCh.spend : 0) + '</div>'
-          + '<div class="th-muted">' + esc(split || ((lastCh && lastCh.source) || 'no feed')) + ' · ' + esc(rec ? rec.label : '') + '</div>'
-          + '<div class="th-chart"><canvas id="th-ch-' + c.id + '"></canvas></div></div>';
-      }).join('')
+      + '<div class="th-title" style="margin-top:20px">Settings · what-if</div>'
+      + '<p class="th-sub">These inputs recompute the recommended action in this browser only. They do not write <code>throttle_settings</code>. Live: threshold ' + esc(g.roas_threshold) + ', step ' + esc(g.step_pct) + '%, min spend $' + esc(g.min_spend_7d) + ', scale cooldown ' + esc(g.scale_cooldown_days) + 'd, cut cooldown ' + esc(g.cut_cooldown_days) + 'd. Meta frozen · Google/TikTok view only.</p>'
+      + '<div class="th-card"><div class="th-form">'
+      + '<div><label>Threshold</label><input data-th-g="roas_threshold" type="number" step="0.1" value="' + esc(g.roas_threshold) + '"></div>'
+      + '<div><label>Step %</label><input data-th-g="step_pct" type="number" step="1" value="' + esc(g.step_pct) + '"></div>'
+      + '<div><label>Min spend 7d</label><input data-th-g="min_spend_7d" type="number" step="1" value="' + esc(g.min_spend_7d) + '"></div>'
+      + '<div><label>Scale cooldown (d)</label><input data-th-g="scale_cooldown_days" type="number" step="1" value="' + esc(g.scale_cooldown_days) + '"></div>'
+      + '<div><label>Cut cooldown (d)</label><input data-th-g="cut_cooldown_days" type="number" step="1" value="' + esc(g.cut_cooldown_days) + '"></div>'
       + '</div>'
-      + '<div class="th-title">Change log</div>'
-      + '<div class="th-card"><table class="th-table"><thead><tr><th>When</th><th>Who</th><th>Action</th><th>Summary</th></tr></thead><tbody>'
-      + (((LIVE.changes && LIVE.changes.entries) || []).map(function (e) {
-        return '<tr><td>' + esc(e.at || '—') + '</td><td>' + esc(e.by || '—') + '</td><td>' + esc(e.action || '—') + '</td><td>' + esc(e.summary || '') + '</td></tr>';
-      }).join('') || '<tr><td colspan="4">No ads_throttle/changes.json entries.</td></tr>')
+      + '<div class="th-muted" style="margin-top:10px">Updated ' + esc(settings.updated_at || '—') + ' · ' + esc(settings.updated_by || '') + ' · Live rules change only via Jarvis</div></div>'
+      + '<div class="th-title" style="margin-top:20px">Change log</div>'
+      + '<div class="th-card th-scroll"><table class="th-table"><thead><tr><th>Date</th><th>Channel</th><th>ROAS</th><th>Spend</th><th>Action</th><th>Old → new budget</th></tr></thead><tbody>'
+      + changeRows()
       + '</tbody></table></div>'
       + '</div>';
 
-    lineChart(document.getElementById('th-mer-chart'), labels, spendSeries, merSeries, threshold);
-    shareChart(document.getElementById('th-share-chart'), shareLabels, shareVals);
-    CHANNEL_META.forEach(function (c) {
-      var spend = days.map(function (d) { return channelSpendPublished(d, c.id); });
-      var roas = days.map(function (d) {
-        var ch = d.channels && d.channels[c.id];
-        if (ch && ch.roas != null) return num(ch.roas);
-        return d.blended_mer == null ? null : num(d.blended_mer);
-      });
-      lineChart(document.getElementById('th-ch-' + c.id), labels, spend, roas, threshold);
-    });
+    merVsLine(document.getElementById('th-mer-chart'), labels, merSeries, threshold);
     bindWhatIf(panel);
   }
 
@@ -547,22 +611,38 @@
   }
 
   function openFromHash() {
-    if (typeof location === 'undefined' || location.hash !== '#throttles') return;
+    if (typeof location === 'undefined') return;
+    var h = location.hash;
+    if (h !== '#throttles' && h !== '#ad-channel-throttles' && h !== '#ad_channel_throttles') return;
     var btn = document.querySelector('.tab[data-tab="throttles"]');
     if (btn) btn.click();
+  }
+
+  function pickMerBlock(doc, key) {
+    if (!doc || typeof doc !== 'object') return null;
+    if (doc[key]) return doc[key];
+    return null;
   }
 
   function boot() {
     ensureTab();
     injectCss();
     Promise.allSettled([
+      fetchJson(SNAPSHOT_PATH),
       fetchJson(SETTINGS_PATH),
+      fetchJson(SETTINGS_FALLBACK),
       fetchJson(CHANGES_PATH),
-      fetchJson(SERIES_PATH)
+      fetchJson(SERIES_PATH),
+      fetchJson('mer_for_manus.json')
     ]).then(function (results) {
-      LIVE.settings = results[0].status === 'fulfilled' ? results[0].value : null;
-      LIVE.changes = results[1].status === 'fulfilled' ? results[1].value : { entries: [] };
-      LIVE.series = results[2].status === 'fulfilled' ? results[2].value : { days: [] };
+      var mer = results[5].status === 'fulfilled' ? results[5].value : null;
+      LIVE.snapshot = results[0].status === 'fulfilled' ? results[0].value : pickMerBlock(mer, 'ad_channel_throttles');
+      var settings = results[1].status === 'fulfilled' ? results[1].value : null;
+      if (!settings && results[2].status === 'fulfilled') settings = results[2].value;
+      if (!settings) settings = pickMerBlock(mer, 'throttle_settings');
+      LIVE.settings = normalizeSettings(settings);
+      LIVE.changes = results[3].status === 'fulfilled' ? results[3].value : { entries: [] };
+      LIVE.series = results[4].status === 'fulfilled' ? results[4].value : { days: [] };
       var panel = document.getElementById('tab-throttles');
       if (panel && panel.classList.contains('active')) render();
       openFromHash();
@@ -573,14 +653,18 @@
     CHANNEL_META: CHANNEL_META,
     recommend: recommend,
     mergeSettings: mergeSettings,
+    normalizeSettings: normalizeSettings,
     windowTotals: windowTotals,
     requestChangeUrl: requestChangeUrl,
     channelSpend: channelSpend,
+    destLabel: destLabel,
+    UNVERIFIED: UNVERIFIED,
     render: render,
-    _setLive: function (settings, series, changes) {
-      LIVE.settings = settings || null;
+    _setLive: function (settings, series, changes, snapshot) {
+      LIVE.settings = normalizeSettings(settings || null);
       LIVE.series = series || { days: [] };
       LIVE.changes = changes || { entries: [] };
+      LIVE.snapshot = snapshot || null;
     }
   };
 
