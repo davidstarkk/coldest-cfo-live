@@ -97,9 +97,72 @@ The site reads `window.location.hash` on load and auto-expands the matching repo
 - **CFO Briefing** (`d1c3dd8e`): 9:20 AM ET daily — pulls emails, builds report, sends email, deploys site
 - **TikTok Refresh** (`c53bbb8e`): Every 6 hours — pulls ShipHero TikTok orders, updates dashboard
 
+## Bing / Microsoft Advertising
+
+This public repo **is** the GitHub Pages site at https://davidstarkk.github.io/coldest-cfo-live/ (`main` → `/`).
+
+Google Ads daily numbers are **not** fetched from an API in the browser. They arrive already embedded on the page as `PARTIAL_REPORTS[].advertising_sources.google_ads` (public-mirror sync from the private data/report repo `davidstarkk/coldest-cfo-dashboard`). That pipeline also rolls Google spend into `provisional_totals.ads`, blended MER, and net profit. Finalized `REPORTS` rows do not have a Google field.
+
+Bing follows the **same path**:
+
+| Priority | Source | What it is |
+|---|---|---|
+| 1 | `PARTIAL_REPORTS[].advertising_sources.bing` (aliases: `bing_ads`, `microsoft_ads`) | Mirror sync from the data repo — source of truth once the other agent publishes it. Already-included pipeline spend is **not** double-counted. |
+| 2 | `mer_for_manus.json` → `bing` block | Same file Google/MER already ships next to `index.html`. Absent block → $0. |
+| 3 | `bing_ads_data.json` | Manual file drop committed to this repo. |
+| 4 | BING ADS tab → “Manual daily number” | Browser `localStorage` only (does not deploy). |
+
+Pre-launch (campaigns not live): every KPI renders **$0 / 0 / —**. Company paid spend, blended MER, and profit **do not change** while Bing spend is $0. Meta (`shop_ad_spend`) and Google (`advertising_sources.google_ads`) are never rewritten.
+
+Expected `bing` block (liberal reader — extra fields are ignored):
+
+```json
+{
+  "bing": {
+    "as_of": "2026-10-24",
+    "status": "pre_launch",
+    "spend": 0,
+    "clicks": 0,
+    "conversions": 0,
+    "revenue": 0,
+    "roas": null,
+    "daily": [
+      { "date": "2026-10-24", "spend": 0, "clicks": 0, "conversions": 0, "revenue": 0 }
+    ]
+  }
+}
+```
+
+### Direct Microsoft Advertising API (disabled)
+
+This Pages site cannot hold API secrets. A puller exists but is **off** unless you opt in on a trusted machine or the private pipeline:
+
+```bash
+# default: writes a $0 pre-launch bing_ads_data.json and exits 0
+npm run pull:bing
+
+# only if you really want a direct pull later
+BING_ADS_ENABLED=1
+BING_ADS_CLIENT_ID=
+BING_ADS_CLIENT_SECRET=
+BING_ADS_DEVELOPER_TOKEN=
+BING_ADS_REFRESH_TOKEN=
+BING_ADS_CUSTOMER_ID=
+BING_ADS_ACCOUNT_ID=
+```
+
+Until `BING_ADS_ENABLED=1` **and** those vars are set, nothing calls Microsoft. Preferred production path: publish `advertising_sources.bing` (and the matching `provisional_totals`) from `coldest-cfo-dashboard`, then let the existing mirror sync land it here.
+
+### What David needs to set
+
+- **Nothing** for a clean $0 pre-launch Bing section on Pages.
+- When Bing goes live (~$1,000/day): have the data-repo agent publish a `bing` block / `advertising_sources.bing`. Optionally paste a day in the BING ADS tab or edit `bing_ads_data.json` if the pipeline is late.
+- Do **not** put Microsoft credentials in this public repo.
+
 ## Local Development
 
 ```bash
 npm install
+npm test
 node server.js  # http://localhost:5000
 ```
