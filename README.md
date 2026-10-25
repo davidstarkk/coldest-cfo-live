@@ -97,6 +97,56 @@ The site reads `window.location.hash` on load and auto-expands the matching repo
 - **CFO Briefing** (`d1c3dd8e`): 9:20 AM ET daily — pulls emails, builds report, sends email, deploys site
 - **TikTok Refresh** (`c53bbb8e`): Every 6 hours — pulls ShipHero TikTok orders, updates dashboard
 
+## Paid channels (Meta · Google · Bing · Reddit · Snapchat · ChatGPT)
+
+The Daily Reports strip **Paid channels · ad spend** lists all six. Missing data is **$0** or **no feed** — numbers are never invented.
+
+| Channel | Typical source today | Tab |
+|---|---|---|
+| Meta | `advertising_sources.meta` (already in pipeline totals) | META ADS |
+| Google Ads | `advertising_sources.google_ads` (already in pipeline totals) | GOOGLE ADS |
+| Bing / Microsoft | `advertising_sources.bing` or `mer_for_manus.json` → `bing` | BING ADS |
+| Reddit | `advertising_sources.reddit` or `mer_for_manus.json` → `reddit` | REDDIT ADS |
+| Snapchat | `advertising_sources.snapchat` or `mer_for_manus.json` → `snapchat` | SNAPCHAT ADS |
+| ChatGPT Ads | `advertising_sources.chatgpt` or `mer_for_manus.json` → `chatgpt` (manual publish; no API) | CHATGPT ADS |
+
+When `mer_for_manus.json` publishes the daily_inputs contract (`source: daily_inputs`), the strip uses those keys **as written**:
+
+| Key | Meaning |
+|---|---|
+| `d2c_ad_spend` | D2C ad spend (Shopify D2C paid media, including Bing D2C) |
+| `blended_mer` | Shopify D2C revenue ÷ `d2c_ad_spend` |
+| `total_ad_spend` | Company ad spend (D2C + `non_d2c`) |
+| `bing.spend` / `bing.d2c` / `bing.amazon` | Bing total and the D2C / Amazon split |
+| `reddit` / `snapchat` / `chatgpt` | Per-channel blocks; `tracking_verified: false` means unpublished / unverified |
+| `non_d2c.whatnot` / `applovin` / `tiktok_shop` / `sellerboard_amazon` / `unallocated` | Non-D2C lines |
+
+Without those keys the strip falls back to a six-channel sum. Meta and Google already inside `provisional_totals.ads` are displayed and **not added again**. Bing / Reddit / Snapchat / ChatGPT overlay into `provisional_totals` only when the pipeline has not published them and a feed has spend &gt; $0.
+
+Feed order per channel (same as Bing):
+
+1. `PARTIAL_REPORTS[].advertising_sources.<channel>` (aliases accepted)
+2. `mer_for_manus.json` block (`meta`, `google`, `bing`, `reddit`, `snapchat`, `chatgpt`)
+3. optional `<channel>_ads_data.json` (`bing_ads_data.json`, `reddit_ads_data.json`, …)
+4. Channel tab → manual daily number (`localStorage` only)
+
+ChatGPT ads has **no API**. Publish a `chatgpt` block from the data repo (or `chatgpt_ads_data.json`). Until then the row is $0 / no feed.
+
+Reporting only. Do **not** put ad-platform credentials in this public repo.
+
+## Throttles
+
+The **THROTTLES** tab is a read-only visual dashboard of every channel plus the live ads-throttle rules.
+
+- Cross-channel: `total_ad_spend`, Shopify D2C revenue, 28-day blended MER with a **3.0** reference line, and 28-day budget share.
+- Per channel: 28-day spend + ROAS/MER chart (same 3.0 line), mode chip (`auto` / `hold` / `frozen` / `view`).
+- Live controls from `ads_throttle/settings.json` (global threshold / step / min spend / cooldowns + per-channel mode and min/max daily budget). Shown disabled. **Live settings change only through Jarvis in chat.** [Request change](https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new) opens a prefilled issue on `davidstarkk/coldest-cfo-dashboard`.
+- What-if inputs are editable in the browser only and recompute recommended actions (scale / cut / hold). They do not write settings.
+- Change log from `ads_throttle/changes.json`.
+- 28-day series from `ads_throttle/series.json` (`source: daily_inputs`). Missing channel ROAS is not invented; the yellow line is company D2C blended MER when a channel has no attributed ROAS.
+
+No credentials. This tab never calls an ads API.
+
 ## Bing / Microsoft Advertising
 
 This public repo **is** the GitHub Pages site at https://davidstarkk.github.io/coldest-cfo-live/ (`main` → `/`).
@@ -114,24 +164,36 @@ Bing follows the **same path**:
 
 Pre-launch (campaigns not live): every KPI renders **$0 / 0 / —**. Company paid spend, blended MER, and profit **do not change** while Bing spend is $0. Meta (`shop_ad_spend`) and Google (`advertising_sources.google_ads`) are never rewritten.
 
-Expected `bing` block (liberal reader — extra fields are ignored):
+Expected `bing` block (keys match the data-repo `mer_for_manus.json` contract):
 
 ```json
 {
+  "as_of": "2026-10-24",
+  "source": "daily_inputs",
+  "d2c_ad_spend": 14382.78,
+  "blended_mer": 1.84,
+  "total_ad_spend": 21678.86,
   "bing": {
     "as_of": "2026-10-24",
-    "status": "pre_launch",
-    "spend": 0,
-    "clicks": 0,
-    "conversions": 0,
-    "revenue": 0,
-    "roas": null,
-    "daily": [
-      { "date": "2026-10-24", "spend": 0, "clicks": 0, "conversions": 0, "revenue": 0 }
-    ]
+    "spend": 77.33,
+    "d2c": 0.97,
+    "amazon": 76.36,
+    "tracking_verified": true
+  },
+  "reddit": { "spend": 0, "tracking_verified": false },
+  "snapchat": { "spend": 0, "tracking_verified": false },
+  "chatgpt": { "spend": 0, "tracking_verified": false },
+  "non_d2c": {
+    "whatnot": 0,
+    "applovin": 0,
+    "tiktok_shop": 3409.28,
+    "sellerboard_amazon": 3012.01,
+    "unallocated": 798.43
   }
 }
 ```
+
+2026-10-24 expected on the live page: D2C spend **$14,382.78**, blended MER **1.84**, total **$21,678.86**, Bing **$77.33** = D2C **$0.97** + Amazon **$76.36**.
 
 ### Direct Microsoft Advertising API (disabled)
 

@@ -1,6 +1,40 @@
 {
-  "as_of": "2026-09-27",
-  "computed_at": "2026-10-02T13:49:38.167060+00:00",
+  "as_of": "2026-10-24",
+  "source": "daily_inputs",
+  "computed_at": "2026-10-25T13:49:38.167060+00:00",
+  "schema_version": "1.1",
+  "d2c_ad_spend": 14382.78,
+  "blended_mer": 1.84,
+  "total_ad_spend": 21678.86,
+  "bing": {
+    "as_of": "2026-10-24",
+    "spend": 77.33,
+    "d2c": 0.97,
+    "amazon": 76.36,
+    "tracking_verified": true
+  },
+  "reddit": {
+    "as_of": "2026-10-24",
+    "spend": 0,
+    "tracking_verified": false
+  },
+  "snapchat": {
+    "as_of": "2026-10-24",
+    "spend": 0,
+    "tracking_verified": false
+  },
+  "chatgpt": {
+    "as_of": "2026-10-24",
+    "spend": 0,
+    "tracking_verified": false
+  },
+  "non_d2c": {
+    "whatnot": 0,
+    "applovin": 0,
+    "tiktok_shop": 3409.28,
+    "sellerboard_amazon": 3012.01,
+    "unallocated": 798.43
+  },
   "mer_7d_pooled": 3.1952,
   "mer_30d_pooled": 4.6351,
   "mer_target": 3.24,
@@ -24,6 +58,5 @@
     "2026-09-30",
     "2026-10-01"
   ],
-  "schema_version": "1.0",
-  "_notes": "Stable contract for Manus budget agent. Field names will not change without coordinated update. Source: pooled MER over trailing 7 EDT calendar days (sum revenue / sum ad spend)."
+  "_notes": "Daily contract (source: daily_inputs). Field names: d2c_ad_spend, blended_mer, total_ad_spend, bing.{spend,d2c,amazon}, reddit, snapchat, chatgpt.tracking_verified, non_d2c.{whatnot,applovin,tiktok_shop,sellerboard_amazon,unallocated}. 7d pooled MER fields remain the last closed window (2026-09-27)."
 }

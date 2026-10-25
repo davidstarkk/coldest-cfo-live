@@ -1,0 +1,13 @@
+{
+  "as_of": "2026-10-25",
+  "source": "ads_throttle/changes.json",
+  "entries": [
+    {
+      "at": "2026-10-25T17:20:00-04:00",
+      "by": "jarvis (David's rules, 10/25)",
+      "channel": null,
+      "action": "settings_updated",
+      "summary": "Published live throttle settings: ROAS threshold 3.0, step 20%, window 7d, min_spend_7d $200, scale cooldown 7d, cut cooldown 3d. Meta frozen; Google and TikTok view; Reddit, Snapchat, Bing, ChatGPT auto."
+    }
+  ]
+}

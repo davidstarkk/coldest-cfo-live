@@ -263,6 +263,7 @@ footer a:hover{color:var(--text-muted)}
     <div class="tab" data-tab="cashflow">CASH FLOW</div>
     <div class="tab" data-tab="predictive">PREDICTIVE</div>
     <div class="tab" data-tab="scaling">SCALING</div>
+    <div class="tab" data-tab="throttles">THROTTLES</div>
     <div class="tab" data-tab="ltv">LIFETIME (LTV)</div>
     <div class="tab" data-tab="monthly_pnl">MONTHLY P&amp;L</div>
     <div class="tab" data-tab="ytd_pnl">YTD P&L</div>
@@ -283,6 +284,7 @@ footer a:hover{color:var(--text-muted)}
   <div id="tab-cashflow" class="tab-content"></div>
   <div id="tab-predictive" class="tab-content"></div>
   <div id="tab-scaling" class="tab-content"></div>
+  <div id="tab-throttles" class="tab-content"></div>
   <div id="tab-ltv" class="tab-content"></div>
   <div id="tab-monthly_pnl" class="tab-content"></div>
   <div id="tab-ytd_pnl" class="tab-content"></div>
@@ -4610,6 +4612,9 @@ document.querySelectorAll('.tab').forEach(tab => {
       renderChatGptAds();
       window._chatgptAdsRendered = true;
     }
+    if (tab.dataset.tab === 'throttles' && typeof renderThrottles === 'function') {
+      renderThrottles();
+    }
   });
 });
 
@@ -5649,7 +5654,8 @@ window.addEventListener('hashchange', openFromHash);
 })();
 </script>
   <script src="secondary_ads_module.js"></script>
-  <script src="bing_ads_module.js"></script>
+  <script src="paid_channels_module.js"></script>
+  <script src="throttles_module.js"></script>
 <script>
 
 </script>
