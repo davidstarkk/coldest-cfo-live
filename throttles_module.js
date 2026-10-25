@@ -3,8 +3,9 @@
    ---------------------------------------------------------------------
    Read-only dashboard. Live rules change only via Jarvis.
    Data: ad_channel_throttles → throttle_settings → ads_throttle/changes.json
-   (fallbacks: ads_throttle/settings.json, ads_throttle/series.json,
-   mer_for_manus.json blocks). Reporting only. No credentials.
+   → ads_throttle/tracking_health.json (fallbacks: ads_throttle/settings.json,
+   ads_throttle/series.json, mer_for_manus.json blocks). Reporting only.
+   No credentials. Missing tracking_health = unknown — never invented.
    ===================================================================== */
 (function (root) {
   'use strict';
@@ -18,15 +19,26 @@
     { id: 'chatgpt', label: 'ChatGPT' },
     { id: 'tiktok', label: 'TikTok' }
   ];
+  var HEALTH_CHANNELS = [
+    { id: 'meta', label: 'Meta' },
+    { id: 'google', label: 'Google' },
+    { id: 'bing', label: 'Bing / Microsoft' },
+    { id: 'reddit', label: 'Reddit' },
+    { id: 'snapchat', label: 'Snapchat' },
+    { id: 'chatgpt', label: 'ChatGPT' }
+  ];
   var ISSUE_REPO = 'https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new';
   var SNAPSHOT_PATH = 'ad_channel_throttles.json';
   var SETTINGS_PATH = 'throttle_settings.json';
   var SETTINGS_FALLBACK = 'ads_throttle/settings.json';
   var CHANGES_PATH = 'ads_throttle/changes.json';
   var SERIES_PATH = 'ads_throttle/series.json';
+  var HEALTH_PATH = 'ads_throttle/tracking_health.json';
   var UNVERIFIED = 'unverified';
+  var UNKNOWN = 'unknown';
+  var HOLD_TRACKING_DOWN = 'Hold - tracking down';
 
-  var LIVE = { settings: null, changes: null, series: null, snapshot: null };
+  var LIVE = { settings: null, changes: null, series: null, snapshot: null, health: null };
   var WHATIF = { global: {}, channels: {} };
   var CHARTS = [];
 
@@ -128,6 +140,85 @@
     var snap = LIVE.snapshot;
     if (!snap || !snap.channels) return null;
     return snap.channels[id] || null;
+  }
+
+  function normalizeHealth(raw) {
+    if (!raw || typeof raw !== 'object') return { as_of: null, shopify_orders_yesterday: null, channels: {} };
+    var src = raw.tracking_health && typeof raw.tracking_health === 'object' ? raw.tracking_health : raw;
+    return {
+      as_of: src.as_of != null && src.as_of !== '' ? src.as_of : null,
+      shopify_orders_yesterday: src.shopify_orders_yesterday != null && src.shopify_orders_yesterday !== ''
+        ? src.shopify_orders_yesterday : null,
+      channels: src.channels && typeof src.channels === 'object' ? src.channels : {}
+    };
+  }
+
+  function healthStatus(raw) {
+    if (raw == null || raw === '') return UNKNOWN;
+    var s = String(raw).trim().toUpperCase();
+    if (s === 'OK') return 'OK';
+    if (s === 'WARN' || s === 'WARNING') return 'WARN';
+    if (s === 'DOWN') return 'DOWN';
+    return UNKNOWN;
+  }
+
+  function channelHealth(id) {
+    var health = LIVE.health;
+    var ch = health && health.channels ? health.channels[id] : null;
+    if (!ch || typeof ch !== 'object') {
+      return {
+        status: UNKNOWN,
+        last_checkout_event: null,
+        last_purchase_event: null,
+        purchases_24h: null,
+        purchases_7d_avg: null,
+        notes: null
+      };
+    }
+    return {
+      status: healthStatus(ch.status),
+      last_checkout_event: ch.last_checkout_event != null && ch.last_checkout_event !== '' ? ch.last_checkout_event : null,
+      last_purchase_event: ch.last_purchase_event != null && ch.last_purchase_event !== '' ? ch.last_purchase_event : null,
+      purchases_24h: ch.purchases_24h != null && ch.purchases_24h !== '' ? ch.purchases_24h : null,
+      purchases_7d_avg: ch.purchases_7d_avg != null && ch.purchases_7d_avg !== '' ? ch.purchases_7d_avg : null,
+      notes: ch.notes != null && ch.notes !== '' ? ch.notes : null
+    };
+  }
+
+  function isTrackingDown(id) {
+    return channelHealth(id).status === 'DOWN';
+  }
+
+  function formatEt(v) {
+    if (v == null || v === '') return null;
+    var d = new Date(v);
+    if (!Number.isFinite(d.getTime())) return String(v);
+    try {
+      var txt = d.toLocaleString('en-US', {
+        timeZone: 'America/New_York',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+      return txt + ' ET';
+    } catch (e) {
+      return String(v);
+    }
+  }
+
+  function countTxt(v) {
+    if (v == null || v === '') return null;
+    var n = Number(v);
+    if (!Number.isFinite(n)) return String(v);
+    return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  }
+
+  function unknownOr(value, fmt) {
+    if (value == null || value === '') return '<span class="th-unknown">' + UNKNOWN + '</span>';
+    return fmt ? fmt(value) : esc(String(value));
   }
 
   function changesEntries(changes) {
@@ -263,6 +354,14 @@
       step_pct: step
     };
 
+    if (isTrackingDown(channelId)) {
+      return Object.assign(base, {
+        action: 'hold',
+        label: HOLD_TRACKING_DOWN,
+        reason: 'tracking_health.status is DOWN — hold until tracking recovers'
+      });
+    }
+
     if (!whatIfActive()) {
       var pub = publishedStatus(snap);
       if (pub) return Object.assign(base, pub, { published: true, reason: snap.strategy_notes || 'published rule_status' });
@@ -374,6 +473,7 @@
     if (!label) return 'view';
     if (label.indexOf('Scale') === 0) return 'scale';
     if (label.indexOf('Cut') === 0) return 'cut';
+    if (label.indexOf('Hold - tracking') === 0) return 'down';
     if (label.indexOf('Hold') === 0) return 'hold';
     if (label.indexOf('Not enough') === 0) return 'nodata';
     if (label.indexOf('Frozen') === 0) return 'frozen';
@@ -403,7 +503,12 @@
       + '.th-chip.view,.th-chip.nodata{background:rgba(136,136,168,.15);color:#8888a8}'
       + '.th-chip.scale{background:rgba(34,197,94,.15);color:#22c55e}'
       + '.th-chip.cut{background:rgba(239,68,68,.18);color:#fb7185}'
+      + '.th-chip.ok{background:rgba(34,197,94,.18);color:#22c55e}'
+      + '.th-chip.warn{background:rgba(245,158,11,.18);color:#f59e0b}'
+      + '.th-chip.down{background:rgba(239,68,68,.2);color:#ef4444}'
+      + '.th-chip.unknown{background:rgba(136,136,168,.15);color:#8888a8}'
       + '.th-unverified{color:var(--yellow,#f59e0b);font-weight:600;font-size:.75rem}'
+      + '.th-unknown{color:#8888a8;font-weight:600;font-size:.75rem}'
       + '.th-scroll{overflow-x:auto}'
       + '.th-table{width:100%;border-collapse:collapse;font-size:.78rem;min-width:1100px}'
       + '.th-table th{color:var(--text-dim,#5c5c7a);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--border,#252548);text-align:right;white-space:nowrap}'
@@ -507,6 +612,51 @@
       + '<td>' + (owner ? esc(owner) : '<span class="th-unverified">' + UNVERIFIED + '</span>') + '</td>'
       + '<td>' + (notes ? esc(notes) : '—') + '</td>'
       + '</tr>';
+  }
+
+  function healthChipClass(status) {
+    if (status === 'OK') return 'ok';
+    if (status === 'WARN') return 'warn';
+    if (status === 'DOWN') return 'down';
+    return 'unknown';
+  }
+
+  function trackingHealthHtml() {
+    var health = LIVE.health || { as_of: null, shopify_orders_yesterday: null, channels: {} };
+    var shopYday = health.shopify_orders_yesterday;
+    var ids = HEALTH_CHANNELS.slice();
+    Object.keys(health.channels || {}).forEach(function (id) {
+      if (ids.some(function (c) { return c.id === id; })) return;
+      ids.push({ id: id, label: channelLabel(id) });
+    });
+    var rows = ids.map(function (c) {
+      var h = channelHealth(c.id);
+      return '<tr>'
+        + '<td>' + esc(c.label) + '</td>'
+        + '<td><span class="th-chip ' + healthChipClass(h.status) + '">' + esc(h.status) + '</span></td>'
+        + '<td class="mono">' + unknownOr(formatEt(h.last_checkout_event)) + '</td>'
+        + '<td class="mono">' + unknownOr(formatEt(h.last_purchase_event)) + '</td>'
+        + '<td class="mono">' + unknownOr(h.purchases_24h, countTxt) + '</td>'
+        + '<td class="mono">' + unknownOr(shopYday, countTxt) + '</td>'
+        + '<td class="mono">' + unknownOr(h.purchases_7d_avg, countTxt) + '</td>'
+        + '<td>' + (h.notes ? esc(h.notes) : '<span class="th-unknown">' + UNKNOWN + '</span>') + '</td>'
+        + '</tr>';
+    }).join('');
+    return ''
+      + '<div class="th-title">Tracking health</div>'
+      + '<p class="th-sub">Snapshot <code>tracking_health</code> / <code>ads_throttle/tracking_health.json</code>'
+      + ' (as_of ' + (health.as_of ? esc(String(health.as_of)) : '<span class="th-unknown">' + UNKNOWN + '</span>') + '). '
+      + 'Missing fields stay <span class="th-unknown">unknown</span> — never invented. '
+      + 'DOWN channels force throttle badge <code>' + esc(HOLD_TRACKING_DOWN) + '</code>.</p>'
+      + '<div class="th-kpis" style="grid-template-columns:repeat(2,1fr)">'
+      + '<div class="th-card"><div class="th-label">Shopify orders yesterday</div><div class="th-val">'
+      + unknownOr(shopYday, countTxt) + '</div><div class="th-muted">shopify_orders_yesterday</div></div>'
+      + '<div class="th-card"><div class="th-label">Compare</div><div class="th-muted" style="margin-top:8px">Platform <code>purchases_24h</code> vs Shopify orders yesterday and vs <code>purchases_7d_avg</code>. Times in ET.</div></div>'
+      + '</div>'
+      + '<div class="th-card th-scroll"><table class="th-table"><thead><tr>'
+      + '<th>Channel</th><th>Status</th><th>Last checkout (ET)</th><th>Last purchase (ET)</th>'
+      + '<th>purchases_24h</th><th>vs Shopify yday</th><th>vs 7d avg</th><th>Notes</th>'
+      + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
   }
 
   function recsTableHtml(recs, settings) {
@@ -729,6 +879,7 @@
       + '<div class="th-card"><div class="th-label">Blended MER trend · 28d vs 3.0</div><div class="th-chart"><canvas id="th-mer-chart"></canvas></div></div>'
       + '<div class="th-card"><div class="th-label">Budget share · 28d spend</div><div class="th-chart"><canvas id="th-share-chart"></canvas></div></div>'
       + '</div>'
+      + trackingHealthHtml()
       + '<div class="th-title">Channels</div>'
       + '<div class="th-card th-scroll"><table class="th-table"><thead><tr>'
       + '<th>Channel</th><th>Daily budget</th><th>7d spend</th><th>Shopify rev</th><th>7d ROAS</th><th>3d trend</th><th>Destination</th><th>Rule</th><th>Last change / next</th><th>Owner bot</th><th>Strategy notes</th>'
@@ -814,7 +965,8 @@
       fetchJson(SETTINGS_FALLBACK),
       fetchJson(CHANGES_PATH),
       fetchJson(SERIES_PATH),
-      fetchJson('mer_for_manus.json')
+      fetchJson('mer_for_manus.json'),
+      fetchJson(HEALTH_PATH)
     ]).then(function (results) {
       var mer = results[5].status === 'fulfilled' ? results[5].value : null;
       LIVE.snapshot = results[0].status === 'fulfilled' ? results[0].value : pickMerBlock(mer, 'ad_channel_throttles');
@@ -825,6 +977,10 @@
       LIVE.settings = normalizeSettings(settings);
       LIVE.changes = results[3].status === 'fulfilled' ? results[3].value : { entries: [] };
       LIVE.series = results[4].status === 'fulfilled' ? results[4].value : { days: [] };
+      var health = results[6].status === 'fulfilled' ? results[6].value : null;
+      if (!health && LIVE.snapshot) health = LIVE.snapshot.tracking_health || null;
+      if (!health) health = pickMerBlock(mer, 'tracking_health');
+      LIVE.health = normalizeHealth(health);
       var panel = document.getElementById('tab-throttles');
       if (panel && panel.classList.contains('active')) render();
       openFromHash();
@@ -833,20 +989,28 @@
 
   var api = {
     CHANNEL_META: CHANNEL_META,
+    HEALTH_CHANNELS: HEALTH_CHANNELS,
+    HOLD_TRACKING_DOWN: HOLD_TRACKING_DOWN,
+    UNKNOWN: UNKNOWN,
     recommend: recommend,
     mergeSettings: mergeSettings,
     normalizeSettings: normalizeSettings,
+    normalizeHealth: normalizeHealth,
+    healthStatus: healthStatus,
+    channelHealth: channelHealth,
+    formatEt: formatEt,
     windowTotals: windowTotals,
     requestChangeUrl: requestChangeUrl,
     channelSpend: channelSpend,
     destLabel: destLabel,
     UNVERIFIED: UNVERIFIED,
     render: render,
-    _setLive: function (settings, series, changes, snapshot) {
+    _setLive: function (settings, series, changes, snapshot, health) {
       LIVE.settings = normalizeSettings(settings || null);
       LIVE.series = series || { days: [] };
       LIVE.changes = changes != null ? changes : { entries: [] };
       LIVE.snapshot = snapshot || null;
+      LIVE.health = normalizeHealth(health != null ? health : (snapshot && snapshot.tracking_health));
       WHATIF = { global: {}, channels: {} };
     }
   };

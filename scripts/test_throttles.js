@@ -147,6 +147,76 @@ test('cut cooldown since last change holds; scale cooldown is since last scale',
   assert.strictEqual(held.label, 'Hold-cooldown');
 });
 
+test('missing tracking_health is unknown — never invented; published rules stay', function () {
+  Throttles._setLive(settings, series, [], snapshot, null);
+  var h = Throttles.channelHealth('bing');
+  assert.strictEqual(h.status, 'unknown');
+  assert.strictEqual(h.purchases_24h, null);
+  assert.strictEqual(Throttles.healthStatus(null), 'unknown');
+  assert.strictEqual(Throttles.healthStatus(''), 'unknown');
+  assert.strictEqual(Throttles.healthStatus('maybe'), 'unknown');
+  var r = Throttles.recommend('bing', settings, series, []);
+  assert.strictEqual(r.label, 'Cut -20% + new strategy');
+});
+
+test('DOWN overrides published Cut and what-if Scale with Hold - tracking down', function () {
+  var health = {
+    as_of: '2026-10-24',
+    shopify_orders_yesterday: 120,
+    channels: {
+      bing: {
+        status: 'DOWN',
+        last_checkout_event: '2026-10-23T20:00:00Z',
+        last_purchase_event: null,
+        purchases_24h: 0,
+        purchases_7d_avg: 4,
+        notes: 'no purchase events'
+      },
+      reddit: { status: 'DOWN' },
+      meta: { status: 'OK' }
+    }
+  };
+  Throttles._setLive(settings, series, [], snapshot, health);
+  var bing = Throttles.recommend('bing', settings, series, []);
+  assert.strictEqual(bing.label, 'Hold - tracking down');
+  assert.strictEqual(bing.action, 'hold');
+  assert.strictEqual(Throttles.channelHealth('bing').status, 'DOWN');
+  assert.strictEqual(Throttles.channelHealth('meta').status, 'OK');
+  assert.strictEqual(Throttles.channelHealth('chatgpt').status, 'unknown');
+
+  var sample = {
+    days: [
+      { date: '2026-10-18', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-19', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-20', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-21', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-22', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-23', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } },
+      { date: '2026-10-24', d2c_ad_spend: 1000, shopify_d2c_revenue: 4000, total_ad_spend: 1000, blended_mer: 4, channels: { reddit: { spend: 200 } } }
+    ]
+  };
+  var live = JSON.parse(JSON.stringify(settings));
+  Throttles._setLive(live, sample, [], null, health);
+  var scaledBlocked = Throttles.recommend('reddit', live, sample, []);
+  assert.strictEqual(scaledBlocked.label, 'Hold - tracking down');
+  assert.notStrictEqual(scaledBlocked.label, 'Scale +20%');
+});
+
+test('WARN / OK do not force Hold - tracking down', function () {
+  Throttles._setLive(settings, series, [], snapshot, {
+    channels: { bing: { status: 'WARN' }, reddit: { status: 'ok' } }
+  });
+  assert.strictEqual(Throttles.recommend('bing', settings, series, []).label, 'Cut -20% + new strategy');
+  assert.strictEqual(Throttles.channelHealth('reddit').status, 'OK');
+});
+
+test('formatEt renders America/New_York and leaves missing blank for unknown', function () {
+  assert.strictEqual(Throttles.formatEt(null), null);
+  var txt = Throttles.formatEt('2026-10-24T20:00:00Z');
+  assert.ok(txt.indexOf('ET') !== -1);
+  assert.ok(/4:00/.test(txt));
+});
+
 test('Request change link targets the data repo issues form', function () {
   var url = Throttles.requestChangeUrl(settings);
   assert.ok(url.indexOf('https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new') === 0);

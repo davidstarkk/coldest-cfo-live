@@ -147,18 +147,20 @@ Data (exact data-repo PR #14 keys; first file that exists wins):
 1. `ad_channel_throttles.json` — `d2c_ad_spend`, `total_ad_spend`, `shopify_d2c_revenue`, `blended_mer`, `channels.*`, `series_28d.by_channel` / `series_28d.blended`, `platform_roas`, `roas_basis`, `recent_changes` (also nested on `mer_for_manus.json` → `ad_channel_throttles`)
 2. `throttle_settings` / `ads_throttle/settings.json` (`global.roas_basis: platform`)
 3. `ads_throttle/changes.json` or `recent_changes`
+4. `ads_throttle/tracking_health.json` (`tracking_health`: `as_of`, `shopify_orders_yesterday`, `channels.{meta,google,bing,reddit,snapchat,chatgpt}` with `status` OK|WARN|DOWN, `last_checkout_event`, `last_purchase_event`, `purchases_24h`, `purchases_7d_avg`, `notes`)
 
 Top cards: **D2C ad spend** and **All ad spend** separately, Shopify D2C revenue, blended MER vs **3.0**.
 
 One row per channel (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, TikTok): daily budget, 7-day spend, Shopify-attributed revenue, 7-day ROAS (`roas_basis` shown as **platform-reported** when `platform`), 3-day trend, destination (Shopify vs Amazon/other), published `rule_status`, last change + next eligible, owner bot, strategy notes. `*_status: unverified` fields are labeled **unverified** — never invented.
 
-Also on the tab: 28-day per-channel spend + ROAS charts with a 3.0 line, budget-share chart, cross-channel blended MER 28d trend, a **read-only** live settings panel (per-channel mode + min/max) with **Live settings change only through Jarvis in chat** and a **Request change** link to `davidstarkk/coldest-cfo-dashboard` issues, plus editable what-if inputs.
+Also on the tab: 28-day per-channel spend + ROAS charts with a 3.0 line, budget-share chart, cross-channel blended MER 28d trend, a **Tracking health** panel (status chip OK green / WARN amber / DOWN red / unknown grey, last checkout + purchase in ET, `purchases_24h` vs Shopify orders yesterday and vs 7d avg, notes), a **read-only** live settings panel (per-channel mode + min/max) with **Live settings change only through Jarvis in chat** and a **Request change** link to `davidstarkk/coldest-cfo-dashboard` issues, plus editable what-if inputs.
 
 Rule badges (client-side, also used by what-if):
 
 | Condition | Badge |
 |---|---|
-| Meta `frozen` | Frozen-view only |
+| `tracking_health` channel `status` DOWN | Hold - tracking down |
+| Meta `frozen` | Frozen - view only |
 | Google / TikTok `view` | View only |
 | 7d spend &lt; $200 | Not enough data |
 | ROAS &lt; threshold and cut cooldown elapsed | Cut -20% + new strategy (never pause) |
