@@ -10,6 +10,8 @@ Single-page static site (`index.html`) with embedded data:
 - `TIKTOK_DATA` — daily TikTok aggregates from ShipHero (Apr 7, 2026+)
 - `MERGED_DATA` — combined view for the Analytics tab
 
+The top **7-day rolling MER (pooled)** card reads `mer_for_manus.json` (`mer_7d_pooled`, `as_of`). The copy in this repo is as_of **2026-10-24**, `mer_7d_pooled` **4.177**. If that file is missing or not newer than the embedded closed-report snapshot (2026-09-27), the card keeps the old number and labels it **STALE — as of 2026-09-27, not current** (amber, dimmed). Null fields (DoD, WoW, breakeven, net margin) stay **—** — never invented.
+
 ## Tabs
 
 ### Daily Reports
