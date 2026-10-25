@@ -324,12 +324,45 @@
     return spend7;
   }
 
+  function channelD2cSpend7(channelId, settings, series) {
+    var snap = snapshotChannel(channelId);
+    if (snap) {
+      if (snap.spend_d2c_7d != null) return num(snap.spend_d2c_7d);
+      var split = snap.destination_split || {};
+      if (split.shopify != null) return num(split.shopify);
+      if (split.d2c != null) return num(split.d2c);
+    }
+    var g = (settings && settings.global) || {};
+    var days = lastN((series && series.days) || [], num(g.window_days) || 7);
+    var spend7 = 0;
+    var any = false;
+    days.forEach(function (d) {
+      var ch = d && d.channels && d.channels[channelId];
+      if (!ch) return;
+      if (ch.d2c != null || ch.spend_d2c != null) {
+        any = true;
+        spend7 = round2(spend7 + num(ch.d2c != null ? ch.d2c : ch.spend_d2c));
+      }
+    });
+    if (any) return spend7;
+    return null;
+  }
+
+  function channelSpend7ForRule(channelId, settings, series) {
+    if (channelId === 'bing') {
+      var d2c = channelD2cSpend7(channelId, settings, series);
+      if (d2c != null) return d2c;
+    }
+    return channelSpend7(channelId, settings, series);
+  }
+
   function recommend(channelId, settings, series, changes) {
     settings = normalizeSettings(settings || {});
     var g = settings.global || {};
     var ch = (settings.channels && settings.channels[channelId]) || {};
     var snap = snapshotChannel(channelId) || {};
     var spend7 = channelSpend7(channelId, settings, series);
+    var spend7Rule = channelSpend7ForRule(channelId, settings, series);
     var last = latestDay(series);
     var current = last ? channelSpendPublished(last, channelId) : num(snap.spend_7d);
     if (ch.daily_budget != null) current = num(ch.daily_budget);
@@ -345,6 +378,7 @@
       mode: mode,
       current: current,
       spend7: spend7,
+      spend7_rule: spend7Rule,
       mer: mer,
       roas: mer,
       roas_source: roasInfo.source,
@@ -374,8 +408,12 @@
       return Object.assign(base, { action: 'none', label: 'View only', reason: 'Tracked only — no budget change' });
     }
 
-    if (spend7 < minSpend) {
-      return Object.assign(base, { action: 'not_enough_data', label: 'Not enough data', reason: '7d spend ' + usd(spend7) + ' is under min spend ' + usd(minSpend) });
+    if (spend7Rule < minSpend) {
+      return Object.assign(base, {
+        action: 'not_enough_data',
+        label: 'Not enough data',
+        reason: (channelId === 'bing' ? 'D2C-only 7d spend ' : '7d spend ') + usd(spend7Rule) + ' is under min spend ' + usd(minSpend)
+      });
     }
 
     var wantScale = mer != null && mer >= threshold;
@@ -999,6 +1037,9 @@
     healthStatus: healthStatus,
     channelHealth: channelHealth,
     formatEt: formatEt,
+    channelSpend7: channelSpend7,
+    channelSpend7ForRule: channelSpend7ForRule,
+    channelD2cSpend7: channelD2cSpend7,
     windowTotals: windowTotals,
     requestChangeUrl: requestChangeUrl,
     channelSpend: channelSpend,
@@ -1012,6 +1053,12 @@
       LIVE.snapshot = snapshot || null;
       LIVE.health = normalizeHealth(health != null ? health : (snapshot && snapshot.tracking_health));
       WHATIF = { global: {}, channels: {} };
+    },
+    _setWhatIf: function (whatif) {
+      WHATIF = {
+        global: (whatif && whatif.global) || {},
+        channels: (whatif && whatif.channels) || {}
+      };
     }
   };
 

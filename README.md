@@ -155,7 +155,7 @@ One row per channel (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, TikTok): dai
 
 Also on the tab: 28-day per-channel spend + ROAS charts with a 3.0 line, budget-share chart, cross-channel blended MER 28d trend, a **Tracking health** panel (status chip OK green / WARN amber / DOWN red / unknown grey, last checkout + purchase in ET, `purchases_24h` vs Shopify orders yesterday and vs 7d avg, notes), a **read-only** live settings panel (per-channel mode + min/max) with **Live settings change only through Jarvis in chat** and a **Request change** link to `davidstarkk/coldest-cfo-dashboard` issues, plus editable what-if inputs.
 
-Rule badges (client-side, also used by what-if):
+Idle badges use the published `rule_status` from `ad_channel_throttles` (not recomputed). What-if recomputes in the browser; Bing’s what-if spend is **D2C-only** (`spend_d2c_7d` / `destination_split.shopify`).
 
 | Condition | Badge |
 |---|---|
@@ -221,7 +221,7 @@ Expected `bing` block (keys match the data-repo `mer_for_manus.json` contract):
 }
 ```
 
-2026-10-24 expected on the live page: **D2C ad spend $14,382.78**, **All ad spend $21,678.86**, Shopify D2C **$26,420.44**, blended MER **1.84**. Bing daily **$77.33** = D2C **$0.97** + Amazon **$76.36**; Bing 7d **$521.09** = D2C **$8.73** / Amazon **$512.36**. Meta 7d **$83,995.42**. Bing rule status **Cut -20% + new strategy** on `roas_basis` platform (**platform-reported**).
+2026-10-24 expected on the live page: **D2C ad spend $14,382.78**, **All ad spend $21,678.86**, Shopify D2C **$26,420.44**, blended MER **1.84**. Bing daily **$77.33** = D2C **$0.97** + Amazon **$76.36**; Bing 7d **$521.09** = D2C **$8.73** / Amazon **$512.36**. Meta 7d **$83,995.42**. Bing published `rule_status` is **Not enough data** — the rule uses D2C-only 7d spend **$8.73** (Amazon **$512.36** excluded) which is under the $200 minimum. Idle badges are the published `rule_status`; what-if recomputes Bing with D2C-only spend. ROAS still shows **platform-reported** when `roas_basis` is platform.
 
 ### Direct Microsoft Advertising API (disabled)
 

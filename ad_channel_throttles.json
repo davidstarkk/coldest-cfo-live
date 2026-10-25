@@ -337,16 +337,16 @@
         "shopify": 8.73,
         "amazon": 512.36
       },
-      "rule_status": "Cut -20% + new strategy",
+      "rule_status": "Not enough data",
       "last_change_date": null,
       "last_change_action": null,
       "next_eligible_date": null,
       "owner_bot": "Bing Ads bot",
-      "strategy_notes": "main campaign sends to Amazon, not Shopify. ROAS judged on platform conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
+      "strategy_notes": "main campaign sends to Amazon, not Shopify. Rule uses D2C-only 7d spend (Amazon excluded). Shopify-attributed revenue still unverified.",
       "auto_rules": true,
       "mode": "auto",
       "recommended_daily_budget": null,
-      "recommended_action": "Cut -20% + new strategy"
+      "recommended_action": "Not enough data"
     },
     "reddit": {
       "daily_budget": null,

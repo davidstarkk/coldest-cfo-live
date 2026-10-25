@@ -50,7 +50,7 @@ test('ad_channel_throttles fixture matches PR #14 keys and 10/24 values', functi
   assert.strictEqual(snapshot.channels.bing.destination_split.amazon, 512.36);
   assert.strictEqual(snapshot.channels.bing.platform_roas_7d, 0);
   assert.strictEqual(snapshot.channels.bing.roas_basis, 'platform');
-  assert.strictEqual(snapshot.channels.bing.rule_status, 'Cut -20% + new strategy');
+  assert.strictEqual(snapshot.channels.bing.rule_status, 'Not enough data');
   assert.strictEqual(snapshot.channels.meta.rule_status, 'Frozen - view only');
   var last = snapshot.series_28d.blended[snapshot.series_28d.blended.length - 1];
   assert.strictEqual(last.shopify_revenue, 26420.44);
@@ -77,14 +77,17 @@ test('frozen / view never recommend a budget change', function () {
   assert.strictEqual(tiktok.label, 'View only');
 });
 
-test('published Bing rule is Cut on platform ROAS; 7d spend 521.09', function () {
+test('published Bing rule is Not enough data; display 7d is 521.09, rule uses D2C 8.73', function () {
   Throttles._setLive(settings, series, [], snapshot);
   var r = Throttles.recommend('bing', settings, series, []);
   assert.strictEqual(r.spend7, 521.09);
-  assert.strictEqual(r.label, 'Cut -20% + new strategy');
-  assert.strictEqual(r.action, 'cut');
+  assert.strictEqual(r.spend7_rule, 8.73);
+  assert.strictEqual(Throttles.channelSpend7ForRule('bing', settings, series), 8.73);
+  assert.strictEqual(r.label, 'Not enough data');
+  assert.strictEqual(r.action, 'not_enough_data');
+  assert.strictEqual(r.published, true);
   assert.strictEqual(r.roas_basis, 'platform');
-  assert.strictEqual(r.roas, 0);
+  assert.notStrictEqual(r.label, 'Cut -20% + new strategy');
   assert.notStrictEqual(r.action, 'pause');
 });
 
@@ -156,10 +159,10 @@ test('missing tracking_health is unknown — never invented; published rules sta
   assert.strictEqual(Throttles.healthStatus(''), 'unknown');
   assert.strictEqual(Throttles.healthStatus('maybe'), 'unknown');
   var r = Throttles.recommend('bing', settings, series, []);
-  assert.strictEqual(r.label, 'Cut -20% + new strategy');
+  assert.strictEqual(r.label, 'Not enough data');
 });
 
-test('DOWN overrides published Cut and what-if Scale with Hold - tracking down', function () {
+test('DOWN overrides published status and what-if Scale with Hold - tracking down', function () {
   var health = {
     as_of: '2026-10-24',
     shopify_orders_yesterday: 120,
@@ -206,8 +209,25 @@ test('WARN / OK do not force Hold - tracking down', function () {
   Throttles._setLive(settings, series, [], snapshot, {
     channels: { bing: { status: 'WARN' }, reddit: { status: 'ok' } }
   });
-  assert.strictEqual(Throttles.recommend('bing', settings, series, []).label, 'Cut -20% + new strategy');
+  assert.strictEqual(Throttles.recommend('bing', settings, series, []).label, 'Not enough data');
   assert.strictEqual(Throttles.channelHealth('reddit').status, 'OK');
+});
+
+test('what-if Bing recomputes with D2C-only 7d spend under the $200 minimum', function () {
+  Throttles._setLive(settings, series, [], snapshot);
+  Throttles._setWhatIf({ global: { roas_threshold: 3, min_spend_7d: 200 } });
+  var r = Throttles.recommend('bing', settings, series, []);
+  assert.strictEqual(r.spend7, 521.09);
+  assert.strictEqual(r.spend7_rule, 8.73);
+  assert.strictEqual(r.label, 'Not enough data');
+  assert.notStrictEqual(r.label, 'Cut -20% + new strategy');
+
+  var cutSet = Throttles.mergeSettings(settings, { global: { min_spend_7d: 1, roas_threshold: 9 } });
+  Throttles._setWhatIf({ global: { min_spend_7d: 1, roas_threshold: 9 } });
+  var cut = Throttles.recommend('bing', cutSet, series, []);
+  assert.strictEqual(cut.spend7_rule, 8.73);
+  assert.ok(cut.spend7_rule >= 1);
+  assert.strictEqual(cut.label, 'Cut -20% + new strategy');
 });
 
 test('formatEt renders America/New_York and leaves missing blank for unknown', function () {
