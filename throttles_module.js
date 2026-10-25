@@ -3,9 +3,11 @@
    ---------------------------------------------------------------------
    Read-only dashboard. Live rules change only via Jarvis.
    Data: ad_channel_throttles → throttle_settings → ads_throttle/changes.json
-   → ads_throttle/tracking_health.json (fallbacks: ads_throttle/settings.json,
-   ads_throttle/series.json, mer_for_manus.json blocks). Reporting only.
+   → ads_throttle/tracking_health.json → ads_throttle/rankings.json
+   (fallbacks: ads_throttle/settings.json, ads_throttle/series.json,
+   mer_for_manus.json blocks, ad_channel_throttles.rankings). Reporting only.
    No credentials. Missing tracking_health = unknown — never invented.
+   Missing rankings.json = empty copy, never invented.
    ===================================================================== */
 (function (root) {
   'use strict';
@@ -34,11 +36,15 @@
   var CHANGES_PATH = 'ads_throttle/changes.json';
   var SERIES_PATH = 'ads_throttle/series.json';
   var HEALTH_PATH = 'ads_throttle/tracking_health.json';
+  var RANKINGS_PATH = 'ads_throttle/rankings.json';
+  var RANKINGS_EXAMPLE_PATH = 'scripts/fixtures/rankings_example.json';
   var UNVERIFIED = 'unverified';
   var UNKNOWN = 'unknown';
   var HOLD_TRACKING_DOWN = 'Hold - tracking down';
+  var EMPTY_RANKING_COPY = 'First ranking lands Mon 10/26 ~11:15 AM ET';
+  var TIER_ORDER = { lead: 0, steady: 1, lagging: 2, 'not enough data': 3 };
 
-  var LIVE = { settings: null, changes: null, series: null, snapshot: null, health: null };
+  var LIVE = { settings: null, changes: null, series: null, snapshot: null, health: null, rankings: null };
   var WHATIF = { global: {}, channels: {} };
   var CHARTS = [];
 
@@ -187,6 +193,151 @@
 
   function isTrackingDown(id) {
     return channelHealth(id).status === 'DOWN';
+  }
+
+  function nullableNum(v) {
+    if (v == null || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function exampleRankingRequested() {
+    try {
+      if (typeof location === 'undefined' || !location.search) return false;
+      var q = new URLSearchParams(location.search);
+      return q.get('ranking_example') === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function asRankingWeeks(raw) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw.filter(function (w) { return w && typeof w === 'object'; });
+    if (typeof raw !== 'object') return [];
+    if (Array.isArray(raw.weeks)) return raw.weeks.filter(function (w) { return w && typeof w === 'object'; });
+    if (Array.isArray(raw.rankings)) return raw.rankings.filter(function (w) { return w && typeof w === 'object'; });
+    if (raw.channels != null || raw.date != null) return [raw];
+    return [];
+  }
+
+  function asChannelList(channels) {
+    if (Array.isArray(channels)) return channels.filter(function (c) { return c && typeof c === 'object'; });
+    if (channels && typeof channels === 'object') {
+      return Object.keys(channels).map(function (id) {
+        var row = channels[id];
+        if (!row || typeof row !== 'object') return { channel: id };
+        return Object.assign({ channel: id }, row);
+      });
+    }
+    return [];
+  }
+
+  function normalizeTier(raw) {
+    if (raw == null || raw === '') return 'not enough data';
+    var s = String(raw).trim().toLowerCase().replace(/[_-]+/g, ' ');
+    if (s === 'lead') return 'Lead';
+    if (s === 'steady') return 'Steady';
+    if (s === 'lagging') return 'Lagging';
+    if (s === 'not enough data' || s === 'nodata' || s === 'not enough' || s === 'unknown') return 'not enough data';
+    return String(raw).trim();
+  }
+
+  function tierRank(tier) {
+    var key = String(tier || '').trim().toLowerCase();
+    return TIER_ORDER[key] != null ? TIER_ORDER[key] : 4;
+  }
+
+  function normalizeRankingChannel(row) {
+    var src = row && typeof row === 'object' ? row : {};
+    return {
+      channel: src.channel != null && src.channel !== '' ? String(src.channel) : '',
+      roas_7d: nullableNum(src.roas_7d),
+      roas_28d: nullableNum(src.roas_28d),
+      spend_7d: nullableNum(src.spend_7d),
+      wow_change: nullableNum(src.wow_change),
+      spend_share: nullableNum(src.spend_share),
+      revenue_share: nullableNum(src.revenue_share),
+      tier: normalizeTier(src.tier)
+    };
+  }
+
+  function sortRankingChannels(channels) {
+    return (channels || []).slice().sort(function (a, b) {
+      var ta = tierRank(a && a.tier);
+      var tb = tierRank(b && b.tier);
+      if (ta !== tb) return ta - tb;
+      var ra = a && a.roas_7d;
+      var rb = b && b.roas_7d;
+      if (ra == null && rb == null) return String((a && a.channel) || '').localeCompare(String((b && b.channel) || ''));
+      if (ra == null) return 1;
+      if (rb == null) return -1;
+      if (rb !== ra) return rb - ra;
+      return String((a && a.channel) || '').localeCompare(String((b && b.channel) || ''));
+    });
+  }
+
+  function latestRankingWeek(raw) {
+    var weeks = asRankingWeeks(raw);
+    if (!weeks.length) return null;
+    var dated = weeks.slice().sort(function (a, b) {
+      return String(a.date || '').localeCompare(String(b.date || ''));
+    });
+    return dated[dated.length - 1];
+  }
+
+  function normalizeRankings(raw) {
+    var week = latestRankingWeek(raw);
+    if (!week) {
+      return { date: null, channels: [], example: false, empty: true };
+    }
+    var channels = sortRankingChannels(asChannelList(week.channels).map(normalizeRankingChannel));
+    var example = !!(week.example || (raw && raw.example) || week.date === 'EXAMPLE-WEEK');
+    return {
+      date: week.date != null && week.date !== '' ? String(week.date) : null,
+      channels: channels,
+      example: example,
+      empty: !channels.length,
+      label: week.label || (raw && raw.label) || (example ? 'EXAMPLE DATA' : null)
+    };
+  }
+
+  function wowTxt(v) {
+    var n = nullableNum(v);
+    if (n == null) return null;
+    var pct = Math.abs(n) <= 1 ? n * 100 : n;
+    var sign = pct > 0 ? '+' : '';
+    return sign + pct.toFixed(1) + '%';
+  }
+
+  function sharePct(v) {
+    var n = nullableNum(v);
+    if (n == null) return null;
+    return Math.abs(n) <= 1.0000001 ? n * 100 : n;
+  }
+
+  function usdOrDash(v) {
+    if (nullableNum(v) == null) return '—';
+    return usd(v);
+  }
+
+  function shareBarHtml(spendShare, revShare) {
+    function row(label, pct, cls) {
+      if (pct == null) {
+        return '<div class="th-share-row"><span>' + label + '</span><div class="th-bar ' + cls + '"></div><span>—</span></div>';
+      }
+      var w = Math.max(0, Math.min(100, pct));
+      return '<div class="th-share-row"><span>' + label + '</span><div class="th-bar ' + cls + '"><i style="width:' + w.toFixed(1) + '%"></i></div><span class="mono">' + pct.toFixed(1) + '%</span></div>';
+    }
+    return '<div class="th-share-pair">' + row('Spend', sharePct(spendShare), '') + row('Revenue', sharePct(revShare), 'rev') + '</div>';
+  }
+
+  function tierChipClass(tier) {
+    var key = String(tier || '').trim().toLowerCase();
+    if (key === 'lead') return 'lead';
+    if (key === 'steady') return 'steady';
+    if (key === 'lagging') return 'lagging';
+    return 'rank-nodata';
   }
 
   function formatEt(v) {
@@ -545,6 +696,17 @@
       + '.th-chip.warn{background:rgba(245,158,11,.18);color:#f59e0b}'
       + '.th-chip.down{background:rgba(239,68,68,.2);color:#ef4444}'
       + '.th-chip.unknown{background:rgba(136,136,168,.15);color:#8888a8}'
+      + '.th-chip.lead{background:rgba(34,197,94,.18);color:#22c55e}'
+      + '.th-chip.steady{background:rgba(59,130,246,.16);color:#93c5fd}'
+      + '.th-chip.lagging{background:rgba(245,158,11,.18);color:#f59e0b}'
+      + '.th-chip.rank-nodata{background:rgba(136,136,168,.15);color:#8888a8}'
+      + '.th-example-banner{background:rgba(167,139,250,.14);border:1px dashed #a78bfa;color:#c4b5fd;border-radius:8px;padding:10px 12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:.78rem;margin:0 0 12px}'
+      + '.th-empty-ranking{color:#8888a8;font-size:.9rem;padding:18px 16px}'
+      + '.th-share-pair{min-width:180px}'
+      + '.th-share-row{display:grid;grid-template-columns:64px 1fr 42px;gap:6px;align-items:center;margin:3px 0;font-size:.68rem;color:#8888a8}'
+      + '.th-bar{height:8px;background:rgba(37,37,72,.9);border-radius:999px;overflow:hidden}'
+      + '.th-bar>i{display:block;height:100%;background:#00d4d4;border-radius:999px}'
+      + '.th-bar.rev>i{background:#a78bfa}'
       + '.th-unverified{color:var(--yellow,#f59e0b);font-weight:600;font-size:.75rem}'
       + '.th-unknown{color:#8888a8;font-weight:600;font-size:.75rem}'
       + '.th-scroll{overflow-x:auto}'
@@ -706,6 +868,47 @@
       + '<th>Channel</th><th>Status</th><th>Last checkout (ET)</th><th>Last purchase (ET)</th>'
       + '<th>purchases_24h</th><th>vs Shopify yday</th><th>vs 7d avg</th><th>Notes</th>'
       + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+  }
+
+  function rankingHtml() {
+    var week = LIVE.rankings || { date: null, channels: [], example: false, empty: true };
+    var empty = !week.channels || !week.channels.length;
+    var banner = week.example
+      ? '<div class="th-example-banner" role="status">EXAMPLE DATA — test-only fixture, not a published ranking</div>'
+      : '';
+    var dateTxt = week.date ? esc(String(week.date)) : '—';
+    var body;
+    if (empty) {
+      body = '<div class="th-card th-empty-ranking" id="th-ranking-empty">' + esc(EMPTY_RANKING_COPY) + '</div>';
+    } else {
+      var rows = week.channels.map(function (ch) {
+        var wow = wowTxt(ch.wow_change);
+        return '<tr>'
+          + '<td>' + esc(channelLabel(ch.channel)) + '</td>'
+          + '<td><span class="th-chip ' + tierChipClass(ch.tier) + '">' + esc(ch.tier) + '</span></td>'
+          + '<td class="mono">' + merTxt(ch.roas_7d) + '<div class="th-muted">platform-reported</div></td>'
+          + '<td class="mono">' + merTxt(ch.roas_28d) + '<div class="th-muted">platform-reported</div></td>'
+          + '<td class="mono">' + usdOrDash(ch.spend_7d) + '</td>'
+          + '<td class="mono">' + (wow == null ? '—' : esc(wow)) + '</td>'
+          + '<td>' + shareBarHtml(ch.spend_share, ch.revenue_share) + '</td>'
+          + '</tr>';
+      }).join('');
+      body = '<div class="th-card th-scroll"><table class="th-table" style="min-width:860px"><thead><tr>'
+        + '<th>Channel</th><th>Tier</th>'
+        + '<th>ROAS 7d</th><th>ROAS 28d</th>'
+        + '<th>Spend 7d</th><th>WoW change</th>'
+        + '<th>Spend vs revenue share</th>'
+        + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+    }
+    return ''
+      + '<div id="th-channel-ranking">'
+      + '<div class="th-title">Channel ranking</div>'
+      + '<p class="th-sub">Latest week from <code>ads_throttle/rankings.json</code> then <code>ad_channel_throttles.rankings</code>'
+      + ' (week ' + dateTxt + '). Rows sorted by tier then <code>roas_7d</code>. '
+      + 'ROAS is <strong>platform-reported</strong>. Missing file stays empty — never invented.</p>'
+      + banner
+      + body
+      + '</div>';
   }
 
   function recsTableHtml(recs, settings) {
@@ -929,6 +1132,7 @@
       + '<div class="th-card"><div class="th-label">Budget share · 28d spend</div><div class="th-chart"><canvas id="th-share-chart"></canvas></div></div>'
       + '</div>'
       + trackingHealthHtml()
+      + rankingHtml()
       + '<div class="th-title">Channels</div>'
       + '<div class="th-card th-scroll"><table class="th-table"><thead><tr>'
       + '<th>Channel</th><th>Daily budget</th><th>7d spend</th><th>Shopify rev</th><th>7d ROAS</th><th>3d trend</th><th>Destination</th><th>Rule</th><th>Last change / next</th><th>Owner bot</th><th>Strategy notes</th>'
@@ -1015,7 +1219,9 @@
       fetchJson(CHANGES_PATH),
       fetchJson(SERIES_PATH),
       fetchJson('mer_for_manus.json'),
-      fetchJson(HEALTH_PATH)
+      fetchJson(HEALTH_PATH),
+      fetchJson(RANKINGS_PATH),
+      exampleRankingRequested() ? fetchJson(RANKINGS_EXAMPLE_PATH) : Promise.reject(new Error('skip example'))
     ]).then(function (results) {
       var mer = results[5].status === 'fulfilled' ? results[5].value : null;
       LIVE.snapshot = results[0].status === 'fulfilled' ? results[0].value : pickMerBlock(mer, 'ad_channel_throttles');
@@ -1030,6 +1236,10 @@
       if (!health && LIVE.snapshot) health = LIVE.snapshot.tracking_health || null;
       if (!health) health = pickMerBlock(mer, 'tracking_health');
       LIVE.health = normalizeHealth(health);
+      var rankings = results[8].status === 'fulfilled' ? results[8].value : null;
+      if (!rankings) rankings = results[7].status === 'fulfilled' ? results[7].value : null;
+      if (!rankings && LIVE.snapshot) rankings = LIVE.snapshot.rankings || null;
+      LIVE.rankings = normalizeRankings(rankings);
       var panel = document.getElementById('tab-throttles');
       if (panel && panel.classList.contains('active')) render();
       openFromHash();
@@ -1057,12 +1267,24 @@
     destLabel: destLabel,
     UNVERIFIED: UNVERIFIED,
     render: render,
-    _setLive: function (settings, series, changes, snapshot, health) {
+    rankingHtml: rankingHtml,
+    normalizeRankings: normalizeRankings,
+    latestRankingWeek: latestRankingWeek,
+    sortRankingChannels: sortRankingChannels,
+    normalizeTier: normalizeTier,
+    tierChipClass: tierChipClass,
+    wowTxt: wowTxt,
+    EMPTY_RANKING_COPY: EMPTY_RANKING_COPY,
+    RANKINGS_PATH: RANKINGS_PATH,
+    RANKINGS_EXAMPLE_PATH: RANKINGS_EXAMPLE_PATH,
+    _setLive: function (settings, series, changes, snapshot, health, rankings) {
       LIVE.settings = normalizeSettings(settings || null);
       LIVE.series = series || { days: [] };
       LIVE.changes = changes != null ? changes : { entries: [] };
       LIVE.snapshot = snapshot || null;
       LIVE.health = normalizeHealth(health != null ? health : (snapshot && snapshot.tracking_health));
+      var rankSrc = rankings !== undefined ? rankings : (snapshot && snapshot.rankings);
+      LIVE.rankings = normalizeRankings(rankSrc);
       WHATIF = { global: {}, channels: {} };
     },
     _setWhatIf: function (whatif) {

@@ -1,0 +1,58 @@
+{
+  "example": true,
+  "label": "EXAMPLE DATA",
+  "note": "Test-only fixture for screenshots and unit tests. Not a published ranking. Do not treat as live.",
+  "date": "EXAMPLE-WEEK",
+  "channels": [
+    {
+      "channel": "meta",
+      "roas_7d": 4.2,
+      "roas_28d": 3.8,
+      "spend_7d": 10000,
+      "wow_change": 0.1,
+      "spend_share": 0.4,
+      "revenue_share": 0.5,
+      "tier": "Lead"
+    },
+    {
+      "channel": "google",
+      "roas_7d": 3.1,
+      "roas_28d": 2.9,
+      "spend_7d": 8000,
+      "wow_change": 0.02,
+      "spend_share": 0.3,
+      "revenue_share": 0.28,
+      "tier": "Steady"
+    },
+    {
+      "channel": "tiktok",
+      "roas_7d": 2.5,
+      "roas_28d": 2.6,
+      "spend_7d": 3000,
+      "wow_change": 0,
+      "spend_share": 0.1,
+      "revenue_share": 0.12,
+      "tier": "Steady"
+    },
+    {
+      "channel": "bing",
+      "roas_7d": 1.1,
+      "roas_28d": 1.4,
+      "spend_7d": 4000,
+      "wow_change": -0.15,
+      "spend_share": 0.15,
+      "revenue_share": 0.08,
+      "tier": "Lagging"
+    },
+    {
+      "channel": "reddit",
+      "roas_7d": null,
+      "roas_28d": null,
+      "spend_7d": 200,
+      "wow_change": null,
+      "spend_share": 0.05,
+      "revenue_share": 0.02,
+      "tier": "not enough data"
+    }
+  ]
+}

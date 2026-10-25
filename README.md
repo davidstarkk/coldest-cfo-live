@@ -150,12 +150,13 @@ Data (exact data-repo PR #14 keys; first file that exists wins):
 2. `throttle_settings` / `ads_throttle/settings.json` (`global.roas_basis: platform`)
 3. `ads_throttle/changes.json` or `recent_changes`
 4. `ads_throttle/tracking_health.json` (`tracking_health`: `as_of`, `shopify_orders_yesterday`, `channels.{meta,google,bing,reddit,snapchat,chatgpt}` with `status` OK|WARN|DOWN, `last_checkout_event`, `last_purchase_event`, `purchases_24h`, `purchases_7d_avg`, `notes`)
+5. `ads_throttle/rankings.json` then `ad_channel_throttles.rankings` — latest week `{date, channels:[{channel, roas_7d, roas_28d, spend_7d, wow_change, spend_share, revenue_share, tier}]}`
 
 Top cards: **D2C ad spend** and **All ad spend** separately, Shopify D2C revenue, blended MER vs **3.0**.
 
 One row per channel (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, TikTok): daily budget, 7-day spend, Shopify-attributed revenue, 7-day ROAS (`roas_basis` shown as **platform-reported** when `platform`), 3-day trend, destination (Shopify vs Amazon/other), published `rule_status`, last change + next eligible, owner bot, strategy notes. `*_status: unverified` fields are labeled **unverified** — never invented.
 
-Also on the tab: 28-day per-channel spend + ROAS charts with a 3.0 line, budget-share chart, cross-channel blended MER 28d trend, a **Tracking health** panel (status chip OK green / WARN amber / DOWN red / unknown grey, last checkout + purchase in ET, `purchases_24h` vs Shopify orders yesterday and vs 7d avg, notes), a **read-only** live settings panel (per-channel mode + min/max) with **Live settings change only through Jarvis in chat** and a **Request change** link to `davidstarkk/coldest-cfo-dashboard` issues, plus editable what-if inputs.
+Also on the tab: 28-day per-channel spend + ROAS charts with a 3.0 line, budget-share chart, cross-channel blended MER 28d trend, a **Tracking health** panel (status chip OK green / WARN amber / DOWN red / unknown grey, last checkout + purchase in ET, `purchases_24h` vs Shopify orders yesterday and vs 7d avg, notes), a **Channel ranking** section (latest week, sorted by tier then `roas_7d`; Lead green / Steady blue-grey / Lagging amber / not enough data grey; 7d and 28d ROAS labeled **platform-reported**; spend 7d; WoW; paired spend-share vs revenue-share bars). Missing `rankings.json` shows **First ranking lands Mon 10/26 ~11:15 AM ET** — never invented. `scripts/fixtures/rankings_example.json` is test-only EXAMPLE DATA (`?ranking_example=1`), not a live feed. Then a **read-only** live settings panel (per-channel mode + min/max) with **Live settings change only through Jarvis in chat** and a **Request change** link to `davidstarkk/coldest-cfo-dashboard` issues, plus editable what-if inputs.
 
 Idle badges use the published `rule_status` from `ad_channel_throttles` (not recomputed). What-if recomputes in the browser; Bing’s what-if spend is **D2C-only** (`spend_d2c_7d` / `destination_split.shopify`).
 

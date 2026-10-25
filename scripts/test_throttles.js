@@ -6,6 +6,9 @@ var settings = require('../ads_throttle/settings.json');
 var series = require('../ads_throttle/series.json');
 var throttleSettings = require('../throttle_settings.json');
 var snapshot = require('../ad_channel_throttles.json');
+var rankingExample = require('./fixtures/rankings_example.json');
+var fs = require('fs');
+var path = require('path');
 
 var failed = 0;
 function test(name, fn) {
@@ -242,6 +245,118 @@ test('Request change link targets the data repo issues form', function () {
   assert.ok(url.indexOf('https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new') === 0);
   assert.ok(url.indexOf('title=') !== -1);
   assert.ok(url.indexOf('Jarvis') !== -1);
+});
+
+test('live rankings.json is not shipped — missing file is empty, never invented', function () {
+  assert.strictEqual(fs.existsSync(path.join(__dirname, '..', 'ads_throttle', 'rankings.json')), false);
+  Throttles._setLive(settings, series, [], snapshot, null, null);
+  var empty = Throttles.normalizeRankings(null);
+  assert.strictEqual(empty.empty, true);
+  assert.strictEqual(empty.channels.length, 0);
+  assert.strictEqual(empty.date, null);
+  var html = Throttles.rankingHtml();
+  assert.ok(html.indexOf('Channel ranking') !== -1);
+  assert.ok(html.indexOf(Throttles.EMPTY_RANKING_COPY) !== -1);
+  assert.ok(html.indexOf('First ranking lands Mon 10/26 ~11:15 AM ET') !== -1);
+  assert.ok(html.indexOf('EXAMPLE DATA') === -1);
+  assert.ok(html.indexOf('4.20x') === -1);
+});
+
+test('empty channels / empty object do not invent a ranking week', function () {
+  assert.strictEqual(Throttles.normalizeRankings({ date: '2026-10-19', channels: [] }).empty, true);
+  assert.strictEqual(Throttles.normalizeRankings({}).empty, true);
+  assert.strictEqual(Throttles.normalizeRankings([]).empty, true);
+  Throttles._setLive(settings, series, [], snapshot, null, { date: '2026-10-19', channels: [] });
+  assert.strictEqual(Throttles.rankingHtml().indexOf(Throttles.EMPTY_RANKING_COPY) !== -1, true);
+});
+
+test('latest week from rankings array; snapshot.rankings fallback', function () {
+  var weeks = [
+    {
+      date: '2026-10-12',
+      channels: [{ channel: 'meta', roas_7d: 9, spend_7d: 1, spend_share: 0.5, revenue_share: 0.5, tier: 'Lead' }]
+    },
+    {
+      date: '2026-10-19',
+      channels: [
+        { channel: 'google', roas_7d: 3.1, roas_28d: 2.9, spend_7d: 8000, wow_change: 0.02, spend_share: 0.3, revenue_share: 0.28, tier: 'Steady' },
+        { channel: 'meta', roas_7d: 4.2, roas_28d: 3.8, spend_7d: 10000, wow_change: 0.1, spend_share: 0.4, revenue_share: 0.5, tier: 'Lead' }
+      ]
+    }
+  ];
+  var latest = Throttles.latestRankingWeek(weeks);
+  assert.strictEqual(latest.date, '2026-10-19');
+  var norm = Throttles.normalizeRankings({ weeks: weeks });
+  assert.strictEqual(norm.date, '2026-10-19');
+  assert.strictEqual(norm.channels[0].channel, 'meta');
+  assert.strictEqual(norm.channels[1].channel, 'google');
+
+  var snap = JSON.parse(JSON.stringify(snapshot));
+  snap.rankings = weeks;
+  Throttles._setLive(settings, series, [], snap);
+  var html = Throttles.rankingHtml();
+  assert.ok(html.indexOf('2026-10-19') !== -1);
+  assert.ok(html.indexOf('4.20x') !== -1);
+  assert.ok(html.indexOf(Throttles.EMPTY_RANKING_COPY) === -1);
+});
+
+test('example fixture sorts by tier then roas_7d and labels EXAMPLE DATA', function () {
+  assert.strictEqual(rankingExample.example, true);
+  assert.strictEqual(rankingExample.label, 'EXAMPLE DATA');
+  assert.strictEqual(rankingExample.date, 'EXAMPLE-WEEK');
+  var shuffled = {
+    example: true,
+    date: 'EXAMPLE-WEEK',
+    channels: rankingExample.channels.slice().reverse()
+  };
+  var norm = Throttles.normalizeRankings(shuffled);
+  assert.deepStrictEqual(norm.channels.map(function (c) { return c.channel; }), ['meta', 'google', 'tiktok', 'bing', 'reddit']);
+  assert.strictEqual(norm.channels[0].tier, 'Lead');
+  assert.strictEqual(norm.channels[1].tier, 'Steady');
+  assert.strictEqual(norm.channels[2].tier, 'Steady');
+  assert.ok(norm.channels[1].roas_7d > norm.channels[2].roas_7d);
+  assert.strictEqual(norm.channels[3].tier, 'Lagging');
+  assert.strictEqual(norm.channels[4].tier, 'not enough data');
+  assert.strictEqual(norm.channels[4].roas_7d, null);
+  assert.strictEqual(norm.example, true);
+
+  Throttles._setLive(settings, series, [], snapshot, null, rankingExample);
+  var html = Throttles.rankingHtml();
+  assert.ok(html.indexOf('EXAMPLE DATA') !== -1);
+  assert.ok(html.indexOf('test-only fixture') !== -1);
+  assert.ok(html.indexOf('platform-reported') !== -1);
+  assert.ok(html.indexOf('4.20x') !== -1);
+  assert.ok(html.indexOf('3.10x') !== -1);
+  assert.ok(html.indexOf('$10,000.00') !== -1);
+  assert.ok(html.indexOf('+10.0%') !== -1);
+  assert.ok(html.indexOf('-15.0%') !== -1);
+  assert.ok(html.indexOf('th-chip lead') !== -1);
+  assert.ok(html.indexOf('th-chip steady') !== -1);
+  assert.ok(html.indexOf('th-chip lagging') !== -1);
+  assert.ok(html.indexOf('th-chip rank-nodata') !== -1);
+  assert.ok(html.indexOf('th-share-pair') !== -1);
+  assert.ok(html.indexOf(Throttles.EMPTY_RANKING_COPY) === -1);
+});
+
+test('tier badges and wow/share stay blank when unpublished', function () {
+  assert.strictEqual(Throttles.tierChipClass('Lead'), 'lead');
+  assert.strictEqual(Throttles.tierChipClass('Steady'), 'steady');
+  assert.strictEqual(Throttles.tierChipClass('Lagging'), 'lagging');
+  assert.strictEqual(Throttles.tierChipClass('not enough data'), 'rank-nodata');
+  assert.strictEqual(Throttles.wowTxt(null), null);
+  assert.strictEqual(Throttles.wowTxt(0.1), '+10.0%');
+  assert.strictEqual(Throttles.wowTxt(-0.15), '-15.0%');
+  var sparse = Throttles.normalizeRankings({
+    date: '2026-10-19',
+    channels: [{ channel: 'snapchat', tier: 'not enough data' }]
+  });
+  assert.strictEqual(sparse.channels[0].roas_7d, null);
+  assert.strictEqual(sparse.channels[0].spend_7d, null);
+  assert.strictEqual(sparse.channels[0].wow_change, null);
+  Throttles._setLive(settings, series, [], snapshot, null, { date: '2026-10-19', channels: [{ channel: 'snapchat', tier: 'not enough data' }] });
+  var html = Throttles.rankingHtml();
+  assert.ok(html.indexOf('—') !== -1);
+  assert.ok(html.indexOf('$0.00') === -1);
 });
 
 if (failed) {
