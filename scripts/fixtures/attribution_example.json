@@ -1,0 +1,76 @@
+{
+  "example": true,
+  "label": "EXAMPLE DATA",
+  "note": "Test-only fixture for screenshots and unit tests. Not published attribution. Do not treat as live.",
+  "attribution": {
+    "example": true,
+    "as_of": "EXAMPLE-WEEK",
+    "total_orders_7d": 1000,
+    "attributed_paid_pct": 55,
+    "owned_pct": 25,
+    "unattributed_pct": 20,
+    "by_channel": {
+      "meta": 30,
+      "google": 15,
+      "tiktok": 10
+    }
+  },
+  "channels": {
+    "meta": {
+      "shopify_orders_7d": 300,
+      "shopify_revenue_7d": 40000,
+      "shopify_roas_7d": 4.0,
+      "platform_roas_7d": 4.2,
+      "coverage_pct": 92,
+      "roas_source": "shopify_attributed"
+    },
+    "google": {
+      "shopify_orders_7d": 150,
+      "shopify_revenue_7d": 22400,
+      "shopify_roas_7d": 2.8,
+      "platform_roas_7d": 3.1,
+      "coverage_pct": 65,
+      "roas_source": "platform_reported"
+    },
+    "tiktok": {
+      "shopify_orders_7d": 80,
+      "shopify_revenue_7d": 7500,
+      "shopify_roas_7d": 2.5,
+      "platform_roas_7d": 2.6,
+      "coverage_pct": 50,
+      "roas_source": "platform_reported"
+    },
+    "bing": {
+      "shopify_orders_7d": 2,
+      "shopify_revenue_7d": 80,
+      "shopify_roas_7d": null,
+      "platform_roas_7d": 0,
+      "coverage_pct": 12,
+      "roas_source": "platform_reported"
+    },
+    "reddit": {
+      "shopify_orders_7d": 40,
+      "shopify_revenue_7d": 300,
+      "shopify_roas_7d": 1.5,
+      "platform_roas_7d": 1.2,
+      "coverage_pct": 110,
+      "roas_source": "shopify_attributed"
+    },
+    "snapchat": {
+      "shopify_orders_7d": null,
+      "shopify_revenue_7d": null,
+      "shopify_roas_7d": null,
+      "platform_roas_7d": null,
+      "coverage_pct": null,
+      "roas_source": null
+    },
+    "chatgpt": {
+      "shopify_orders_7d": null,
+      "shopify_revenue_7d": null,
+      "shopify_roas_7d": null,
+      "platform_roas_7d": null,
+      "coverage_pct": 40,
+      "roas_source": "platform_reported"
+    }
+  }
+}
