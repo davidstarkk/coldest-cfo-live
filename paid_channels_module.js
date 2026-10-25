@@ -84,6 +84,23 @@
     return '—';
   }
 
+  var TRACKING_UNVERIFIED = 'tracking not verified';
+
+  function isTrackingUnverified(day, ch) {
+    if (!ch || ch.id !== 'chatgpt') return false;
+    if (day && day.tracking_verified != null) return day.tracking_verified === false;
+    var mer = merBlockFor(ch);
+    return !!(mer && mer.tracking_verified === false);
+  }
+
+  function outcomeTxt(day, kind, ch) {
+    if (isTrackingUnverified(day, ch)) return TRACKING_UNVERIFIED;
+    if (kind === 'conversions') return day && day.hasFeed && day.hasConversions ? intOrDash(day.conversions) : '—';
+    if (kind === 'revenue') return day && day.hasFeed && day.hasRevenue ? usd(day.revenue) : '—';
+    if (kind === 'roas') return day && day.hasFeed && (day.hasRevenue || (day && day.roas != null)) ? roasTxt(day.spend, day.revenue, day.roas) : '—';
+    return '—';
+  }
+
   function emptyDay(date) {
     return {
       date: date || null,
@@ -486,6 +503,7 @@
       + '.pc-table tr.pc-total td{font-weight:700;border-top:2px solid var(--border,#252548)}'
       + '.pc-table tr.pc-split td,.pc-table tr.pc-nond2c td{color:var(--text-muted,#8888a8);font-weight:400}'
       + '.pc-table tr.pc-section td{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim,#5c5c7a);padding-top:12px}'
+      + '.pc-unverified{color:var(--yellow,#f59e0b);font-size:.78rem;font-weight:600;letter-spacing:0}'
       + '.pc-kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}'
       + '.pc-kpi-card{background:var(--card,#171730);border:1px solid var(--border,#252548);border-radius:8px;padding:16px 16px 14px}'
       + '.pc-kpi-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim,#5c5c7a);margin-bottom:8px}'
@@ -539,14 +557,18 @@
     }
   }
 
-  function kpiRow(day, note) {
+  function kpiRow(day, note, ch) {
+    var unverified = isTrackingUnverified(day, ch);
+    var valClass = function (kind) {
+      return unverified && (kind === 'conversions' || kind === 'revenue' || kind === 'roas') ? ' pc-unverified' : '';
+    };
     return ''
       + '<div class="pc-kpi-row">'
       + '<div class="pc-kpi-card"><div class="pc-kpi-label">Daily spend</div><div class="pc-kpi-val">' + usd(day.spend) + '</div><div class="pc-kpi-sub">' + esc(note) + '</div></div>'
       + '<div class="pc-kpi-card"><div class="pc-kpi-label">Clicks</div><div class="pc-kpi-val">' + (day.hasFeed && day.hasClicks ? intOrDash(day.clicks) : '—') + '</div><div class="pc-kpi-sub">' + (day.hasFeed ? 'From feed when published' : 'no feed') + '</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Conversions</div><div class="pc-kpi-val">' + (day.hasFeed && day.hasConversions ? intOrDash(day.conversions) : '—') + '</div><div class="pc-kpi-sub">Where published</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Revenue</div><div class="pc-kpi-val">' + (day.hasFeed && day.hasRevenue ? usd(day.revenue) : '—') + '</div><div class="pc-kpi-sub">Attributed conversion value</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">ROAS</div><div class="pc-kpi-val">' + esc(roasTxt(day.spend, day.revenue, day.roas)) + '</div><div class="pc-kpi-sub">Revenue ÷ spend</div></div>'
+      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Conversions</div><div class="pc-kpi-val' + valClass('conversions') + '">' + esc(outcomeTxt(day, 'conversions', ch)) + '</div><div class="pc-kpi-sub">' + (unverified ? TRACKING_UNVERIFIED : 'Where published') + '</div></div>'
+      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Revenue</div><div class="pc-kpi-val' + valClass('revenue') + '">' + esc(outcomeTxt(day, 'revenue', ch)) + '</div><div class="pc-kpi-sub">' + (unverified ? TRACKING_UNVERIFIED : 'Attributed conversion value') + '</div></div>'
+      + '<div class="pc-kpi-card"><div class="pc-kpi-label">ROAS</div><div class="pc-kpi-val' + valClass('roas') + '">' + esc(outcomeTxt(day, 'roas', ch)) + '</div><div class="pc-kpi-sub">' + (unverified ? TRACKING_UNVERIFIED : 'Revenue ÷ spend') + '</div></div>'
       + '</div>';
   }
 
@@ -573,9 +595,9 @@
         + '<td>' + esc(ch.label) + '</td>'
         + '<td>' + usd(d.spend) + '</td>'
         + '<td>' + (d.hasFeed && d.hasClicks ? intOrDash(d.clicks) : '—') + '</td>'
-        + '<td>' + (d.hasFeed && d.hasConversions ? intOrDash(d.conversions) : '—') + '</td>'
-        + '<td>' + (d.hasFeed && d.hasRevenue ? usd(d.revenue) : '—') + '</td>'
-        + '<td>' + esc(d.hasFeed && (d.hasRevenue || d.roas != null) ? roasTxt(d.spend, d.revenue, d.roas) : '—') + '</td>'
+        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'conversions', ch)) + '</td>'
+        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'revenue', ch)) + '</td>'
+        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'roas', ch)) + '</td>'
         + '<td>' + esc(src) + '</td>'
         + '</tr>';
       if (ch.id === 'bing' && (d.d2c != null || d.amazon != null)) {
@@ -620,6 +642,9 @@
     var statusLine = day.hasFeed
       ? (day.spend > 0 ? 'Feed reporting. Counted in mer_for_manus d2c_ad_spend / total_ad_spend when published.' : 'Feed present at $0.')
       : 'No feed yet. Showing $0 / no feed — numbers are not invented.';
+    if (isTrackingUnverified(day, ch)) {
+      statusLine += ' Conversion tracking is known-broken — conversions / revenue / ROAS show as tracking not verified, not 0.';
+    }
     var splitNote = (ch.id === 'bing' && (day.d2c != null || day.amazon != null))
       ? ('bing.d2c ' + usd(day.d2c) + ' + bing.amazon ' + usd(day.amazon) + ' = ' + usd(day.spend))
       : '';
@@ -627,13 +652,13 @@
     c.innerHTML = ''
       + '<div class="pc-title" style="margin-top:0">' + esc(ch.label) + '</div>'
       + '<div class="pc-sub">' + esc(statusLine) + ' · ' + esc(merNote) + (splitNote ? ' · ' + esc(splitNote) : '') + '</div>'
-      + kpiRow(day, day.hasFeed ? (day.date ? ('As of ' + day.date) : 'Feed snapshot') : 'no feed')
+      + kpiRow(day, day.hasFeed ? (day.date ? ('As of ' + day.date) : 'Feed snapshot') : 'no feed', ch)
       + '<div class="pc-title">Daily history</div>'
       + '<div class="pc-box">'
       + (rows.length
         ? ('<table class="pc-table"><thead><tr><th>Date</th><th>Spend</th><th>Clicks</th><th>Conversions</th><th>Revenue</th><th>ROAS</th><th>Source</th></tr></thead><tbody>'
           + rows.map(function (r) {
-            return '<tr><td>' + esc(r.date || '—') + '</td><td>' + usd(r.spend) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions) + '</td><td>' + usd(r.revenue) + '</td><td>' + esc(roasTxt(r.spend, r.revenue, r.roas)) + '</td><td>' + esc(r.source) + '</td></tr>';
+            return '<tr><td>' + esc(r.date || '—') + '</td><td>' + usd(r.spend) + '</td><td>' + intOrDash(r.clicks) + '</td><td class="' + (isTrackingUnverified(r, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(r, 'conversions', ch)) + '</td><td class="' + (isTrackingUnverified(r, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(r, 'revenue', ch)) + '</td><td class="' + (isTrackingUnverified(r, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(r, 'roas', ch)) + '</td><td>' + esc(r.source) + '</td></tr>';
           }).join('')
           + '</tbody></table>')
         : '<div class="pc-sub" style="margin:0">No dated rows. Empty / no-feed state until the data repo publishes <code>advertising_sources.' + esc(ch.id) + '</code> or <code>mer_for_manus.json</code> → <code>' + esc(ch.merKey) + '</code>.</div>')
@@ -750,6 +775,9 @@
     bingSplit: bingSplit,
     merContract: merContract,
     parseNonD2c: parseNonD2c,
+    isTrackingUnverified: isTrackingUnverified,
+    outcomeTxt: outcomeTxt,
+    TRACKING_UNVERIFIED: TRACKING_UNVERIFIED,
     _setMerDoc: function (doc) { MER_DOC = doc || null; }
   };
 

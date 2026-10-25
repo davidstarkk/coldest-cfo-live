@@ -132,6 +132,8 @@ Feed order per channel (same as Bing):
 
 ChatGPT ads has **no API**. Publish a `chatgpt` block from the data repo (or `chatgpt_ads_data.json`). Until then the row is $0 / no feed.
 
+ChatGPT conversion tracking is known-broken (0 conversions on past days). An optional `tracking_verified: false` on the `chatgpt` block shows conversions / revenue / ROAS as **tracking not verified** instead of `0` / `0.00x`. Spend still counts toward `d2c_ad_spend` / `total_ad_spend`. Omit the flag (or set `true`) to show published outcome numbers.
+
 Reporting only. Do **not** put ad-platform credentials in this public repo.
 
 ## Throttles

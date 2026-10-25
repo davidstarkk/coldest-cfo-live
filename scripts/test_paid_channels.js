@@ -215,6 +215,47 @@ test('unpublished Bing from mer_for_manus overlays company ads once', function (
   Paid._setMerDoc(null);
 });
 
+test('chatgpt tracking_verified:false shows tracking not verified, spend still counts', function () {
+  var mer = {
+    as_of: '2026-10-24',
+    chatgpt: { as_of: '2026-10-24', spend: 40, clicks: 8, conversions: 0, revenue: 0, roas: 0, tracking_verified: false }
+  };
+  var p = samplePartial();
+  var before = clone(p.provisional_totals);
+  global.PARTIAL_REPORTS = [p];
+  Paid._setMerDoc(mer);
+  var ch = Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0];
+  Paid.setFeeds('chatgpt', null, mer, null);
+  Paid.applyChannel(ch, Paid.mergeDaysFor(ch));
+  var day = Paid.latestDayFor(ch);
+  assert.strictEqual(day.spend, 40);
+  assert.strictEqual(day.tracking_verified, false);
+  assert.strictEqual(Paid.outcomeTxt(day, 'conversions', ch), 'tracking not verified');
+  assert.strictEqual(Paid.outcomeTxt(day, 'revenue', ch), 'tracking not verified');
+  assert.strictEqual(Paid.outcomeTxt(day, 'roas', ch), 'tracking not verified');
+  var s = Paid.channelSpends('2026-10-24');
+  assert.strictEqual(s.channels.chatgpt.spend, 40);
+  assert.strictEqual(p.provisional_totals.ads, round2(before.ads + 40));
+  var reddit = Paid.CHANNELS.filter(function (c) { return c.id === 'reddit'; })[0];
+  var rDay = Paid.nodeToDay('2026-10-24', { spend: 0, conversions: 0, tracking_verified: false }, 'mer');
+  assert.notStrictEqual(Paid.outcomeTxt(rDay, 'conversions', reddit), 'tracking not verified');
+  delete global.PARTIAL_REPORTS;
+  Paid._setMerDoc(null);
+});
+
+test('chatgpt tracking_verified omitted still shows published zeros', function () {
+  var ch = Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0];
+  var mer = { chatgpt: { as_of: '2026-10-24', spend: 10, conversions: 0, revenue: 0 } };
+  Paid._setMerDoc(mer);
+  Paid.setFeeds('chatgpt', null, mer, null);
+  var day = Paid.nodeToDay('2026-10-24', { spend: 10, conversions: 0, revenue: 0 }, 'mer');
+  assert.strictEqual(day.tracking_verified, undefined);
+  assert.strictEqual(Paid.outcomeTxt(day, 'conversions', ch), '0');
+  assert.strictEqual(Paid.outcomeTxt(day, 'revenue', ch), '$0.00');
+  Paid.setFeeds('chatgpt', null, null, null);
+  Paid._setMerDoc(null);
+});
+
 function round2(v) { return Math.round(Number(v) * 100) / 100; }
 
 if (failed) {
