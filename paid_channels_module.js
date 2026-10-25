@@ -15,6 +15,17 @@
      bing.{spend,d2c,amazon}, reddit, snapchat, chatgpt (tracking_verified),
      non_d2c.{whatnot,applovin,tiktok_shop,sellerboard_amazon,unallocated}
 
+   Destination split (d2c vs amazon/other) is per channel:
+     D2C ad spend  = Shopify-bound paid media (Meta, Google, Bing D2C,
+                     Reddit, Snapchat, ChatGPT, TikTok shopify_spend).
+                     Blended MER = Shopify D2C revenue ÷ D2C ad spend.
+     All ad spend  = company total (D2C + Amazon-bound + other non-D2C).
+     Amazon-bound  (Bing Amazon, Sellerboard Amazon) and other non-D2C
+     (Whatnot, AppLovin, TikTok Shop, unallocated) sit in All ad spend
+     and are excluded from D2C ad spend / blended MER.
+     Per-channel feeds may publish d2c / amazon / other or
+     destination: "d2c" | "amazon" | "other".
+
    Pipeline-published spend is already inside provisional_totals.ads
    (Meta, Google, …). Those channels are displayed, not added again.
    New channels (Bing / Reddit / Snapchat / ChatGPT) overlay only when
@@ -36,12 +47,14 @@
   ];
 
   var NON_D2C_LINES = [
-    { keys: ['whatnot'], label: 'Whatnot' },
-    { keys: ['applovin'], label: 'AppLovin' },
-    { keys: ['tiktok_shop', 'TikTok Shop', 'tiktok_shop_ads'], label: 'TikTok Shop' },
-    { keys: ['sellerboard_amazon', 'Sellerboard Amazon', 'sellerboard'], label: 'Sellerboard Amazon' },
-    { keys: ['unallocated', 'unallocated_ads'], label: 'Unallocated' }
+    { keys: ['whatnot'], label: 'Whatnot', kind: 'other' },
+    { keys: ['applovin'], label: 'AppLovin', kind: 'other' },
+    { keys: ['tiktok_shop', 'TikTok Shop', 'tiktok_shop_ads'], label: 'TikTok Shop', kind: 'other' },
+    { keys: ['sellerboard_amazon', 'Sellerboard Amazon', 'sellerboard'], label: 'Sellerboard Amazon', kind: 'amazon' },
+    { keys: ['unallocated', 'unallocated_ads'], label: 'Unallocated', kind: 'other' }
   ];
+
+  var BING_AMAZON_CAMPAIGN = 'bing to amz tumbler listing 1';
 
   var FEEDS = {};
   CHANNELS.forEach(function (ch) {
@@ -139,13 +152,52 @@
     return null;
   }
 
-  function bingSplit(node) {
-    if (node == null || typeof node !== 'object') return { spend: 0, d2c: 0, amazon: 0 };
-    var d2c = node.d2c != null ? nestedSpend(node.d2c) : null;
-    var amazon = node.amazon != null ? nestedSpend(node.amazon) : null;
+  function hasDestinationFields(node) {
+    if (!node || typeof node !== 'object') return false;
+    return node.d2c != null || node.amazon != null || node.other != null
+      || node.destination != null || node.dest != null
+      || node.shopify_spend != null || node.shop_spend != null;
+  }
+
+  function destinationSplit(node) {
+    if (node == null) return { spend: 0, d2c: null, amazon: null, other: null, destination: null };
+    if (typeof node !== 'object') {
+      return { spend: round2(node), d2c: round2(node), amazon: null, other: null, destination: 'd2c' };
+    }
+    var dest = node.destination || node.dest || null;
     var spend = nestedSpend(node);
-    if (spend == null && (d2c != null || amazon != null)) spend = round2(num(d2c) + num(amazon));
-    return { spend: spend == null ? 0 : spend, d2c: d2c, amazon: amazon };
+    var d2c = node.d2c != null ? nestedSpend(node.d2c) : (node.shopify_spend != null ? round2(node.shopify_spend) : null);
+    var amazon = node.amazon != null ? nestedSpend(node.amazon) : null;
+    var other = node.other != null ? nestedSpend(node.other) : null;
+    if (other == null && (node.shop_spend != null || node.unallocated_spend != null)) {
+      other = round2(num(node.shop_spend) + num(node.unallocated_spend));
+    }
+    if (dest === 'amazon') {
+      amazon = spend == null ? num(amazon) : spend;
+      d2c = 0;
+      if (other == null) other = 0;
+    } else if (dest === 'other') {
+      other = spend == null ? num(other) : spend;
+      d2c = 0;
+      if (amazon == null) amazon = 0;
+    } else if (dest === 'd2c') {
+      d2c = spend == null ? num(d2c) : spend;
+    }
+    if (spend == null && (d2c != null || amazon != null || other != null)) {
+      spend = round2(num(d2c) + num(amazon) + num(other));
+    }
+    return {
+      spend: spend == null ? 0 : spend,
+      d2c: d2c,
+      amazon: amazon,
+      other: other,
+      destination: dest
+    };
+  }
+
+  function bingSplit(node) {
+    var split = destinationSplit(node);
+    return { spend: split.spend, d2c: split.d2c == null ? 0 : split.d2c, amazon: split.amazon == null ? 0 : split.amazon };
   }
 
   function nodeToDay(date, node, source) {
@@ -159,7 +211,7 @@
       return d0;
     }
     var d = emptyDay(date);
-    var split = (node.d2c != null || node.amazon != null) ? bingSplit(node) : null;
+    var split = hasDestinationFields(node) ? destinationSplit(node) : null;
     var spendRaw = node.spend != null ? node.spend : (node.daily_spend != null ? node.daily_spend : node.ad_spend);
     if (spendRaw == null && split) spendRaw = split.spend;
     d.spend = round2(spendRaw);
@@ -177,9 +229,13 @@
     d.complete = node.complete !== false;
     d.updated_at = node.updated_at || node.observed_at || node.as_of || null;
     if (node.tracking_verified != null) d.tracking_verified = !!node.tracking_verified;
+    if (node.campaign) d.campaign = node.campaign;
+    if (node.notes) d.notes = node.notes;
     if (split) {
       d.d2c = split.d2c;
       d.amazon = split.amazon;
+      d.other = split.other;
+      if (split.destination) d.destination = split.destination;
     }
     return d;
   }
@@ -204,7 +260,7 @@
 
   function snapshotFromBlock(block, source) {
     if (!block || typeof block !== 'object') return null;
-    var hasScalar = block.spend != null || block.clicks != null || block.conversions != null || block.revenue != null || block.d2c != null || block.amazon != null;
+    var hasScalar = block.spend != null || block.clicks != null || block.conversions != null || block.revenue != null || hasDestinationFields(block);
     if (!hasScalar) return null;
     return nodeToDay(block.as_of || block.date || null, block, source);
   }
@@ -224,7 +280,7 @@
     return NON_D2C_LINES.map(function (line) {
       var node = pickNonD2cNode(block, line.keys);
       var spend = node == null ? 0 : (typeof node === 'object' ? num(nestedSpend(node) || node.known_ads) : num(node));
-      return { key: line.keys[0], label: line.label, spend: round2(spend), present: node != null };
+      return { key: line.keys[0], label: line.label, spend: round2(spend), present: node != null, kind: line.kind };
     });
   }
 
@@ -276,6 +332,11 @@
           existing.status = fromPartial.status;
           existing.hasFeed = true;
           if (!existing.updated_at) existing.updated_at = fromPartial.updated_at;
+          if (fromPartial.d2c != null) existing.d2c = fromPartial.d2c;
+          if (fromPartial.amazon != null) existing.amazon = fromPartial.amazon;
+          if (fromPartial.other != null) existing.other = fromPartial.other;
+          if (fromPartial.destination) existing.destination = fromPartial.destination;
+          if (fromPartial.campaign) existing.campaign = fromPartial.campaign;
         }
       });
     }
@@ -317,7 +378,7 @@
         return;
       }
       r[pipelineKey(ch)] = false;
-      r.advertising_sources[ch.id] = {
+      var injected = {
         spend: day.spend,
         clicks: day.clicks,
         conversions: day.conversions,
@@ -329,6 +390,12 @@
         updated_at: day.updated_at || day.source || 'no feed',
         source: day.source
       };
+      if (day.d2c != null) injected.d2c = day.d2c;
+      if (day.amazon != null) injected.amazon = day.amazon;
+      if (day.other != null) injected.other = day.other;
+      if (day.destination) injected.destination = day.destination;
+      if (day.campaign) injected.campaign = day.campaign;
+      r.advertising_sources[ch.id] = injected;
     });
   }
 
@@ -433,18 +500,193 @@
     return latestDayFor(ch, days);
   }
 
-  function channelSpends(date) {
-    var out = {};
-    var total = 0;
+  function channelDestAmounts(day) {
+    if (!day) return { d2c: 0, amazon: 0, other: 0, spend: 0 };
+    var dest = day.destination;
+    var spend = num(day.spend);
+    if (dest === 'amazon') return { d2c: 0, amazon: spend, other: 0, spend: spend };
+    if (dest === 'other') return { d2c: 0, amazon: 0, other: spend, spend: spend };
+    var d2c = day.d2c != null ? num(day.d2c) : null;
+    var amazon = day.amazon != null ? num(day.amazon) : null;
+    var other = day.other != null ? num(day.other) : null;
+    if (d2c == null && amazon == null && other == null) {
+      return { d2c: spend, amazon: 0, other: 0, spend: spend };
+    }
+    return { d2c: num(d2c), amazon: num(amazon), other: num(other), spend: spend };
+  }
+
+  function advertisingSource(date, keys) {
+    var partials = hostArray('PARTIAL_REPORTS') || [];
+    var i, j, src;
+    for (i = 0; i < partials.length; i++) {
+      if (partials[i].date !== date) continue;
+      src = partials[i].advertising_sources || {};
+      for (j = 0; j < keys.length; j++) {
+        if (src[keys[j]] != null) return src[keys[j]];
+      }
+    }
+    return null;
+  }
+
+  function tiktokSplitFor(date) {
+    var node = advertisingSource(date, ['tiktok_ads', 'tiktok']);
+    if (MER_DOC && merContract(date) && MER_DOC.tiktok && !node) node = MER_DOC.tiktok;
+    if (!node) return { d2c: null, shop: null, unallocated: null, spend: 0, present: false };
+    return {
+      d2c: node.shopify_spend != null ? num(node.shopify_spend) : null,
+      shop: node.shop_spend != null ? num(node.shop_spend) : null,
+      unallocated: node.unallocated_spend != null ? num(node.unallocated_spend) : null,
+      spend: nestedSpend(node) || 0,
+      present: true
+    };
+  }
+
+  function upsertLine(list, seen, line) {
+    if (seen[line.key]) {
+      list.forEach(function (row) {
+        if (row.key === line.key) {
+          row.spend = line.spend;
+          if (line.source) row.source = line.source;
+          if (line.note) row.note = line.note;
+        }
+      });
+      return;
+    }
+    seen[line.key] = true;
+    list.push(line);
+  }
+
+  function destinationLines(date) {
+    var d2cLines = [];
+    var amazonLines = [];
+    var otherLines = [];
+    var channels = {};
+    var seenAmazon = {};
+    var seenOther = {};
+
     CHANNELS.forEach(function (ch) {
       var day = resolveDay(ch, date);
-      out[ch.id] = day;
-      total = round2(total + num(day.spend));
+      channels[ch.id] = day;
+      var amt = channelDestAmounts(day);
+      d2cLines.push({
+        key: ch.id,
+        label: ch.label,
+        spend: amt.d2c,
+        kind: 'd2c',
+        source: day.source,
+        channel: ch.id,
+        day: day
+      });
+      if (amt.amazon || day.amazon != null) {
+        upsertLine(amazonLines, seenAmazon, {
+          key: ch.id === 'bing' ? 'bing_amazon' : ch.id + '_amazon',
+          label: ch.label + ' Amazon',
+          spend: amt.amazon,
+          kind: 'amazon',
+          source: ch.merKey + '.amazon',
+          note: day.campaign || day.notes || (ch.id === 'bing' ? BING_AMAZON_CAMPAIGN : '')
+        });
+      }
+      if (amt.other) {
+        upsertLine(otherLines, seenOther, {
+          key: ch.id + '_other',
+          label: ch.label + ' other',
+          spend: amt.other,
+          kind: 'other',
+          source: ch.merKey + '.other'
+        });
+      }
     });
+
+    var tt = tiktokSplitFor(date);
+    if (tt.d2c != null) {
+      d2cLines.push({
+        key: 'tiktok_shopify',
+        label: 'TikTok Shopify',
+        spend: tt.d2c,
+        kind: 'd2c',
+        source: 'tiktok_ads.shopify_spend'
+      });
+    }
+    if (tt.shop != null) {
+      upsertLine(otherLines, seenOther, {
+        key: 'tiktok_shop',
+        label: 'TikTok Shop',
+        spend: tt.shop,
+        kind: 'other',
+        source: 'tiktok_ads.shop_spend'
+      });
+    }
+    if (tt.unallocated != null) {
+      upsertLine(otherLines, seenOther, {
+        key: 'unallocated',
+        label: 'Unallocated',
+        spend: tt.unallocated,
+        kind: 'other',
+        source: 'tiktok_ads.unallocated_spend'
+      });
+    }
+
+    var applovin = advertisingSource(date, ['applovin', 'app_lovin']);
+    if (applovin != null) {
+      upsertLine(otherLines, seenOther, {
+        key: 'applovin',
+        label: 'AppLovin',
+        spend: typeof applovin === 'object' ? num(nestedSpend(applovin)) : num(applovin),
+        kind: 'other',
+        source: 'advertising_sources.applovin'
+      });
+    }
+
+    var whatnot = advertisingSource(date, ['whatnot']);
+    if (whatnot != null) {
+      upsertLine(otherLines, seenOther, {
+        key: 'whatnot',
+        label: 'Whatnot',
+        spend: typeof whatnot === 'object' ? num(nestedSpend(whatnot)) : num(whatnot),
+        kind: 'other',
+        source: 'advertising_sources.whatnot'
+      });
+    }
+
+    var contract = merContract(date);
+    var nd = contract ? contract.nonD2c : [];
+    nd.forEach(function (n) {
+      if (!n.present) return;
+      var line = {
+        key: n.key,
+        label: n.label,
+        spend: n.spend,
+        kind: n.kind,
+        source: 'non_d2c.' + n.key,
+        present: true
+      };
+      if (n.kind === 'amazon') upsertLine(amazonLines, seenAmazon, line);
+      else upsertLine(otherLines, seenOther, line);
+    });
+
+    var d2cTotal = round2(d2cLines.reduce(function (a, l) { return a + num(l.spend); }, 0));
+    var amazonTotal = round2(amazonLines.reduce(function (a, l) { return a + num(l.spend); }, 0));
+    var otherTotal = round2(otherLines.reduce(function (a, l) { return a + num(l.spend); }, 0));
+    return {
+      d2c: d2cLines,
+      amazon: amazonLines,
+      other: otherLines,
+      d2cTotal: d2cTotal,
+      amazonTotal: amazonTotal,
+      otherTotal: otherTotal,
+      allTotal: round2(d2cTotal + amazonTotal + otherTotal),
+      channels: channels
+    };
+  }
+
+  function channelSpends(date) {
+    var dest = destinationLines(date);
+    var out = dest.channels;
     var shop = shopifyD2C(date);
     var contract = merContract(date);
-    var d2c = contract && contract.d2cAdSpend != null ? contract.d2cAdSpend : total;
-    var company = contract && contract.totalAdSpend != null ? contract.totalAdSpend : total;
+    var d2c = contract && contract.d2cAdSpend != null ? contract.d2cAdSpend : dest.d2cTotal;
+    var company = contract && contract.totalAdSpend != null ? contract.totalAdSpend : dest.allTotal;
     var mer = contract && contract.blendedMer != null
       ? contract.blendedMer
       : (d2c > 0 && shop > 0 ? shop / d2c : null);
@@ -452,10 +694,12 @@
       date: date,
       channels: out,
       totalAdSpend: company,
+      allAdSpend: company,
       d2cAdSpend: d2c,
       shopifyD2C: shop,
       blendedMer: mer,
-      nonD2c: contract ? contract.nonD2c : [],
+      nonD2c: contract ? contract.nonD2c : dest.other.concat(dest.amazon),
+      destination: dest,
       contract: contract
     };
   }
@@ -505,6 +749,7 @@
       + '.pc-table tr.pc-section td{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim,#5c5c7a);padding-top:12px}'
       + '.pc-unverified{color:var(--yellow,#f59e0b);font-size:.78rem;font-weight:600;letter-spacing:0}'
       + '.pc-kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}'
+      + '.pc-kpi-row.pc-kpi-totals{grid-template-columns:repeat(4,1fr)}'
       + '.pc-kpi-card{background:var(--card,#171730);border:1px solid var(--border,#252548);border-radius:8px;padding:16px 16px 14px}'
       + '.pc-kpi-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim,#5c5c7a);margin-bottom:8px}'
       + '.pc-kpi-val{font-family:var(--font-mono,ui-monospace,monospace);font-size:1.35rem;font-weight:700;color:var(--text,#e8e8f0);line-height:1}'
@@ -586,9 +831,10 @@
 
     var date = latestFocusDate();
     var summary = channelSpends(date);
+    var dest = summary.destination || { d2c: [], amazon: [], other: [] };
     var mer = summary.blendedMer == null ? '—' : Number(summary.blendedMer).toFixed(2) + 'x';
-    var rows = CHANNELS.map(function (ch) {
-      var d = summary.channels[ch.id];
+
+    function channelRow(ch, d) {
       var src = d.hasFeed ? d.source : 'no feed';
       if (d.tracking_verified === false) src = (src ? src + ' · ' : '') + 'tracking_verified:false';
       var html = '<tr>'
@@ -600,32 +846,54 @@
         + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'roas', ch)) + '</td>'
         + '<td>' + esc(src) + '</td>'
         + '</tr>';
-      if (ch.id === 'bing' && (d.d2c != null || d.amazon != null)) {
-        html += '<tr class="pc-split"><td>↳ Bing D2C</td><td>' + usd(d.d2c) + '</td><td colspan="5">bing.d2c</td></tr>'
-          + '<tr class="pc-split"><td>↳ Bing Amazon</td><td>' + usd(d.amazon) + '</td><td colspan="5">bing.amazon</td></tr>';
+      if (d.d2c != null || d.amazon != null || d.other != null) {
+        if (d.d2c != null) {
+          html += '<tr class="pc-split"><td>↳ ' + esc(ch.label) + ' D2C</td><td>' + usd(d.d2c) + '</td><td colspan="5">' + esc(ch.merKey) + '.d2c · counts in D2C ad spend</td></tr>';
+        }
       }
       return html;
+    }
+
+    var d2cRows = CHANNELS.map(function (ch) {
+      return channelRow(ch, summary.channels[ch.id]);
+    }).join('');
+    dest.d2c.forEach(function (line) {
+      if (CHANNELS.some(function (ch) { return ch.id === line.key; })) return;
+      d2cRows += '<tr class="pc-split"><td>' + esc(line.label) + '</td><td>' + usd(line.spend) + '</td><td colspan="5">' + esc(line.source || 'D2C') + ' · counts in D2C ad spend</td></tr>';
+    });
+
+    var amazonRows = dest.amazon.map(function (n) {
+      var note = n.note ? ' · ' + n.note : '';
+      return '<tr class="pc-nond2c"><td>' + esc(n.label) + '</td><td>' + usd(n.spend) + '</td><td colspan="5">' + esc(n.source || 'amazon') + esc(note) + ' · in All ad spend, excluded from D2C / blended MER</td></tr>';
     }).join('');
 
-    var nonRows = (summary.nonD2c || []).filter(function (n) { return n.present; }).map(function (n) {
-      return '<tr class="pc-nond2c"><td>' + esc(n.label) + '</td><td>' + usd(n.spend) + '</td><td colspan="5">non_d2c.' + esc(n.key) + '</td></tr>';
+    var otherRows = dest.other.map(function (n) {
+      return '<tr class="pc-nond2c"><td>' + esc(n.label) + '</td><td>' + usd(n.spend) + '</td><td colspan="5">' + esc(n.source || 'other') + ' · in All ad spend, excluded from D2C / blended MER</td></tr>';
     }).join('');
 
     var contractNote = summary.contract
       ? ('mer_for_manus.json · source ' + summary.contract.source + ' · as_of ' + (summary.contract.as_of || date))
-      : (esc(date || 'no dated feed') + ' · missing channel = $0 / no feed');
+      : ((date || 'no dated feed') + ' · missing channel = $0 / no feed');
 
     slot.className = 'pc-wrap';
     slot.innerHTML = ''
       + '<div class="pc-title">Paid channels · ad spend</div>'
-      + '<div class="pc-sub">' + esc(contractNote) + ' · D2C ad spend / blended MER / total ad spend use the published mer_for_manus keys when present</div>'
+      + '<div class="pc-sub">' + esc(contractNote) + ' · D2C ad spend is Shopify-bound only (TikTok Shopify share included). Amazon-bound and other non-D2C sit in All ad spend and are excluded from blended MER.</div>'
+      + '<div class="pc-kpi-row pc-kpi-totals">'
+      + '<div class="pc-kpi-card"><div class="pc-kpi-label">D2C ad spend</div><div class="pc-kpi-val">' + usd(summary.d2cAdSpend) + '</div><div class="pc-kpi-sub">vs Shopify D2C → blended MER</div></div>'
+      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Shopify D2C revenue</div><div class="pc-kpi-val">' + usd(summary.shopifyD2C) + '</div><div class="pc-kpi-sub">Shopify channel only</div></div>'
+      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Blended MER</div><div class="pc-kpi-val">' + esc(mer) + '</div><div class="pc-kpi-sub">Shopify D2C ÷ D2C ad spend</div></div>'
+      + '<div class="pc-kpi-card"><div class="pc-kpi-label">All ad spend</div><div class="pc-kpi-val">' + usd(summary.allAdSpend) + '</div><div class="pc-kpi-sub">company · D2C + Amazon-bound + other</div></div>'
+      + '</div>'
       + '<table class="pc-table"><thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Revenue</th><th>ROAS</th><th>Source</th></tr></thead><tbody>'
-      + rows
-      + (nonRows ? '<tr class="pc-section"><td colspan="7">non_d2c</td></tr>' + nonRows : '')
-      + '<tr class="pc-total"><td>D2C ad spend</td><td>' + usd(summary.d2cAdSpend) + '</td><td colspan="5">d2c_ad_spend</td></tr>'
-      + '<tr class="pc-total"><td>Total ad spend</td><td>' + usd(summary.totalAdSpend) + '</td><td colspan="5">total_ad_spend</td></tr>'
+      + '<tr class="pc-section"><td colspan="7">D2C (Shopify)</td></tr>'
+      + d2cRows
+      + (amazonRows ? '<tr class="pc-section"><td colspan="7">Amazon-bound</td></tr>' + amazonRows : '')
+      + (otherRows ? '<tr class="pc-section"><td colspan="7">Other non-D2C</td></tr>' + otherRows : '')
+      + '<tr class="pc-total"><td>D2C ad spend</td><td>' + usd(summary.d2cAdSpend) + '</td><td colspan="5">d2c_ad_spend · vs Shopify revenue → blended MER</td></tr>'
       + '<tr class="pc-total"><td>Shopify D2C revenue</td><td>' + usd(summary.shopifyD2C) + '</td><td colspan="5">Shopify channel only</td></tr>'
-      + '<tr class="pc-total"><td>Blended MER</td><td>' + esc(mer) + '</td><td colspan="5">blended_mer · Shopify D2C ÷ d2c_ad_spend</td></tr>'
+      + '<tr class="pc-total"><td>Blended MER</td><td>' + esc(mer) + '</td><td colspan="5">blended_mer · Shopify D2C ÷ D2C ad spend</td></tr>'
+      + '<tr class="pc-total"><td>All ad spend</td><td>' + usd(summary.allAdSpend) + '</td><td colspan="5">total_ad_spend · company (includes Amazon-bound + Whatnot / AppLovin / other)</td></tr>'
       + '</tbody></table>';
   }
 
@@ -640,14 +908,18 @@
       ? ('mer_for_manus.json has a ' + ch.merKey + ' block')
       : ('mer_for_manus.json has no ' + ch.merKey + ' block (no feed → $0)');
     var statusLine = day.hasFeed
-      ? (day.spend > 0 ? 'Feed reporting. Counted in mer_for_manus d2c_ad_spend / total_ad_spend when published.' : 'Feed present at $0.')
+      ? (day.spend > 0 ? 'Feed reporting. D2C share counts in D2C ad spend / blended MER; Amazon / other share counts in All ad spend only.' : 'Feed present at $0.')
       : 'No feed yet. Showing $0 / no feed — numbers are not invented.';
     if (isTrackingUnverified(day, ch)) {
       statusLine += ' Conversion tracking is known-broken — conversions / revenue / ROAS show as tracking not verified, not 0.';
     }
-    var splitNote = (ch.id === 'bing' && (day.d2c != null || day.amazon != null))
-      ? ('bing.d2c ' + usd(day.d2c) + ' + bing.amazon ' + usd(day.amazon) + ' = ' + usd(day.spend))
-      : '';
+    var splitNote = '';
+    if (day.d2c != null || day.amazon != null || day.other != null) {
+      splitNote = ch.merKey + '.d2c ' + usd(day.d2c) + ' + ' + ch.merKey + '.amazon ' + usd(day.amazon) + (day.other != null ? ' + ' + ch.merKey + '.other ' + usd(day.other) : '') + ' = ' + usd(day.spend);
+    }
+    if (ch.id === 'bing') {
+      splitNote = (splitNote ? splitNote + ' · ' : '') + 'main campaign \'' + (day.campaign || BING_AMAZON_CAMPAIGN) + '\' sends to Amazon, not Shopify';
+    }
 
     c.innerHTML = ''
       + '<div class="pc-title" style="margin-top:0">' + esc(ch.label) + '</div>'
@@ -773,6 +1045,9 @@
     channelApi: channelApi,
     setFeeds: setFeeds,
     bingSplit: bingSplit,
+    destinationSplit: destinationSplit,
+    destinationLines: destinationLines,
+    BING_AMAZON_CAMPAIGN: BING_AMAZON_CAMPAIGN,
     merContract: merContract,
     parseNonD2c: parseNonD2c,
     isTrackingUnverified: isTrackingUnverified,

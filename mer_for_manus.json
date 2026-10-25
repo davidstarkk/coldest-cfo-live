@@ -11,7 +11,9 @@
     "spend": 77.33,
     "d2c": 0.97,
     "amazon": 76.36,
-    "tracking_verified": true
+    "tracking_verified": true,
+    "campaign": "bing to amz tumbler listing 1",
+    "notes": "main campaign sends to Amazon, not Shopify"
   },
   "reddit": {
     "as_of": "2026-10-24",
@@ -58,5 +60,5 @@
     "2026-09-30",
     "2026-10-01"
   ],
-  "_notes": "Daily contract (source: daily_inputs). Field names: d2c_ad_spend, blended_mer, total_ad_spend, bing.{spend,d2c,amazon}, reddit, snapchat, chatgpt.tracking_verified, non_d2c.{whatnot,applovin,tiktok_shop,sellerboard_amazon,unallocated}. 7d pooled MER fields remain the last closed window (2026-09-27)."
+  "_notes": "Daily contract (source: daily_inputs). Field names: d2c_ad_spend, blended_mer, total_ad_spend, bing.{spend,d2c,amazon}, reddit, snapchat, chatgpt.tracking_verified, non_d2c.{whatnot,applovin,tiktok_shop,sellerboard_amazon,unallocated}. D2C ad spend is Shopify-bound only (TikTok shopify_spend included); All ad spend = total_ad_spend includes Amazon-bound + other. 7d pooled MER fields remain the last closed window (2026-09-27)."
 }

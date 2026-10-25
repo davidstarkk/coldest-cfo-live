@@ -145,7 +145,7 @@ function dailyInputsContract() {
     d2c_ad_spend: 14382.78,
     blended_mer: 1.84,
     total_ad_spend: 21678.86,
-    bing: { as_of: '2026-10-24', spend: 77.33, d2c: 0.97, amazon: 76.36, tracking_verified: true },
+    bing: { as_of: '2026-10-24', spend: 77.33, d2c: 0.97, amazon: 76.36, tracking_verified: true, campaign: 'bing to amz tumbler listing 1' },
     reddit: { as_of: '2026-10-24', spend: 0, tracking_verified: false },
     snapchat: { as_of: '2026-10-24', spend: 0, tracking_verified: false },
     chatgpt: { as_of: '2026-10-24', spend: 0, tracking_verified: false },
@@ -162,6 +162,13 @@ function dailyInputsContract() {
 test('2026-10-24 mer_for_manus daily_inputs keys render published totals', function () {
   var mer = dailyInputsContract();
   var p = samplePartial();
+  p.advertising_sources.tiktok_ads = {
+    spend: '5116.47',
+    complete: false,
+    shopify_spend: '908.76',
+    shop_spend: '3409.28',
+    unallocated_spend: '798.43'
+  };
   global.PARTIAL_REPORTS = [p];
   Paid._setMerDoc(mer);
   Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, mer, null); });
@@ -173,6 +180,15 @@ test('2026-10-24 mer_for_manus daily_inputs keys render published totals', funct
   assert.strictEqual(s.channels.bing.spend, 77.33);
   assert.strictEqual(s.channels.bing.d2c, 0.97);
   assert.strictEqual(s.channels.bing.amazon, 76.36);
+  assert.strictEqual(s.allAdSpend, 21678.86);
+  assert.strictEqual(s.channels.bing.campaign, 'bing to amz tumbler listing 1');
+  var dest = s.destination;
+  assert.ok(dest.d2c.some(function (l) { return l.key === 'tiktok_shopify' && l.spend === 908.76; }));
+  assert.ok(dest.amazon.some(function (l) { return l.key === 'bing_amazon' && l.spend === 76.36; }));
+  assert.ok(dest.amazon.some(function (l) { return l.key === 'sellerboard_amazon' && l.spend === 3012.01; }));
+  assert.ok(dest.other.some(function (l) { return l.key === 'whatnot' && l.spend === 0; }));
+  assert.ok(dest.other.some(function (l) { return l.key === 'applovin'; }));
+  assert.ok(dest.other.some(function (l) { return l.key === 'tiktok_shop' && l.spend === 3409.28; }));
   assert.strictEqual(s.channels.reddit.spend, 0);
   assert.strictEqual(s.channels.reddit.tracking_verified, false);
   assert.strictEqual(s.channels.snapchat.tracking_verified, false);
@@ -197,6 +213,43 @@ test('bing.d2c + bing.amazon split matches spend when spend omitted', function (
   assert.strictEqual(nested.spend, 77.33);
   assert.strictEqual(nested.d2c, 0.97);
   assert.strictEqual(nested.amazon, 76.36);
+});
+
+test('destination:amazon is excluded from D2C and included in All ad spend', function () {
+  var split = Paid.destinationSplit({ spend: 77.33, destination: 'amazon' });
+  assert.strictEqual(split.d2c, 0);
+  assert.strictEqual(split.amazon, 77.33);
+  var other = Paid.destinationSplit({ spend: 40, destination: 'other' });
+  assert.strictEqual(other.d2c, 0);
+  assert.strictEqual(other.other, 40);
+});
+
+test('TikTok Shopify share is D2C; shop/unallocated/amazon are not', function () {
+  var p = samplePartial();
+  p.advertising_sources.tiktok_ads = {
+    spend: '5116.47',
+    shopify_spend: '908.76',
+    shop_spend: '3409.28',
+    unallocated_spend: '798.43'
+  };
+  global.PARTIAL_REPORTS = [p];
+  Paid._setMerDoc(null);
+  Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, null, null); });
+  var bing = Paid.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0];
+  Paid.setFeeds('bing', null, { bing: { as_of: '2026-10-24', spend: 77.33, d2c: 0.97, amazon: 76.36 } }, null);
+  Paid.applyChannel(bing, Paid.mergeDaysFor(bing));
+  var s = Paid.channelSpends('2026-10-24');
+  assert.strictEqual(s.d2cAdSpend, 14382.78);
+  assert.ok(s.destination.d2c.some(function (l) { return l.key === 'tiktok_shopify' && l.spend === 908.76; }));
+  assert.ok(s.destination.other.some(function (l) { return l.key === 'tiktok_shop' && l.spend === 3409.28; }));
+  assert.ok(s.destination.other.some(function (l) { return l.key === 'unallocated' && l.spend === 798.43; }));
+  assert.ok(s.destination.amazon.some(function (l) { return l.key === 'bing_amazon' && l.spend === 76.36; }));
+  assert.ok(Math.abs(s.d2cAdSpend - (11521.87 + 1951.18 + 0.97 + 908.76)) < 0.001);
+  assert.ok(s.allAdSpend > s.d2cAdSpend);
+  assert.ok(Math.abs(s.allAdSpend - (s.d2cAdSpend + 76.36 + 3409.28 + 798.43)) < 0.02);
+  assert.ok(Math.abs(s.blendedMer - (26598.51 / 14382.78)) < 0.0001);
+  delete global.PARTIAL_REPORTS;
+  Paid._setMerDoc(null);
 });
 
 test('unpublished Bing from mer_for_manus overlays company ads once', function () {
