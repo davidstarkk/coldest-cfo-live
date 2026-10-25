@@ -30,25 +30,34 @@ var embedded = {
   verdict: { status: 'DATA_INCOMPLETE', msg: 'Historical metrics through 2026-09-27.' }
 };
 
-test('published mer_for_manus is as_of 2026-10-24 with mer_7d_pooled', function () {
+test('published mer_for_manus is as_of 2026-10-24 with D2C 7d/30d MER', function () {
   assert.strictEqual(mer.as_of, '2026-10-24');
-  assert.strictEqual(mer.mer_7d_pooled, 4.177);
-  assert.strictEqual(mer.mer_30d_pooled, 4.5862);
-  assert.strictEqual(mer.rev_7d, 674087.5);
-  assert.strictEqual(mer.spend_7d, 161381.8);
+  assert.strictEqual(mer.mer_7d_pooled, 2.6887);
+  assert.strictEqual(mer.mer_30d_pooled, 2.7234);
+  assert.strictEqual(mer.rev_7d, 292351.25);
+  assert.strictEqual(mer.spend_7d, 108735.13);
+  assert.strictEqual(mer.rev_30d, 803699.21);
+  assert.strictEqual(mer.spend_30d, 295106.55);
+  assert.strictEqual(mer.delta_dod, 0.0201);
+  assert.strictEqual(mer.delta_wow, 0.1129);
   assert.strictEqual(mer.mer_breakeven, null);
-  assert.strictEqual(mer.delta_dod, null);
+  assert.strictEqual(Number(mer.mer_7d_pooled).toFixed(2), '2.69');
+  assert.strictEqual(Number(mer.delta_dod).toFixed(2), '0.02');
+  assert.strictEqual(Number(mer.delta_wow).toFixed(2), '0.11');
+  assert.strictEqual(Number(mer.mer_30d_pooled).toFixed(2), '2.72');
 });
 
-test('fresh mer_for_manus overlays the header (no invented deltas)', function () {
+test('fresh mer_for_manus overlays the header with published deltas', function () {
   var resolved = Header.resolve(embedded, mer);
   assert.strictEqual(resolved.stale, false);
   assert.strictEqual(resolved.data.as_of, '2026-10-24');
-  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 4.177);
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.6887);
   assert.strictEqual(resolved.data.latest.date, '2026-10-24');
-  assert.strictEqual(resolved.data.latest.rev_7d, 674087.5);
-  assert.strictEqual(resolved.data.latest.spend_7d, 161381.8);
-  assert.strictEqual(resolved.data.latest.delta_dod, null);
+  assert.strictEqual(resolved.data.latest.rev_7d, 292351.25);
+  assert.strictEqual(resolved.data.latest.spend_7d, 108735.13);
+  assert.strictEqual(resolved.data.latest.delta_dod, 0.0201);
+  assert.strictEqual(resolved.data.latest.delta_wow, 0.1129);
+  assert.strictEqual(resolved.data.latest.mer_30d_pooled, 2.7234);
   assert.strictEqual(resolved.data.latest.profit_7d, null);
   assert.strictEqual(resolved.data.mer_breakeven, null);
   assert.deepStrictEqual(resolved.data.missing_report_dates, []);
