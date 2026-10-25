@@ -582,12 +582,17 @@
     }
     var btn = document.querySelector('.tab[data-tab="throttles"]');
     if (!btn) {
-      var after = document.querySelector('.tab[data-tab="scaling"]') || document.querySelector('.tab[data-tab="reports"]');
+      var after = document.querySelector('.tab[data-tab="reports"]');
       if (after && after.parentNode) {
         btn = document.createElement('div');
         btn.className = 'tab';
         btn.setAttribute('data-tab', 'throttles');
         after.parentNode.insertBefore(btn, after.nextSibling);
+      }
+    } else if (btn.parentNode) {
+      var reportsTab = document.querySelector('.tab[data-tab="reports"]');
+      if (reportsTab && reportsTab.nextElementSibling !== btn) {
+        reportsTab.parentNode.insertBefore(btn, reportsTab.nextSibling);
       }
     }
     if (btn) btn.textContent = 'AD CHANNEL THROTTLES';
@@ -599,6 +604,12 @@
         document.body.classList.remove('reports-active');
         btn.classList.add('active');
         panel.classList.add('active');
+        if (typeof history !== 'undefined' && history.replaceState) {
+          history.replaceState(null, null, '#throttles');
+        } else if (typeof location !== 'undefined') {
+          location.hash = 'throttles';
+        }
+        try { btn.scrollIntoView({ inline: 'nearest', block: 'nearest' }); } catch (e) { /* ignore */ }
         render();
       });
     }

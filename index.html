@@ -42,7 +42,8 @@ h2{font-size:1.5rem;font-weight:700;margin:.25rem 0}
 .tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.5rem;overflow-x:auto;scrollbar-width:thin;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{height:4px}
 .tabs::-webkit-scrollbar-thumb{background:rgba(0,212,212,.35);border-radius:2px}
-.tab{padding:.75rem 1.5rem;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;color:var(--text-muted);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;scroll-snap-align:start;flex:0 0 auto}
+.tab{padding:.75rem 1.5rem;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;color:var(--text-muted);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;scroll-snap-align:start;flex:0 0 auto;overflow:visible;max-width:none;text-overflow:clip}
+.tab[data-tab="throttles"]{letter-spacing:.06em;padding-left:1.1rem;padding-right:1.1rem}
 .tab:hover{color:var(--text)}
 .tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
 
@@ -258,12 +259,12 @@ footer a:hover{color:var(--text-muted)}
   <!-- TABS_AT_TOP_APPLIED -->
   <div class="tabs">
     <div class="tab active" data-tab="reports">DAILY REPORTS</div>
+    <div class="tab" data-tab="throttles">AD CHANNEL THROTTLES</div>
     <div class="tab" data-tab="cmasm">CMASM TABLE</div>
     <div class="tab" data-tab="analytics">ANALYTICS</div>
     <div class="tab" data-tab="cashflow">CASH FLOW</div>
     <div class="tab" data-tab="predictive">PREDICTIVE</div>
     <div class="tab" data-tab="scaling">SCALING</div>
-    <div class="tab" data-tab="throttles">AD CHANNEL THROTTLES</div>
     <div class="tab" data-tab="ltv">LIFETIME (LTV)</div>
     <div class="tab" data-tab="monthly_pnl">MONTHLY P&amp;L</div>
     <div class="tab" data-tab="ytd_pnl">YTD P&L</div>
