@@ -209,6 +209,9 @@ test('bing.d2c + bing.amazon split matches spend when spend omitted', function (
   assert.strictEqual(split.spend, 77.33);
   assert.strictEqual(split.d2c, 0.97);
   assert.strictEqual(split.amazon, 76.36);
+  var aliased = Paid.destinationSplit({ spend: 77.33, spend_d2c: 0.97, spend_amazon: 76.36, destination: 'mixed' });
+  assert.strictEqual(aliased.d2c, 0.97);
+  assert.strictEqual(aliased.amazon, 76.36);
   var nested = Paid.bingSplit({ spend: 77.33, d2c: { spend: 0.97 }, amazon: { spend: 76.36 } });
   assert.strictEqual(nested.spend, 77.33);
   assert.strictEqual(nested.d2c, 0.97);

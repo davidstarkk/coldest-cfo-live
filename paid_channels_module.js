@@ -50,8 +50,9 @@
     { keys: ['whatnot'], label: 'Whatnot', kind: 'other' },
     { keys: ['applovin'], label: 'AppLovin', kind: 'other' },
     { keys: ['tiktok_shop', 'TikTok Shop', 'tiktok_shop_ads'], label: 'TikTok Shop', kind: 'other' },
-    { keys: ['sellerboard_amazon', 'Sellerboard Amazon', 'sellerboard'], label: 'Sellerboard Amazon', kind: 'amazon' },
-    { keys: ['unallocated', 'unallocated_ads'], label: 'Unallocated', kind: 'other' }
+    { keys: ['unallocated', 'unallocated_ads', 'tiktok_unallocated'], label: 'Unallocated', kind: 'other' },
+    { keys: ['sellerboard_amazon', 'amazon_ads', 'Sellerboard Amazon', 'sellerboard'], label: 'Sellerboard Amazon', kind: 'amazon' },
+    { keys: ['bing_amazon'], label: 'Bing Amazon', kind: 'amazon' }
   ];
 
   var BING_AMAZON_CAMPAIGN = 'bing to amz tumbler listing 1';
@@ -155,6 +156,7 @@
   function hasDestinationFields(node) {
     if (!node || typeof node !== 'object') return false;
     return node.d2c != null || node.amazon != null || node.other != null
+      || node.spend_d2c != null || node.spend_amazon != null
       || node.destination != null || node.dest != null
       || node.shopify_spend != null || node.shop_spend != null;
   }
@@ -166,8 +168,11 @@
     }
     var dest = node.destination || node.dest || null;
     var spend = nestedSpend(node);
-    var d2c = node.d2c != null ? nestedSpend(node.d2c) : (node.shopify_spend != null ? round2(node.shopify_spend) : null);
-    var amazon = node.amazon != null ? nestedSpend(node.amazon) : null;
+    var d2c = node.d2c != null ? nestedSpend(node.d2c)
+      : (node.spend_d2c != null ? round2(node.spend_d2c)
+        : (node.shopify_spend != null ? round2(node.shopify_spend) : null));
+    var amazon = node.amazon != null ? nestedSpend(node.amazon)
+      : (node.spend_amazon != null ? round2(node.spend_amazon) : null);
     var other = node.other != null ? nestedSpend(node.other) : null;
     if (other == null && (node.shop_spend != null || node.unallocated_spend != null)) {
       other = round2(num(node.shop_spend) + num(node.unallocated_spend));
@@ -468,6 +473,11 @@
   }
 
   function shopifyD2C(date) {
+    var contract = merContract(date);
+    if (contract && MER_DOC) {
+      if (MER_DOC.shopify_d2c_revenue != null) return num(MER_DOC.shopify_d2c_revenue);
+      if (MER_DOC.shop_revenue != null) return num(MER_DOC.shop_revenue);
+    }
     var partials = hostArray('PARTIAL_REPORTS') || [];
     var i, r;
     for (i = 0; i < partials.length; i++) {

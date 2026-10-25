@@ -8,7 +8,8 @@
     "min_spend_7d": 200,
     "scale_cooldown_days": 7,
     "cut_cooldown_days": 3,
-    "revenue_scope": "shopify_d2c"
+    "revenue_scope": "shopify_d2c",
+    "roas_basis": "platform"
   },
   "channels": {
     "reddit":   {"mode": "auto",   "owner_bot": "reddit bot",       "max_daily_budget": null, "min_daily_budget": null, "notes": ""},

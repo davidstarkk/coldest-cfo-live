@@ -142,15 +142,17 @@ Reporting only. Do **not** put ad-platform credentials in this public repo.
 
 The **AD CHANNEL THROTTLES** tab is read-only. **Live rules change only via Jarvis.**
 
-Data (match the data-repo keys; first file that exists wins):
+Data (exact data-repo PR #14 keys; first file that exists wins):
 
-1. `ad_channel_throttles.json` (or `mer_for_manus.json` → `ad_channel_throttles`)
-2. `throttle_settings.json` (fallback `ads_throttle/settings.json`, or `mer_for_manus.json` → `throttle_settings`)
-3. `ads_throttle/changes.json`
+1. `ad_channel_throttles.json` — `d2c_ad_spend`, `total_ad_spend`, `shopify_d2c_revenue`, `blended_mer`, `channels.*`, `series_28d.by_channel` / `series_28d.blended`, `platform_roas`, `roas_basis`, `recent_changes` (also nested on `mer_for_manus.json` → `ad_channel_throttles`)
+2. `throttle_settings` / `ads_throttle/settings.json` (`global.roas_basis: platform`)
+3. `ads_throttle/changes.json` or `recent_changes`
 
-Top cards: **total ad spend**, Shopify D2C revenue, blended MER vs **3.0**.
+Top cards: **D2C ad spend** and **All ad spend** separately, Shopify D2C revenue, blended MER vs **3.0**.
 
-One row per channel (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, TikTok): daily budget, 7-day spend, Shopify-attributed revenue, 7-day ROAS, 3-day trend, destination (Shopify vs Amazon/other), rule badge, last change + next eligible, owner bot, strategy notes. Unpublished daily budget / attributed revenue / ROAS show as **unverified** — never invented.
+One row per channel (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, TikTok): daily budget, 7-day spend, Shopify-attributed revenue, 7-day ROAS (`roas_basis` shown as **platform-reported** when `platform`), 3-day trend, destination (Shopify vs Amazon/other), published `rule_status`, last change + next eligible, owner bot, strategy notes. `*_status: unverified` fields are labeled **unverified** — never invented.
+
+Also on the tab: 28-day per-channel spend + ROAS charts with a 3.0 line, budget-share chart, cross-channel blended MER 28d trend, a **read-only** live settings panel (per-channel mode + min/max) with **Live settings change only through Jarvis in chat** and a **Request change** link to `davidstarkk/coldest-cfo-dashboard` issues, plus editable what-if inputs.
 
 Rule badges (client-side, also used by what-if):
 
@@ -217,7 +219,7 @@ Expected `bing` block (keys match the data-repo `mer_for_manus.json` contract):
 }
 ```
 
-2026-10-24 expected on the live page: **D2C ad spend $14,382.78**, blended MER **1.84**, **All ad spend $21,678.86**, Bing **$77.33** = D2C **$0.97** + Amazon **$76.36** (campaign `bing to amz tumbler listing 1`). Amazon-bound and other non-D2C (Whatnot, AppLovin, TikTok Shop, Sellerboard Amazon, unallocated) are in All ad spend only.
+2026-10-24 expected on the live page: **D2C ad spend $14,382.78**, **All ad spend $21,678.86**, Shopify D2C **$26,420.44**, blended MER **1.84**. Bing daily **$77.33** = D2C **$0.97** + Amazon **$76.36**; Bing 7d **$521.09** = D2C **$8.73** / Amazon **$512.36**. Meta 7d **$83,995.42**. Bing rule status **Cut -20% + new strategy** on `roas_basis` platform (**platform-reported**).
 
 ### Direct Microsoft Advertising API (disabled)
 

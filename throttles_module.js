@@ -88,40 +88,37 @@
     return days.length ? days[days.length - 1] : null;
   }
 
+  function stepPctOf(g) {
+    if (!g) return 0;
+    if (g.step_pct != null && g.step_pct !== '') return num(g.step_pct);
+    if (g.step != null && g.step !== '') return num(g.step) <= 1 ? num(g.step) * 100 : num(g.step);
+    return 0;
+  }
+
   function normalizeSettings(raw) {
     if (!raw || typeof raw !== 'object') return { global: {}, channels: {}, mode_legend: {} };
-    if (raw.global && typeof raw.global === 'object') {
-      var g0 = Object.assign({}, raw.global);
-      if (g0.roas_threshold == null && g0.threshold != null) g0.roas_threshold = g0.threshold;
-      if (g0.min_spend_7d == null && g0.min_spend != null) g0.min_spend_7d = g0.min_spend;
-      return {
-        as_of: raw.as_of,
-        source: raw.source,
-        updated_at: raw.updated_at,
-        updated_by: raw.updated_by,
-        note: raw.note,
-        global: g0,
-        channels: raw.channels || {},
-        mode_legend: raw.mode_legend || {}
-      };
-    }
+    var nested = raw.global && typeof raw.global === 'object';
+    var src = nested ? raw.global : raw;
+    var g0 = {
+      roas_threshold: src.roas_threshold != null ? src.roas_threshold : src.threshold,
+      threshold: src.threshold != null ? src.threshold : src.roas_threshold,
+      step: src.step,
+      step_pct: src.step_pct != null ? src.step_pct : (src.step != null && num(src.step) <= 1 ? num(src.step) * 100 : src.step),
+      window_days: src.window_days,
+      min_spend_7d: src.min_spend_7d != null ? src.min_spend_7d : src.min_spend,
+      min_spend: src.min_spend != null ? src.min_spend : src.min_spend_7d,
+      scale_cooldown_days: src.scale_cooldown_days,
+      cut_cooldown_days: src.cut_cooldown_days,
+      revenue_scope: src.revenue_scope || 'shopify_d2c',
+      roas_basis: src.roas_basis || 'platform'
+    };
     return {
       as_of: raw.as_of,
-      source: raw.source || 'throttle_settings',
+      source: raw.source || (nested ? raw.source : 'throttle_settings'),
       updated_at: raw.updated_at,
       updated_by: raw.updated_by,
       note: raw.note,
-      global: {
-        roas_threshold: raw.roas_threshold != null ? raw.roas_threshold : raw.threshold,
-        threshold: raw.threshold != null ? raw.threshold : raw.roas_threshold,
-        step_pct: raw.step_pct,
-        window_days: raw.window_days,
-        min_spend_7d: raw.min_spend_7d != null ? raw.min_spend_7d : raw.min_spend,
-        min_spend: raw.min_spend != null ? raw.min_spend : raw.min_spend_7d,
-        scale_cooldown_days: raw.scale_cooldown_days,
-        cut_cooldown_days: raw.cut_cooldown_days,
-        revenue_scope: raw.revenue_scope || 'shopify_d2c'
-      },
+      global: g0,
       channels: raw.channels || {},
       mode_legend: raw.mode_legend || {}
     };
@@ -133,8 +130,15 @@
     return snap.channels[id] || null;
   }
 
+  function changesEntries(changes) {
+    if (Array.isArray(changes)) return changes;
+    if (changes && Array.isArray(changes.entries)) return changes.entries;
+    if (LIVE.snapshot && Array.isArray(LIVE.snapshot.recent_changes)) return LIVE.snapshot.recent_changes;
+    return [];
+  }
+
   function lastActionAt(changes, channelId, action) {
-    var entries = (changes && changes.entries) || [];
+    var entries = changesEntries(changes);
     var i, e, at, best = null;
     for (i = 0; i < entries.length; i++) {
       e = entries[i];
@@ -148,7 +152,7 @@
   }
 
   function lastChangeEntry(changes, channelId) {
-    var entries = (changes && changes.entries) || [];
+    var entries = changesEntries(changes);
     var i, e, at, best = null, bestE = null;
     for (i = 0; i < entries.length; i++) {
       e = entries[i];
@@ -183,19 +187,40 @@
 
   function channelRoas(channelId, settings, series) {
     var snap = snapshotChannel(channelId);
+    var g = (settings && settings.global) || {};
+    var basis = (snap && snap.roas_basis) || g.roas_basis || 'platform';
     if (snap) {
-      if (snap.roas_7d != null && Number.isFinite(Number(snap.roas_7d))) {
-        return { roas: num(snap.roas_7d), source: 'roas_7d', verified: snap.tracking_verified !== false };
+      if (basis === 'platform' && snap.platform_roas_7d != null && Number.isFinite(Number(snap.platform_roas_7d))) {
+        return { roas: num(snap.platform_roas_7d), source: 'platform_roas', verified: snap.platform_roas_status === 'verified', basis: 'platform' };
       }
-      var rev = snap.shopify_attributed_revenue != null ? snap.shopify_attributed_revenue : snap.shopify_attributed_revenue_7d;
+      if (snap.roas_7d != null && Number.isFinite(Number(snap.roas_7d)) && snap.roas_7d_status !== 'unverified') {
+        return { roas: num(snap.roas_7d), source: 'roas_7d', verified: true, basis: basis };
+      }
+      var rev = snap.shopify_revenue_7d != null ? snap.shopify_revenue_7d
+        : (snap.shopify_attributed_revenue != null ? snap.shopify_attributed_revenue : snap.shopify_attributed_revenue_7d);
       if (rev != null && num(snap.spend_7d) > 0) {
-        return { roas: num(rev) / num(snap.spend_7d), source: 'shopify_attributed_revenue', verified: snap.tracking_verified !== false };
+        return { roas: num(rev) / num(snap.spend_7d), source: 'shopify_revenue_7d', verified: snap.shopify_revenue_status === 'verified', basis: 'shopify' };
       }
     }
-    var g = (settings && settings.global) || {};
     var days = lastN((series && series.days) || [], num(g.window_days) || 7);
     var win = windowTotals(days);
-    return { roas: win.blendedMer, source: 'company_d2c_mer', verified: false };
+    return { roas: win.blendedMer, source: 'company_d2c_mer', verified: false, basis: basis };
+  }
+
+  function whatIfActive() {
+    return Object.keys(WHATIF.global || {}).some(function (k) { return WHATIF.global[k] != null && WHATIF.global[k] !== ''; })
+      || Object.keys(WHATIF.channels || {}).length > 0;
+  }
+
+  function publishedStatus(snap) {
+    if (!snap || !snap.rule_status) return null;
+    var label = snap.rule_status;
+    var action = 'none';
+    if (label.indexOf('Scale') === 0) action = 'scale';
+    else if (label.indexOf('Cut') === 0) action = 'cut';
+    else if (label.indexOf('Hold') === 0) action = 'hold';
+    else if (label.indexOf('Not enough') === 0) action = 'not_enough_data';
+    return { action: action, label: label };
   }
 
   function channelSpend7(channelId, settings, series) {
@@ -221,7 +246,7 @@
     var roasInfo = channelRoas(channelId, settings, series);
     var mer = roasInfo.roas;
     var threshold = num(g.roas_threshold != null ? g.roas_threshold : g.threshold);
-    var step = num(g.step_pct);
+    var step = stepPctOf(g);
     var minSpend = num(g.min_spend_7d != null ? g.min_spend_7d : g.min_spend);
     var mode = ch.mode || snap.mode || 'view';
     var base = {
@@ -233,12 +258,18 @@
       roas: mer,
       roas_source: roasInfo.source,
       roas_verified: roasInfo.verified,
+      roas_basis: roasInfo.basis || snap.roas_basis || g.roas_basis || 'platform',
       threshold: threshold,
       step_pct: step
     };
 
+    if (!whatIfActive()) {
+      var pub = publishedStatus(snap);
+      if (pub) return Object.assign(base, pub, { published: true, reason: snap.strategy_notes || 'published rule_status' });
+    }
+
     if (mode === 'frozen') {
-      return Object.assign(base, { action: 'none', label: 'Frozen-view only', reason: 'Meta freeze / frozen mode — view only until lifted' });
+      return Object.assign(base, { action: 'none', label: 'Frozen - view only', reason: 'Meta freeze / frozen mode — view only until lifted' });
     }
     if (mode === 'view') {
       return Object.assign(base, { action: 'none', label: 'View only', reason: 'Tracked only — no budget change' });
@@ -283,7 +314,7 @@
   function requestChangeUrl(settings) {
     var title = 'Throttle settings change request';
     var body = [
-      'Requesting a live settings change. Live rules change only via Jarvis.',
+      'Requesting a live settings change. Live settings change only through Jarvis in chat.',
       '',
       'Current `throttle_settings` / `ads_throttle/settings.json`:',
       '',
@@ -303,11 +334,17 @@
   }
 
   function destLabel(dest, note) {
-    if (dest === 'amazon') return 'Amazon';
+    if (dest === 'amazon') return 'Amazon' + (note ? ' · ' + note : '');
     if (dest === 'other') return 'Other';
-    if (dest === 'split') return 'Shopify + Amazon' + (note ? ' · ' + note : '');
+    if (dest === 'split' || dest === 'mixed') return 'Shopify + Amazon' + (note ? ' · ' + note : '');
     if (dest === 'shopify' || dest === 'd2c') return 'Shopify';
     return dest ? dest : 'Shopify';
+  }
+
+  function basisLabel(basis) {
+    if (basis === 'platform') return 'platform-reported';
+    if (basis === 'shopify' || basis === 'shopify_d2c') return 'Shopify-attributed';
+    return basis || 'platform-reported';
   }
 
   function sparkSvg(points) {
@@ -328,8 +365,8 @@
     return '<span class="th-trend"><svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true"><polyline fill="none" stroke="#00d4d4" stroke-width="1.6" points="' + d + '"/></svg><span class="th-arrow ' + cls + '">' + arrow + '</span></span>';
   }
 
-  function unverifiedOr(value, fmt) {
-    if (value == null || value === '') return '<span class="th-unverified">' + UNVERIFIED + '</span>';
+  function unverifiedOr(value, fmt, status) {
+    if (status === 'unverified' || value == null || value === '') return '<span class="th-unverified">' + UNVERIFIED + '</span>';
     return fmt ? fmt(value) : esc(String(value));
   }
 
@@ -351,7 +388,9 @@
       + '.th-h{font-size:1.35rem;font-weight:700;margin:0 0 6px}'
       + '.th-sub{color:var(--text-muted,#8888a8);font-size:.82rem;margin:0 0 16px;line-height:1.5}'
       + '.th-note{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.28);border-radius:8px;padding:10px 12px;color:var(--yellow,#f59e0b);font-size:.8rem;margin:0 0 16px}'
-      + '.th-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}'
+      + '.th-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}'
+      + '.th-grid{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:16px}'
+      + '.th-channels{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}'
       + '.th-card{background:var(--card,#171730);border:1px solid var(--border,#252548);border-radius:8px;padding:14px 16px}'
       + '.th-label{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim,#5c5c7a);margin-bottom:6px}'
       + '.th-val{font-family:var(--font-mono,ui-monospace,monospace);font-size:1.35rem;font-weight:700}'
@@ -380,6 +419,7 @@
       + '.th-form input,.th-form select{width:100%;background:var(--card,#171730);color:var(--text,#e8e8f0);border:1px solid var(--border,#252548);border-radius:6px;padding:7px 8px;font-family:var(--font-mono,ui-monospace,monospace);font-size:.8rem}'
       + '.th-form input:disabled,.th-form select:disabled{opacity:.7;cursor:not-allowed}'
       + '.th-btn{display:inline-block;background:var(--cyan,#00d4d4);color:#0d0d1a;border:none;border-radius:6px;padding:8px 12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.7rem;text-decoration:none}'
+      + '.th-ro{opacity:.9}'
       + '@media (max-width:900px){.th-kpis,.th-form{grid-template-columns:1fr}}';
     var st = document.createElement('style');
     st.id = 'th-module-css';
@@ -425,30 +465,43 @@
   function rowHtml(c, rec, settings) {
     var snap = snapshotChannel(c.id) || {};
     var chSet = ((settings && settings.channels) || {})[c.id] || {};
-    var dest = snap.destination || chSet.destination || (c.id === 'bing' ? 'split' : 'shopify');
-    var destNote = snap.destination_note || '';
-    var budget = snap.daily_budget != null ? snap.daily_budget : chSet.daily_budget;
-    var rev = snap.shopify_attributed_revenue != null ? snap.shopify_attributed_revenue : snap.shopify_attributed_revenue_7d;
-    var roasPub = snap.roas_7d;
+    var dest = snap.destination || chSet.destination || (c.id === 'bing' ? 'amazon' : 'shopify');
+    var split = snap.destination_split || {};
+    var destNote = '';
+    if (split.shopify != null || split.amazon != null) {
+      destNote = 'D2C ' + usd(split.shopify || 0) + ' / Amazon ' + usd(split.amazon || 0);
+    }
+    var budget = snap.daily_budget;
+    var rev = snap.shopify_revenue_7d != null ? snap.shopify_revenue_7d : snap.shopify_attributed_revenue;
+    var roasVal = snap.platform_roas_7d != null ? snap.platform_roas_7d : snap.roas_7d;
+    var roasStatus = snap.platform_roas_status || snap.roas_7d_status;
     var trend = snap.trend_3d;
     if (!trend || !trend.length) {
       var days = lastN((LIVE.series && LIVE.series.days) || [], 3);
       trend = days.map(function (d) { return { date: d.date, spend: channelSpendPublished(d, c.id) }; });
     }
     var lastE = lastChangeEntry(LIVE.changes, c.id);
-    var lastAt = snap.last_change_at || (lastE && (lastE.at || lastE.date)) || null;
-    var nextEl = snap.next_eligible_at || rec.next_eligible || '—';
+    var lastAt = snap.last_change_date || snap.last_change_at || (lastE && (lastE.at || lastE.date)) || null;
+    var nextEl = snap.next_eligible_date || snap.next_eligible_at || rec.next_eligible || '—';
     var owner = snap.owner_bot != null ? snap.owner_bot : chSet.owner_bot;
     var notes = snap.strategy_notes != null ? snap.strategy_notes : (chSet.strategy_notes || chSet.notes || '');
     var lastTxt = lastAt ? String(lastAt).slice(0, 10) : '<span class="th-unverified">no change yet</span>';
+    var spendHtml = usd(rec.spend7);
+    if (c.id === 'bing' && (split.shopify != null || split.amazon != null)) {
+      spendHtml += '<div class="th-muted">D2C ' + usd(split.shopify) + ' / Amazon ' + usd(split.amazon) + '</div>';
+    }
+    var roasHtml = unverifiedOr(roasVal, merTxt, roasStatus);
+    if (roasStatus === 'verified' || (roasVal != null && roasStatus !== 'unverified')) {
+      roasHtml += '<div class="th-muted">' + esc(basisLabel(snap.roas_basis || rec.roas_basis)) + '</div>';
+    }
     return '<tr>'
       + '<td>' + esc(c.label) + '</td>'
-      + '<td class="mono">' + unverifiedOr(budget, usd) + '</td>'
-      + '<td class="mono">' + usd(rec.spend7) + '</td>'
-      + '<td class="mono">' + unverifiedOr(rev, usd) + '</td>'
-      + '<td class="mono">' + (roasPub != null && snap.tracking_verified !== false ? merTxt(roasPub) : '<span class="th-unverified">' + UNVERIFIED + '</span>') + '</td>'
+      + '<td class="mono">' + unverifiedOr(budget, usd, snap.daily_budget_status) + '</td>'
+      + '<td class="mono">' + spendHtml + '</td>'
+      + '<td class="mono">' + unverifiedOr(rev, usd, snap.shopify_revenue_status) + '</td>'
+      + '<td class="mono">' + roasHtml + '</td>'
       + '<td>' + sparkSvg(trend) + '</td>'
-      + '<td>' + esc(destLabel(dest, destNote)) + '</td>'
+      + '<td>' + esc(destLabel(dest)) + (destNote ? '<div class="th-muted">' + esc(destNote) + '</div>' : '') + '</td>'
       + '<td><span class="th-chip ' + badgeClass(rec.label) + '">' + esc(rec.label) + '</span></td>'
       + '<td>' + lastTxt + '<div class="th-muted">next ' + (nextEl && nextEl !== '—' ? esc(String(nextEl).slice(0, 10)) : 'eligible now') + '</div></td>'
       + '<td>' + (owner ? esc(owner) : '<span class="th-unverified">' + UNVERIFIED + '</span>') + '</td>'
@@ -464,8 +517,8 @@
   }
 
   function changeRows() {
-    var entries = (LIVE.changes && LIVE.changes.entries) || [];
-    if (!entries.length) return '<tr><td colspan="6">No ads_throttle/changes.json entries.</td></tr>';
+    var entries = changesEntries(LIVE.changes);
+    if (!entries.length) return '<tr><td colspan="6">No recent_changes / ads_throttle/changes.json entries.</td></tr>';
     return entries.map(function (e) {
       var oldB = e.old_budget != null ? e.old_budget : e.old;
       var newB = e.new_budget != null ? e.new_budget : e.new;
@@ -503,6 +556,81 @@
         refreshRecs(rootEl);
       });
     });
+    rootEl.querySelectorAll('[data-th-ch]').forEach(function (el) {
+      if (el.disabled) return;
+      el.addEventListener('change', onCh);
+      el.addEventListener('input', onCh);
+      function onCh() {
+        var id = el.getAttribute('data-th-ch');
+        var f = el.getAttribute('data-th-f');
+        WHATIF.channels[id] = WHATIF.channels[id] || {};
+        WHATIF.channels[id][f] = (f === 'mode') ? el.value : (el.value === '' ? null : num(el.value));
+        refreshRecs(rootEl);
+      }
+    });
+  }
+
+  function dualLine(canvas, labels, spend, roas, threshold) {
+    if (typeof Chart === 'undefined' || !canvas) return null;
+    var chart = new Chart(canvas.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: 'Daily spend', data: spend, yAxisID: 'y', borderColor: '#00d4d4', backgroundColor: 'rgba(0,212,212,0.12)', fill: true, tension: 0.25, pointRadius: 0, borderWidth: 2 },
+          { label: 'ROAS', data: roas, yAxisID: 'y1', borderColor: '#f59e0b', backgroundColor: 'transparent', tension: 0.25, pointRadius: 0, borderWidth: 2 },
+          { label: '3.0 reference', data: labels.map(function () { return threshold; }), yAxisID: 'y1', borderColor: '#22c55e', borderDash: [5, 4], pointRadius: 0, borderWidth: 1.5 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { labels: { color: '#8888a8', boxWidth: 10, font: { size: 10 } } } },
+        scales: {
+          x: { ticks: { color: '#5c5c7a', maxTicksLimit: 8, font: { size: 10 } }, grid: { color: 'rgba(37,37,72,0.7)' } },
+          y: { position: 'left', ticks: { color: '#00d4d4', font: { size: 10 }, callback: function (v) { return '$' + Number(v).toLocaleString(); } }, grid: { color: 'rgba(37,37,72,0.7)' } },
+          y1: { position: 'right', min: 0, ticks: { color: '#f59e0b', font: { size: 10 }, callback: function (v) { return Number(v).toFixed(1) + 'x'; } }, grid: { drawOnChartArea: false } }
+        }
+      }
+    });
+    CHARTS.push(chart);
+    return chart;
+  }
+
+  function shareChart(canvas, labels, values) {
+    if (typeof Chart === 'undefined' || !canvas) return null;
+    var palette = ['#00d4d4', '#3b82f6', '#f59e0b', '#a78bfa', '#fb7185', '#34d399', '#8888a8'];
+    var chart = new Chart(canvas.getContext('2d'), {
+      type: 'doughnut',
+      data: { labels: labels, datasets: [{ data: values, backgroundColor: palette, borderColor: '#131328', borderWidth: 2 }] },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'right', labels: { color: '#8888a8', boxWidth: 10, font: { size: 10 } } } }
+      }
+    });
+    CHARTS.push(chart);
+    return chart;
+  }
+
+  function liveSettingsHtml(live) {
+    var g = (live && live.global) || {};
+    var channels = (live && live.channels) || {};
+    var chHtml = CHANNEL_META.map(function (c) {
+      var row = channels[c.id] || {};
+      return '<div class="th-card th-ro">'
+        + '<div class="th-label">' + esc(c.label) + ' <span class="th-chip ' + esc(row.mode || 'view') + '">' + esc(row.mode || 'view') + '</span></div>'
+        + '<div class="th-form" style="grid-template-columns:1fr 1fr 1fr">'
+        + '<div><label>mode</label><input disabled value="' + esc(row.mode || 'view') + '"></div>'
+        + '<div><label>min daily</label><input disabled value="' + esc(row.min_daily_budget == null ? '' : row.min_daily_budget) + '" placeholder="none"></div>'
+        + '<div><label>max daily</label><input disabled value="' + esc(row.max_daily_budget == null ? '' : row.max_daily_budget) + '" placeholder="none"></div>'
+        + '</div>'
+        + (row.notes ? '<div class="th-muted">' + esc(row.notes) + '</div>' : '')
+        + (row.owner_bot ? '<div class="th-muted">Owner: ' + esc(row.owner_bot) + '</div>' : '')
+        + '</div>';
+    }).join('');
+    return { global: g, chHtml: chHtml };
   }
 
   function merVsLine(canvas, labels, mer, threshold) {
@@ -545,55 +673,96 @@
     return chart;
   }
 
+  function series28() {
+    return (LIVE.snapshot && LIVE.snapshot.series_28d) || null;
+  }
+
   function render() {
     var panel = ensureTab();
     if (!panel) return;
     injectCss();
     destroyCharts();
-    var settings = mergeSettings(LIVE.settings, WHATIF);
+    var liveSettings = LIVE.snapshot && LIVE.snapshot.settings ? normalizeSettings(LIVE.snapshot.settings) : LIVE.settings;
+    var settings = mergeSettings(liveSettings, WHATIF);
     var series = LIVE.series || { days: [] };
     var snap = LIVE.snapshot || {};
-    var days = series.days || [];
-    var last = latestDay(series);
+    var s28 = series28();
+    var blended = (s28 && s28.blended) || (series.days || []).map(function (d) {
+      return { date: d.date, blended_mer: d.blended_mer, d2c_ad_spend: d.d2c_ad_spend, total_ad_spend: d.total_ad_spend, shopify_revenue: d.shopify_d2c_revenue };
+    });
+    var last = blended.length ? blended[blended.length - 1] : latestDay(series);
     var recs = currentRecs();
     var threshold = num((settings.global || {}).roas_threshold) || 3;
-    var totalSpend = snap.total_ad_spend != null ? snap.total_ad_spend : (last ? last.total_ad_spend : 0);
-    var shop = snap.shopify_d2c_revenue != null ? snap.shopify_d2c_revenue : (last ? last.shopify_d2c_revenue : 0);
-    var mer = snap.blended_mer != null ? snap.blended_mer : (last ? last.blended_mer : null);
-    var merDelta = mer != null ? (num(mer) - threshold) : null;
+    var d2cSpend = snap.d2c_ad_spend != null ? snap.d2c_ad_spend : (last && last.d2c_ad_spend);
+    var totalSpend = snap.total_ad_spend != null ? snap.total_ad_spend : (last && last.total_ad_spend);
+    var shop = snap.shopify_d2c_revenue != null ? snap.shopify_d2c_revenue : (last && (last.shopify_revenue != null ? last.shopify_revenue : last.shopify_d2c_revenue));
+    var mer = snap.blended_mer != null ? snap.blended_mer : (last && last.blended_mer);
+    var merDelta = snap.blended_mer_vs_threshold != null ? snap.blended_mer_vs_threshold : (mer != null ? num(mer) - threshold : null);
     var g = settings.global || {};
-    var labels = days.map(function (d) { return d.date.slice(5); });
-    var merSeries = days.map(function (d) { return d.blended_mer == null ? null : num(d.blended_mer); });
+    var labels = blended.map(function (d) { return String(d.date || '').slice(5); });
+    var merSeries = blended.map(function (d) { return d.blended_mer == null ? null : num(d.blended_mer); });
+    var shareLabels = [];
+    var shareVals = [];
+    CHANNEL_META.forEach(function (c) {
+      var rows = (s28 && s28.by_channel && s28.by_channel[c.id]) || [];
+      var sum = 0;
+      rows.forEach(function (d) { if (d.spend != null) sum = round2(sum + num(d.spend)); });
+      shareLabels.push(c.label);
+      shareVals.push(sum);
+    });
+    var liveUi = liveSettingsHtml(liveSettings);
 
     panel.innerHTML = ''
       + '<div class="th-wrap">'
       + '<div class="th-title">Ad Channel Throttles</div>'
       + '<h2 class="th-h">Read-only channel controls</h2>'
-      + '<p class="th-sub">Snapshot <code>' + esc(SNAPSHOT_PATH) + '</code> (as_of ' + esc(snap.as_of || (last && last.date) || '—') + ') · settings <code>' + esc(SETTINGS_PATH) + '</code> · changes <code>' + esc(CHANGES_PATH) + '</code>. Missing attributed revenue / ROAS / daily budget = <span class="th-unverified">unverified</span> — not invented.</p>'
-      + '<div class="th-note">Live rules change only via Jarvis. '
-      + '<a class="th-btn" style="margin-left:8px" target="_blank" rel="noopener" href="' + esc(requestChangeUrl(LIVE.settings)) + '">Request change</a></div>'
+      + '<p class="th-sub">Snapshot <code>ad_channel_throttles</code> (as_of ' + esc(snap.as_of || '—') + ') · <code>throttle_settings</code> / <code>ads_throttle/settings.json</code> · <code>recent_changes</code>. Status fields with <span class="th-unverified">unverified</span> are not invented.</p>'
+      + '<div class="th-note">Live settings change only through Jarvis in chat. '
+      + '<a class="th-btn" style="margin-left:8px" target="_blank" rel="noopener" href="' + esc(requestChangeUrl(liveSettings)) + '">Request change</a></div>'
       + '<div class="th-kpis">'
-      + '<div class="th-card"><div class="th-label">Total ad spend</div><div class="th-val">' + usd(totalSpend) + '</div><div class="th-muted">' + esc(snap.as_of || (last && last.date) || '—') + ' · total_ad_spend (All ad spend)</div></div>'
-      + '<div class="th-card"><div class="th-label">Shopify D2C revenue</div><div class="th-val">' + usd(shop) + '</div><div class="th-muted">revenue_scope shopify_d2c</div></div>'
-      + '<div class="th-card"><div class="th-label">Blended MER vs 3.0</div><div class="th-val">' + merTxt(mer) + '</div><div class="th-muted">' + (merDelta == null ? 'no MER' : (merDelta >= 0 ? '+' : '') + merDelta.toFixed(2) + ' vs 3.0 reference') + ' · Shopify D2C ÷ D2C ad spend</div></div>'
+      + '<div class="th-card"><div class="th-label">D2C ad spend</div><div class="th-val">' + usd(d2cSpend) + '</div><div class="th-muted">d2c_ad_spend · vs Shopify D2C → blended MER</div></div>'
+      + '<div class="th-card"><div class="th-label">All ad spend</div><div class="th-val">' + usd(totalSpend) + '</div><div class="th-muted">total_ad_spend · company</div></div>'
+      + '<div class="th-card"><div class="th-label">Shopify D2C revenue</div><div class="th-val">' + usd(shop) + '</div><div class="th-muted">shopify_d2c_revenue · ' + esc(snap.as_of || '—') + '</div></div>'
+      + '<div class="th-card"><div class="th-label">Blended MER vs 3.0</div><div class="th-val">' + merTxt(mer) + '</div><div class="th-muted">' + (merDelta == null ? 'no MER' : (merDelta >= 0 ? '+' : '') + Number(merDelta).toFixed(2) + ' vs 3.0') + ' · blended_mer</div></div>'
       + '</div>'
-      + '<div class="th-card" style="margin-bottom:16px"><div class="th-label">Blended MER trend · 28d vs 3.0</div><div class="th-chart"><canvas id="th-mer-chart"></canvas></div></div>'
+      + '<div class="th-grid">'
+      + '<div class="th-card"><div class="th-label">Blended MER trend · 28d vs 3.0</div><div class="th-chart"><canvas id="th-mer-chart"></canvas></div></div>'
+      + '<div class="th-card"><div class="th-label">Budget share · 28d spend</div><div class="th-chart"><canvas id="th-share-chart"></canvas></div></div>'
+      + '</div>'
       + '<div class="th-title">Channels</div>'
       + '<div class="th-card th-scroll"><table class="th-table"><thead><tr>'
       + '<th>Channel</th><th>Daily budget</th><th>7d spend</th><th>Shopify rev</th><th>7d ROAS</th><th>3d trend</th><th>Destination</th><th>Rule</th><th>Last change / next</th><th>Owner bot</th><th>Strategy notes</th>'
       + '</tr></thead><tbody id="th-recs-body">'
       + recsTableHtml(recs, settings)
       + '</tbody></table></div>'
-      + '<div class="th-title" style="margin-top:20px">Settings · what-if</div>'
-      + '<p class="th-sub">These inputs recompute the recommended action in this browser only. They do not write <code>throttle_settings</code>. Live: threshold ' + esc(g.roas_threshold) + ', step ' + esc(g.step_pct) + '%, min spend $' + esc(g.min_spend_7d) + ', scale cooldown ' + esc(g.scale_cooldown_days) + 'd, cut cooldown ' + esc(g.cut_cooldown_days) + 'd. Meta frozen · Google/TikTok view only.</p>'
+      + '<div class="th-title" style="margin-top:20px">Per channel · 28d spend + ROAS</div>'
+      + '<div class="th-channels" id="th-channel-cards">'
+      + CHANNEL_META.map(function (c) {
+        var rec = recs.filter(function (r) { return r.channel === c.id; })[0];
+        return '<div class="th-card"><div class="th-label">' + esc(c.label) + ' <span class="th-chip ' + badgeClass(rec && rec.label) + '">' + esc((rec && rec.label) || '') + '</span></div>'
+          + '<div class="th-muted">series_28d.by_channel.' + esc(c.id) + ' · ROAS basis ' + esc(basisLabel(rec && rec.roas_basis)) + '</div>'
+          + '<div class="th-chart"><canvas id="th-ch-' + c.id + '"></canvas></div></div>';
+      }).join('')
+      + '</div>'
+      + '<div class="th-title">Live settings · read only</div>'
+      + '<div class="th-card"><div class="th-label">Global</div><div class="th-form">'
+      + '<div><label>threshold</label><input disabled value="' + esc(liveUi.global.roas_threshold) + '"></div>'
+      + '<div><label>step %</label><input disabled value="' + esc(liveUi.global.step_pct) + '"></div>'
+      + '<div><label>min spend 7d</label><input disabled value="' + esc(liveUi.global.min_spend_7d) + '"></div>'
+      + '<div><label>scale cooldown</label><input disabled value="' + esc(liveUi.global.scale_cooldown_days) + '"></div>'
+      + '<div><label>cut cooldown</label><input disabled value="' + esc(liveUi.global.cut_cooldown_days) + '"></div>'
+      + '</div>'
+      + '<div class="th-muted" style="margin-top:8px">Updated ' + esc((liveSettings && liveSettings.updated_at) || '—') + ' · ' + esc((liveSettings && liveSettings.updated_by) || '') + ' · roas_basis ' + esc(basisLabel(liveUi.global.roas_basis)) + '</div></div>'
+      + '<div class="th-channels">' + liveUi.chHtml + '</div>'
+      + '<div class="th-title">What-if · client-side only</div>'
+      + '<p class="th-sub">These inputs recompute the recommended action in this browser only. They do not write <code>throttle_settings</code>.</p>'
       + '<div class="th-card"><div class="th-form">'
       + '<div><label>Threshold</label><input data-th-g="roas_threshold" type="number" step="0.1" value="' + esc(g.roas_threshold) + '"></div>'
       + '<div><label>Step %</label><input data-th-g="step_pct" type="number" step="1" value="' + esc(g.step_pct) + '"></div>'
       + '<div><label>Min spend 7d</label><input data-th-g="min_spend_7d" type="number" step="1" value="' + esc(g.min_spend_7d) + '"></div>'
       + '<div><label>Scale cooldown (d)</label><input data-th-g="scale_cooldown_days" type="number" step="1" value="' + esc(g.scale_cooldown_days) + '"></div>'
       + '<div><label>Cut cooldown (d)</label><input data-th-g="cut_cooldown_days" type="number" step="1" value="' + esc(g.cut_cooldown_days) + '"></div>'
-      + '</div>'
-      + '<div class="th-muted" style="margin-top:10px">Updated ' + esc(settings.updated_at || '—') + ' · ' + esc(settings.updated_by || '') + ' · Live rules change only via Jarvis</div></div>'
+      + '</div></div>'
       + '<div class="th-title" style="margin-top:20px">Change log</div>'
       + '<div class="th-card th-scroll"><table class="th-table"><thead><tr><th>Date</th><th>Channel</th><th>ROAS</th><th>Spend</th><th>Action</th><th>Old → new budget</th></tr></thead><tbody>'
       + changeRows()
@@ -601,6 +770,18 @@
       + '</div>';
 
     merVsLine(document.getElementById('th-mer-chart'), labels, merSeries, threshold);
+    shareChart(document.getElementById('th-share-chart'), shareLabels, shareVals);
+    CHANNEL_META.forEach(function (c) {
+      var rows = (s28 && s28.by_channel && s28.by_channel[c.id]) || [];
+      var chLabels = rows.map(function (d) { return String(d.date || '').slice(5); });
+      var spend = rows.map(function (d) { return d.spend == null ? null : num(d.spend); });
+      var roas = rows.map(function (d) {
+        if (d.platform_roas != null && d.platform_status !== 'unverified') return num(d.platform_roas);
+        if (d.roas != null && d.roas_status !== 'unverified') return num(d.roas);
+        return null;
+      });
+      dualLine(document.getElementById('th-ch-' + c.id), chLabels.length ? chLabels : labels, spend, roas, threshold);
+    });
     bindWhatIf(panel);
   }
 
@@ -637,9 +818,10 @@
     ]).then(function (results) {
       var mer = results[5].status === 'fulfilled' ? results[5].value : null;
       LIVE.snapshot = results[0].status === 'fulfilled' ? results[0].value : pickMerBlock(mer, 'ad_channel_throttles');
-      var settings = results[1].status === 'fulfilled' ? results[1].value : null;
+      var settings = (LIVE.snapshot && LIVE.snapshot.settings) || null;
+      if (!settings && results[1].status === 'fulfilled') settings = results[1].value;
       if (!settings && results[2].status === 'fulfilled') settings = results[2].value;
-      if (!settings) settings = pickMerBlock(mer, 'throttle_settings');
+      if (!settings) settings = pickMerBlock(mer, 'throttle_settings') || (LIVE.snapshot && LIVE.snapshot.throttle_settings);
       LIVE.settings = normalizeSettings(settings);
       LIVE.changes = results[3].status === 'fulfilled' ? results[3].value : { entries: [] };
       LIVE.series = results[4].status === 'fulfilled' ? results[4].value : { days: [] };
@@ -663,8 +845,9 @@
     _setLive: function (settings, series, changes, snapshot) {
       LIVE.settings = normalizeSettings(settings || null);
       LIVE.series = series || { days: [] };
-      LIVE.changes = changes || { entries: [] };
+      LIVE.changes = changes != null ? changes : { entries: [] };
       LIVE.snapshot = snapshot || null;
+      WHATIF = { global: {}, channels: {} };
     }
   };
 

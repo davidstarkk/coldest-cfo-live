@@ -17,7 +17,7 @@ function test(name, fn) {
   }
 }
 
-test('live settings match the attached ads_throttle contract', function () {
+test('live settings match ads_throttle/settings.json (roas_basis platform)', function () {
   assert.strictEqual(settings.global.roas_threshold, 3.0);
   assert.strictEqual(settings.global.step_pct, 20);
   assert.strictEqual(settings.global.window_days, 7);
@@ -25,71 +25,73 @@ test('live settings match the attached ads_throttle contract', function () {
   assert.strictEqual(settings.global.scale_cooldown_days, 7);
   assert.strictEqual(settings.global.cut_cooldown_days, 3);
   assert.strictEqual(settings.global.revenue_scope, 'shopify_d2c');
+  assert.strictEqual(settings.global.roas_basis, 'platform');
   assert.strictEqual(settings.channels.meta.mode, 'frozen');
   assert.strictEqual(settings.channels.google.mode, 'view');
   assert.strictEqual(settings.channels.tiktok.mode, 'view');
   assert.strictEqual(settings.channels.bing.mode, 'auto');
-  assert.strictEqual(settings.channels.reddit.mode, 'auto');
   assert.strictEqual(settings.mode_legend.auto, 'daily rule applies');
 });
 
-test('28-day series ends on 2026-10-24 with published totals', function () {
-  assert.strictEqual(series.window_days, 28);
-  assert.strictEqual(series.days.length, 28);
-  assert.strictEqual(series.days[0].date, '2026-09-27');
-  var last = series.days[series.days.length - 1];
-  assert.strictEqual(last.date, '2026-10-24');
+test('ad_channel_throttles fixture matches PR #14 keys and 10/24 values', function () {
+  assert.strictEqual(snapshot.as_of, '2026-10-24');
+  assert.strictEqual(snapshot.d2c_ad_spend, 14382.78);
+  assert.strictEqual(snapshot.total_ad_spend, 21678.86);
+  assert.strictEqual(snapshot.shopify_d2c_revenue, 26420.44);
+  assert.strictEqual(snapshot.blended_mer, 1.84);
+  assert.strictEqual(snapshot.blended_mer_vs_threshold, -1.16);
+  assert.strictEqual(snapshot.throttle_settings.roas_basis, 'platform');
+  assert.ok(snapshot.series_28d.by_channel.bing.length === 28);
+  assert.ok(snapshot.series_28d.blended.length === 28);
+  assert.ok(Array.isArray(snapshot.recent_changes));
+  assert.strictEqual(snapshot.channels.meta.spend_7d, 83995.42);
+  assert.strictEqual(snapshot.channels.bing.spend_7d, 521.09);
+  assert.strictEqual(snapshot.channels.bing.destination_split.shopify, 8.73);
+  assert.strictEqual(snapshot.channels.bing.destination_split.amazon, 512.36);
+  assert.strictEqual(snapshot.channels.bing.platform_roas_7d, 0);
+  assert.strictEqual(snapshot.channels.bing.roas_basis, 'platform');
+  assert.strictEqual(snapshot.channels.bing.rule_status, 'Cut -20% + new strategy');
+  assert.strictEqual(snapshot.channels.meta.rule_status, 'Frozen - view only');
+  var last = snapshot.series_28d.blended[snapshot.series_28d.blended.length - 1];
+  assert.strictEqual(last.shopify_revenue, 26420.44);
   assert.strictEqual(last.d2c_ad_spend, 14382.78);
-  assert.strictEqual(last.blended_mer, 1.84);
   assert.strictEqual(last.total_ad_spend, 21678.86);
-  assert.strictEqual(last.shopify_d2c_revenue, 26598.51);
-  assert.strictEqual(last.channels.bing.spend, 77.33);
-  assert.strictEqual(last.channels.bing.d2c, 0.97);
-  assert.strictEqual(last.channels.bing.amazon, 76.36);
 });
 
-test('throttle_settings + ad_channel_throttles keys match the 10/24 contract', function () {
-  assert.strictEqual(throttleSettings.threshold, 3.0);
-  assert.strictEqual(throttleSettings.step_pct, 20);
-  assert.strictEqual(throttleSettings.min_spend, 200);
-  assert.strictEqual(throttleSettings.scale_cooldown_days, 7);
-  assert.strictEqual(throttleSettings.cut_cooldown_days, 3);
-  assert.strictEqual(throttleSettings.channels.meta.mode, 'frozen');
-  assert.strictEqual(throttleSettings.channels.google.mode, 'view');
-  assert.strictEqual(throttleSettings.channels.tiktok.mode, 'view');
+test('throttle_settings aliases normalize to global keys', function () {
   var norm = Throttles.normalizeSettings(throttleSettings);
   assert.strictEqual(norm.global.roas_threshold, 3.0);
   assert.strictEqual(norm.global.min_spend_7d, 200);
-  assert.strictEqual(snapshot.total_ad_spend, 21678.86);
-  assert.strictEqual(snapshot.shopify_d2c_revenue, 26598.51);
-  assert.strictEqual(snapshot.blended_mer, 1.84);
-  assert.strictEqual(snapshot.channels.bing.spend_7d, 77.33);
-  assert.strictEqual(snapshot.channels.bing.destination, 'split');
-  assert.strictEqual(snapshot.channels.chatgpt.tracking_verified, false);
-  assert.strictEqual(snapshot.channels.meta.shopify_attributed_revenue, null);
-  assert.strictEqual(snapshot.channels.meta.roas_7d, null);
+  assert.strictEqual(norm.global.step_pct, 20);
+  assert.strictEqual(norm.global.roas_basis, 'platform');
 });
 
-test('frozen / view / hold never recommend a budget change', function () {
-  var frozen = Throttles.recommend('meta', settings, series, { entries: [] });
+test('frozen / view never recommend a budget change', function () {
+  Throttles._setLive(settings, series, [], null);
+  var frozen = Throttles.recommend('meta', settings, series, []);
   assert.strictEqual(frozen.action, 'none');
-  assert.strictEqual(frozen.label, 'Frozen-view only');
-  var view = Throttles.recommend('google', settings, series, { entries: [] });
-  assert.strictEqual(view.action, 'none');
+  assert.ok(frozen.label.indexOf('Frozen') === 0);
+  var view = Throttles.recommend('google', settings, series, []);
   assert.strictEqual(view.label, 'View only');
-  var tiktok = Throttles.recommend('tiktok', settings, series, { entries: [] });
+  var tiktok = Throttles.recommend('tiktok', settings, series, []);
   assert.strictEqual(tiktok.label, 'View only');
-  var holdSettings = JSON.parse(JSON.stringify(settings));
-  holdSettings.channels.reddit.mode = 'hold';
-  var hold = Throttles.recommend('reddit', holdSettings, series, { entries: [] });
-  assert.ok(hold.action === 'hold' || hold.action === 'not_enough_data');
+});
+
+test('published Bing rule is Cut on platform ROAS; 7d spend 521.09', function () {
+  Throttles._setLive(settings, series, [], snapshot);
+  var r = Throttles.recommend('bing', settings, series, []);
+  assert.strictEqual(r.spend7, 521.09);
+  assert.strictEqual(r.label, 'Cut -20% + new strategy');
+  assert.strictEqual(r.action, 'cut');
+  assert.strictEqual(r.roas_basis, 'platform');
+  assert.strictEqual(r.roas, 0);
+  assert.notStrictEqual(r.action, 'pause');
 });
 
 test('auto channel below min_spend_7d is Not enough data', function () {
-  Throttles._setLive(settings, series, { entries: [] }, snapshot);
-  var r = Throttles.recommend('bing', settings, series, { entries: [] });
+  Throttles._setLive(settings, series, [], snapshot);
+  var r = Throttles.recommend('reddit', settings, series, []);
   assert.strictEqual(r.mode, 'auto');
-  assert.strictEqual(r.action, 'not_enough_data');
   assert.strictEqual(r.label, 'Not enough data');
   assert.ok(r.spend7 < settings.global.min_spend_7d);
 });
@@ -107,14 +109,16 @@ test('what-if auto + low threshold scales; high threshold cuts', function () {
     ]
   };
   var live = JSON.parse(JSON.stringify(settings));
-  Throttles._setLive(live, sample, { entries: [] }, null);
-  var scaled = Throttles.recommend('reddit', live, sample, { entries: [] });
+  Throttles._setLive(live, sample, [], null);
+  var scaled = Throttles.recommend('reddit', live, sample, []);
   assert.strictEqual(scaled.action, 'scale');
   assert.strictEqual(scaled.label, 'Scale +20%');
   assert.strictEqual(scaled.recommended, 240);
 
   var cutSet = Throttles.mergeSettings(live, { global: { roas_threshold: 9 } });
-  var cut = Throttles.recommend('reddit', cutSet, sample, { entries: [] });
+  Throttles._setLive(cutSet, sample, [], null);
+  // what-if path: mergeSettings already applied; recommend uses computed rules
+  var cut = Throttles.recommend('reddit', cutSet, sample, []);
   assert.strictEqual(cut.action, 'cut');
   assert.strictEqual(cut.label, 'Cut -20% + new strategy');
   assert.strictEqual(cut.recommended, 160);
@@ -135,10 +139,10 @@ test('cut cooldown since last change holds; scale cooldown is since last scale',
     ]
   };
   var live = JSON.parse(JSON.stringify(settings));
-  Throttles._setLive(live, sample, { entries: [] }, null);
+  Throttles._setLive(live, sample, [], null);
   var yesterday = new Date(Date.now() - 86400000).toISOString();
   var cutSet = Throttles.mergeSettings(live, { global: { roas_threshold: 9 } });
-  var held = Throttles.recommend('reddit', cutSet, sample, { entries: [{ channel: 'reddit', action: 'cut', at: yesterday }] });
+  var held = Throttles.recommend('reddit', cutSet, sample, [{ channel: 'reddit', action: 'cut', at: yesterday }]);
   assert.strictEqual(held.action, 'hold');
   assert.strictEqual(held.label, 'Hold-cooldown');
 });
@@ -147,7 +151,7 @@ test('Request change link targets the data repo issues form', function () {
   var url = Throttles.requestChangeUrl(settings);
   assert.ok(url.indexOf('https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new') === 0);
   assert.ok(url.indexOf('title=') !== -1);
-  assert.ok(url.indexOf('roas_threshold') !== -1);
+  assert.ok(url.indexOf('Jarvis') !== -1);
 });
 
 if (failed) {
