@@ -1,0 +1,74 @@
+{
+  "as_of": "2026-10-25",
+  "source": "throttle_settings",
+  "threshold": 3.0,
+  "step": 0.2,
+  "step_pct": 20,
+  "min_spend": 200,
+  "min_spend_7d": 200,
+  "scale_cooldown_days": 7,
+  "cut_cooldown_days": 3,
+  "window_days": 7,
+  "revenue_scope": "shopify_d2c",
+  "roas_basis": "platform",
+  "note": "Live settings change only through Jarvis in chat",
+  "updated_at": "2026-10-25T17:20:00-04:00",
+  "updated_by": "jarvis (David's rules, 10/25)",
+  "channels": {
+    "reddit": {
+      "mode": "auto",
+      "owner_bot": "reddit bot",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": ""
+    },
+    "snapchat": {
+      "mode": "auto",
+      "owner_bot": "snapchat ads bot",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "3 ad accounts"
+    },
+    "bing": {
+      "mode": "auto",
+      "owner_bot": "Bing Ads bot",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "main campaign sends to Amazon, not Shopify"
+    },
+    "chatgpt": {
+      "mode": "auto",
+      "owner_bot": "ads bot for chatgpt",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": ""
+    },
+    "meta": {
+      "mode": "frozen",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "Meta/Euka freeze since 9/27; view only until David lifts"
+    },
+    "google": {
+      "mode": "view",
+      "owner_bot": "Google \u00b7 Ads",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "sandbox kept separate"
+    },
+    "tiktok": {
+      "mode": "view",
+      "owner_bot": null,
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "Shopify share only"
+    }
+  },
+  "mode_legend": {
+    "auto": "daily rule applies",
+    "hold": "no changes, keep budget",
+    "frozen": "view only, no changes",
+    "view": "tracked only"
+  }
+}

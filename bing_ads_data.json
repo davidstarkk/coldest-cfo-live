@@ -1,0 +1,12 @@
+{
+  "as_of": null,
+  "source": "manual",
+  "status": "pre_launch",
+  "message": "Fallback file only. Live Bing numbers come from mer_for_manus.json → bing (destination split d2c vs amazon). Main campaign 'bing to amz tumbler listing 1' sends to Amazon, not Shopify. Do not invent daily numbers here.",
+  "spend": 0,
+  "clicks": 0,
+  "conversions": 0,
+  "revenue": 0,
+  "roas": null,
+  "daily": []
+}

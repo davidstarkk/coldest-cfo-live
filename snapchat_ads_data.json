@@ -1,0 +1,12 @@
+{
+  "as_of": null,
+  "source": "manual",
+  "status": "no_feed",
+  "message": "Snapchat Ads has no published feed yet. Daily spend is $0 until the data repo publishes advertising_sources.snapchat or a mer_for_manus.json snapchat block.",
+  "spend": 0,
+  "clicks": 0,
+  "conversions": 0,
+  "revenue": 0,
+  "roas": null,
+  "daily": []
+}
