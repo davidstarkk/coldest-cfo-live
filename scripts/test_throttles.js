@@ -311,7 +311,7 @@ test('example fixture sorts by tier then roas_7d and labels EXAMPLE DATA', funct
     channels: rankingExample.channels.slice().reverse()
   };
   var norm = Throttles.normalizeRankings(shuffled);
-  assert.deepStrictEqual(norm.channels.map(function (c) { return c.channel; }), ['meta', 'google', 'tiktok', 'bing', 'reddit']);
+  assert.deepStrictEqual(norm.channels.map(function (c) { return c.channel; }), ['meta', 'google', 'tiktok', 'bing', 'pinterest', 'reddit']);
   assert.strictEqual(norm.channels[0].tier, 'Lead');
   assert.strictEqual(norm.channels[1].tier, 'Steady');
   assert.strictEqual(norm.channels[2].tier, 'Steady');

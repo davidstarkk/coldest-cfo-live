@@ -1,0 +1,14 @@
+{
+  "as_of": null,
+  "source": "manual",
+  "status": "no_feed",
+  "message": "Pinterest Ads launched 2026-10-25 (account 549760871033). Daily spend is $0 until the data repo publishes mer_for_manus.json.pinterest or advertising_sources[date].pinterest_ads.",
+  "account_id": "549760871033",
+  "launch_date": "2026-10-25",
+  "spend": 0,
+  "clicks": 0,
+  "conversions": 0,
+  "revenue": 0,
+  "roas": null,
+  "daily": []
+}
