@@ -8,6 +8,7 @@
    mer_for_manus.json blocks, ad_channel_throttles.rankings). Reporting only.
    No credentials. Missing tracking_health = unknown — never invented.
    Missing rankings.json = empty copy, never invented.
+   Missing attribution / shopify_roas / coverage = — / unknown — never invented.
    ===================================================================== */
 (function (root) {
   'use strict';
@@ -38,13 +39,15 @@
   var HEALTH_PATH = 'ads_throttle/tracking_health.json';
   var RANKINGS_PATH = 'ads_throttle/rankings.json';
   var RANKINGS_EXAMPLE_PATH = 'scripts/fixtures/rankings_example.json';
+  var ATTRIBUTION_EXAMPLE_PATH = 'scripts/fixtures/attribution_example.json';
   var UNVERIFIED = 'unverified';
   var UNKNOWN = 'unknown';
   var HOLD_TRACKING_DOWN = 'Hold - tracking down';
   var EMPTY_RANKING_COPY = 'First ranking lands Mon 10/26 ~11:15 AM ET';
   var TIER_ORDER = { lead: 0, steady: 1, lagging: 2, 'not enough data': 3 };
+  var LIVE_RULE_NOTE = 'Live rule stays platform-reported per settings until David switches.';
 
-  var LIVE = { settings: null, changes: null, series: null, snapshot: null, health: null, rankings: null };
+  var LIVE = { settings: null, changes: null, series: null, snapshot: null, health: null, rankings: null, attribution: null, attributionExample: false };
   var WHATIF = { global: {}, channels: {} };
   var CHARTS = [];
 
@@ -201,14 +204,148 @@
     return Number.isFinite(n) ? n : null;
   }
 
-  function exampleRankingRequested() {
+  function exampleQueryFlag(name) {
     try {
       if (typeof location === 'undefined' || !location.search) return false;
-      var q = new URLSearchParams(location.search);
-      return q.get('ranking_example') === '1';
+      return new URLSearchParams(location.search).get(name) === '1';
     } catch (e) {
       return false;
     }
+  }
+
+  function exampleRankingRequested() {
+    return exampleQueryFlag('ranking_example');
+  }
+
+  function exampleAttributionRequested() {
+    return exampleQueryFlag('attribution_example');
+  }
+
+  function normalizeRoasSource(raw) {
+    if (raw == null || raw === '') return null;
+    var s = String(raw).trim().toLowerCase().replace(/[-\s]+/g, '_');
+    if (s === 'shopify_attributed' || s === 'shopify') return 'shopify_attributed';
+    if (s === 'platform_reported' || s === 'platform') return 'platform_reported';
+    return String(raw).trim();
+  }
+
+  function roasSourceLabel(src) {
+    if (src === 'shopify_attributed') return 'Shopify-attributed';
+    if (src === 'platform_reported') return 'platform-reported';
+    return src || null;
+  }
+
+  function displayCoveragePct(raw) {
+    var n = nullableNum(raw);
+    if (n == null) return null;
+    return Math.min(100, n);
+  }
+
+  function coverageChipClass(raw) {
+    var n = nullableNum(raw);
+    if (n == null) return 'cov-miss';
+    if (n >= 80) return 'cov-high';
+    if (n >= 50) return 'cov-mid';
+    return 'cov-low';
+  }
+
+  function coverageChipHtml(raw) {
+    var n = nullableNum(raw);
+    if (n == null) return '<span class="th-chip cov-miss">—</span>';
+    return '<span class="th-chip ' + coverageChipClass(n) + '">' + displayCoveragePct(n).toFixed(0) + '%</span>';
+  }
+
+  function dashOr(value, fmt) {
+    if (value == null || value === '') return '<span class="th-unknown">—</span>';
+    return fmt ? fmt(value) : esc(String(value));
+  }
+
+  function channelAttribution(id) {
+    var snap = snapshotChannel(id) || {};
+    return {
+      shopify_orders_7d: nullableNum(snap.shopify_orders_7d),
+      shopify_revenue_7d: nullableNum(snap.shopify_revenue_7d),
+      shopify_roas_7d: nullableNum(snap.shopify_roas_7d),
+      platform_roas_7d: nullableNum(snap.platform_roas_7d),
+      coverage_pct: nullableNum(snap.coverage_pct),
+      roas_source: normalizeRoasSource(snap.roas_source)
+    };
+  }
+
+  function normalizeAttribution(raw) {
+    if (!raw || typeof raw !== 'object') {
+      return {
+        as_of: null,
+        total_orders_7d: null,
+        attributed_paid_pct: null,
+        owned_pct: null,
+        unattributed_pct: null,
+        by_channel: {},
+        example: false,
+        empty: true
+      };
+    }
+    var by = {};
+    if (raw.by_channel && typeof raw.by_channel === 'object' && !Array.isArray(raw.by_channel)) {
+      Object.keys(raw.by_channel).forEach(function (id) {
+        by[id] = nullableNum(raw.by_channel[id]);
+      });
+    }
+    var attr = {
+      as_of: raw.as_of != null && raw.as_of !== '' ? String(raw.as_of) : null,
+      total_orders_7d: nullableNum(raw.total_orders_7d),
+      attributed_paid_pct: nullableNum(raw.attributed_paid_pct),
+      owned_pct: nullableNum(raw.owned_pct),
+      unattributed_pct: nullableNum(raw.unattributed_pct),
+      by_channel: by,
+      example: !!raw.example,
+      empty: false
+    };
+    attr.empty = attr.as_of == null
+      && attr.total_orders_7d == null
+      && attr.attributed_paid_pct == null
+      && attr.owned_pct == null
+      && attr.unattributed_pct == null
+      && !Object.keys(by).length;
+    return attr;
+  }
+
+  function applyAttributionExample(snapshot, fixture) {
+    var out = snapshot ? clone(snapshot) : { channels: {} };
+    out.channels = out.channels || {};
+    var srcCh = (fixture && fixture.channels) || {};
+    Object.keys(srcCh).forEach(function (id) {
+      out.channels[id] = Object.assign({}, out.channels[id] || {}, srcCh[id] || {});
+    });
+    if (fixture && fixture.attribution) {
+      out.attribution = Object.assign({ example: true }, fixture.attribution);
+    }
+    return out;
+  }
+
+  function attributionStackHtml(attr) {
+    var paid = attr && attr.attributed_paid_pct;
+    var owned = attr && attr.owned_pct;
+    var unattr = attr && attr.unattributed_pct;
+    if (paid == null && owned == null && unattr == null) {
+      return '<div class="th-muted">Share of Shopify orders: <span class="th-unknown">' + UNKNOWN + '</span></div>';
+    }
+    function seg(v, cls) {
+      if (v == null) return '';
+      var w = Math.max(0, Math.min(100, v));
+      return '<i class="' + cls + '" style="width:' + w.toFixed(1) + '%" title="' + w.toFixed(0) + '%"></i>';
+    }
+    function legend(label, v) {
+      return '<span>' + label + ' <strong>' + (v == null ? '—' : Number(v).toFixed(0) + '%') + '</strong></span>';
+    }
+    return '<div class="th-stack" aria-label="Paid-attributed vs Owned vs Unattributed">'
+      + seg(paid, 'paid') + seg(owned, 'owned') + seg(unattr, 'unattr')
+      + '</div>'
+      + '<div class="th-stack-legend">'
+      + legend('Paid-attributed', paid)
+      + legend('Owned', owned)
+      + legend('Unattributed', unattr)
+      + '</div>';
   }
 
   function asRankingWeeks(raw) {
@@ -700,6 +837,17 @@
       + '.th-chip.steady{background:rgba(59,130,246,.16);color:#93c5fd}'
       + '.th-chip.lagging{background:rgba(245,158,11,.18);color:#f59e0b}'
       + '.th-chip.rank-nodata{background:rgba(136,136,168,.15);color:#8888a8}'
+      + '.th-chip.cov-high{background:rgba(34,197,94,.18);color:#22c55e}'
+      + '.th-chip.cov-mid{background:rgba(245,158,11,.18);color:#f59e0b}'
+      + '.th-chip.cov-low{background:rgba(239,68,68,.2);color:#fb7185}'
+      + '.th-chip.cov-miss{background:rgba(136,136,168,.15);color:#8888a8}'
+      + '.th-stack{display:flex;height:14px;border-radius:999px;overflow:hidden;background:rgba(37,37,72,.9);margin:10px 0 8px}'
+      + '.th-stack>i{display:block;height:100%}'
+      + '.th-stack>i.paid{background:#00d4d4}'
+      + '.th-stack>i.owned{background:#3b82f6}'
+      + '.th-stack>i.unattr{background:#8888a8}'
+      + '.th-stack-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.75rem;color:#8888a8}'
+      + '.th-stack-legend strong{color:#e8e8f0;font-weight:700}'
       + '.th-example-banner{background:rgba(167,139,250,.14);border:1px dashed #a78bfa;color:#c4b5fd;border-radius:8px;padding:10px 12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:.78rem;margin:0 0 12px}'
       + '.th-empty-ranking{color:#8888a8;font-size:.9rem;padding:18px 16px}'
       + '.th-share-pair{min-width:180px}'
@@ -711,6 +859,7 @@
       + '.th-unknown{color:#8888a8;font-weight:600;font-size:.75rem}'
       + '.th-scroll{overflow-x:auto}'
       + '.th-table{width:100%;border-collapse:collapse;font-size:.78rem;min-width:1100px}'
+      + '.th-table.th-wide{min-width:1480px}'
       + '.th-table th{color:var(--text-dim,#5c5c7a);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--border,#252548);text-align:right;white-space:nowrap}'
       + '.th-table th:first-child,.th-table td:first-child{text-align:left}'
       + '.th-table td{padding:8px;border-bottom:1px solid var(--border,#252548);vertical-align:middle}'
@@ -788,9 +937,8 @@
       destNote = 'D2C ' + usd(split.shopify || 0) + ' / Amazon ' + usd(split.amazon || 0);
     }
     var budget = snap.daily_budget;
-    var rev = snap.shopify_revenue_7d != null ? snap.shopify_revenue_7d : snap.shopify_attributed_revenue;
-    var roasVal = snap.platform_roas_7d != null ? snap.platform_roas_7d : snap.roas_7d;
-    var roasStatus = snap.platform_roas_status || snap.roas_7d_status;
+    var attr = channelAttribution(c.id);
+    var rev = attr.shopify_revenue_7d != null ? attr.shopify_revenue_7d : snap.shopify_attributed_revenue;
     var trend = snap.trend_3d;
     if (!trend || !trend.length) {
       var days = lastN((LIVE.series && LIVE.series.days) || [], 3);
@@ -806,16 +954,19 @@
     if (c.id === 'bing' && (split.shopify != null || split.amazon != null)) {
       spendHtml += '<div class="th-muted">D2C ' + usd(split.shopify) + ' / Amazon ' + usd(split.amazon) + '</div>';
     }
-    var roasHtml = unverifiedOr(roasVal, merTxt, roasStatus);
-    if (roasStatus === 'verified' || (roasVal != null && roasStatus !== 'unverified')) {
-      roasHtml += '<div class="th-muted">' + esc(basisLabel(snap.roas_basis || rec.roas_basis)) + '</div>';
-    }
+    var shopRoasHtml = dashOr(attr.shopify_roas_7d, merTxt);
+    var platRoasHtml = dashOr(attr.platform_roas_7d, merTxt)
+      + (attr.platform_roas_7d != null ? '<div class="th-muted">platform-reported</div>' : '');
+    var ruleUses = roasSourceLabel(attr.roas_source);
     return '<tr>'
       + '<td>' + esc(c.label) + '</td>'
       + '<td class="mono">' + unverifiedOr(budget, usd, snap.daily_budget_status) + '</td>'
       + '<td class="mono">' + spendHtml + '</td>'
-      + '<td class="mono">' + unverifiedOr(rev, usd, snap.shopify_revenue_status) + '</td>'
-      + '<td class="mono">' + roasHtml + '</td>'
+      + '<td class="mono">' + (attr.shopify_revenue_7d != null ? usd(attr.shopify_revenue_7d) : unverifiedOr(rev, usd, snap.shopify_revenue_status)) + '</td>'
+      + '<td class="mono">' + shopRoasHtml + '</td>'
+      + '<td class="mono">' + platRoasHtml + '</td>'
+      + '<td>' + coverageChipHtml(attr.coverage_pct) + '</td>'
+      + '<td>' + (ruleUses ? esc(ruleUses) : '<span class="th-unknown">—</span>') + '</td>'
       + '<td>' + sparkSvg(trend) + '</td>'
       + '<td>' + esc(destLabel(dest)) + (destNote ? '<div class="th-muted">' + esc(destNote) + '</div>' : '') + '</td>'
       + '<td><span class="th-chip ' + badgeClass(rec.label) + '">' + esc(rec.label) + '</span></td>'
@@ -908,6 +1059,31 @@
       + 'ROAS is <strong>platform-reported</strong>. Missing file stays empty — never invented.</p>'
       + banner
       + body
+      + '</div>';
+  }
+
+  function attributionHtml() {
+    var attr = LIVE.attribution || normalizeAttribution(null);
+    var example = !!(LIVE.attributionExample || attr.example);
+    var banner = example
+      ? '<div class="th-example-banner" role="status">EXAMPLE DATA — test-only fixture, not published attribution</div>'
+      : '';
+    var asOf = attr.as_of ? esc(attr.as_of) : '<span class="th-unknown">' + UNKNOWN + '</span>';
+    var orders = attr.total_orders_7d != null
+      ? '<span class="mono">' + countTxt(attr.total_orders_7d) + '</span>'
+      : '<span class="th-unknown">' + UNKNOWN + '</span>';
+    return ''
+      + '<div id="th-attribution-coverage">'
+      + '<div class="th-title">Attribution coverage</div>'
+      + '<p class="th-sub">Share of Shopify orders from <code>ad_channel_throttles.attribution</code> (as_of ' + asOf + '). '
+      + 'Paid-attributed vs Owned vs Unattributed. Missing fields stay <span class="th-unknown">unknown</span> — never invented. '
+      + esc(LIVE_RULE_NOTE) + '</p>'
+      + banner
+      + '<div class="th-card">'
+      + '<div class="th-label">Shopify orders · 7d</div>'
+      + '<div class="th-val" style="font-size:1.05rem">' + orders + '</div>'
+      + attributionStackHtml(attr)
+      + '</div>'
       + '</div>';
   }
 
@@ -1133,12 +1309,19 @@
       + '</div>'
       + trackingHealthHtml()
       + rankingHtml()
+      + '<div id="th-shopify-attribution">'
+      + attributionHtml()
       + '<div class="th-title">Channels</div>'
-      + '<div class="th-card th-scroll"><table class="th-table"><thead><tr>'
-      + '<th>Channel</th><th>Daily budget</th><th>7d spend</th><th>Shopify rev</th><th>7d ROAS</th><th>3d trend</th><th>Destination</th><th>Rule</th><th>Last change / next</th><th>Owner bot</th><th>Strategy notes</th>'
+      + '<p class="th-sub">Shopify ROAS (7d), platform-reported ROAS (7d), coverage %, and Rule uses from <code>channels[ch]</code>. '
+      + esc(LIVE_RULE_NOTE) + '</p>'
+      + '<div class="th-card th-scroll"><table class="th-table th-wide"><thead><tr>'
+      + '<th>Channel</th><th>Daily budget</th><th>7d spend</th><th>Shopify rev</th>'
+      + '<th>Shopify ROAS (7d)</th><th>Platform ROAS (7d)</th><th>Coverage %</th><th>Rule uses</th>'
+      + '<th>3d trend</th><th>Destination</th><th>Rule</th><th>Last change / next</th><th>Owner bot</th><th>Strategy notes</th>'
       + '</tr></thead><tbody id="th-recs-body">'
       + recsTableHtml(recs, settings)
       + '</tbody></table></div>'
+      + '</div>'
       + '<div class="th-title" style="margin-top:20px">Per channel · 28d spend + ROAS</div>'
       + '<div class="th-channels" id="th-channel-cards">'
       + CHANNEL_META.map(function (c) {
@@ -1221,7 +1404,8 @@
       fetchJson('mer_for_manus.json'),
       fetchJson(HEALTH_PATH),
       fetchJson(RANKINGS_PATH),
-      exampleRankingRequested() ? fetchJson(RANKINGS_EXAMPLE_PATH) : Promise.reject(new Error('skip example'))
+      exampleRankingRequested() ? fetchJson(RANKINGS_EXAMPLE_PATH) : Promise.reject(new Error('skip ranking example')),
+      exampleAttributionRequested() ? fetchJson(ATTRIBUTION_EXAMPLE_PATH) : Promise.reject(new Error('skip attribution example'))
     ]).then(function (results) {
       var mer = results[5].status === 'fulfilled' ? results[5].value : null;
       LIVE.snapshot = results[0].status === 'fulfilled' ? results[0].value : pickMerBlock(mer, 'ad_channel_throttles');
@@ -1240,6 +1424,12 @@
       if (!rankings) rankings = results[7].status === 'fulfilled' ? results[7].value : null;
       if (!rankings && LIVE.snapshot) rankings = LIVE.snapshot.rankings || null;
       LIVE.rankings = normalizeRankings(rankings);
+      LIVE.attributionExample = false;
+      if (results[9] && results[9].status === 'fulfilled' && results[9].value) {
+        LIVE.snapshot = applyAttributionExample(LIVE.snapshot, results[9].value);
+        LIVE.attributionExample = true;
+      }
+      LIVE.attribution = normalizeAttribution(LIVE.snapshot && LIVE.snapshot.attribution);
       var panel = document.getElementById('tab-throttles');
       if (panel && panel.classList.contains('active')) render();
       openFromHash();
@@ -1277,7 +1467,21 @@
     EMPTY_RANKING_COPY: EMPTY_RANKING_COPY,
     RANKINGS_PATH: RANKINGS_PATH,
     RANKINGS_EXAMPLE_PATH: RANKINGS_EXAMPLE_PATH,
-    _setLive: function (settings, series, changes, snapshot, health, rankings) {
+    ATTRIBUTION_EXAMPLE_PATH: ATTRIBUTION_EXAMPLE_PATH,
+    LIVE_RULE_NOTE: LIVE_RULE_NOTE,
+    attributionHtml: attributionHtml,
+    channelsTableHtml: function () {
+      return recsTableHtml(currentRecs(), mergeSettings(LIVE.settings, WHATIF));
+    },
+    normalizeAttribution: normalizeAttribution,
+    applyAttributionExample: applyAttributionExample,
+    channelAttribution: channelAttribution,
+    coverageChipClass: coverageChipClass,
+    coverageChipHtml: coverageChipHtml,
+    displayCoveragePct: displayCoveragePct,
+    normalizeRoasSource: normalizeRoasSource,
+    roasSourceLabel: roasSourceLabel,
+    _setLive: function (settings, series, changes, snapshot, health, rankings, attributionExample) {
       LIVE.settings = normalizeSettings(settings || null);
       LIVE.series = series || { days: [] };
       LIVE.changes = changes != null ? changes : { entries: [] };
@@ -1285,6 +1489,12 @@
       LIVE.health = normalizeHealth(health != null ? health : (snapshot && snapshot.tracking_health));
       var rankSrc = rankings !== undefined ? rankings : (snapshot && snapshot.rankings);
       LIVE.rankings = normalizeRankings(rankSrc);
+      LIVE.attributionExample = false;
+      if (attributionExample) {
+        LIVE.snapshot = applyAttributionExample(LIVE.snapshot, attributionExample);
+        LIVE.attributionExample = true;
+      }
+      LIVE.attribution = normalizeAttribution(LIVE.snapshot && LIVE.snapshot.attribution);
       WHATIF = { global: {}, channels: {} };
     },
     _setWhatIf: function (whatif) {

@@ -7,6 +7,7 @@ var series = require('../ads_throttle/series.json');
 var throttleSettings = require('../throttle_settings.json');
 var snapshot = require('../ad_channel_throttles.json');
 var rankingExample = require('./fixtures/rankings_example.json');
+var attributionExample = require('./fixtures/attribution_example.json');
 var fs = require('fs');
 var path = require('path');
 
@@ -357,6 +358,96 @@ test('tier badges and wow/share stay blank when unpublished', function () {
   var html = Throttles.rankingHtml();
   assert.ok(html.indexOf('—') !== -1);
   assert.ok(html.indexOf('$0.00') === -1);
+});
+
+test('live snapshot has no attribution block — empty card, never invented', function () {
+  assert.strictEqual(snapshot.attribution, undefined);
+  assert.strictEqual(snapshot.channels.meta.shopify_roas_7d, undefined);
+  assert.strictEqual(snapshot.channels.meta.coverage_pct, undefined);
+  assert.strictEqual(snapshot.channels.meta.roas_source, undefined);
+  Throttles._setLive(settings, series, [], snapshot);
+  var attr = Throttles.normalizeAttribution(snapshot.attribution);
+  assert.strictEqual(attr.empty, true);
+  assert.strictEqual(attr.attributed_paid_pct, null);
+  var card = Throttles.attributionHtml();
+  assert.ok(card.indexOf('Attribution coverage') !== -1);
+  assert.ok(card.indexOf('unknown') !== -1);
+  assert.ok(card.indexOf('EXAMPLE DATA') === -1);
+  assert.ok(card.indexOf('55%') === -1);
+  var meta = Throttles.channelAttribution('meta');
+  assert.strictEqual(meta.shopify_roas_7d, null);
+  assert.strictEqual(meta.coverage_pct, null);
+  assert.strictEqual(meta.roas_source, null);
+  var rows = Throttles.channelsTableHtml();
+  assert.ok(rows.indexOf('>Shopify-attributed<') === -1);
+  assert.ok(rows.indexOf('th-chip cov-miss') !== -1);
+  assert.ok(rows.indexOf('th-chip cov-high') === -1);
+});
+
+test('example attribution overlays labels, chips, and 100% coverage cap', function () {
+  assert.strictEqual(attributionExample.example, true);
+  assert.strictEqual(attributionExample.label, 'EXAMPLE DATA');
+  assert.strictEqual(attributionExample.channels.reddit.coverage_pct, 110);
+  assert.strictEqual(attributionExample.channels.meta.roas_source, 'shopify_attributed');
+  assert.strictEqual(attributionExample.channels.google.roas_source, 'platform_reported');
+  assert.strictEqual(attributionExample.channels.bing.shopify_roas_7d, null);
+
+  var originalMetaRoas = snapshot.channels.meta.shopify_roas_7d;
+  Throttles._setLive(settings, series, [], snapshot, null, null, attributionExample);
+  assert.strictEqual(snapshot.channels.meta.shopify_roas_7d, originalMetaRoas);
+
+  assert.strictEqual(Throttles.displayCoveragePct(110), 100);
+  assert.strictEqual(Throttles.displayCoveragePct(null), null);
+  assert.strictEqual(Throttles.coverageChipClass(92), 'cov-high');
+  assert.strictEqual(Throttles.coverageChipClass(65), 'cov-mid');
+  assert.strictEqual(Throttles.coverageChipClass(50), 'cov-mid');
+  assert.strictEqual(Throttles.coverageChipClass(12), 'cov-low');
+  assert.strictEqual(Throttles.coverageChipClass(null), 'cov-miss');
+  assert.strictEqual(Throttles.roasSourceLabel('shopify_attributed'), 'Shopify-attributed');
+  assert.strictEqual(Throttles.roasSourceLabel('platform_reported'), 'platform-reported');
+  assert.strictEqual(Throttles.normalizeRoasSource(null), null);
+
+  var card = Throttles.attributionHtml();
+  assert.ok(card.indexOf('EXAMPLE DATA') !== -1);
+  assert.ok(card.indexOf('EXAMPLE-WEEK') !== -1);
+  assert.ok(card.indexOf('Paid-attributed') !== -1);
+  assert.ok(card.indexOf('55%') !== -1);
+  assert.ok(card.indexOf('Owned') !== -1);
+  assert.ok(card.indexOf('Unattributed') !== -1);
+  assert.ok(card.indexOf(Throttles.LIVE_RULE_NOTE) !== -1);
+
+  var meta = Throttles.channelAttribution('meta');
+  assert.strictEqual(meta.shopify_roas_7d, 4);
+  assert.strictEqual(meta.platform_roas_7d, 4.2);
+  assert.strictEqual(meta.coverage_pct, 92);
+  assert.strictEqual(meta.roas_source, 'shopify_attributed');
+  var reddit = Throttles.channelAttribution('reddit');
+  assert.strictEqual(reddit.coverage_pct, 110);
+  assert.ok(Throttles.coverageChipHtml(110).indexOf('100%') !== -1);
+  var snapchat = Throttles.channelAttribution('snapchat');
+  assert.strictEqual(snapchat.coverage_pct, null);
+  assert.strictEqual(snapchat.shopify_roas_7d, null);
+
+  var rows = Throttles.channelsTableHtml();
+  assert.ok(rows.indexOf('4.00x') !== -1);
+  assert.ok(rows.indexOf('4.20x') !== -1);
+  assert.ok(rows.indexOf('platform-reported') !== -1);
+  assert.ok(rows.indexOf('Shopify-attributed') !== -1);
+  assert.ok(rows.indexOf('th-chip cov-high') !== -1);
+  assert.ok(rows.indexOf('th-chip cov-mid') !== -1);
+  assert.ok(rows.indexOf('th-chip cov-low') !== -1);
+  assert.ok(rows.indexOf('th-chip cov-miss') !== -1);
+  assert.ok(rows.indexOf('100%') !== -1);
+  assert.ok(rows.indexOf('110%') === -1);
+});
+
+test('live throttle rule stays platform-reported even when example source is shopify_attributed', function () {
+  Throttles._setLive(settings, series, [], snapshot, null, null, attributionExample);
+  assert.strictEqual(settings.global.roas_basis, 'platform');
+  var r = Throttles.recommend('meta', settings, series, []);
+  assert.strictEqual(r.roas_basis, 'platform');
+  assert.strictEqual(r.label, 'Frozen - view only');
+  assert.notStrictEqual(r.roas_basis, 'shopify_attributed');
 });
 
 if (failed) {
