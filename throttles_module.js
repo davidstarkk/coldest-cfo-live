@@ -172,10 +172,11 @@
 
   function healthStatus(raw) {
     if (raw == null || raw === '') return UNKNOWN;
-    var s = String(raw).trim().toUpperCase();
+    var s = String(raw).trim().toUpperCase().replace(/[\s-]+/g, '_');
     if (s === 'OK') return 'OK';
     if (s === 'WARN' || s === 'WARNING') return 'WARN';
     if (s === 'DOWN') return 'DOWN';
+    if (s === 'NO_SPEND' || s === 'NOSPEND') return 'NO_SPEND';
     return UNKNOWN;
   }
 
@@ -548,8 +549,10 @@
 
   function formatEt(v) {
     if (v == null || v === '') return null;
-    var d = new Date(v);
-    if (!Number.isFinite(d.getTime())) return String(v);
+    var s = String(v);
+    if (!/^\d{4}-\d{2}-\d{2}T/.test(s) && !/Z$/.test(s) && !/[+-]\d{2}:\d{2}$/.test(s)) return s;
+    var d = new Date(s);
+    if (!Number.isFinite(d.getTime())) return s;
     try {
       var txt = d.toLocaleString('en-US', {
         timeZone: 'America/New_York',
@@ -903,6 +906,7 @@
       + '.th-chip.ok{background:rgba(34,197,94,.18);color:#22c55e}'
       + '.th-chip.warn{background:rgba(245,158,11,.18);color:#f59e0b}'
       + '.th-chip.down{background:rgba(239,68,68,.2);color:#ef4444}'
+      + '.th-chip.nospend{background:rgba(0,212,212,.14);color:#7dd3d3}'
       + '.th-chip.unknown{background:rgba(136,136,168,.15);color:#8888a8}'
       + '.th-chip.lead{background:rgba(34,197,94,.18);color:#22c55e}'
       + '.th-chip.steady{background:rgba(59,130,246,.16);color:#93c5fd}'
@@ -1067,6 +1071,7 @@
     if (status === 'OK') return 'ok';
     if (status === 'WARN') return 'warn';
     if (status === 'DOWN') return 'down';
+    if (status === 'NO_SPEND') return 'nospend';
     return 'unknown';
   }
 

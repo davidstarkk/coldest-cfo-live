@@ -1,0 +1,121 @@
+{
+  "as_of": "2026-10-26T08:30:00-04:00",
+  "shopify_orders_yesterday": 343,
+  "shopify_revenue_yesterday": 29712.09,
+  "shopify_orders_7d_avg": 473.4,
+  "shopify_note": "Shopify total_sales, all channels, 10/25 ET. 7d avg is 10/18-10/24. Yesterday is down 27.5% vs that average.",
+  "channels": {
+    "meta": {
+      "status": "OK",
+      "last_checkout_event": "2026-10-26 (10 InitiateCheckout so far today)",
+      "last_purchase_event": "2026-10-26 (24 purchases so far today); pixel last_fired_time 2026-10-25 19:59 ET (lagging API field)",
+      "purchases_24h": 286,
+      "purchases_7d_avg": 374.6,
+      "notes": "Pixel 562761383897004 available. Yesterday was 286 purchases and 122 checkouts on $10,580 spend, down 24% vs the 7d avg, in line with Shopify. EMQ is 9.2 for Purchase (99% CAPI coverage) and 8.4 for InitiateCheckout (94%). No duplicate event names. Platform-reported."
+    },
+    "google": {
+      "status": "WARN",
+      "last_checkout_event": "2026-10-26 (begin checkout recorded today)",
+      "last_purchase_event": "2026-10-26 (4 primary purchases so far today)",
+      "purchases_24h": 36.5,
+      "purchases_7d_avg": 96.5,
+      "notes": "Primary 'Google Shopping App Purchase' was 36.5 on 10/25, 62% below its 7d avg, while Shopify was down only 28%. Spend held flat at about $2.0k/day, so platform ROAS fell from about 7.4x on 10/18 to 1.7x on 10/25. All conversion actions are enabled and still recording, including GA4 purchase, Elevar server-side and enhanced. The GA4 purchase import fell only 31 vs 43 avg, roughly matching Shopify. Shopping App page views also halved on the same spend. That points to either the Google & YouTube app tag under-firing or a real traffic or quality drop, plus some click-date lag on the latest days. Not a hard outage. Owner: Google \u00b7 Ads."
+    },
+    "bing": {
+      "status": "OK",
+      "last_checkout_event": null,
+      "last_purchase_event": "2026-10-26 (5 conversions, $467.90, Brand Search)",
+      "purchases_24h": 5,
+      "purchases_7d_avg": null,
+      "notes": "UET tag 134596770 is Active. The goal 'Grok Bot | Purchase (UET event, revenue)' is Active and RecordingConversions. The Shopify campaigns only started 10/25, so there's no 7d baseline yet. No begin-checkout goal is active (the old ones are paused), so checkout events aren't tracked. The legacy 'ShopifyImport' tag 211021853 is inactive, but no active goal uses it. The 'bing to amz tumbler listing 1' campaign (about $70/day) sends to Amazon and isn't tracked by design."
+    },
+    "reddit": {
+      "status": "NO_SPEND",
+      "last_checkout_event": null,
+      "last_purchase_event": null,
+      "purchases_24h": 0,
+      "purchases_7d_avg": 0,
+      "notes": "No spend or delivery in the last 30 days on account a2_j3pu0ku22iae, so it wasn't judged. Pixel a2_j3pu0ku22iae exists. Event activity isn't readable via the API without spend."
+    },
+    "snapchat": {
+      "status": "OK",
+      "last_checkout_event": "2026-10-26 (44 START_CHECKOUT so far today, PT day)",
+      "last_purchase_event": "2026-10-26 (52 PURCHASE so far today)",
+      "purchases_24h": 523,
+      "purchases_7d_avg": 661.7,
+      "notes": "Counts are site-wide pixel events on Coldest Snap Pixel 8cf7328d, not ad-attributed: 523 PURCHASE and 410 START_CHECKOUT on 10/25, down 21% vs avg, in line with Shopify. Both pixels are ACTIVE and CAPI is sending. Spend started 10/25 ($71.92 on The Coldest Water Self Service). The other 2 accounts had $0 spend over 7d. Snap flags low PII coverage and multiple pixels firing on the same page as quality items."
+    },
+    "chatgpt": {
+      "status": "NO_SPEND",
+      "last_checkout_event": null,
+      "last_purchase_event": null,
+      "purchases_24h": 0,
+      "purchases_7d_avg": 0,
+      "notes": "No spend from 10/18 to 10/25. CGPT Q4 Gifting started delivering 10/26 (1,575 impressions, 7 clicks, $0 reported so far). The Coldest Pixel source is receiving page_viewed and contents_viewed events (latest 08:25 ET today). checkout_started and order_created settings exist, but zero attributed conversions in 9 days. Receipt of checkout and purchase events isn't confirmed yet, so re-check once spend accrues."
+    },
+    "pinterest": {
+      "status": "OK",
+      "last_checkout_event": null,
+      "last_purchase_event": null,
+      "purchases_24h": 0,
+      "purchases_7d_avg": null,
+      "notes": "Launched 10/25. Tag 2613877824208 is ACTIVE and last fired at 08:26 ET today. Spend is $23.18 and 5 clicks so far, with 0 checkouts or conversions yet, which is expected at this volume. Known gap: Conversions API and enhanced match aren't on, and EQS reads NEEDS_IMPROVEMENT. The EQS 14-day tag data only lists search events, so checkout and purchase events firing on the tag isn't verified yet. The Pinterest Ads bot should confirm."
+    }
+  },
+  "purchase_audit_2026-10-26": {
+    "as_of": "2026-10-26T11:35:00-04:00",
+    "read_only": true,
+    "method": "Platform-reported (labeled) vs Shopify ShopifyQL order_utm_source/medium/campaign (last-visit UTM) and order_referrer_name, 10/19-10/26 ET. No changes made anywhere.",
+    "shopify_utm_7d_orders": {
+      "facebook_paid+paid_social": 918,
+      "google_product_sync(organic)": 58,
+      "google_cpc": 1,
+      "bing_cpc": 6,
+      "tiktok_paid": 12,
+      "chatgpt.com_feed(organic catalog)": 2,
+      "pinterest": 0,
+      "snapchat": 0,
+      "reddit": 0,
+      "no_utm": 2065
+    },
+    "channels": {
+      "pinterest": {
+        "verdict": "NOT VERIFIED",
+        "evidence": "Tag 2613877824208 ACTIVE, last fired 11:30 ET 10/26; ingestion source TAG only (no CAPI, AEM all off). EQS 14d lists ONLY search events; ocpm_eligible list empty. Since launch (platform-reported, 30d click/1d view): $41.30 spend, 2,911 imps, 8 clicks, 1 PAGE_VISIT conversion, 0 add-to-cart, 0 checkout. Shopify: 0 orders/sessions with utm_source=pinterest or referrer pinterest. All 21 C2 ads carry utm_source=pinterest&utm_medium=paid_social. All 4 ad groups (C2 AG-A/AG-B, C1 catalog + retargeting) optimize for CHECKOUT on a tag with no observed checkout event. C1 catalog campaign 626760146994 now RUNNING (ad groups created 10/26 ~9:04 ET) though settings.json says paused.",
+        "double_count": "None possible today (single TAG source, no Simprosys/Elevar/CAPI source visible on the Pinterest side). Risk when CAPI is added: needs event_id = order id shared with tag.",
+        "fix": "Do a test order (or Pinterest Tag Helper on thank-you page) to confirm a 'checkout' event with value+order_id fires from tag 2613877824208; then enable CAPI via the Pinterest Shopify app OR Elevar (one, not both) with event_id dedup, and turn on AEM. Needs David (Pinterest/Shopify app UI)."
+      },
+      "chatgpt": {
+        "verdict": "OK (purchase) / UNDER-COUNT risk",
+        "evidence": "Conversion source 'Coldest Pixel' (pixel 1qvsf29tHx2PjNZFPJKLDL) receiving server_to_server page_viewed/contents_viewed/items_added plus pixel_sdk init, live at 11:31 ET. Settings: order_created (30d click, 0 view) on all 10 campaigns; checkout_started only on 'Coldest Use Cases'. Channel bot: 2 order_created matched Shopify #798975/#798976, 1 checkout_started seen. Platform-reported 10/19-10/26: 0 attributed conversions; spend $27.35 / 11 clicks on 10/26 only. Shopify: 0 paid ChatGPT orders; 2 orders utm chatgpt.com/feed/openai_catalog (organic catalog, incl. $25.43 on 10/25). ChatGPT ad landing URLs have NO UTMs (bare product URLs).",
+        "double_count": "items_added arrives in near-identical pairs ~0.9s apart (Paracord Handle x2 twice) with no visible event_id - possible duplicate sender for ATC; not seen on order_created. Low confidence.",
+        "fix": "Add utm_source=chatgpt&utm_medium=cpc&utm_campaign={campaign} to ad URLs so Shopify can verify (ad edit - needs David's OK, sends ads back to review). Tapcart app orders (#798977) don't fire the pixel - accept or add server-side order_created from Shopify webhook."
+      },
+      "meta": {
+        "verdict": "OK",
+        "evidence": "Platform-reported purchases 10/23 381 ($31,331), 10/24 242 ($19,324), 10/25 286 ($24,263; 1d_click 150, 7d_click 215, 1d_view 73), 10/26 41 so far. Shopify last-click facebook UTM orders: ~152 / ~123 / ~65 / ~19. Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.1%, no duplicate event-name groups. 10/25 Meta claims 83% of all 343 Shopify orders - generous attribution (view + 7d click), not duplicate events.",
+        "fix": "None for tracking. Judge Meta on 7d_click (215) or 1d_click when comparing channels."
+      },
+      "google": {
+        "verdict": "OK",
+        "evidence": "Only 1 primary purchase action: 'Google Shopping App Purchase' (578 all_conv 10/19-10/25). 10 other purchase actions enabled as secondary (Elevar server-side, Elevar enhanced x3, GA4, legacy 'Purchase' webpage 754) - not in Conversions, but All conversions totals ~3,600 (~6x). Shopify: google referrer 312 orders 7d (incl. organic), google cpc UTM 1.",
+        "fix": "None required. Never report all_conversions. Optional cleanup: remove legacy 'Purchase' webpage tag/old UA action (Google bot, needs David's OK)."
+      },
+      "bing": {
+        "verdict": "DOUBLE-COUNT (fix in progress)",
+        "evidence": "Shopify UTM now confirms: 10/26 utm bing/cpc campaign 607657866 = 2 orders $139.64 (#798906 $83.58, #798912 $56.06), both counted twice by Bing. #798929 ($188.62) last-click is brevo/sms Welcome-Subscribers, so Bing's 5 conv/$467.90 = 2 real Bing-click orders $139.64 + 1 assisted order. 7d Shopify bing/cpc 6 orders $440.41.",
+        "fix": "Pause GTM tag 250 (David approved; in progress). Re-check 10/27 that Bing conv = Shopify bing/cpc orders."
+      },
+      "snapchat": {
+        "verdict": "DOUBLE-COUNT (site pixel) / attribution NOT VERIFIED",
+        "evidence": "Site-wide pixel 523 PURCHASE vs 343 Shopify orders on 10/25 (1.52x). Channel bot: 2 attributed purchases $200.55, both view-through Tapcart orders, 0 swipe purchases. Shopify: 0 orders with utm_source=snapchat or snapchat referrer in 7d.",
+        "fix": "Pause GTM tags 71-78 (approved, in progress); keep one Snap CAPI source with event_id=order id; confirm Snap ad URLs carry UTMs. Builder diagnosing."
+      },
+      "reddit": {
+        "verdict": "NOT VERIFIED",
+        "evidence": "Pixel a2_j3pu0ku22iae exists (created 6/1). No spend; event activity not readable via API. June: 102 of 105 purchases view-through. Shopify: 0 reddit UTM/referrer orders 7d.",
+        "fix": "Before go-live, place a test order and confirm Purchase in Reddit Events Manager with conversion_id = order id (pixel + CAPI dedup); confirm UTMs on ad URLs. Needs David (Reddit UI) at launch."
+      }
+    }
+  }
+}
