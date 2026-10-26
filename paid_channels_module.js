@@ -207,7 +207,38 @@
     if (node === undefined) return null;
     var amt = publishedAmount(node, ['spend', 'daily_spend', 'ad_spend', 'amount']);
     if (!amt.published) return emptyDay(date);
-    return nodeToDay(date, typeof node === 'object' ? node : { spend: amt.value }, 'channel_ad_spend');
+    var rich = null;
+    var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
+    if (src) {
+      var picked = pickSourceNode(src, ch);
+      if (picked && !isPlaceholderNode(picked.node)) rich = picked.node;
+    }
+    if (!rich) {
+      var merB = (ch && ((FEEDS[ch.id] && FEEDS[ch.id].mer && FEEDS[ch.id].mer[ch.merKey]) || (MER_DOC && MER_DOC[ch.merKey]))) || null;
+      if (merB && !isPlaceholderNode(merB)) {
+        var by = merB.by_date || merB.by_day;
+        if (by && by[date] && !isPlaceholderNode(by[date])) rich = by[date];
+        else {
+          var snap = snapshotFromBlock(merB, 'mer_for_manus.json#' + (ch.merKey || ch.id));
+          if (snap && snap.date === date) rich = merB;
+        }
+      }
+    }
+    var base = (typeof node === 'object') ? node : (rich && typeof rich === 'object' ? rich : { spend: amt.value });
+    var day = nodeToDay(date, base, 'channel_ad_spend');
+    day.spend = round2(amt.value);
+    day.hasFeed = true;
+    if (typeof node !== 'object' && rich && typeof rich === 'object') {
+      if (rich.clicks != null) { day.clicks = num(rich.clicks); day.hasClicks = true; }
+      if (hasDestinationFields(rich)) {
+        var split = destinationSplit(rich);
+        day.d2c = split.d2c;
+        day.amazon = split.amazon;
+        day.other = split.other;
+        if (split.destination) day.destination = split.destination;
+      }
+    }
+    return day;
   }
 
   function mergeOverlayRows(rows) {

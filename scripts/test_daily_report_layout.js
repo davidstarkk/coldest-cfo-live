@@ -106,6 +106,32 @@ test('channel_ad_spend on the PARTIAL row wins; absent keys fall through; null i
   delete globalThis.PARTIAL_REPORTS;
 });
 
+test('scalar channel_ad_spend keeps mer clicks and Bing D2C split', function () {
+  globalThis.PARTIAL_REPORTS = [{
+    date: '2026-10-25',
+    channel_ad_spend: { bing: 130.3 }
+  }];
+  Paid._setMerDoc({
+    as_of: '2026-10-25',
+    advertising_sources: {
+      '2026-10-25': {
+        bing_ads: { spend: 130.3, clicks: 243, spend_d2c: 60.56, spend_amazon: 69.74, destination: 'mixed' }
+      }
+    }
+  });
+  var bing = Paid.dayForDisplay({
+    id: 'bing',
+    merKey: 'bing',
+    sourceKeys: ['bing', 'bing_ads', 'microsoft_ads']
+  }, '2026-10-25');
+  assert.strictEqual(Paid.spendTxt(bing), '$130.30');
+  assert.strictEqual(bing.hasClicks, true);
+  assert.strictEqual(bing.clicks, 243);
+  assert.strictEqual(bing.d2c, 60.56);
+  assert.strictEqual(bing.amazon, 69.74);
+  delete globalThis.PARTIAL_REPORTS;
+});
+
 test('hydratePartialFromMer adds a 10/25 card from mer.as_of without inventing spend', function () {
   globalThis.PARTIAL_REPORTS = [{ date: '2026-10-24', channel_observations: {} }];
   var mer = {
