@@ -149,8 +149,8 @@ test('example Pinterest fixture overlays Learning row, dates, ranking, and WARN 
   var rows = Throttles.channelsTableHtml();
   assert.ok(rows.indexOf('EXAMPLE DATA') !== -1);
   assert.ok(rows.indexOf('Learning, first read 11/01') !== -1);
-  assert.ok(rows.indexOf('2026-10-26') !== -1);
   assert.ok(rows.indexOf('2026-11-01') !== -1);
+  assert.ok(rows.indexOf('2026-11-09') !== -1);
   assert.ok(rows.indexOf('1.71x') !== -1);
   assert.ok(rows.indexOf(Throttles.PINTEREST_ROAS_WINDOW) !== -1);
   assert.ok(rows.indexOf('th-chip cov-low') !== -1);
