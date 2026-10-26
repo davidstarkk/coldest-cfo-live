@@ -248,8 +248,42 @@ test('Request change link targets the data repo issues form', function () {
   assert.ok(url.indexOf('Jarvis') !== -1);
 });
 
-test('live rankings.json is not shipped — missing file is empty, never invented', function () {
-  assert.strictEqual(fs.existsSync(path.join(__dirname, '..', 'ads_throttle', 'rankings.json')), false);
+test('RANKINGS_PATH ships the 10/26 weekly ranking (platform-reported ROAS 7d 10/19–10/25)', function () {
+  assert.strictEqual(Throttles.RANKINGS_PATH, 'ads_throttle/rankings.json');
+  var livePath = path.join(__dirname, '..', Throttles.RANKINGS_PATH);
+  assert.strictEqual(fs.existsSync(livePath), true);
+  var weeks = require('../ads_throttle/rankings.json');
+  assert.strictEqual(weeks[0].date, '2026-10-26');
+  assert.strictEqual(weeks[0].windows['7d'], '2026-10-19..2026-10-25');
+  var week = Throttles.normalizeRankings(weeks);
+  assert.strictEqual(week.empty, false);
+  assert.strictEqual(week.example, false);
+  assert.strictEqual(week.date, '2026-10-26');
+  assert.strictEqual(week.channels[0].channel, 'google');
+  assert.strictEqual(week.channels[0].tier, 'Steady');
+  assert.strictEqual(week.channels[0].roas_7d, 3.34);
+  assert.strictEqual(week.channels[0].spend_7d, 14285.74);
+  assert.strictEqual(week.channels[1].channel, 'meta');
+  assert.strictEqual(week.channels[1].tier, 'Lagging');
+  assert.strictEqual(week.channels[1].roas_7d, 2.42);
+  Throttles._setLive(settings, series, [], snapshot, null, weeks);
+  var html = Throttles.rankingHtml();
+  assert.ok(html.indexOf('Channel ranking') !== -1);
+  assert.ok(html.indexOf('2026-10-26') !== -1);
+  assert.ok(html.indexOf('3.34x') !== -1);
+  assert.ok(html.indexOf('2.42x') !== -1);
+  assert.ok(html.indexOf('$14,285.74') !== -1);
+  assert.ok(html.indexOf('$85,923.65') !== -1);
+  assert.ok(html.indexOf('platform-reported') !== -1);
+  assert.ok(html.indexOf('EXAMPLE DATA') === -1);
+  assert.ok(html.indexOf(Throttles.EMPTY_RANKING_COPY) === -1);
+  assert.strictEqual(week.share_is_percent, true);
+  assert.ok(html.indexOf('14.2%') !== -1);
+  assert.ok(html.indexOf('85.6%') !== -1);
+  assert.ok(html.indexOf('7.0%') === -1);
+});
+
+test('missing rankings payload stays empty — never invented', function () {
   Throttles._setLive(settings, series, [], snapshot, null, null);
   var empty = Throttles.normalizeRankings(null);
   assert.strictEqual(empty.empty, true);
@@ -258,9 +292,28 @@ test('live rankings.json is not shipped — missing file is empty, never invente
   var html = Throttles.rankingHtml();
   assert.ok(html.indexOf('Channel ranking') !== -1);
   assert.ok(html.indexOf(Throttles.EMPTY_RANKING_COPY) !== -1);
-  assert.ok(html.indexOf('First ranking lands Mon 10/26 ~11:15 AM ET') !== -1);
   assert.ok(html.indexOf('EXAMPLE DATA') === -1);
   assert.ok(html.indexOf('4.20x') === -1);
+});
+
+test('Tracking Health reads HEALTH_PATH; missing file is unknown, never DOWN; AppLovin is a row', function () {
+  assert.strictEqual(Throttles.HEALTH_PATH, 'ads_throttle/tracking_health.json');
+  assert.strictEqual(fs.existsSync(path.join(__dirname, '..', Throttles.HEALTH_PATH)), false);
+  var ids = Throttles.HEALTH_CHANNELS.map(function (c) { return c.id; });
+  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'tiktok']);
+  assert.ok(Throttles.CHANNEL_META.some(function (c) { return c.id === 'applovin'; }));
+  Throttles._setLive(settings, series, [], snapshot, null, null);
+  assert.strictEqual(Throttles.channelHealth('applovin').status, 'unknown');
+  assert.strictEqual(Throttles.channelHealth('pinterest').status, 'unknown');
+  assert.strictEqual(Throttles.channelHealth('meta').status, 'unknown');
+  assert.notStrictEqual(Throttles.channelHealth('applovin').status, 'DOWN');
+  var html = Throttles.trackingHealthHtml();
+  assert.ok(html.indexOf('Tracking health') !== -1);
+  assert.ok(html.indexOf('ads_throttle/tracking_health.json') !== -1);
+  assert.ok(html.indexOf('AppLovin') !== -1);
+  assert.ok(html.indexOf('Pinterest') !== -1);
+  assert.ok(html.indexOf('unknown') !== -1);
+  assert.ok(html.indexOf('>DOWN<') === -1);
 });
 
 test('empty channels / empty object do not invent a ranking week', function () {

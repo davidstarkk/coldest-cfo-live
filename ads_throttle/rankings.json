@@ -1,0 +1,138 @@
+[
+ {
+  "date": "2026-10-26",
+  "windows": {
+   "7d": "2026-10-19..2026-10-25",
+   "prior_7d": "2026-10-12..2026-10-18",
+   "28d": "2026-09-28..2026-10-25"
+  },
+  "definitions": {
+   "wow_change": "% change in platform-reported 7d ROAS vs prior 7d",
+   "spend_share": "% of total known D2C ad spend (TikTok spend missing, excluded)",
+   "revenue_share": "% of total platform-reported revenue",
+   "tiers": "Lead = ROAS>=3 and holding/improving; Steady = ROAS>=3 but declining or tracking WARN; Lagging = ROAS<3; not enough data = <$200/7d or tracking DOWN/no spend"
+  },
+  "totals": {
+   "d2c_spend_7d": 100348.45,
+   "platform_revenue_7d": 255882.38
+  },
+  "channels": [
+   {
+    "channel": "google",
+    "roas_7d": 3.34,
+    "roas_28d": 6.62,
+    "spend_7d": 14285.74,
+    "wow_change": -49.9,
+    "spend_share": 14.24,
+    "revenue_share": 18.63,
+    "tier": "Steady",
+    "tracking": "WARN",
+    "roas_source": "platform-reported",
+    "rank": 1,
+    "wow_spend_change_pct": 56.3,
+    "notes": "Primary 'Google Shopping App Purchase' under-reporting ~62% on 10/25; ROAS likely understated. Spend +56% WoW."
+   },
+   {
+    "channel": "meta",
+    "roas_7d": 2.42,
+    "roas_28d": 2.75,
+    "spend_7d": 85923.65,
+    "wow_change": -17.7,
+    "spend_share": 85.63,
+    "revenue_share": 81.37,
+    "tier": "Lagging",
+    "tracking": "OK",
+    "roas_source": "platform-reported",
+    "rank": 2,
+    "wow_spend_change_pct": 50.2,
+    "notes": "Frozen (view only). Spend +50% WoW incl. Drive-Thru launch 10/16 and new Grokbot campaigns 10/19."
+   },
+   {
+    "channel": "bing",
+    "roas_7d": 0.0,
+    "roas_28d": 0.0,
+    "spend_7d": 67.14,
+    "wow_change": null,
+    "spend_share": 0.07,
+    "revenue_share": 0.0,
+    "tier": "not enough data",
+    "tracking": "OK",
+    "roas_source": "platform-reported",
+    "rank": null,
+    "wow_spend_change_pct": null,
+    "notes": "Shopify-destination campaigns only ($67.14 10/19-10/25, $0 rev; Grok Bot campaigns live 10/25). 10/26 partial: Brand Search 5 conv / $467.90 on $5.12. Amazon campaign 'bing to amz tumbler listing 1' ($514.16 7d) excluded. Under $200 min."
+   },
+   {
+    "channel": "snapchat",
+    "roas_7d": 0.0,
+    "roas_28d": null,
+    "spend_7d": 71.92,
+    "wow_change": null,
+    "spend_share": 0.07,
+    "revenue_share": 0.0,
+    "tier": "not enough data",
+    "tracking": "OK",
+    "roas_source": "platform-reported",
+    "rank": null,
+    "wow_spend_change_pct": null,
+    "notes": "Launched 10/25 ($71.92, 0 purchases). Through 10/26 11AM ET: $183.66 spend, 2 purchases, $200.55 (1.09x). Under $200 min; stats not final."
+   },
+   {
+    "channel": "pinterest",
+    "roas_7d": null,
+    "roas_28d": null,
+    "spend_7d": 0.0,
+    "wow_change": null,
+    "spend_share": 0.0,
+    "revenue_share": 0.0,
+    "tier": "not enough data (ramping)",
+    "tracking": "OK (checkout/purchase not verified)",
+    "roas_source": "platform-reported",
+    "rank": null,
+    "notes": "Launched 10/25 evening ET; API reports $40.68 / 8 clicks / 0 checkouts on UTC 10/26 (7d click/1d view). Soft read ~11/1, first binding ~11/9."
+   },
+   {
+    "channel": "chatgpt",
+    "roas_7d": null,
+    "roas_28d": null,
+    "spend_7d": 0.0,
+    "wow_change": null,
+    "spend_share": 0.0,
+    "revenue_share": 0.0,
+    "tier": "not enough data",
+    "tracking": "NO_SPEND",
+    "roas_source": "platform-reported",
+    "rank": null,
+    "notes": "$0 spend 9/28-10/26; CGPT Q4 Gifting delivering since 10/26 (2,046 impr, 11 clicks, $0 billed so far). 0 conversions."
+   },
+   {
+    "channel": "reddit",
+    "roas_7d": null,
+    "roas_28d": null,
+    "spend_7d": 0.0,
+    "wow_change": null,
+    "spend_share": 0.0,
+    "revenue_share": 0.0,
+    "tier": "not enough data",
+    "tracking": "NO_SPEND",
+    "roas_source": "platform-reported",
+    "rank": null,
+    "notes": "$0 spend / 0 impressions 9/28-10/25 on a2_j3pu0ku22iae."
+   },
+   {
+    "channel": "tiktok",
+    "roas_7d": null,
+    "roas_28d": null,
+    "spend_7d": null,
+    "wow_change": null,
+    "spend_share": null,
+    "revenue_share": null,
+    "tier": "not enough data",
+    "tracking": "missing",
+    "roas_source": "missing (no TikTok Ads connector)",
+    "rank": null,
+    "notes": "Spend missing. Shopify referring_channel=tiktok: $936.76 / 12 orders 10/19-10/25 (~0.36% of $259,878 Shopify sales), down from $1,073.97 prior week; 28d $5,305.44."
+   }
+  ]
+ }
+]

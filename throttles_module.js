@@ -21,6 +21,7 @@
     { id: 'snapchat', label: 'Snapchat' },
     { id: 'chatgpt', label: 'ChatGPT' },
     { id: 'pinterest', label: 'Pinterest' },
+    { id: 'applovin', label: 'AppLovin' },
     { id: 'tiktok', label: 'TikTok' }
   ];
   var HEALTH_CHANNELS = [
@@ -30,7 +31,9 @@
     { id: 'reddit', label: 'Reddit' },
     { id: 'snapchat', label: 'Snapchat' },
     { id: 'chatgpt', label: 'ChatGPT' },
-    { id: 'pinterest', label: 'Pinterest' }
+    { id: 'pinterest', label: 'Pinterest' },
+    { id: 'applovin', label: 'AppLovin' },
+    { id: 'tiktok', label: 'TikTok' }
   ];
   var ISSUE_REPO = 'https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new';
   var SNAPSHOT_PATH = 'ad_channel_throttles.json';
@@ -490,6 +493,7 @@
       channels: channels,
       example: example,
       empty: !channels.length,
+      share_is_percent: sharesLookLikePercent(channels),
       label: week.label || (raw && raw.label) || (example ? 'EXAMPLE DATA' : null)
     };
   }
@@ -502,9 +506,19 @@
     return sign + pct.toFixed(1) + '%';
   }
 
-  function sharePct(v) {
+  function sharesLookLikePercent(channels) {
+    return (channels || []).some(function (c) {
+      var spend = nullableNum(c && c.spend_share);
+      var rev = nullableNum(c && c.revenue_share);
+      return (spend != null && Math.abs(spend) > 1.0000001)
+        || (rev != null && Math.abs(rev) > 1.0000001);
+    });
+  }
+
+  function sharePct(v, alreadyPercent) {
     var n = nullableNum(v);
     if (n == null) return null;
+    if (alreadyPercent) return n;
     return Math.abs(n) <= 1.0000001 ? n * 100 : n;
   }
 
@@ -513,7 +527,7 @@
     return usd(v);
   }
 
-  function shareBarHtml(spendShare, revShare) {
+  function shareBarHtml(spendShare, revShare, alreadyPercent) {
     function row(label, pct, cls) {
       if (pct == null) {
         return '<div class="th-share-row"><span>' + label + '</span><div class="th-bar ' + cls + '"></div><span>—</span></div>';
@@ -521,7 +535,7 @@
       var w = Math.max(0, Math.min(100, pct));
       return '<div class="th-share-row"><span>' + label + '</span><div class="th-bar ' + cls + '"><i style="width:' + w.toFixed(1) + '%"></i></div><span class="mono">' + pct.toFixed(1) + '%</span></div>';
     }
-    return '<div class="th-share-pair">' + row('Spend', sharePct(spendShare), '') + row('Revenue', sharePct(revShare), 'rev') + '</div>';
+    return '<div class="th-share-pair">' + row('Spend', sharePct(spendShare, alreadyPercent), '') + row('Revenue', sharePct(revShare, alreadyPercent), 'rev') + '</div>';
   }
 
   function tierChipClass(tier) {
@@ -1119,7 +1133,7 @@
           + '<td class="mono">' + merTxt(ch.roas_28d) + '<div class="th-muted">platform-reported</div></td>'
           + '<td class="mono">' + usdOrDash(ch.spend_7d) + '</td>'
           + '<td class="mono">' + (wow == null ? '—' : esc(wow)) + '</td>'
-          + '<td>' + shareBarHtml(ch.spend_share, ch.revenue_share) + '</td>'
+          + '<td>' + shareBarHtml(ch.spend_share, ch.revenue_share, week.share_is_percent) + '</td>'
           + '</tr>';
       }).join('');
       body = '<div class="th-card th-scroll"><table class="th-table" style="min-width:860px"><thead><tr>'
@@ -1554,6 +1568,8 @@
     tierChipClass: tierChipClass,
     wowTxt: wowTxt,
     EMPTY_RANKING_COPY: EMPTY_RANKING_COPY,
+    trackingHealthHtml: trackingHealthHtml,
+    HEALTH_PATH: HEALTH_PATH,
     RANKINGS_PATH: RANKINGS_PATH,
     RANKINGS_EXAMPLE_PATH: RANKINGS_EXAMPLE_PATH,
     ATTRIBUTION_EXAMPLE_PATH: ATTRIBUTION_EXAMPLE_PATH,
