@@ -2595,7 +2595,24 @@ const PARTIAL_REPORTS = [{"date": "2026-09-28", "report_status": "partial", "sou
 /* PARTIAL_REPORTS_END */
 
 function revenuePerChannelRows(r) {
+  if (typeof PaidChannels !== 'undefined' && typeof PaidChannels.channelRevenueRows === 'function') {
+    return PaidChannels.channelRevenueRows(r);
+  }
   const rows = [];
+  if (r.channel_revenue) {
+    const order = ['shopify', 'amazon', 'tiktok', 'whatnot'];
+    const labels = { shopify: 'Shopify', amazon: 'Amazon', tiktok: 'TikTok', whatnot: 'Whatnot' };
+    const src = r.channel_revenue[r.date] && typeof r.channel_revenue[r.date] === 'object' && r.channel_revenue[r.date].revenue == null
+      ? r.channel_revenue[r.date]
+      : r.channel_revenue;
+    order.forEach((k) => {
+      const c = src[k];
+      if (c == null || c === false) { rows.push({ label: labels[k], value: 'missing' }); return; }
+      const n = typeof c === 'object' ? c.revenue : c;
+      rows.push({ label: labels[k], value: n == null ? 'missing' : fmtD(n) });
+    });
+    return rows;
+  }
   if (r.channel_observations) {
     const order = ['shopify', 'amazon', 'tiktok', 'whatnot'];
     const labels = { shopify: 'Shopify', amazon: 'Amazon', tiktok: 'TikTok', whatnot: 'Whatnot' };

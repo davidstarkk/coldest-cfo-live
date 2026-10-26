@@ -71,6 +71,62 @@ test('renderStrip does not inject a dashboard strip after yday-bar', function ()
   throw new Error('unexpected document in node test');
 });
 
+test('channel_revenue on the PARTIAL row is preferred and unpublished stays missing', function () {
+  var rows = Paid.channelRevenueRows({
+    date: '2026-10-25',
+    channel_revenue: { shopify: 1111.1, amazon: { revenue: 2222.2 }, tiktok: null },
+    channel_observations: { shopify: { revenue: 9, data_available: true } }
+  });
+  var by = {};
+  rows.forEach(function (r) { by[r.label] = r.value; });
+  assert.strictEqual(by.Shopify, '$1,111.10');
+  assert.strictEqual(by.Amazon, '$2,222.20');
+  assert.strictEqual(by.TikTok, 'missing');
+  assert.strictEqual(by.Whatnot, 'missing');
+});
+
+test('channel_ad_spend on the PARTIAL row wins; absent keys fall through; null is missing', function () {
+  globalThis.PARTIAL_REPORTS = [{
+    date: '2026-10-25',
+    channel_ad_spend: { meta: 50, google: { spend: 0 }, bing: null }
+  }];
+  Paid._setMerDoc({
+    as_of: '2026-10-25',
+    advertising_sources: {
+      '2026-10-25': { meta: { spend: 9 }, google: { spend: 9 }, bing: { spend: 9 }, reddit: { spend: 3 } }
+    }
+  });
+  var byId = {};
+  Paid.displayChannels().forEach(function (ch) { byId[ch.id] = Paid.dayForDisplay(ch, '2026-10-25'); });
+  assert.strictEqual(Paid.spendTxt(byId.meta), '$50.00');
+  assert.strictEqual(Paid.spendTxt(byId.google), '$0.00');
+  assert.strictEqual(Paid.spendTxt(byId.bing), 'missing');
+  assert.strictEqual(Paid.spendTxt(byId.reddit), '$3.00');
+  assert.strictEqual(Paid.spendTxt(byId.pinterest), 'missing');
+  delete globalThis.PARTIAL_REPORTS;
+});
+
+test('hydratePartialFromMer adds a 10/25 card from mer.as_of without inventing spend', function () {
+  globalThis.PARTIAL_REPORTS = [{ date: '2026-10-24', channel_observations: {} }];
+  var mer = {
+    as_of: '2026-10-25',
+    shop_revenue: 26420.44,
+    channel_revenue: { shopify: 26420.44, amazon: 100, tiktok: null, whatnot: 0 },
+    channel_ad_spend: { meta: 10, pinterest: null },
+    advertising_sources: { '2026-10-25': { google_ads: { spend: 4 } } }
+  };
+  assert.strictEqual(Paid.hydratePartialFromMer(mer), true);
+  var row = globalThis.PARTIAL_REPORTS.filter(function (r) { return r.date === '2026-10-25'; })[0];
+  assert.ok(row);
+  assert.deepStrictEqual(Paid.channelRevenueRows(row).map(function (x) { return x.value; }), [
+    '$26,420.44', '$100.00', 'missing', '$0.00'
+  ]);
+  Paid._setMerDoc(mer);
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay({ id: 'meta', sourceKeys: ['meta'], merKey: 'meta' }, '2026-10-25')), '$10.00');
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay({ id: 'pinterest', sourceKeys: ['pinterest_ads', 'pinterest'], merKey: 'pinterest' }, '2026-10-25')), 'missing');
+  delete globalThis.PARTIAL_REPORTS;
+});
+
 if (failed) {
   console.error('\n' + failed + ' daily-report layout test(s) failed');
   process.exit(1);

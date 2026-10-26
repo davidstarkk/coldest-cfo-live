@@ -86,6 +86,181 @@
   function usd(v) {
     return '$' + num(v).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
+
+  var REVENUE_DISPLAY = [
+    { id: 'shopify', label: 'Shopify', keys: ['shopify', 'shop', 'd2c'] },
+    { id: 'amazon', label: 'Amazon', keys: ['amazon', 'amz'] },
+    { id: 'tiktok', label: 'TikTok', keys: ['tiktok', 'tiktok_shop'] },
+    { id: 'whatnot', label: 'Whatnot', keys: ['whatnot'] }
+  ];
+
+  function isDateKeyedMap(obj) {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
+    var keys = Object.keys(obj);
+    if (!keys.length) return false;
+    return keys.every(function (k) { return /^\d{4}-\d{2}-\d{2}$/.test(k); });
+  }
+
+  function mapForDate(obj, date) {
+    if (!obj || typeof obj !== 'object') return null;
+    if (isDateKeyedMap(obj)) return obj[date] || null;
+    return obj;
+  }
+
+  function pickKeyed(map, keys) {
+    if (!map || typeof map !== 'object' || !keys) return undefined;
+    for (var i = 0; i < keys.length; i++) {
+      if (Object.prototype.hasOwnProperty.call(map, keys[i])) return map[keys[i]];
+    }
+    return undefined;
+  }
+
+  function publishedAmount(node, fields) {
+    if (node === undefined) return { published: false, value: null };
+    if (node === null || node === false || node === '') return { published: false, value: null };
+    if (typeof node === 'number' || typeof node === 'string') {
+      var n0 = Number(node);
+      if (!Number.isFinite(n0)) return { published: false, value: null };
+      return { published: true, value: n0 };
+    }
+    if (typeof node !== 'object') return { published: false, value: null };
+    if (node.data_available === false || node.zero_assumed === true) return { published: false, value: null };
+    if (node.status === 'missing' || node.status === 'no_feed' || node.status === 'unpublished') {
+      return { published: false, value: null };
+    }
+    var names = fields || ['spend', 'revenue', 'amount', 'value', 'total'];
+    for (var i = 0; i < names.length; i++) {
+      if (node[names[i]] != null && node[names[i]] !== '') {
+        var n = Number(node[names[i]]);
+        if (Number.isFinite(n)) return { published: true, value: n };
+      }
+    }
+    return { published: false, value: null };
+  }
+
+  function channelRevenueRows(r) {
+    r = r || {};
+    var rows = [];
+    var src = mapForDate(r.channel_revenue, r.date);
+    if (src) {
+      REVENUE_DISPLAY.forEach(function (ch) {
+        var amt = publishedAmount(pickKeyed(src, ch.keys), ['revenue', 'amount', 'value', 'total']);
+        rows.push({ label: ch.label, value: amt.published ? usd(amt.value) : 'missing' });
+      });
+      return rows;
+    }
+    if (r.channel_observations) {
+      REVENUE_DISPLAY.forEach(function (ch) {
+        var c = r.channel_observations[ch.id];
+        if (!c || c.data_available === false || c.zero_assumed || c.revenue == null) {
+          rows.push({ label: ch.label, value: 'missing' });
+          return;
+        }
+        rows.push({ label: ch.label, value: usd(c.revenue) });
+      });
+      return rows;
+    }
+    if (r.direct_breakdown) {
+      Object.keys(r.direct_breakdown).forEach(function (k) {
+        var c = r.direct_breakdown[k];
+        rows.push({
+          label: String(k).toUpperCase(),
+          value: c && c.revenue != null ? usd(c.revenue) : 'missing'
+        });
+      });
+      return rows;
+    }
+    rows.push({
+      label: r.date >= '2026-04-07' ? 'Shopify' : 'Shopify/TikTok',
+      value: r.shop_revenue == null ? 'missing' : usd(r.shop_revenue)
+    });
+    rows.push({ label: 'Amazon', value: r.amz_revenue == null ? 'missing' : usd(r.amz_revenue) });
+    if (r.date >= '2026-04-07') {
+      rows.push({ label: 'TikTok', value: r.tiktok_revenue == null ? 'missing' : usd(r.tiktok_revenue) });
+    }
+    if (r.whatnot_revenue != null) {
+      rows.push({ label: 'Whatnot', value: usd(r.whatnot_revenue) });
+    }
+    return rows;
+  }
+
+  function reportForDate(date) {
+    var lists = [hostArray('PARTIAL_REPORTS'), hostArray('REPORTS')];
+    for (var i = 0; i < lists.length; i++) {
+      var arr = lists[i];
+      if (!arr) continue;
+      for (var j = 0; j < arr.length; j++) {
+        if (arr[j] && arr[j].date === date) return arr[j];
+      }
+    }
+    return null;
+  }
+
+  function spendFromChannelAdSpend(ch, date) {
+    var r = reportForDate(date);
+    var map = r && r.channel_ad_spend;
+    if (!map) map = MER_DOC && mapForDate(MER_DOC.channel_ad_spend, date);
+    else map = mapForDate(map, date);
+    if (!map) return null;
+    var keys = ((ch && ch.sourceKeys) || []).concat(ch ? [ch.id, ch.merKey] : []);
+    var node = pickKeyed(map, keys);
+    if (node === undefined) return null;
+    var amt = publishedAmount(node, ['spend', 'daily_spend', 'ad_spend', 'amount']);
+    if (!amt.published) return emptyDay(date);
+    return nodeToDay(date, typeof node === 'object' ? node : { spend: amt.value }, 'channel_ad_spend');
+  }
+
+  function mergeOverlayRows(rows) {
+    if (!Array.isArray(rows) || !rows.length) return false;
+    var g = typeof globalThis !== 'undefined' ? globalThis : root;
+    var partials = hostArray('PARTIAL_REPORTS');
+    if (!partials) {
+      g.PARTIAL_REPORTS = [];
+      partials = g.PARTIAL_REPORTS;
+    }
+    var changed = false;
+    rows.forEach(function (row) {
+      if (!row || !row.date) return;
+      var idx = -1;
+      for (var i = 0; i < partials.length; i++) {
+        if (partials[i] && partials[i].date === row.date) { idx = i; break; }
+      }
+      if (idx === -1) partials.push(row);
+      else partials[idx] = Object.assign({}, partials[idx], row);
+      changed = true;
+    });
+    return changed;
+  }
+
+  function hydratePartialFromMer(mer) {
+    mer = mer || MER_DOC;
+    if (!mer || !mer.as_of || !/^\d{4}-\d{2}-\d{2}$/.test(mer.as_of)) return false;
+    var date = mer.as_of;
+    if (reportForDate(date)) return false;
+    var fromMerPartials = Array.isArray(mer.partial_reports)
+      ? mer.partial_reports.filter(function (r) { return r && r.date === date; })
+      : [];
+    if (fromMerPartials.length) return mergeOverlayRows(fromMerPartials);
+    var adv = mer.advertising_sources && mer.advertising_sources[date];
+    var rev = mapForDate(mer.channel_revenue, date);
+    var spend = mapForDate(mer.channel_ad_spend, date);
+    if (!adv && !rev && !spend) return false;
+    var row = {
+      date: date,
+      report_status: 'partial',
+      source_mode: 'partial_v1',
+      channel_revenue: rev || undefined,
+      channel_ad_spend: spend || undefined,
+      advertising_sources: adv || {},
+      channel_observations: mer.channel_observations || {},
+      provisional_totals: {},
+      calculation_basis: 'mer_as_of'
+    };
+    if (!row.channel_revenue && mer.shop_revenue != null) {
+      row.channel_revenue = { shopify: mer.shop_revenue };
+    }
+    return mergeOverlayRows([row]);
+  }
   function intOrDash(v) {
     return v == null ? '—' : Math.round(num(v)).toLocaleString();
   }
@@ -862,6 +1037,8 @@
   }
 
   function dayForDisplay(ch, date) {
+    var fromRow = spendFromChannelAdSpend(ch, date);
+    if (fromRow) return fromRow;
     var known = CHANNELS.filter(function (c) { return c.id === ch.id; })[0];
     if (known) {
       var days = mergeDaysFor(known);
@@ -1052,10 +1229,15 @@
     }
     CHANNELS.forEach(function (ch) { FEEDS[ch.id].manual = loadManual(ch); });
     var jobs = [fetchJson('mer_for_manus.json').then(function (d) { MER_DOC = d; }).catch(function () { MER_DOC = null; })];
+    jobs.push(fetchJson('partial_reports_overlay.json').then(function (d) {
+      var rows = Array.isArray(d) ? d : ((d && d.PARTIAL_REPORTS) || (d && d.reports) || []);
+      mergeOverlayRows(rows);
+    }).catch(function () { /* overlay is optional and never required in git */ }));
     CHANNELS.forEach(function (ch) {
       jobs.push(fetchJson(ch.file).then(function (d) { FEEDS[ch.id].file = d; }).catch(function () { FEEDS[ch.id].file = null; }));
     });
     Promise.allSettled(jobs).then(function () {
+      hydratePartialFromMer(MER_DOC);
       bootFromState();
       CHANNELS.forEach(function (ch) {
         var tab = document.getElementById('tab-' + ch.tabKey);
@@ -1098,6 +1280,10 @@
     spendPerChannelHtml: spendPerChannelHtml,
     detailBreakdownHtml: detailBreakdownHtml,
     renderStrip: renderStrip,
+    channelRevenueRows: channelRevenueRows,
+    publishedAmount: publishedAmount,
+    mergeOverlayRows: mergeOverlayRows,
+    hydratePartialFromMer: hydratePartialFromMer,
     _setMerDoc: function (doc) { MER_DOC = doc || null; }
   };
 
