@@ -13,9 +13,9 @@ function test(name, fn) {
   }
 }
 
-test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatGPT → Pinterest', function () {
+test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatGPT → Pinterest → AppLovin', function () {
   var ids = Paid.displayChannels().map(function (c) { return c.id; });
-  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest']);
+  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin']);
 });
 
 test('unpublished Pinterest is missing, never $0', function () {
@@ -47,7 +47,7 @@ test('published mer.pinterest spend is shown; still missing when the key is abse
   assert.strictEqual(Paid.spendTxt(empty), 'missing');
 });
 
-test('10/24 Meta and Bing are published dollars; Pinterest is missing', function () {
+test('10/24 Meta and Bing are published dollars; Pinterest is missing; AppLovin is $0', function () {
   var mer = require('../mer_for_manus.json');
   Paid._setMerDoc(mer);
   Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, mer, null); });
@@ -58,9 +58,42 @@ test('10/24 Meta and Bing are published dollars; Pinterest is missing', function
   assert.strictEqual(byId.bing.hasFeed, true);
   assert.ok(byId.bing.spend > 0);
   assert.strictEqual(Paid.spendTxt(byId.pinterest), 'missing');
+  assert.strictEqual(byId.applovin.hasFeed, true);
+  assert.strictEqual(Paid.spendTxt(byId.applovin), '$0.00');
   var html = Paid.detailBreakdownHtml('2026-10-24');
   assert.ok(html.indexOf('Pinterest') !== -1);
+  assert.ok(html.indexOf('AppLovin') !== -1);
   assert.ok(html.indexOf('missing') !== -1);
+  assert.ok(html.indexOf('platform-reported, click-based') !== -1);
+});
+
+test('AppLovin missing stays missing; published $0 stays $0; ROAS label is click-based', function () {
+  Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, null, null); });
+  Paid._setMerDoc({
+    as_of: '2026-10-24',
+    advertising_sources: {
+      '2026-10-24': { meta: { spend: 10 }, applovin: { spend: 0, clicks: 0, conversions: 0, revenue: 0, complete: true } }
+    }
+  });
+  var al = Paid.displayChannels().filter(function (c) { return c.id === 'applovin'; })[0];
+  assert.strictEqual(al.roasLabel, 'platform-reported, click-based');
+  var zero = Paid.dayForDisplay(al, '2026-10-24');
+  assert.strictEqual(zero.hasFeed, true);
+  assert.strictEqual(Paid.spendTxt(zero), '$0.00');
+  assert.strictEqual(Paid.roasDisplay(zero, al), '— · platform-reported, click-based');
+  var miss = Paid.dayForDisplay(al, '2026-10-01');
+  assert.strictEqual(miss.hasFeed, false);
+  assert.strictEqual(Paid.spendTxt(miss), 'missing');
+  assert.strictEqual(Paid.roasDisplay(miss, al), 'missing');
+  var spendHtml = Paid.spendPerChannelHtml('2026-10-24');
+  assert.ok(spendHtml.indexOf('AppLovin') !== -1);
+  assert.ok(spendHtml.indexOf('$0.00') !== -1);
+  Paid._setMerDoc({
+    as_of: '2026-10-25',
+    channel_ad_spend: { applovin: 12.5 }
+  });
+  var cas = Paid.dayForDisplay(al, '2026-10-25');
+  assert.strictEqual(Paid.spendTxt(cas), '$12.50');
 });
 
 test('renderStrip does not inject a dashboard strip after yday-bar', function () {
@@ -103,6 +136,7 @@ test('channel_ad_spend on the PARTIAL row wins; absent keys fall through; null i
   assert.strictEqual(Paid.spendTxt(byId.bing), 'missing');
   assert.strictEqual(Paid.spendTxt(byId.reddit), '$3.00');
   assert.strictEqual(Paid.spendTxt(byId.pinterest), 'missing');
+  assert.strictEqual(Paid.spendTxt(byId.applovin), 'missing');
   delete globalThis.PARTIAL_REPORTS;
 });
 

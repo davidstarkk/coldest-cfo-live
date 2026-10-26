@@ -209,12 +209,14 @@ test('DOWN overrides published status and what-if Scale with Hold - tracking dow
   assert.notStrictEqual(scaledBlocked.label, 'Scale +20%');
 });
 
-test('WARN / OK do not force Hold - tracking down', function () {
+test('WARN / OK / NO_SPEND do not force Hold - tracking down', function () {
   Throttles._setLive(settings, series, [], snapshot, {
-    channels: { bing: { status: 'WARN' }, reddit: { status: 'ok' } }
+    channels: { bing: { status: 'WARN' }, reddit: { status: 'ok' }, chatgpt: { status: 'NO_SPEND' } }
   });
   assert.strictEqual(Throttles.recommend('bing', settings, series, []).label, 'Not enough data');
   assert.strictEqual(Throttles.channelHealth('reddit').status, 'OK');
+  assert.strictEqual(Throttles.channelHealth('chatgpt').status, 'NO_SPEND');
+  assert.notStrictEqual(Throttles.recommend('chatgpt', settings, series, []).label, 'Hold - tracking down');
 });
 
 test('what-if Bing recomputes with D2C-only 7d spend under the $200 minimum', function () {
@@ -239,6 +241,7 @@ test('formatEt renders America/New_York and leaves missing blank for unknown', f
   var txt = Throttles.formatEt('2026-10-24T20:00:00Z');
   assert.ok(txt.indexOf('ET') !== -1);
   assert.ok(/4:00/.test(txt));
+  assert.strictEqual(Throttles.formatEt('2026-10-26 (10 InitiateCheckout so far today)'), '2026-10-26 (10 InitiateCheckout so far today)');
 });
 
 test('Request change link targets the data repo issues form', function () {
@@ -248,8 +251,42 @@ test('Request change link targets the data repo issues form', function () {
   assert.ok(url.indexOf('Jarvis') !== -1);
 });
 
-test('live rankings.json is not shipped — missing file is empty, never invented', function () {
-  assert.strictEqual(fs.existsSync(path.join(__dirname, '..', 'ads_throttle', 'rankings.json')), false);
+test('RANKINGS_PATH ships the 10/26 weekly ranking (platform-reported ROAS 7d 10/19–10/25)', function () {
+  assert.strictEqual(Throttles.RANKINGS_PATH, 'ads_throttle/rankings.json');
+  var livePath = path.join(__dirname, '..', Throttles.RANKINGS_PATH);
+  assert.strictEqual(fs.existsSync(livePath), true);
+  var weeks = require('../ads_throttle/rankings.json');
+  assert.strictEqual(weeks[0].date, '2026-10-26');
+  assert.strictEqual(weeks[0].windows['7d'], '2026-10-19..2026-10-25');
+  var week = Throttles.normalizeRankings(weeks);
+  assert.strictEqual(week.empty, false);
+  assert.strictEqual(week.example, false);
+  assert.strictEqual(week.date, '2026-10-26');
+  assert.strictEqual(week.channels[0].channel, 'google');
+  assert.strictEqual(week.channels[0].tier, 'Steady');
+  assert.strictEqual(week.channels[0].roas_7d, 3.34);
+  assert.strictEqual(week.channels[0].spend_7d, 14285.74);
+  assert.strictEqual(week.channels[1].channel, 'meta');
+  assert.strictEqual(week.channels[1].tier, 'Lagging');
+  assert.strictEqual(week.channels[1].roas_7d, 2.42);
+  Throttles._setLive(settings, series, [], snapshot, null, weeks);
+  var html = Throttles.rankingHtml();
+  assert.ok(html.indexOf('Channel ranking') !== -1);
+  assert.ok(html.indexOf('2026-10-26') !== -1);
+  assert.ok(html.indexOf('3.34x') !== -1);
+  assert.ok(html.indexOf('2.42x') !== -1);
+  assert.ok(html.indexOf('$14,285.74') !== -1);
+  assert.ok(html.indexOf('$85,923.65') !== -1);
+  assert.ok(html.indexOf('platform-reported') !== -1);
+  assert.ok(html.indexOf('EXAMPLE DATA') === -1);
+  assert.ok(html.indexOf(Throttles.EMPTY_RANKING_COPY) === -1);
+  assert.strictEqual(week.share_is_percent, true);
+  assert.ok(html.indexOf('14.2%') !== -1);
+  assert.ok(html.indexOf('85.6%') !== -1);
+  assert.ok(html.indexOf('7.0%') === -1);
+});
+
+test('missing rankings payload stays empty — never invented', function () {
   Throttles._setLive(settings, series, [], snapshot, null, null);
   var empty = Throttles.normalizeRankings(null);
   assert.strictEqual(empty.empty, true);
@@ -258,9 +295,59 @@ test('live rankings.json is not shipped — missing file is empty, never invente
   var html = Throttles.rankingHtml();
   assert.ok(html.indexOf('Channel ranking') !== -1);
   assert.ok(html.indexOf(Throttles.EMPTY_RANKING_COPY) !== -1);
-  assert.ok(html.indexOf('First ranking lands Mon 10/26 ~11:15 AM ET') !== -1);
   assert.ok(html.indexOf('EXAMPLE DATA') === -1);
   assert.ok(html.indexOf('4.20x') === -1);
+});
+
+test('HEALTH_PATH ships 10/26 tracking_health; NO_SPEND/WARN are distinct; missing AppLovin/TikTok stay unknown', function () {
+  assert.strictEqual(Throttles.HEALTH_PATH, 'ads_throttle/tracking_health.json');
+  var livePath = path.join(__dirname, '..', Throttles.HEALTH_PATH);
+  assert.strictEqual(fs.existsSync(livePath), true);
+  var live = require('../ads_throttle/tracking_health.json');
+  assert.strictEqual(live.as_of, '2026-10-26T08:30:00-04:00');
+  assert.strictEqual(live.shopify_orders_yesterday, 343);
+  assert.strictEqual(live.channels.meta.status, 'OK');
+  assert.strictEqual(live.channels.google.status, 'WARN');
+  assert.strictEqual(live.channels.bing.status, 'OK');
+  assert.strictEqual(live.channels.reddit.status, 'NO_SPEND');
+  assert.strictEqual(live.channels.snapchat.status, 'OK');
+  assert.strictEqual(live.channels.chatgpt.status, 'NO_SPEND');
+  assert.strictEqual(live.channels.pinterest.status, 'OK');
+  assert.strictEqual(live.channels.applovin, undefined);
+  assert.strictEqual(live.channels.tiktok, undefined);
+
+  assert.strictEqual(Throttles.healthStatus('NO_SPEND'), 'NO_SPEND');
+  assert.strictEqual(Throttles.healthStatus('no spend'), 'NO_SPEND');
+  assert.notStrictEqual(Throttles.healthStatus('NO_SPEND'), 'unknown');
+  assert.notStrictEqual(Throttles.healthStatus('WARN'), 'NO_SPEND');
+
+  var ids = Throttles.HEALTH_CHANNELS.map(function (c) { return c.id; });
+  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'tiktok']);
+  Throttles._setLive(settings, series, [], snapshot, live, null);
+  assert.strictEqual(Throttles.channelHealth('meta').status, 'OK');
+  assert.strictEqual(Throttles.channelHealth('google').status, 'WARN');
+  assert.strictEqual(Throttles.channelHealth('reddit').status, 'NO_SPEND');
+  assert.strictEqual(Throttles.channelHealth('chatgpt').status, 'NO_SPEND');
+  assert.strictEqual(Throttles.channelHealth('applovin').status, 'unknown');
+  assert.strictEqual(Throttles.channelHealth('tiktok').status, 'unknown');
+  assert.notStrictEqual(Throttles.channelHealth('applovin').status, 'DOWN');
+  assert.notStrictEqual(Throttles.channelHealth('tiktok').status, 'DOWN');
+
+  var html = Throttles.trackingHealthHtml();
+  assert.ok(html.indexOf('2026-10-26T08:30:00-04:00') !== -1);
+  assert.ok(html.indexOf('343') !== -1);
+  assert.ok(html.indexOf('th-chip ok') !== -1);
+  assert.ok(html.indexOf('th-chip warn') !== -1);
+  assert.ok(html.indexOf('th-chip nospend') !== -1);
+  assert.ok(html.indexOf('th-chip unknown') !== -1);
+  assert.ok(html.indexOf('>NO_SPEND<') !== -1);
+  assert.ok(html.indexOf('>WARN<') !== -1);
+  assert.ok(html.indexOf('AppLovin') !== -1);
+  assert.ok(html.indexOf('TikTok') !== -1);
+  assert.ok(html.indexOf('>DOWN<') === -1);
+
+  Throttles._setLive(settings, series, [], snapshot, null, null);
+  assert.strictEqual(Throttles.channelHealth('meta').status, 'unknown');
 });
 
 test('empty channels / empty object do not invent a ranking week', function () {

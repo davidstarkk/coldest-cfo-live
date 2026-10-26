@@ -1062,6 +1062,14 @@
     sourceKeys: ['pinterest_ads', 'pinterest']
   };
 
+  var APPLOVIN_DISPLAY = {
+    id: 'applovin',
+    label: 'AppLovin',
+    merKey: 'applovin',
+    sourceKeys: ['applovin', 'app_lovin', 'appLovin'],
+    roasLabel: 'platform-reported, click-based'
+  };
+
   function displayChannels() {
     var seen = {};
     var out = [];
@@ -1071,6 +1079,7 @@
       out.push(ch);
     });
     if (!seen.pinterest) out.push(PINTEREST_DISPLAY);
+    if (!seen.applovin) out.push(APPLOVIN_DISPLAY);
     return out;
   }
 
@@ -1087,6 +1096,13 @@
       return src;
     }
     return outcomeTxt(day, kind, ch);
+  }
+
+  function roasDisplay(day, ch) {
+    var txt = metricTxt(day, 'roas', ch);
+    if (txt === 'missing') return txt;
+    if (ch && ch.roasLabel) return txt + ' · ' + ch.roasLabel;
+    return txt;
   }
 
   function dayForDisplay(ch, date) {
@@ -1132,7 +1148,7 @@
         + '<td>' + esc(metricTxt(d, 'clicks', ch)) + '</td>'
         + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'conversions', ch)) + '</td>'
         + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'revenue', ch)) + '</td>'
-        + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'roas', ch)) + '</td>'
+        + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(roasDisplay(d, ch)) + '</td>'
         + '<td>' + esc(metricTxt(d, 'source', ch)) + '</td>'
         + '</tr>';
       if (d.hasFeed && d.d2c != null) {
@@ -1355,6 +1371,8 @@
     TRACKING_UNVERIFIED: TRACKING_UNVERIFIED,
     displayChannels: displayChannels,
     spendTxt: spendTxt,
+    metricTxt: metricTxt,
+    roasDisplay: roasDisplay,
     dayForDisplay: dayForDisplay,
     spendPerChannelHtml: spendPerChannelHtml,
     detailBreakdownHtml: detailBreakdownHtml,

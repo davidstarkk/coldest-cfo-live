@@ -21,6 +21,7 @@
     { id: 'snapchat', label: 'Snapchat' },
     { id: 'chatgpt', label: 'ChatGPT' },
     { id: 'pinterest', label: 'Pinterest' },
+    { id: 'applovin', label: 'AppLovin' },
     { id: 'tiktok', label: 'TikTok' }
   ];
   var HEALTH_CHANNELS = [
@@ -30,7 +31,9 @@
     { id: 'reddit', label: 'Reddit' },
     { id: 'snapchat', label: 'Snapchat' },
     { id: 'chatgpt', label: 'ChatGPT' },
-    { id: 'pinterest', label: 'Pinterest' }
+    { id: 'pinterest', label: 'Pinterest' },
+    { id: 'applovin', label: 'AppLovin' },
+    { id: 'tiktok', label: 'TikTok' }
   ];
   var ISSUE_REPO = 'https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new';
   var SNAPSHOT_PATH = 'ad_channel_throttles.json';
@@ -169,10 +172,11 @@
 
   function healthStatus(raw) {
     if (raw == null || raw === '') return UNKNOWN;
-    var s = String(raw).trim().toUpperCase();
+    var s = String(raw).trim().toUpperCase().replace(/[\s-]+/g, '_');
     if (s === 'OK') return 'OK';
     if (s === 'WARN' || s === 'WARNING') return 'WARN';
     if (s === 'DOWN') return 'DOWN';
+    if (s === 'NO_SPEND' || s === 'NOSPEND') return 'NO_SPEND';
     return UNKNOWN;
   }
 
@@ -490,6 +494,7 @@
       channels: channels,
       example: example,
       empty: !channels.length,
+      share_is_percent: sharesLookLikePercent(channels),
       label: week.label || (raw && raw.label) || (example ? 'EXAMPLE DATA' : null)
     };
   }
@@ -502,9 +507,19 @@
     return sign + pct.toFixed(1) + '%';
   }
 
-  function sharePct(v) {
+  function sharesLookLikePercent(channels) {
+    return (channels || []).some(function (c) {
+      var spend = nullableNum(c && c.spend_share);
+      var rev = nullableNum(c && c.revenue_share);
+      return (spend != null && Math.abs(spend) > 1.0000001)
+        || (rev != null && Math.abs(rev) > 1.0000001);
+    });
+  }
+
+  function sharePct(v, alreadyPercent) {
     var n = nullableNum(v);
     if (n == null) return null;
+    if (alreadyPercent) return n;
     return Math.abs(n) <= 1.0000001 ? n * 100 : n;
   }
 
@@ -513,7 +528,7 @@
     return usd(v);
   }
 
-  function shareBarHtml(spendShare, revShare) {
+  function shareBarHtml(spendShare, revShare, alreadyPercent) {
     function row(label, pct, cls) {
       if (pct == null) {
         return '<div class="th-share-row"><span>' + label + '</span><div class="th-bar ' + cls + '"></div><span>—</span></div>';
@@ -521,7 +536,7 @@
       var w = Math.max(0, Math.min(100, pct));
       return '<div class="th-share-row"><span>' + label + '</span><div class="th-bar ' + cls + '"><i style="width:' + w.toFixed(1) + '%"></i></div><span class="mono">' + pct.toFixed(1) + '%</span></div>';
     }
-    return '<div class="th-share-pair">' + row('Spend', sharePct(spendShare), '') + row('Revenue', sharePct(revShare), 'rev') + '</div>';
+    return '<div class="th-share-pair">' + row('Spend', sharePct(spendShare, alreadyPercent), '') + row('Revenue', sharePct(revShare, alreadyPercent), 'rev') + '</div>';
   }
 
   function tierChipClass(tier) {
@@ -534,8 +549,10 @@
 
   function formatEt(v) {
     if (v == null || v === '') return null;
-    var d = new Date(v);
-    if (!Number.isFinite(d.getTime())) return String(v);
+    var s = String(v);
+    if (!/^\d{4}-\d{2}-\d{2}T/.test(s) && !/Z$/.test(s) && !/[+-]\d{2}:\d{2}$/.test(s)) return s;
+    var d = new Date(s);
+    if (!Number.isFinite(d.getTime())) return s;
     try {
       var txt = d.toLocaleString('en-US', {
         timeZone: 'America/New_York',
@@ -889,6 +906,7 @@
       + '.th-chip.ok{background:rgba(34,197,94,.18);color:#22c55e}'
       + '.th-chip.warn{background:rgba(245,158,11,.18);color:#f59e0b}'
       + '.th-chip.down{background:rgba(239,68,68,.2);color:#ef4444}'
+      + '.th-chip.nospend{background:rgba(0,212,212,.14);color:#7dd3d3}'
       + '.th-chip.unknown{background:rgba(136,136,168,.15);color:#8888a8}'
       + '.th-chip.lead{background:rgba(34,197,94,.18);color:#22c55e}'
       + '.th-chip.steady{background:rgba(59,130,246,.16);color:#93c5fd}'
@@ -1053,6 +1071,7 @@
     if (status === 'OK') return 'ok';
     if (status === 'WARN') return 'warn';
     if (status === 'DOWN') return 'down';
+    if (status === 'NO_SPEND') return 'nospend';
     return 'unknown';
   }
 
@@ -1119,7 +1138,7 @@
           + '<td class="mono">' + merTxt(ch.roas_28d) + '<div class="th-muted">platform-reported</div></td>'
           + '<td class="mono">' + usdOrDash(ch.spend_7d) + '</td>'
           + '<td class="mono">' + (wow == null ? '—' : esc(wow)) + '</td>'
-          + '<td>' + shareBarHtml(ch.spend_share, ch.revenue_share) + '</td>'
+          + '<td>' + shareBarHtml(ch.spend_share, ch.revenue_share, week.share_is_percent) + '</td>'
           + '</tr>';
       }).join('');
       body = '<div class="th-card th-scroll"><table class="th-table" style="min-width:860px"><thead><tr>'
@@ -1554,6 +1573,8 @@
     tierChipClass: tierChipClass,
     wowTxt: wowTxt,
     EMPTY_RANKING_COPY: EMPTY_RANKING_COPY,
+    trackingHealthHtml: trackingHealthHtml,
+    HEALTH_PATH: HEALTH_PATH,
     RANKINGS_PATH: RANKINGS_PATH,
     RANKINGS_EXAMPLE_PATH: RANKINGS_EXAMPLE_PATH,
     ATTRIBUTION_EXAMPLE_PATH: ATTRIBUTION_EXAMPLE_PATH,

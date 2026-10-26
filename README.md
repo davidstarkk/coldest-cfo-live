@@ -149,8 +149,22 @@ Data (exact data-repo PR #14 keys; first file that exists wins):
 1. `ad_channel_throttles.json` — `d2c_ad_spend`, `total_ad_spend`, `shopify_d2c_revenue`, `blended_mer`, `channels.*`, `series_28d.by_channel` / `series_28d.blended`, `platform_roas`, `roas_basis`, `recent_changes` (also nested on `mer_for_manus.json` → `ad_channel_throttles`)
 2. `throttle_settings` / `ads_throttle/settings.json` (`global.roas_basis: platform`)
 3. `ads_throttle/changes.json` or `recent_changes`
-4. `ads_throttle/tracking_health.json` (`tracking_health`: `as_of`, `shopify_orders_yesterday`, `channels.{meta,google,bing,reddit,snapchat,chatgpt,pinterest}` with `status` OK|WARN|DOWN, `last_checkout_event`, `last_purchase_event`, `purchases_24h`, `purchases_7d_avg`, `notes`). Missing Pinterest health is **unknown** (not DOWN). Pinterest always shows the amber known-gap chip **No CAPI (Conversions API) — known gap, browser tag only**.
+4. `ads_throttle/tracking_health.json` (`tracking_health`: `as_of`, `shopify_orders_yesterday`, `channels.{meta,google,bing,reddit,snapchat,chatgpt,pinterest,applovin,tiktok}` with `status` OK|WARN|DOWN|NO_SPEND, `last_checkout_event`, `last_purchase_event`, `purchases_24h`, `purchases_7d_avg`, `notes`). Missing channel keys (AppLovin, TikTok today) are **unknown** (not DOWN). Pinterest always shows the amber known-gap chip **No CAPI (Conversions API) — known gap, browser tag only**.
 5. `ads_throttle/rankings.json` then `ad_channel_throttles.rankings` — latest week `{date, channels:[{channel, roas_7d, roas_28d, spend_7d, wow_change, spend_share, revenue_share, tier}]}`. Include `pinterest` when present in `channels` or `eligible_channels`.
+
+**Production path (same as `mer_for_manus.json`):** this repo *is* the GitHub Pages site. The browser fetches sibling JSON next to `index.html` (`mer_for_manus.json`, `ad_channel_throttles.json`, `ads_throttle/*.json`). It does not read the private data repo. David's box / the daily public-mirror sync must copy these files from `davidstarkk/coldest-cfo-dashboard` into this repo at the **same relative paths**, then commit to `main`:
+
+```
+ads_throttle/tracking_health.json  →  ads_throttle/tracking_health.json   (daily)
+ads_throttle/rankings.json         →  ads_throttle/rankings.json          (weekly, Mon)
+mer_for_manus.json                 →  mer_for_manus.json                  (already synced)
+ad_channel_throttles.json          →  ad_channel_throttles.json           (already synced)
+ads_throttle/settings.json         →  ads_throttle/settings.json
+ads_throttle/changes.json          →  ads_throttle/changes.json
+ads_throttle/series.json           →  ads_throttle/series.json
+```
+
+Optional fallback already wired: nested `mer_for_manus.tracking_health` / `mer_for_manus.ad_channel_throttles.rankings` if the sibling file is missing.
 6. `ad_channel_throttles.channels[ch]` Shopify attribution — `shopify_orders_7d`, `shopify_revenue_7d`, `shopify_roas_7d` (null if spend &lt; $200 or no data), `platform_roas_7d`, `coverage_pct` (raw may exceed 100; display capped at 100%), `roas_source` (`shopify_attributed` only if coverage ≥ 80, else `platform_reported`)
 7. `ad_channel_throttles.attribution` — `{as_of, total_orders_7d, attributed_paid_pct, owned_pct, unattributed_pct, by_channel}`
 
