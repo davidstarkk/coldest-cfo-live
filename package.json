@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "node scripts/test_bing_ads.js && node scripts/test_paid_channels.js && node scripts/test_throttles.js && node scripts/test_rolling_mer_header.js",
-    "start": "node server.js",
-    "pull:bing": "node scripts/pull_bing_ads.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
