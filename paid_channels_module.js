@@ -1,23 +1,25 @@
 /* =====================================================================
-   COLDEST · PAID CHANNELS  (Meta, Google, Bing, Reddit, Snapchat, ChatGPT)
+   COLDEST · PAID CHANNELS  (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, Pinterest)
    ---------------------------------------------------------------------
    Reporting-only. No API credentials. Missing feed → $0 / "no feed".
    Never invents clicks, conversions, revenue, or spend.
 
    Per-channel feed order (same as Bing):
      1. PARTIAL_REPORTS[].advertising_sources.<aliases>
-     2. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt)
+        or mer_for_manus.json advertising_sources[YYYY-MM-DD].<aliases>
+     2. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest)
      3. optional <channel>_ads_data.json
      4. localStorage manual day (channel tabs)
 
    mer_for_manus.json daily_inputs contract (match these keys exactly):
      d2c_ad_spend, blended_mer, total_ad_spend,
      bing.{spend,d2c,amazon}, reddit, snapchat, chatgpt (tracking_verified),
+     pinterest.{spend,spend_d2c,clicks,conversions,revenue,roas,*_7d,attribution_window,live,status,source,as_of},
      non_d2c.{whatnot,applovin,tiktok_shop,sellerboard_amazon,unallocated}
 
    Destination split (d2c vs amazon/other) is per channel:
      D2C ad spend  = Shopify-bound paid media (Meta, Google, Bing D2C,
-                     Reddit, Snapchat, ChatGPT, TikTok shopify_spend).
+                     Reddit, Snapchat, ChatGPT, Pinterest, TikTok shopify_spend).
                      Blended MER = Shopify D2C revenue ÷ D2C ad spend.
      All ad spend  = company total (D2C + Amazon-bound + other non-D2C).
      Amazon-bound  (Bing Amazon, Sellerboard Amazon) and other non-D2C
@@ -43,7 +45,8 @@
     { id: 'bing', label: 'Bing / Microsoft', tabKey: 'bing_ads', tabLabel: 'BING ADS', merKey: 'bing', file: 'bing_ads_data.json', sourceKeys: ['bing', 'bing_ads', 'microsoft_ads', 'microsoft_advertising'], pipelineDefault: false },
     { id: 'reddit', label: 'Reddit Ads', tabKey: 'reddit_ads', tabLabel: 'REDDIT ADS', merKey: 'reddit', file: 'reddit_ads_data.json', sourceKeys: ['reddit', 'reddit_ads'], pipelineDefault: false },
     { id: 'snapchat', label: 'Snapchat Ads', tabKey: 'snapchat_ads', tabLabel: 'SNAPCHAT ADS', merKey: 'snapchat', file: 'snapchat_ads_data.json', sourceKeys: ['snapchat', 'snapchat_ads', 'snap'], pipelineDefault: false },
-    { id: 'chatgpt', label: 'ChatGPT Ads', tabKey: 'chatgpt_ads', tabLabel: 'CHATGPT ADS', merKey: 'chatgpt', file: 'chatgpt_ads_data.json', sourceKeys: ['chatgpt', 'chatgpt_ads', 'openai_ads'], pipelineDefault: false, tabExists: true }
+    { id: 'chatgpt', label: 'ChatGPT Ads', tabKey: 'chatgpt_ads', tabLabel: 'CHATGPT ADS', merKey: 'chatgpt', file: 'chatgpt_ads_data.json', sourceKeys: ['chatgpt', 'chatgpt_ads', 'openai_ads'], pipelineDefault: false, tabExists: true },
+    { id: 'pinterest', label: 'Pinterest Ads', tabKey: 'pinterest_ads', tabLabel: 'PINTEREST ADS', merKey: 'pinterest', file: 'pinterest_ads_data.json', sourceKeys: ['pinterest_ads', 'pinterest'], pipelineDefault: false }
   ];
 
   var NON_D2C_LINES = [
@@ -234,6 +237,10 @@
     d.complete = node.complete !== false;
     d.updated_at = node.updated_at || node.observed_at || node.as_of || null;
     if (node.tracking_verified != null) d.tracking_verified = !!node.tracking_verified;
+    if (node.attribution_window != null) d.attribution_window = node.attribution_window;
+    if (node.live != null) d.live = !!node.live;
+    if (node.spend_7d != null) d.spend_7d = round2(node.spend_7d);
+    if (node.spend_d2c_7d != null) d.spend_d2c_7d = round2(node.spend_d2c_7d);
     if (node.campaign) d.campaign = node.campaign;
     if (node.notes) d.notes = node.notes;
     if (split) {
@@ -310,11 +317,26 @@
     return null;
   }
 
+  function merAdvertisingSourcesDays(ch) {
+    var src = MER_DOC && MER_DOC.advertising_sources;
+    if (!src || typeof src !== 'object') return {};
+    var out = {};
+    Object.keys(src).forEach(function (date) {
+      var day = src[date];
+      if (!day || typeof day !== 'object' || Array.isArray(day)) return;
+      var picked = pickSourceNode(day, ch);
+      if (!picked || isPlaceholderNode(picked.node)) return;
+      out[date] = nodeToDay(date, picked.node, 'advertising_sources.' + picked.key);
+    });
+    return out;
+  }
+
   function mergeDaysFor(ch) {
     var days = {};
     var file = FEEDS[ch.id].file;
     var merB = merBlockFor(ch);
     Object.assign(days, dailyMapFromBlock(file, ch.file));
+    Object.assign(days, merAdvertisingSourcesDays(ch));
     Object.assign(days, dailyMapFromBlock(merB, 'mer_for_manus.json#' + ch.merKey));
     var snap = snapshotFromBlock(merB, 'mer_for_manus.json#' + ch.merKey);
     if (snap && snap.date) days[snap.date] = snap;
@@ -1002,6 +1024,25 @@
     renderStrip();
   }
 
+  function examplePinterestRequested() {
+    try {
+      if (typeof location === 'undefined' || !location.search) return false;
+      return new URLSearchParams(location.search).get('pinterest_example') === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function applyPinterestMerExample(doc, fixture) {
+    var out = doc ? JSON.parse(JSON.stringify(doc)) : {};
+    if (!fixture || typeof fixture !== 'object') return out;
+    if (fixture.pinterest) out.pinterest = Object.assign({ example: true }, fixture.pinterest);
+    if (fixture.advertising_sources) {
+      out.advertising_sources = Object.assign({}, out.advertising_sources || {}, fixture.advertising_sources);
+    }
+    return out;
+  }
+
   function fetchJson(url) {
     return fetch(url, { cache: 'no-store' })
       .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('HTTP ' + res.status)); });
@@ -1026,6 +1067,11 @@
     CHANNELS.forEach(function (ch) {
       jobs.push(fetchJson(ch.file).then(function (d) { FEEDS[ch.id].file = d; }).catch(function () { FEEDS[ch.id].file = null; }));
     });
+    if (examplePinterestRequested()) {
+      jobs.push(fetchJson('scripts/fixtures/pinterest_example.json').then(function (fx) {
+        MER_DOC = applyPinterestMerExample(MER_DOC, fx);
+      }).catch(function () { /* keep live mer */ }));
+    }
     Promise.allSettled(jobs).then(function () {
       bootFromState();
       CHANNELS.forEach(function (ch) {
@@ -1059,6 +1105,8 @@
     destinationLines: destinationLines,
     BING_AMAZON_CAMPAIGN: BING_AMAZON_CAMPAIGN,
     merContract: merContract,
+    merAdvertisingSourcesDays: merAdvertisingSourcesDays,
+    applyPinterestMerExample: applyPinterestMerExample,
     parseNonD2c: parseNonD2c,
     isTrackingUnverified: isTrackingUnverified,
     outcomeTxt: outcomeTxt,

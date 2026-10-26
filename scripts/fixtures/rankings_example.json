@@ -53,6 +53,16 @@
       "spend_share": 0.05,
       "revenue_share": 0.02,
       "tier": "not enough data"
+    },
+    {
+      "channel": "pinterest",
+      "roas_7d": null,
+      "roas_28d": null,
+      "spend_7d": 210,
+      "wow_change": null,
+      "spend_share": 0.02,
+      "revenue_share": 0.01,
+      "tier": "not enough data"
     }
   ]
 }

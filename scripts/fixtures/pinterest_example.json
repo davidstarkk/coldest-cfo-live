@@ -1,0 +1,84 @@
+{
+  "example": true,
+  "label": "EXAMPLE DATA",
+  "note": "Test-only fixture for screenshots and unit tests. Not published Pinterest spend. Do not treat as live.",
+  "account_id": "549760871033",
+  "pinterest": {
+    "example": true,
+    "as_of": "EXAMPLE-DAY",
+    "spend": 42,
+    "spend_d2c": 42,
+    "clicks": 80,
+    "conversions": 1,
+    "revenue": 90,
+    "roas": 2.14,
+    "spend_7d": 210,
+    "spend_d2c_7d": 210,
+    "clicks_7d": 400,
+    "conversions_7d": 4,
+    "revenue_7d": 360,
+    "roas_7d": 1.71,
+    "attribution_window": "7d click / 1d view",
+    "live": true,
+    "status": "learning",
+    "source": "EXAMPLE DATA",
+    "account_id": "549760871033"
+  },
+  "advertising_sources": {
+    "EXAMPLE-DAY": {
+      "pinterest_ads": {
+        "spend": 42,
+        "spend_d2c": 42,
+        "clicks": 80,
+        "conversions": 1,
+        "revenue": 90,
+        "roas": 2.14,
+        "complete": true,
+        "live": true,
+        "source": "EXAMPLE DATA",
+        "attribution_window": "7d click / 1d view"
+      }
+    }
+  },
+  "channel": {
+    "spend_7d": 210,
+    "spend_d2c_7d": 210,
+    "platform_roas_7d": 1.71,
+    "shopify_roas_7d": null,
+    "shopify_orders_7d": 4,
+    "shopify_revenue_7d": 360,
+    "coverage_pct": 40,
+    "roas_source": "platform_reported",
+    "rule_roas_source": "platform_reported",
+    "rule_status": "Learning, first read 11/01",
+    "mode": "auto",
+    "launch_date": "2026-10-25",
+    "soft_read_date": "2026-10-26",
+    "first_binding_date": "2026-11-01",
+    "soft_read_cut_below_roas": 3.0,
+    "known_gap": "No CAPI (Conversions API) — known gap, browser tag only",
+    "tracking_status": "WARN",
+    "owner_bot": "Pinterest ads bot",
+    "destination": "shopify",
+    "attribution_window": "7d click / 1d view"
+  },
+  "tracking_health": {
+    "status": "WARN",
+    "known_gap": "No CAPI (Conversions API) — known gap, browser tag only",
+    "notes": "browser tag only",
+    "last_checkout_event": null,
+    "last_purchase_event": null,
+    "purchases_24h": null,
+    "purchases_7d_avg": null
+  },
+  "ranking": {
+    "channel": "pinterest",
+    "roas_7d": 1.71,
+    "roas_28d": null,
+    "spend_7d": 210,
+    "wow_change": null,
+    "spend_share": 0.02,
+    "revenue_share": 0.01,
+    "tier": "not enough data"
+  }
+}

@@ -111,16 +111,18 @@ The Daily Reports strip **Paid channels · ad spend** lists all six. Missing dat
 | Reddit | `advertising_sources.reddit` or `mer_for_manus.json` → `reddit` | REDDIT ADS |
 | Snapchat | `advertising_sources.snapchat` or `mer_for_manus.json` → `snapchat` | SNAPCHAT ADS |
 | ChatGPT Ads | `advertising_sources.chatgpt` or `mer_for_manus.json` → `chatgpt` (manual publish; no API) | CHATGPT ADS |
+| Pinterest Ads | `advertising_sources[date].pinterest_ads` or `mer_for_manus.json` → `pinterest` (launched 2026-10-25, account `549760871033`) | PINTEREST ADS |
 
 When `mer_for_manus.json` publishes the daily_inputs contract (`source: daily_inputs`), the strip uses those keys **as written**:
 
 | Key | Meaning |
 |---|---|
-| `d2c_ad_spend` | **D2C ad spend** — Shopify-bound paid media (Meta, Google, Bing D2C, Reddit, Snapchat, ChatGPT, TikTok `shopify_spend`) |
+| `d2c_ad_spend` | **D2C ad spend** — Shopify-bound paid media (Meta, Google, Bing D2C, Reddit, Snapchat, ChatGPT, Pinterest, TikTok `shopify_spend`) |
 | `blended_mer` | Shopify D2C revenue ÷ `d2c_ad_spend` |
 | `total_ad_spend` | **All ad spend** — company total (D2C + Amazon-bound + other non-D2C) |
 | `bing.spend` / `bing.d2c` / `bing.amazon` | Bing total and the D2C / Amazon destination split. Main campaign `bing to amz tumbler listing 1` is Amazon-bound. |
 | `reddit` / `snapchat` / `chatgpt` | Per-channel blocks; `tracking_verified: false` means unpublished / unverified |
+| `pinterest` | `{spend, spend_d2c, clicks, conversions, revenue, roas, *_7d, attribution_window, live, status, source, as_of}` — missing = $0 / **—** |
 | `non_d2c.whatnot` / `applovin` / `tiktok_shop` / `sellerboard_amazon` / `unallocated` | Amazon-bound and other non-D2C lines (in All ad spend, excluded from D2C / blended MER) |
 
 Per-channel feeds may also publish `d2c` / `amazon` / `other` or `destination: "d2c" | "amazon" | "other"`. TikTok’s Shopify share (`advertising_sources.tiktok_ads.shopify_spend`) counts as D2C; TikTok Shop / unallocated do not.
@@ -129,9 +131,9 @@ Without those keys the strip falls back to a destination-aware sum (six paid cha
 
 Feed order per channel (same as Bing):
 
-1. `PARTIAL_REPORTS[].advertising_sources.<channel>` (aliases accepted)
-2. `mer_for_manus.json` block (`meta`, `google`, `bing`, `reddit`, `snapchat`, `chatgpt`)
-3. optional `<channel>_ads_data.json` (`bing_ads_data.json`, `reddit_ads_data.json`, …)
+1. `PARTIAL_REPORTS[].advertising_sources.<channel>` or `mer_for_manus.json` `advertising_sources[YYYY-MM-DD].<channel>` (aliases accepted; Pinterest key is `pinterest_ads`)
+2. `mer_for_manus.json` block (`meta`, `google`, `bing`, `reddit`, `snapchat`, `chatgpt`, `pinterest`)
+3. optional `<channel>_ads_data.json` (`bing_ads_data.json`, `pinterest_ads_data.json`, …)
 4. Channel tab → manual daily number (`localStorage` only)
 
 ChatGPT ads has **no API**. Publish a `chatgpt` block from the data repo (or `chatgpt_ads_data.json`). Until then the row is $0 / no feed.
@@ -149,14 +151,16 @@ Data (exact data-repo PR #14 keys; first file that exists wins):
 1. `ad_channel_throttles.json` — `d2c_ad_spend`, `total_ad_spend`, `shopify_d2c_revenue`, `blended_mer`, `channels.*`, `series_28d.by_channel` / `series_28d.blended`, `platform_roas`, `roas_basis`, `recent_changes` (also nested on `mer_for_manus.json` → `ad_channel_throttles`)
 2. `throttle_settings` / `ads_throttle/settings.json` (`global.roas_basis: platform`)
 3. `ads_throttle/changes.json` or `recent_changes`
-4. `ads_throttle/tracking_health.json` (`tracking_health`: `as_of`, `shopify_orders_yesterday`, `channels.{meta,google,bing,reddit,snapchat,chatgpt}` with `status` OK|WARN|DOWN, `last_checkout_event`, `last_purchase_event`, `purchases_24h`, `purchases_7d_avg`, `notes`)
-5. `ads_throttle/rankings.json` then `ad_channel_throttles.rankings` — latest week `{date, channels:[{channel, roas_7d, roas_28d, spend_7d, wow_change, spend_share, revenue_share, tier}]}`
+4. `ads_throttle/tracking_health.json` (`tracking_health`: `as_of`, `shopify_orders_yesterday`, `channels.{meta,google,bing,reddit,snapchat,chatgpt,pinterest}` with `status` OK|WARN|DOWN, `last_checkout_event`, `last_purchase_event`, `purchases_24h`, `purchases_7d_avg`, `notes`). Missing Pinterest health is **unknown** (not DOWN). Pinterest always shows the amber known-gap chip **No CAPI (Conversions API) — known gap, browser tag only**.
+5. `ads_throttle/rankings.json` then `ad_channel_throttles.rankings` — latest week `{date, channels:[{channel, roas_7d, roas_28d, spend_7d, wow_change, spend_share, revenue_share, tier}]}`. Include `pinterest` when present in `channels` or `eligible_channels`.
 6. `ad_channel_throttles.channels[ch]` Shopify attribution — `shopify_orders_7d`, `shopify_revenue_7d`, `shopify_roas_7d` (null if spend &lt; $200 or no data), `platform_roas_7d`, `coverage_pct` (raw may exceed 100; display capped at 100%), `roas_source` (`shopify_attributed` only if coverage ≥ 80, else `platform_reported`)
 7. `ad_channel_throttles.attribution` — `{as_of, total_orders_7d, attributed_paid_pct, owned_pct, unattributed_pct, by_channel}`
 
 Top cards: **D2C ad spend** and **All ad spend** separately, Shopify D2C revenue, blended MER vs **3.0**.
 
-One row per channel (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, TikTok): daily budget, 7-day spend, Shopify-attributed revenue, **Shopify ROAS (7d)**, **Platform ROAS (7d)** labeled **platform-reported**, **Coverage %** chip (≥80 green / 50–79 amber / &lt;50 red / missing grey), **Rule uses** from `roas_source`, 3-day trend, destination (Shopify vs Amazon/other), published `rule_status`, last change + next eligible, owner bot, strategy notes. `*_status: unverified` fields are labeled **unverified**. Missing attribution fields stay **— / unknown** — never invented. The live throttle rule stays **platform-reported** per `settings.global.roas_basis` until David switches.
+One row per channel (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, Pinterest, TikTok). Pinterest (launched 10/25, account `549760871033`) reads `channels.pinterest` (`spend_7d`, `spend_d2c_7d`, `platform_roas_7d` labeled **platform-reported, 7d click / 1d view**, `shopify_roas_7d`, `coverage_pct`, `roas_source`, `rule_roas_source`, `rule_status` e.g. Learning first read 11/01, `mode`, `launch_date`, `soft_read_date`, `first_binding_date`, `soft_read_cut_below_roas`, `known_gap`, `tracking_status`, `owner_bot`). Soft-read and first-binding dates show on the row. Missing fields stay **— / unknown**. `?pinterest_example=1` is test-only EXAMPLE DATA.
+
+One row per channel also includes: daily budget, 7-day spend, Shopify-attributed revenue, **Shopify ROAS (7d)**, **Platform ROAS (7d)** labeled **platform-reported**, **Coverage %** chip (≥80 green / 50–79 amber / &lt;50 red / missing grey), **Rule uses** from `roas_source`, 3-day trend, destination (Shopify vs Amazon/other), published `rule_status`, last change + next eligible, owner bot, strategy notes. `*_status: unverified` fields are labeled **unverified**. Missing attribution fields stay **— / unknown** — never invented. The live throttle rule stays **platform-reported** per `settings.global.roas_basis` until David switches.
 
 Also on the tab: 28-day per-channel spend + ROAS charts with a 3.0 line, budget-share chart, cross-channel blended MER 28d trend, a **Tracking health** panel (status chip OK green / WARN amber / DOWN red / unknown grey, last checkout + purchase in ET, `purchases_24h` vs Shopify orders yesterday and vs 7d avg, notes), a **Channel ranking** section (latest week, sorted by tier then `roas_7d`; Lead green / Steady blue-grey / Lagging amber / not enough data grey; 7d and 28d ROAS labeled **platform-reported**; spend 7d; WoW; paired spend-share vs revenue-share bars). Missing `rankings.json` shows **First ranking lands Mon 10/26 ~11:15 AM ET** — never invented. `scripts/fixtures/rankings_example.json` is test-only EXAMPLE DATA (`?ranking_example=1`), not a live feed. An **Attribution coverage** card stacks paid-attributed vs Owned vs Unattributed share of Shopify orders (`attribution.as_of`). `scripts/fixtures/attribution_example.json` is test-only EXAMPLE DATA (`?attribution_example=1`). Then a **read-only** live settings panel (per-channel mode + min/max) with **Live settings change only through Jarvis in chat** and a **Request change** link to `davidstarkk/coldest-cfo-dashboard` issues, plus editable what-if inputs.
 

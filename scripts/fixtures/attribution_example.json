@@ -71,6 +71,14 @@
       "platform_roas_7d": null,
       "coverage_pct": 40,
       "roas_source": "platform_reported"
+    },
+    "pinterest": {
+      "shopify_orders_7d": 4,
+      "shopify_revenue_7d": 360,
+      "shopify_roas_7d": null,
+      "platform_roas_7d": 1.71,
+      "coverage_pct": 40,
+      "roas_source": "platform_reported"
     }
   }
 }

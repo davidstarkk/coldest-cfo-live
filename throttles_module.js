@@ -20,6 +20,7 @@
     { id: 'reddit', label: 'Reddit' },
     { id: 'snapchat', label: 'Snapchat' },
     { id: 'chatgpt', label: 'ChatGPT' },
+    { id: 'pinterest', label: 'Pinterest' },
     { id: 'tiktok', label: 'TikTok' }
   ];
   var HEALTH_CHANNELS = [
@@ -28,7 +29,8 @@
     { id: 'bing', label: 'Bing / Microsoft' },
     { id: 'reddit', label: 'Reddit' },
     { id: 'snapchat', label: 'Snapchat' },
-    { id: 'chatgpt', label: 'ChatGPT' }
+    { id: 'chatgpt', label: 'ChatGPT' },
+    { id: 'pinterest', label: 'Pinterest' }
   ];
   var ISSUE_REPO = 'https://github.com/davidstarkk/coldest-cfo-dashboard/issues/new';
   var SNAPSHOT_PATH = 'ad_channel_throttles.json';
@@ -40,6 +42,9 @@
   var RANKINGS_PATH = 'ads_throttle/rankings.json';
   var RANKINGS_EXAMPLE_PATH = 'scripts/fixtures/rankings_example.json';
   var ATTRIBUTION_EXAMPLE_PATH = 'scripts/fixtures/attribution_example.json';
+  var PINTEREST_EXAMPLE_PATH = 'scripts/fixtures/pinterest_example.json';
+  var PINTEREST_KNOWN_GAP = 'No CAPI (Conversions API) — known gap, browser tag only';
+  var PINTEREST_ROAS_WINDOW = 'platform-reported, 7d click / 1d view';
   var UNVERIFIED = 'unverified';
   var UNKNOWN = 'unknown';
   var HOLD_TRACKING_DOWN = 'Hold - tracking down';
@@ -47,7 +52,7 @@
   var TIER_ORDER = { lead: 0, steady: 1, lagging: 2, 'not enough data': 3 };
   var LIVE_RULE_NOTE = 'Live rule stays platform-reported per settings until David switches.';
 
-  var LIVE = { settings: null, changes: null, series: null, snapshot: null, health: null, rankings: null, attribution: null, attributionExample: false };
+  var LIVE = { settings: null, changes: null, series: null, snapshot: null, health: null, rankings: null, attribution: null, attributionExample: false, pinterestExample: false };
   var WHATIF = { global: {}, channels: {} };
   var CHARTS = [];
 
@@ -181,7 +186,9 @@
         last_purchase_event: null,
         purchases_24h: null,
         purchases_7d_avg: null,
-        notes: null
+        notes: null,
+        known_gap: null,
+        tracking_status: null
       };
     }
     return {
@@ -190,7 +197,9 @@
       last_purchase_event: ch.last_purchase_event != null && ch.last_purchase_event !== '' ? ch.last_purchase_event : null,
       purchases_24h: ch.purchases_24h != null && ch.purchases_24h !== '' ? ch.purchases_24h : null,
       purchases_7d_avg: ch.purchases_7d_avg != null && ch.purchases_7d_avg !== '' ? ch.purchases_7d_avg : null,
-      notes: ch.notes != null && ch.notes !== '' ? ch.notes : null
+      notes: ch.notes != null && ch.notes !== '' ? ch.notes : null,
+      known_gap: ch.known_gap != null && ch.known_gap !== '' ? ch.known_gap : null,
+      tracking_status: ch.tracking_status != null && ch.tracking_status !== '' ? ch.tracking_status : null
     };
   }
 
@@ -219,6 +228,41 @@
 
   function exampleAttributionRequested() {
     return exampleQueryFlag('attribution_example');
+  }
+
+  function examplePinterestRequested() {
+    return exampleQueryFlag('pinterest_example');
+  }
+
+  function applyPinterestExample(snapshot, health, rankings, fixture) {
+    var snap = snapshot ? clone(snapshot) : { channels: {} };
+    snap.channels = snap.channels || {};
+    if (fixture && fixture.channel) {
+      snap.channels.pinterest = Object.assign({}, snap.channels.pinterest || {}, fixture.channel);
+    }
+    var h = health ? clone(health) : { channels: {} };
+    if (h.channels == null || typeof h.channels !== 'object') h.channels = {};
+    if (fixture && fixture.tracking_health) {
+      h.channels.pinterest = Object.assign({}, h.channels.pinterest || {}, fixture.tracking_health);
+    }
+    var rank = rankings ? clone(rankings) : { date: 'EXAMPLE-WEEK', example: true, channels: [] };
+    if (Array.isArray(rank)) rank = { date: 'EXAMPLE-WEEK', example: true, channels: rank };
+    if (fixture && fixture.ranking) {
+      rank.channels = (rank.channels || []).filter(function (c) { return c && c.channel !== 'pinterest'; });
+      rank.channels.push(fixture.ranking);
+      rank.eligible_channels = (rank.eligible_channels || []).concat(['pinterest']);
+      rank.example = true;
+    }
+    return { snapshot: snap, health: h, rankings: rank };
+  }
+
+  function pinterestKnownGapText(id) {
+    if (id !== 'pinterest') return null;
+    var snap = snapshotChannel('pinterest') || {};
+    var h = channelHealth('pinterest');
+    if (snap.known_gap) return String(snap.known_gap);
+    if (h && h.known_gap) return String(h.known_gap);
+    return PINTEREST_KNOWN_GAP;
   }
 
   function normalizeRoasSource(raw) {
@@ -268,7 +312,8 @@
       shopify_roas_7d: nullableNum(snap.shopify_roas_7d),
       platform_roas_7d: nullableNum(snap.platform_roas_7d),
       coverage_pct: nullableNum(snap.coverage_pct),
-      roas_source: normalizeRoasSource(snap.roas_source)
+      roas_source: normalizeRoasSource(snap.roas_source),
+      rule_roas_source: normalizeRoasSource(snap.rule_roas_source)
     };
   }
 
@@ -428,7 +473,17 @@
     if (!week) {
       return { date: null, channels: [], example: false, empty: true };
     }
-    var channels = sortRankingChannels(asChannelList(week.channels).map(normalizeRankingChannel));
+    var list = asChannelList(week.channels);
+    var eligible = week.eligible_channels;
+    if (Array.isArray(eligible)) {
+      eligible.forEach(function (id) {
+        if (!id) return;
+        var key = String(id);
+        if (list.some(function (c) { return String(c.channel || '') === key; })) return;
+        list.push({ channel: key });
+      });
+    }
+    var channels = sortRankingChannels(list.map(normalizeRankingChannel));
     var example = !!(week.example || (raw && raw.example) || week.date === 'EXAMPLE-WEEK');
     return {
       date: week.date != null && week.date !== '' ? String(week.date) : null,
@@ -599,6 +654,7 @@
     else if (label.indexOf('Cut') === 0) action = 'cut';
     else if (label.indexOf('Hold') === 0) action = 'hold';
     else if (label.indexOf('Not enough') === 0) action = 'not_enough_data';
+    else if (label.indexOf('Learning') === 0) action = 'none';
     return { action: action, label: label };
   }
 
@@ -802,6 +858,7 @@
     if (label.indexOf('Hold - tracking') === 0) return 'down';
     if (label.indexOf('Hold') === 0) return 'hold';
     if (label.indexOf('Not enough') === 0) return 'nodata';
+    if (label.indexOf('Learning') === 0) return 'learning';
     if (label.indexOf('Frozen') === 0) return 'frozen';
     return 'view';
   }
@@ -837,6 +894,8 @@
       + '.th-chip.steady{background:rgba(59,130,246,.16);color:#93c5fd}'
       + '.th-chip.lagging{background:rgba(245,158,11,.18);color:#f59e0b}'
       + '.th-chip.rank-nodata{background:rgba(136,136,168,.15);color:#8888a8}'
+      + '.th-chip.learning{background:rgba(0,212,212,.15);color:#00d4d4}'
+      + '.th-chip.known-gap{background:rgba(245,158,11,.18);color:#f59e0b;margin-top:4px;max-width:260px;white-space:normal;line-height:1.3}'
       + '.th-chip.cov-high{background:rgba(34,197,94,.18);color:#22c55e}'
       + '.th-chip.cov-mid{background:rgba(245,158,11,.18);color:#f59e0b}'
       + '.th-chip.cov-low{background:rgba(239,68,68,.2);color:#fb7185}'
@@ -954,12 +1013,26 @@
     if (c.id === 'bing' && (split.shopify != null || split.amazon != null)) {
       spendHtml += '<div class="th-muted">D2C ' + usd(split.shopify) + ' / Amazon ' + usd(split.amazon) + '</div>';
     }
+    if (c.id === 'pinterest' && snap.spend_d2c_7d != null) {
+      spendHtml += '<div class="th-muted">D2C ' + usd(snap.spend_d2c_7d) + '</div>';
+    }
     var shopRoasHtml = dashOr(attr.shopify_roas_7d, merTxt);
+    var platLabel = c.id === 'pinterest' ? PINTEREST_ROAS_WINDOW : 'platform-reported';
     var platRoasHtml = dashOr(attr.platform_roas_7d, merTxt)
-      + (attr.platform_roas_7d != null ? '<div class="th-muted">platform-reported</div>' : '');
-    var ruleUses = roasSourceLabel(attr.roas_source);
-    return '<tr>'
-      + '<td>' + esc(c.label) + '</td>'
+      + ((attr.platform_roas_7d != null || c.id === 'pinterest') ? '<div class="th-muted">' + esc(platLabel) + '</div>' : '');
+    var ruleUses = roasSourceLabel(attr.rule_roas_source || attr.roas_source);
+    var dateBits = [];
+    if (c.id === 'pinterest') {
+      dateBits.push('launch ' + (snap.launch_date ? esc(String(snap.launch_date).slice(0, 10)) : '—'));
+      dateBits.push('soft read ' + (snap.soft_read_date ? esc(String(snap.soft_read_date).slice(0, 10)) : '—'));
+      dateBits.push('first binding ' + (snap.first_binding_date ? esc(String(snap.first_binding_date).slice(0, 10)) : '—'));
+    }
+    return '<tr' + (c.id === 'pinterest' ? ' id="th-row-pinterest"' : '') + '>'
+      + '<td>' + esc(c.label)
+      + (c.id === 'pinterest' && LIVE.pinterestExample ? '<div class="th-example-banner" style="margin:6px 0 4px">EXAMPLE DATA</div>' : '')
+      + (c.id === 'pinterest' ? '<div class="th-muted">' + dateBits.join(' · ') + '</div>' : '')
+      + (c.id === 'pinterest' ? '<div><span class="th-chip known-gap">' + esc(pinterestKnownGapText('pinterest')) + '</span></div>' : '')
+      + '</td>'
       + '<td class="mono">' + unverifiedOr(budget, usd, snap.daily_budget_status) + '</td>'
       + '<td class="mono">' + spendHtml + '</td>'
       + '<td class="mono">' + (attr.shopify_revenue_7d != null ? usd(attr.shopify_revenue_7d) : unverifiedOr(rev, usd, snap.shopify_revenue_status)) + '</td>'
@@ -1001,11 +1074,15 @@
         + '<td class="mono">' + unknownOr(h.purchases_24h, countTxt) + '</td>'
         + '<td class="mono">' + unknownOr(shopYday, countTxt) + '</td>'
         + '<td class="mono">' + unknownOr(h.purchases_7d_avg, countTxt) + '</td>'
-        + '<td>' + (h.notes ? esc(h.notes) : '<span class="th-unknown">' + UNKNOWN + '</span>') + '</td>'
+        + '<td>' + (h.notes ? esc(h.notes) : '<span class="th-unknown">' + UNKNOWN + '</span>')
+        + (c.id === 'pinterest' ? '<div><span class="th-chip known-gap">' + esc(pinterestKnownGapText('pinterest')) + '</span></div>' : '')
+        + '</td>'
         + '</tr>';
     }).join('');
     return ''
+      + '<div id="th-tracking-health">'
       + '<div class="th-title">Tracking health</div>'
+      + (LIVE.pinterestExample ? '<div class="th-example-banner">EXAMPLE DATA — test-only Pinterest fixture, not a published feed</div>' : '')
       + '<p class="th-sub">Snapshot <code>tracking_health</code> / <code>ads_throttle/tracking_health.json</code>'
       + ' (as_of ' + (health.as_of ? esc(String(health.as_of)) : '<span class="th-unknown">' + UNKNOWN + '</span>') + '). '
       + 'Missing fields stay <span class="th-unknown">unknown</span> — never invented. '
@@ -1018,7 +1095,8 @@
       + '<div class="th-card th-scroll"><table class="th-table"><thead><tr>'
       + '<th>Channel</th><th>Status</th><th>Last checkout (ET)</th><th>Last purchase (ET)</th>'
       + '<th>purchases_24h</th><th>vs Shopify yday</th><th>vs 7d avg</th><th>Notes</th>'
-      + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+      + '</tr></thead><tbody>' + rows + '</tbody></table></div>'
+      + '</div>';
   }
 
   function rankingHtml() {
@@ -1405,7 +1483,8 @@
       fetchJson(HEALTH_PATH),
       fetchJson(RANKINGS_PATH),
       exampleRankingRequested() ? fetchJson(RANKINGS_EXAMPLE_PATH) : Promise.reject(new Error('skip ranking example')),
-      exampleAttributionRequested() ? fetchJson(ATTRIBUTION_EXAMPLE_PATH) : Promise.reject(new Error('skip attribution example'))
+      exampleAttributionRequested() ? fetchJson(ATTRIBUTION_EXAMPLE_PATH) : Promise.reject(new Error('skip attribution example')),
+      examplePinterestRequested() ? fetchJson(PINTEREST_EXAMPLE_PATH) : Promise.reject(new Error('skip pinterest example'))
     ]).then(function (results) {
       var mer = results[5].status === 'fulfilled' ? results[5].value : null;
       LIVE.snapshot = results[0].status === 'fulfilled' ? results[0].value : pickMerBlock(mer, 'ad_channel_throttles');
@@ -1428,6 +1507,16 @@
       if (results[9] && results[9].status === 'fulfilled' && results[9].value) {
         LIVE.snapshot = applyAttributionExample(LIVE.snapshot, results[9].value);
         LIVE.attributionExample = true;
+      }
+      if (results[10] && results[10].status === 'fulfilled' && results[10].value) {
+        var pin = applyPinterestExample(LIVE.snapshot, health, rankings, results[10].value);
+        LIVE.snapshot = pin.snapshot;
+        health = pin.health;
+        LIVE.health = normalizeHealth(health);
+        rankings = pin.rankings;
+        LIVE.rankings = normalizeRankings(rankings);
+        LIVE.attributionExample = true;
+        LIVE.pinterestExample = true;
       }
       LIVE.attribution = normalizeAttribution(LIVE.snapshot && LIVE.snapshot.attribution);
       var panel = document.getElementById('tab-throttles');
@@ -1481,7 +1570,12 @@
     displayCoveragePct: displayCoveragePct,
     normalizeRoasSource: normalizeRoasSource,
     roasSourceLabel: roasSourceLabel,
-    _setLive: function (settings, series, changes, snapshot, health, rankings, attributionExample) {
+    applyPinterestExample: applyPinterestExample,
+    pinterestKnownGapText: pinterestKnownGapText,
+    PINTEREST_KNOWN_GAP: PINTEREST_KNOWN_GAP,
+    PINTEREST_ROAS_WINDOW: PINTEREST_ROAS_WINDOW,
+    trackingHealthHtml: trackingHealthHtml,
+    _setLive: function (settings, series, changes, snapshot, health, rankings, attributionExample, pinterestExample) {
       LIVE.settings = normalizeSettings(settings || null);
       LIVE.series = series || { days: [] };
       LIVE.changes = changes != null ? changes : { entries: [] };
@@ -1490,9 +1584,18 @@
       var rankSrc = rankings !== undefined ? rankings : (snapshot && snapshot.rankings);
       LIVE.rankings = normalizeRankings(rankSrc);
       LIVE.attributionExample = false;
+      LIVE.pinterestExample = false;
       if (attributionExample) {
         LIVE.snapshot = applyAttributionExample(LIVE.snapshot, attributionExample);
         LIVE.attributionExample = true;
+      }
+      if (pinterestExample) {
+        var pin = applyPinterestExample(LIVE.snapshot, LIVE.health, rankSrc, pinterestExample);
+        LIVE.snapshot = pin.snapshot;
+        LIVE.health = normalizeHealth(pin.health);
+        LIVE.rankings = normalizeRankings(pin.rankings);
+        LIVE.attributionExample = true;
+        LIVE.pinterestExample = true;
       }
       LIVE.attribution = normalizeAttribution(LIVE.snapshot && LIVE.snapshot.attribution);
       WHATIF = { global: {}, channels: {} };
