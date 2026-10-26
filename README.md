@@ -10,8 +10,6 @@ Single-page static site (`index.html`) with embedded data:
 - `TIKTOK_DATA` — daily TikTok aggregates from ShipHero (Apr 7, 2026+)
 - `MERGED_DATA` — combined view for the Analytics tab
 
-The top **7-day rolling MER** card reads `mer_for_manus.json` (`mer_7d_pooled`, `as_of`). The copy in this repo is as_of **2026-10-24**, D2C `mer_7d_pooled` **2.6887** (rev_7d **292351.25** / spend_7d **108735.13**), `mer_30d_pooled` **2.7234**, DoD **+0.0201**, WoW **+0.1129**. The spend line is labeled **D2C ad spend**. If that file is missing or not newer than the embedded closed-report snapshot (2026-09-27), the card keeps the old number and labels it **STALE — as of 2026-09-27, not current** (amber, dimmed). Null fields stay **—** — never invented.
-
 ## Tabs
 
 ### Daily Reports
@@ -99,9 +97,9 @@ The site reads `window.location.hash` on load and auto-expands the matching repo
 - **CFO Briefing** (`d1c3dd8e`): 9:20 AM ET daily — pulls emails, builds report, sends email, deploys site
 - **TikTok Refresh** (`c53bbb8e`): Every 6 hours — pulls ShipHero TikTok orders, updates dashboard
 
-## Paid channels (Meta · Google · Bing · Reddit · Snapchat · ChatGPT)
+## Paid channels (Meta · Google · Bing · Reddit · Snapchat · ChatGPT · Pinterest)
 
-The Daily Reports strip **Paid channels · ad spend** lists all six. Missing data is **$0** or **no feed** — numbers are never invented.
+Every daily report lists **ad spend per channel** (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, Pinterest). Unpublished channels render **`missing`**. Numbers are never invented.
 
 | Channel | Typical source today | Tab |
 |---|---|---|
@@ -127,7 +125,7 @@ When `mer_for_manus.json` publishes the daily_inputs contract (`source: daily_in
 
 Per-channel feeds may also publish `d2c` / `amazon` / `other` or `destination: "d2c" | "amazon" | "other"`. TikTok’s Shopify share (`advertising_sources.tiktok_ads.shopify_spend`) counts as D2C; TikTok Shop / unallocated do not.
 
-Without those keys the strip falls back to a destination-aware sum (six paid channels as D2C unless split, plus TikTok Shopify / Amazon-bound / other when published). Meta and Google already inside `provisional_totals.ads` are displayed and **not added again**. Bing / Reddit / Snapchat / ChatGPT overlay into `provisional_totals` only when the pipeline has not published them and a feed has spend &gt; $0.
+Without those keys the card falls back to a destination-aware sum (seven paid channels as D2C unless split, plus TikTok Shopify / Amazon-bound / other when published). Meta and Google already inside `provisional_totals.ads` are displayed and **not added again**. Bing / Reddit / Snapchat / ChatGPT / Pinterest overlay into `provisional_totals` only when the pipeline has not published them and a feed has spend &gt; $0.
 
 Feed order per channel (same as Bing):
 
@@ -262,6 +260,5 @@ Until `BING_ADS_ENABLED=1` **and** those vars are set, nothing calls Microsoft. 
 
 ```bash
 npm install
-npm test
 node server.js  # http://localhost:5000
 ```

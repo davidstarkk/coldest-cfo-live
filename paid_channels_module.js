@@ -89,6 +89,212 @@
   function usd(v) {
     return '$' + num(v).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
+
+  var REVENUE_DISPLAY = [
+    { id: 'shopify', label: 'Shopify', keys: ['shopify', 'shop', 'd2c'] },
+    { id: 'amazon', label: 'Amazon', keys: ['amazon', 'amz'] },
+    { id: 'tiktok', label: 'TikTok', keys: ['tiktok', 'tiktok_shop'] },
+    { id: 'whatnot', label: 'Whatnot', keys: ['whatnot'] }
+  ];
+
+  function isDateKeyedMap(obj) {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
+    var keys = Object.keys(obj);
+    if (!keys.length) return false;
+    return keys.every(function (k) { return /^\d{4}-\d{2}-\d{2}$/.test(k); });
+  }
+
+  function mapForDate(obj, date) {
+    if (!obj || typeof obj !== 'object') return null;
+    if (isDateKeyedMap(obj)) return obj[date] || null;
+    return obj;
+  }
+
+  function pickKeyed(map, keys) {
+    if (!map || typeof map !== 'object' || !keys) return undefined;
+    for (var i = 0; i < keys.length; i++) {
+      if (Object.prototype.hasOwnProperty.call(map, keys[i])) return map[keys[i]];
+    }
+    return undefined;
+  }
+
+  function publishedAmount(node, fields) {
+    if (node === undefined) return { published: false, value: null };
+    if (node === null || node === false || node === '') return { published: false, value: null };
+    if (typeof node === 'number' || typeof node === 'string') {
+      var n0 = Number(node);
+      if (!Number.isFinite(n0)) return { published: false, value: null };
+      return { published: true, value: n0 };
+    }
+    if (typeof node !== 'object') return { published: false, value: null };
+    if (node.data_available === false || node.zero_assumed === true) return { published: false, value: null };
+    if (node.status === 'missing' || node.status === 'no_feed' || node.status === 'unpublished') {
+      return { published: false, value: null };
+    }
+    var names = fields || ['spend', 'revenue', 'amount', 'value', 'total'];
+    for (var i = 0; i < names.length; i++) {
+      if (node[names[i]] != null && node[names[i]] !== '') {
+        var n = Number(node[names[i]]);
+        if (Number.isFinite(n)) return { published: true, value: n };
+      }
+    }
+    return { published: false, value: null };
+  }
+
+  function channelRevenueRows(r) {
+    r = r || {};
+    var rows = [];
+    var src = mapForDate(r.channel_revenue, r.date);
+    if (src) {
+      REVENUE_DISPLAY.forEach(function (ch) {
+        var amt = publishedAmount(pickKeyed(src, ch.keys), ['revenue', 'amount', 'value', 'total']);
+        rows.push({ label: ch.label, value: amt.published ? usd(amt.value) : 'missing' });
+      });
+      return rows;
+    }
+    if (r.channel_observations) {
+      REVENUE_DISPLAY.forEach(function (ch) {
+        var c = r.channel_observations[ch.id];
+        if (!c || c.data_available === false || c.zero_assumed || c.revenue == null) {
+          rows.push({ label: ch.label, value: 'missing' });
+          return;
+        }
+        rows.push({ label: ch.label, value: usd(c.revenue) });
+      });
+      return rows;
+    }
+    if (r.direct_breakdown) {
+      Object.keys(r.direct_breakdown).forEach(function (k) {
+        var c = r.direct_breakdown[k];
+        rows.push({
+          label: String(k).toUpperCase(),
+          value: c && c.revenue != null ? usd(c.revenue) : 'missing'
+        });
+      });
+      return rows;
+    }
+    rows.push({
+      label: r.date >= '2026-04-07' ? 'Shopify' : 'Shopify/TikTok',
+      value: r.shop_revenue == null ? 'missing' : usd(r.shop_revenue)
+    });
+    rows.push({ label: 'Amazon', value: r.amz_revenue == null ? 'missing' : usd(r.amz_revenue) });
+    if (r.date >= '2026-04-07') {
+      rows.push({ label: 'TikTok', value: r.tiktok_revenue == null ? 'missing' : usd(r.tiktok_revenue) });
+    }
+    if (r.whatnot_revenue != null) {
+      rows.push({ label: 'Whatnot', value: usd(r.whatnot_revenue) });
+    }
+    return rows;
+  }
+
+  function reportForDate(date) {
+    var lists = [hostArray('PARTIAL_REPORTS'), hostArray('REPORTS')];
+    for (var i = 0; i < lists.length; i++) {
+      var arr = lists[i];
+      if (!arr) continue;
+      for (var j = 0; j < arr.length; j++) {
+        if (arr[j] && arr[j].date === date) return arr[j];
+      }
+    }
+    return null;
+  }
+
+  function spendFromChannelAdSpend(ch, date) {
+    var r = reportForDate(date);
+    var map = r && r.channel_ad_spend;
+    if (!map) map = MER_DOC && mapForDate(MER_DOC.channel_ad_spend, date);
+    else map = mapForDate(map, date);
+    if (!map) return null;
+    var keys = ((ch && ch.sourceKeys) || []).concat(ch ? [ch.id, ch.merKey] : []);
+    var node = pickKeyed(map, keys);
+    if (node === undefined) return null;
+    var amt = publishedAmount(node, ['spend', 'daily_spend', 'ad_spend', 'amount']);
+    if (!amt.published) return emptyDay(date);
+    var rich = null;
+    var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
+    if (src) {
+      var picked = pickSourceNode(src, ch);
+      if (picked && !isPlaceholderNode(picked.node)) rich = picked.node;
+    }
+    if (!rich) {
+      var merB = (ch && ((FEEDS[ch.id] && FEEDS[ch.id].mer && FEEDS[ch.id].mer[ch.merKey]) || (MER_DOC && MER_DOC[ch.merKey]))) || null;
+      if (merB && !isPlaceholderNode(merB)) {
+        var by = merB.by_date || merB.by_day;
+        if (by && by[date] && !isPlaceholderNode(by[date])) rich = by[date];
+        else {
+          var snap = snapshotFromBlock(merB, 'mer_for_manus.json#' + (ch.merKey || ch.id));
+          if (snap && snap.date === date) rich = merB;
+        }
+      }
+    }
+    var base = (typeof node === 'object') ? node : (rich && typeof rich === 'object' ? rich : { spend: amt.value });
+    var day = nodeToDay(date, base, 'channel_ad_spend');
+    day.spend = round2(amt.value);
+    day.hasFeed = true;
+    if (typeof node !== 'object' && rich && typeof rich === 'object') {
+      if (rich.clicks != null) { day.clicks = num(rich.clicks); day.hasClicks = true; }
+      if (hasDestinationFields(rich)) {
+        var split = destinationSplit(rich);
+        day.d2c = split.d2c;
+        day.amazon = split.amazon;
+        day.other = split.other;
+        if (split.destination) day.destination = split.destination;
+      }
+    }
+    return day;
+  }
+
+  function mergeOverlayRows(rows) {
+    if (!Array.isArray(rows) || !rows.length) return false;
+    var g = typeof globalThis !== 'undefined' ? globalThis : root;
+    var partials = hostArray('PARTIAL_REPORTS');
+    if (!partials) {
+      g.PARTIAL_REPORTS = [];
+      partials = g.PARTIAL_REPORTS;
+    }
+    var changed = false;
+    rows.forEach(function (row) {
+      if (!row || !row.date) return;
+      var idx = -1;
+      for (var i = 0; i < partials.length; i++) {
+        if (partials[i] && partials[i].date === row.date) { idx = i; break; }
+      }
+      if (idx === -1) partials.push(row);
+      else partials[idx] = Object.assign({}, partials[idx], row);
+      changed = true;
+    });
+    return changed;
+  }
+
+  function hydratePartialFromMer(mer) {
+    mer = mer || MER_DOC;
+    if (!mer || !mer.as_of || !/^\d{4}-\d{2}-\d{2}$/.test(mer.as_of)) return false;
+    var date = mer.as_of;
+    if (reportForDate(date)) return false;
+    var fromMerPartials = Array.isArray(mer.partial_reports)
+      ? mer.partial_reports.filter(function (r) { return r && r.date === date; })
+      : [];
+    if (fromMerPartials.length) return mergeOverlayRows(fromMerPartials);
+    var adv = mer.advertising_sources && mer.advertising_sources[date];
+    var rev = mapForDate(mer.channel_revenue, date);
+    var spend = mapForDate(mer.channel_ad_spend, date);
+    if (!adv && !rev && !spend) return false;
+    var row = {
+      date: date,
+      report_status: 'partial',
+      source_mode: 'partial_v1',
+      channel_revenue: rev || undefined,
+      channel_ad_spend: spend || undefined,
+      advertising_sources: adv || {},
+      channel_observations: mer.channel_observations || {},
+      provisional_totals: {},
+      calculation_basis: 'mer_as_of'
+    };
+    if (!row.channel_revenue && mer.shop_revenue != null) {
+      row.channel_revenue = { shopify: mer.shop_revenue };
+    }
+    return mergeOverlayRows([row]);
+  }
   function intOrDash(v) {
     return v == null ? '—' : Math.round(num(v)).toLocaleString();
   }
@@ -849,84 +1055,115 @@
       + '</div>';
   }
 
-  function renderStrip() {
-    var slot = document.getElementById('paid-channels-daily');
-    if (!slot) {
-      var yday = document.getElementById('yday-bar');
-      if (!yday || !yday.parentNode) return;
-      slot = document.createElement('div');
-      slot.id = 'paid-channels-daily';
-      yday.parentNode.insertBefore(slot, yday.nextSibling);
+  var PINTEREST_DISPLAY = {
+    id: 'pinterest',
+    label: 'Pinterest Ads',
+    merKey: 'pinterest',
+    sourceKeys: ['pinterest_ads', 'pinterest']
+  };
+
+  function displayChannels() {
+    var seen = {};
+    var out = [];
+    CHANNELS.forEach(function (ch) {
+      if (seen[ch.id]) return;
+      seen[ch.id] = true;
+      out.push(ch);
+    });
+    if (!seen.pinterest) out.push(PINTEREST_DISPLAY);
+    return out;
+  }
+
+  function spendTxt(day) {
+    return day && day.hasFeed ? usd(day.spend) : 'missing';
+  }
+
+  function metricTxt(day, kind, ch) {
+    if (!day || !day.hasFeed) return 'missing';
+    if (kind === 'clicks') return day.hasClicks ? intOrDash(day.clicks) : 'missing';
+    if (kind === 'source') {
+      var src = day.source || 'published';
+      if (day.tracking_verified === false) src += ' · tracking_verified:false';
+      return src;
     }
-    var old = document.getElementById('bing-ads-daily');
-    if (old && old.parentNode) old.parentNode.removeChild(old);
+    return outcomeTxt(day, kind, ch);
+  }
 
-    var date = latestFocusDate();
-    var summary = channelSpends(date);
-    var dest = summary.destination || { d2c: [], amazon: [], other: [] };
-    var mer = summary.blendedMer == null ? '—' : Number(summary.blendedMer).toFixed(2) + 'x';
+  function dayForDisplay(ch, date) {
+    var fromRow = spendFromChannelAdSpend(ch, date);
+    if (fromRow) return fromRow;
+    var known = CHANNELS.filter(function (c) { return c.id === ch.id; })[0];
+    if (known) {
+      var days = mergeDaysFor(known);
+      if (days[date]) return days[date];
+    }
+    var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
+    if (src) {
+      var picked = pickSourceNode(src, ch);
+      if (picked && !isPlaceholderNode(picked.node)) {
+        return nodeToDay(date, picked.node, 'advertising_sources.' + picked.key);
+      }
+    }
+    var merB = (known ? merBlockFor(known) : null) || (MER_DOC && MER_DOC[ch.merKey]) || null;
+    if (merB && !isPlaceholderNode(merB)) {
+      var by = merB.by_date || merB.by_day;
+      if (by && by[date] && !isPlaceholderNode(by[date])) {
+        return nodeToDay(date, by[date], 'mer_for_manus.json#' + ch.merKey);
+      }
+      var snap = snapshotFromBlock(merB, 'mer_for_manus.json#' + ch.merKey);
+      if (snap && snap.date === date) return snap;
+    }
+    return emptyDay(date);
+  }
 
-    function channelRow(ch, d) {
-      var src = d.hasFeed ? d.source : 'no feed';
-      if (d.tracking_verified === false) src = (src ? src + ' · ' : '') + 'tracking_verified:false';
+  function spendPerChannelHtml(date) {
+    var rows = displayChannels().map(function (ch) {
+      return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spendTxt(dayForDisplay(ch, date))) + '</td></tr>';
+    }).join('');
+    return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  function detailBreakdownHtml(date) {
+    var rows = displayChannels().map(function (ch) {
+      var d = dayForDisplay(ch, date);
       var html = '<tr>'
         + '<td>' + esc(ch.label) + '</td>'
-        + '<td>' + usd(d.spend) + '</td>'
-        + '<td>' + (d.hasFeed && d.hasClicks ? intOrDash(d.clicks) : '—') + '</td>'
-        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'conversions', ch)) + '</td>'
-        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'revenue', ch)) + '</td>'
-        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'roas', ch)) + '</td>'
-        + '<td>' + esc(src) + '</td>'
+        + '<td>' + esc(spendTxt(d)) + '</td>'
+        + '<td>' + esc(metricTxt(d, 'clicks', ch)) + '</td>'
+        + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'conversions', ch)) + '</td>'
+        + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'revenue', ch)) + '</td>'
+        + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'roas', ch)) + '</td>'
+        + '<td>' + esc(metricTxt(d, 'source', ch)) + '</td>'
         + '</tr>';
-      if (d.d2c != null || d.amazon != null || d.other != null) {
-        if (d.d2c != null) {
-          html += '<tr class="pc-split"><td>↳ ' + esc(ch.label) + ' D2C</td><td>' + usd(d.d2c) + '</td><td colspan="5">' + esc(ch.merKey) + '.d2c · counts in D2C ad spend</td></tr>';
-        }
+      if (d.hasFeed && d.d2c != null) {
+        html += '<tr class="pc-split"><td>↳ ' + esc(ch.label) + ' D2C</td><td>' + usd(d.d2c) + '</td><td colspan="5">' + esc(ch.merKey) + '.d2c</td></tr>';
       }
       return html;
-    }
-
-    var d2cRows = CHANNELS.map(function (ch) {
-      return channelRow(ch, summary.channels[ch.id]);
     }).join('');
-    dest.d2c.forEach(function (line) {
-      if (CHANNELS.some(function (ch) { return ch.id === line.key; })) return;
-      d2cRows += '<tr class="pc-split"><td>' + esc(line.label) + '</td><td>' + usd(line.spend) + '</td><td colspan="5">' + esc(line.source || 'D2C') + ' · counts in D2C ad spend</td></tr>';
-    });
-
-    var amazonRows = dest.amazon.map(function (n) {
-      var note = n.note ? ' · ' + n.note : '';
-      return '<tr class="pc-nond2c"><td>' + esc(n.label) + '</td><td>' + usd(n.spend) + '</td><td colspan="5">' + esc(n.source || 'amazon') + esc(note) + ' · in All ad spend, excluded from D2C / blended MER</td></tr>';
-    }).join('');
-
-    var otherRows = dest.other.map(function (n) {
-      return '<tr class="pc-nond2c"><td>' + esc(n.label) + '</td><td>' + usd(n.spend) + '</td><td colspan="5">' + esc(n.source || 'other') + ' · in All ad spend, excluded from D2C / blended MER</td></tr>';
-    }).join('');
-
-    var contractNote = summary.contract
-      ? ('mer_for_manus.json · source ' + summary.contract.source + ' · as_of ' + (summary.contract.as_of || date))
-      : ((date || 'no dated feed') + ' · missing channel = $0 / no feed');
-
-    slot.className = 'pc-wrap';
-    slot.innerHTML = ''
-      + '<div class="pc-title">Paid channels · ad spend</div>'
-      + '<div class="pc-sub">' + esc(contractNote) + ' · D2C ad spend is Shopify-bound only (TikTok Shopify share included). Amazon-bound and other non-D2C sit in All ad spend and are excluded from blended MER.</div>'
-      + '<div class="pc-kpi-row pc-kpi-totals">'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">D2C ad spend</div><div class="pc-kpi-val">' + usd(summary.d2cAdSpend) + '</div><div class="pc-kpi-sub">vs Shopify D2C → blended MER</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Shopify D2C revenue</div><div class="pc-kpi-val">' + usd(summary.shopifyD2C) + '</div><div class="pc-kpi-sub">Shopify channel only</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Blended MER</div><div class="pc-kpi-val">' + esc(mer) + '</div><div class="pc-kpi-sub">Shopify D2C ÷ D2C ad spend</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">All ad spend</div><div class="pc-kpi-val">' + usd(summary.allAdSpend) + '</div><div class="pc-kpi-sub">company · D2C + Amazon-bound + other</div></div>'
-      + '</div>'
-      + '<table class="pc-table"><thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Revenue</th><th>ROAS</th><th>Source</th></tr></thead><tbody>'
-      + '<tr class="pc-section"><td colspan="7">D2C (Shopify)</td></tr>'
-      + d2cRows
-      + (amazonRows ? '<tr class="pc-section"><td colspan="7">Amazon-bound</td></tr>' + amazonRows : '')
-      + (otherRows ? '<tr class="pc-section"><td colspan="7">Other non-D2C</td></tr>' + otherRows : '')
-      + '<tr class="pc-total"><td>D2C ad spend</td><td>' + usd(summary.d2cAdSpend) + '</td><td colspan="5">d2c_ad_spend · vs Shopify revenue → blended MER</td></tr>'
-      + '<tr class="pc-total"><td>Shopify D2C revenue</td><td>' + usd(summary.shopifyD2C) + '</td><td colspan="5">Shopify channel only</td></tr>'
-      + '<tr class="pc-total"><td>Blended MER</td><td>' + esc(mer) + '</td><td colspan="5">blended_mer · Shopify D2C ÷ D2C ad spend</td></tr>'
-      + '<tr class="pc-total"><td>All ad spend</td><td>' + usd(summary.allAdSpend) + '</td><td colspan="5">total_ad_spend · company (includes Amazon-bound + Whatnot / AppLovin / other)</td></tr>'
+    return '<table class="pc-table"><thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Revenue</th><th>ROAS</th><th>Source</th></tr></thead><tbody>'
+      + rows
       + '</tbody></table>';
+  }
+
+  function removeDashboardStrip() {
+    var strip = document.getElementById('paid-channels-daily');
+    if (!strip || !strip.parentNode) return;
+    if (strip.getAttribute('data-pc-keep') === '1') return;
+    var parent = strip.parentNode;
+    if (parent.id === 'reports-summary') parent.removeChild(strip);
+  }
+
+  function renderStrip() {
+    if (typeof document === 'undefined') return;
+    removeDashboardStrip();
+    var old = document.getElementById('bing-ads-daily');
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+    document.querySelectorAll('[data-pc-spend]').forEach(function (el) {
+      el.innerHTML = spendPerChannelHtml(el.getAttribute('data-pc-spend'));
+    });
+    document.querySelectorAll('.pc-day-detail[data-date]').forEach(function (el) {
+      el.innerHTML = detailBreakdownHtml(el.getAttribute('data-date'));
+    });
   }
 
   function renderChannelTab(ch) {
@@ -1064,6 +1301,10 @@
     }
     CHANNELS.forEach(function (ch) { FEEDS[ch.id].manual = loadManual(ch); });
     var jobs = [fetchJson('mer_for_manus.json').then(function (d) { MER_DOC = d; }).catch(function () { MER_DOC = null; })];
+    jobs.push(fetchJson('partial_reports_overlay.json').then(function (d) {
+      var rows = Array.isArray(d) ? d : ((d && d.PARTIAL_REPORTS) || (d && d.reports) || []);
+      mergeOverlayRows(rows);
+    }).catch(function () { /* overlay is optional and never required in git */ }));
     CHANNELS.forEach(function (ch) {
       jobs.push(fetchJson(ch.file).then(function (d) { FEEDS[ch.id].file = d; }).catch(function () { FEEDS[ch.id].file = null; }));
     });
@@ -1073,6 +1314,7 @@
       }).catch(function () { /* keep live mer */ }));
     }
     Promise.allSettled(jobs).then(function () {
+      hydratePartialFromMer(MER_DOC);
       bootFromState();
       CHANNELS.forEach(function (ch) {
         var tab = document.getElementById('tab-' + ch.tabKey);
@@ -1111,6 +1353,16 @@
     isTrackingUnverified: isTrackingUnverified,
     outcomeTxt: outcomeTxt,
     TRACKING_UNVERIFIED: TRACKING_UNVERIFIED,
+    displayChannels: displayChannels,
+    spendTxt: spendTxt,
+    dayForDisplay: dayForDisplay,
+    spendPerChannelHtml: spendPerChannelHtml,
+    detailBreakdownHtml: detailBreakdownHtml,
+    renderStrip: renderStrip,
+    channelRevenueRows: channelRevenueRows,
+    publishedAmount: publishedAmount,
+    mergeOverlayRows: mergeOverlayRows,
+    hydratePartialFromMer: hydratePartialFromMer,
     _setMerDoc: function (doc) { MER_DOC = doc || null; }
   };
 
