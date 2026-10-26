@@ -827,84 +827,113 @@
       + '</div>';
   }
 
-  function renderStrip() {
-    var slot = document.getElementById('paid-channels-daily');
-    if (!slot) {
-      var yday = document.getElementById('yday-bar');
-      if (!yday || !yday.parentNode) return;
-      slot = document.createElement('div');
-      slot.id = 'paid-channels-daily';
-      yday.parentNode.insertBefore(slot, yday.nextSibling);
+  var PINTEREST_DISPLAY = {
+    id: 'pinterest',
+    label: 'Pinterest Ads',
+    merKey: 'pinterest',
+    sourceKeys: ['pinterest_ads', 'pinterest']
+  };
+
+  function displayChannels() {
+    var seen = {};
+    var out = [];
+    CHANNELS.forEach(function (ch) {
+      if (seen[ch.id]) return;
+      seen[ch.id] = true;
+      out.push(ch);
+    });
+    if (!seen.pinterest) out.push(PINTEREST_DISPLAY);
+    return out;
+  }
+
+  function spendTxt(day) {
+    return day && day.hasFeed ? usd(day.spend) : 'missing';
+  }
+
+  function metricTxt(day, kind, ch) {
+    if (!day || !day.hasFeed) return 'missing';
+    if (kind === 'clicks') return day.hasClicks ? intOrDash(day.clicks) : 'missing';
+    if (kind === 'source') {
+      var src = day.source || 'published';
+      if (day.tracking_verified === false) src += ' · tracking_verified:false';
+      return src;
     }
-    var old = document.getElementById('bing-ads-daily');
-    if (old && old.parentNode) old.parentNode.removeChild(old);
+    return outcomeTxt(day, kind, ch);
+  }
 
-    var date = latestFocusDate();
-    var summary = channelSpends(date);
-    var dest = summary.destination || { d2c: [], amazon: [], other: [] };
-    var mer = summary.blendedMer == null ? '—' : Number(summary.blendedMer).toFixed(2) + 'x';
+  function dayForDisplay(ch, date) {
+    var known = CHANNELS.filter(function (c) { return c.id === ch.id; })[0];
+    if (known) {
+      var days = mergeDaysFor(known);
+      if (days[date]) return days[date];
+    }
+    var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
+    if (src) {
+      var picked = pickSourceNode(src, ch);
+      if (picked && !isPlaceholderNode(picked.node)) {
+        return nodeToDay(date, picked.node, 'advertising_sources.' + picked.key);
+      }
+    }
+    var merB = (known ? merBlockFor(known) : null) || (MER_DOC && MER_DOC[ch.merKey]) || null;
+    if (merB && !isPlaceholderNode(merB)) {
+      var by = merB.by_date || merB.by_day;
+      if (by && by[date] && !isPlaceholderNode(by[date])) {
+        return nodeToDay(date, by[date], 'mer_for_manus.json#' + ch.merKey);
+      }
+      var snap = snapshotFromBlock(merB, 'mer_for_manus.json#' + ch.merKey);
+      if (snap && snap.date === date) return snap;
+    }
+    return emptyDay(date);
+  }
 
-    function channelRow(ch, d) {
-      var src = d.hasFeed ? d.source : 'no feed';
-      if (d.tracking_verified === false) src = (src ? src + ' · ' : '') + 'tracking_verified:false';
+  function spendPerChannelHtml(date) {
+    var rows = displayChannels().map(function (ch) {
+      return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spendTxt(dayForDisplay(ch, date))) + '</td></tr>';
+    }).join('');
+    return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  function detailBreakdownHtml(date) {
+    var rows = displayChannels().map(function (ch) {
+      var d = dayForDisplay(ch, date);
       var html = '<tr>'
         + '<td>' + esc(ch.label) + '</td>'
-        + '<td>' + usd(d.spend) + '</td>'
-        + '<td>' + (d.hasFeed && d.hasClicks ? intOrDash(d.clicks) : '—') + '</td>'
-        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'conversions', ch)) + '</td>'
-        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'revenue', ch)) + '</td>'
-        + '<td class="' + (isTrackingUnverified(d, ch) ? 'pc-unverified' : '') + '">' + esc(outcomeTxt(d, 'roas', ch)) + '</td>'
-        + '<td>' + esc(src) + '</td>'
+        + '<td>' + esc(spendTxt(d)) + '</td>'
+        + '<td>' + esc(metricTxt(d, 'clicks', ch)) + '</td>'
+        + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'conversions', ch)) + '</td>'
+        + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'revenue', ch)) + '</td>'
+        + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'roas', ch)) + '</td>'
+        + '<td>' + esc(metricTxt(d, 'source', ch)) + '</td>'
         + '</tr>';
-      if (d.d2c != null || d.amazon != null || d.other != null) {
-        if (d.d2c != null) {
-          html += '<tr class="pc-split"><td>↳ ' + esc(ch.label) + ' D2C</td><td>' + usd(d.d2c) + '</td><td colspan="5">' + esc(ch.merKey) + '.d2c · counts in D2C ad spend</td></tr>';
-        }
+      if (d.hasFeed && d.d2c != null) {
+        html += '<tr class="pc-split"><td>↳ ' + esc(ch.label) + ' D2C</td><td>' + usd(d.d2c) + '</td><td colspan="5">' + esc(ch.merKey) + '.d2c</td></tr>';
       }
       return html;
-    }
-
-    var d2cRows = CHANNELS.map(function (ch) {
-      return channelRow(ch, summary.channels[ch.id]);
     }).join('');
-    dest.d2c.forEach(function (line) {
-      if (CHANNELS.some(function (ch) { return ch.id === line.key; })) return;
-      d2cRows += '<tr class="pc-split"><td>' + esc(line.label) + '</td><td>' + usd(line.spend) + '</td><td colspan="5">' + esc(line.source || 'D2C') + ' · counts in D2C ad spend</td></tr>';
-    });
-
-    var amazonRows = dest.amazon.map(function (n) {
-      var note = n.note ? ' · ' + n.note : '';
-      return '<tr class="pc-nond2c"><td>' + esc(n.label) + '</td><td>' + usd(n.spend) + '</td><td colspan="5">' + esc(n.source || 'amazon') + esc(note) + ' · in All ad spend, excluded from D2C / blended MER</td></tr>';
-    }).join('');
-
-    var otherRows = dest.other.map(function (n) {
-      return '<tr class="pc-nond2c"><td>' + esc(n.label) + '</td><td>' + usd(n.spend) + '</td><td colspan="5">' + esc(n.source || 'other') + ' · in All ad spend, excluded from D2C / blended MER</td></tr>';
-    }).join('');
-
-    var contractNote = summary.contract
-      ? ('mer_for_manus.json · source ' + summary.contract.source + ' · as_of ' + (summary.contract.as_of || date))
-      : ((date || 'no dated feed') + ' · missing channel = $0 / no feed');
-
-    slot.className = 'pc-wrap';
-    slot.innerHTML = ''
-      + '<div class="pc-title">Paid channels · ad spend</div>'
-      + '<div class="pc-sub">' + esc(contractNote) + ' · D2C ad spend is Shopify-bound only (TikTok Shopify share included). Amazon-bound and other non-D2C sit in All ad spend and are excluded from blended MER.</div>'
-      + '<div class="pc-kpi-row pc-kpi-totals">'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">D2C ad spend</div><div class="pc-kpi-val">' + usd(summary.d2cAdSpend) + '</div><div class="pc-kpi-sub">vs Shopify D2C → blended MER</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Shopify D2C revenue</div><div class="pc-kpi-val">' + usd(summary.shopifyD2C) + '</div><div class="pc-kpi-sub">Shopify channel only</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">Blended MER</div><div class="pc-kpi-val">' + esc(mer) + '</div><div class="pc-kpi-sub">Shopify D2C ÷ D2C ad spend</div></div>'
-      + '<div class="pc-kpi-card"><div class="pc-kpi-label">All ad spend</div><div class="pc-kpi-val">' + usd(summary.allAdSpend) + '</div><div class="pc-kpi-sub">company · D2C + Amazon-bound + other</div></div>'
-      + '</div>'
-      + '<table class="pc-table"><thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Revenue</th><th>ROAS</th><th>Source</th></tr></thead><tbody>'
-      + '<tr class="pc-section"><td colspan="7">D2C (Shopify)</td></tr>'
-      + d2cRows
-      + (amazonRows ? '<tr class="pc-section"><td colspan="7">Amazon-bound</td></tr>' + amazonRows : '')
-      + (otherRows ? '<tr class="pc-section"><td colspan="7">Other non-D2C</td></tr>' + otherRows : '')
-      + '<tr class="pc-total"><td>D2C ad spend</td><td>' + usd(summary.d2cAdSpend) + '</td><td colspan="5">d2c_ad_spend · vs Shopify revenue → blended MER</td></tr>'
-      + '<tr class="pc-total"><td>Shopify D2C revenue</td><td>' + usd(summary.shopifyD2C) + '</td><td colspan="5">Shopify channel only</td></tr>'
-      + '<tr class="pc-total"><td>Blended MER</td><td>' + esc(mer) + '</td><td colspan="5">blended_mer · Shopify D2C ÷ D2C ad spend</td></tr>'
-      + '<tr class="pc-total"><td>All ad spend</td><td>' + usd(summary.allAdSpend) + '</td><td colspan="5">total_ad_spend · company (includes Amazon-bound + Whatnot / AppLovin / other)</td></tr>'
+    return '<table class="pc-table"><thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Revenue</th><th>ROAS</th><th>Source</th></tr></thead><tbody>'
+      + rows
       + '</tbody></table>';
+  }
+
+  function removeDashboardStrip() {
+    var strip = document.getElementById('paid-channels-daily');
+    if (!strip || !strip.parentNode) return;
+    if (strip.getAttribute('data-pc-keep') === '1') return;
+    var parent = strip.parentNode;
+    if (parent.id === 'reports-summary') parent.removeChild(strip);
+  }
+
+  function renderStrip() {
+    if (typeof document === 'undefined') return;
+    removeDashboardStrip();
+    var old = document.getElementById('bing-ads-daily');
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+    document.querySelectorAll('[data-pc-spend]').forEach(function (el) {
+      el.innerHTML = spendPerChannelHtml(el.getAttribute('data-pc-spend'));
+    });
+    document.querySelectorAll('.pc-day-detail[data-date]').forEach(function (el) {
+      el.innerHTML = detailBreakdownHtml(el.getAttribute('data-date'));
+    });
   }
 
   function renderChannelTab(ch) {
@@ -1063,6 +1092,12 @@
     isTrackingUnverified: isTrackingUnverified,
     outcomeTxt: outcomeTxt,
     TRACKING_UNVERIFIED: TRACKING_UNVERIFIED,
+    displayChannels: displayChannels,
+    spendTxt: spendTxt,
+    dayForDisplay: dayForDisplay,
+    spendPerChannelHtml: spendPerChannelHtml,
+    detailBreakdownHtml: detailBreakdownHtml,
+    renderStrip: renderStrip,
     _setMerDoc: function (doc) { MER_DOC = doc || null; }
   };
 
