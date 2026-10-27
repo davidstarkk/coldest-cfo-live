@@ -165,6 +165,8 @@ ads_throttle/series.json           →  ads_throttle/series.json
 ```
 
 Optional fallback already wired: nested `mer_for_manus.tracking_health` / `mer_for_manus.ad_channel_throttles.rankings` if the sibling file is missing.
+
+**Overwrite protection:** `protected_days/snapshot.json` plus `protected_days/mer_for_manus.json` remember published `channel_revenue` / `channel_ad_spend` and the last-good mer. `.github/workflows/restore-protected-days.yml` runs on push to `main` and ~10:30 / 11:30 AM ET. It merges wiped or zeroed protected days back; it never deletes a newer live day and `mer_for_manus.as_of` only moves forward. Layout is unchanged.
 6. `ad_channel_throttles.channels[ch]` Shopify attribution — `shopify_orders_7d`, `shopify_revenue_7d`, `shopify_roas_7d` (null if spend &lt; $200 or no data), `platform_roas_7d`, `coverage_pct` (raw may exceed 100; display capped at 100%), `roas_source` (`shopify_attributed` only if coverage ≥ 80, else `platform_reported`)
 7. `ad_channel_throttles.attribution` — `{as_of, total_orders_7d, attributed_paid_pct, owned_pct, unattributed_pct, by_channel}`
 

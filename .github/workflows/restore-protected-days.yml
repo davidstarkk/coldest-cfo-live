@@ -1,0 +1,38 @@
+name: Restore protected days
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # ~10:30 and 11:30 AM ET in both EDT (14:30/15:30) and EST (15:30/16:30).
+    - cron: '30 14 * * *'
+    - cron: '30 15 * * *'
+    - cron: '30 16 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Detect wipe and restore by merge
+        run: node scripts/restore_protected_days.js --apply
+      - name: Commit restore if files changed
+        run: |
+          if git diff --quiet -- mer_for_manus.json index.html; then
+            echo "working tree clean"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mer_for_manus.json index.html
+          git commit -m "Restore protected daily-report days after overwrite."
+          git push
