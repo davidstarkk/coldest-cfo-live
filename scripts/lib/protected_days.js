@@ -86,15 +86,14 @@ function liveSpendMap(row, merSources) {
 }
 
 function liveRevenueMap(row) {
+  var out = channelRevenueFromObs(row && row.channel_observations);
   if (row && row.channel_revenue && typeof row.channel_revenue === 'object') {
-    var out = {};
     REVENUE_CHANNELS.forEach(function (id) {
       var amt = publishedAmount(row.channel_revenue[id], ['revenue']);
       if (amt.published) out[id] = amt.value;
     });
-    if (Object.keys(out).length) return out;
   }
-  return channelRevenueFromObs(row && row.channel_observations);
+  return out;
 }
 
 function snapshotDayFromLive(row, merSources) {
@@ -155,6 +154,43 @@ function buildSnapshot(partials, mer) {
   };
 }
 
+function revenueMapFromSnap(snapDay) {
+  var src = (snapDay && snapDay.channel_revenue) || {};
+  var out = {};
+  REVENUE_CHANNELS.forEach(function (id) {
+    var amt = publishedAmount(src[id], ['revenue']);
+    if (amt.published) out[id] = amt.value;
+  });
+  return out;
+}
+
+function spendMapFromSnap(snapDay) {
+  return channelAdSpendFromSources(snapDay && snapDay.channel_ad_spend);
+}
+
+function snapObservations(snapDay) {
+  if (snapDay && snapDay.row && snapDay.row.channel_observations) return snapDay.row.channel_observations;
+  return (snapDay && snapDay.channel_observations) || {};
+}
+
+function rowFromSnapDay(snapDay) {
+  if (!snapDay) return null;
+  if (snapDay.row) return JSON.parse(JSON.stringify(snapDay.row));
+  var revenue = revenueMapFromSnap(snapDay);
+  var spend = spendMapFromSnap(snapDay);
+  return {
+    date: snapDay.date,
+    report_status: snapDay.report_status || 'partial',
+    source_mode: snapDay.source_mode || 'partial_v1',
+    channel_observations: JSON.parse(JSON.stringify(snapDay.channel_observations || {})),
+    advertising_sources: JSON.parse(JSON.stringify(snapDay.advertising_sources || {})),
+    blockers: snapDay.blockers,
+    channel_revenue: Object.keys(revenue).length ? revenue : undefined,
+    channel_ad_spend: Object.keys(spend).length ? spend : undefined,
+    calculation_basis: snapDay.backfill ? 'shopify_backfill' : (snapDay.calculation_basis || 'partial_v1')
+  };
+}
+
 function mapNeedsRestore(snapMap, liveMap) {
   snapMap = snapMap || {};
   liveMap = liveMap || {};
@@ -188,6 +224,7 @@ function mapNeedsRestore(snapMap, liveMap) {
 function obsNeedsRestore(snapObs, liveObs) {
   var snap = observationPublished(snapObs);
   var live = observationPublished(liveObs);
+  if (snap.published && snap.value === 0 && !live.published) return false;
   if (snap.published && !live.published) return true;
   if (snap.published && live.published && live.value === 0 && snap.value !== 0) return true;
   return false;
@@ -196,21 +233,21 @@ function obsNeedsRestore(snapObs, liveObs) {
 function mergeDay(snapDay, liveRow, merSources) {
   if (!snapDay) return { row: liveRow, changed: false };
   if (!liveRow) {
-    return { row: JSON.parse(JSON.stringify(snapDay.row || { date: snapDay.date })), changed: true, dropped: true };
+    return { row: rowFromSnapDay(snapDay), changed: true, dropped: true };
   }
   var row = JSON.parse(JSON.stringify(liveRow));
   var changed = false;
-  var rev = mapNeedsRestore(snapDay.channel_revenue, liveRevenueMap(row));
+  var rev = mapNeedsRestore(revenueMapFromSnap(snapDay), liveRevenueMap(row));
   if (rev.changed) {
     row.channel_revenue = Object.assign({}, row.channel_revenue || {}, rev.map);
     changed = true;
   }
-  var spend = mapNeedsRestore(snapDay.channel_ad_spend, liveSpendMap(row, merSources));
+  var spend = mapNeedsRestore(spendMapFromSnap(snapDay), liveSpendMap(row, merSources));
   if (spend.changed) {
     row.channel_ad_spend = Object.assign({}, row.channel_ad_spend || {}, spend.map);
     changed = true;
   }
-  var snapObs = (snapDay.row && snapDay.row.channel_observations) || {};
+  var snapObs = snapObservations(snapDay);
   var liveObs = row.channel_observations || {};
   REVENUE_CHANNELS.forEach(function (id) {
     if (obsNeedsRestore(snapObs[id], liveObs[id])) {
@@ -314,5 +351,8 @@ module.exports = {
   mergeMer: mergeMer,
   extractPartials: extractPartials,
   writePartials: writePartials,
-  restore: restore
+  restore: restore,
+  rowFromSnapDay: rowFromSnapDay,
+  revenueMapFromSnap: revenueMapFromSnap,
+  spendMapFromSnap: spendMapFromSnap
 };

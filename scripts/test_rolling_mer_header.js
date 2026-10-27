@@ -30,38 +30,41 @@ var embedded = {
   verdict: { status: 'DATA_INCOMPLETE', msg: 'Historical metrics through 2026-09-27.' }
 };
 
-test('published mer_for_manus is as_of 2026-10-24 with D2C 7d/30d MER', function () {
-  assert.strictEqual(mer.as_of, '2026-10-24');
-  assert.strictEqual(mer.mer_7d_pooled, 2.6887);
-  assert.strictEqual(mer.mer_30d_pooled, 2.7234);
-  assert.strictEqual(mer.rev_7d, 292351.25);
-  assert.strictEqual(mer.spend_7d, 108735.13);
-  assert.strictEqual(mer.rev_30d, 803699.21);
-  assert.strictEqual(mer.spend_30d, 295106.55);
-  assert.strictEqual(mer.delta_dod, 0.0201);
-  assert.strictEqual(mer.delta_wow, 0.1129);
+test('published mer_for_manus is as_of 2026-10-26 with D2C 7d/30d MER', function () {
+  assert.strictEqual(mer.as_of, '2026-10-26');
+  assert.strictEqual(mer.mer_7d_pooled, 2.3882);
+  assert.strictEqual(mer.mer_30d_pooled, 2.7151);
+  assert.strictEqual(mer.rev_7d, 243800.24);
+  assert.strictEqual(mer.spend_7d, 102085.08);
+  assert.strictEqual(mer.rev_30d, 892004.41);
+  assert.strictEqual(mer.spend_30d, 328537.12);
+  assert.strictEqual(mer.delta_dod, 0.0476);
+  assert.strictEqual(mer.delta_wow, -0.4416);
   assert.strictEqual(mer.mer_breakeven, null);
-  assert.strictEqual(Number(mer.mer_7d_pooled).toFixed(2), '2.69');
-  assert.strictEqual(Number(mer.delta_dod).toFixed(2), '0.02');
-  assert.strictEqual(Number(mer.delta_wow).toFixed(2), '0.11');
+  assert.strictEqual(mer.shop_revenue, 15435.88);
+  assert.strictEqual(mer.d2c_ad_spend, 7665.33);
+  assert.strictEqual(mer.blended_mer, 2.01);
+  assert.strictEqual(Number(mer.mer_7d_pooled).toFixed(2), '2.39');
+  assert.strictEqual(Number(mer.delta_dod).toFixed(2), '0.05');
+  assert.strictEqual(Number(mer.delta_wow).toFixed(2), '-0.44');
   assert.strictEqual(Number(mer.mer_30d_pooled).toFixed(2), '2.72');
 });
 
 test('fresh mer_for_manus overlays the header with published deltas', function () {
   var resolved = Header.resolve(embedded, mer);
   assert.strictEqual(resolved.stale, false);
-  assert.strictEqual(resolved.data.as_of, '2026-10-24');
-  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.6887);
-  assert.strictEqual(resolved.data.latest.date, '2026-10-24');
-  assert.strictEqual(resolved.data.latest.rev_7d, 292351.25);
-  assert.strictEqual(resolved.data.latest.spend_7d, 108735.13);
-  assert.strictEqual(resolved.data.latest.delta_dod, 0.0201);
-  assert.strictEqual(resolved.data.latest.delta_wow, 0.1129);
-  assert.strictEqual(resolved.data.latest.mer_30d_pooled, 2.7234);
+  assert.strictEqual(resolved.data.as_of, '2026-10-26');
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.3882);
+  assert.strictEqual(resolved.data.latest.date, '2026-10-26');
+  assert.strictEqual(resolved.data.latest.rev_7d, 243800.24);
+  assert.strictEqual(resolved.data.latest.spend_7d, 102085.08);
+  assert.strictEqual(resolved.data.latest.delta_dod, 0.0476);
+  assert.strictEqual(resolved.data.latest.delta_wow, -0.4416);
+  assert.strictEqual(resolved.data.latest.mer_30d_pooled, 2.7151);
   assert.strictEqual(resolved.data.latest.profit_7d, null);
   assert.strictEqual(resolved.data.mer_breakeven, null);
   assert.deepStrictEqual(resolved.data.missing_report_dates, []);
-  assert.ok(resolved.data.verdict.msg.indexOf('2026-10-24') !== -1);
+  assert.ok(resolved.data.verdict.msg.indexOf('2026-10-26') !== -1);
 });
 
 test('missing mer_for_manus is STALE as of 2026-09-27 — number stays 3.1952', function () {

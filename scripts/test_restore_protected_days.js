@@ -198,6 +198,17 @@ test('restore() is a no-op on the current live snapshot + mer + PARTIAL_REPORTS'
   assert.strictEqual(out.partialsChanged, false);
   assert.strictEqual(out.merChanged, false);
   assert.strictEqual(out.asOfRestored, false);
+  assert.strictEqual(snapshotLive.as_of, '2026-10-26');
+  assert.strictEqual(liveMer.as_of, '2026-10-26');
+  var d9 = rowOn(partials, '2026-10-09');
+  var d10 = rowOn(partials, '2026-10-10');
+  var d26 = rowOn(partials, '2026-10-26');
+  assert.strictEqual(d9.channel_observations.shopify.revenue, 26289.5);
+  assert.strictEqual(d9.channel_observations.shopify.zero_assumed, false);
+  assert.strictEqual(d10.channel_observations.shopify.revenue, 16958.06);
+  assert.strictEqual(d10.channel_observations.shopify.zero_assumed, false);
+  assert.ok(d26);
+  assert.strictEqual(d26.channel_observations.shopify.revenue, 15435.88);
 });
 
 test('restore() reports a wipe of protected days + mer regression', function () {
