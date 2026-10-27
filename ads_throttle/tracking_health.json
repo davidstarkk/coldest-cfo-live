@@ -1,33 +1,33 @@
 {
-  "as_of": "2026-10-26T08:30:00-04:00",
-  "shopify_orders_yesterday": 343,
-  "shopify_revenue_yesterday": 29712.09,
-  "shopify_orders_7d_avg": 473.4,
-  "shopify_note": "Shopify total_sales, all channels, 10/25 ET. 7d avg is 10/18-10/24. Yesterday is down 27.5% vs that average.",
+  "as_of": "2026-10-27T08:35:00-04:00",
+  "shopify_orders_yesterday": 272,
+  "shopify_revenue_yesterday": 22989.43,
+  "shopify_orders_7d_avg": 441.7,
+  "shopify_note": "Shopify total_sales, all channels, 10/26 ET. 7d avg is 10/19-10/25. Yesterday is down 38% vs that average. Last-click UTM on 10/26: facebook 63, google product_sync 10, bing cpc 2, google cpc 1, snapchat paid_social 1, no UTM 185.",
   "channels": {
     "meta": {
       "status": "OK",
-      "last_checkout_event": "2026-10-26 (10 InitiateCheckout so far today)",
-      "last_purchase_event": "2026-10-26 (24 purchases so far today); pixel last_fired_time 2026-10-25 19:59 ET (lagging API field)",
-      "purchases_24h": 286,
-      "purchases_7d_avg": 374.6,
-      "notes": "Pixel 562761383897004 available. Yesterday was 286 purchases and 122 checkouts on $10,580 spend, down 24% vs the 7d avg, in line with Shopify. EMQ is 9.2 for Purchase (99% CAPI coverage) and 8.4 for InitiateCheckout (94%). No duplicate event names. Platform-reported."
+      "last_checkout_event": "2026-10-27 (11 InitiateCheckout so far today)",
+      "last_purchase_event": "2026-10-27 (19 purchases so far today); pixel last_fired_time 2026-10-26 19:59 ET (lagging API field)",
+      "purchases_24h": 194,
+      "purchases_7d_avg": 354.4,
+      "notes": "Pixel 562761383897004 available. 10/26 was 194 purchases and 151 checkouts on $8,680 spend, down 45% vs the 7d avg while Shopify was down 38%, so roughly in line. Purchase EMQ 9.2 (99.1% CAPI coverage), InitiateCheckout 8.6 (95.8%). No duplicate event names. Platform-reported."
     },
     "google": {
       "status": "WARN",
-      "last_checkout_event": "2026-10-26 (begin checkout recorded today)",
-      "last_purchase_event": "2026-10-26 (4 primary purchases so far today)",
-      "purchases_24h": 36.5,
-      "purchases_7d_avg": 96.5,
-      "notes": "Primary 'Google Shopping App Purchase' was 36.5 on 10/25, 62% below its 7d avg, while Shopify was down only 28%. Spend held flat at about $2.0k/day, so platform ROAS fell from about 7.4x on 10/18 to 1.7x on 10/25. All conversion actions are enabled and still recording, including GA4 purchase, Elevar server-side and enhanced. The GA4 purchase import fell only 31 vs 43 avg, roughly matching Shopify. Shopping App page views also halved on the same spend. That points to either the Google & YouTube app tag under-firing or a real traffic or quality drop, plus some click-date lag on the latest days. Not a hard outage. Owner: Google \u00b7 Ads."
+      "last_checkout_event": "2026-10-27 (3 Shopping App begin checkouts so far today)",
+      "last_purchase_event": "2026-10-26 (primary purchases recorded; none yet today, normal for early morning)",
+      "purchases_24h": 27.2,
+      "purchases_7d_avg": 87.6,
+      "notes": "Worse than the 10/26 WARN. Primary 'Google Shopping App Purchase' was 27.2 on 10/26, down 69% vs its 7d avg (was down 62% on 10/25), while Shopify was down 38%. Spend $1,700 on 10/26, so platform ROAS was about 1.2x (7d about 3.0x). It has slid every day since 10/21 (106, 89, 69, 72, 45, 27). Elevar server-side purchases fell the same way (29 vs about 63 avg, down 54%), but the GA4 purchase import (25 vs 40 avg, down 37%) tracks Shopify. All conversion actions are enabled and still recording, so it isn't a hard outage. Likely click-date lag on the last 2-3 days plus a real drop in Google-driven sales, but the gap vs Shopify keeps widening. Owner: Google \u00b7 Ads."
     },
     "bing": {
       "status": "OK",
       "last_checkout_event": null,
-      "last_purchase_event": "2026-10-26 (5 conversions, $467.90, Brand Search)",
+      "last_purchase_event": "2026-10-27 (1 conversion, $35.99, Brand Search)",
       "purchases_24h": 5,
       "purchases_7d_avg": null,
-      "notes": "UET tag 134596770 is Active. The goal 'Grok Bot | Purchase (UET event, revenue)' is Active and RecordingConversions. The Shopify campaigns only started 10/25, so there's no 7d baseline yet. No begin-checkout goal is active (the old ones are paused), so checkout events aren't tracked. The legacy 'ShopifyImport' tag 211021853 is inactive, but no active goal uses it. The 'bing to amz tumbler listing 1' campaign (about $70/day) sends to Amazon and isn't tracked by design."
+      "notes": "UET tag 134596770 Active; goal 'Grok Bot | Purchase (UET event, revenue)' Active and RecordingConversions. 10/26 final: 5 conversions / $467.90 on $175.61 Shopify-campaign spend, vs 2 Shopify bing/cpc orders ($139.64), so the double count is still visible on 10/26 data. GTM tag 250 pause was in progress; re-check on 10/27 data. No begin-checkout goal active. Legacy ShopifyImport tag 211021853 inactive but unused. Amazon campaign excluded."
     },
     "reddit": {
       "status": "NO_SPEND",
@@ -35,31 +35,31 @@
       "last_purchase_event": null,
       "purchases_24h": 0,
       "purchases_7d_avg": 0,
-      "notes": "No spend or delivery in the last 30 days on account a2_j3pu0ku22iae, so it wasn't judged. Pixel a2_j3pu0ku22iae exists. Event activity isn't readable via the API without spend."
+      "notes": "$0 spend, 0 impressions 10/20-10/27 on a2_j3pu0ku22iae. Not judged. Pixel exists; verify with a test order before go-live."
     },
     "snapchat": {
       "status": "OK",
-      "last_checkout_event": "2026-10-26 (44 START_CHECKOUT so far today, PT day)",
-      "last_purchase_event": "2026-10-26 (52 PURCHASE so far today)",
-      "purchases_24h": 523,
-      "purchases_7d_avg": 661.7,
-      "notes": "Counts are site-wide pixel events on Coldest Snap Pixel 8cf7328d, not ad-attributed: 523 PURCHASE and 410 START_CHECKOUT on 10/25, down 21% vs avg, in line with Shopify. Both pixels are ACTIVE and CAPI is sending. Spend started 10/25 ($71.92 on The Coldest Water Self Service). The other 2 accounts had $0 spend over 7d. Snap flags low PII coverage and multiple pixels firing on the same page as quality items."
+      "last_checkout_event": "2026-10-27 (50 START_CHECKOUT so far today, PT day)",
+      "last_purchase_event": "2026-10-27 (29 PURCHASE so far today)",
+      "purchases_24h": 387,
+      "purchases_7d_avg": 654.0,
+      "notes": "Site-wide pixel 8cf7328d (not ad-attributed): 387 PURCHASE and 483 START_CHECKOUT on 10/26, purchases down 41% vs avg, in line with Shopify; both pixels ACTIVE. Still 1.4x Shopify orders (387 vs 272), so the GTM duplicate-tag fix doesn't look complete yet. Spend $348.50 on 10/26 (The Coldest Water Self Service; other 2 accounts $0). Snap ATTRIBUTES 31 purchases / $3,048.58 to 10/26 (8.7x platform ROAS) while Shopify shows 1 snapchat UTM order ($79.18). Platform-reported Snap ROAS is badly inflated and shouldn't drive a budget raise."
     },
     "chatgpt": {
-      "status": "NO_SPEND",
-      "last_checkout_event": null,
-      "last_purchase_event": null,
+      "status": "OK",
+      "last_checkout_event": "not readable (API returns only the latest 50 events)",
+      "last_purchase_event": "10/26: 2 order_created matched to Shopify per CHATGPT ADS bot",
       "purchases_24h": 0,
       "purchases_7d_avg": 0,
-      "notes": "No spend from 10/18 to 10/25. CGPT Q4 Gifting started delivering 10/26 (1,575 impressions, 7 clicks, $0 reported so far). The Coldest Pixel source is receiving page_viewed and contents_viewed events (latest 08:25 ET today). checkout_started and order_created settings exist, but zero attributed conversions in 9 days. Receipt of checkout and purchase events isn't confirmed yet, so re-check once spend accrues."
+      "notes": "Spend $308.58 / 66 clicks on 10/26, $1.87 so far today. 0 attributed conversions 10/20-10/27 (30d click / 1d view). Coldest Pixel 1qvsf29tHx2PjNZFPJKLDL is live, receiving page_viewed, contents_viewed and sdk_init at 08:24 ET today. order_created and checkout_started are configured. Ad URLs have no UTMs, so Shopify can't confirm. Low volume; watch for a second day of spend with 0 conversions."
     },
     "pinterest": {
-      "status": "OK",
+      "status": "WARN",
       "last_checkout_event": null,
       "last_purchase_event": null,
       "purchases_24h": 0,
       "purchases_7d_avg": null,
-      "notes": "Launched 10/25. Tag 2613877824208 is ACTIVE and last fired at 08:26 ET today. Spend is $23.18 and 5 clicks so far, with 0 checkouts or conversions yet, which is expected at this volume. Known gap: Conversions API and enhanced match aren't on, and EQS reads NEEDS_IMPROVEMENT. The EQS 14-day tag data only lists search events, so checkout and purchase events firing on the tag isn't verified yet. The Pinterest Ads bot should confirm."
+      "notes": "Known gap, raised 10/26, not re-alerted. Tag 2613877824208 ACTIVE, last fired 08:25 ET today. $64.74 spend / 20 clicks on 10/26, $42.15 so far today; 1 page-visit conversion, 0 checkouts since launch. EQS (NEEDS_IMPROVEMENT) still lists only search events from the TAG source, so checkout/purchase firing is unverified. CAPI and enhanced match are off. Fix per David 10/27: server-side via Elevar if supported, otherwise Eng \u00b7 Builder."
     }
   },
   "purchase_audit_2026-10-26": {

@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-10-25T17:20:00-04:00",
-  "updated_by": "jarvis (David's rules, 10/25)",
+  "updated_at": "2026-10-25T23:20:00-04:00",
+  "updated_by": "jarvis (Pinterest added, launched 10/25)",
   "global": {
     "roas_threshold": 3.0,
     "step_pct": 20,
@@ -8,17 +8,76 @@
     "min_spend_7d": 200,
     "scale_cooldown_days": 7,
     "cut_cooldown_days": 3,
-    "revenue_scope": "shopify_d2c",
-    "roas_basis": "platform"
+    "roas_source": "platform_reported",
+    "roas_source_note": "David 10/25: use each platform's own reported conversion value/ROAS, labeled, until UTM/GA4 Shopify attribution is in. Bing: only Shopify-destination campaigns count; Amazon-destination spend is excluded from the rule and flagged."
   },
   "channels": {
-    "reddit":   {"mode": "auto",   "owner_bot": "reddit bot",       "max_daily_budget": null, "min_daily_budget": null, "notes": ""},
-    "snapchat": {"mode": "auto",   "owner_bot": "snapchat ads bot", "max_daily_budget": null, "min_daily_budget": null, "notes": "3 ad accounts"},
-    "bing":     {"mode": "auto",   "owner_bot": "Bing Ads bot",     "max_daily_budget": null, "min_daily_budget": null, "notes": "main campaign sends to Amazon, not Shopify"},
-    "chatgpt":  {"mode": "auto",   "owner_bot": "ads bot for chatgpt", "max_daily_budget": null, "min_daily_budget": null, "notes": ""},
-    "meta":     {"mode": "frozen", "owner_bot": "Meta · Ad Buyer",  "max_daily_budget": null, "min_daily_budget": null, "notes": "Meta/Euka freeze since 9/27; view only until David lifts"},
-    "google":   {"mode": "view",   "owner_bot": "Google · Ads",     "max_daily_budget": null, "min_daily_budget": null, "notes": "sandbox kept separate"},
-    "tiktok":   {"mode": "view",   "owner_bot": null,                "max_daily_budget": null, "min_daily_budget": null, "notes": "Shopify share only"}
+    "reddit": {
+      "mode": "auto",
+      "owner_bot": "reddit bot",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": ""
+    },
+    "snapchat": {
+      "mode": "auto",
+      "owner_bot": "snapchat ads bot",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "3 ad accounts"
+    },
+    "bing": {
+      "mode": "auto",
+      "owner_bot": "Bing Ads bot",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "main campaign sends to Amazon, not Shopify"
+    },
+    "chatgpt": {
+      "mode": "auto",
+      "owner_bot": "ads bot for chatgpt",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": ""
+    },
+    "meta": {
+      "mode": "frozen",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "Meta/Euka freeze since 9/27; view only until David lifts"
+    },
+    "google": {
+      "mode": "view",
+      "owner_bot": "Google \u00b7 Ads",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "sandbox kept separate"
+    },
+    "tiktok": {
+      "mode": "view",
+      "owner_bot": null,
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "Shopify share only"
+    },
+    "pinterest": {
+      "mode": "auto",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "launch_date": "2026-10-25",
+      "soft_read_date": "2026-11-01",
+      "first_binding_date": "2026-11-09",
+      "soft_read_cut_below_roas": 1.5,
+      "attribution_window": "7-day click / 1-day view (30/1 context only)",
+      "notes": "Acct 549760871033. C2 Prospecting Manual 626760146936 $65/day live 10/25; C1 Catalog Performance+ 626760146994 $135/day paused until catalog ingests. Use weekly spend (P+ budgets flex). Last 2-3 days under-report. 6 legacy 2020 campaigns must stay PAUSED. Billing not readable via API."
+    }
   },
-  "mode_legend": {"auto": "daily rule applies", "hold": "no changes, keep budget", "frozen": "view only, no changes", "view": "tracked only"}
+  "mode_legend": {
+    "auto": "daily rule applies",
+    "hold": "no changes, keep budget",
+    "frozen": "view only, no changes",
+    "view": "tracked only"
+  }
 }
