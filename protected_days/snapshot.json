@@ -1,0 +1,4070 @@
+{
+  "version": 1,
+  "created_at": "2026-10-27T00:22:59.708550+00:00",
+  "as_of": "2026-10-26",
+  "mer_as_of": "2026-10-26",
+  "protected_dates": [
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07",
+    "2026-10-08",
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11",
+    "2026-10-12",
+    "2026-10-13",
+    "2026-10-14",
+    "2026-10-15",
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20",
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-23",
+    "2026-10-24",
+    "2026-10-25",
+    "2026-10-26"
+  ],
+  "backfill_days": [
+    "2026-10-09",
+    "2026-10-10"
+  ],
+  "note": "Measured channel_revenue / channel_ad_spend for 2026-09-28..2026-10-26 plus Shopify 10/9–10/10 analytics. Daily sync must not drop these. Restore merges; it never deletes a newer live date or a newer non-null field.",
+  "days": {
+    "2026-09-28": {
+      "date": "2026-09-28",
+      "channel_revenue": {
+        "shopify": 16142.52,
+        "amazon": 14831.81,
+        "tiktok": 21355.17,
+        "whatnot": 8784
+      },
+      "channel_ad_spend": {
+        "meta": 8970.58,
+        "google": 653.78,
+        "bing": 73.65,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1582.44,
+        "amazon": 3569.74,
+        "whatnot": 1032.75,
+        "bing_d2c": 0,
+        "bing_amazon": 73.65
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 16488.72,
+          "orders": 216,
+          "known_ads": 10523.13,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 5965.59,
+          "mer": 1.5669026230788747,
+          "net_margin_pct": 36.179824752921995,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14831.81,
+          "orders": 438,
+          "known_ads": 3569.74,
+          "operating_costs": 10582.07,
+          "opex": 0,
+          "net_profit": 680,
+          "mer": 4.154871223114289,
+          "net_margin_pct": 4.584740500316549,
+          "status": "provisional",
+          "source": "sellerboard",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 21355.17,
+          "orders": 546,
+          "known_ads": 1582.44,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 19772.73,
+          "mer": 13.495089861226965,
+          "net_margin_pct": 92.58989743467272,
+          "status": "provisional",
+          "source": "shiphero",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 8784,
+          "orders": 246,
+          "known_ads": 1032.75,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 7751.25,
+          "mer": 8.505446623093682,
+          "net_margin_pct": 88.24282786885246,
+          "status": "provisional",
+          "source": "whatnot",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "8970.58",
+          "complete": true,
+          "updated_at": "2026-10-03T03:45:07.832862+00:00"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.560093+00:00"
+        },
+        "tiktok_ads": {
+          "spend": "3134.99",
+          "complete": true,
+          "updated_at": "2026-10-03T03:45:06.015334+00:00",
+          "observed_at": "2026-10-03T03:45:06.015334+00:00",
+          "shopify_spend": "1552.55",
+          "shop_spend": "1582.44",
+          "unallocated_spend": "0.00",
+          "closed_day": true
+        },
+        "google_ads": {
+          "spend": "653.78",
+          "complete": true,
+          "updated_at": "2026-10-27T00:22:59.628325+00:00",
+          "observed_at": "2026-10-27T00:22:59.628331+00:00",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Cost settings became effective later; this recovered date shows source observations, not a historical expense restatement.",
+        "Google Ads spend unavailable; not treated as zero."
+      ]
+    },
+    "2026-09-29": {
+      "date": "2026-09-29",
+      "channel_revenue": {
+        "shopify": 17172.93,
+        "amazon": 18160.83,
+        "tiktok": 15313.86,
+        "whatnot": 8099
+      },
+      "channel_ad_spend": {
+        "meta": 8754.7,
+        "google": 529.37,
+        "bing": 75.26,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1448.67,
+        "amazon": 3617.47,
+        "whatnot": 1125.16,
+        "bing_d2c": 0,
+        "bing_amazon": 75.26
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 17615.85,
+          "orders": 237,
+          "known_ads": 12727.9,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 4887.95,
+          "mer": 1.3840342868815751,
+          "net_margin_pct": 27.747454706982634,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 18160.83,
+          "orders": 508,
+          "known_ads": 3617.47,
+          "operating_costs": 12080.69,
+          "opex": 0,
+          "net_profit": 2462.67,
+          "mer": 5.020312538873854,
+          "net_margin_pct": 13.560338376605033,
+          "status": "provisional",
+          "source": "sellerboard",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 15313.86,
+          "orders": 353,
+          "known_ads": 1448.67,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 13865.19,
+          "mer": 10.570978897885647,
+          "net_margin_pct": 90.54013814936273,
+          "status": "provisional",
+          "source": "shiphero",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 8099,
+          "orders": 261,
+          "known_ads": 1125.16,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 6973.84,
+          "mer": 7.198087383127733,
+          "net_margin_pct": 86.10742066921843,
+          "status": "provisional",
+          "source": "whatnot",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "8754.70",
+          "complete": true,
+          "updated_at": "2026-10-03T03:45:07.835142+00:00"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.561314+00:00"
+        },
+        "tiktok_ads": {
+          "spend": "5421.87",
+          "complete": true,
+          "updated_at": "2026-10-03T03:45:06.015334+00:00",
+          "observed_at": "2026-10-03T03:45:06.015334+00:00",
+          "shopify_spend": "3973.20",
+          "shop_spend": "1448.67",
+          "unallocated_spend": "0.00",
+          "closed_day": true
+        },
+        "google_ads": {
+          "spend": "529.37",
+          "complete": true,
+          "updated_at": "2026-10-27T00:22:59.628421+00:00",
+          "observed_at": "2026-10-27T00:22:59.628422+00:00",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Cost settings became effective later; this recovered date shows source observations, not a historical expense restatement.",
+        "Google Ads spend unavailable; not treated as zero."
+      ]
+    },
+    "2026-09-30": {
+      "date": "2026-09-30",
+      "channel_revenue": {
+        "shopify": 12801.22,
+        "amazon": 17060.63,
+        "tiktok": 12061.75,
+        "whatnot": 9514
+      },
+      "channel_ad_spend": {
+        "meta": 7873.28,
+        "google": 515.51,
+        "bing": 73.43,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 838.14,
+        "amazon": 3701.8,
+        "whatnot": 414.58,
+        "bing_d2c": 0.15,
+        "bing_amazon": 73.28
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 13177.22,
+          "orders": 173,
+          "known_ads": 11443.59,
+          "operating_costs": 4005.25,
+          "opex": 1744.83,
+          "net_profit": -4016.45,
+          "mer": 1.151493543547086,
+          "net_margin_pct": -30.480253042751052,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 17060.63,
+          "orders": 491,
+          "known_ads": 3701.8,
+          "operating_costs": 11834.03,
+          "opex": 1524.8,
+          "net_profit": 0,
+          "mer": 4.608738991841807,
+          "net_margin_pct": 0,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 12061.75,
+          "orders": 338,
+          "known_ads": 838.14,
+          "operating_costs": 8508.89,
+          "opex": 1597.14,
+          "net_profit": 1117.58,
+          "mer": 14.391092180304007,
+          "net_margin_pct": 9.265488009617178,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 9514,
+          "orders": 266,
+          "known_ads": 414.58,
+          "operating_costs": 7611.2,
+          "opex": 1259.77,
+          "net_profit": 228.45,
+          "mer": 22.948526219306284,
+          "net_margin_pct": 2.401198234181207,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "7873.28",
+          "complete": true,
+          "updated_at": "2026-10-03T03:45:07.836922+00:00"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.562570+00:00"
+        },
+        "google_ads": {
+          "spend": "515.51",
+          "complete": true,
+          "updated_at": "2026-10-06T01:11:49.690974+00:00",
+          "observed_at": "2026-10-06T01:11:49.690974+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "3892.94",
+          "complete": true,
+          "updated_at": "2026-10-03T03:45:06.015334+00:00",
+          "observed_at": "2026-10-03T03:45:06.015334+00:00",
+          "shopify_spend": "3054.80",
+          "shop_spend": "838.14",
+          "unallocated_spend": "0.00",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Payment transaction data missing for one or more Shopify orders.",
+        "afterpay (new): actual fees unavailable and fallback rate is not configured.",
+        "klarna: actual fees unavailable and fallback rate is not configured.",
+        "other: actual fees unavailable and fallback rate is not configured.",
+        "sezzle payments: actual fees unavailable and fallback rate is not configured.",
+        "shop_cash: actual fees unavailable and fallback rate is not configured."
+      ]
+    },
+    "2026-10-01": {
+      "date": "2026-10-01",
+      "channel_revenue": {
+        "shopify": 48200.08,
+        "amazon": 16719.55,
+        "tiktok": 17821.96,
+        "whatnot": 12484
+      },
+      "channel_ad_spend": {
+        "meta": 6308.72,
+        "google": 737.85,
+        "bing": 86.94,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1335.18,
+        "amazon": 3496.77,
+        "whatnot": 544.73,
+        "bing_d2c": 0,
+        "bing_amazon": 86.94
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 48431.26,
+          "orders": 569,
+          "known_ads": 10918.71,
+          "operating_costs": 14079.28,
+          "opex": 3008.23,
+          "net_profit": 20425.04,
+          "mer": 4.4356210577989525,
+          "net_margin_pct": 42.17325752003974,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 16719.55,
+          "orders": 493,
+          "known_ads": 3496.77,
+          "operating_costs": 11141.89,
+          "opex": 1038.51,
+          "net_profit": 1042.38,
+          "mer": 4.781426859644758,
+          "net_margin_pct": 6.2344979380425904,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 17821.96,
+          "orders": 401,
+          "known_ads": 1335.18,
+          "operating_costs": 11678.78,
+          "opex": 1106.98,
+          "net_profit": 3701.02,
+          "mer": 13.347983043484774,
+          "net_margin_pct": 20.766627239652653,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 12484,
+          "orders": 320,
+          "known_ads": 544.73,
+          "operating_costs": 9987.2,
+          "opex": 775.43,
+          "net_profit": 1176.64,
+          "mer": 22.917775778826208,
+          "net_margin_pct": 9.425184235821852,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "6308.72",
+          "complete": true,
+          "updated_at": "2026-10-03T03:45:07.838719+00:00"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.564017+00:00"
+        },
+        "google_ads": {
+          "spend": "737.85",
+          "complete": true,
+          "updated_at": "2026-10-06T01:11:49.690974+00:00",
+          "observed_at": "2026-10-06T01:11:49.690974+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "5207.32",
+          "complete": true,
+          "updated_at": "2026-10-03T03:45:06.015334+00:00",
+          "observed_at": "2026-10-03T03:45:06.015334+00:00",
+          "shopify_spend": "3872.14",
+          "shop_spend": "1335.18",
+          "unallocated_spend": "0.00",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Processing fee reported in CAD; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Payment transaction data missing for one or more Shopify orders.",
+        "afterpay (new): actual fees unavailable and fallback rate is not configured.",
+        "klarna: actual fees unavailable and fallback rate is not configured.",
+        "other: actual fees unavailable and fallback rate is not configured.",
+        "sezzle payments: actual fees unavailable and fallback rate is not configured.",
+        "shop_cash: actual fees unavailable and fallback rate is not configured.",
+        "shopify_payments: actual fees unavailable and fallback rate is not configured."
+      ]
+    },
+    "2026-10-02": {
+      "date": "2026-10-02",
+      "channel_revenue": {
+        "shopify": 17880.06,
+        "amazon": 14439.8,
+        "tiktok": 13677.22,
+        "whatnot": 10423
+      },
+      "channel_ad_spend": {
+        "meta": 5782.95,
+        "google": 647.98,
+        "bing": 85.78,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 945.26,
+        "amazon": 3488.95,
+        "whatnot": 517.91,
+        "bing_d2c": 0.8,
+        "bing_amazon": 84.98
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 18729.22,
+          "orders": 223,
+          "known_ads": 7593.53,
+          "operating_costs": 5514.94,
+          "opex": 2009.41,
+          "net_profit": 3611.34,
+          "mer": 2.4664707981663336,
+          "net_margin_pct": 19.281849430996058,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14439.8,
+          "orders": 434,
+          "known_ads": 3488.95,
+          "operating_costs": 9616.77,
+          "opex": 1334.08,
+          "net_profit": 0,
+          "mer": 4.138723684776222,
+          "net_margin_pct": 0,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 13677.22,
+          "orders": 297,
+          "known_ads": 945.26,
+          "operating_costs": 8865.19,
+          "opex": 1467.4,
+          "net_profit": 2399.37,
+          "mer": 14.469267714702832,
+          "net_margin_pct": 17.542819374112575,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 10423,
+          "orders": 271,
+          "known_ads": 517.91,
+          "operating_costs": 8338.4,
+          "opex": 1118.25,
+          "net_profit": 448.44,
+          "mer": 20.125118263791006,
+          "net_margin_pct": 4.302408135853401,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "5782.95",
+          "complete": true,
+          "updated_at": "2026-10-03T13:30:16.548878+00:00"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.565288+00:00"
+        },
+        "google_ads": {
+          "spend": "647.98",
+          "complete": true,
+          "updated_at": "2026-10-06T01:11:49.690974+00:00",
+          "observed_at": "2026-10-06T01:11:49.690974+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "2107.86",
+          "complete": true,
+          "updated_at": "2026-10-03T13:29:43.372836+00:00",
+          "observed_at": "2026-10-03T13:29:43.372836+00:00",
+          "shopify_spend": "1162.60",
+          "shop_spend": "945.26",
+          "unallocated_spend": "0.00",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "afterpay (new): actual fees unavailable and fallback rate is not configured.",
+        "klarna: actual fees unavailable and fallback rate is not configured.",
+        "other: actual fees unavailable and fallback rate is not configured.",
+        "sezzle payments: actual fees unavailable and fallback rate is not configured.",
+        "shop_cash: actual fees unavailable and fallback rate is not configured."
+      ]
+    },
+    "2026-10-03": {
+      "date": "2026-10-03",
+      "channel_revenue": {
+        "shopify": 16857.4,
+        "amazon": 17915.04,
+        "tiktok": 3567,
+        "whatnot": 0
+      },
+      "channel_ad_spend": {
+        "meta": 4439.7,
+        "google": 782.59,
+        "bing": 75,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1044.28,
+        "amazon": 3608.59,
+        "whatnot": 0,
+        "bing_d2c": 1.31,
+        "bing_amazon": 73.69
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 16833.44,
+          "orders": 215,
+          "known_ads": 6393.2,
+          "operating_costs": 4975.15,
+          "opex": 2951.45,
+          "net_profit": 2513.64,
+          "mer": 2.6330225864981545,
+          "net_margin_pct": 14.932420230208443,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 17915.04,
+          "orders": 472,
+          "known_ads": 3608.59,
+          "operating_costs": 11954.17,
+          "opex": 2352.28,
+          "net_profit": 0,
+          "mer": 4.9645540224852365,
+          "net_margin_pct": 0,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 3567,
+          "orders": 120,
+          "known_ads": 1044.28,
+          "operating_costs": 2698.32,
+          "opex": 625.41,
+          "net_profit": -801.01,
+          "mer": 3.415750564982572,
+          "net_margin_pct": -22.456125595738715,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Owner-confirmed weekend no-show schedule",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "4439.70",
+          "complete": true,
+          "updated_at": "2026-10-06T01:33:19.376181+00:00",
+          "observed_at": "2026-10-06T01:33:19.375006+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.566566+00:00"
+        },
+        "google_ads": {
+          "spend": "782.59",
+          "complete": true,
+          "updated_at": "2026-10-06T01:11:49.690974+00:00",
+          "observed_at": "2026-10-06T01:11:49.690974+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "2215.19",
+          "complete": true,
+          "updated_at": "2026-10-04T13:29:02.927894+00:00",
+          "observed_at": "2026-10-04T13:29:02.927894+00:00",
+          "shopify_spend": "1170.91",
+          "shop_spend": "1044.28",
+          "unallocated_spend": "0.00",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Payment transaction data missing for one or more Shopify orders.",
+        "afterpay (new): actual fees unavailable and fallback rate is not configured.",
+        "klarna: actual fees unavailable and fallback rate is not configured.",
+        "other: actual fees unavailable and fallback rate is not configured.",
+        "sezzle payments: actual fees unavailable and fallback rate is not configured.",
+        "shop_cash: actual fees unavailable and fallback rate is not configured."
+      ]
+    },
+    "2026-10-04": {
+      "date": "2026-10-04",
+      "channel_revenue": {
+        "shopify": 63737.28,
+        "amazon": 16890.31,
+        "tiktok": 101959.21,
+        "whatnot": 0
+      },
+      "channel_ad_spend": {
+        "meta": 4555.16,
+        "google": 747.02,
+        "bing": 71.95,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1017.86,
+        "amazon": 3558.41,
+        "whatnot": 0,
+        "bing_d2c": 0.3,
+        "bing_amazon": 71.65
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 63469.52,
+          "orders": 521,
+          "known_ads": 6562.6,
+          "operating_costs": 15922.07,
+          "opex": 2064.07,
+          "net_profit": 38920.78,
+          "mer": 9.671398531070002,
+          "net_margin_pct": 61.32200148984899,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 16890.31,
+          "orders": 490,
+          "known_ads": 3558.41,
+          "operating_costs": 10807.64,
+          "opex": 549.29,
+          "net_profit": 1974.97,
+          "mer": 4.746589066465079,
+          "net_margin_pct": 11.692917418330392,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 101959.21,
+          "orders": 1192,
+          "known_ads": 1017.86,
+          "operating_costs": 56806.97,
+          "opex": 3315.78,
+          "net_profit": 40818.6,
+          "mer": 100.17017075039789,
+          "net_margin_pct": 40.03424506721855,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Owner-confirmed weekend no-show schedule",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "4555.16",
+          "complete": true,
+          "updated_at": "2026-10-06T01:33:19.378372+00:00",
+          "observed_at": "2026-10-06T01:33:19.375006+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.567819+00:00"
+        },
+        "google_ads": {
+          "spend": "747.02",
+          "complete": true,
+          "updated_at": "2026-10-06T01:11:49.690974+00:00",
+          "observed_at": "2026-10-06T01:11:49.690974+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "2471.09",
+          "complete": false,
+          "updated_at": "2026-10-05T13:29:11.194112+00:00",
+          "observed_at": "2026-10-05T13:29:11.194112+00:00",
+          "shopify_spend": "1260.42",
+          "shop_spend": "1017.86",
+          "unallocated_spend": "192.81",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Payment transaction data missing for one or more Shopify orders.",
+        "Processing fee reported in EUR; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Processing fee reported in GBP; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "afterpay (new): actual fees unavailable and fallback rate is not configured.",
+        "klarna: actual fees unavailable and fallback rate is not configured.",
+        "sezzle payments: actual fees unavailable and fallback rate is not configured.",
+        "shop_cash: actual fees unavailable and fallback rate is not configured.",
+        "shopify_payments: actual fees unavailable and fallback rate is not configured."
+      ]
+    },
+    "2026-10-05": {
+      "date": "2026-10-05",
+      "channel_revenue": {
+        "shopify": 30286.24,
+        "amazon": 14241.62,
+        "tiktok": 35716.91,
+        "whatnot": 8994
+      },
+      "channel_ad_spend": {
+        "meta": 6612.63,
+        "google": 959.23,
+        "bing": 84.77,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 3004.56,
+        "amazon": 3501.96,
+        "whatnot": 561.25,
+        "bing_d2c": 0.57,
+        "bing_amazon": 84.2
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 30937.62,
+          "orders": 333,
+          "known_ads": 8727.96,
+          "operating_costs": 8197.75,
+          "opex": 2040.64,
+          "net_profit": 11971.27,
+          "mer": 3.54465648330194,
+          "net_margin_pct": 38.69486405224448,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14241.62,
+          "orders": 417,
+          "known_ads": 3501.96,
+          "operating_costs": 9773.08,
+          "opex": 939.38,
+          "net_profit": 27.2,
+          "mer": 4.06675690184925,
+          "net_margin_pct": 0.1909895082160597,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 35716.91,
+          "orders": 740,
+          "known_ads": 3004.56,
+          "operating_costs": 22827.53,
+          "opex": 2355.88,
+          "net_profit": 7528.94,
+          "mer": 11.887567563969434,
+          "net_margin_pct": 21.079483079583312,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 8994,
+          "orders": 227,
+          "known_ads": 561.25,
+          "operating_costs": 7195.2,
+          "opex": 593.24,
+          "net_profit": 644.31,
+          "mer": 16.024944320712695,
+          "net_margin_pct": 7.163775850567045,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "6612.63",
+          "complete": true,
+          "updated_at": "2026-10-06T19:44:17.986569+00:00",
+          "observed_at": "2026-10-06T19:44:17.919178+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.569151+00:00"
+        },
+        "google_ads": {
+          "spend": "959.23",
+          "complete": true,
+          "updated_at": "2026-10-06T13:29:21.173562+00:00",
+          "observed_at": "2026-10-06T13:29:21.173562+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "4323.25",
+          "complete": false,
+          "updated_at": "2026-10-06T13:29:58.501360+00:00",
+          "observed_at": "2026-10-06T13:29:58.501360+00:00",
+          "shopify_spend": "1156.10",
+          "shop_spend": "3004.56",
+          "unallocated_spend": "162.59",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Processing fee reported in GBP; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it."
+      ]
+    },
+    "2026-10-06": {
+      "date": "2026-10-06",
+      "channel_revenue": {
+        "shopify": 25921.9,
+        "amazon": 40795.01,
+        "tiktok": 20885.89,
+        "whatnot": 10045
+      },
+      "channel_ad_spend": {
+        "meta": 8279.44,
+        "google": 1060.27,
+        "bing": 78.34,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1806.58,
+        "amazon": 6604.03,
+        "whatnot": 478.75,
+        "bing_d2c": 0.35,
+        "bing_amazon": 77.99
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 26727.82,
+          "orders": 314,
+          "known_ads": 11912.02,
+          "operating_costs": 7277.92,
+          "opex": 1609.62,
+          "net_profit": 5928.26,
+          "mer": 2.243768898977671,
+          "net_margin_pct": 22.180110461683743,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 40795.01,
+          "orders": 1335,
+          "known_ads": 6604.03,
+          "operating_costs": 28742.34,
+          "opex": 2456.78,
+          "net_profit": 2991.86,
+          "mer": 6.1772902303593415,
+          "net_margin_pct": 7.333887159238348,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 20885.89,
+          "orders": 406,
+          "known_ads": 1806.58,
+          "operating_costs": 13106.01,
+          "opex": 1257.8,
+          "net_profit": 4715.5,
+          "mer": 11.561010306767484,
+          "net_margin_pct": 22.577443431905465,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 10045,
+          "orders": 279,
+          "known_ads": 478.75,
+          "operating_costs": 8036,
+          "opex": 604.94,
+          "net_profit": 925.31,
+          "mer": 20.98172323759791,
+          "net_margin_pct": 9.211647585863613,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "8279.44",
+          "complete": true,
+          "updated_at": "2026-10-07T13:30:41.175780+00:00",
+          "observed_at": "2026-10-07T13:30:41.174724+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.570442+00:00"
+        },
+        "google_ads": {
+          "spend": "1060.27",
+          "complete": true,
+          "updated_at": "2026-10-07T13:29:13.558589+00:00",
+          "observed_at": "2026-10-07T13:29:13.558589+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "4540.90",
+          "complete": false,
+          "updated_at": "2026-10-07T13:29:49.239481+00:00",
+          "observed_at": "2026-10-07T13:29:49.239481+00:00",
+          "shopify_spend": "2572.31",
+          "shop_spend": "1806.58",
+          "unallocated_spend": "162.01",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it."
+      ]
+    },
+    "2026-10-07": {
+      "date": "2026-10-07",
+      "channel_revenue": {
+        "shopify": 16244.25,
+        "amazon": 39924.33,
+        "tiktok": 17825.23,
+        "whatnot": 9285
+      },
+      "channel_ad_spend": {
+        "meta": 7169.61,
+        "google": 1039.59,
+        "bing": 78.29,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1564.91,
+        "amazon": 5822.37,
+        "whatnot": 499.79,
+        "bing_d2c": 0.68,
+        "bing_amazon": 77.61
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 16341.93,
+          "orders": 209,
+          "known_ads": 9874.59,
+          "operating_costs": 4677.63,
+          "opex": 1463.62,
+          "net_profit": 326.09,
+          "mer": 1.6549476990943421,
+          "net_margin_pct": 1.9954191457190185,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 39924.33,
+          "orders": 1322,
+          "known_ads": 5822.37,
+          "operating_costs": 32064.5,
+          "opex": 2037.46,
+          "net_profit": 0,
+          "mer": 6.857058208255401,
+          "net_margin_pct": 0,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 17825.23,
+          "orders": 406,
+          "known_ads": 1564.91,
+          "operating_costs": 11725.66,
+          "opex": 1596.47,
+          "net_profit": 2938.19,
+          "mer": 11.390578371919151,
+          "net_margin_pct": 16.483321673829735,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 9285,
+          "orders": 237,
+          "known_ads": 499.79,
+          "operating_costs": 7428,
+          "opex": 831.59,
+          "net_profit": 525.62,
+          "mer": 18.577802677124392,
+          "net_margin_pct": 5.660958535271944,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "7169.61",
+          "complete": true,
+          "updated_at": "2026-10-08T19:44:36.468748+00:00",
+          "observed_at": "2026-10-08T19:44:36.467766+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": null,
+        "google_ads": {
+          "spend": "1039.59",
+          "complete": true,
+          "updated_at": "2026-10-08T13:29:09.143899+00:00",
+          "observed_at": "2026-10-08T13:29:09.143899+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "3388.69",
+          "complete": false,
+          "updated_at": "2026-10-08T13:29:44.116063+00:00",
+          "observed_at": "2026-10-08T13:29:44.116063+00:00",
+          "shopify_spend": "1665.39",
+          "shop_spend": "1564.91",
+          "unallocated_spend": "158.39",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Processing fee reported in EUR; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Partially paid orders included on order-date accrual basis; verify collectible balance.",
+        "applovin spend not verified for 2026-10-07."
+      ]
+    },
+    "2026-10-08": {
+      "date": "2026-10-08",
+      "channel_revenue": {
+        "shopify": 58694.27,
+        "amazon": 14345.75,
+        "tiktok": 19700.02,
+        "whatnot": 9542
+      },
+      "channel_ad_spend": {
+        "meta": 8044.93,
+        "google": 1084.19,
+        "bing": 77.45,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1702.98,
+        "amazon": 2549.43,
+        "whatnot": 527.86,
+        "bing_d2c": 0.27,
+        "bing_amazon": 77.18
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 59087.58,
+          "orders": 663,
+          "known_ads": 10146,
+          "operating_costs": 15784.25,
+          "opex": 3412.1,
+          "net_profit": 29745.23,
+          "mer": 5.823731519810763,
+          "net_margin_pct": 50.340917668315406,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14345.75,
+          "orders": 397,
+          "known_ads": 2549.43,
+          "operating_costs": 9385.94,
+          "opex": 828.41,
+          "net_profit": 1581.97,
+          "mer": 5.627042123141251,
+          "net_margin_pct": 11.027447153338096,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 19700.02,
+          "orders": 368,
+          "known_ads": 1702.98,
+          "operating_costs": 12226.14,
+          "opex": 1137.61,
+          "net_profit": 4633.29,
+          "mer": 11.567969089478444,
+          "net_margin_pct": 23.519214701304872,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 9542,
+          "orders": 282,
+          "known_ads": 527.86,
+          "operating_costs": 7633.6,
+          "opex": 551.02,
+          "net_profit": 829.52,
+          "mer": 18.07676277800932,
+          "net_margin_pct": 8.693355690630895,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "8044.93",
+          "complete": true,
+          "updated_at": "2026-10-09T19:44:02.583520+00:00",
+          "observed_at": "2026-10-09T19:44:02.582506+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.571800+00:00"
+        },
+        "google_ads": {
+          "spend": "1084.19",
+          "complete": true,
+          "updated_at": "2026-10-09T13:29:19.212754+00:00",
+          "observed_at": "2026-10-09T13:29:19.212754+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "2885.16",
+          "complete": false,
+          "updated_at": "2026-10-09T13:29:53.431898+00:00",
+          "observed_at": "2026-10-09T13:29:53.431898+00:00",
+          "shopify_spend": "1016.88",
+          "shop_spend": "1702.98",
+          "unallocated_spend": "165.30",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Processing fee reported in EUR; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Payment transaction data missing for one or more Shopify orders."
+      ]
+    },
+    "2026-10-09": {
+      "date": "2026-10-09",
+      "channel_revenue": {
+        "shopify": 26289.5,
+        "amazon": 12685.89,
+        "tiktok": 15285.84,
+        "whatnot": 10106
+      },
+      "channel_ad_spend": {
+        "meta": 7070.22,
+        "google": 1113.18,
+        "bing": 85.23,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1074.48,
+        "amazon": 2814.96,
+        "whatnot": 542.65,
+        "bing_d2c": 1.28,
+        "bing_amazon": 83.95
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 26289.5,
+          "orders": 336,
+          "known_ads": 8184.68,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": null,
+          "mer": 3.21203761173314,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Shopify Analytics (net_sales + shipping)",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 12685.89,
+          "orders": 388,
+          "known_ads": 2814.96,
+          "operating_costs": 9382.33,
+          "opex": 0,
+          "net_profit": 488.6,
+          "mer": 4.506596896581123,
+          "net_margin_pct": 3.851523227775111,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 15285.84,
+          "orders": 274,
+          "known_ads": 1074.48,
+          "operating_costs": 9381.83,
+          "opex": 3569.33,
+          "net_profit": 1260.2,
+          "mer": 14.226267589903953,
+          "net_margin_pct": 8.244231262397093,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 10106,
+          "orders": 274,
+          "known_ads": 542.65,
+          "operating_costs": 8084.8,
+          "opex": 2359.81,
+          "net_profit": -881.26,
+          "mer": 18.623422095273195,
+          "net_margin_pct": -8.720166237878487,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "7070.22",
+          "complete": true,
+          "updated_at": "2026-10-27T00:22:59.629091+00:00",
+          "observed_at": "2026-10-27T00:22:59.629092+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.573043+00:00"
+        },
+        "google_ads": {
+          "spend": "1113.18",
+          "complete": true,
+          "updated_at": "2026-10-10T13:28:40.512024+00:00",
+          "observed_at": "2026-10-10T13:28:40.512024+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "2627.55",
+          "complete": false,
+          "updated_at": "2026-10-10T13:29:10.077780+00:00",
+          "observed_at": "2026-10-10T13:29:10.077780+00:00",
+          "shopify_spend": "1390.88",
+          "shop_spend": "1074.48",
+          "unallocated_spend": "162.19",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Shopify order snapshot is missing or pagination is incomplete.",
+        "Independent Shopify Analytics revenue reconciliation missing.",
+        "Meta snapshot was collected intraday; a completed-day refresh is required before financial close.",
+        "Sellerboard report missing; Amazon not estimated.",
+        "Shopify Admin API order snapshot missing; revenue is ShopifyQL net_sales+shipping. COGS/OPEX not restated — not a financial close.",
+        "Sellerboard Amazon restored from the 10/10 email (Yesterday 10/9)."
+      ],
+      "backfill": true
+    },
+    "2026-10-10": {
+      "date": "2026-10-10",
+      "channel_revenue": {
+        "shopify": 16958.06,
+        "amazon": 13989,
+        "tiktok": 3150.29,
+        "whatnot": 0
+      },
+      "channel_ad_spend": {
+        "meta": 6841.69,
+        "google": 986.9,
+        "bing": 75.89,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": null,
+        "amazon": 3444.72,
+        "whatnot": 0,
+        "bing_d2c": 0.07,
+        "bing_amazon": 75.82
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 16958.06,
+          "orders": 219,
+          "known_ads": 7828.66,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": null,
+          "mer": 2.1661510398969943,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Shopify Analytics (net_sales + shipping)",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 13989,
+          "orders": 397,
+          "known_ads": 3444.72,
+          "operating_costs": 9461.32,
+          "opex": 0,
+          "net_profit": 1082.96,
+          "mer": 4.060997700829096,
+          "net_margin_pct": 7.741511187361498,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 3150.29,
+          "orders": 98,
+          "known_ads": 0,
+          "operating_costs": 2310.62,
+          "opex": 5929.14,
+          "net_profit": -5089.47,
+          "mer": null,
+          "net_margin_pct": -161.55560281751838,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Owner-confirmed weekend no-show schedule",
+          "data_available": true,
+          "zero_assumed": false,
+          "scheduled_no_show": true
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "6841.69",
+          "complete": true,
+          "updated_at": "2026-10-27T00:22:59.629166+00:00",
+          "observed_at": "2026-10-27T00:22:59.629167+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.574321+00:00"
+        },
+        "google_ads": {
+          "spend": "986.90",
+          "complete": true,
+          "updated_at": "2026-10-27T00:22:59.629168+00:00",
+          "observed_at": "2026-10-27T00:22:59.629169+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": null
+      },
+      "blockers": [
+        "Shopify order snapshot is missing or pagination is incomplete.",
+        "Independent Shopify Analytics revenue reconciliation missing.",
+        "meta spend not verified for 2026-10-10.",
+        "Google Ads spend is not verified for this date; known advertising subtotal excludes Google.",
+        "Sellerboard report missing; Amazon not estimated.",
+        "TikTok advertising pull is missing for this date; no hardcoded daily spend assumed.",
+        "Whatnot show-summary email is unavailable for this date; enter a verified correction or explicit no-show zero.",
+        "Shopify Admin API order snapshot missing; revenue is ShopifyQL net_sales+shipping. COGS/OPEX not restated — not a financial close.",
+        "Sellerboard Amazon restored from the 10/11 email (Yesterday 10/10).",
+        "Whatnot 2026-10-10 is Saturday — owner-confirmed weekend no-show ($0).",
+        "TikTok advertising pull is missing for this date; not estimated.",
+        "ShipHero TikTok aggregate is present; TikTok website ads are missing."
+      ],
+      "backfill": true
+    },
+    "2026-10-11": {
+      "date": "2026-10-11",
+      "channel_revenue": {
+        "shopify": 27971.67,
+        "amazon": 14725.4,
+        "tiktok": 23308.66,
+        "whatnot": 0
+      },
+      "channel_ad_spend": {
+        "meta": 6848.36,
+        "google": 998.41,
+        "bing": 74.88,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1593.71,
+        "amazon": 3249.92,
+        "whatnot": 0,
+        "bing_d2c": 0.43,
+        "bing_amazon": 74.45
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 28079.62,
+          "orders": 333,
+          "known_ads": 9791.3,
+          "operating_costs": 7834.31,
+          "opex": 2518.21,
+          "net_profit": 7935.8,
+          "mer": 2.8678132627945216,
+          "net_margin_pct": 28.26177847136108,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14725.4,
+          "orders": 415,
+          "known_ads": 3249.92,
+          "operating_costs": 9078.48,
+          "opex": 1320.59,
+          "net_profit": 1076.41,
+          "mer": 4.531003840094526,
+          "net_margin_pct": 7.309886318877585,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 23308.66,
+          "orders": 481,
+          "known_ads": 1593.71,
+          "operating_costs": 14879.68,
+          "opex": 2090.34,
+          "net_profit": 4744.93,
+          "mer": 14.625408637706986,
+          "net_margin_pct": 20.35694029601015,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Owner-confirmed weekend no-show schedule",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "6848.36",
+          "complete": true,
+          "updated_at": "2026-10-12T19:44:17.976625+00:00",
+          "observed_at": "2026-10-12T19:44:17.975800+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.575569+00:00"
+        },
+        "google_ads": {
+          "spend": "998.41",
+          "complete": true,
+          "updated_at": "2026-10-12T13:29:15.998605+00:00",
+          "observed_at": "2026-10-12T13:29:15.998605+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "3700.10",
+          "complete": false,
+          "updated_at": "2026-10-12T13:29:47.609774+00:00",
+          "observed_at": "2026-10-12T13:29:47.609774+00:00",
+          "shopify_spend": "1944.53",
+          "shop_spend": "1593.71",
+          "unallocated_spend": "161.86",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Processing fee reported in EUR; USD fee requires conversion or a configured estimate. USD order revenue retained."
+      ]
+    },
+    "2026-10-12": {
+      "date": "2026-10-12",
+      "channel_revenue": {
+        "shopify": 21159.63,
+        "amazon": 13326.79,
+        "tiktok": 21571.26,
+        "whatnot": 9288
+      },
+      "channel_ad_spend": {
+        "meta": 7113.6,
+        "google": 1052.58,
+        "bing": 72.74,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 2211.51,
+        "amazon": 3126.96,
+        "whatnot": 559.17,
+        "bing_d2c": 2.18,
+        "bing_amazon": 70.56
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 21517.7,
+          "orders": 264,
+          "known_ads": 8247.2,
+          "operating_costs": 5970.5,
+          "opex": 1941.77,
+          "net_profit": 5358.23,
+          "mer": 2.609091570472403,
+          "net_margin_pct": 24.901499695599437,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 13326.79,
+          "orders": 380,
+          "known_ads": 3126.96,
+          "operating_costs": 8859.72,
+          "opex": 1202.62,
+          "net_profit": 137.49,
+          "mer": 4.261899736485277,
+          "net_margin_pct": 1.0316812975967957,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 21571.26,
+          "orders": 455,
+          "known_ads": 2211.51,
+          "operating_costs": 13860.04,
+          "opex": 1946.6,
+          "net_profit": 3553.11,
+          "mer": 9.754086574331565,
+          "net_margin_pct": 16.47149957860598,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 9288,
+          "orders": 268,
+          "known_ads": 559.17,
+          "operating_costs": 7430.4,
+          "opex": 838.15,
+          "net_profit": 460.28,
+          "mer": 16.610333172380493,
+          "net_margin_pct": 4.955641688199828,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "7113.60",
+          "complete": true,
+          "updated_at": "2026-10-13T19:43:43.444906+00:00",
+          "observed_at": "2026-10-13T19:43:43.443880+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.576798+00:00"
+        },
+        "google_ads": {
+          "spend": "1052.58",
+          "complete": true,
+          "updated_at": "2026-10-27T00:22:59.629305+00:00",
+          "observed_at": "2026-10-27T00:22:59.629306+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "3503.37",
+          "complete": false,
+          "updated_at": "2026-10-13T13:29:22.292993+00:00",
+          "observed_at": "2026-10-13T13:29:22.292993+00:00",
+          "shopify_spend": "1133.60",
+          "shop_spend": "2211.51",
+          "unallocated_spend": "158.26",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Processing fee reported in PHP; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Partially paid orders included on order-date accrual basis; verify collectible balance.",
+        "Google Ads spend is not verified for this date; known advertising subtotal excludes Google."
+      ]
+    },
+    "2026-10-13": {
+      "date": "2026-10-13",
+      "channel_revenue": {
+        "shopify": 14592.25,
+        "amazon": 13990.1,
+        "tiktok": 15038.88,
+        "whatnot": 8130
+      },
+      "channel_ad_spend": {
+        "meta": 7858.74,
+        "google": 930.44,
+        "bing": 76.13,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1079.5,
+        "amazon": 3128.14,
+        "whatnot": 464.67,
+        "bing_d2c": 0.41,
+        "bing_amazon": 75.72
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 14950.38,
+          "orders": 209,
+          "known_ads": 10244.39,
+          "operating_costs": 4447.16,
+          "opex": 1775.76,
+          "net_profit": -1516.93,
+          "mer": 1.4593723979661064,
+          "net_margin_pct": -10.146431060615182,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 13990.1,
+          "orders": 397,
+          "known_ads": 3128.14,
+          "operating_costs": 9460.49,
+          "opex": 1401.47,
+          "net_profit": 0,
+          "mer": 4.4723381945820835,
+          "net_margin_pct": 0,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 15038.88,
+          "orders": 294,
+          "known_ads": 1079.5,
+          "operating_costs": 9452.05,
+          "opex": 1786.26,
+          "net_profit": 2721.07,
+          "mer": 13.931338582677165,
+          "net_margin_pct": 18.093568138052834,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 8130,
+          "orders": 233,
+          "known_ads": 464.67,
+          "operating_costs": 6504,
+          "opex": 965.65,
+          "net_profit": 195.68,
+          "mer": 17.49628768803667,
+          "net_margin_pct": 2.4068880688806886,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "7858.74",
+          "complete": true,
+          "updated_at": "2026-10-14T19:43:46.674915+00:00",
+          "observed_at": "2026-10-14T19:43:46.673840+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.578057+00:00"
+        },
+        "google_ads": {
+          "spend": "930.44",
+          "complete": true,
+          "updated_at": "2026-10-14T13:28:37.566601+00:00",
+          "observed_at": "2026-10-14T13:28:37.566601+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "2705.22",
+          "complete": false,
+          "updated_at": "2026-10-14T13:29:13.638055+00:00",
+          "observed_at": "2026-10-14T13:29:13.638055+00:00",
+          "shopify_spend": "1455.21",
+          "shop_spend": "1079.50",
+          "unallocated_spend": "170.51",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage."
+      ]
+    },
+    "2026-10-14": {
+      "date": "2026-10-14",
+      "channel_revenue": {
+        "shopify": 14164.5,
+        "amazon": 15115.71,
+        "tiktok": 15183.7,
+        "whatnot": 9826
+      },
+      "channel_ad_spend": {
+        "meta": 5703.13,
+        "google": 1055.02,
+        "bing": 75.94,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1169.94,
+        "amazon": 3068.97,
+        "whatnot": 822.35,
+        "bing_d2c": 0.6,
+        "bing_amazon": 75.34
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 14658.26,
+          "orders": 195,
+          "known_ads": 7596.14,
+          "operating_costs": 4232.19,
+          "opex": 1586.44,
+          "net_profit": 1243.49,
+          "mer": 1.9296985047668949,
+          "net_margin_pct": 8.483203326997884,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 15115.71,
+          "orders": 429,
+          "known_ads": 3068.97,
+          "operating_costs": 9828.38,
+          "opex": 1635.95,
+          "net_profit": 582.41,
+          "mer": 4.9253365135534075,
+          "net_margin_pct": 3.8530112048987446,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 15183.7,
+          "orders": 282,
+          "known_ads": 1169.94,
+          "operating_costs": 9408.41,
+          "opex": 1643.3,
+          "net_profit": 2962.05,
+          "mer": 12.978186915568319,
+          "net_margin_pct": 19.508090913282008,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 9826,
+          "orders": 287,
+          "known_ads": 822.35,
+          "operating_costs": 7860.8,
+          "opex": 1063.45,
+          "net_profit": 79.4,
+          "mer": 11.948683650513772,
+          "net_margin_pct": 0.8080602483207816,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "5703.13",
+          "complete": true,
+          "updated_at": "2026-10-15T19:43:47.219409+00:00",
+          "observed_at": "2026-10-15T19:43:47.218508+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.579428+00:00"
+        },
+        "google_ads": {
+          "spend": "1055.02",
+          "complete": true,
+          "updated_at": "2026-10-15T13:30:24.005420+00:00",
+          "observed_at": "2026-10-15T13:30:24.005420+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "2169.65",
+          "complete": false,
+          "updated_at": "2026-10-15T13:29:51.588463+00:00",
+          "observed_at": "2026-10-15T13:29:51.588463+00:00",
+          "shopify_spend": "837.99",
+          "shop_spend": "1169.94",
+          "unallocated_spend": "161.72",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Payment transaction data missing for one or more Shopify orders."
+      ]
+    },
+    "2026-10-15": {
+      "date": "2026-10-15",
+      "channel_revenue": {
+        "shopify": 56645.59,
+        "amazon": 16976.56,
+        "tiktok": 54080.3,
+        "whatnot": 11645
+      },
+      "channel_ad_spend": {
+        "meta": 7693.77,
+        "google": 1084.04,
+        "bing": 73.31,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 2653.2,
+        "amazon": 3309.28,
+        "whatnot": 1445.62,
+        "bing_d2c": 0.42,
+        "bing_amazon": 72.89
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 56416.52,
+          "orders": 614,
+          "known_ads": 9927.13,
+          "operating_costs": 15421.22,
+          "opex": 2404.44,
+          "net_profit": 28663.73,
+          "mer": 5.68306449094552,
+          "net_margin_pct": 50.80733444742781,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 16976.56,
+          "orders": 465,
+          "known_ads": 3309.28,
+          "operating_costs": 10700.98,
+          "opex": 723.53,
+          "net_profit": 2242.77,
+          "mer": 5.129985978823188,
+          "net_margin_pct": 13.210980316389186,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 54080.3,
+          "orders": 1071,
+          "known_ads": 2653.2,
+          "operating_costs": 34114.9,
+          "opex": 2304.87,
+          "net_profit": 15007.33,
+          "mer": 20.38304688677823,
+          "net_margin_pct": 27.750086445526374,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 11645,
+          "orders": 274,
+          "known_ads": 1445.62,
+          "operating_costs": 9316,
+          "opex": 496.3,
+          "net_profit": 387.08,
+          "mer": 8.055367247271066,
+          "net_margin_pct": 3.324001717475311,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "7693.77",
+          "complete": true,
+          "updated_at": "2026-10-16T19:44:24.446200+00:00",
+          "observed_at": "2026-10-16T19:44:24.445186+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.580769+00:00"
+        },
+        "google_ads": {
+          "spend": "1084.04",
+          "complete": true,
+          "updated_at": "2026-10-16T13:29:18.824574+00:00",
+          "observed_at": "2026-10-16T13:29:18.824574+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "3965.35",
+          "complete": false,
+          "updated_at": "2026-10-16T13:29:58.745095+00:00",
+          "observed_at": "2026-10-16T13:29:58.745095+00:00",
+          "shopify_spend": "1149.32",
+          "shop_spend": "2653.20",
+          "unallocated_spend": "162.83",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Processing fee reported in CAD; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Processing fee reported in GBP; USD fee requires conversion or a configured estimate. USD order revenue retained."
+      ]
+    },
+    "2026-10-16": {
+      "date": "2026-10-16",
+      "channel_revenue": {
+        "shopify": 33324.41,
+        "amazon": 14456.69,
+        "tiktok": 18246.41,
+        "whatnot": 8603
+      },
+      "channel_ad_spend": {
+        "meta": 10471.3,
+        "google": 1513.82,
+        "bing": 77.22,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1694.04,
+        "amazon": 3082.1,
+        "whatnot": 1062.31,
+        "bing_d2c": 2.53,
+        "bing_amazon": 74.69
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 33923.62,
+          "orders": 420,
+          "known_ads": 14317.24,
+          "operating_costs": 9612.09,
+          "opex": 2673.65,
+          "net_profit": 7320.64,
+          "mer": 2.369424553894466,
+          "net_margin_pct": 21.579772441738235,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14456.69,
+          "orders": 409,
+          "known_ads": 3082.1,
+          "operating_costs": 10067.28,
+          "opex": 1139.39,
+          "net_profit": 167.92,
+          "mer": 4.690532429187892,
+          "net_margin_pct": 1.1615383604407372,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 18246.41,
+          "orders": 333,
+          "known_ads": 1694.04,
+          "operating_costs": 11252.77,
+          "opex": 1438.07,
+          "net_profit": 3861.53,
+          "mer": 10.770944015489599,
+          "net_margin_pct": 21.163231561715428,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 8603,
+          "orders": 251,
+          "known_ads": 1062.31,
+          "operating_costs": 6882.4,
+          "opex": 678.03,
+          "net_profit": -19.74,
+          "mer": 8.098389359038322,
+          "net_margin_pct": -0.22945484133441824,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "10471.30",
+          "complete": true,
+          "updated_at": "2026-10-17T19:44:09.215156+00:00",
+          "observed_at": "2026-10-17T19:44:09.214212+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.582051+00:00"
+        },
+        "google_ads": {
+          "spend": "1513.82",
+          "complete": true,
+          "updated_at": "2026-10-17T13:29:01.634863+00:00",
+          "observed_at": "2026-10-17T13:29:01.634863+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "6696.08",
+          "complete": false,
+          "updated_at": "2026-10-17T13:29:38.157002+00:00",
+          "observed_at": "2026-10-17T13:29:38.157002+00:00",
+          "shopify_spend": "2332.12",
+          "shop_spend": "1694.04",
+          "unallocated_spend": "2669.92",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it."
+      ]
+    },
+    "2026-10-17": {
+      "date": "2026-10-17",
+      "channel_revenue": {
+        "shopify": 19551.76,
+        "amazon": 15779.98,
+        "tiktok": 3942.65,
+        "whatnot": 0
+      },
+      "channel_ad_spend": {
+        "meta": 9948.99,
+        "google": 1696.71,
+        "bing": 74.99,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1324.59,
+        "amazon": 3326.75,
+        "whatnot": 0,
+        "bing_d2c": 1.31,
+        "bing_amazon": 73.68
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 19434.51,
+          "orders": 261,
+          "known_ads": 12625.73,
+          "operating_costs": 5615.89,
+          "opex": 2991.34,
+          "net_profit": -1798.45,
+          "mer": 1.539278124908421,
+          "net_margin_pct": -9.253899377962192,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 15779.98,
+          "orders": 444,
+          "known_ads": 3326.75,
+          "operating_costs": 10122.28,
+          "opex": 2330.95,
+          "net_profit": 0,
+          "mer": 4.743362140226949,
+          "net_margin_pct": 0,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 3942.65,
+          "orders": 107,
+          "known_ads": 1324.59,
+          "operating_costs": 2749.7,
+          "opex": 606.85,
+          "net_profit": -738.49,
+          "mer": 2.9765059376863783,
+          "net_margin_pct": -18.730802886383525,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Owner-confirmed weekend no-show schedule",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "9948.99",
+          "complete": true,
+          "updated_at": "2026-10-18T19:44:40.306645+00:00",
+          "observed_at": "2026-10-18T19:44:40.305806+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.583358+00:00"
+        },
+        "google_ads": {
+          "spend": "1696.71",
+          "complete": true,
+          "updated_at": "2026-10-18T13:29:21.270944+00:00",
+          "observed_at": "2026-10-18T13:29:21.270944+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "3236.52",
+          "complete": false,
+          "updated_at": "2026-10-18T13:29:56.957245+00:00",
+          "observed_at": "2026-10-18T13:29:56.957245+00:00",
+          "shopify_spend": "980.03",
+          "shop_spend": "1324.59",
+          "unallocated_spend": "931.90",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it."
+      ]
+    },
+    "2026-10-18": {
+      "date": "2026-10-18",
+      "channel_revenue": {
+        "shopify": 62838.93,
+        "amazon": 17757.8,
+        "tiktok": 72714.39,
+        "whatnot": 0
+      },
+      "channel_ad_spend": {
+        "meta": 8283.74,
+        "google": 1718.1,
+        "bing": 70.09,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 1436.4,
+        "amazon": 3313.72,
+        "whatnot": 0,
+        "bing_d2c": 2.15,
+        "bing_amazon": 67.94
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 63071.49,
+          "orders": 565,
+          "known_ads": 10930.79,
+          "operating_costs": 16387.91,
+          "opex": 2435.52,
+          "net_profit": 33317.27,
+          "mer": 5.770076087821649,
+          "net_margin_pct": 52.82461219799944,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 17757.8,
+          "orders": 487,
+          "known_ads": 3313.72,
+          "operating_costs": 10593.49,
+          "opex": 685.72,
+          "net_profit": 3164.87,
+          "mer": 5.358871600497326,
+          "net_margin_pct": 17.82242169638131,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 72714.39,
+          "orders": 946,
+          "known_ads": 1436.4,
+          "operating_costs": 41383.87,
+          "opex": 2807.89,
+          "net_profit": 27086.23,
+          "mer": 50.62266081871345,
+          "net_margin_pct": 37.250164651040876,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Owner-confirmed weekend no-show schedule",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "8283.74",
+          "complete": true,
+          "updated_at": "2026-10-19T19:43:43.648368+00:00",
+          "observed_at": "2026-10-19T19:43:43.647468+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.584577+00:00"
+        },
+        "google_ads": {
+          "spend": "1718.10",
+          "complete": true,
+          "updated_at": "2026-10-19T13:28:53.410714+00:00",
+          "observed_at": "2026-10-19T13:28:53.410714+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "3163.90",
+          "complete": false,
+          "updated_at": "2026-10-19T13:29:32.903953+00:00",
+          "observed_at": "2026-10-19T13:29:32.903953+00:00",
+          "shopify_spend": "928.95",
+          "shop_spend": "1436.40",
+          "unallocated_spend": "798.55",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Processing fee reported in EUR; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it."
+      ]
+    },
+    "2026-10-19": {
+      "date": "2026-10-19",
+      "channel_revenue": {
+        "shopify": 30769.72,
+        "amazon": 14333.07,
+        "tiktok": 32580.1,
+        "whatnot": 11760
+      },
+      "channel_ad_spend": {
+        "meta": 11953.74,
+        "google": 1803.44,
+        "bing": 77.6,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 3132.58,
+        "amazon": 3102.47,
+        "whatnot": 1491.44,
+        "bing_d2c": 1.96,
+        "bing_amazon": 75.64
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 31420.67,
+          "orders": 404,
+          "known_ads": 16292.52,
+          "operating_costs": 8995.84,
+          "opex": 2067.81,
+          "net_profit": 4064.5,
+          "mer": 1.9285334619813264,
+          "net_margin_pct": 12.935752165692202,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14333.07,
+          "orders": 418,
+          "known_ads": 3102.47,
+          "operating_costs": 10220.58,
+          "opex": 943.27,
+          "net_profit": 66.75,
+          "mer": 4.619889958645853,
+          "net_margin_pct": 0.4657062304167914,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 32580.1,
+          "orders": 776,
+          "known_ads": 3132.58,
+          "operating_costs": 21739.7,
+          "opex": 2144.12,
+          "net_profit": 5563.7,
+          "mer": 10.40040477817007,
+          "net_margin_pct": 17.07698871396957,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 11760,
+          "orders": 292,
+          "known_ads": 1491.44,
+          "operating_costs": 9408,
+          "opex": 773.93,
+          "net_profit": 86.63,
+          "mer": 7.8849970498310356,
+          "net_margin_pct": 0.7366496598639456,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "11953.74",
+          "complete": true,
+          "updated_at": "2026-10-20T19:43:54.988432+00:00",
+          "observed_at": "2026-10-20T19:43:54.987568+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.585776+00:00"
+        },
+        "google_ads": {
+          "spend": "1803.44",
+          "complete": true,
+          "updated_at": "2026-10-20T13:28:50.341186+00:00",
+          "observed_at": "2026-10-20T13:28:50.341186+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "6464.33",
+          "complete": false,
+          "updated_at": "2026-10-20T13:29:24.893089+00:00",
+          "observed_at": "2026-10-20T13:29:24.893089+00:00",
+          "shopify_spend": "2535.34",
+          "shop_spend": "3132.58",
+          "unallocated_spend": "796.41",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Payment transaction data missing for one or more Shopify orders."
+      ]
+    },
+    "2026-10-20": {
+      "date": "2026-10-20",
+      "channel_revenue": {
+        "shopify": 37582.26,
+        "amazon": 14587.4,
+        "tiktok": 28190.83,
+        "whatnot": 251
+      },
+      "channel_ad_spend": {
+        "meta": 12573.32,
+        "google": 2251.4,
+        "bing": 74.95,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 2831.74,
+        "amazon": 3181.09,
+        "whatnot": null,
+        "bing_d2c": 0.83,
+        "bing_amazon": 74.12
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 37699.72,
+          "orders": 449,
+          "known_ads": 15976.92,
+          "operating_costs": 10842.58,
+          "opex": 3379.51,
+          "net_profit": 7500.71,
+          "mer": 2.3596362753271594,
+          "net_margin_pct": 19.895930261551015,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14587.4,
+          "orders": 410,
+          "known_ads": 3181.09,
+          "operating_costs": 11684.82,
+          "opex": 0,
+          "net_profit": -278.51,
+          "mer": 4.585660889820785,
+          "net_margin_pct": -1.9092504490176454,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 28190.83,
+          "orders": 654,
+          "known_ads": 2831.74,
+          "operating_costs": 18652.38,
+          "opex": 2527.11,
+          "net_profit": 4179.6,
+          "mer": 9.955303099860863,
+          "net_margin_pct": 14.826097706239937,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 251,
+          "orders": 3,
+          "known_ads": 0,
+          "operating_costs": 200.8,
+          "opex": 22.5,
+          "net_profit": 27.7,
+          "mer": null,
+          "net_margin_pct": 11.03585657370518,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "12573.32",
+          "complete": true,
+          "updated_at": "2026-10-21T19:44:08.282966+00:00",
+          "observed_at": "2026-10-21T19:44:08.281996+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.587039+00:00"
+        },
+        "google_ads": {
+          "spend": "2251.40",
+          "complete": true,
+          "updated_at": "2026-10-21T13:29:09.884249+00:00",
+          "observed_at": "2026-10-21T13:29:09.884249+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "4785.47",
+          "complete": false,
+          "updated_at": "2026-10-21T13:29:54.648084+00:00",
+          "observed_at": "2026-10-21T13:29:54.648084+00:00",
+          "shopify_spend": "1152.20",
+          "shop_spend": "2831.74",
+          "unallocated_spend": "801.53",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Processing fee reported in EUR; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Whatnot revenue is available but promotion spend is missing; not assumed zero."
+      ]
+    },
+    "2026-10-21": {
+      "date": "2026-10-21",
+      "channel_revenue": {
+        "shopify": 47690.16,
+        "amazon": 14969.07,
+        "tiktok": 59790.84,
+        "whatnot": 3506
+      },
+      "channel_ad_spend": {
+        "meta": 11571.39,
+        "google": 2061.56,
+        "bing": 78.75,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 5238.88,
+        "amazon": 3050,
+        "whatnot": null,
+        "bing_d2c": 1.11,
+        "bing_amazon": 77.64
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 48336.29,
+          "orders": 534,
+          "known_ads": 15083.83,
+          "operating_costs": 13298.62,
+          "opex": 2263.72,
+          "net_profit": 17690.12,
+          "mer": 3.2045103929174488,
+          "net_margin_pct": 36.59800948728171,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14969.07,
+          "orders": 418,
+          "known_ads": 3050,
+          "operating_costs": 10435.76,
+          "opex": 701.04,
+          "net_profit": 782.27,
+          "mer": 4.907891803278688,
+          "net_margin_pct": 5.225909158017164,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 59790.84,
+          "orders": 1091,
+          "known_ads": 5238.88,
+          "operating_costs": 36871.95,
+          "opex": 2800.16,
+          "net_profit": 14879.85,
+          "mer": 11.412905048407293,
+          "net_margin_pct": 24.886504354178665,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 3506,
+          "orders": 125,
+          "known_ads": 0,
+          "operating_costs": 2804.8,
+          "opex": 164.2,
+          "net_profit": 537,
+          "mer": null,
+          "net_margin_pct": 15.31660011409013,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "11571.39",
+          "complete": true,
+          "updated_at": "2026-10-22T19:44:39.649992+00:00",
+          "observed_at": "2026-10-22T19:44:39.648988+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.588319+00:00"
+        },
+        "google_ads": {
+          "spend": "2061.56",
+          "complete": true,
+          "updated_at": "2026-10-22T13:28:40.495957+00:00",
+          "observed_at": "2026-10-22T13:28:40.495957+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "7493.75",
+          "complete": false,
+          "updated_at": "2026-10-22T13:29:19.423964+00:00",
+          "observed_at": "2026-10-22T13:29:19.423964+00:00",
+          "shopify_spend": "1450.88",
+          "shop_spend": "5238.88",
+          "unallocated_spend": "803.99",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Payment transaction data missing for one or more Shopify orders.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Processing fee reported in GBP; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Processing fee reported in EUR; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Whatnot revenue is available but promotion spend is missing; not assumed zero."
+      ]
+    },
+    "2026-10-22": {
+      "date": "2026-10-22",
+      "channel_revenue": {
+        "shopify": 49991.43,
+        "amazon": 16458.25,
+        "tiktok": 28551.36,
+        "whatnot": 3107
+      },
+      "channel_ad_spend": {
+        "meta": 12870.31,
+        "google": 2208.25,
+        "bing": 70.95,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 3657.54,
+        "amazon": 3023.52,
+        "whatnot": 252.58,
+        "bing_d2c": 0.67,
+        "bing_amazon": 70.28
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 50658.54,
+          "orders": 576,
+          "known_ads": 17285.68,
+          "operating_costs": 14114.94,
+          "opex": 3040.85,
+          "net_profit": 16217.07,
+          "mer": 2.930665151732532,
+          "net_margin_pct": 32.01250963805905,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 16458.25,
+          "orders": 419,
+          "known_ads": 3023.52,
+          "operating_costs": 9476.19,
+          "opex": 987.93,
+          "net_profit": 2970.61,
+          "mer": 5.443407022278668,
+          "net_margin_pct": 18.049367338568803,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 28551.36,
+          "orders": 528,
+          "known_ads": 3657.54,
+          "operating_costs": 17670.9,
+          "opex": 1713.83,
+          "net_profit": 5509.09,
+          "mer": 7.806164799291327,
+          "net_margin_pct": 19.29536806652993,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 3107,
+          "orders": 87,
+          "known_ads": 252.58,
+          "operating_costs": 2485.6,
+          "opex": 186.5,
+          "net_profit": 182.32,
+          "mer": 12.301053131681051,
+          "net_margin_pct": 5.868039909880914,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "12870.31",
+          "complete": true,
+          "updated_at": "2026-10-23T19:43:56.945256+00:00",
+          "observed_at": "2026-10-23T19:43:56.944418+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.589576+00:00"
+        },
+        "google_ads": {
+          "spend": "2208.25",
+          "complete": true,
+          "updated_at": "2026-10-23T13:28:48.816833+00:00",
+          "observed_at": "2026-10-23T13:28:48.816833+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "6674.15",
+          "complete": false,
+          "updated_at": "2026-10-23T13:29:24.762813+00:00",
+          "observed_at": "2026-10-23T13:29:24.762813+00:00",
+          "shopify_spend": "2207.12",
+          "shop_spend": "3657.54",
+          "unallocated_spend": "809.49",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Payment transaction data missing for one or more Shopify orders.",
+        "Processing fee reported in AUD; USD fee requires conversion or a configured estimate. USD order revenue retained."
+      ]
+    },
+    "2026-10-23": {
+      "date": "2026-10-23",
+      "channel_revenue": {
+        "shopify": 37058.31,
+        "amazon": 13917.58,
+        "tiktok": 24068.57,
+        "whatnot": 2996
+      },
+      "channel_ad_spend": {
+        "meta": 15221.05,
+        "google": 2081.14,
+        "bing": 71.42,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 3240.71,
+        "amazon": 2825.13,
+        "whatnot": 332.4,
+        "bing_d2c": 1.04,
+        "bing_amazon": 70.38
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 37453.32,
+          "orders": 462,
+          "known_ads": 18774.85,
+          "operating_costs": 10861.98,
+          "opex": 2831.18,
+          "net_profit": 4985.31,
+          "mer": 1.9948665368831175,
+          "net_margin_pct": 13.31072919570281,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 13917.58,
+          "orders": 403,
+          "known_ads": 2825.13,
+          "operating_costs": 9193.83,
+          "opex": 1052.06,
+          "net_profit": 846.56,
+          "mer": 4.926350291844977,
+          "net_margin_pct": 6.08266667049875,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 24068.57,
+          "orders": 526,
+          "known_ads": 3240.71,
+          "operating_costs": 15631,
+          "opex": 1819.4,
+          "net_profit": 3377.46,
+          "mer": 7.426943478435281,
+          "net_margin_pct": 14.032657528054221,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 2996,
+          "orders": 96,
+          "known_ads": 332.4,
+          "operating_costs": 2396.8,
+          "opex": 226.47,
+          "net_profit": 40.33,
+          "mer": 9.01323706377858,
+          "net_margin_pct": 1.346128170894526,
+          "status": "provisional",
+          "source": "Whatnot show-summary email",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "15221.05",
+          "complete": true,
+          "updated_at": "2026-10-24T19:43:33.510631+00:00",
+          "observed_at": "2026-10-24T19:43:33.509720+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.590803+00:00"
+        },
+        "google_ads": {
+          "spend": "2081.14",
+          "complete": true,
+          "updated_at": "2026-10-24T13:28:41.371023+00:00",
+          "observed_at": "2026-10-24T13:28:41.371023+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "5507.79",
+          "complete": false,
+          "updated_at": "2026-10-24T13:29:16.401317+00:00",
+          "observed_at": "2026-10-24T13:29:16.401317+00:00",
+          "shopify_spend": "1472.66",
+          "shop_spend": "3240.71",
+          "unallocated_spend": "794.42",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Processing fee reported in SGD; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it."
+      ]
+    },
+    "2026-10-24": {
+      "date": "2026-10-24",
+      "channel_revenue": {
+        "shopify": 26420.44,
+        "amazon": 14925.74,
+        "tiktok": 7271.25,
+        "whatnot": 0
+      },
+      "channel_ad_spend": {
+        "meta": 11522.95,
+        "google": 1951.18,
+        "bing": 77.33,
+        "reddit": 0,
+        "snapchat": 0,
+        "chatgpt": 0,
+        "pinterest": null,
+        "applovin": 0,
+        "tiktok": 3409.28,
+        "amazon": 3012.01,
+        "whatnot": 0,
+        "bing_d2c": 0.97,
+        "bing_amazon": 76.36
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 26598.51,
+          "orders": 331,
+          "known_ads": 14382.89,
+          "operating_costs": 7597.11,
+          "opex": 3938.81,
+          "net_profit": 679.7,
+          "mer": 1.8493160971126108,
+          "net_margin_pct": 2.5554062990746473,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14925.74,
+          "orders": 417,
+          "known_ads": 3012.01,
+          "operating_costs": 11000.19,
+          "opex": 913.54,
+          "net_profit": 0,
+          "mer": 4.955408514579965,
+          "net_margin_pct": 0,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 7271.25,
+          "orders": 341,
+          "known_ads": 3409.28,
+          "operating_costs": 6375.62,
+          "opex": 1076.75,
+          "net_profit": -3590.4,
+          "mer": 2.1327817017082786,
+          "net_margin_pct": -49.37802991232594,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Owner-confirmed weekend no-show schedule",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "11522.95",
+          "complete": true,
+          "updated_at": "2026-10-25T19:43:50.791956+00:00",
+          "observed_at": "2026-10-25T19:43:50.791073+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.592147+00:00"
+        },
+        "google_ads": {
+          "spend": "1951.18",
+          "complete": true,
+          "updated_at": "2026-10-25T13:28:39.100965+00:00",
+          "observed_at": "2026-10-25T13:28:39.100965+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "5116.47",
+          "complete": false,
+          "updated_at": "2026-10-25T13:29:12.859525+00:00",
+          "observed_at": "2026-10-25T13:29:12.859525+00:00",
+          "shopify_spend": "908.76",
+          "shop_spend": "3409.28",
+          "unallocated_spend": "798.43",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Processing fee reported in EUR; USD fee requires conversion or a configured estimate. USD order revenue retained.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it.",
+        "Processing fee reported in CAD; USD fee requires conversion or a configured estimate. USD order revenue retained."
+      ]
+    },
+    "2026-10-25": {
+      "date": "2026-10-25",
+      "channel_revenue": {
+        "shopify": 29621.76,
+        "amazon": 14812.88,
+        "tiktok": 26761.18,
+        "whatnot": 0
+      },
+      "channel_ad_spend": {
+        "meta": 10117.06,
+        "google": 1949.45,
+        "bing": 130.3,
+        "reddit": 0,
+        "snapchat": 71.92,
+        "chatgpt": 0,
+        "pinterest": 0,
+        "applovin": 0,
+        "tiktok": 3324.77,
+        "amazon": 3245.65,
+        "whatnot": 0,
+        "bing_d2c": 60.56,
+        "bing_amazon": 69.74
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 30265.66,
+          "orders": 343,
+          "known_ads": 12778.48,
+          "operating_costs": 8357.51,
+          "opex": 2497.9,
+          "net_profit": 6631.77,
+          "mer": 2.3684867057740826,
+          "net_margin_pct": 21.911863147871216,
+          "status": "provisional",
+          "source": "Shopify Admin API",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 14812.88,
+          "orders": 415,
+          "known_ads": 3245.65,
+          "operating_costs": 9165.37,
+          "opex": 1222.54,
+          "net_profit": 1179.32,
+          "mer": 4.563917859288586,
+          "net_margin_pct": 7.961449765339354,
+          "status": "provisional",
+          "source": "Sellerboard email",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "tiktok": {
+          "revenue": 26761.18,
+          "orders": 561,
+          "known_ads": 3324.77,
+          "operating_costs": 17163.17,
+          "opex": 2208.66,
+          "net_profit": 4064.58,
+          "mer": 8.049031963113238,
+          "net_margin_pct": 15.188343712795923,
+          "status": "provisional",
+          "source": "ShipHero daily aggregate",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "whatnot": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "provisional",
+          "source": "Owner-confirmed weekend no-show schedule",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "10117.06",
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:45.462398+00:00",
+          "observed_at": "2026-10-26T16:33:45.461662+00:00",
+          "closed_day": true,
+          "reconciled": true,
+          "coverage_status": "closed_day_verified"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T16:33:49.593317+00:00"
+        },
+        "google_ads": {
+          "spend": "1949.45",
+          "complete": true,
+          "updated_at": "2026-10-26T16:32:31.449106+00:00",
+          "observed_at": "2026-10-26T16:32:31.449106+00:00",
+          "closed_day": true
+        },
+        "tiktok_ads": {
+          "spend": "4839.57",
+          "complete": false,
+          "updated_at": "2026-10-26T16:33:10.495321+00:00",
+          "observed_at": "2026-10-26T16:33:10.495321+00:00",
+          "shopify_spend": "711.97",
+          "shop_spend": "3324.77",
+          "unallocated_spend": "802.83",
+          "closed_day": true
+        },
+        "bing_ads": {
+          "spend": "130.30",
+          "complete": true,
+          "updated_at": "2026-10-26T14:53:08.395723+00:00",
+          "observed_at": "2026-10-26T14:53:08.395723+00:00",
+          "closed_day": true,
+          "spend_d2c": "60.56",
+          "spend_amazon": "69.74",
+          "destination": "mixed"
+        },
+        "reddit_ads": {
+          "spend": "0.00",
+          "complete": true,
+          "updated_at": "2026-10-26T14:53:08.399164+00:00",
+          "observed_at": "2026-10-26T14:53:08.399164+00:00",
+          "closed_day": true,
+          "spend_d2c": "0.00",
+          "spend_amazon": "0.00",
+          "destination": "d2c"
+        },
+        "snapchat_ads": {
+          "spend": "71.92",
+          "complete": true,
+          "updated_at": "2026-10-26T14:53:08.403461+00:00",
+          "observed_at": "2026-10-26T14:53:08.403461+00:00",
+          "closed_day": true,
+          "spend_d2c": "71.92",
+          "spend_amazon": "0.00",
+          "destination": "d2c"
+        },
+        "chatgpt_ads": {
+          "spend": "0.00",
+          "complete": true,
+          "updated_at": "2026-10-26T14:53:08.406277+00:00",
+          "observed_at": "2026-10-26T14:53:08.406277+00:00",
+          "closed_day": true,
+          "spend_d2c": "0.00",
+          "spend_amazon": "0.00",
+          "destination": "d2c"
+        },
+        "pinterest_ads": {
+          "spend": "0.00",
+          "complete": true,
+          "updated_at": "2026-10-26T14:54:04.183091+00:00",
+          "observed_at": "2026-10-26T14:54:04.183091+00:00",
+          "closed_day": true,
+          "spend_d2c": "0.00",
+          "spend_amazon": "0.00",
+          "destination": "d2c"
+        }
+      },
+      "blockers": [
+        "afterpay (new): fixed transaction fee is unconfirmed; $0 fixed-fee assumption used alongside the configured percentage.",
+        "Free/prize merchandise has missing unit cost; revenue-percentage fallback cannot cost it."
+      ]
+    },
+    "2026-10-26": {
+      "date": "2026-10-26",
+      "channel_revenue": {
+        "shopify": 15435.88,
+        "amazon": null,
+        "tiktok": null,
+        "whatnot": 8007
+      },
+      "channel_ad_spend": {
+        "meta": 5852.13,
+        "google": 1312.36,
+        "bing": 124.35,
+        "reddit": 0,
+        "snapchat": 264.37,
+        "chatgpt": 47.52,
+        "pinterest": 64.6,
+        "applovin": 0,
+        "tiktok": 2714.5,
+        "amazon": null,
+        "whatnot": 1175.53,
+        "bing_d2c": 124.35,
+        "bing_amazon": 0
+      },
+      "channel_observations": {
+        "shopify": {
+          "revenue": 15435.88,
+          "orders": 182,
+          "known_ads": 7576.81,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 7859.07,
+          "mer": 2.0372531447931252,
+          "net_margin_pct": 50.914298374954974,
+          "status": "provisional",
+          "source": "ShopifyQL sales (intraday; Admin API order snapshot missing)",
+          "data_available": true,
+          "zero_assumed": false
+        },
+        "amazon": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "zero_assumed",
+          "source": "Not connected / no dated data",
+          "data_available": false,
+          "zero_assumed": true
+        },
+        "tiktok": {
+          "revenue": 0,
+          "orders": 0,
+          "known_ads": 0,
+          "operating_costs": 0,
+          "opex": 0,
+          "net_profit": 0,
+          "mer": null,
+          "net_margin_pct": null,
+          "status": "zero_assumed",
+          "source": "Not connected / no dated data",
+          "data_available": false,
+          "zero_assumed": true
+        },
+        "whatnot": {
+          "revenue": 8007,
+          "orders": 310,
+          "known_ads": 1175.53,
+          "operating_costs": 6405.6,
+          "opex": 5929.1,
+          "net_profit": -5503.23,
+          "mer": 6.811395710870841,
+          "net_margin_pct": -68.73023604346197,
+          "status": "provisional",
+          "source": "Whatnot show-summary emails (sum of distinct livestreams)",
+          "data_available": true,
+          "zero_assumed": false
+        }
+      },
+      "advertising_sources": {
+        "meta": {
+          "spend": "5852.13",
+          "complete": true,
+          "updated_at": "2026-10-26T23:43:04.900043+00:00",
+          "observed_at": "2026-10-26T23:43:04.893688+00:00",
+          "closed_day": false,
+          "reconciled": true,
+          "coverage_status": "intraday_et_hours_00_19"
+        },
+        "applovin": {
+          "spend": 0,
+          "complete": true,
+          "updated_at": "2026-10-26T23:43:04.920174+00:00"
+        },
+        "google_ads": {
+          "spend": "1312.36",
+          "complete": true,
+          "updated_at": "2026-10-27T00:22:59.630229+00:00",
+          "observed_at": "2026-10-27T00:22:59.630230+00:00",
+          "closed_day": false
+        },
+        "tiktok_ads": {
+          "spend": "2714.50",
+          "complete": false,
+          "updated_at": "2026-10-26T23:43:04.921102+00:00",
+          "observed_at": "2026-10-26T23:43:04.893688+00:00",
+          "shop_spend": "2714.50",
+          "closed_day": false
+        },
+        "bing_ads": {
+          "spend": "112.29",
+          "complete": true,
+          "updated_at": "2026-10-26T23:43:04.905670+00:00",
+          "observed_at": "2026-10-26T23:43:04.905670+00:00",
+          "closed_day": true
+        },
+        "reddit_ads": {
+          "spend": "0.00",
+          "complete": true,
+          "updated_at": "2026-10-26T23:43:04.909141+00:00",
+          "observed_at": "2026-10-26T23:43:04.909141+00:00",
+          "closed_day": true
+        },
+        "snapchat_ads": {
+          "spend": "251.89",
+          "complete": true,
+          "updated_at": "2026-10-26T23:43:04.911407+00:00",
+          "observed_at": "2026-10-26T23:43:04.911407+00:00",
+          "closed_day": true
+        },
+        "chatgpt_ads": {
+          "spend": "47.52",
+          "complete": true,
+          "updated_at": "2026-10-26T23:43:04.914126+00:00",
+          "observed_at": "2026-10-26T23:43:04.914126+00:00",
+          "closed_day": true
+        },
+        "pinterest_ads": {
+          "spend": "63.58",
+          "complete": true,
+          "updated_at": "2026-10-26T23:43:04.916558+00:00",
+          "observed_at": "2026-10-26T23:43:04.916558+00:00",
+          "closed_day": true
+        }
+      },
+      "blockers": [
+        "Sellerboard report missing; Amazon not estimated.",
+        "ShipHero TikTok aggregate missing; TikTok not treated as zero.",
+        "Shopify Admin API order snapshot missing; PARTIAL shopify revenue is ShopifyQL net_sales+shipping (intraday).",
+        "2026-10-26 is PARTIAL / intraday as of ~7:30 PM ET. Meta/Google hours 20-23 ET not yet in.",
+        "Sellerboard Amazon 10/26 email has not arrived (the 10/26 email is the 10/25 Yesterday report).",
+        "ShipHero TikTok Shop aggregate missing; TikTok website ads missing (no TikTok Ads connector).",
+        "Shopify Analytics 10/9–10/10 remains a known gap (PARTIAL cards exist; do not invent)."
+      ]
+    }
+  },
+  "shopify_analytics": {
+    "2026-09-28": {
+      "day": "2026-09-28",
+      "gross_sales": "17679.81",
+      "discounts": "-2703.57",
+      "sales_reversals": "-450.38",
+      "net_sales": "14525.86",
+      "shipping_charges": "1616.66",
+      "taxes": "747.56",
+      "total_sales": "16890.08",
+      "net_revenue_ex_tax": "16142.52",
+      "complete": true
+    },
+    "2026-09-29": {
+      "day": "2026-09-29",
+      "gross_sales": "18273.78",
+      "discounts": "-2340.65",
+      "sales_reversals": "-478.33",
+      "net_sales": "15454.8",
+      "shipping_charges": "1718.13",
+      "taxes": "789.37",
+      "total_sales": "17962.3",
+      "net_revenue_ex_tax": "17172.93",
+      "complete": true
+    },
+    "2026-09-30": {
+      "day": "2026-09-30",
+      "gross_sales": "14592.51",
+      "discounts": "-2497.64",
+      "sales_reversals": "-524.84",
+      "net_sales": "11570.03",
+      "shipping_charges": "1231.19",
+      "taxes": "629.82",
+      "total_sales": "13431.04",
+      "net_revenue_ex_tax": "12801.22",
+      "complete": true
+    },
+    "2026-10-01": {
+      "day": "2026-10-01",
+      "gross_sales": "47978.12",
+      "discounts": "-3452.24",
+      "sales_reversals": "-567.67",
+      "net_sales": "43958.21",
+      "shipping_charges": "4241.87",
+      "taxes": "2309.53",
+      "total_sales": "50509.61",
+      "net_revenue_ex_tax": "48200.08",
+      "complete": true
+    },
+    "2026-10-02": {
+      "day": "2026-10-02",
+      "gross_sales": "21065.61",
+      "discounts": "-3676.36",
+      "sales_reversals": "-882.69",
+      "net_sales": "16506.56",
+      "shipping_charges": "1373.5",
+      "taxes": "862.25",
+      "total_sales": "18742.31",
+      "net_revenue_ex_tax": "17880.06",
+      "complete": true
+    },
+    "2026-10-03": {
+      "day": "2026-10-03",
+      "gross_sales": "16980.59",
+      "discounts": "-1581.35",
+      "sales_reversals": "-183.54",
+      "net_sales": "15215.7",
+      "shipping_charges": "1641.7",
+      "taxes": "822.45",
+      "total_sales": "17679.85",
+      "net_revenue_ex_tax": "16857.4",
+      "complete": true
+    },
+    "2026-10-04": {
+      "day": "2026-10-04",
+      "gross_sales": "65843.96",
+      "discounts": "-5199.28",
+      "sales_reversals": "-304.87",
+      "net_sales": "60339.81",
+      "shipping_charges": "3397.47",
+      "taxes": "3175.46",
+      "total_sales": "66912.74",
+      "net_revenue_ex_tax": "63737.28",
+      "complete": true
+    },
+    "2026-10-05": {
+      "day": "2026-10-05",
+      "gross_sales": "33279.06",
+      "discounts": "-4127.96",
+      "sales_reversals": "-1238.73",
+      "net_sales": "27912.37",
+      "shipping_charges": "2373.87",
+      "taxes": "1470.57",
+      "total_sales": "31756.81",
+      "net_revenue_ex_tax": "30286.24",
+      "complete": true
+    },
+    "2026-10-06": {
+      "day": "2026-10-06",
+      "gross_sales": "27403",
+      "discounts": "-2840.47",
+      "sales_reversals": "-855.18",
+      "net_sales": "23707.35",
+      "shipping_charges": "2214.55",
+      "taxes": "785.66",
+      "total_sales": "26707.56",
+      "net_revenue_ex_tax": "25921.90",
+      "complete": true
+    },
+    "2026-10-07": {
+      "day": "2026-10-07",
+      "gross_sales": "16683.46",
+      "discounts": "-1639.18",
+      "sales_reversals": "-316.38",
+      "net_sales": "14727.9",
+      "shipping_charges": "1516.35",
+      "taxes": "67.24",
+      "total_sales": "16311.49",
+      "net_revenue_ex_tax": "16244.25",
+      "complete": true
+    },
+    "2026-10-08": {
+      "day": "2026-10-08",
+      "gross_sales": "60561.51",
+      "discounts": "-5271.69",
+      "sales_reversals": "-1271.82",
+      "net_sales": "54018",
+      "shipping_charges": "4676.27",
+      "taxes": "323.11",
+      "total_sales": "59017.38",
+      "net_revenue_ex_tax": "58694.27",
+      "complete": true
+    },
+    "2026-10-09": {
+      "day": "2026-10-09",
+      "orders": 336,
+      "gross_sales": "26087.89",
+      "discounts": "-2001.7",
+      "sales_reversals": "-553.44",
+      "net_sales": "23532.75",
+      "shipping_charges": "2756.75",
+      "taxes": "126.41",
+      "total_sales": "26415.91",
+      "net_revenue_ex_tax": "26289.50",
+      "complete": true,
+      "source": "ShopifyQL FROM sales (net_sales + shipping_charges)",
+      "closed_day": true
+    },
+    "2026-10-10": {
+      "day": "2026-10-10",
+      "orders": 219,
+      "gross_sales": "16448.42",
+      "discounts": "-1040.87",
+      "sales_reversals": "-114.79",
+      "net_sales": "15292.76",
+      "shipping_charges": "1665.3",
+      "taxes": "56.57",
+      "total_sales": "17014.63",
+      "net_revenue_ex_tax": "16958.06",
+      "complete": true,
+      "source": "ShopifyQL FROM sales (net_sales + shipping_charges)",
+      "closed_day": true
+    },
+    "2026-10-11": {
+      "day": "2026-10-11",
+      "gross_sales": "27669.94",
+      "discounts": "-1936.71",
+      "sales_reversals": "-180.98",
+      "net_sales": "25552.25",
+      "shipping_charges": "2419.42",
+      "taxes": "185.54",
+      "total_sales": "28157.21",
+      "net_revenue_ex_tax": "27971.67",
+      "complete": true
+    },
+    "2026-10-12": {
+      "day": "2026-10-12",
+      "gross_sales": "20542.04",
+      "discounts": "-1042.07",
+      "sales_reversals": "-401.57",
+      "net_sales": "19098.4",
+      "shipping_charges": "2061.23",
+      "taxes": "94.46",
+      "total_sales": "21254.09",
+      "net_revenue_ex_tax": "21159.63",
+      "complete": true
+    },
+    "2026-10-13": {
+      "day": "2026-10-13",
+      "gross_sales": "15119.79",
+      "discounts": "-1525.64",
+      "sales_reversals": "-595.12",
+      "net_sales": "12999.03",
+      "shipping_charges": "1593.22",
+      "taxes": "73.18",
+      "total_sales": "14665.43",
+      "net_revenue_ex_tax": "14592.25",
+      "complete": true
+    },
+    "2026-10-14": {
+      "day": "2026-10-14",
+      "gross_sales": "15332.67",
+      "discounts": "-1867.01",
+      "sales_reversals": "-661.61",
+      "net_sales": "12804.05",
+      "shipping_charges": "1360.45",
+      "taxes": "43.42",
+      "total_sales": "14207.92",
+      "net_revenue_ex_tax": "14164.50",
+      "complete": true
+    },
+    "2026-10-15": {
+      "day": "2026-10-15",
+      "gross_sales": "57310.93",
+      "discounts": "-4967.09",
+      "sales_reversals": "-142.75",
+      "net_sales": "52201.09",
+      "shipping_charges": "4444.5",
+      "taxes": "190.95",
+      "total_sales": "56836.54",
+      "net_revenue_ex_tax": "56645.59",
+      "complete": true
+    },
+    "2026-10-16": {
+      "day": "2026-10-16",
+      "gross_sales": "33627.88",
+      "discounts": "-2668.77",
+      "sales_reversals": "-768.21",
+      "net_sales": "30190.9",
+      "shipping_charges": "3133.51",
+      "taxes": "127.63",
+      "total_sales": "33452.04",
+      "net_revenue_ex_tax": "33324.41",
+      "complete": true
+    },
+    "2026-10-17": {
+      "day": "2026-10-17",
+      "gross_sales": "18761.74",
+      "discounts": "-1177.21",
+      "sales_reversals": "-58.98",
+      "net_sales": "17525.55",
+      "shipping_charges": "2026.21",
+      "taxes": "142.52",
+      "total_sales": "19694.28",
+      "net_revenue_ex_tax": "19551.76",
+      "complete": true
+    },
+    "2026-10-18": {
+      "day": "2026-10-18",
+      "gross_sales": "64359.52",
+      "discounts": "-4600.07",
+      "sales_reversals": "-609.04",
+      "net_sales": "59150.41",
+      "shipping_charges": "3688.52",
+      "taxes": "225.3",
+      "total_sales": "63064.23",
+      "net_revenue_ex_tax": "62838.93",
+      "complete": true
+    },
+    "2026-10-19": {
+      "day": "2026-10-19",
+      "gross_sales": "30421.7",
+      "discounts": "-2069.63",
+      "sales_reversals": "-623.41",
+      "net_sales": "27728.66",
+      "shipping_charges": "3041.06",
+      "taxes": "56.84",
+      "total_sales": "30826.56",
+      "net_revenue_ex_tax": "30769.72",
+      "complete": true
+    },
+    "2026-10-20": {
+      "day": "2026-10-20",
+      "gross_sales": "38258.06",
+      "discounts": "-3902.06",
+      "sales_reversals": "-220.15",
+      "net_sales": "34135.85",
+      "shipping_charges": "3446.41",
+      "taxes": "120.78",
+      "total_sales": "37703.04",
+      "net_revenue_ex_tax": "37582.26",
+      "complete": true
+    },
+    "2026-10-21": {
+      "day": "2026-10-21",
+      "gross_sales": "48911.03",
+      "discounts": "-4045.28",
+      "sales_reversals": "-1193.2",
+      "net_sales": "43672.55",
+      "shipping_charges": "4017.61",
+      "taxes": "205.92",
+      "total_sales": "47896.08",
+      "net_revenue_ex_tax": "47690.16",
+      "complete": true
+    },
+    "2026-10-22": {
+      "day": "2026-10-22",
+      "gross_sales": "49629.84",
+      "discounts": "-2669.9",
+      "sales_reversals": "-1257.32",
+      "net_sales": "45702.62",
+      "shipping_charges": "4288.81",
+      "taxes": "282.13",
+      "total_sales": "50273.56",
+      "net_revenue_ex_tax": "49991.43",
+      "complete": true
+    },
+    "2026-10-23": {
+      "day": "2026-10-23",
+      "gross_sales": "36252.16",
+      "discounts": "-2136.58",
+      "sales_reversals": "-784.61",
+      "net_sales": "33330.97",
+      "shipping_charges": "3727.34",
+      "taxes": "215.34",
+      "total_sales": "37273.65",
+      "net_revenue_ex_tax": "37058.31",
+      "complete": true
+    },
+    "2026-10-24": {
+      "day": "2026-10-24",
+      "gross_sales": "25589.62",
+      "discounts": "-1478.12",
+      "sales_reversals": "-272.84",
+      "net_sales": "23838.66",
+      "shipping_charges": "2581.78",
+      "taxes": "145.75",
+      "total_sales": "26566.19",
+      "net_revenue_ex_tax": "26420.44",
+      "complete": true
+    },
+    "2026-10-25": {
+      "day": "2026-10-25",
+      "gross_sales": "29818.13",
+      "discounts": "-1845.92",
+      "sales_reversals": "-826.19",
+      "net_sales": "27146.02",
+      "shipping_charges": "2475.74",
+      "taxes": "90.33",
+      "total_sales": "29712.09",
+      "net_revenue_ex_tax": "29621.76",
+      "complete": true
+    },
+    "2026-10-26": {
+      "day": "2026-10-26",
+      "gross_sales": "15977.14",
+      "discounts": "-1225.62",
+      "sales_reversals": "-582.25",
+      "net_sales": "14169.27",
+      "shipping_charges": "1266.61",
+      "taxes": "83.71",
+      "total_sales": "15519.59",
+      "net_revenue_ex_tax": "15435.88",
+      "orders": 182,
+      "complete": true,
+      "closed_day": false,
+      "source": "ShopifyQL sales (intraday America/New_York)",
+      "observed_at": "2026-10-26T23:43:04.893688+00:00"
+    }
+  },
+  "channel_dist_30d": {
+    "as_of": "2026-10-26",
+    "days": 30,
+    "start_date": "2026-09-27",
+    "end_date": "2026-10-26",
+    "revenue": {
+      "shopify": 923261.14,
+      "amazon": 495047.42000000004,
+      "tiktok": 783286.47,
+      "whatnot": 174395,
+      "total": 2375990.0300000003
+    },
+    "ad_spend": {
+      "shopify": 297533.15,
+      "amazon": 102875.36,
+      "tiktok": 60078.22999999999,
+      "whatnot": 13851.499999999998,
+      "total": 474338.24
+    },
+    "profit": {
+      "shopify": 3719.94,
+      "amazon": 0,
+      "tiktok": 15818.48,
+      "whatnot": 0,
+      "total": 19538.42
+    },
+    "channel_mer": {
+      "shopify": 3.1030530211507523,
+      "amazon": 4.812108749850305,
+      "tiktok": 13.037775413822946,
+      "whatnot": 12.59033317691225
+    },
+    "channel_margin_pct": {
+      "shopify": 0.4,
+      "amazon": 0,
+      "tiktok": 2.02,
+      "whatnot": 0
+    },
+    "note": "Revenue/spend: closed REPORTS (1 days) plus measured PARTIAL channel fields (29 days). Profit is closed REPORTS only (1 days) — PARTIAL COGS/OPEX are not finalized. Missing channels omitted, not zero-filled.",
+    "_source": "REPORTS+PARTIAL",
+    "profit_days": 1,
+    "report_days": 1,
+    "partial_days": 29
+  },
+  "mer_guard": {
+    "as_of": "2026-10-26",
+    "channel_revenue": {
+      "shopify": 15435.88,
+      "amazon": null,
+      "tiktok": null,
+      "whatnot": 8007
+    },
+    "channel_ad_spend": {
+      "meta": 5852.13,
+      "google": 1312.36,
+      "bing": 124.35,
+      "reddit": 0,
+      "snapchat": 264.37,
+      "chatgpt": 47.52,
+      "pinterest": 64.6,
+      "applovin": 0,
+      "tiktok": 2714.5,
+      "amazon": null,
+      "whatnot": 1175.53
+    },
+    "shop_revenue": 15435.88,
+    "d2c_ad_spend": 7665.33,
+    "blended_mer": 2.01,
+    "total_ad_spend": 11555.36
+  },
+  "protected_range": [
+    "2026-09-28",
+    "2026-10-26"
+  ],
+  "shopify_backfill_dates": [
+    "2026-10-09",
+    "2026-10-10"
+  ],
+  "source": "data-repo master 10d81d2 protected_days/snapshot.json + mer_for_manus.json",
+  "gaps": [],
+  "mer": {
+    "as_of": "2026-10-26",
+    "shop_revenue": 15435.88,
+    "d2c_ad_spend": 7665.33,
+    "blended_mer": 2.01,
+    "mer_7d_pooled": 2.3882,
+    "mer_30d_pooled": 2.7151,
+    "total_ad_spend": 11555.36
+  }
+}

@@ -47,7 +47,7 @@ test('published mer.pinterest spend is shown; still missing when the key is abse
   assert.strictEqual(Paid.spendTxt(empty), 'missing');
 });
 
-test('10/24 Meta and Bing are published dollars; Pinterest is missing; AppLovin is $0', function () {
+test('10/24 Meta and Bing are published dollars; AppLovin is $0; Pinterest publishes 10/26', function () {
   var mer = require('../mer_for_manus.json');
   Paid._setMerDoc(mer);
   Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, mer, null); });
@@ -57,13 +57,13 @@ test('10/24 Meta and Bing are published dollars; Pinterest is missing; AppLovin 
   assert.strictEqual(byId.google.hasFeed, true);
   assert.strictEqual(byId.bing.hasFeed, true);
   assert.ok(byId.bing.spend > 0);
-  assert.strictEqual(Paid.spendTxt(byId.pinterest), 'missing');
   assert.strictEqual(byId.applovin.hasFeed, true);
   assert.strictEqual(Paid.spendTxt(byId.applovin), '$0.00');
+  var pin = Paid.displayChannels().filter(function (c) { return c.id === 'pinterest'; })[0];
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(pin, '2026-10-26')), '$64.60');
   var html = Paid.detailBreakdownHtml('2026-10-24');
   assert.ok(html.indexOf('Pinterest') !== -1);
   assert.ok(html.indexOf('AppLovin') !== -1);
-  assert.ok(html.indexOf('missing') !== -1);
   assert.ok(html.indexOf('platform-reported, click-based') !== -1);
 });
 

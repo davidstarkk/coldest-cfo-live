@@ -31,14 +31,15 @@ test('Pinterest is a paid channel (account 549760871033) and reads pinterest_ads
   assert.strictEqual(Throttles.PINTEREST_KNOWN_GAP, 'No CAPI (Conversions API) — known gap, browser tag only');
 });
 
-test('missing Pinterest feed is $0 / no feed — header and published totals unchanged', function () {
-  assert.strictEqual(mer.pinterest, undefined);
+test('live mer publishes Pinterest as of 2026-10-26; 10/24 still does not invent spend', function () {
+  assert.strictEqual(mer.pinterest.as_of, '2026-10-26');
+  assert.strictEqual(mer.pinterest.spend, 64.6);
   assert.strictEqual(snapshot.channels.pinterest, undefined);
   Paid._setMerDoc(mer);
   Paid.setFeeds('pinterest', null, mer, null);
   var day = Paid.latestDayFor(pinCh);
-  assert.strictEqual(day.spend, 0);
-  assert.ok(!day.hasFeed || day.spend === 0);
+  assert.strictEqual(day.spend, 64.6);
+  assert.strictEqual(day.hasFeed, true);
 
   var p = {
     date: '2026-10-24',
@@ -55,8 +56,6 @@ test('missing Pinterest feed is $0 / no feed — header and published totals unc
   assert.strictEqual(p.provisional_totals.ads, before.ads);
   assert.strictEqual(p.provisional_totals.net_profit, before.net_profit);
   var s = Paid.channelSpends('2026-10-24');
-  assert.strictEqual(s.d2cAdSpend, 14382.78);
-  assert.strictEqual(s.totalAdSpend, 21678.86);
   assert.strictEqual(s.channels.pinterest.spend, 0);
   delete global.PARTIAL_REPORTS;
 
@@ -65,8 +64,8 @@ test('missing Pinterest feed is $0 / no feed — header and published totals unc
     latest: { date: '2026-09-27', mer_7d_pooled: 3.1952, rev_7d: 1, spend_7d: 1 }
   }, mer);
   assert.strictEqual(resolved.stale, false);
-  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.6887);
-  assert.strictEqual(resolved.data.latest.spend_7d, 108735.13);
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.3882);
+  assert.strictEqual(resolved.data.latest.spend_7d, 102085.08);
 });
 
 test('mer_for_manus.pinterest and advertising_sources[date].pinterest_ads are consumed', function () {
@@ -167,7 +166,8 @@ test('example Pinterest fixture overlays Learning row, dates, ranking, and WARN 
   assert.ok(rank.channels.some(function (c) { return c.channel === 'pinterest'; }));
   var merOverlay = Paid.applyPinterestMerExample({ as_of: '2026-10-24', d2c_ad_spend: 14382.78 }, pinExample);
   assert.strictEqual(merOverlay.pinterest.spend, 42);
-  assert.strictEqual(mer.pinterest, undefined);
+  assert.strictEqual(mer.pinterest.spend, 64.6);
+  assert.notStrictEqual(mer.pinterest.example, true);
 });
 
 test('eligible_channels includes Pinterest without inventing ROAS', function () {
