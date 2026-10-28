@@ -272,6 +272,14 @@ Until `BING_ADS_ENABLED=1` **and** those vars are set, nothing calls Microsoft. 
 - When Bing goes live (~$1,000/day): have the data-repo agent publish a `bing` block / `advertising_sources.bing`. Optionally paste a day in the BING ADS tab or edit `bing_ads_data.json` if the pipeline is late.
 - Do **not** put Microsoft credentials in this public repo.
 
+## Sync guard (keeps this repo's UI over the mirror sync)
+
+The workspace cron pushes `public mirror sync — YYYY-MM-DD` with its own `index.html`, `README.md`, `package.json` and `secondary_ads_module.js`. From the 10/27 13:30 sync that wiped the Ad Channel Throttles tab and the `paid_channels_module.js` / `throttles_module.js` / `rolling_mer_header.js` tags. `.github/workflows/restore-protected-days.yml` now runs `scripts/lib/sync_guard.js` first: a file the workspace did not change since its previous sync keeps this repo's version; data (`*.json`, `ads_throttle/`, `protected_days/`, `email_preview.html`) comes from the sync; `index.html` is a 3-way merge of the UI with every `const NAME = …;` data literal masked and refilled from the sync. Same file as `lib/sync_guard.js` in `coldest-cfo-dashboard` — keep them identical. New UI goes in a module plus one script tag, never inline in `index.html`.
+
+## Report quality layer (`report_quality_module.js`)
+
+Tells a real loss day from a data hole, with the same rule as the email (`cfo_backend/report_quality.py` in the data repo): each revenue channel vs its median on the same weekday over the previous 4 weeks. Missing on a usual revenue day → grey, INCOMPLETE, "Whatnot missing"; missing on a usual zero day (Whatnot weekends) → expected; ≥60% below usual → "Check"; a partial headline that ≠ its own channels → "Totals don't add up". Baselines are comparisons only. Also: `−$` money, ET times, weekday dates, an as-of bar, a 30-day at-a-glance table, cards older than 7 days folded (deep links unfold). Wraps `renderReports` / `renderYesterday` / `render30DayAverages`; no MutationObserver.
+
 ## Local Development
 
 ```bash
