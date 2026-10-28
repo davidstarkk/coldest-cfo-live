@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "date": "2026-10-27",
+    "channel": "bing",
+    "roas_7d": 2.44,
+    "spend_7d": 251.02,
+    "revenue_7d": 611.85,
+    "roas_source": "platform_reported (Shopify-destination campaigns only, 10/21-10/27 partial; Bing double count still open, true ROAS likely lower)",
+    "action": "cut_20pct_and_change_strategy",
+    "old_budget": 700,
+    "new_budget": 560,
+    "budget_note": "Sum of active Shopify campaign daily budgets: Brand 200, Non-brand 150, Competitor 50, Shopping 300. Amazon campaign paused, excluded.",
+    "status": "done (Bing Ads bot confirmed 10/27 ~11:00 ET)",
+    "by": "jarvis",
+    "actual": {
+      "brand": "200->200",
+      "nonbrand": "150->50",
+      "competitor": "50->10",
+      "shopping": "300->300",
+      "total": "700->560",
+      "strategy": "+96 Non-brand negatives (146 total); -20% bids on 9 zero-conv phrase kws",
+      "next_check": "2026-11-03"
+    }
+  }
+]

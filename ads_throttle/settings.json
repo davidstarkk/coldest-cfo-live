@@ -1,30 +1,33 @@
 {
-  "updated_at": "2026-10-25T23:20:00-04:00",
-  "updated_by": "jarvis (Pinterest added, launched 10/25)",
+  "updated_at": "2026-10-28T08:30:00-04:00",
+  "updated_by": "jarvis (10/28: Reddit on hold until purchase tracking verified; Meta carve-out noted)",
   "global": {
-    "roas_threshold": 3.0,
     "step_pct": 20,
     "window_days": 7,
     "min_spend_7d": 200,
     "scale_cooldown_days": 7,
     "cut_cooldown_days": 3,
     "roas_source": "platform_reported",
-    "roas_source_note": "David 10/25: use each platform's own reported conversion value/ROAS, labeled, until UTM/GA4 Shopify attribution is in. Bing: only Shopify-destination campaigns count; Amazon-destination spend is excluded from the rule and flagged."
+    "roas_source_note": "David 10/25: use each platform's own reported conversion value/ROAS, labeled, until UTM/GA4 Shopify attribution is in. Bing: only Shopify-destination campaigns count; Amazon-destination spend is excluded from the rule and flagged.",
+    "raise_above_roas": 2.8,
+    "cut_below_roas": 2.0,
+    "hold_band": "2.0 to 2.8 inclusive: hold, no change",
+    "rule_note": "David 10/27 1:14 PM ET: 7-day ROAS. Above 2.8 raise 20%. 2.0-2.8 hold. Below 2.0 cut 20% and change strategy. Same rule for every channel bot. Never abandon a channel."
   },
   "channels": {
     "reddit": {
-      "mode": "auto",
+      "mode": "hold",
       "owner_bot": "reddit bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": ""
+      "notes": "HOLD from 10/28 8:30 AM ET: purchase/checkout events not firing (pixel a2_j3pu0ku22iae) and no Shopify UTM sessions, so 0x platform ROAS is untrustworthy. No cut or raise until the reddit bot verifies Purchase tracking; then back to auto."
     },
     "snapchat": {
       "mode": "auto",
       "owner_bot": "snapchat ads bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "3 ad accounts"
+      "notes": "3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports."
     },
     "bing": {
       "mode": "auto",
@@ -45,14 +48,17 @@
       "owner_bot": "Meta \u00b7 Ad Buyer",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "Meta/Euka freeze since 9/27; view only until David lifts"
+      "notes": "Frozen in this file. Separate David carve-out (10/27 10:39 PM ET) runs in routine meta-roas-kill-cbo-scale: pause ads <1x 7d ROAS; +20% weekly on CBOs >=3x for 7+ days."
     },
     "google": {
-      "mode": "view",
+      "mode": "auto",
       "owner_bot": "Google \u00b7 Ads",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "sandbox kept separate"
+      "notes": "David 10/27: same 2.8/2.0 rule applies. Judge conversions by conversion date. Sandbox kept separate. JS_* (Jasen's) campaigns are read-only and excluded from raises and cuts until David says the rule covers them (asked 10/27 1:20 PM ET).",
+      "exclude_campaign_prefixes": [
+        "JS_"
+      ]
     },
     "tiktok": {
       "mode": "view",
@@ -71,7 +77,14 @@
       "first_binding_date": "2026-11-09",
       "soft_read_cut_below_roas": 1.5,
       "attribution_window": "7-day click / 1-day view (30/1 context only)",
-      "notes": "Acct 549760871033. C2 Prospecting Manual 626760146936 $65/day live 10/25; C1 Catalog Performance+ 626760146994 $135/day paused until catalog ingests. Use weekly spend (P+ budgets flex). Last 2-3 days under-report. 6 legacy 2020 campaigns must stay PAUSED. Billing not readable via API."
+      "notes": "Acct 549760871033. C2 Prospecting Manual 626760146936 $65/day live 10/25; C1 Catalog Performance+ 626760146994 $135/day paused until catalog ingests. Use weekly spend (P+ budgets flex). Last 2-3 days under-report. 6 legacy 2020 campaigns must stay PAUSED. Billing not readable via API. Binding rule after day 14 is the standard 2.8/2.0 band."
+    },
+    "applovin": {
+      "mode": "view",
+      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable."
     }
   },
   "mode_legend": {
