@@ -92,5 +92,8 @@
     "hold": "no changes, keep budget",
     "frozen": "view only, no changes",
     "view": "tracked only"
+  },
+  "snapchat": {
+    "note": "10/28 3:48 PM ET: no double-fire. Elevar server-side purchase covers ALL Shopify channels (Tapcart/Shop/Draft), so compare Snap purchases to all-channel Shopify orders, never Online Store only. Browser tag 339 + server share order-ID dedup; tag 339 stays on. Hold until Elevar's 10/29-data check confirms dedup, then back to auto."
   }
 }
