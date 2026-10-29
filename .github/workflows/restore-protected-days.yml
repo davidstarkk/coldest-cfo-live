@@ -1,5 +1,12 @@
 name: Restore protected days
 
+# The workspace cron pushes "public mirror sync — YYYY-MM-DD" with its own
+# index.html / README / secondary_ads_module.js. From 10/27 that wiped this
+# repo's Ad Channel Throttles tab and the paid-channel / throttles /
+# rolling-MER script tags. Before restoring data, the guard keeps this repo's
+# UI where the workspace did not change it (3-way merge where it did) and
+# takes only the data from the mirror sync.
+
 on:
   push:
     branches: [main]
@@ -13,6 +20,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: restore-protected-days
+  cancel-in-progress: false
+
 jobs:
   restore:
     runs-on: ubuntu-latest
@@ -23,16 +34,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Keep live UI over the mirror sync (scripts/lib/sync_guard.js)
+        run: |
+          if git log -1 --format=%s | grep -q '^public mirror sync'; then
+            node scripts/lib/sync_guard.js --write --sync-grep '^public mirror sync'
+          else
+            echo "HEAD is not a mirror sync — guard skipped"
+          fi
       - name: Detect wipe and restore by merge
         run: node scripts/restore_protected_days.js --apply
       - name: Commit restore if files changed
         run: |
-          if git diff --quiet -- mer_for_manus.json index.html; then
+          if git diff --quiet; then
             echo "working tree clean"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add mer_for_manus.json index.html
-          git commit -m "Restore protected daily-report days after overwrite."
-          git push
+          git add -u
+          git commit -m "Keep live UI and restore protected days after mirror sync."
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase --no-edit && continue
+            exit 1
+          done
+          exit 1
