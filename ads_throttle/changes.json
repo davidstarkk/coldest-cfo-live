@@ -21,5 +21,20 @@
       "strategy": "+96 Non-brand negatives (146 total); -20% bids on 9 zero-conv phrase kws",
       "next_check": "2026-11-03"
     }
+  },
+  {
+    "date": "2026-10-29",
+    "channel": "google",
+    "roas_7d": 1.46,
+    "spend_7d": 1598.8,
+    "revenue_7d": 2328.4,
+    "roas_source": "platform_reported, conversion date, primary conversions, non-JS only, 10/22-10/28 (1.61 incl. $252.75 credited to old $0-spend PMax)",
+    "action": "cut_20pct_and_change_strategy",
+    "old_budget": 73.5,
+    "new_budget": 58.8,
+    "budget_note": "Only enabled non-JS campaign is PMax NCA ($73.50/day, 7d 2.32x but 0.72x/0.84x on 10/27-10/28). Search NonBrand and Demand Gen paused since 10/26. JS_ excluded. Cut cooldown (3d) since 10/26 cut has passed.",
+    "status": "held",
+    "by": "jarvis",
+    "note": "Google Ads declined 10/29: PMax NCA alone 2.32x (hold band); 1.46x blend includes Search/Demand Gen paused 10/26; last change 10/26, next eligible 11/2. Cut to $58.80 on 11/2 if 7d ending 11/1 < 2.0. Budget unchanged $73.50."
   }
 ]

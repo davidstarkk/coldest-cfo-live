@@ -1,33 +1,33 @@
 {
-  "as_of": "2026-10-29T08:30:00-04:00",
-  "shopify_orders_yesterday": 263,
-  "shopify_revenue_yesterday": 18918.53,
-  "shopify_orders_7d_avg": 394.7,
-  "shopify_note": "Shopify total_sales, all channels, 10/28 ET. 7d avg is 10/21-10/27. Yesterday down 33% vs avg. Last-click UTM 10/28: facebook paid 56 + paid_social 40, bing cpc 2 ($221.19), applovin 3, google product_sync 3, chatgpt paid_ai 1 ($87.23), tiktok 1, snapchat 0, reddit 0, pinterest 0, no UTM 145.",
+  "as_of": "2026-10-30T08:35:00-04:00",
+  "shopify_orders_yesterday": 404,
+  "shopify_revenue_yesterday": 32439.57,
+  "shopify_orders_7d_avg": 356.3,
+  "shopify_note": "Shopify total_sales, all channels, 10/29 ET. 7d avg is 10/22-10/28. Yesterday up 13% vs avg. Last-click UTM 10/29: facebook paid 59 + paid_social 49, bing cpc 4 ($201.37), google product_sync 8, applovin 2, tiktok 1, chatgpt 0, snapchat 0, reddit 0, pinterest 0, no UTM 265.",
   "channels": {
     "meta": {
       "status": "OK",
-      "last_checkout_event": "2026-10-29 (37 InitiateCheckout so far today)",
-      "last_purchase_event": "2026-10-29 (25 purchases so far today)",
-      "purchases_24h": 209,
-      "purchases_7d_avg": 308.6,
-      "notes": "10/28: 209 purchases, 178 checkouts on $8,890 spend, down 32% vs 7d avg while Shopify was down 33%, so in line. Pixel 562761383897004; EMQ/CAPI last read 10/27 (Purchase 9.2, 99.1% CAPI). Platform-reported."
+      "last_checkout_event": "2026-10-30 (36 InitiateCheckout so far today)",
+      "last_purchase_event": "2026-10-30 (26 purchases so far today)",
+      "purchases_24h": 312,
+      "purchases_7d_avg": 250.8,
+      "notes": "10/29: 312 purchases, 239 checkouts on $9,489 spend, up 24% vs 7d avg (10/23-10/28) while Shopify was up 13%, in line. Pixel 562761383897004; EMQ/CAPI last read 10/27 (Purchase 9.2, 99.1% CAPI). Platform-reported."
     },
     "google": {
       "status": "OK",
-      "last_checkout_event": "2026-10-29 (6 Shopping App begin checkouts so far today, conversion date)",
-      "last_purchase_event": "2026-10-29 (3 Shopping App purchases so far today, conversion date)",
-      "purchases_24h": 92,
-      "purchases_7d_avg": 95.0,
-      "notes": "Conversion-date rule. Shopping App Purchase 82 on 10/27 (33.1% of 248) and 92 on 10/28 (35.0% of 263); Elevar server-side 77 (31.0%) and 76 (28.9%). Inside normal range. Begin checkout 52 and 90. 7d avg is 10/26-10/28 conversion-date mean. Never report all_conversions totals."
+      "last_checkout_event": "2026-10-30 (5 Shopping App begin checkouts so far today, conversion date)",
+      "last_purchase_event": "2026-10-30 (8 Shopping App purchases so far today, conversion date)",
+      "purchases_24h": 117,
+      "purchases_7d_avg": 112.0,
+      "notes": "Conversion-date rule (all_conversions_by_conversion_date per action). Shopping App Purchase 99 on 10/28 (37.6% of 263) and 117 on 10/29 (29.0% of 404); Elevar server-side 76 (28.9%) and 112.7 (27.9%). Inside normal range. Begin checkout 95 and 97. 7d avg is 10/26-10/29 mean. Never report all_conversions totals as Google ROAS."
     },
     "bing": {
       "status": "OK",
       "last_checkout_event": null,
-      "last_purchase_event": "2026-10-29 (Brand 1 conv $59.23 so far today)",
-      "purchases_24h": 2,
-      "purchases_7d_avg": 4.0,
-      "notes": "Double-count fix VERIFIED on 10/28 data: Bing reports 2 conv / $221.19 (Brand Search) and Shopify shows exactly 2 bing/cpc orders / $221.19. GTM tag 250 pause (10/27 ~10:40 PM ET) worked; Elevar server-side Microsoft destination + tag 249 carry tracking. UET tag 134596770. Non-brand 0 conv on $53.54. Amazon campaign excluded. No begin-checkout goal."
+      "last_purchase_event": "2026-10-30 (Brand 2 conv $203.45 so far today)",
+      "purchases_24h": 6,
+      "purchases_7d_avg": 3.9,
+      "notes": "10/29: Bing 6 conv / $317.83 (all Brand Search) vs Shopify 4 bing/cpc last-click orders / $201.37. Gap likely assisted orders whose last click was another channel (seen 10/26); not the old 2x double count. Watch; re-check if Bing stays above Shopify bing/cpc for several days. UET 134596770 via Elevar server-side + tag 249. Amazon campaign excluded. No begin-checkout goal."
     },
     "reddit": {
       "status": "DOWN",
@@ -35,15 +35,15 @@
       "last_purchase_event": null,
       "purchases_24h": null,
       "purchases_7d_avg": 0,
-      "notes": "Still DOWN 24h after the 10/28 8:35 AM ET alert, and now unreadable. Pipeboard's Reddit connection (u/coldest) only reaches account t2_u2crtzyo and gets HTTP 403 on a2_j3pu0ku22iae; t2_u2crtzyo is also blocked by Pipeboard's 10-ad-account monthly limit until 11/17. Last readable state (10/28): $416.89 spend 10/26-10/27, pixel gets PageVisit/ViewContent but 0 Purchase and 0 checkout events. Shopify shows 0 reddit UTM/referrer orders on 10/28. Reddit is on HOLD in the throttle so 0x ROAS isn't acted on. Owner: reddit bot (purchase event/CAPI); David must reconnect Reddit in Pipeboard with a login that can access a2_j3pu0ku22iae."
+      "notes": "Still DOWN, day 3 (raised 10/28 8:35 AM ET, re-alerted 10/29 8:30 AM ET). 10/30 read: Pipeboard Reddit connection still lists only t2_u2crtzyo; a2_j3pu0ku22iae (the ad account with spend and pixel) not accessible, so spend and events can't be read. Last readable state (10/28): $416.89 spend 10/26-10/27, pixel gets PageVisit/ViewContent but 0 Purchase and 0 checkout. Shopify 0 reddit UTM orders on 10/29. Reddit on HOLD in the throttle. Owner: reddit bot; needs David to reconnect Reddit in Pipeboard with a login that can access a2_j3pu0ku22iae."
     },
     "snapchat": {
       "status": "WARN",
-      "last_checkout_event": "2026-10-29 (88 START_CHECKOUT so far today, PT day)",
-      "last_purchase_event": "2026-10-29 (39 PURCHASE so far today)",
-      "purchases_24h": 422,
-      "purchases_7d_avg": 616.0,
-      "notes": "Open fix, raised 10/27, waiting on David's throttle-basis call and Elevar's 10/29-data dedup check; not re-alerted. Site pixel 8cf7328d 10/28 (PT day): 422 PURCHASE / 574 START_CHECKOUT vs 263 all-channel Shopify orders (1.6x; 1.5x on 10/27), roughly unchanged. Both pixels ACTIVE. Shopify shows 0 snapchat UTM orders on 10/28. Platform Snap ROAS treated as inflated."
+      "last_checkout_event": "2026-10-30 (86 START_CHECKOUT so far today, PT day)",
+      "last_purchase_event": "2026-10-30 (54 PURCHASE so far today)",
+      "purchases_24h": 607,
+      "purchases_7d_avg": 453.6,
+      "notes": "Open fix, raised 10/27, waiting on David's throttle-basis call; not re-alerted (not worse). Site pixel 8cf7328d on coldest.com 10/29 (PT day): 607 PURCHASE / 737 START_CHECKOUT vs 404 all-channel Shopify orders = 1.50x (1.6x 10/28, 1.5x 10/27), unchanged. Both pixels ACTIVE. Shopify 0 snapchat UTM orders on 10/29. Platform Snap ROAS treated as inflated."
     },
     "chatgpt": {
       "status": "OK",
@@ -51,15 +51,15 @@
       "last_purchase_event": "2026-10-27: 1 order_created conversion (view-through)",
       "purchases_24h": 0,
       "purchases_7d_avg": 0.1,
-      "notes": "Low volume. OpenAI shows 0 conversions on 10/28 (conversion-time basis), but Shopify now shows 1 order with utm chatgpt/paid_ai ($87.23) on 10/28, so ads now carry UTMs and OpenAI may be under-counting (or attributing late). Watch; not alert-worthy at this volume. Account credentials ok."
+      "notes": "Low volume. OpenAI 0 conversions on 10/28 and 10/29 (conversion-time basis); Shopify 0 chatgpt/paid_ai orders on 10/29 (1 on 10/28). Account active, credentials ok. Not alert-worthy at this volume."
     },
     "pinterest": {
-      "status": "WARN",
-      "last_checkout_event": "tag + Conversions API receiving checkout/initiate_checkout (1d EQS)",
-      "last_purchase_event": "checkout events received in last 1d (order_id 100%); ad-attributed checkouts not re-read",
+      "status": "OK",
+      "last_checkout_event": "tag + Conversions API receiving checkout and initiate_checkout (1d EQS)",
+      "last_purchase_event": "checkout events received in last 1d; ad-attributed checkouts not re-read",
       "purchases_24h": 0,
       "purchases_7d_avg": 0,
-      "notes": "Progress: Conversions API is now LIVE (new CONVERSIONS_API source in 1d EQS, FAIR) alongside the TAG source (GOOD). Not verified yet: tag/CAPI External Event ID overlap is only 64% on checkout, 61% initiate_checkout, so dedup is partial and checkouts may double count; click ID coverage 0. Owner: Pinterest Ads bot (with Elevar/Eng Builder) to get event_id overlap near 100%. Spend/attribution not re-read this run."
+      "notes": "Open fix VERIFIED 10/30: Conversions API live (FAIR) alongside tag (GOOD), and tag/CAPI External Event ID overlap is now 98.9% on checkout, 97.5% initiate_checkout, 99.1% add_payment_info (was ~64% on 10/29), so dedup works for purchase-type events. Remaining quality gap, not a breakage: click ID (epik) coverage 0 on both sources, which weakens attribution matching; overlap on add_to_cart/page_visit is low (~1-6%) but those aren't optimization events. Owner for click ID: Pinterest Ads bot with Elevar/Eng Builder."
     }
   },
   "purchase_audit_2026-10-26": {
