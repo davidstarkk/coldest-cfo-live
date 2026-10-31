@@ -27,7 +27,7 @@
       "owner_bot": "snapchat ads bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports."
+      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports."
     },
     "bing": {
       "mode": "auto",
@@ -41,7 +41,7 @@
       "owner_bot": "ads bot for chatgpt",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": ""
+      "notes": "David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan."
     },
     "meta": {
       "mode": "frozen",
@@ -68,7 +68,7 @@
       "notes": "Shopify share only"
     },
     "pinterest": {
-      "mode": "auto",
+      "mode": "hold",
       "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
       "max_daily_budget": null,
       "min_daily_budget": null,
@@ -77,7 +77,7 @@
       "first_binding_date": "2026-11-09",
       "soft_read_cut_below_roas": 1.5,
       "attribution_window": "7-day click / 1-day view (30/1 context only)",
-      "notes": "Acct 549760871033. C2 Prospecting Manual 626760146936 $65/day live 10/25; C1 Catalog Performance+ 626760146994 $135/day paused until catalog ingests. Use weekly spend (P+ budgets flex). Last 2-3 days under-report. 6 legacy 2020 campaigns must stay PAUSED. Billing not readable via API. Binding rule after day 14 is the standard 2.8/2.0 band."
+      "notes": "PAUSED by David 10/30 9:22 PM ET ('Let's pause Pinterest'); all 8 campaigns paused, no relaunch without David. Acct 549760871033. C2 Prospecting Manual 626760146936 $65/day live 10/25; C1 Catalog Performance+ 626760146994 $135/day paused until catalog ingests. Use weekly spend (P+ budgets flex). Last 2-3 days under-report. 6 legacy 2020 campaigns must stay PAUSED. Billing not readable via API. Binding rule after day 14 is the standard 2.8/2.0 band."
     },
     "applovin": {
       "mode": "view",

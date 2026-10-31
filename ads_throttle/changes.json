@@ -36,5 +36,61 @@
     "status": "held",
     "by": "jarvis",
     "note": "Google Ads declined 10/29: PMax NCA alone 2.32x (hold band); 1.46x blend includes Search/Demand Gen paused 10/26; last change 10/26, next eligible 11/2. Cut to $58.80 on 11/2 if 7d ending 11/1 < 2.0. Budget unchanged $73.50."
+  },
+  {
+    "date": "2026-10-30",
+    "channel": "chatgpt",
+    "entity": "CGPT Q4 Gifting cmpn_17adb7fbdac4819a9679307a92b40476",
+    "roas_7d": "<=0.16 (account 0.08x; the single $69.66 order isn't split by campaign in this read)",
+    "spend_7d": 469.98,
+    "roas_source": "platform_reported, 7d click/1d view, 10/23-10/29 (live 10/26); account total 1 view-through order $69.66 on $904.01",
+    "action": "kill_under_1x",
+    "old_budget": 90,
+    "new_budget": 0,
+    "status": "paused by jarvis 10/30 10:06 AM ET",
+    "by": "jarvis",
+    "note": "Last live ChatGPT campaigns; CHATGPT ADS bot owes new channel-native strategy for David's OK. Relaunch needs David's OK."
+  },
+  {
+    "date": "2026-10-30",
+    "channel": "chatgpt",
+    "entity": "CGPT Evergreen cmpn_919135d08ad88196ae540fea2c5e5a4b",
+    "roas_7d": "<=0.16 (account 0.08x; the single $69.66 order isn't split by campaign in this read)",
+    "spend_7d": 434.03,
+    "roas_source": "platform_reported, 7d click/1d view, 10/23-10/29 (live 10/26)",
+    "action": "kill_under_1x",
+    "old_budget": 110,
+    "new_budget": 0,
+    "status": "paused by jarvis 10/30 10:06 AM ET",
+    "by": "jarvis"
+  },
+  {
+    "date": "2026-10-29",
+    "channel": "pinterest",
+    "entity": "PIN | Sales | Prospecting | Manual 626760146936",
+    "roas_7d": 0.19,
+    "spend_7d": 246.41,
+    "roas_source": "platform_reported 7d click/1d view, 10/26-10/29, 1 checkout $47.01",
+    "action": "kill_under_1x",
+    "old_budget": 65,
+    "new_budget": 0,
+    "status": "found PAUSED (updated 10/29 4:54 PM ET, before this run); logged 10/30 by jarvis",
+    "by": "jarvis",
+    "note": "Catalog Performance+ 626760146994 ($135/day) is the only live Pinterest campaign; Pinterest bot owes the C2 replacement strategy."
+  },
+  {
+    "date": "2026-10-30",
+    "channel": "snapchat",
+    "entity": "SNAP | Prospecting | Purchases | Meta Winners | Launch v1 17ba5e2d-8cd3-426b-94b6-fa634db9f6e3",
+    "roas_7d": 7.61,
+    "spend_7d": 1467.59,
+    "roas_source": "platform_reported (Snap), 7d swipe/1d view, 10/23-10/29",
+    "action": "raise_20pct",
+    "old_budget": 350,
+    "new_budget": 420,
+    "status": "raised by jarvis 10/30 10:50 PM ET (Limitless d8cfb148 200->240, Drive-Thru 2c049090 150->180), read back OK",
+    "by": "jarvis",
+    "approved_by": "David 10/30 10:49 PM ET",
+    "next_eligible": "2026-11-06"
   }
 ]
