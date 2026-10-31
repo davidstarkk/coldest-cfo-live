@@ -75,6 +75,15 @@ test('missing mer_for_manus is STALE as of 2026-09-27 — number stays 3.1952', 
   assert.strictEqual(resolved.data.latest.mer_7d_pooled, 3.1952);
 });
 
+test('current data_ready embedded snapshot is not STALE', function () {
+  var cur = Object.assign({}, embedded, { as_of: '2026-10-30', data_ready: true, missing_report_dates: [],
+    latest: Object.assign({}, embedded.latest, { date: '2026-10-30', mer_7d_pooled: 3.3881, rev_7d: 493548.71 }) });
+  var resolved = Header.resolve(cur, mer, '2026-10-31T14:00:00Z');
+  assert.strictEqual(resolved.stale, false);
+  assert.strictEqual(resolved.data.latest.rev_7d, 493548.71);
+  assert.strictEqual(Header.resolve(cur, mer, '2026-11-05T14:00:00Z').stale, true);
+});
+
 test('mer without mer_7d_pooled is STALE — do not invent a pooled MER', function () {
   var resolved = Header.resolve(embedded, { as_of: '2026-10-24', blended_mer: 1.84 });
   assert.strictEqual(resolved.stale, true);

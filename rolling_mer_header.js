@@ -63,10 +63,22 @@
     };
   }
 
+  function embeddedTooOld(asOf, now) {
+    var d = now ? new Date(now) : new Date();
+    var today = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(d);
+    var t = new Date(today + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() - 2);
+    return String(asOf) < t.toISOString().slice(0, 10);
+  }
+
   function resolve(embedded, mer) {
     var fallback = embedded || { as_of: null, latest: {}, verdict: {}, missing_report_dates: [] };
     if (merIsFresh(mer, fallback)) {
       return { stale: false, staleAsOf: null, data: fromMer(mer, fallback) };
+    }
+    // Oct 31, 2026: the embedded snapshot is now rebuilt daily from every report (finalized + daily), company-wide.
+    // When it says data_ready and is at most 2 days old (ET), it is current — not STALE.
+    if (fallback.data_ready === true && fallback.as_of && !embeddedTooOld(fallback.as_of, arguments[2])) {
+      return { stale: false, staleAsOf: null, data: fallback };
     }
     return {
       stale: true,
