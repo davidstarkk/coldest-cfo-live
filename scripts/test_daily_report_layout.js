@@ -13,9 +13,9 @@ function test(name, fn) {
   }
 }
 
-test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatGPT → Pinterest → AppLovin', function () {
+test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatGPT → Pinterest → AppLovin → X', function () {
   var ids = Paid.displayChannels().map(function (c) { return c.id; });
-  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin']);
+  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'x']);
 });
 
 test('unpublished Pinterest is missing, never $0', function () {
@@ -185,6 +185,23 @@ test('hydratePartialFromMer adds a 10/25 card from mer.as_of without inventing s
   assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay({ id: 'meta', sourceKeys: ['meta'], merKey: 'meta' }, '2026-10-25')), '$10.00');
   assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay({ id: 'pinterest', sourceKeys: ['pinterest_ads', 'pinterest'], merKey: 'pinterest' }, '2026-10-25')), 'missing');
   delete globalThis.PARTIAL_REPORTS;
+});
+
+test('X Ads: not live = $0 / not live; live shows cash cost, credit, fee and flags', function () {
+  Paid._setMerDoc({ as_of: '2026-11-02', x: { status: 'not_live', live: false, by_date: {} } });
+  assert.strictEqual(Paid.xSpendTxt('2026-11-02'), '$0.00 · not live');
+  assert.ok(Paid.xDetailHtml('2026-11-02').indexOf('not live') !== -1);
+  Paid._setMerDoc({ as_of: '2026-11-02', x: { status: 'live', live: true, plan: 'monthly',
+    flags: ['X ad credit $50.00 unused expires 2026-11-30 (5 days left).'],
+    by_date: { '2026-11-02': { spend: 400, clicks: 10, conversions: 2, revenue: 600, fee: 33.33,
+      credit_used: 100, cash_spend: 300, cash_cost: 333.33 } } } });
+  var html = Paid.xDetailHtml('2026-11-02');
+  assert.ok(html.indexOf('$333.33') !== -1);
+  assert.ok(html.indexOf('ad credit −$100.00') !== -1);
+  assert.ok(html.indexOf('1.80x') !== -1);
+  assert.ok(html.indexOf('expires 2026-11-30') !== -1);
+  assert.strictEqual(Paid.xSpendTxt('2026-11-02'), '$400.00 (cash cost $333.33)');
+  Paid._setMerDoc(null);
 });
 
 if (failed) {

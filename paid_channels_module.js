@@ -1,5 +1,5 @@
 /* =====================================================================
-   COLDEST · PAID CHANNELS  (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, Pinterest)
+   COLDEST · PAID CHANNELS  (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, Pinterest, X)
    ---------------------------------------------------------------------
    Reporting-only. No API credentials. Missing feed → $0 / "no feed".
    Never invents clicks, conversions, revenue, or spend.
@@ -1062,6 +1062,55 @@
     sourceKeys: ['pinterest_ads', 'pinterest']
   };
 
+  // X Ads is display-only here: mer_for_manus.json `x` (coldest-cfo-dashboard
+  // cfo_backend/x_ads.py) already folds only cash_cost = (spend - ad credit used)
+  // + Premium Business fee into d2c_ad_spend / blended_mer. Never overlay it.
+  var X_DISPLAY = {
+    id: 'x',
+    label: 'X Ads',
+    merKey: 'x',
+    sourceKeys: ['x_ads'],
+    roasLabel: 'platform-reported',
+    displayOnly: true
+  };
+
+  function xBlock() {
+    return (MER_DOC && MER_DOC.x && typeof MER_DOC.x === 'object') ? MER_DOC.x : null;
+  }
+
+  function xDayRow(date) {
+    var b = xBlock();
+    if (!b || !b.live || !b.by_date || !b.by_date[date]) return null;
+    return b.by_date[date];
+  }
+
+  function xSpendTxt(date) {
+    var r = xDayRow(date);
+    return r ? usd(r.spend) + ' (cash cost ' + usd(r.cash_cost) + ')' : '$0.00 · not live';
+  }
+
+  function xDetailHtml(date) {
+    var b = xBlock();
+    var r = xDayRow(date);
+    function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
+    if (!r) {
+      return '<tr><td>X Ads</td><td>$0.00</td><td>0</td><td>0</td><td>$0.00</td><td>—</td><td>not live</td></tr>'
+        + '<tr class="pc-split"><td colspan="7">↳ X Premium Business fee / ad credit: not live until the account id and start date are set. $0 in ad spend and MER.</td></tr>';
+    }
+    var spend = num(r.spend);
+    var cash = num(r.cash_cost);
+    var html = '<tr><td>X Ads</td><td>' + usd(spend) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
+      + '</td><td>' + usd(r.revenue) + '</td><td>' + esc(rx(spend > 0 ? num(r.revenue) / spend : null)) + ' · platform-reported</td><td>'
+      + esc(b.source || 'mer_for_manus.json#x') + '</td></tr>'
+      + '<tr class="pc-split"><td>↳ X cash cost</td><td>' + usd(cash) + '</td><td colspan="5">ad credit −' + usd(r.credit_used)
+      + ' · cash spend ' + usd(r.cash_spend) + ' · Premium fee ' + usd(r.fee) + ' (' + esc(b.plan || 'monthly')
+      + ') · ROAS on cash cost ' + esc(rx(cash > 0 ? num(r.revenue) / cash : null)) + '</td></tr>';
+    (b.flags || []).forEach(function (f) {
+      html += '<tr class="pc-split"><td colspan="7" style="color:#f5bc62">⚠ ' + esc(f) + '</td></tr>';
+    });
+    return html;
+  }
+
   var APPLOVIN_DISPLAY = {
     id: 'applovin',
     label: 'AppLovin',
@@ -1080,6 +1129,7 @@
     });
     if (!seen.pinterest) out.push(PINTEREST_DISPLAY);
     if (!seen.applovin) out.push(APPLOVIN_DISPLAY);
+    if (!seen.x) out.push(X_DISPLAY);
     return out;
   }
 
@@ -1134,6 +1184,7 @@
 
   function spendPerChannelHtml(date) {
     var rows = displayChannels().map(function (ch) {
+      if (ch.id === 'x') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(xSpendTxt(date)) + '</td></tr>';
       return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spendTxt(dayForDisplay(ch, date))) + '</td></tr>';
     }).join('');
     return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>';
@@ -1141,6 +1192,7 @@
 
   function detailBreakdownHtml(date) {
     var rows = displayChannels().map(function (ch) {
+      if (ch.id === 'x') return xDetailHtml(date);
       var d = dayForDisplay(ch, date);
       var html = '<tr>'
         + '<td>' + esc(ch.label) + '</td>'
@@ -1370,6 +1422,9 @@
     outcomeTxt: outcomeTxt,
     TRACKING_UNVERIFIED: TRACKING_UNVERIFIED,
     displayChannels: displayChannels,
+    X_DISPLAY: X_DISPLAY,
+    xDetailHtml: xDetailHtml,
+    xSpendTxt: xSpendTxt,
     spendTxt: spendTxt,
     metricTxt: metricTxt,
     roasDisplay: roasDisplay,
