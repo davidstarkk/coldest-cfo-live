@@ -15,7 +15,7 @@ function test(name, fn) {
 
 test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatGPT → Pinterest → AppLovin → X', function () {
   var ids = Paid.displayChannels().map(function (c) { return c.id; });
-  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'x', 'taboola']);
+  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'x', 'taboola', 'outbrain']);
 });
 
 test('unpublished Pinterest is missing, never $0', function () {
@@ -223,6 +223,26 @@ test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; R
   assert.ok(html.indexOf('2.80x · platform-reported') !== -1);
   assert.ok(html.indexOf('Shopify-attributed</td><td>$150.00') !== -1);
   assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$100.00');
+  Paid._setMerDoc(null);
+});
+
+test('Outbrain: after Taboola; not imported = missing; blanks = unknown; ROAS platform-reported, CPA, Shopify-attributed', function () {
+  Paid._setMerDoc({ as_of: '2026-11-02', outbrain: { status: 'no_data', live: false, by_date: {} },
+    advertising_sources: { '2026-11-02': { outbrain_ads: { spend: null, complete: false, missing: true } } } });
+  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-02'), 'missing');
+  assert.ok(Paid.outbrainDetailHtml('2026-11-02').indexOf('$0.00') === -1);
+  Paid._setMerDoc({ as_of: '2026-11-03',
+    outbrain: { status: 'live', live: true, by_date: {
+      '2026-11-02': { spend: 100, clicks: 40, conversions: 4, revenue: 300 },
+      '2026-11-03': { spend: 80, clicks: null, conversions: null, revenue: null, revenue_known: false, conversions_known: false } } },
+    ad_channel_throttles: { series_28d: { by_channel: { outbrain: [{ date: '2026-11-02', shopify_revenue: 90, shopify_revenue_status: 'verified' }] } } } });
+  var html = Paid.outbrainDetailHtml('2026-11-02');
+  assert.ok(html.indexOf('3.00x · platform-reported') !== -1);
+  assert.ok(html.indexOf('CPA $25.00') !== -1);
+  assert.ok(html.indexOf('Shopify-attributed</td><td>$90.00') !== -1);
+  var h2 = Paid.outbrainDetailHtml('2026-11-03');
+  assert.ok(h2.indexOf('unknown · platform-reported') !== -1);
+  assert.ok(h2.indexOf('CPA unknown') !== -1);
   Paid._setMerDoc(null);
 });
 
