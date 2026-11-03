@@ -7,7 +7,7 @@
    Per-channel feed order (same as Bing):
      1. PARTIAL_REPORTS[].advertising_sources.<aliases>
         or mer_for_manus.json advertising_sources[YYYY-MM-DD].<aliases>
-     2. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest; x and taboola are display-only)
+     2. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest; x, taboola and outbrain are display-only)
      3. optional <channel>_ads_data.json
      4. localStorage manual day (channel tabs)
 
@@ -1171,6 +1171,71 @@
       + esc(rx(spend > 0 ? rev / spend : null)) + ' platform-reported</td></tr>';
   }
 
+  // Outbrain (Teads DR) is display-only like Taboola: mer_for_manus.json (rebuild_mer.py,
+  // outbrain_ads_daily.json from cfo_backend/outbrain_import.py, a manual daily feed) already folds its
+  // D2C spend. Listed after Taboola. Not imported = missing; blank purchases / value = unknown.
+  var OUTBRAIN_DISPLAY = {
+    id: 'outbrain',
+    label: 'Outbrain Ads',
+    merKey: 'outbrain',
+    sourceKeys: ['outbrain_ads', 'outbrain'],
+    roasLabel: 'platform-reported',
+    displayOnly: true
+  };
+
+  function outbrainDayRow(date) {
+    var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
+    var node = src && src.outbrain_ads;
+    if (node && node.missing) return null;
+    if (node && node.complete && node.spend != null) return node;
+    var b = MER_DOC && MER_DOC.outbrain;
+    var by = b && b.by_date;
+    if (by && by[date] && by[date].spend != null) return by[date];
+    return null;
+  }
+
+  function outbrainShopify(date) {
+    var t = MER_DOC && MER_DOC.ad_channel_throttles;
+    var rows = (t && t.series_28d && t.series_28d.by_channel && t.series_28d.by_channel.outbrain) || [];
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i] && rows[i].date === date) {
+        return rows[i].shopify_revenue_status === 'verified' && rows[i].shopify_revenue != null ? num(rows[i].shopify_revenue) : null;
+      }
+    }
+    return null;
+  }
+
+  function outbrainSpendTxt(date) {
+    var r = outbrainDayRow(date);
+    if (!r) return 'missing';
+    var spend = num(r.spend);
+    return usd(spend) + (spend > 0 || r.live ? '' : ' · not live');
+  }
+
+  function outbrainDetailHtml(date) {
+    var r = outbrainDayRow(date);
+    var shop = outbrainShopify(date);
+    var shopTxt = shop == null ? 'missing' : usd(shop);
+    function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
+    if (!r) {
+      return '<tr><td>Outbrain Ads</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>no Outbrain file imported</td></tr>'
+        + '<tr class="pc-split"><td>↳ Outbrain Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=outbrain / click id obclid</td></tr>';
+    }
+    var spend = num(r.spend);
+    var revKnown = r.revenue_known !== false && r.revenue != null;
+    var convKnown = r.conversions_known !== false && r.conversions != null;
+    var rev = revKnown ? num(r.platform_revenue != null ? r.platform_revenue : r.revenue) : null;
+    var conv = convKnown ? num(r.conversions) : null;
+    var roas = rev == null ? 'unknown' : rx(spend > 0 ? rev / spend : null);
+    var cpa = conv == null ? 'unknown' : (conv > 0 ? usd(spend / conv) : '—');
+    var live = !!r.live || spend > 0;
+    return '<tr><td>Outbrain Ads</td><td>' + usd(spend) + '</td><td>' + (r.clicks == null ? 'unknown' : intOrDash(r.clicks))
+      + '</td><td>' + (conv == null ? 'unknown' : intOrDash(conv)) + '</td><td>' + (rev == null ? 'unknown' : usd(rev)) + '</td><td>'
+      + esc(roas) + ' · platform-reported</td><td>' + esc((r.source || 'Outbrain UI') + (live ? '' : ' · not live')) + '</td></tr>'
+      + '<tr class="pc-split"><td>↳ Outbrain Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=outbrain / obclid · CPA '
+      + esc(cpa) + ' · platform ROAS ' + esc(roas) + ' platform-reported</td></tr>';
+  }
+
   var APPLOVIN_DISPLAY = {
     id: 'applovin',
     label: 'AppLovin',
@@ -1191,6 +1256,7 @@
     if (!seen.applovin) out.push(APPLOVIN_DISPLAY);
     if (!seen.x) out.push(X_DISPLAY);
     if (!seen.taboola) out.push(TABOOLA_DISPLAY);
+    if (!seen.outbrain) out.push(OUTBRAIN_DISPLAY);
     return out;
   }
 
@@ -1247,6 +1313,7 @@
     var rows = displayChannels().map(function (ch) {
       if (ch.id === 'x') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(xSpendTxt(date)) + '</td></tr>';
       if (ch.id === 'taboola') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(taboolaSpendTxt(date)) + '</td></tr>';
+      if (ch.id === 'outbrain') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(outbrainSpendTxt(date)) + '</td></tr>';
       return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spendTxt(dayForDisplay(ch, date))) + '</td></tr>';
     }).join('');
     return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>';
@@ -1256,6 +1323,7 @@
     var rows = displayChannels().map(function (ch) {
       if (ch.id === 'x') return xDetailHtml(date);
       if (ch.id === 'taboola') return taboolaDetailHtml(date);
+      if (ch.id === 'outbrain') return outbrainDetailHtml(date);
       var d = dayForDisplay(ch, date);
       var html = '<tr>'
         + '<td>' + esc(ch.label) + '</td>'
@@ -1489,6 +1557,9 @@
     TABOOLA_DISPLAY: TABOOLA_DISPLAY,
     taboolaDetailHtml: taboolaDetailHtml,
     taboolaSpendTxt: taboolaSpendTxt,
+    OUTBRAIN_DISPLAY: OUTBRAIN_DISPLAY,
+    outbrainDetailHtml: outbrainDetailHtml,
+    outbrainSpendTxt: outbrainSpendTxt,
     xDetailHtml: xDetailHtml,
     xSpendTxt: xSpendTxt,
     spendTxt: spendTxt,

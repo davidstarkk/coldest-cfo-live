@@ -46,6 +46,7 @@
     { id: 'chatgpt', label: 'ChatGPT Ads', srcKeys: ['chatgpt_ads', 'chatgpt', 'openai_ads'], color: '#e66767', d2c: true },
     { id: 'reddit', label: 'Reddit', srcKeys: ['reddit_ads', 'reddit'], color: '#8888a8', other: true, d2c: true },
     { id: 'taboola', label: 'Taboola', srcKeys: ['taboola_ads', 'taboola'], color: '#8888a8', other: true, d2c: true },
+    { id: 'outbrain', label: 'Outbrain', srcKeys: ['outbrain_ads', 'outbrain'], color: '#8888a8', other: true, d2c: true, note: 'Manual daily feed (outbrain ads); a day not imported is missing' },
     { id: 'x', label: 'X Ads', srcKeys: ['x_ads', 'x', 'twitter_ads'], color: '#8888a8', other: true, d2c: true, note: 'Only cash cost (spend − credit + Premium fee) folds into MER' }
   ];
   var OTHER_COLOR = '#8888a8';

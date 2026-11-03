@@ -23,7 +23,8 @@
     { id: 'pinterest', label: 'Pinterest' },
     { id: 'applovin', label: 'AppLovin' },
     { id: 'tiktok', label: 'TikTok' },
-    { id: 'taboola', label: 'Taboola' }
+    { id: 'taboola', label: 'Taboola' },
+    { id: 'outbrain', label: 'Outbrain' }
   ];
   var HEALTH_CHANNELS = [
     { id: 'meta', label: 'Meta' },
