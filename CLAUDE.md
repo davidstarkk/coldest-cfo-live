@@ -8,3 +8,4 @@ This is the page David actually views (GitHub Pages, public repo). The data path
 - **NEVER** attach a MutationObserver that writes into the subtree it observes; wrap the template render functions instead.
 - This repo is public: no credentials, and treat anything committed here as published.
 - Run `npm test` (the throttles / protected-days suites had 7 pre-existing failures on 10/28 from Jarvis settings drift).
+- **NEVER** let the AD CHANNELS tab (`ad_channels_module.js`) judge a window with missing days: closed `REPORTS` rows have no per-platform spend, so a day that is not in `PARTIAL_REPORTS` and not in `mer_for_manus.json` is a feed gap (`INCOMPLETE n/7`, WoW withheld), not $0. Platform ROAS is platform-reported over the days the platform reported; Meta / Google have spend-only feeds, so their ROAS is `—`. Feeds reach this repo via the data repo's `after-daily-sync` publish step (`LIVE_MIRROR_TOKEN`); do not hand-edit `mer_for_manus.json` here (tests pin it).
