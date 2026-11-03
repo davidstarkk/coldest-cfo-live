@@ -9,6 +9,16 @@
    headline that does not equal its own channels is flagged too. Baselines
    are comparisons only — never added to a total, never shown as data.
 
+   30-day window: the template averaged the last 30 REPORTS *rows*. When
+   closed days are sparse (direct_v1 closed 10/31 + 11/01 while 9/28–10/30
+   stayed partial) those 30 rows spanned Aug 31 – Nov 1. Here the 30-day
+   average and the channel pies use the 30 *calendar* days ending at the
+   latest day with data, as cfo_backend/rolling_totals.py does: a closed
+   REPORTS row wins; otherwise the day's partial provisional totals; days
+   in neither source are missing and never filled. A partial day this layer
+   marks incomplete (usual source missing / headline ≠ channels) is left
+   out of the averages and named in the label.
+
    Polish: −$3,856 (not $-3,856), ET times instead of raw ISO stamps,
    weekday dates, one as-of bar, a 30-day at-a-glance table, and cards older
    than a week folded behind one click (deep links still open them).
@@ -24,7 +34,13 @@
   var CHANNELS = ['shopify', 'amazon', 'tiktok', 'whatnot'];
   var LABELS = { shopify: 'Shopify', amazon: 'Amazon', tiktok: 'TikTok', whatnot: 'Whatnot' };
   var CLOSED_KEYS = { shopify: 'shop_revenue', amazon: 'amz_revenue', tiktok: 'tiktok_revenue', whatnot: 'whatnot_revenue' };
-  var WEEKS = 4, MIN_WEEKS = 2, DROP_PCT = 60, SHOW_RECENT = 7, GLANCE_DAYS = 30;
+  var WEEKS = 4, MIN_WEEKS = 2, DROP_PCT = 60, SHOW_RECENT = 7, GLANCE_DAYS = 30, WINDOW_DAYS = 30;
+  var CLOSED_CH = {
+    shopify: { revenue: 'shop_revenue', ads: 'shop_ad_spend', profit: 'shop_net_profit' },
+    amazon: { revenue: 'amz_revenue', ads: 'amz_ad_spend', profit: 'amz_net_profit' },
+    tiktok: { revenue: 'tiktok_revenue', ads: 'tiktok_ad_spend', profit: 'tiktok_net_profit' },
+    whatnot: { revenue: 'whatnot_revenue', ads: 'whatnot_ad_spend', profit: 'whatnot_net_profit' }
+  };
   var MISSING = '—';
   var GREY = '#9090b0';
   var ISO_STAMP = /\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})/g;
@@ -171,6 +187,118 @@
     return Object.keys(map).sort(function (a, b) { return b.localeCompare(a); });
   }
 
+  /* ------------------------------------------------------- rolling window */
+
+  /* One day's company totals + per-channel figures for the window. Closed
+     rows use the cron's already-blended per-channel nets; partial rows use
+     the engine's provisional channel observations (opex already allocated).
+     Nothing is re-derived and nothing missing is filled. */
+  function dayTotals(e) {
+    var r = e.row, t, ch = {};
+    if (e.closed) {
+      t = { revenue: num(r.total_revenue), ads: num(r.total_ad_spend), net_profit: num(r.net_profit), orders: num(r.total_orders) };
+      CHANNELS.forEach(function (k) {
+        var f = CLOSED_CH[k];
+        ch[k] = { revenue: num(r[f.revenue]), ads: num(r[f.ads]), profit: num(r[f.profit]) };
+      });
+    } else {
+      var p = r.provisional_totals || {}, obs = r.channel_observations || {};
+      t = { revenue: num(p.revenue), ads: num(p.ads), net_profit: num(p.net_profit), orders: num(p.orders) };
+      CHANNELS.forEach(function (k) {
+        var c = obs[k];
+        ch[k] = presentPartial(c) ? { revenue: num(c.revenue), ads: num(c.known_ads), profit: num(c.net_profit) } : { revenue: null, ads: null, profit: null };
+      });
+    }
+    return { totals: t, channels: ch };
+  }
+
+  /* The n calendar days ending at `end` (default: latest day with data).
+     Returns which days were used, excluded (incomplete partial) or missing,
+     plus sums and per-day averages over the used days only. */
+  function rolling(map, n, end) {
+    n = n || WINDOW_DAYS;
+    var dates = sortedDates(map);
+    end = end || dates[0];
+    if (!end) return null;
+    var want = [], i;
+    for (i = n - 1; i >= 0; i--) want.push(shiftDate(end, -i));
+    var used = [], excluded = [], missing = [], closedDays = 0, partialDays = 0;
+    var sum = { revenue: 0, ads: 0, net_profit: 0, orders: 0 };
+    var ch = {}, profitDays = 0;
+    CHANNELS.forEach(function (k) { ch[k] = { revenue: 0, ads: 0, profit: 0 }; });
+    want.forEach(function (d) {
+      var e = map[d];
+      if (!e) { missing.push(d); return; }
+      var q = e.closed ? null : assess(d, map);
+      if (q && q.incomplete) { excluded.push({ date: d, reason: chip(q).text }); return; }
+      var t = dayTotals(e);
+      if (t.totals.revenue == null) { missing.push(d); return; }
+      if (e.closed) closedDays++; else partialDays++;
+      used.push(d);
+      sum.revenue += t.totals.revenue;
+      sum.ads += t.totals.ads || 0;
+      sum.net_profit += t.totals.net_profit || 0;
+      sum.orders += t.totals.orders || 0;
+      var profitKnown = true;
+      CHANNELS.forEach(function (k) {
+        var c = t.channels[k];
+        if (c.revenue != null) ch[k].revenue += c.revenue;
+        if (c.ads != null) ch[k].ads += c.ads;
+        if (c.profit != null) ch[k].profit += c.profit; else if (c.revenue) profitKnown = false;
+      });
+      if (profitKnown) profitDays++;
+    });
+    var days = used.length;
+    return {
+      window: n, start: want[0], end: end, used: used, excluded: excluded, missing: missing,
+      days: days, closedDays: closedDays, partialDays: partialDays, profitDays: profitDays,
+      sum: sum, channels: ch,
+      avg: days ? { revenue: sum.revenue / days, ads: sum.ads / days, net_profit: sum.net_profit / days, orders: sum.orders / days } : null,
+      mer: sum.ads > 0 ? sum.revenue / sum.ads : null,
+      margin_pct: sum.revenue > 0 ? sum.net_profit / sum.revenue * 100 : null
+    };
+  }
+
+  function windowLabel(w) {
+    var bits = [dayLabel(w.start) + ' – ' + dayLabel(w.end), w.days + ' of ' + w.window + ' days'];
+    var mix = [];
+    if (w.closedDays) mix.push(w.closedDays + ' closed');
+    if (w.partialDays) mix.push(w.partialDays + ' daily report' + (w.partialDays === 1 ? '' : 's'));
+    if (mix.length) bits.push(mix.join(' + '));
+    return bits.join(' · ');
+  }
+
+  function windowNote(w) {
+    var out = [];
+    if (w.excluded.length) out.push('Excluded (incomplete): ' + w.excluded.map(function (x) { return dayLabel(x.date) + ' — ' + x.reason; }).join('; '));
+    if (w.missing.length) out.push('No report: ' + w.missing.map(dayLabel).join(', '));
+    return out.join(' · ');
+  }
+
+  /* CHANNEL_DIST_30D-shaped object from the same window. Closed REPORTS
+     per-channel nets and partial channel observations only; no new
+     allocation. Whatnot has no paid ads, so its MER stays null. */
+  function rollingDist(w) {
+    if (!w || !w.days) return null;
+    var rev = {}, ads = {}, profit = {}, mer = {}, margin = {}, totR = 0, totA = 0, totP = 0;
+    CHANNELS.forEach(function (k) {
+      var c = w.channels[k];
+      rev[k] = c.revenue; ads[k] = c.ads; profit[k] = c.profit;
+      totR += c.revenue; totA += c.ads; totP += c.profit;
+      mer[k] = c.ads > 0 ? Math.round(c.revenue / c.ads * 10000) / 10000 : null;
+      margin[k] = c.revenue > 0 ? Math.round(c.profit / c.revenue * 10000) / 100 : 0;
+    });
+    rev.total = totR; ads.total = totA; profit.total = totP;
+    return {
+      as_of: w.end, days: w.days, start_date: w.start, end_date: w.end,
+      revenue: rev, ad_spend: ads, profit: profit, channel_mer: mer, channel_margin_pct: margin,
+      note: 'Per-channel profit from ' + w.profitDays + ' day' + (w.profitDays === 1 ? '' : 's') + ' · ' +
+        (w.excluded.length + w.missing.length) + ' day(s) left out, not zero-filled · closed P&L nets + daily-report channel observations, no new allocation',
+      _source: 'report_quality:calendar_window',
+      report_days: w.closedDays, partial_days: w.partialDays, profit_days: w.profitDays
+    };
+  }
+
   /* ------------------------------------------------------------------ DOM */
 
   var CSS = [
@@ -294,13 +422,73 @@
     }
   }
 
-  function relabelAverages(reports) {
-    var head = document.querySelector('#avg30-bar .avg30-header');
-    if (!head || head.getAttribute('data-rq')) return;
-    var sorted = (reports || []).map(function (r) { return r.date; }).filter(Boolean).sort().slice(-30);
-    if (!sorted.length) return;
-    head.textContent = '30-day average · last ' + sorted.length + ' closed days (' + dayLabel(sorted[0]) + ' – ' + dayLabel(sorted[sorted.length - 1]) + ')';
+  function fmt0(v) { return money(v, 0); }
+
+  /* Replace the template's "last 30 REPORTS rows" bar with the calendar window. */
+  function renderAverages(map) {
+    var bar = document.getElementById('avg30-bar');
+    if (!bar) return;
+    var w = rolling(map, WINDOW_DAYS);
+    if (!w || !w.days) return;
+    var sig = JSON.stringify([w.start, w.end, w.used.length, w.sum]);
+    if (bar.getAttribute('data-rq') === sig) return;
+    var target = num(typeof CM_TARGET !== 'undefined' ? CM_TARGET : root.CM_TARGET);
+    var label = w.window + '-day average · ' + windowLabel(w);
+    var note = windowNote(w);
+    bar.className = 'avg30-bar';
+    bar.textContent = '';
+    var head = el('div', 'avg30-header', label);
     head.setAttribute('data-rq', '1');
+    bar.appendChild(head);
+    [
+      ['Avg daily revenue', fmt0(w.avg.revenue), fmt0(w.sum.revenue) + ' total'],
+      ['Avg daily orders', Math.round(w.avg.orders).toLocaleString('en-US'), Math.round(w.sum.orders).toLocaleString('en-US') + ' total'],
+      ['Avg daily ad spend', fmt0(w.avg.ads), (w.mer == null ? MISSING : w.mer.toFixed(2) + 'x') + ' MER'],
+      ['Avg daily net profit', fmt0(w.avg.net_profit), (w.margin_pct == null ? MISSING : w.margin_pct.toFixed(1) + '%') + ' margin'],
+      ['Monthly profit', fmt0(w.avg.net_profit * 30), 'avg × 30' + (target ? ' · ' + fmt0(target) + '/day target' : '')]
+    ].forEach(function (c) {
+      var card = el('div', 'avg30-card');
+      card.appendChild(el('div', 'avg30-label', c[0]));
+      card.appendChild(el('div', 'avg30-value', c[1]));
+      card.appendChild(el('div', 'avg30-sub', c[2]));
+      bar.appendChild(card);
+    });
+    if (note) {
+      var n = el('div', 'rq-yday-note', note);
+      bar.appendChild(n);
+    }
+    bar.setAttribute('data-rq', sig);
+  }
+
+  /* Point the 30-day pies at the same window (mutates the template's const
+     object in place, as the data repo's dashboard_runtime.js does). */
+  function applyDist(map) {
+    var dist = typeof CHANNEL_DIST_30D !== 'undefined' ? CHANNEL_DIST_30D : root.CHANNEL_DIST_30D;
+    if (!dist || typeof dist !== 'object') return;
+    var w = rolling(map, WINDOW_DAYS);
+    var built = rollingDist(w);
+    if (!built) return;
+    var sig = JSON.stringify([built.start_date, built.end_date, built.days, built.revenue, built.profit]);
+    if (dist._rqSig === sig) return;
+    Object.keys(built).forEach(function (k) { dist[k] = built[k]; });
+    dist._rqSig = sig;
+    if (typeof root.renderChannelPies === 'function') {
+      try { root.renderChannelPies(); } catch (err) { if (root.console) root.console.error('[report-quality] pies', err); }
+    }
+  }
+
+  /* The template's pie sub-line hard-codes the cron's COGS note; after any
+     pie render, describe the window the pies now show. */
+  function fixPiesNote(map) {
+    var dist = typeof CHANNEL_DIST_30D !== 'undefined' ? CHANNEL_DIST_30D : root.CHANNEL_DIST_30D;
+    var slot = document.getElementById('channel-pies-30d');
+    if (!dist || !dist._rqSig || !slot) return;
+    var w = rolling(map, WINDOW_DAYS);
+    if (!w) return;
+    var text = windowLabel(w) + ' · ' + dist.note;
+    Array.prototype.forEach.call(slot.querySelectorAll('div'), function (d) {
+      if (d.children.length === 0 && d.textContent.indexOf(dist.start_date + ' → ' + dist.end_date) === 0 && d.textContent !== text) d.textContent = text;
+    });
   }
 
   function asOfBar(map, reports) {
@@ -400,8 +588,11 @@
     if (btn) btn.parentNode.removeChild(btn);
   }
 
+  var WRAPPED = ['renderReports', 'renderYesterday', 'render30DayAverages', 'renderChannelPies'];
+
   function apply() {
     if (typeof document === 'undefined') return;
+    WRAPPED.forEach(wrap); // renderChannelPies is defined after this module loads
     var reports = typeof REPORTS !== 'undefined' ? REPORTS : root.REPORTS;
     var partials = typeof PARTIAL_REPORTS !== 'undefined' ? PARTIAL_REPORTS : root.PARTIAL_REPORTS;
     var map = series(reports, partials);
@@ -411,7 +602,9 @@
     glance(map);
     fold();
     decorateLatest(map);
-    relabelAverages(reports);
+    renderAverages(map);
+    applyDist(map);
+    fixPiesNote(map);
     asOfBar(map, reports);
     fixText(document.getElementById('reports-summary'));
     fixText(tab);
@@ -439,7 +632,7 @@
   }
 
   function boot() {
-    ['renderReports', 'renderYesterday', 'render30DayAverages'].forEach(wrap);
+    WRAPPED.forEach(wrap);
     if (root.addEventListener) {
       root.addEventListener('hashchange', function () {
         var hash = (root.location.hash || '').slice(1);
@@ -456,7 +649,8 @@
 
   var api = {
     CHANNELS: CHANNELS, money: money, stampET: stampET, dayLabel: dayLabel, series: series,
-    baselines: baselines, assess: assess, checks: checks, chip: chip, apply: apply
+    baselines: baselines, assess: assess, checks: checks, chip: chip, apply: apply,
+    rolling: rolling, rollingDist: rollingDist, windowLabel: windowLabel, windowNote: windowNote, WINDOW_DAYS: WINDOW_DAYS
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
