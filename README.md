@@ -272,6 +272,21 @@ Until `BING_ADS_ENABLED=1` **and** those vars are set, nothing calls Microsoft. 
 - When Bing goes live (~$1,000/day): have the data-repo agent publish a `bing` block / `advertising_sources.bing`. Optionally paste a day in the BING ADS tab or edit `bing_ads_data.json` if the pipeline is late.
 - Do **not** put Microsoft credentials in this public repo.
 
+## Ad Channels tab (`ad_channels_module.js`)
+
+One block per ad platform (Meta, Google, TikTok, Bing, Snapchat, AppLovin, Pinterest, ChatGPT, Reddit, Taboola, X), daily. Answers four questions per channel and labels every number with its source and as-of date:
+
+| Question | How it is answered | Source |
+|---|---|---|
+| Growing or shrinking? | spend last 7 days vs the 7 before, ±15 % (`GROWING` / `FLAT` / `SHRINKING` / `NEW` / `STOPPED`). A window with a missing day is `INCOMPLETE n/7` — missing days are never $0. | embedded `PARTIAL_REPORTS[].advertising_sources` (same spend as Daily Reports), then `mer_for_manus.json` |
+| Scaling into or not? | Jarvis mode (`auto` / `hold` / `frozen` / `view`) + last budget action ≤ 14 days (`SCALING INTO` / `CUTTING` / `KILLED`), tracking `DOWN` overrides | `ads_throttle/settings.json`, `ads_throttle/changes.json`, `mer_for_manus.json#ad_channel_throttles.channels`, `ads_throttle/tracking_health.json` |
+| What does each platform say it drove? | platform-reported revenue, conversions, clicks and ROAS (conversion value ÷ spend over the days that platform reported). Display-only, never added to store revenue. Meta / Google publish spend only, so their ROAS is `—` and the Jarvis weekly ranking ROAS is shown instead. | `mer_for_manus.json#ad_channel_throttles.series_28d`, `advertising_sources[date].<ch>_ads`, `<ch>.by_date` |
+| Revenue vs spend, daily | stacked spend by channel (top 7 + Other, fixed colors), per-card spend bars + platform revenue line, 14-day table per card, daily grid with blended D2C MER | same feeds; blended from `series_28d.blended` |
+
+Window: 14 / 28 / 60 / 90 days (remembered in `localStorage`). Deep link `#ad-channels`. Tests: `node scripts/test_ad_channels.js`.
+
+**Feed freshness.** The mirror sync only copies `index.html` + a few static files, so `mer_for_manus.json` and `ads_throttle/` go stale here unless the data repo's `after-daily-sync` publishes them (`lib/publish_live_feeds.sh`, needs the `LIVE_MIRROR_TOKEN` secret on `davidstarkk/coldest-cfo-dashboard`). The tab's as-of bar says how far behind the platform feed is; spend stays current from the embedded rows either way. Closed `REPORTS` rows carry no per-platform spend, so a day that has rolled from `PARTIAL_REPORTS` into `REPORTS` before the feed caught up shows as a gap (INCOMPLETE), not a drop.
+
 ## Sync guard (keeps this repo's UI over the mirror sync)
 
 The workspace cron pushes `public mirror sync — YYYY-MM-DD` with its own `index.html`, `README.md`, `package.json` and `secondary_ads_module.js`. From the 10/27 13:30 sync that wiped the Ad Channel Throttles tab and the `paid_channels_module.js` / `throttles_module.js` / `rolling_mer_header.js` tags. `.github/workflows/restore-protected-days.yml` now runs `scripts/lib/sync_guard.js` first: a file the workspace did not change since its previous sync keeps this repo's version; data (`*.json`, `ads_throttle/`, `protected_days/`, `email_preview.html`) comes from the sync; `index.html` is a 3-way merge of the UI with every `const NAME = …;` data literal masked and refilled from the sync. Same file as `lib/sync_guard.js` in `coldest-cfo-dashboard` — keep them identical. New UI goes in a module plus one script tag, never inline in `index.html`.
