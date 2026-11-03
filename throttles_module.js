@@ -22,7 +22,8 @@
     { id: 'chatgpt', label: 'ChatGPT' },
     { id: 'pinterest', label: 'Pinterest' },
     { id: 'applovin', label: 'AppLovin' },
-    { id: 'tiktok', label: 'TikTok' }
+    { id: 'tiktok', label: 'TikTok' },
+    { id: 'taboola', label: 'Taboola' }
   ];
   var HEALTH_CHANNELS = [
     { id: 'meta', label: 'Meta' },
@@ -1004,6 +1005,19 @@
     return panel;
   }
 
+  // Per-channel ROAS bands from settings (e.g. Taboola: raise at 2.8x, hold at 2.0x, kill under 1x).
+  function bandsHtml(snap, chSet) {
+    var k = snap.kill_below_roas != null ? snap.kill_below_roas : chSet.kill_below_roas;
+    if (k == null) return '';
+    var r = snap.raise_above_roas != null ? snap.raise_above_roas : chSet.raise_above_roas;
+    var h = snap.hold_at_roas != null ? snap.hold_at_roas : chSet.hold_at_roas;
+    var bits = [];
+    if (r != null) bits.push('raise at ' + num(r).toFixed(1) + 'x');
+    if (h != null) bits.push('hold at ' + num(h).toFixed(1) + 'x');
+    bits.push('kill under ' + num(k).toFixed(1) + 'x');
+    return '<div class="th-muted" data-th-bands="1">' + esc(bits.join(' · ')) + '</div>';
+  }
+
   function rowHtml(c, rec, settings) {
     var snap = snapshotChannel(c.id) || {};
     var chSet = ((settings && settings.channels) || {})[c.id] || {};
@@ -1050,6 +1064,7 @@
       + (c.id === 'pinterest' && LIVE.pinterestExample ? '<div class="th-example-banner" style="margin:6px 0 4px">EXAMPLE DATA</div>' : '')
       + (c.id === 'pinterest' ? '<div class="th-muted">' + dateBits.join(' · ') + '</div>' : '')
       + (c.id === 'pinterest' ? '<div><span class="th-chip known-gap">' + esc(pinterestKnownGapText('pinterest')) + '</span></div>' : '')
+      + bandsHtml(snap, chSet)
       + '</td>'
       + '<td class="mono">' + unverifiedOr(budget, usd, snap.daily_budget_status) + '</td>'
       + '<td class="mono">' + spendHtml + '</td>'
@@ -1546,6 +1561,7 @@
 
   var api = {
     CHANNEL_META: CHANNEL_META,
+    bandsHtml: bandsHtml,
     HEALTH_CHANNELS: HEALTH_CHANNELS,
     HOLD_TRACKING_DOWN: HOLD_TRACKING_DOWN,
     UNKNOWN: UNKNOWN,

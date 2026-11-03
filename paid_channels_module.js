@@ -7,7 +7,7 @@
    Per-channel feed order (same as Bing):
      1. PARTIAL_REPORTS[].advertising_sources.<aliases>
         or mer_for_manus.json advertising_sources[YYYY-MM-DD].<aliases>
-     2. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest)
+     2. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest; x and taboola are display-only)
      3. optional <channel>_ads_data.json
      4. localStorage manual day (channel tabs)
 
@@ -1111,6 +1111,66 @@
     return html;
   }
 
+  // Taboola is display-only here: mer_for_manus.json (coldest-cfo-dashboard rebuild_mer.py,
+  // taboola_ads_daily.json from cfo_backend/taboola_sync.py) already folds its D2C spend into
+  // d2c_ad_spend / blended_mer. Never overlay it. Listed after X. A day with no pulled row is missing.
+  var TABOOLA_DISPLAY = {
+    id: 'taboola',
+    label: 'Taboola Ads',
+    merKey: 'taboola',
+    sourceKeys: ['taboola_ads', 'taboola'],
+    roasLabel: 'platform-reported',
+    displayOnly: true
+  };
+
+  function taboolaDayRow(date) {
+    var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
+    var node = src && src.taboola_ads;
+    if (node && node.missing) return null;
+    if (node && node.complete && node.spend != null) return node;
+    var b = MER_DOC && MER_DOC.taboola;
+    var by = b && b.by_date;
+    if (by && by[date] && by[date].spend != null) return by[date];
+    return null;
+  }
+
+  function taboolaShopify(date) {
+    var t = MER_DOC && MER_DOC.ad_channel_throttles;
+    var rows = (t && t.series_28d && t.series_28d.by_channel && t.series_28d.by_channel.taboola) || [];
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i] && rows[i].date === date) {
+        return rows[i].shopify_revenue_status === 'verified' && rows[i].shopify_revenue != null ? num(rows[i].shopify_revenue) : null;
+      }
+    }
+    return null;
+  }
+
+  function taboolaSpendTxt(date) {
+    var r = taboolaDayRow(date);
+    if (!r) return 'missing';
+    var spend = num(r.spend);
+    return usd(spend) + (spend > 0 || r.live ? '' : ' · not live');
+  }
+
+  function taboolaDetailHtml(date) {
+    var r = taboolaDayRow(date);
+    var shop = taboolaShopify(date);
+    var shopTxt = shop == null ? 'missing' : usd(shop);
+    function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
+    if (!r) {
+      return '<tr><td>Taboola Ads</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>no Taboola report pulled</td></tr>'
+        + '<tr class="pc-split"><td>↳ Taboola Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=taboola / utm_medium=paid_native</td></tr>';
+    }
+    var spend = num(r.spend);
+    var rev = num(r.platform_revenue != null ? r.platform_revenue : r.revenue);
+    var live = !!r.live || spend > 0;
+    return '<tr><td>Taboola Ads</td><td>' + usd(spend) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
+      + '</td><td>' + usd(rev) + '</td><td>' + esc(rx(spend > 0 ? rev / spend : null)) + ' · platform-reported</td><td>'
+      + esc((r.source || 'Taboola Backstage API') + (live ? '' : ' · not live (0 campaigns)')) + '</td></tr>'
+      + '<tr class="pc-split"><td>↳ Taboola Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=taboola / utm_medium=paid_native · platform ROAS '
+      + esc(rx(spend > 0 ? rev / spend : null)) + ' platform-reported</td></tr>';
+  }
+
   var APPLOVIN_DISPLAY = {
     id: 'applovin',
     label: 'AppLovin',
@@ -1130,6 +1190,7 @@
     if (!seen.pinterest) out.push(PINTEREST_DISPLAY);
     if (!seen.applovin) out.push(APPLOVIN_DISPLAY);
     if (!seen.x) out.push(X_DISPLAY);
+    if (!seen.taboola) out.push(TABOOLA_DISPLAY);
     return out;
   }
 
@@ -1185,6 +1246,7 @@
   function spendPerChannelHtml(date) {
     var rows = displayChannels().map(function (ch) {
       if (ch.id === 'x') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(xSpendTxt(date)) + '</td></tr>';
+      if (ch.id === 'taboola') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(taboolaSpendTxt(date)) + '</td></tr>';
       return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spendTxt(dayForDisplay(ch, date))) + '</td></tr>';
     }).join('');
     return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>';
@@ -1193,6 +1255,7 @@
   function detailBreakdownHtml(date) {
     var rows = displayChannels().map(function (ch) {
       if (ch.id === 'x') return xDetailHtml(date);
+      if (ch.id === 'taboola') return taboolaDetailHtml(date);
       var d = dayForDisplay(ch, date);
       var html = '<tr>'
         + '<td>' + esc(ch.label) + '</td>'
@@ -1423,6 +1486,9 @@
     TRACKING_UNVERIFIED: TRACKING_UNVERIFIED,
     displayChannels: displayChannels,
     X_DISPLAY: X_DISPLAY,
+    TABOOLA_DISPLAY: TABOOLA_DISPLAY,
+    taboolaDetailHtml: taboolaDetailHtml,
+    taboolaSpendTxt: taboolaSpendTxt,
     xDetailHtml: xDetailHtml,
     xSpendTxt: xSpendTxt,
     spendTxt: spendTxt,

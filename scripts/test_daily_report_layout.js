@@ -15,7 +15,7 @@ function test(name, fn) {
 
 test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatGPT → Pinterest → AppLovin → X', function () {
   var ids = Paid.displayChannels().map(function (c) { return c.id; });
-  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'x']);
+  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'x', 'taboola']);
 });
 
 test('unpublished Pinterest is missing, never $0', function () {
@@ -201,6 +201,28 @@ test('X Ads: not live = $0 / not live; live shows cash cost, credit, fee and fla
   assert.ok(html.indexOf('1.80x') !== -1);
   assert.ok(html.indexOf('expires 2026-11-30') !== -1);
   assert.strictEqual(Paid.xSpendTxt('2026-11-02'), '$400.00 (cash cost $333.33)');
+  Paid._setMerDoc(null);
+});
+
+test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; ROAS platform-reported next to Shopify-attributed', function () {
+  Paid._setMerDoc({ as_of: '2026-11-02',
+    taboola: { status: 'not_live', live: false, by_date: { '2026-11-02': { spend: 0, clicks: 0, conversions: 0, revenue: 0 } } },
+    advertising_sources: {
+      '2026-11-02': { taboola_ads: { spend: 0, revenue: 0, conversions: 0, clicks: 0, complete: true, live: false, source: 'Taboola Backstage API (platform-reported)' } },
+      '2026-09-01': { taboola_ads: { spend: null, complete: false, missing: true } }
+    } });
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$0.00 · not live');
+  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('not live (0 campaigns)') !== -1);
+  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('Shopify-attributed</td><td>missing') !== -1);
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-09-01'), 'missing');
+  assert.ok(Paid.taboolaDetailHtml('2026-09-01').indexOf('$0.00') === -1);
+  Paid._setMerDoc({ as_of: '2026-11-02',
+    taboola: { status: 'live', live: true, by_date: { '2026-11-02': { spend: 100, clicks: 40, conversions: 3, revenue: 280 } } },
+    ad_channel_throttles: { series_28d: { by_channel: { taboola: [{ date: '2026-11-02', shopify_revenue: 150, shopify_revenue_status: 'verified' }] } } } });
+  var html = Paid.taboolaDetailHtml('2026-11-02');
+  assert.ok(html.indexOf('2.80x · platform-reported') !== -1);
+  assert.ok(html.indexOf('Shopify-attributed</td><td>$150.00') !== -1);
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$100.00');
   Paid._setMerDoc(null);
 });
 

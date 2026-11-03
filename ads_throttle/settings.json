@@ -85,6 +85,18 @@
       "max_daily_budget": null,
       "min_daily_budget": null,
       "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable."
+    },
+    "taboola": {
+      "mode": "auto",
+      "owner_bot": null,
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "not_launched_while_zero": true,
+      "roas_source": "platform_reported",
+      "raise_above_roas": 2.8,
+      "hold_at_roas": 2.0,
+      "kill_below_roas": 1.0,
+      "notes": "Added 11/3 at Jarvis's request. Non-Meta thresholds: raise at 2.8x, hold at 2.0x, kill under 1x (7-day platform-reported ROAS). Acct taboolaaccount-davidcoldestcom (id 2138422). 0 campaigns on 11/3, so Not launched / $0 until there is spend. Shopify side: utm_source=taboola, utm_medium=paid_native."
     }
   },
   "mode_legend": {
