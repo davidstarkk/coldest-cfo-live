@@ -48,7 +48,7 @@ test('published mer.pinterest spend is shown; still missing when the key is abse
 });
 
 test('10/24 Meta and Bing are published dollars; AppLovin is $0; Pinterest publishes 10/26', function () {
-  var mer = require('../mer_for_manus.json');
+  var mer = require('./fixtures/mer_for_manus_2026-10-26.json');
   Paid._setMerDoc(mer);
   Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, mer, null); });
   var byId = {};
