@@ -2,7 +2,7 @@
 
 var assert = require('assert');
 var Header = require('../rolling_mer_header.js');
-var mer = require('../mer_for_manus.json');
+var mer = require('./fixtures/mer_for_manus_2026-10-26.json');
 
 var failed = 0;
 function test(name, fn) {

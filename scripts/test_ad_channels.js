@@ -245,7 +245,122 @@ test('live page data: every channel resolves, no NaN, Meta ROAS stays — on spe
   });
   var meta = stats.filter(function (x) { return x.ch.id === 'meta'; })[0];
   assert.ok(meta.spend7 > 0);
-  assert.strictEqual(meta.roas7, null);
+  // Meta ROAS comes from the daily report's performance.platforms (10/24 on), never from the spend-only feed.
+  var perfDays = Object.keys(s.platforms.meta.days);
+  if (perfDays.length) { assert.ok(Number.isFinite(meta.roas7) && meta.roas7 > 0); assert.strictEqual(meta.platformSource, 'daily report performance.platforms'); }
+  else assert.strictEqual(meta.roas7, null);
+  assert.ok(!s.partialDates.some(function (d) { return d <= s.spendThrough; }), 'partial today never ends the window');
+  var lb = A.leaderboard(s, s.spendThrough, inp.settings);
+  lb.rows.forEach(function (r) { assert.ok(r.roas7 == null || Number.isFinite(r.roas7), r.label); assert.ok(['raise', 'hold', 'cut', 'low', 'none'].indexOf(r.band) !== -1); });
+});
+
+/* ---------------------------------------------- platform units (performance.platforms) */
+function perfRows(end, n) {
+  // n (default 10) days ending `end`: partial rows with performance.platforms; Meta/Google spend-only in advertising_sources
+  var rows = [];
+  A.windowDates(end, n || 10).forEach(function (d, i) {
+    rows.push({
+      date: d, report_status: 'partial',
+      advertising_sources: { meta: day(d, '10000.00'), google_ads: day(d, '2000.00'), tiktok_ads: { spend: '3000.00', shopify_spend: '1000.00', shop_spend: '1500.00', unallocated_spend: '500.00', complete: false }, snapchat_ads: day(d, '500.00'), bing_ads: day(d, '20.00') },
+      channel_observations: { shopify: { revenue: 20000 + i * 100, known_ads: 10000, status: 'provisional', data_available: true, zero_assumed: false } },
+      performance: { platforms: [
+        { key: 'meta', label: 'Meta', spend: 9990, value: 24000, ratio: 2.4, badges: ['SOLID'], basis: 'Meta purchase value, account day' },
+        { key: 'google_ads', label: 'Google Ads', spend: 2010, value: 3015, ratio: 1.5, badges: ['WEAK'], basis: 'Google conversion value, account day' },
+        { key: 'tiktok_shop', label: 'TikTok Shop · GMV Max', spend: 1500, value: 6000, ratio: 4.0, badges: ['STRONG'], basis: 'GMV Max' },
+        { key: 'tiktok_web', label: 'TikTok · website', spend: 1500, value: 3000, ratio: 2.0, badges: ['SOLID'], basis: 'website' },
+        { key: 'snapchat_ads', label: 'Snapchat', spend: 500, value: 3500, ratio: 7.0, badges: ['TOP', 'STRONG'], basis: 'Snapchat purchase value, Eastern day' },
+        { key: 'bing_ads', label: 'Bing', spend: 20, value: 200, ratio: 10, badges: ['LOW SPEND'], basis: 'Bing' }
+      ] }
+    });
+  });
+  return rows;
+}
+var SETTINGS = { global: { raise_above_roas: 2.8, cut_below_roas: 2.0, min_spend_7d: 200 }, channels: {} };
+
+test('performance.platforms feeds channel platform ROAS with the platform\'s own spend as denominator; TikTok sums Shop + website', function () {
+  var s = A.buildSeries({ embedded: perfRows('2026-11-04'), mer: null });
+  var meta = A.channelStats(A.CHANNELS[0], s, { settings: SETTINGS }, '2026-11-04');
+  assert.strictEqual(meta.platformDays7, 7);
+  assert.strictEqual(meta.roas7, 2.4);                     // 24000 / 9990 per day, not / 10000 daily_inputs spend
+  assert.strictEqual(meta.platformRev7, 168000);
+  assert.strictEqual(meta.platformConv7, null);            // no conversion count on this feed → "—", never 0
+  assert.strictEqual(meta.platformSource, 'daily report performance.platforms');
+  var tt = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'tiktok'; })[0], s, { settings: SETTINGS }, '2026-11-04');
+  assert.strictEqual(tt.roas7, 3);                         // (6000+3000)/(1500+1500)
+  assert.strictEqual(s.platformThrough, '2026-11-04');
+  assert.strictEqual(A.performanceRow({ key: 'x', spend: 0, value: 0 }), null);
+  assert.strictEqual(A.performanceRow({ key: 'x', spend: 10, value: null, ratio: null }), null);
+  assert.strictEqual(A.performanceRow({ spend: 10, value: 25 }).ratio, 2.5);
+});
+
+test('leaderboard: one row per platform unit, banded by the Jarvis thresholds, low spend not judged, shares sum to 100', function () {
+  var s = A.buildSeries({ embedded: perfRows('2026-11-04'), mer: null });
+  var lb = A.leaderboard(s, '2026-11-04', SETTINGS);
+  var by = {}; lb.rows.forEach(function (r) { by[r.id] = r; });
+  assert.strictEqual(by.snapchat_ads.band, 'raise');
+  assert.strictEqual(by.tiktok_shop.band, 'raise');
+  assert.strictEqual(by.meta.band, 'hold');
+  assert.strictEqual(by.tiktok_web.band, 'hold');
+  assert.strictEqual(by.google_ads.band, 'cut');
+  assert.strictEqual(by.bing_ads.band, 'low');             // $140 in 7d < $200 min_spend_7d
+  assert.strictEqual(lb.rows[0].id, 'snapchat_ads');       // judged rows first, by ROAS
+  assert.strictEqual(lb.rows[lb.rows.length - 1].id, 'bing_ads');
+  assert.strictEqual(lb.above, 2); assert.strictEqual(lb.hold, 2); assert.strictEqual(lb.below, 1);
+  var share = 0; lb.rows.forEach(function (r) { share += r.spendShare; });
+  assert.ok(Math.abs(share - 100) < 1e-6);
+  assert.strictEqual(lb.pooled.roas, Math.round((24000 + 3015 + 6000 + 3000 + 3500 + 200) / (9990 + 2010 + 1500 + 1500 + 500 + 20) * 100) / 100);
+  assert.deepStrictEqual(lb.noRead, []);
+  assert.strictEqual(A.band(2.8, 1000, lb.thresholds), 'raise');
+  assert.strictEqual(A.band(1.99, 1000, lb.thresholds), 'cut');
+  assert.strictEqual(A.band(5, 100, lb.thresholds), 'low');
+  assert.strictEqual(A.band(null, 1000, lb.thresholds), 'none');
+  assert.strictEqual(A.thresholds(null).source.indexOf('defaults'), 0);
+});
+
+test('heatmap: a day with no platform read is null (never 0x); under-$100 days are shown but not judged', function () {
+  var rows = perfRows('2026-11-04');
+  rows[rows.length - 1].performance = null;              // 11/04 not read yet
+  var s = A.buildSeries({ embedded: rows, mer: null });
+  var hm = A.heatmap(s, '2026-11-04', 14, SETTINGS);
+  assert.strictEqual(hm.dates.length, 14);
+  var meta = hm.rows.filter(function (r) { return r.id === 'meta'; })[0];
+  assert.strictEqual(hm.rows[0].id, 'meta');             // ordered by window spend
+  assert.strictEqual(meta.cells[13].ratio, null); assert.strictEqual(meta.cells[13].band, 'none');
+  assert.strictEqual(meta.cells[12].ratio, 2.4); assert.strictEqual(meta.cells[12].band, 'hold');
+  assert.strictEqual(meta.cells[0].ratio, null);          // before the 10-day fixture
+  var bing = hm.rows.filter(function (r) { return r.id === 'bing_ads'; })[0];
+  assert.strictEqual(bing.cells[12].low, true); assert.strictEqual(bing.cells[12].band, 'low');
+});
+
+test('action markers land on their window index with a short label; closed rows feed the Shop/DTC MER strip', function () {
+  var dates = A.windowDates('2026-11-04', 14);
+  var changes = [
+    { date: '2026-10-30', channel: 'snapchat', action: 'raise_20pct', old_budget: 350, new_budget: 420, by: 'jarvis' },
+    { date: '2026-10-30', channel: 'snapchat', action: 'raise_20pct', old_budget: 350, new_budget: 420, by: 'jarvis' },
+    { date: '2026-10-29', channel: 'google', action: 'cut_20pct_and_change_strategy' },
+    { date: '2026-10-30', channel: 'chatgpt', action: 'kill_under_1x' },
+    { date: '2026-09-01', channel: 'meta', action: 'raise_20pct' }
+  ];
+  var m = A.actionMarkers(changes, dates);
+  assert.deepStrictEqual(m.map(function (x) { return x.label; }), ['Google −20%', 'ChatGPT kill', 'Snap +20%']);
+  assert.strictEqual(m[2].idx, dates.indexOf('2026-10-30'));
+  var rows = perfRows('2026-11-04').concat([{ date: '2026-10-20', report_status: 'estimated', shop_revenue: 30000, shop_ad_spend: 12000, shop_mer: 2.5 }]);
+  var s = A.buildSeries({ embedded: rows, mer: null });
+  var md = A.merDaily(s, A.windowDates('2026-11-04', 16));
+  assert.strictEqual(md[0].date, '2026-10-20'); assert.strictEqual(md[0].mer, 2.5);
+  assert.strictEqual(md[1].mer, null);
+  assert.strictEqual(md[15].mer, 2.09);                   // 20900 / 10000
+});
+
+test('a mer row newer than the page and mer.as_of (today, partial) never ends the window', function () {
+  var rows = perfRows('2026-11-04', 14);
+  var adv = {};
+  adv['2026-11-05'] = { snapchat_ads: { spend: 120, live: true, source: 'manual' }, applovin: { spend: 150 } };
+  var s = A.buildSeries({ embedded: rows, mer: { as_of: '2026-11-04', advertising_sources: adv } });
+  assert.strictEqual(s.spendThrough, '2026-11-04');
+  assert.deepStrictEqual(s.partialDates, ['2026-11-05']);
+  var snap = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'snapchat'; })[0], s, {}, s.spendThrough);
+  assert.strictEqual(snap.growth.code, 'flat');
 });
 
 if (failed) {
