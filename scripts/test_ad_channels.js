@@ -454,33 +454,59 @@ test('schema contract is exported for CFO publishers', function () {
   assert.ok(/complete/.test(A.SCHEMA_CONTRACT.advertising_sources_daily.measured_zero));
 });
 
-test('screenshot window ending 11/4: unpublished channels are not painted $0 LIVE', function () {
+test('stale flat mer blocks cannot erase newer embedded spend', function () {
+  // The historical 11/4 view had embedded Meta through 11/2 but no durable
+  // Bing / ChatGPT rows. Keep that state explicit; current publisher feeds
+  // contain later durable rows and are correctly not stale.
   var embedded = liveEmbedded();
-  var stubs = {
-    bing: require('../bing_ads_data.json'),
-    chatgpt: require('../chatgpt_ads_data.json'),
-    reddit: require('../reddit_ads_data.json'),
-    snapchat: require('../snapchat_ads_data.json'),
-    pinterest: require('../pinterest_ads_data.json')
+  var historicalMer = {
+    as_of: '2026-10-26',
+    advertising_sources: {},
+    chatgpt: { as_of: '2026-10-26', live: true, status: 'live' },
+    bing: { as_of: '2026-10-26', live: true, status: 'live' }
   };
-  var inp = { embedded: embedded, mer: require('../mer_for_manus.json'), settings: require('../ads_throttle/settings.json'), changes: require('../ads_throttle/changes.json'), rankings: require('../ads_throttle/rankings.json'), tracking: require('../ads_throttle/tracking_health.json'), seriesFile: require('../ads_throttle/series.json'), channelFiles: stubs };
+  var inp = {
+    embedded: embedded, mer: historicalMer, seriesFile: null, dailyFiles: {},
+    channelFiles: { bing: require('../bing_ads_data.json'), chatgpt: require('../chatgpt_ads_data.json') }
+  };
+  historicalMer.ad_channel_throttles = { series_28d: { by_channel: {}, blended: [] } };
   var s = A.buildSeries(inp);
-  var end = s.spendThrough >= '2026-11-04' ? '2026-11-04' : s.spendThrough;
-  var byId = {};
-  A.CHANNELS.forEach(function (ch) { byId[ch.id] = A.channelStats(ch, s, inp, end); });
-  assert.ok(byId.meta.spend7 > 0);
-  assert.strictEqual(byId.meta.roas7, null);
-  assert.notStrictEqual(byId.bing.statusLabel, 'LIVE', 'stale mer.live must not paint Bing LIVE');
-  assert.ok(byId.bing.spend7 == null || byId.bing.feed.code === 'stale');
-  assert.strictEqual(A._fmt.usd(byId.bing.yday), '—');
-  assert.strictEqual(byId.chatgpt.statusLabel, 'STALE');
-  assert.strictEqual(byId.chatgpt.posture.code, 'killed');
-  assert.strictEqual(A._fmt.usd(byId.chatgpt.spend7), '—');
-  ['taboola', 'outbrain', 'x'].forEach(function (id) {
-    assert.strictEqual(byId[id].spend7, null, id + ' 7d is missing, not $0');
-    assert.ok(byId[id].growth.code === 'nofeed' || byId[id].statusLabel === 'NOT LAUNCHED');
+  var chatgpt = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0], s, inp, '2026-11-04');
+  var bing = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0], s, inp, '2026-11-04');
+  assert.ok(bing.spend7 == null || bing.feed.code === 'stale');
+  assert.notStrictEqual(bing.statusLabel, 'LIVE', 'stale mer.live must not paint Bing LIVE');
+  assert.notStrictEqual(chatgpt.statusLabel, 'LIVE');
+  assert.ok(chatgpt.spend7 == null || chatgpt.feed.code === 'stale');
+});
+
+test('current published 11/5 feed is current, not made stale by old embedded rows', function () {
+  // Populated by the final 9794dac joint-feed review; see review journal.
+  var mer = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'fixtures', 'cfo_2026_11_05_mer.json'), 'utf8'));
+  var seriesFile = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'fixtures', 'cfo_2026_11_05_series.json'), 'utf8'));
+  assert.strictEqual(mer.as_of, '2026-11-05');
+  var inp = { embedded: liveEmbedded(), mer: mer, seriesFile: seriesFile,
+    settings: require('../ads_throttle/settings.json'), changes: require('../ads_throttle/changes.json'),
+    rankings: require('../ads_throttle/rankings.json'), tracking: require('../ads_throttle/tracking_health.json'),
+    channelFiles: { bing: require('../bing_ads_data.json'), chatgpt: require('../chatgpt_ads_data.json') }
+  };
+  var s = A.buildSeries(inp);
+  assert.strictEqual(s.spendThrough, '2026-11-05');
+  var stats = {};
+  A.CHANNELS.forEach(function (ch) { stats[ch.id] = A.channelStats(ch, s, inp, '2026-11-05'); });
+  assert.strictEqual(stats.meta.yday, 9401.4);
+  assert.strictEqual(stats.bing.yday, 97.71);
+  assert.strictEqual(stats.meta.roas7, null, 'spend-only Meta has no platform ROAS');
+  ['meta', 'bing', 'applovin'].forEach(function (id) {
+    assert.notStrictEqual(stats[id].feed.code, 'stale', id);
+    assert.strictEqual(stats[id].statusLabel, 'LIVE', id);
   });
-  assert.ok(byId.bing.spend30 == null || byId.bing.spend30Days < 30, '30d must not silently fill the unpublished week');
+  ['pinterest', 'taboola', 'chatgpt'].forEach(function (id) {
+    assert.strictEqual(stats[id].yday, 0, id + ' measured paused spend');
+    assert.strictEqual(stats[id].statusLabel, 'NOT LIVE', id + ' latest measured paused day is not live');
+  });
+  assert.strictEqual(stats.spotify.spend7, null);
+  assert.strictEqual(stats.spotify.yday, null);
+  assert.strictEqual(stats.spotify.statusLabel, 'NOT LAUNCHED');
 });
 
 /* ---------------------------------------------------------- Spotify Ads */

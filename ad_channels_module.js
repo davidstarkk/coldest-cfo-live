@@ -805,9 +805,14 @@
     var blockAsOf = block && isDate(block.as_of) ? block.as_of : null;
     var liveFresh = !!(blockAsOf && last7.length && blockAsOf >= last7[0]);
     var live = null;
-    if (s7.total > 0) live = true;
+    // The badge reflects the latest measured day, not earlier activity in the
+    // seven-day window. A measured paused zero keeps the $0 and reads NOT LIVE.
+    var latestMeasured = spendLatest ? (days[spendLatest] || null) : null;
+    if (!latestMeasured && ydayRec && ydayRec.spend != null) latestMeasured = ydayRec;
+    if (!stale && latestMeasured && typeof latestMeasured.live === 'boolean') live = latestMeasured.live;
     else if (liveFresh && block && typeof block.live === 'boolean') live = block.live;
     else if (ydayRec && typeof ydayRec.live === 'boolean' && ydayRec.spend != null) live = ydayRec.live;
+    else if (s7.total > 0 && !stale) live = true;
     else if (s7.present && s7.total === 0) live = false;
 
     var darkHint = !!(ch.darkWhenZero || (setCh && (setCh.not_launched_while_zero || setCh.status === 'not_launched')) || status === 'pre_launch' || status === 'not_live' || status === 'not_launched');
@@ -838,7 +843,7 @@
     for (var j = last7.length - 1; j >= 0 && !platformSource; j--) { var pr = days[last7[j]]; if (pr && pr.platformSource) platformSource = pr.platformSource; }
 
     var feedCode = dark ? 'dark' : (s7.present === 0 && p7.present === 0 && !spendLatest ? 'nofeed' : (stale ? 'stale' : (s7.present < 7 ? 'incomplete' : (s7.total === 0 ? 'zero' : 'ok'))));
-    var statusLabel = live === true ? 'LIVE' : (feedCode === 'stale' ? 'STALE' : (feedCode === 'dark' ? 'NOT LAUNCHED' : (feedCode === 'nofeed' ? '—' : (live === false ? (status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE') : '—'))));
+    var statusLabel = live === true ? 'LIVE' : (live === false ? ((feedCode === 'dark' || status === 'not_launched') ? 'NOT LAUNCHED' : (status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE')) : (feedCode === 'stale' ? 'STALE' : (feedCode === 'dark' ? 'NOT LAUNCHED' : (feedCode === 'nofeed' ? '—' : '—'))));
 
     if (ch.noDataLabel && (growth.code === 'nofeed') && !dark) growth = Object.assign({}, growth, { label: ch.noDataLabel });
     if (ch.noDataLabel && statusLabel === '—') statusLabel = ch.noDataLabel;
