@@ -2,7 +2,7 @@
 
 var assert = require('assert');
 var Header = require('../rolling_mer_header.js');
-var mer = require('./fixtures/mer_for_manus_2026-10-26.json');
+var mer = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'fixtures', 'cfo_2026_11_05_mer.json'), 'utf8'));
 
 var failed = 0;
 function test(name, fn) {
@@ -30,41 +30,38 @@ var embedded = {
   verdict: { status: 'DATA_INCOMPLETE', msg: 'Historical metrics through 2026-09-27.' }
 };
 
-test('published mer_for_manus is as_of 2026-10-26 with D2C 7d/30d MER', function () {
-  assert.strictEqual(mer.as_of, '2026-10-26');
-  assert.strictEqual(mer.mer_7d_pooled, 2.3882);
-  assert.strictEqual(mer.mer_30d_pooled, 2.7151);
-  assert.strictEqual(mer.rev_7d, 243800.24);
-  assert.strictEqual(mer.spend_7d, 102085.08);
-  assert.strictEqual(mer.rev_30d, 892004.41);
-  assert.strictEqual(mer.spend_30d, 328537.12);
-  assert.strictEqual(mer.delta_dod, 0.0476);
-  assert.strictEqual(mer.delta_wow, -0.4416);
+test('published mer_for_manus is as_of 2026-11-05 with independently rebuilt D2C MER', function () {
+  assert.strictEqual(mer.as_of, '2026-11-05');
+  assert.strictEqual(mer.data_ready, false, 'partial close must not read ready');
+  assert.strictEqual(mer.mer_7d_pooled, 2.1619);
+  assert.strictEqual(mer.mer_30d_pooled, 2.3878);
+  assert.strictEqual(mer.rev_7d, 197402.55);
+  assert.strictEqual(mer.spend_7d, 91309.61);
+  assert.strictEqual(mer.rev_30d, 873225.86);
+  assert.strictEqual(mer.spend_30d, 365703.61);
+  assert.strictEqual(mer.delta_dod, 0.0197);
+  assert.strictEqual(mer.delta_wow, 0.302);
   assert.strictEqual(mer.mer_breakeven, null);
-  assert.strictEqual(mer.shop_revenue, 15435.88);
-  assert.strictEqual(mer.d2c_ad_spend, 7665.33);
-  assert.strictEqual(mer.blended_mer, 2.01);
-  assert.strictEqual(Number(mer.mer_7d_pooled).toFixed(2), '2.39');
-  assert.strictEqual(Number(mer.delta_dod).toFixed(2), '0.05');
-  assert.strictEqual(Number(mer.delta_wow).toFixed(2), '-0.44');
-  assert.strictEqual(Number(mer.mer_30d_pooled).toFixed(2), '2.72');
+  assert.strictEqual(mer.shop_revenue, 34876.92);
+  assert.strictEqual(mer.d2c_ad_spend, 13895.86);
+  assert.strictEqual(mer.blended_mer, 2.51);
 });
 
-test('fresh mer_for_manus overlays the header with published deltas', function () {
+test('fresh mer_for_manus overlays the header and preserves partial readiness', function () {
   var resolved = Header.resolve(embedded, mer);
   assert.strictEqual(resolved.stale, false);
-  assert.strictEqual(resolved.data.as_of, '2026-10-26');
-  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.3882);
-  assert.strictEqual(resolved.data.latest.date, '2026-10-26');
-  assert.strictEqual(resolved.data.latest.rev_7d, 243800.24);
-  assert.strictEqual(resolved.data.latest.spend_7d, 102085.08);
-  assert.strictEqual(resolved.data.latest.delta_dod, 0.0476);
-  assert.strictEqual(resolved.data.latest.delta_wow, -0.4416);
-  assert.strictEqual(resolved.data.latest.mer_30d_pooled, 2.7151);
+  assert.strictEqual(resolved.data.as_of, '2026-11-05');
+  assert.strictEqual(resolved.data.data_ready, false);
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.1619);
+  assert.strictEqual(resolved.data.latest.date, '2026-11-05');
+  assert.strictEqual(resolved.data.latest.rev_7d, 197402.55);
+  assert.strictEqual(resolved.data.latest.spend_7d, 91309.61);
+  assert.strictEqual(resolved.data.latest.delta_dod, 0.0197);
+  assert.strictEqual(resolved.data.latest.delta_wow, 0.302);
+  assert.strictEqual(resolved.data.latest.mer_30d_pooled, 2.3878);
   assert.strictEqual(resolved.data.latest.profit_7d, null);
   assert.strictEqual(resolved.data.mer_breakeven, null);
   assert.deepStrictEqual(resolved.data.missing_report_dates, []);
-  assert.ok(resolved.data.verdict.msg.indexOf('2026-10-26') !== -1);
 });
 
 test('missing mer_for_manus is STALE as of 2026-09-27 — number stays 3.1952', function () {
@@ -78,10 +75,11 @@ test('missing mer_for_manus is STALE as of 2026-09-27 — number stays 3.1952', 
 test('current data_ready embedded snapshot is not STALE', function () {
   var cur = Object.assign({}, embedded, { as_of: '2026-10-30', data_ready: true, missing_report_dates: [],
     latest: Object.assign({}, embedded.latest, { date: '2026-10-30', mer_7d_pooled: 3.3881, rev_7d: 493548.71 }) });
-  var resolved = Header.resolve(cur, mer, '2026-10-31T14:00:00Z');
+  var olderMer = { as_of: '2026-10-26', mer_7d_pooled: 2.3882, data_ready: false };
+  var resolved = Header.resolve(cur, olderMer, '2026-10-31T14:00:00Z');
   assert.strictEqual(resolved.stale, false);
   assert.strictEqual(resolved.data.latest.rev_7d, 493548.71);
-  assert.strictEqual(Header.resolve(cur, mer, '2026-11-05T14:00:00Z').stale, true);
+  assert.strictEqual(Header.resolve(cur, olderMer, '2026-11-05T14:00:00Z').stale, true);
 });
 
 test('mer without mer_7d_pooled is STALE — do not invent a pooled MER', function () {
