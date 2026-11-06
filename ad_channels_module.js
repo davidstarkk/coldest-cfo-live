@@ -61,7 +61,11 @@
     { id: 'reddit', label: 'Reddit', srcKeys: ['reddit_ads', 'reddit'], color: '#8888a8', other: true, d2c: true, file: 'reddit_ads_data.json' },
     { id: 'taboola', label: 'Taboola', srcKeys: ['taboola_ads', 'taboola'], color: '#8888a8', other: true, d2c: true, darkWhenZero: true, file: 'taboola_ads_data.json' },
     { id: 'outbrain', label: 'Outbrain', srcKeys: ['outbrain_ads', 'outbrain'], color: '#8888a8', other: true, d2c: true, darkWhenZero: true, note: 'Manual daily feed (outbrain ads); a day not imported is missing', file: 'outbrain_ads_data.json' },
-    { id: 'x', label: 'X Ads', srcKeys: ['x_ads', 'x', 'twitter_ads', 'twitter'], color: '#8888a8', other: true, d2c: true, note: 'Only cash cost (spend − credit + Premium fee) folds into MER', file: 'x_ads_data.json' }
+    { id: 'x', label: 'X Ads', srcKeys: ['x_ads', 'x', 'twitter_ads', 'twitter'], color: '#8888a8', other: true, d2c: true, note: 'Only cash cost (spend − credit + Premium fee) folds into MER', file: 'x_ads_data.json', cashCost: true },
+    // Spotify Ads (canonical feed key spotify_ads). No feed until CFO publishes spotify_ads in
+    // advertising_sources_daily.json / spotify_ads_daily.json (coldest-cfo-dashboard). Unmeasured days render
+    // "No data" (never $0); unknown spend is excluded from tracked / D2C totals and labelled as coverage.
+    { id: 'spotify', label: 'Spotify Ads', srcKeys: ['spotify_ads', 'spotify', 'Spotify', 'Spotify Ads'], color: '#1db954', other: true, d2c: true, cashCost: true, noDataLabel: 'No data', note: 'Platform spend only; any billing / cash cost is shown separately and never added to spend', file: 'spotify_ads_data.json' }
   ];
   var OTHER_COLOR = '#8888a8';
   var GROWTH_PCT = 15;          // ±15 % week over week
@@ -107,7 +111,17 @@
       aliases: ALIASES,
       node: '{spend, complete|closed_day|spend_status, live, source, platform_revenue?, platform_roas?, conversions?, clicks?, impressions?, spend_d2c?, spend_amazon?, destination?, cash_cost?}',
       measured_zero: 'spend:0 AND (complete:true | closed_day:true | spend_status:verified | live:false with status not_live|pre_launch|not_launched|dark). Measured zeros stay $0 even after the last positive day (paused Pinterest, never-launched Outbrain).',
-      missing: 'omit the day, or spend:null / missing:true / status missing|no_feed|unpublished / bare {spend:0} without the flags above. Prefer the nested advertising_sources map. Do not calendar-fill unmarked $0 after a durable stop.'
+      missing: 'omit the day, or spend:null / missing:true / status missing|no_feed|unpublished / bare {spend:0} without the flags above. Prefer the nested advertising_sources map. Do not calendar-fill unmarked $0 after a durable stop.',
+      cash_cost: 'x_ads and spotify_ads may carry cash_cost (billing / cash cost) next to platform spend. spend stays platform spend; cash_cost is displayed separately and never summed into spend.'
+    },
+    spotify_ads: {
+      key: 'spotify_ads (aliases spotify, Spotify, Spotify Ads)',
+      daily_file: 'spotify_ads_daily.json',
+      missing: 'an unmeasured day is omitted or spend:null + missing:true (or spend_status unverified) — never spend:0 with complete/closed_day. It renders "No data" and is excluded from tracked / D2C spend with explicit coverage.',
+      measured_zero: 'spend:0 only with complete:true | closed_day:true | spend_status:verified (or live:false + status not_launched).',
+      not_launched: 'settings.channels.spotify(.not_launched_while_zero) or mer.spotify / mer.spotify_ads {status:not_launched, live:false} → NOT LAUNCHED, no metrics.',
+      platform: 'platform_revenue / platform_roas only when Spotify reports them; spend-only rows keep ROAS "No data".',
+      cash_cost: 'optional; kept separate from platform spend (same as x_ads)'
     },
     channel_ads_daily: {
       file: '<id>_ads_daily.json',
@@ -119,6 +133,15 @@
       note: 'optional manual overlay. status pre_launch|no_feed with daily:[] is a stub and is ignored (not $0)'
     }
   };
+  // Channel-keyed config / block (settings.channels, throttles.channels, tracking.channels,
+  // mer.<id>): canonical id first, then any alias (e.g. spotify_ads).
+  function chEntry(map, ch) {
+    if (!map || typeof map !== 'object' || !ch) return null;
+    if (map[ch.id] != null) return map[ch.id];
+    var keys = ch.srcKeys || [];
+    for (var i = 0; i < keys.length; i++) if (map[keys[i]] != null) return map[keys[i]];
+    return null;
+  }
   function nodeFromAdv(adv, ch) {
     if (!adv || typeof adv !== 'object' || !ch) return undefined;
     var node = pick(adv, ch.srcKeys);
@@ -160,6 +183,9 @@
   function intTxt(v) {
     return v == null || !Number.isFinite(Number(v)) ? '—' : Math.round(Number(v)).toLocaleString();
   }
+  // Channels with noDataLabel (Spotify) say "No data" where others show "—": a day / window
+  // with no measured row. Never paired with a number for the same field.
+  function dv(ch, txt) { return (txt === '—' && ch && ch.noDataLabel) ? ch.noDataLabel : txt; }
   function isDate(s) { return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s); }
   function addDays(date, n) {
     var d = new Date(date + 'T00:00:00Z');
@@ -347,7 +373,7 @@
     rec.hasPlatform = true;
     rec.platformSource = node.platform_source || node.source || sourceLabel;
     if (rec.live == null && typeof node.live === 'boolean') rec.live = node.live;
-    if (ch.id === 'x' && num(node.cash_cost) != null && rec.cash_cost == null) rec.cash_cost = round2(node.cash_cost);
+    if (ch.cashCost && num(node.cash_cost) != null && rec.cash_cost == null) rec.cash_cost = round2(node.cash_cost);
     return true;
   }
 
@@ -504,7 +530,7 @@
     });
     if (mer) {
       CHANNELS.forEach(function (ch) {
-        var block = mer[ch.id];
+        var block = chEntry(mer, ch);
         var by = block && typeof block === 'object' && (block.by_date || block.by_day);
         if (!by || typeof by !== 'object') return;
         Object.keys(by).forEach(function (date) {
@@ -655,7 +681,7 @@
     if (!Array.isArray(changes)) return null;
     var best = null;
     changes.forEach(function (c) {
-      if (!c || c.channel !== chId || !isDate(c.date)) return;
+      if (!c || (c.channel !== chId && canonicalId(c.channel) !== chId) || !isDate(c.date)) return;
       if (onOrBefore && c.date > onOrBefore) return;
       if (!best || c.date > best.date) best = c;
     });
@@ -748,11 +774,11 @@
 
     var mer = inputs.mer || null;
     var thr = (mer && mer.ad_channel_throttles) || inputs.throttlesFile || null;
-    var thrCh = (thr && thr.channels && thr.channels[ch.id]) || null;
+    var thrCh = (thr && chEntry(thr.channels, ch)) || null;
     var settings = inputs.settings || (thr && thr.settings) || null;
-    var setCh = (settings && settings.channels && settings.channels[ch.id]) || null;
+    var setCh = (settings && chEntry(settings.channels, ch)) || null;
     var trackingDoc = inputs.tracking || (thr && thr.tracking_health) || null;
-    var trk = (trackingDoc && trackingDoc.channels && trackingDoc.channels[ch.id]) || null;
+    var trk = (trackingDoc && chEntry(trackingDoc.channels, ch)) || null;
     var trackingStatus = trk && trk.status ? String(trk.status).toUpperCase() : (thrCh && thrCh.tracking_status ? String(thrCh.tracking_status).toUpperCase() : null);
     if (trackingStatus === 'UNKNOWN') trackingStatus = null;
     var changes = inputs.changes || (thr && thr.recent_changes) || [];
@@ -760,7 +786,7 @@
     if (!change && thrCh && thrCh.last_change_date) change = { date: thrCh.last_change_date, channel: ch.id, action: thrCh.last_change_action };
     var rankings = unwrapRankings(inputs.rankings || (thr && thr.rankings) || null);
     var rank = null;
-    (rankings.channels || []).forEach(function (c) { if (c && c.channel === ch.id) rank = c; });
+    (rankings.channels || []).forEach(function (c) { if (c && (c.channel === ch.id || canonicalId(c.channel) === ch.id)) rank = c; });
 
     var spendLatest = (series.channels[ch.id] && series.channels[ch.id].feedThrough) || null;
     if (!spendLatest) {
@@ -773,7 +799,8 @@
       growth = { code: 'stale', label: 'STALE · last row ' + mmdd(spendLatest) + ' · ' + s7.present + '/7 + ' + p7.present + '/7 days', wow: null, missing: missing7.length + missingPrev7.length };
     }
 
-    var block = mer && mer[ch.id] && typeof mer[ch.id] === 'object' ? mer[ch.id] : null;
+    var blk0 = mer ? chEntry(mer, ch) : null;
+    var block = blk0 && typeof blk0 === 'object' ? blk0 : null;
     var status = (block && block.status) || null;
     var blockAsOf = block && isDate(block.as_of) ? block.as_of : null;
     var liveFresh = !!(blockAsOf && last7.length && blockAsOf >= last7[0]);
@@ -783,7 +810,7 @@
     else if (ydayRec && typeof ydayRec.live === 'boolean' && ydayRec.spend != null) live = ydayRec.live;
     else if (s7.present && s7.total === 0) live = false;
 
-    var darkHint = !!(ch.darkWhenZero || (setCh && setCh.not_launched_while_zero) || status === 'pre_launch' || status === 'not_live' || status === 'not_launched');
+    var darkHint = !!(ch.darkWhenZero || (setCh && (setCh.not_launched_while_zero || setCh.status === 'not_launched')) || status === 'pre_launch' || status === 'not_live' || status === 'not_launched');
     var dark = darkHint && !(s7.total > 0) && !stale && s7.present === 0 && p7.present === 0;
     if (dark) {
       growth = { code: 'nofeed', label: 'NO FEED', wow: null, missing: 14 };
@@ -813,6 +840,8 @@
     var feedCode = dark ? 'dark' : (s7.present === 0 && p7.present === 0 && !spendLatest ? 'nofeed' : (stale ? 'stale' : (s7.present < 7 ? 'incomplete' : (s7.total === 0 ? 'zero' : 'ok'))));
     var statusLabel = live === true ? 'LIVE' : (feedCode === 'stale' ? 'STALE' : (feedCode === 'dark' ? 'NOT LAUNCHED' : (feedCode === 'nofeed' ? '—' : (live === false ? (status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE') : '—'))));
 
+    if (ch.noDataLabel && (growth.code === 'nofeed') && !dark) growth = Object.assign({}, growth, { label: ch.noDataLabel });
+    if (ch.noDataLabel && statusLabel === '—') statusLabel = ch.noDataLabel;
     return {
       ch: ch,
       end: end,
@@ -858,7 +887,11 @@
     function dayHasSpend(d) { return CHANNELS.some(function (ch) { var r = series.channels[ch.id].days[d]; return r && r.spend != null; }); }
     var missing7 = last7all.filter(function (d) { return !dayHasSpend(d); });
     var missingPrev7 = prev7all.filter(function (d) { return !dayHasSpend(d); });
+    var unmeasured = [];
     statsList.forEach(function (s) {
+      // Unknown spend (no measured row) is excluded from tracked / D2C totals — list it as coverage.
+      var notLaunched = s.feed && s.feed.code === 'dark';
+      if (!notLaunched && (s.spend7Days == null || s.spend7Days < 7)) unmeasured.push({ id: s.ch.id, label: s.ch.label, days: s.spend7Days || 0 });
       if (s.growth.code === 'incomplete' || s.growth.code === 'stale') incomplete += 1;
       tracked7 += n0(s.spend7); tracked7prev += n0(s.prev7);
       if (s.live) live += 1;
@@ -887,6 +920,7 @@
       missingDays7: missing7, missingDaysPrev7: missingPrev7, incomplete: incomplete,
       live: live, growing: growing, shrinking: shrinking, launching: launching, scaling: scaling, cutting: cutting,
       channels: statsList.length,
+      unmeasured7: unmeasured,
       blended: blended
     };
   }
@@ -1085,19 +1119,19 @@
       + (s.mode ? pillHtml(String(s.mode).toUpperCase(), s.mode === 'auto' ? 'ac-ok' : 'ac-muted') : '')
       + trackingPill(s.tracking) + '</h3>';
     var nums = '<div class="ac-nums">'
-      + '<div><div class="l">Yesterday</div><div class="v">' + usd(s.yday) + '</div><div class="s">' + (s.end ? shortDate(s.end) : '') + (ch.id === 'x' && s.ydayCash != null ? ' · cash ' + usd(s.ydayCash) : '') + '</div></div>'
-      + '<div><div class="l">7-day spend</div><div class="v">' + usd(s.spend7) + '</div><div class="s ' + growthCls(g.code) + '">' + growthArrow(g) + ' ' + esc(g.label) + (wowTxt ? ' · ' + wowTxt : '') + '</div>' + (g.code === 'incomplete' || g.code === 'stale' ? '<div class="s ac-warn">missing days are not $0 — ' + esc((s.feed && s.feed.missing7 || []).map(mmdd).join(', ') || 'feed gap') + '</div>' : '') + '</div>'
-      + '<div><div class="l">Share 7d</div><div class="v">' + (s.share == null ? '—' : s.share.toFixed(0) + '%') + '</div><div class="s">of tracked ad spend · 30d ' + usd(s.spend30) + '</div></div>'
-      + '<div><div class="l">Platform ROAS 7d</div><div class="v">' + roasTxt(s.roas7) + '</div><div class="s">' + esc(platformNote) + '</div></div>'
-      + '<div><div class="l">Platform revenue 7d</div><div class="v">' + usd(s.platformRev7) + '</div><div class="s">platform-reported, not store sales</div></div>'
-      + '<div><div class="l">Conversions 7d</div><div class="v">' + intTxt(s.platformConv7) + '</div><div class="s">' + (s.platformClicks7 != null ? intTxt(s.platformClicks7) + ' clicks' : '') + '</div></div>'
+      + '<div><div class="l">Yesterday</div><div class="v">' + esc(dv(ch, usd(s.yday))) + '</div><div class="s">' + (s.end ? shortDate(s.end) : '') + (ch.cashCost && s.ydayCash != null ? ' · cash ' + usd(s.ydayCash) : '') + '</div></div>'
+      + '<div><div class="l">7-day spend</div><div class="v">' + esc(dv(ch, usd(s.spend7))) + '</div><div class="s ' + growthCls(g.code) + '">' + growthArrow(g) + ' ' + esc(g.label) + (wowTxt ? ' · ' + wowTxt : '') + '</div>' + (g.code === 'incomplete' || g.code === 'stale' ? '<div class="s ac-warn">' + (ch.noDataLabel ? esc(ch.noDataLabel) + ' for ' : 'missing days are not $0 — ') + esc((s.feed && s.feed.missing7 || []).map(mmdd).join(', ') || 'feed gap') + (ch.noDataLabel ? ' · excluded from tracked spend' : '') + '</div>' : '') + '</div>'
+      + '<div><div class="l">Share 7d</div><div class="v">' + esc(dv(ch, s.share == null ? '—' : s.share.toFixed(0) + '%')) + '</div><div class="s">of tracked ad spend · 30d ' + esc(dv(ch, usd(s.spend30))) + '</div></div>'
+      + '<div><div class="l">Platform ROAS 7d</div><div class="v">' + esc(dv(ch, roasTxt(s.roas7))) + '</div><div class="s">' + esc(platformNote) + '</div></div>'
+      + '<div><div class="l">Platform revenue 7d</div><div class="v">' + esc(dv(ch, usd(s.platformRev7))) + '</div><div class="s">platform-reported, not store sales</div></div>'
+      + '<div><div class="l">Conversions 7d</div><div class="v">' + esc(dv(ch, intTxt(s.platformConv7))) + '</div><div class="s">' + (s.platformClicks7 != null ? intTxt(s.platformClicks7) + ' clicks' : '') + '</div></div>'
       + '</div>';
     var spark = '<div class="ac-spark"><canvas id="ac-spark-' + ch.id + '"></canvas></div>'
       + '<div class="ac-legend"><span><span class="ac-dot" style="background:' + ch.color + '"></span>daily spend</span>' + (s.platformDays7 > 0 || s.platformAny ? '<span><span class="ac-dot" style="background:#e8e8f0"></span>platform-reported revenue</span>' : '') + '<span>' + esc(String(stacked)) + ' days</span></div>';
     var post = '<div class="ac-post"><span class="ac-lbl ' + s.posture.cls + '">' + esc(s.posture.label) + '</span>'
       + (s.posture.detail.length ? '<br><span class="ac-muted">' + esc(s.posture.detail.join(' · ')) + '</span>' : '')
       + (s.rank ? '<br><span class="ac-muted">Jarvis ' + mmdd(s.rankDate) + ': ' + esc(s.rank.tier || '—') + (num(s.rank.roas_7d) != null ? ' · ' + roasTxt(s.rank.roas_7d) + ' 7d' : '') + (num(s.rank.roas_28d) != null ? ' · ' + roasTxt(s.rank.roas_28d) + ' 28d' : '') + (num(s.rank.wow_spend_change_pct) != null ? ' · spend ' + pct(s.rank.wow_spend_change_pct, 0) + ' WoW' : '') + '</span>' : '')
-      + (s.d2c7 != null && s.spend7 != null && Math.abs(s.d2c7 - s.spend7) > 0.5 ? '<br><span class="ac-muted">D2C share of spend 7d: ' + usd(s.d2c7) + (ch.note ? ' — ' + esc(ch.note) : '') + '</span>' : (ch.note && ch.id === 'x' ? '<br><span class="ac-muted">' + esc(ch.note) + (s.cash7 != null ? ' · cash cost 7d ' + usd(s.cash7) : '') + '</span>' : ''))
+      + (s.d2c7 != null && s.spend7 != null && Math.abs(s.d2c7 - s.spend7) > 0.5 ? '<br><span class="ac-muted">D2C share of spend 7d: ' + usd(s.d2c7) + (ch.note ? ' — ' + esc(ch.note) : '') + '</span>' : (ch.note && ch.cashCost ? '<br><span class="ac-muted">' + esc(ch.note) + (s.cash7 != null ? ' · cash cost 7d ' + usd(s.cash7) : '') + '</span>' : ''))
       + '</div>';
     var src = '<div class="ac-src">spend: ' + esc(s.spendSource || 'no feed') + (s.spendLatest ? ' · through ' + mmdd(s.spendLatest) : '') + (s.feed && s.feed.code === 'stale' ? ' · STALE vs portfolio ' + mmdd(s.end) : '')
       + '<br>platform: ' + esc(s.platformSource || 'none')
@@ -1106,9 +1140,13 @@
       + '</div>';
     var rows = dates.slice(-14).reverse().map(function (d) {
       var r = STATE.series.channels[ch.id].days[d];
-      if (!r) return '<tr><td>' + esc(shortDate(d)) + '</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>';
+      var nd = esc(dv(ch, '—'));
+      if (!r) return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td></tr>';
       var roas = r.hasPlatform && r.spend > 0 ? (r.roas != null ? r.roas : (r.revenue != null ? r.revenue / r.spend : null)) : null;
-      return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + usd(r.spend, 2) + '</td><td>' + (r.hasPlatform ? usd(r.revenue, 2) : '—') + '</td><td>' + (r.hasPlatform ? intTxt(r.conversions) : '—') + '</td><td>' + roasTxt(roas) + '</td></tr>';
+      // measured $0 day: number-only row (metrics n/a "—"), never "No data" next to a number of spend
+      var gap = r.spend === 0 ? '—' : nd;
+      function g(txt) { return txt === '—' ? gap : txt; }
+      return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + esc(dv(ch, usd(r.spend, 2))) + '</td><td>' + (r.hasPlatform ? esc(g(usd(r.revenue, 2))) : gap) + '</td><td>' + (r.hasPlatform ? esc(g(intTxt(r.conversions))) : gap) + '</td><td>' + esc(g(roasTxt(roas))) + '</td></tr>';
     }).join('');
     var det = '<details><summary>Last 14 days</summary><table class="ac-mini"><thead><tr><th>Day</th><th>Spend</th><th>Plat. rev</th><th>Conv</th><th>ROAS</th></tr></thead><tbody>' + rows + '</tbody></table></details>';
     return '<div class="ac-card" id="ac-card-' + ch.id + '" style="border-top-color:' + ch.color + '">' + head + nums + spark + post + src + det + '</div>';
@@ -1148,7 +1186,8 @@
     html += '<div class="ac-asof">' + notes.map(function (n) { return '<span><b>' + esc(n.k) + ':</b> ' + esc(n.v) + ' <span class="ac-muted">(' + esc(n.src) + ')</span>' + (n.warn ? ' <span class="ac-warn-txt">⚠ ' + esc(n.warn) + '</span>' : '') + '</span>'; }).join('') + '</div>';
 
     html += '<div class="ac-kpis">'
-      + '<div class="ac-kpi"><div class="l">Tracked ad spend 7d</div><div class="v">' + usd(sum.tracked7) + '</div><div class="s ' + (sum.trackedWow == null ? 'ac-muted' : sum.trackedWow > 0 ? 'ac-good' : sum.trackedWow < 0 ? 'ac-bad' : 'ac-muted') + '">' + (sum.missingDays7.length || sum.missingDaysPrev7.length ? '<span class="ac-warn">⚠ no channel spend for ' + esc(sum.missingDays7.concat(sum.missingDaysPrev7).map(mmdd).join(', ')) + ' — WoW withheld</span>' : sum.trackedWow == null ? 'no prior week' : pct(sum.trackedWow, 0) + ' vs prior 7d (' + usd(sum.tracked7prev) + ')') + '</div></div>'
+      + '<div class="ac-kpi"><div class="l">Tracked ad spend 7d</div><div class="v">' + usd(sum.tracked7) + '</div><div class="s ' + (sum.trackedWow == null ? 'ac-muted' : sum.trackedWow > 0 ? 'ac-good' : sum.trackedWow < 0 ? 'ac-bad' : 'ac-muted') + '">' + (sum.missingDays7.length || sum.missingDaysPrev7.length ? '<span class="ac-warn">⚠ no channel spend for ' + esc(sum.missingDays7.concat(sum.missingDaysPrev7).map(mmdd).join(', ')) + ' — WoW withheld</span>' : sum.trackedWow == null ? 'no prior week' : pct(sum.trackedWow, 0) + ' vs prior 7d (' + usd(sum.tracked7prev) + ')') + '</div>'
+      + (sum.unmeasured7 && sum.unmeasured7.length ? '<div class="s ac-muted">measured only · excludes unmeasured days: ' + esc(sum.unmeasured7.map(function (u) { return u.label + ' ' + u.days + '/7d'; }).join(', ')) + '</div>' : '') + '</div>'
       + '<div class="ac-kpi"><div class="l">Blended MER 7d (D2C)</div><div class="v">' + (sum.blended ? roasTxt(sum.blended.mer) : '—') + '</div><div class="s">' + (sum.blended ? usd(sum.blended.rev) + ' Shopify D2C ÷ ' + usd(sum.blended.d2c) + ' D2C ads · through ' + mmdd(sum.blended.through) : 'blended series not published for this window') + '</div></div>'
       + '<div class="ac-kpi"><div class="l">Channels live</div><div class="v">' + sum.live + ' <span class="ac-muted" style="font-size:.8rem">/ ' + sum.channels + '</span></div><div class="s">' + sum.launching + ' launching</div></div>'
       + '<div class="ac-kpi"><div class="l">Growing / shrinking</div><div class="v"><span class="ac-good">' + sum.growing + '</span> <span class="ac-muted">/</span> <span class="ac-bad">' + sum.shrinking + '</span></div><div class="s">spend 7d vs prior 7d, ±' + GROWTH_PCT + '%' + (sum.incomplete ? ' · <span class="ac-warn">' + sum.incomplete + ' incomplete</span>' : '') + '</div></div>'
@@ -1183,11 +1222,11 @@
       html += '<tr data-ch="' + s.ch.id + '"><td><span class="ac-dot" style="background:' + s.ch.color + '"></span>' + esc(s.ch.label) + '</td>'
         + '<td class="' + (s.statusLabel === 'LIVE' ? 'ac-good' : s.statusLabel === 'STALE' ? 'ac-warn' : 'ac-muted') + '">' + esc(s.statusLabel || '—') + '</td>'
         + '<td class="' + s.posture.cls + '">' + esc(s.posture.label) + '</td>'
-        + '<td>' + usd(s.yday) + '</td><td>' + usd(s.spend7) + '</td>'
+        + '<td>' + esc(dv(s.ch, usd(s.yday))) + '</td><td>' + esc(dv(s.ch, usd(s.spend7))) + '</td>'
         + '<td class="' + growthCls(s.growth.code) + '">' + (s.growth.wow == null ? '—' : pct(s.growth.wow, 0)) + '</td>'
         + '<td class="' + growthCls(s.growth.code) + '">' + growthArrow(s.growth) + ' ' + esc(s.growth.label) + '</td>'
-        + '<td>' + (s.share == null || s.spend7 == null ? '—' : s.share.toFixed(0) + '%') + '</td><td>' + usd(s.spend30) + (s.spend30Days != null && s.spend30Days < 30 && s.spend30 != null ? ' <span class="ac-muted">(' + s.spend30Days + 'd)</span>' : '') + '</td>'
-        + '<td>' + usd(s.platformRev7) + '</td><td>' + roasTxt(s.roas7) + (s.platformDays7 > 0 && s.platformDays7 < 7 ? ' <span class="ac-muted">(' + s.platformDays7 + 'd)</span>' : '') + '</td><td>' + intTxt(s.platformConv7) + '</td>'
+        + '<td>' + esc(dv(s.ch, s.share == null || s.spend7 == null ? '—' : s.share.toFixed(0) + '%')) + '</td><td>' + esc(dv(s.ch, usd(s.spend30))) + (s.spend30Days != null && s.spend30Days < 30 && s.spend30 != null ? ' <span class="ac-muted">(' + s.spend30Days + 'd)</span>' : '') + '</td>'
+        + '<td>' + esc(dv(s.ch, usd(s.platformRev7))) + '</td><td>' + esc(dv(s.ch, roasTxt(s.roas7))) + (s.platformDays7 > 0 && s.platformDays7 < 7 ? ' <span class="ac-muted">(' + s.platformDays7 + 'd)</span>' : '') + '</td><td>' + esc(dv(s.ch, intTxt(s.platformConv7))) + '</td>'
         + '<td class="' + (s.tracking === 'OK' ? 'ac-good' : s.tracking === 'WARN' ? 'ac-warn' : s.tracking === 'DOWN' ? 'ac-bad' : 'ac-muted') + '">' + esc(s.tracking || '—') + '</td>'
         + '<td class="ac-muted" style="font-family:var(--font-body);text-align:left">' + esc(s.change ? actionLabel(s.change) : '—') + '</td></tr>';
     });
@@ -1204,7 +1243,7 @@
       var tot = 0;
       var cells = gridCols.map(function (s) {
         var r = series.channels[s.ch.id].days[d];
-        if (!r || r.spend == null) return '<td class="ac-muted">—</td>';
+        if (!r || r.spend == null) return '<td class="ac-muted">' + esc(dv(s.ch, '—')) + '</td>';
         tot += r.spend;
         var tip = r.hasPlatform ? 'platform rev ' + usd(r.revenue, 2) + (r.roas != null ? ' · ROAS ' + roasTxt(r.roas) : '') : 'no platform read';
         return '<td title="' + esc(tip) + '">' + usd(r.spend) + '</td>';
@@ -1306,6 +1345,9 @@
     canonicalId: canonicalId,
     dailyFileName: dailyFileName,
     nodeFromAdv: nodeFromAdv,
+    chEntry: chEntry,
+    cardHtml: cardHtml,
+    displayValue: dv,
     isPlaceholderNode: isPlaceholderNode,
     isMeasuredZero: isMeasuredZero,
     spendFromNode: spendFromNode,

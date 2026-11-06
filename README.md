@@ -274,7 +274,7 @@ Until `BING_ADS_ENABLED=1` **and** those vars are set, nothing calls Microsoft. 
 
 ## Ad Channels tab (`ad_channels_module.js`)
 
-One block per ad platform (Meta, Google, TikTok, Bing, Snapchat, AppLovin, Pinterest, ChatGPT, Reddit, Taboola, X), daily. Answers four questions per channel and labels every number with its source and as-of date:
+One block per ad platform (Meta, Google, TikTok, Bing, Snapchat, AppLovin, Pinterest, ChatGPT, Reddit, Taboola, Outbrain, X, Spotify Ads), daily. Answers four questions per channel and labels every number with its source and as-of date:
 
 | Question | How it is answered | Source |
 |---|---|---|
@@ -284,6 +284,8 @@ One block per ad platform (Meta, Google, TikTok, Bing, Snapchat, AppLovin, Pinte
 | Revenue vs spend, daily | stacked spend by channel (top 7 + Other, fixed colors), per-card spend bars + platform revenue line, 14-day table per card, daily grid with blended D2C MER | same feeds; blended from `series_28d.blended` |
 
 Window: 14 / 28 / 60 / 90 days (remembered in `localStorage`). Deep link `#ad-channels`. Tests: `node scripts/test_ad_channels.js`.
+
+**Spotify Ads** (canonical key `spotify_ads`, aliases `spotify` / `Spotify` / `Spotify Ads`, optional `spotify_ads_daily.json`) is on both Ad Channels and Daily Reports. Until CFO publishes measured rows it shows a genuine **No data** state: an unmeasured day is never $0, complete or paused, and is excluded from tracked / D2C spend with a coverage note (MER is never inflated — Daily Reports keeps Spotify display-only; CFO folds measured spend). Measured $0 shows the number only; spend-only rows keep ROAS "No data"; `cash_cost` (billing) stays separate from platform spend. `mer.spotify {status:'not_launched', live:false}` or `settings.channels.spotify.not_launched_while_zero` → NOT LAUNCHED, no metrics.
 
 **Feed freshness.** The mirror sync only copies `index.html` + a few static files, so `mer_for_manus.json` and `ads_throttle/` go stale here unless the data repo's `after-daily-sync` publishes them (`lib/publish_live_feeds.sh`, needs the `LIVE_MIRROR_TOKEN` secret on `davidstarkk/coldest-cfo-dashboard`). The tab's as-of bar is per-channel (portfolio spend through ≠ every channel is current). Closed `REPORTS` rows carry no per-platform spend, so a day that has rolled from `PARTIAL_REPORTS` into `REPORTS` before the feed caught up shows as a gap (INCOMPLETE), not a drop. Preferred publish path for Bing / Taboola / Outbrain / X / residual ChatGPT: `advertising_sources_daily.json` plus `<id>_ads_daily.json` (canonical keys or aliases; omit missing days; mark measured zeros `complete: true`). Do not calendar-fill `$0` after a durable feed stops.
 

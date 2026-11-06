@@ -1,5 +1,5 @@
 /* =====================================================================
-   COLDEST · PAID CHANNELS  (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, Pinterest, X)
+   COLDEST · PAID CHANNELS  (Meta, Google, Bing, Reddit, Snapchat, ChatGPT, Pinterest, X, Taboola, Outbrain, Spotify)
    ---------------------------------------------------------------------
    Reporting-only. No API credentials. Missing feed → $0 / "no feed".
    Never invents clicks, conversions, revenue, or spend.
@@ -8,10 +8,11 @@
      1. PARTIAL_REPORTS[].advertising_sources.<aliases>
         or mer_for_manus.json advertising_sources[YYYY-MM-DD].<aliases>
      2. advertising_sources_daily.json / <channel>_ads_daily.json (CFO export)
-     3. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest; x, taboola and outbrain are display-only)
+     3. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest; x, taboola, outbrain and spotify are display-only)
      4. optional <channel>_ads_data.json (empty pre_launch / no_feed stubs ignored)
      5. localStorage manual day (channel tabs)
    A missing mer.x / unpublished Taboola-Outbrain-X day is "missing", not $0.
+   An unmeasured Spotify Ads (spotify_ads) day reads "No data" — never $0, never added to D2C spend.
 
    mer_for_manus.json daily_inputs contract (match these keys exactly):
      d2c_ad_spend, blended_mer, total_ad_spend,
@@ -1358,6 +1359,102 @@
       + esc(cpa) + ' · platform ROAS ' + esc(roas) + ' platform-reported</td></tr>';
   }
 
+  // Spotify Ads (canonical feed key spotify_ads) is display-only like X / Taboola / Outbrain:
+  // CFO (coldest-cfo-dashboard) folds only measured Spotify spend into d2c_ad_spend / blended_mer.
+  // This module never overlays it, so unknown Spotify spend stays out of D2C totals / MER.
+  // Display rule (CFO): a measured day shows numbers only; an unmeasured day shows "No data"
+  // only; spend-only rows show ROAS "No data"; platform spend and billing / cash cost stay separate.
+  var SPOTIFY_NO_DATA = 'No data';
+  var SPOTIFY_KEYS = ['spotify_ads', 'spotify', 'Spotify', 'Spotify Ads'];
+  var SPOTIFY_DISPLAY = {
+    id: 'spotify',
+    label: 'Spotify Ads',
+    merKey: 'spotify',
+    sourceKeys: SPOTIFY_KEYS,
+    roasLabel: 'platform-reported',
+    displayOnly: true
+  };
+
+  function spotifyBlock() {
+    if (!MER_DOC || typeof MER_DOC !== 'object') return null;
+    var b = MER_DOC.spotify || MER_DOC.spotify_ads || null;
+    return b && typeof b === 'object' ? b : null;
+  }
+
+  function spotifyDayRow(date) {
+    var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
+    var node = publishedKeyedNode(src, SPOTIFY_KEYS);
+    if (node) return node;
+    var daily = ADV_DAILY && (ADV_DAILY.advertising_sources || ADV_DAILY);
+    node = publishedKeyedNode(daily && daily[date], SPOTIFY_KEYS);
+    if (node) return node;
+    node = feedDailyNode('spotify', date, SPOTIFY_KEYS);
+    if (node) return node;
+    var b = spotifyBlock();
+    var by = b && (b.by_date || b.by_day);
+    if (by && by[date] && spendIsPublished(by[date])) return by[date];
+    return null;
+  }
+
+  // Not launched = explicit config (mer.spotify status not_launched / live:false), not mere absence.
+  function spotifyNotLaunched() {
+    var b = spotifyBlock();
+    if (!b) return false;
+    var st = b.status != null ? String(b.status) : '';
+    return b.live === false && (st === 'not_launched' || st === 'pre_launch' || st === 'not_live');
+  }
+
+  function spotifyPlatform(r) {
+    if (!r || typeof r !== 'object') return null;
+    if (r.platform_status === 'unverified') return null;
+    var rev = finiteNum(r.platform_revenue != null ? r.platform_revenue : r.revenue);
+    var roas = finiteNum(r.platform_roas != null ? r.platform_roas : r.roas);
+    var reported = r.platform_status === 'verified' || roas != null || (rev != null && rev > 0);
+    if (!reported) return null;
+    return { revenue: rev, roas: roas };
+  }
+
+  function spotifySpendTxt(date) {
+    var r = spotifyDayRow(date);
+    if (!r) return spotifyNotLaunched() ? 'Not launched' : SPOTIFY_NO_DATA;
+    var spend = finiteNum(r.spend);
+    if (spend == null) spend = finiteNum(r.daily_spend);
+    if (spend == null) spend = finiteNum(r.ad_spend);
+    var cash = finiteNum(r.cash_cost);
+    return usd(spend) + (cash != null ? ' (cash cost ' + usd(cash) + ')' : '');
+  }
+
+  function spotifyDetailHtml(date) {
+    var r = spotifyDayRow(date);
+    var nd = SPOTIFY_NO_DATA;
+    if (!r) {
+      if (spotifyNotLaunched()) {
+        return '<tr><td>Spotify Ads</td><td>Not launched</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc((spotifyBlock() || {}).source || 'Spotify Ads not launched') + '</td></tr>';
+      }
+      return '<tr><td>Spotify Ads</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>no spotify_ads feed published</td></tr>'
+        + '<tr class="pc-split"><td colspan="7">↳ Spotify spend unmeasured for this day — excluded from D2C ad spend / MER (coverage). CFO publishes advertising_sources.spotify_ads / spotify_ads_daily.json.</td></tr>';
+    }
+    var spend = finiteNum(r.spend);
+    if (spend == null) spend = finiteNum(r.daily_spend);
+    if (spend == null) spend = finiteNum(r.ad_spend);
+    var plat = spotifyPlatform(r);
+    var clicks = finiteNum(r.clicks);
+    var conv = finiteNum(r.platform_conversions != null ? r.platform_conversions : r.conversions);
+    var roas = null;
+    if (plat) roas = plat.roas != null ? plat.roas : (spend > 0 && plat.revenue != null ? plat.revenue / spend : null);
+    // A measured $0 day is a number-only row: unpublished metrics read "—" (n/a at $0 spend), never "No data".
+    var gap = spend === 0 ? '—' : nd;
+    var roasCell = roas != null && Number.isFinite(roas) && roas > 0 ? Number(roas).toFixed(2) + 'x · platform-reported' : gap;
+    var html = '<tr><td>Spotify Ads</td><td>' + usd(spend) + '</td><td>' + (clicks == null ? gap : intOrDash(clicks)) + '</td><td>' + (conv == null ? gap : intOrDash(conv))
+      + '</td><td>' + (plat && plat.revenue != null ? usd(plat.revenue) : gap) + '</td><td>' + esc(roasCell) + '</td><td>'
+      + esc(r.source || 'spotify_ads') + '</td></tr>';
+    var cash = finiteNum(r.cash_cost);
+    if (cash != null) {
+      html += '<tr class="pc-split"><td>↳ Spotify billing / cash cost</td><td>' + usd(cash) + '</td><td colspan="5">separate from platform spend · not added to spend</td></tr>';
+    }
+    return html;
+  }
+
   var APPLOVIN_DISPLAY = {
     id: 'applovin',
     label: 'AppLovin',
@@ -1379,6 +1476,7 @@
     if (!seen.x) out.push(X_DISPLAY);
     if (!seen.taboola) out.push(TABOOLA_DISPLAY);
     if (!seen.outbrain) out.push(OUTBRAIN_DISPLAY);
+    if (!seen.spotify) out.push(SPOTIFY_DISPLAY);
     return out;
   }
 
@@ -1436,6 +1534,7 @@
       if (ch.id === 'x') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(xSpendTxt(date)) + '</td></tr>';
       if (ch.id === 'taboola') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(taboolaSpendTxt(date)) + '</td></tr>';
       if (ch.id === 'outbrain') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(outbrainSpendTxt(date)) + '</td></tr>';
+      if (ch.id === 'spotify') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spotifySpendTxt(date)) + '</td></tr>';
       return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spendTxt(dayForDisplay(ch, date))) + '</td></tr>';
     }).join('');
     return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>';
@@ -1446,6 +1545,7 @@
       if (ch.id === 'x') return xDetailHtml(date);
       if (ch.id === 'taboola') return taboolaDetailHtml(date);
       if (ch.id === 'outbrain') return outbrainDetailHtml(date);
+      if (ch.id === 'spotify') return spotifyDetailHtml(date);
       var d = dayForDisplay(ch, date);
       var html = '<tr>'
         + '<td>' + esc(ch.label) + '</td>'
@@ -1631,7 +1731,7 @@
       jobs.push(fetchJson(ch.file).then(function (d) { FEEDS[ch.id].file = isPlaceholderNode(d) ? null : d; }).catch(function () { FEEDS[ch.id].file = null; }));
       jobs.push(fetchJson(ch.id + '_ads_daily.json').then(function (d) { FEEDS[ch.id].daily = d; }).catch(function () { FEEDS[ch.id].daily = null; }));
     });
-    ['taboola', 'outbrain', 'x'].forEach(function (id) {
+    ['taboola', 'outbrain', 'x', 'spotify'].forEach(function (id) {
       jobs.push(fetchJson(id + '_ads_daily.json').then(function (d) {
         if (!FEEDS[id]) FEEDS[id] = { file: null, mer: null, manual: null, daily: null };
         FEEDS[id].daily = d;
@@ -1690,6 +1790,11 @@
     OUTBRAIN_DISPLAY: OUTBRAIN_DISPLAY,
     outbrainDetailHtml: outbrainDetailHtml,
     outbrainSpendTxt: outbrainSpendTxt,
+    SPOTIFY_DISPLAY: SPOTIFY_DISPLAY,
+    SPOTIFY_NO_DATA: SPOTIFY_NO_DATA,
+    spotifyDetailHtml: spotifyDetailHtml,
+    spotifySpendTxt: spotifySpendTxt,
+    spotifyDayRow: spotifyDayRow,
     xDetailHtml: xDetailHtml,
     xSpendTxt: xSpendTxt,
     spendTxt: spendTxt,

@@ -26,13 +26,13 @@
   var LABELS = {
     meta: 'Meta', google: 'Google Ads', tiktok_web: 'TikTok (website)', tiktok_shop: 'TikTok Shop',
     applovin: 'AppLovin', bing: 'Bing / Microsoft', pinterest: 'Pinterest', snapchat: 'Snapchat',
-    reddit: 'Reddit', chatgpt: 'ChatGPT Ads', taboola: 'Taboola', outbrain: 'Outbrain', x: 'X Ads',
+    reddit: 'Reddit', chatgpt: 'ChatGPT Ads', taboola: 'Taboola', outbrain: 'Outbrain', x: 'X Ads', spotify: 'Spotify Ads',
     amazon: 'Amazon', whatnot: 'Whatnot'
   };
   var COLORS = {
     meta: '#3987e5', google: '#d95926', tiktok_web: '#199e70', applovin: '#008300', bing: '#c98500',
     snapchat: '#d55181', pinterest: '#9085e9', chatgpt: '#e66767', reddit: '#8888a8', taboola: '#8888a8',
-    outbrain: '#8888a8', x: '#8888a8'
+    outbrain: '#8888a8', x: '#8888a8', spotify: '#1db954'
   };
 
   /* ------------------------------------------------------------ utils */

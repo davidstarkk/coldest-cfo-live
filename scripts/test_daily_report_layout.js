@@ -13,9 +13,9 @@ function test(name, fn) {
   }
 }
 
-test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatGPT → Pinterest → AppLovin → X', function () {
+test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatGPT → Pinterest → AppLovin → X → Taboola → Outbrain → Spotify', function () {
   var ids = Paid.displayChannels().map(function (c) { return c.id; });
-  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'x', 'taboola', 'outbrain']);
+  assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'x', 'taboola', 'outbrain', 'spotify']);
 });
 
 test('unpublished Pinterest is missing, never $0', function () {
@@ -288,6 +288,123 @@ test('Daily Reports advDaily bare $0 is missing; complete $0 is measured — sam
   Paid._setAdvDaily({ '2026-11-04': { reddit_ads: { spend: 0, complete: true } } });
   assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-11-04')), '$0.00');
   Paid._setAdvDaily(null);
+});
+
+/* ---------------------------------------------------------- Spotify Ads */
+function spotifyReset() { Paid._setMerDoc(null); Paid._setAdvDaily(null); Paid._setDailyFile('spotify', null); }
+function noConflict(txt) {
+  assert.ok(txt.indexOf('missing') === -1, 'no "missing" text on a Spotify row: ' + txt);
+  assert.ok(txt.indexOf('unverified') === -1, 'no "unverified" text on a Spotify row: ' + txt);
+}
+function spotifyMainRow(html) { return html.split('</tr>')[0]; }
+
+test('Spotify: unavailable day → "No data" only (no $0, no missing/unverified), excluded from D2C coverage note', function () {
+  spotifyReset();
+  Paid._setMerDoc({ as_of: '2026-11-05', advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } }, '2026-11-04': { spotify_ads: { spend: 0 } } } });
+  ['2026-11-03', '2026-11-04', '2026-11-05'].forEach(function (d) {
+    assert.strictEqual(Paid.spotifySpendTxt(d), 'No data', d);
+    var html = Paid.spotifyDetailHtml(d);
+    assert.ok(html.indexOf('$0.00') === -1, 'unmeasured day is never $0: ' + d);
+    assert.ok(html.indexOf('No data') !== -1);
+    assert.ok(html.indexOf('excluded from D2C ad spend / MER') !== -1, 'coverage labelled');
+    noConflict(html);
+  });
+  var strip = Paid.spendPerChannelHtml('2026-11-05');
+  assert.ok(strip.indexOf('<td>Spotify Ads</td><td>No data</td>') !== -1);
+  spotifyReset();
+});
+
+test('Spotify: genuine measured $0 → number only ($0.00), no "No data" on that row', function () {
+  spotifyReset();
+  Paid._setAdvDaily({ '2026-11-05': { spotify_ads: { spend: 0, complete: true, clicks: 0, conversions: 0, live: false, source: 'Spotify Ads API' } } });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), '$0.00');
+  var html = Paid.spotifyDetailHtml('2026-11-05');
+  assert.ok(spotifyMainRow(html).indexOf('<td>$0.00</td>') !== -1);
+  assert.ok(html.indexOf('No data') === -1, 'measured $0 row never says No data: ' + html);
+  noConflict(html);
+  // closed_day and verified status are measured too
+  Paid._setAdvDaily({ '2026-11-05': { spotify: { spend: 0, closed_day: true } } });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), '$0.00');
+  spotifyReset();
+});
+
+test('Spotify: spend-only row → ROAS "No data" (never invented); platform ROAS only when Spotify reports value', function () {
+  spotifyReset();
+  Paid._setAdvDaily({ '2026-11-05': { 'Spotify Ads': { spend: 120, complete: true, revenue: 0, roas: null, source: 'Spotify Ads API' } } });
+  var row = spotifyMainRow(Paid.spotifyDetailHtml('2026-11-05'));
+  var cells = row.split('<td>').map(function (c) { return c.replace(/<\/td>.*/, ''); });
+  assert.strictEqual(cells[2], '$120.00');
+  assert.strictEqual(cells[5], 'No data', 'spend-only revenue is No data, not $0');
+  assert.strictEqual(cells[6], 'No data', 'spend-only ROAS is No data');
+  assert.ok(row.indexOf('x · platform-reported') === -1);
+  noConflict(row);
+  Paid._setAdvDaily({ '2026-11-05': { spotify_ads: { spend: 100, complete: true, platform_revenue: 250, conversions: 5, clicks: 80 } } });
+  assert.ok(Paid.spotifyDetailHtml('2026-11-05').indexOf('2.50x · platform-reported') !== -1);
+  spotifyReset();
+});
+
+test('Spotify: no conflicting labels — every day is either a number or "No data", never both', function () {
+  spotifyReset();
+  Paid._setDailyFile('spotify', { by_date: {
+    '2026-11-02': { spend: 0, complete: true },
+    '2026-11-03': { spend: null, missing: true },
+    '2026-11-04': { spend: 0 },
+    '2026-11-05': { spend: 55.5, spend_status: 'verified' }
+  } });
+  var expect = { '2026-11-02': '$0.00', '2026-11-03': 'No data', '2026-11-04': 'No data', '2026-11-05': '$55.50', '2026-11-06': 'No data' };
+  Object.keys(expect).forEach(function (d) {
+    var txt = Paid.spotifySpendTxt(d);
+    assert.strictEqual(txt, expect[d], d);
+    var hasNum = /\$\d/.test(txt);
+    assert.ok(!(hasNum && txt.indexOf('No data') !== -1), 'number + No data on ' + d);
+    var spendCell = spotifyMainRow(Paid.spotifyDetailHtml(d)).split('<td>')[2].replace(/<\/td>.*/, '');
+    assert.ok(/^\$\d/.test(spendCell) !== (spendCell === 'No data'), 'spend cell is exactly one of number / No data: ' + spendCell);
+    noConflict(Paid.spotifyDetailHtml(d));
+  });
+  spotifyReset();
+});
+
+test('Spotify: aliases join (spotify_ads / spotify / Spotify / Spotify Ads) and spotify_ads_daily.json is read', function () {
+  spotifyReset();
+  ['spotify_ads', 'spotify', 'Spotify', 'Spotify Ads', 'spotify-ads'].forEach(function (k) {
+    var day = {}; day[k] = { spend: 12.34, complete: true };
+    Paid._setAdvDaily({ '2026-11-05': day });
+    assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), '$12.34', 'alias ' + k);
+  });
+  Paid._setAdvDaily(null);
+  Paid._setDailyFile('spotify', { '2026-11-05': { spend: 9, complete: true } });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), '$9.00');
+  spotifyReset();
+});
+
+test('Spotify: cash_cost kept separate from platform spend (mirrors X)', function () {
+  spotifyReset();
+  Paid._setAdvDaily({ '2026-11-05': { spotify_ads: { spend: 100, cash_cost: 130, complete: true } } });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), '$100.00 (cash cost $130.00)');
+  var html = Paid.spotifyDetailHtml('2026-11-05');
+  assert.ok(spotifyMainRow(html).indexOf('<td>$100.00</td>') !== -1, 'spend cell is platform spend');
+  assert.ok(html.indexOf('Spotify billing / cash cost</td><td>$130.00') !== -1);
+  assert.ok(html.indexOf('$230.00') === -1, 'cash cost never summed into spend');
+  spotifyReset();
+});
+
+test('Spotify: not-launched config → Not launched, no metrics; absence alone is No data, not paused', function () {
+  spotifyReset();
+  Paid._setMerDoc({ as_of: '2026-11-05', spotify: { status: 'not_launched', live: false } });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Not launched');
+  var html = Paid.spotifyDetailHtml('2026-11-05');
+  assert.ok(html.indexOf('$') === -1, 'no metrics for not launched: ' + html);
+  assert.ok(html.indexOf('No data') === -1);
+  noConflict(html);
+  Paid._setMerDoc({ as_of: '2026-11-05' });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'No data');
+  assert.ok(Paid.spotifyDetailHtml('2026-11-05').indexOf('paused') === -1);
+  spotifyReset();
+});
+
+test('Spotify is display-only on Daily Reports (never overlaid into D2C totals)', function () {
+  assert.strictEqual(Paid.SPOTIFY_DISPLAY.displayOnly, true);
+  assert.ok(Paid.CHANNELS.every(function (c) { return c.id !== 'spotify'; }), 'not in the overlay CHANNELS list');
 });
 
 if (failed) {

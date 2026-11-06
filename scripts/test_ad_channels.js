@@ -483,6 +483,141 @@ test('screenshot window ending 11/4: unpublished channels are not painted $0 LIV
   assert.ok(byId.bing.spend30 == null || byId.bing.spend30Days < 30, '30d must not silently fill the unpublished week');
 });
 
+/* ---------------------------------------------------------- Spotify Ads */
+function spotifyCh() { return A.CHANNELS.filter(function (c) { return c.id === 'spotify'; })[0]; }
+function metaWeeks(end) {
+  var adv = {};
+  A.windowDates(end, 14).forEach(function (d) { adv[d] = { meta: { spend: 100, complete: true } }; });
+  return adv;
+}
+function spotifyCard(inp, end) {
+  var s = A.buildSeries(inp);
+  A._state.series = s;
+  var st = A.channelStats(spotifyCh(), s, inp, end);
+  return { series: s, stats: st, html: A.cardHtml(Object.assign({ share: null }, st), 14, A.windowDates(end, 14)) };
+}
+function rowFor(html, label) {
+  var i = html.indexOf('<td>' + label + '</td>');
+  assert.ok(i !== -1, 'row ' + label);
+  return html.slice(i, html.indexOf('</tr>', i));
+}
+
+test('Spotify: canonical spotify_ads + aliases map to one channel and spotify_ads_daily.json', function () {
+  ['spotify_ads', 'spotify', 'Spotify', 'Spotify Ads', 'spotify-ads', 'SPOTIFY_ADS'].forEach(function (k) {
+    assert.strictEqual(A.canonicalId(k), 'spotify', k);
+  });
+  assert.strictEqual(A.dailyFileName(spotifyCh()), 'spotify_ads_daily.json');
+  assert.ok(A.SCHEMA_CONTRACT.spotify_ads && /No data/.test(A.SCHEMA_CONTRACT.spotify_ads.missing));
+  assert.strictEqual(A.SCHEMA_CONTRACT.advertising_sources_daily.aliases['Spotify Ads'], 'spotify');
+  ['Spotify Ads', 'spotify'].forEach(function (k) {
+    var adv = metaWeeks('2026-11-05');
+    adv['2026-11-05'][k] = { spend: 42, complete: true };
+    var s = A.buildSeries({ embedded: [], advertisingSourcesDaily: adv });
+    assert.strictEqual(s.channels.spotify.days['2026-11-05'].spend, 42, 'advDaily alias ' + k);
+  });
+  var s2 = A.buildSeries({ embedded: [], advertisingSourcesDaily: metaWeeks('2026-11-05'), dailyFiles: { spotify: { by_date: { '2026-11-05': { spend: 7, complete: true } } } } });
+  assert.strictEqual(s2.channels.spotify.days['2026-11-05'].spend, 7, 'spotify_ads_daily.json');
+});
+
+test('Spotify: unavailable → "No data" only; never $0 / LIVE / paused; excluded from tracked spend with coverage', function () {
+  var adv = metaWeeks('2026-11-05');
+  adv['2026-11-04'].spotify_ads = { spend: 0 };                 // bare $0 = not measured
+  adv['2026-11-05'].spotify_ads = { spend: null, missing: true };
+  var inp = { embedded: [], advertisingSourcesDaily: adv };
+  var c = spotifyCard(inp, '2026-11-05');
+  assert.strictEqual(c.stats.spend7, null);
+  assert.strictEqual(c.stats.yday, null);
+  assert.notStrictEqual(c.stats.statusLabel, 'LIVE');
+  assert.strictEqual(c.stats.statusLabel, 'No data');
+  assert.strictEqual(c.stats.growth.label, 'No data');
+  assert.ok(c.html.indexOf('$0') === -1, 'no $0 anywhere on the unmeasured card');
+  assert.ok(c.html.indexOf('missing') === -1 && c.html.indexOf('unverified') === -1);
+  assert.ok(/paused/i.test(c.html) === false);
+  assert.ok(rowFor(c.html, A._fmt.shortDate('2026-11-05')).indexOf('No data') !== -1);
+  var stats = A.CHANNELS.map(function (ch) { return A.channelStats(ch, c.series, inp, '2026-11-05'); });
+  var sum = A.summarize(stats, c.series, inp, '2026-11-05');
+  assert.strictEqual(sum.tracked7, 700, 'unknown Spotify spend adds nothing to tracked spend');
+  assert.ok(sum.unmeasured7.some(function (u) { return u.id === 'spotify' && u.days === 0; }), 'coverage lists Spotify 0/7d');
+});
+
+test('Spotify: genuine measured $0 → number only ($0.00), no "No data" on that day', function () {
+  var adv = metaWeeks('2026-11-05');
+  A.windowDates('2026-11-05', 14).forEach(function (d) { adv[d].spotify_ads = { spend: 0, complete: true, live: false }; });
+  var inp = { embedded: [], advertisingSourcesDaily: adv };
+  var c = spotifyCard(inp, '2026-11-05');
+  assert.strictEqual(c.stats.yday, 0);
+  assert.strictEqual(c.stats.spend7, 0);
+  assert.strictEqual(c.stats.spend7Days, 7);
+  var row = rowFor(c.html, A._fmt.shortDate('2026-11-05'));
+  assert.ok(row.indexOf('$0.00') !== -1, row);
+  assert.ok(row.indexOf('No data') === -1, 'measured $0 day never says No data: ' + row);
+  assert.ok(row.indexOf('missing') === -1 && row.indexOf('unverified') === -1);
+});
+
+test('Spotify: spend-only rows keep platform ROAS "No data" (never invented)', function () {
+  var adv = metaWeeks('2026-11-05');
+  A.windowDates('2026-11-05', 7).forEach(function (d) { adv[d].spotify_ads = { spend: 50, complete: true, revenue: 0, roas: null, clicks: 0 }; });
+  var inp = { embedded: [], advertisingSourcesDaily: adv };
+  var c = spotifyCard(inp, '2026-11-05');
+  assert.strictEqual(c.stats.spend7, 350);
+  assert.strictEqual(c.stats.roas7, null);
+  assert.strictEqual(c.stats.platformRev7, null);
+  assert.ok(c.html.indexOf('<div class="l">Platform ROAS 7d</div><div class="v">No data</div>') !== -1);
+  var row = rowFor(c.html, A._fmt.shortDate('2026-11-05'));
+  var cells = row.split('<td>').slice(1).map(function (x) { return x.replace(/<\/td>.*/, ''); });
+  assert.deepStrictEqual(cells.slice(1), ['$50.00', 'No data', 'No data', 'No data'], 'spend number; platform rev / conv / ROAS No data');
+});
+
+test('Spotify: no conflicting labels — each day is a number or "No data", never both', function () {
+  var adv = metaWeeks('2026-11-05');
+  adv['2026-11-02'].spotify_ads = { spend: 0, complete: true };
+  adv['2026-11-03'].spotify_ads = { spend: null, missing: true };
+  adv['2026-11-04'].spotify_ads = { spend: 0 };
+  adv['2026-11-05'].spotify_ads = { spend: 55.5, spend_status: 'verified' };
+  var inp = { embedded: [], advertisingSourcesDaily: adv };
+  var c = spotifyCard(inp, '2026-11-05');
+  var expect = { '2026-11-02': '$0.00', '2026-11-03': 'No data', '2026-11-04': 'No data', '2026-11-05': '$55.50' };
+  Object.keys(expect).forEach(function (d) {
+    var row = rowFor(c.html, A._fmt.shortDate(d));
+    var spendCell = row.split('<td>')[2].replace(/<\/td>.*/, '');
+    assert.strictEqual(spendCell, expect[d], d);
+    if (expect[d] === 'No data') assert.ok(!/\$\d/.test(row), 'no number on a No data day ' + d + ': ' + row);
+    else if (expect[d] === '$0.00') assert.ok(row.indexOf('No data') === -1, 'no No data on measured $0 ' + d);
+    assert.ok(row.indexOf('missing') === -1 && row.indexOf('unverified') === -1);
+  });
+  assert.ok(c.html.indexOf('missing days are not $0') === -1, 'Spotify card uses "No data for …" coverage wording');
+});
+
+test('Spotify: cash_cost kept separate from platform spend (mirrors X)', function () {
+  var adv = metaWeeks('2026-11-05');
+  adv['2026-11-05'].spotify_ads = { spend: 100, cash_cost: 130, complete: true };
+  var inp = { embedded: [], advertisingSourcesDaily: adv };
+  var c = spotifyCard(inp, '2026-11-05');
+  assert.strictEqual(c.series.channels.spotify.days['2026-11-05'].spend, 100);
+  assert.strictEqual(c.series.channels.spotify.days['2026-11-05'].cash_cost, 130);
+  assert.strictEqual(c.stats.yday, 100);
+  assert.strictEqual(c.stats.ydayCash, 130);
+  assert.strictEqual(c.stats.spend7, 100, 'cash cost never added to spend');
+  assert.ok(c.html.indexOf('cash $130') !== -1);
+});
+
+test('Spotify: not-launched config → NOT LAUNCHED with no metrics; absence alone is not paused', function () {
+  var adv = metaWeeks('2026-11-05');
+  var inp = { embedded: [], advertisingSourcesDaily: adv, settings: { channels: { spotify_ads: { not_launched_while_zero: true } } } };
+  var c = spotifyCard(inp, '2026-11-05');
+  assert.strictEqual(c.stats.statusLabel, 'NOT LAUNCHED');
+  assert.strictEqual(c.stats.posture.code, 'not_live');
+  assert.strictEqual(c.stats.spend7, null);
+  assert.strictEqual(c.stats.roas7, null);
+  assert.ok(c.html.indexOf('$') === -1, 'no metrics on a not-launched card');
+  var inp2 = { embedded: [], advertisingSourcesDaily: adv, mer: { as_of: '2026-11-05', spotify: { status: 'not_launched', live: false } } };
+  assert.strictEqual(spotifyCard(inp2, '2026-11-05').stats.statusLabel, 'NOT LAUNCHED');
+  var bare = spotifyCard({ embedded: [], advertisingSourcesDaily: adv }, '2026-11-05');
+  assert.notStrictEqual(bare.stats.posture.code, 'killed');
+  assert.notStrictEqual(bare.stats.statusLabel, 'NOT LIVE');
+  assert.strictEqual(bare.stats.statusLabel, 'No data');
+});
+
 if (failed) {
   console.error(failed + ' ad-channel test(s) failed');
   process.exit(1);
