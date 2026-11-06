@@ -412,3 +412,47 @@ if (failed) {
   process.exit(1);
 }
 console.log('\nAll daily-report layout tests passed');
+
+test('mer.channel_ad_spend as-of snapshot is not applied to other dates', function () {
+  delete globalThis.PARTIAL_REPORTS;
+  var meta = { id: 'meta', sourceKeys: ['meta'], merKey: 'meta' };
+  var reddit = { id: 'reddit', sourceKeys: ['reddit_ads', 'reddit'], merKey: 'reddit' };
+  Paid._setMerDoc({
+    as_of: '2026-11-05',
+    channel_ad_spend: { meta: 9401.4, tiktok: 0, reddit: 150.12 },
+    advertising_sources: { '2026-11-05': {
+      meta: { spend: 9401.4, complete: true },
+      reddit_ads: { spend: 150.12, complete: true },
+      tiktok_ads: { spend: null, shopify_spend: 1264.56, complete: false }
+    } }
+  });
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(meta, '2026-10-20')), 'missing');
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-10-20')), 'missing');
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(meta, '2026-11-05')), '$9,401.40');
+  Paid._setMerDoc({
+    as_of: '2026-11-05',
+    channel_ad_spend: { '2026-11-05': { meta: 9401.4, tiktok: 1264.56 } },
+    advertising_sources: { '2026-11-05': { meta: { spend: 9401.4, complete: true } } }
+  });
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(meta, '2026-10-20')), 'missing');
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(meta, '2026-11-05')), '$9,401.40');
+  Paid._setMerDoc(null);
+});
+
+test('bare $0 in mer advertising_sources / by_date fallbacks shows missing, not $0', function () {
+  Paid._setMerDoc({ as_of: '2026-11-05', advertising_sources: { '2026-11-05': {
+    reddit_ads: { spend: 0 }, pinterest_ads: { spend: 0, complete: true, closed_day: true } } } });
+  var reddit = { id: 'reddit', sourceKeys: ['reddit_ads', 'reddit'], merKey: 'reddit' };
+  var pinterest = { id: 'pinterest', sourceKeys: ['pinterest_ads', 'pinterest'], merKey: 'pinterest' };
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-11-05')), 'missing');
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(pinterest, '2026-11-05')), '$0.00');
+  Paid._setMerDoc(null);
+});
+
+test('mer.channel_revenue flat snapshot is not applied to other dates', function () {
+  delete globalThis.PARTIAL_REPORTS;
+  Paid._setMerDoc({ as_of: '2026-11-05', channel_revenue: { meta: 12345 }, channel_ad_spend: { meta: 100 },
+    advertising_sources: { '2026-11-05': { meta: { spend: 100, complete: true } } } });
+  assert.ok(Paid.spendTxt(Paid.dayForDisplay({ id: 'meta', sourceKeys: ['meta'], merKey: 'meta' }, '2026-11-05')) === '$100.00');
+  Paid._setMerDoc(null);
+});

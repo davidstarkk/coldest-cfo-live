@@ -108,9 +108,11 @@
     return keys.every(function (k) { return /^\d{4}-\d{2}-\d{2}$/.test(k); });
   }
 
-  function mapForDate(obj, date) {
+  function mapForDate(obj, date, asOf) {
     if (!obj || typeof obj !== 'object') return null;
     if (isDateKeyedMap(obj)) return obj[date] || null;
+    // Flat as-of snapshot. Never apply it to unrelated dates.
+    if (asOf && date && date !== asOf) return null;
     return obj;
   }
 
@@ -206,7 +208,7 @@
   function spendFromChannelAdSpend(ch, date) {
     var r = reportForDate(date);
     var map = r && r.channel_ad_spend;
-    if (!map) map = MER_DOC && mapForDate(MER_DOC.channel_ad_spend, date);
+    if (!map) map = MER_DOC && mapForDate(MER_DOC.channel_ad_spend, date, MER_DOC.as_of);
     else map = mapForDate(map, date);
     if (!map) return null;
     var keys = ((ch && ch.sourceKeys) || []).concat(ch ? [ch.id, ch.merKey] : []);
@@ -280,8 +282,8 @@
       : [];
     if (fromMerPartials.length) return mergeOverlayRows(fromMerPartials);
     var adv = mer.advertising_sources && mer.advertising_sources[date];
-    var rev = mapForDate(mer.channel_revenue, date);
-    var spend = mapForDate(mer.channel_ad_spend, date);
+    var rev = mapForDate(mer.channel_revenue, date, mer.as_of);
+    var spend = mapForDate(mer.channel_ad_spend, date, mer.as_of);
     if (!adv && !rev && !spend) return false;
     var row = {
       date: date,
@@ -369,6 +371,7 @@
     var s = finiteNum(node.spend);
     if (s == null) s = finiteNum(node.daily_spend);
     if (s == null) s = finiteNum(node.ad_spend);
+    if (s == null) s = finiteNum(node.shopify_spend);
     if (s !== 0) return false;
     if (node.complete === true || node.closed_day === true) return true;
     if (node.spend_status === 'verified') return true;
@@ -383,6 +386,7 @@
     var s = finiteNum(node.spend);
     if (s == null) s = finiteNum(node.daily_spend);
     if (s == null) s = finiteNum(node.ad_spend);
+    if (s == null) s = finiteNum(node.shopify_spend);
     if (s == null) return false;
     if (s === 0) return isMeasuredZero(node);
     return true;
@@ -1513,14 +1517,14 @@
     var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
     if (src) {
       var picked = pickSourceNode(src, ch);
-      if (picked && !isPlaceholderNode(picked.node)) {
+      if (picked && spendIsPublished(picked.node) && !isPlaceholderNode(picked.node)) {
         return nodeToDay(date, picked.node, 'advertising_sources.' + picked.key);
       }
     }
     var merB = (known ? merBlockFor(known) : null) || (MER_DOC && MER_DOC[ch.merKey]) || null;
     if (merB && !isPlaceholderNode(merB)) {
       var by = merB.by_date || merB.by_day;
-      if (by && by[date] && !isPlaceholderNode(by[date])) {
+      if (by && by[date] && spendIsPublished(by[date]) && !isPlaceholderNode(by[date])) {
         return nodeToDay(date, by[date], 'mer_for_manus.json#' + ch.merKey);
       }
       var snap = snapshotFromBlock(merB, 'mer_for_manus.json#' + ch.merKey);
