@@ -70,6 +70,15 @@
   var DEFAULT_WINDOW = 28;
   var MAX_STACK_SERIES = 7;     // top 7 by window spend + Other (fixed palette, never cycled)
   var ADV_DAILY_FILE = 'advertising_sources_daily.json';
+  // Only fetch *_ads_data.json overlays that this repo actually ships (stubs). The
+  // other channels 404 on Pages today; CFO spend lands in *_ads_daily.json instead.
+  var OPTIONAL_DATA_FILES = {
+    bing: 'bing_ads_data.json',
+    chatgpt: 'chatgpt_ads_data.json',
+    reddit: 'reddit_ads_data.json',
+    snapchat: 'snapchat_ads_data.json',
+    pinterest: 'pinterest_ads_data.json'
+  };
   var ALIASES = {};
   CHANNELS.forEach(function (ch) {
     ALIASES[ch.id] = ch.id;
@@ -97,8 +106,8 @@
       shape: 'date-keyed map or {advertising_sources:{YYYY-MM-DD:{<alias>: node}}} or {daily:[{date, ...channels}]}',
       aliases: ALIASES,
       node: '{spend, complete|closed_day|spend_status, live, source, platform_revenue?, platform_roas?, conversions?, clicks?, impressions?, spend_d2c?, spend_amazon?, destination?, cash_cost?}',
-      measured_zero: 'spend:0 AND (complete:true | closed_day:true | spend_status:verified | live:false with status not_live|pre_launch|not_launched|dark)',
-      missing: 'omit the day, or spend:null / missing:true / status missing|no_feed|unpublished — never calendar-fill $0 after the last durable row'
+      measured_zero: 'spend:0 AND (complete:true | closed_day:true | spend_status:verified | live:false with status not_live|pre_launch|not_launched|dark). Measured zeros stay $0 even after the last positive day (paused Pinterest, never-launched Outbrain).',
+      missing: 'omit the day, or spend:null / missing:true / status missing|no_feed|unpublished / bare {spend:0} without the flags above. Prefer the nested advertising_sources map. Do not calendar-fill unmarked $0 after a durable stop.'
     },
     channel_ads_daily: {
       file: '<id>_ads_daily.json',
@@ -231,10 +240,11 @@
     var keys = Object.keys(doc);
     var dates = keys.filter(isDate);
     if (!dates.length) return {};
-    var meta = keys.filter(function (k) {
-      return !isDate(k) && k.charAt(0) !== '_' && k !== 'as_of' && k !== 'source' && k !== 'status' && k !== 'message' && k !== 'schema_version';
+    var META = { as_of: 1, asOf: 1, source: 1, status: 1, message: 1, schema_version: 1, generated_at: 1, updated_at: 1, channel: 1, account_id: 1, note: 1, notes: 1 };
+    var unknown = keys.filter(function (k) {
+      return !isDate(k) && k.charAt(0) !== '_' && !META[k];
     });
-    if (dates.length >= meta.length) {
+    if (!unknown.length || dates.length >= unknown.length) {
       var map = {};
       dates.forEach(function (d) { map[d] = doc[d]; });
       return map;
@@ -467,7 +477,7 @@
         if (node === undefined || isPlaceholderNode(node)) return;
         var r = rec(ch, date);
         applySpend(r, ch, node, 'mer_for_manus.json advertising_sources');
-        if (spendFromNode(ch, node) > 0) markDurable(ch, date, node);
+        markDurable(ch, date, node);
       });
     });
 
@@ -561,7 +571,8 @@
       };
     });
 
-    // Drop $0 rows after a durable feed stops (copied-forward / calendar-fill false zeros).
+    // Drop only synthetic $0 after a durable stop (no_feed / unmarked / zero_assumed).
+    // Measured paused zeros (complete / closed_day / verified / explicit not-live) stay $0.
     CHANNELS.forEach(function (ch) {
       var bag = out.channels[ch.id];
       var lastPos = null;
@@ -572,8 +583,9 @@
       Object.keys(bag.days).forEach(function (d) {
         var r = bag.days[d];
         if (r.spend == null || r.spend > 0) return;
+        if (r.spendKind === 'measured_zero') return;
         var afterDurable = cut && d > cut;
-        var afterPositive = lastPos && d > lastPos && r.spendKind !== 'measured_zero';
+        var afterPositive = lastPos && d > lastPos;
         if (afterDurable || afterPositive) {
           r.spend = null; r.spendKind = null; r.spendSource = null;
           r.spend_d2c = null; r.spend_amazon = null;
@@ -1247,10 +1259,9 @@
       seriesFile: 'ads_throttle/series.json'
     };
     var keys = Object.keys(files);
-    var extra = [ADV_DAILY_FILE].concat(
-      CHANNELS.map(function (ch) { return dailyFileName(ch); }),
-      CHANNELS.map(function (ch) { return ch.file; }).filter(Boolean)
-    );
+    var dailyUrls = CHANNELS.map(function (ch) { return dailyFileName(ch); });
+    var dataIds = CHANNELS.filter(function (ch) { return ch.file && OPTIONAL_DATA_FILES[ch.id]; }).map(function (ch) { return ch.id; });
+    var extra = [ADV_DAILY_FILE].concat(dailyUrls, dataIds.map(function (id) { return OPTIONAL_DATA_FILES[id]; }));
     return Promise.all(keys.concat(extra).map(function (k) {
       var url = files[k] || k;
       return fetchJson(url).then(function (doc) { return doc; }, function () { return null; });
@@ -1261,7 +1272,9 @@
       inputs.advertisingSourcesDaily = docs[offset];
       CHANNELS.forEach(function (ch, i) {
         inputs.dailyFiles[ch.id] = docs[offset + 1 + i];
-        inputs.channelFiles[ch.id] = docs[offset + 1 + CHANNELS.length + i] || null;
+      });
+      dataIds.forEach(function (id, i) {
+        inputs.channelFiles[id] = docs[offset + 1 + dailyUrls.length + i] || null;
       });
       STATE.inputs = inputs;
       STATE.loaded = true;

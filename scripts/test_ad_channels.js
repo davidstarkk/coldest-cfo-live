@@ -341,7 +341,7 @@ test('advertising_sources_daily and *_ads_daily fill PARTIAL holes; first publis
   assert.ok(bing.roas7 != null);
 });
 
-test('false zeros after a durable stop are stripped; measured zeros on a live feed stay', function () {
+test('synthetic $0 after a durable stop is missing; measured paused zeros stay $0', function () {
   var inp = {
     mer: {
       as_of: '2026-11-04',
@@ -349,7 +349,8 @@ test('false zeros after a durable stop are stripped; measured zeros on a live fe
         '2026-10-29': { bing_ads: { spend: 80, complete: true, live: true, source: 'Pipeboard Bing' } },
         '2026-10-30': { bing_ads: { spend: 90, complete: true, live: true, source: 'Pipeboard Bing' } },
         '2026-10-31': { bing_ads: { spend: 0, live: true, source: 'copied' } },
-        '2026-11-01': { bing_ads: { spend: 0, complete: true, live: true, source: 'copied-complete' } },
+        '2026-11-01': { bing_ads: { spend: 0, complete: true, live: false, status: 'not_live' } },
+        '2026-11-02': { bing_ads: { spend: 0, zero_assumed: true } },
         '2026-11-03': { outbrain_ads: { spend: 0, complete: true, live: false, status: 'not_launched' } },
         '2026-11-04': { outbrain_ads: { spend: 0, closed_day: true, live: false, status: 'not_launched' } }
       }
@@ -358,13 +359,14 @@ test('false zeros after a durable stop are stripped; measured zeros on a live fe
   var s = A.buildSeries(inp);
   assert.strictEqual(s.channels.bing.days['2026-10-30'].spend, 90);
   assert.ok(!s.channels.bing.days['2026-10-31'] || s.channels.bing.days['2026-10-31'].spend == null, 'unmeasured $0 after stop is missing');
-  assert.ok(!s.channels.bing.days['2026-11-01'] || s.channels.bing.days['2026-11-01'].spend == null, 'copied complete $0 after durable stop is stripped');
-  assert.strictEqual(s.channels.bing.durableThrough, '2026-10-30');
+  assert.strictEqual(s.channels.bing.days['2026-11-01'].spend, 0, 'complete paused $0 via mer stays measured');
+  assert.ok(!s.channels.bing.days['2026-11-02'] || s.channels.bing.days['2026-11-02'].spend == null, 'zero_assumed is synthetic');
+  assert.ok(s.channels.bing.durableThrough >= '2026-11-01');
   assert.strictEqual(s.channels.outbrain.days['2026-11-03'].spend, 0);
   assert.strictEqual(s.channels.outbrain.days['2026-11-04'].spend, 0);
   var bing = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0], s, inp, '2026-11-04');
-  assert.strictEqual(bing.spend7, 170, 'only the two measured days, missing days not $0');
-  assert.strictEqual(bing.spend7Days, 2);
+  assert.strictEqual(bing.spend7, 170, 'measured days only; unmarked holes are not $0');
+  assert.strictEqual(bing.spend7Days, 3);
   assert.strictEqual(bing.growth.code, 'incomplete');
   assert.strictEqual(A._fmt.usd(bing.yday), '—');
   var staleInp = {
@@ -388,6 +390,45 @@ test('false zeros after a durable stop are stripped; measured zeros on a live fe
   assert.strictEqual(outb.spend7, 0);
   assert.strictEqual(outb.spend7Days, 2);
   assert.strictEqual(outb.growth.code, 'incomplete');
+});
+
+test('mer-path Pinterest complete $0 after last positive stays measured (paused), not stripped', function () {
+  var adv = {
+    '2026-10-28': { pinterest_ads: { spend: 60, complete: true, live: true } },
+    '2026-10-29': { pinterest_ads: { spend: 50, complete: true, live: true } }
+  };
+  ['2026-10-30', '2026-10-31', '2026-11-01', '2026-11-02', '2026-11-03', '2026-11-04'].forEach(function (d) {
+    adv[d] = { pinterest_ads: { spend: 0, complete: true, live: false } };
+  });
+  var inp = { mer: { as_of: '2026-11-04', advertising_sources: adv } };
+  var s = A.buildSeries(inp);
+  assert.strictEqual(s.channels.pinterest.days['2026-11-04'].spend, 0);
+  assert.strictEqual(s.channels.pinterest.days['2026-11-04'].spendKind, 'measured_zero');
+  var pin = A.CHANNELS.filter(function (c) { return c.id === 'pinterest'; })[0];
+  var st = A.channelStats(pin, s, inp, '2026-11-04');
+  assert.strictEqual(st.yday, 0);
+  assert.strictEqual(st.spend7Days, 7);
+  assert.strictEqual(st.spend7, 50);
+  assert.notStrictEqual(st.yday, null);
+});
+
+test('asDateMap keeps a 1–2 day backfill when extra keys are metadata', function () {
+  var doc = {
+    as_of: '2026-11-05',
+    source: 'box runner',
+    status: 'ok',
+    schema_version: 1,
+    generated_at: '2026-11-06T00:00:00Z',
+    account_id: '18ce55yad5n',
+    note: 'two-day backfill',
+    '2026-11-04': { spend: 1.43, complete: true },
+    '2026-11-05': { spend: 65.62, complete: true }
+  };
+  var map = A.asDateMap(doc);
+  assert.strictEqual(Object.keys(map).sort().join(','), '2026-11-04,2026-11-05');
+  assert.strictEqual(map['2026-11-04'].spend, 1.43);
+  var nested = A.asDateMap({ advertising_sources: doc });
+  assert.strictEqual(nested['2026-11-05'].spend, 65.62);
 });
 
 test('no published rows is NO FEED / —, never $0; Taboola unpublished is not launched $0', function () {

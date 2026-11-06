@@ -343,14 +343,48 @@
     };
   }
 
+  function finiteNum(v) {
+    if (v == null || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+
   function isPlaceholderNode(node) {
     if (node == null || node === false) return true;
     if (typeof node !== 'object') return false;
     if (node.missing === true || node.data_available === false || node.zero_assumed === true) return true;
     var st = node.status != null ? String(node.status) : '';
     if (st === 'missing' || st === 'no_feed' || st === 'unpublished' || st === 'no_data') return true;
-    if (st === 'pre_launch' && num(node.spend) === 0 && !node.complete && !(Array.isArray(node.daily) && node.daily.length)) return true;
-    return (st === 'no_feed' || node.source === 'no feed' || node.source === 'none') && num(node.spend) === 0;
+    if (st === 'pre_launch' && (finiteNum(node.spend) == null || finiteNum(node.spend) === 0) && !node.complete && !(Array.isArray(node.daily) && node.daily.length)) return true;
+    return (st === 'no_feed' || node.source === 'no feed' || node.source === 'none') && (finiteNum(node.spend) == null || finiteNum(node.spend) === 0);
+  }
+
+  // Same measured-zero rule as ad_channels_module.js. Bare {spend:0} is missing.
+  function isMeasuredZero(node) {
+    if (node == null) return false;
+    if (typeof node === 'number' || typeof node === 'string') return finiteNum(node) === 0;
+    if (typeof node !== 'object') return false;
+    if (isPlaceholderNode(node)) return false;
+    var s = finiteNum(node.spend);
+    if (s == null) s = finiteNum(node.daily_spend);
+    if (s == null) s = finiteNum(node.ad_spend);
+    if (s !== 0) return false;
+    if (node.complete === true || node.closed_day === true) return true;
+    if (node.spend_status === 'verified') return true;
+    var st = node.status != null ? String(node.status) : '';
+    if (node.live === false && (st === 'not_live' || st === 'pre_launch' || st === 'not_launched' || st === 'dark')) return true;
+    return false;
+  }
+
+  function spendIsPublished(node) {
+    if (node == null || isPlaceholderNode(node)) return false;
+    if (typeof node === 'number' || typeof node === 'string') return finiteNum(node) != null;
+    var s = finiteNum(node.spend);
+    if (s == null) s = finiteNum(node.daily_spend);
+    if (s == null) s = finiteNum(node.ad_spend);
+    if (s == null) return false;
+    if (s === 0) return isMeasuredZero(node);
+    return true;
   }
 
   function pickSourceNode(sources, ch) {
@@ -480,17 +514,19 @@
   function dailyMapFromBlock(block, source) {
     var out = {};
     if (!block || typeof block !== 'object') return out;
+    function put(date, node) {
+      if (!date || !spendIsPublished(node)) return;
+      out[date] = nodeToDay(date, node, source);
+    }
     if (Array.isArray(block.daily)) {
       block.daily.forEach(function (row) {
         if (!row || !row.date) return;
-        out[row.date] = nodeToDay(row.date, row, source);
+        put(row.date, row);
       });
     }
     var byDate = block.by_date || block.by_day;
     if (byDate && typeof byDate === 'object' && !Array.isArray(byDate)) {
-      Object.keys(byDate).forEach(function (date) {
-        out[date] = nodeToDay(date, byDate[date], source);
-      });
+      Object.keys(byDate).forEach(function (date) { put(date, byDate[date]); });
     }
     return out;
   }
@@ -550,7 +586,7 @@
       var day = src[date];
       if (!day || typeof day !== 'object' || Array.isArray(day)) return;
       var picked = pickSourceNode(day, ch);
-      if (!picked || isPlaceholderNode(picked.node)) return;
+      if (!picked || isPlaceholderNode(picked.node) || !spendIsPublished(picked.node)) return;
       out[date] = nodeToDay(date, picked.node, 'advertising_sources.' + picked.key);
     });
     return out;
@@ -566,7 +602,7 @@
       var day = map[date];
       if (!day || typeof day !== 'object' || Array.isArray(day)) return;
       var picked = pickSourceNode(day, ch);
-      if (!picked || isPlaceholderNode(picked.node)) return;
+      if (!picked || isPlaceholderNode(picked.node) || !spendIsPublished(picked.node)) return;
       out[date] = nodeToDay(date, picked.node, 'advertising_sources_daily.json');
     });
     return out;
@@ -592,6 +628,7 @@
         var picked = pickSourceNode(r.advertising_sources, ch);
         if (!picked) return;
         if (pipelineFlag(r, ch) === false && num(picked.node && picked.node.spend) === 0) return;
+        if (!spendIsPublished(picked.node)) return;
         var fromPartial = nodeToDay(r.date, picked.node, 'advertising_sources.' + picked.key);
         var existing = days[r.date];
         if (!existing) {
@@ -1116,22 +1153,38 @@
     return (MER_DOC && MER_DOC.x && typeof MER_DOC.x === 'object') ? MER_DOC.x : null;
   }
 
+  function publishedKeyedNode(bag, keys) {
+    if (!bag || typeof bag !== 'object') return null;
+    var picked = pickSourceNode(bag, { sourceKeys: keys });
+    if (picked && spendIsPublished(picked.node)) return picked.node;
+    return null;
+  }
+
+  function feedDailyNode(id, date, keys) {
+    var doc = FEEDS[id] && FEEDS[id].daily;
+    if (!doc || isPlaceholderNode(doc)) return null;
+    var map = doc.advertising_sources && typeof doc.advertising_sources === 'object' ? doc.advertising_sources : doc;
+    if (map.by_date && typeof map.by_date === 'object') map = map.by_date;
+    else if (map.by_day && typeof map.by_day === 'object') map = map.by_day;
+    var node = map && map[date];
+    if (spendIsPublished(node)) return node;
+    return publishedKeyedNode(node, keys || []);
+  }
+
   function xAdvNode(date) {
     var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
-    var picked = src ? pickSourceNode(src, { sourceKeys: ['x_ads', 'x', 'twitter_ads', 'twitter'] }) : null;
-    if (picked) return picked.node;
+    var node = publishedKeyedNode(src, ['x_ads', 'x', 'twitter_ads', 'twitter']);
+    if (node) return node;
     var daily = ADV_DAILY && (ADV_DAILY.advertising_sources || ADV_DAILY);
-    var day = daily && daily[date];
-    picked = day ? pickSourceNode(day, { sourceKeys: ['x_ads', 'x', 'twitter_ads', 'twitter'] }) : null;
-    return picked ? picked.node : null;
+    node = publishedKeyedNode(daily && daily[date], ['x_ads', 'x', 'twitter_ads', 'twitter']);
+    if (node) return node;
+    return feedDailyNode('x', date, ['x_ads', 'x', 'twitter_ads', 'twitter']);
   }
 
   function xDayRow(date) {
     var b = xBlock();
-    if (b && b.live && b.by_date && b.by_date[date]) return b.by_date[date];
-    var node = xAdvNode(date);
-    if (node && node.spend != null && !isPlaceholderNode(node)) return node;
-    return null;
+    if (b && b.live && b.by_date && b.by_date[date] && spendIsPublished(b.by_date[date])) return b.by_date[date];
+    return xAdvNode(date);
   }
 
   function xSpendTxt(date) {
@@ -1154,14 +1207,17 @@
         + '<tr class="pc-split"><td colspan="7">↳ X Premium Business fee / ad credit: not live until the account id and start date are set. $0 in ad spend and MER.</td></tr>';
     }
     var spend = num(r.spend);
-    var cash = num(r.cash_cost);
+    var cash = finiteNum(r.cash_cost);
+    var srcLabel = (b && b.source) || r.source || 'advertising_sources';
+    var plan = (b && b.plan) || r.plan || 'monthly';
+    var flags = (b && b.flags) || r.flags || [];
     var html = '<tr><td>X Ads</td><td>' + usd(spend) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
       + '</td><td>' + usd(r.revenue) + '</td><td>' + esc(rx(spend > 0 ? num(r.revenue) / spend : null)) + ' · platform-reported</td><td>'
-      + esc(b.source || 'mer_for_manus.json#x') + '</td></tr>'
-      + '<tr class="pc-split"><td>↳ X cash cost</td><td>' + usd(cash) + '</td><td colspan="5">ad credit −' + usd(r.credit_used)
-      + ' · cash spend ' + usd(r.cash_spend) + ' · Premium fee ' + usd(r.fee) + ' (' + esc(b.plan || 'monthly')
+      + esc(srcLabel) + '</td></tr>'
+      + '<tr class="pc-split"><td>↳ X cash cost</td><td>' + (cash == null ? 'missing' : usd(cash)) + '</td><td colspan="5">ad credit −' + usd(r.credit_used)
+      + ' · cash spend ' + usd(r.cash_spend) + ' · Premium fee ' + usd(r.fee) + ' (' + esc(plan)
       + ') · ROAS on cash cost ' + esc(rx(cash > 0 ? num(r.revenue) / cash : null)) + '</td></tr>';
-    (b.flags || []).forEach(function (f) {
+    flags.forEach(function (f) {
       html += '<tr class="pc-split"><td colspan="7" style="color:#f5bc62">⚠ ' + esc(f) + '</td></tr>';
     });
     return html;
@@ -1180,16 +1236,18 @@
   };
 
   function taboolaDayRow(date) {
+    var keys = ['taboola_ads', 'taboola'];
     var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
-    var node = src && (src.taboola_ads || src.taboola);
-    if (node && node.missing) return null;
-    if (node && (node.complete || node.closed_day) && node.spend != null) return node;
+    var node = publishedKeyedNode(src, keys);
+    if (node) return node;
     var daily = ADV_DAILY && (ADV_DAILY.advertising_sources || ADV_DAILY);
-    var dnode = daily && daily[date] && (daily[date].taboola_ads || daily[date].taboola);
-    if (dnode && !dnode.missing && dnode.spend != null) return dnode;
+    node = publishedKeyedNode(daily && daily[date], keys);
+    if (node) return node;
+    node = feedDailyNode('taboola', date, keys);
+    if (node) return node;
     var b = MER_DOC && MER_DOC.taboola;
     var by = b && b.by_date;
-    if (by && by[date] && by[date].spend != null) return by[date];
+    if (by && by[date] && spendIsPublished(by[date])) return by[date];
     return null;
   }
 
@@ -1243,16 +1301,18 @@
   };
 
   function outbrainDayRow(date) {
+    var keys = ['outbrain_ads', 'outbrain'];
     var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
-    var node = src && (src.outbrain_ads || src.outbrain);
-    if (node && node.missing) return null;
-    if (node && (node.complete || node.closed_day) && node.spend != null) return node;
+    var node = publishedKeyedNode(src, keys);
+    if (node) return node;
     var daily = ADV_DAILY && (ADV_DAILY.advertising_sources || ADV_DAILY);
-    var dnode = daily && daily[date] && (daily[date].outbrain_ads || daily[date].outbrain);
-    if (dnode && !dnode.missing && dnode.spend != null) return dnode;
+    node = publishedKeyedNode(daily && daily[date], keys);
+    if (node) return node;
+    node = feedDailyNode('outbrain', date, keys);
+    if (node) return node;
     var b = MER_DOC && MER_DOC.outbrain;
     var by = b && b.by_date;
-    if (by && by[date] && by[date].spend != null) return by[date];
+    if (by && by[date] && spendIsPublished(by[date])) return by[date];
     return null;
   }
 
@@ -1643,8 +1703,14 @@
     publishedAmount: publishedAmount,
     mergeOverlayRows: mergeOverlayRows,
     hydratePartialFromMer: hydratePartialFromMer,
+    isMeasuredZero: isMeasuredZero,
+    spendIsPublished: spendIsPublished,
     _setMerDoc: function (doc) { MER_DOC = doc || null; },
-    _setAdvDaily: function (doc) { ADV_DAILY = doc || null; }
+    _setAdvDaily: function (doc) { ADV_DAILY = doc || null; },
+    _setDailyFile: function (id, doc) {
+      FEEDS[id] = FEEDS[id] || { file: null, mer: null, manual: null, daily: null };
+      FEEDS[id].daily = doc || null;
+    }
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

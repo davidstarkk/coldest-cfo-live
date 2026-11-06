@@ -205,6 +205,22 @@ test('X Ads: not live = $0 / not live; live shows cash cost, credit, fee and fla
   assert.strictEqual(Paid.xSpendTxt('2026-11-04'), 'missing');
   assert.ok(Paid.xDetailHtml('2026-11-04').indexOf('missing') !== -1);
   assert.ok(Paid.xDetailHtml('2026-11-04').indexOf('$0.00') === -1);
+
+  Paid._setMerDoc({ advertising_sources: {} });
+  Paid._setAdvDaily({ '2026-11-05': { x_ads: { spend: 65.62, cash_cost: 93.02, clicks: 12, conversions: 1, revenue: 40 } } });
+  var htmlDaily = Paid.xDetailHtml('2026-11-05');
+  assert.ok(htmlDaily.indexOf('$65.62') !== -1, 'advDaily X spend renders when mer.x is absent');
+  assert.ok(htmlDaily.indexOf('$93.02') !== -1);
+  assert.ok(htmlDaily.indexOf('advertising_sources') !== -1 || htmlDaily.indexOf('x_ads') !== -1 || htmlDaily.length > 0);
+  assert.strictEqual(Paid.xSpendTxt('2026-11-05'), '$65.62 (cash cost $93.02)');
+  Paid._setAdvDaily(null);
+  Paid._setMerDoc({ advertising_sources: { '2026-11-05': { x_ads: { spend: 65.62, cash_cost: 93.02 } } } });
+  assert.doesNotThrow(function () { Paid.xDetailHtml('2026-11-05'); });
+  assert.ok(Paid.xDetailHtml('2026-11-05').indexOf('$65.62') !== -1);
+  Paid._setMerDoc(null);
+  Paid._setDailyFile('x', { '2026-11-05': { spend: 65.62, cash_cost: 93.02, complete: true } });
+  assert.ok(Paid.xDetailHtml('2026-11-05').indexOf('$65.62') !== -1, 'x_ads_daily.json is read');
+  Paid._setDailyFile('x', null);
 });
 
 test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; ROAS platform-reported next to Shopify-attributed', function () {
@@ -226,6 +242,13 @@ test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; R
   assert.ok(html.indexOf('2.80x · platform-reported') !== -1);
   assert.ok(html.indexOf('Shopify-attributed</td><td>$150.00') !== -1);
   assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$100.00');
+  Paid._setMerDoc({ advertising_sources: {} });
+  Paid._setAdvDaily({ '2026-11-04': { taboola_ads: { spend: 0 } } });
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-04'), 'missing', 'unmarked {spend:0} on advDaily is not $0.00 · not live');
+  assert.ok(Paid.taboolaDetailHtml('2026-11-04').indexOf('$0.00') === -1);
+  Paid._setAdvDaily({ '2026-11-04': { taboola_ads: { spend: 0, complete: true, live: false } } });
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-04'), '$0.00 · not live');
+  Paid._setAdvDaily(null);
   Paid._setMerDoc(null);
 });
 
@@ -247,6 +270,24 @@ test('Outbrain: after Taboola; not imported = missing; blanks = unknown; ROAS pl
   assert.ok(h2.indexOf('unknown · platform-reported') !== -1);
   assert.ok(h2.indexOf('CPA unknown') !== -1);
   Paid._setMerDoc(null);
+  Paid._setAdvDaily({ '2026-11-04': { outbrain_ads: { spend: 0 } } });
+  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-04'), 'missing', 'unmarked {spend:0} is missing, not $0.00 · not live');
+  Paid._setAdvDaily({ '2026-11-04': { outbrain_ads: { spend: 0, complete: true, live: false, status: 'not_launched' } } });
+  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-04'), '$0.00 · not live');
+  Paid._setAdvDaily(null);
+});
+
+test('Daily Reports advDaily bare $0 is missing; complete $0 is measured — same rule as Ad Channels', function () {
+  var reddit = Paid.CHANNELS.filter(function (c) { return c.id === 'reddit'; })[0];
+  Paid._setMerDoc(null);
+  Paid.setFeeds('reddit', null, null, null);
+  Paid._setAdvDaily({ '2026-11-04': { reddit_ads: { spend: 0 } } });
+  assert.strictEqual(Paid.spendIsPublished({ spend: 0 }), false);
+  assert.strictEqual(Paid.isMeasuredZero({ spend: 0, complete: true }), true);
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-11-04')), 'missing');
+  Paid._setAdvDaily({ '2026-11-04': { reddit_ads: { spend: 0, complete: true } } });
+  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-11-04')), '$0.00');
+  Paid._setAdvDaily(null);
 });
 
 if (failed) {
