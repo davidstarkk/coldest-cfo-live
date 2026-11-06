@@ -24,7 +24,21 @@
      • ads_throttle/changes.json    — Jarvis budget actions (raise / cut / kill)
      • ads_throttle/rankings.json   — Jarvis weekly tiers + platform ROAS
      • ads_throttle/tracking_health.json — OK / WARN / DOWN per channel
-     • ads_throttle/series.json     — older daily spend fallback
+     • advertising_sources_daily.json — date-keyed CFO export (fills PARTIAL gaps;
+       canonical keys or aliases; a day not present is missing, not $0)
+     • <channel>_ads_daily.json    — per-channel CFO export (box runner files)
+     • <channel>_ads_data.json     — optional manual file; empty pre-launch / no_feed
+       stubs are ignored (they are not measured $0)
+     • ads_throttle/series.json     — older daily spend fallback (source:no_feed skipped)
+
+   Completeness (null vs measured zero):
+     spend is a number (including 0) only when the node is measured:
+       complete === true, closed_day === true, spend_status === 'verified',
+       or an explicit not-live published zero. Bare null / missing key /
+       status missing|no_feed / source no_feed / $0 after a durable feed
+       stops = missing (display "—"), never a false $0.
+     Platform ROAS uses that channel's own platform_revenue/roas over the
+     days it reported; Meta / Google spend-only nodes stay "—".
 
    Verdicts are derived, labelled and explained:
      growth  = measured spend, last 7 days vs the 7 before (±15 %)
@@ -36,18 +50,18 @@
   'use strict';
 
   var CHANNELS = [
-    { id: 'meta', label: 'Meta', srcKeys: ['meta', 'meta_ads', 'facebook', 'fb_ads'], color: '#3987e5', d2c: true },
-    { id: 'google', label: 'Google Ads', srcKeys: ['google_ads', 'google', 'google_advertising'], color: '#d95926', d2c: true },
-    { id: 'tiktok', label: 'TikTok Ads', srcKeys: ['tiktok_ads', 'tiktok'], color: '#199e70', d2c: 'partial', note: 'Shop ads + website; only the website share is D2C' },
-    { id: 'bing', label: 'Bing / Microsoft', srcKeys: ['bing_ads', 'bing', 'microsoft_ads', 'microsoft_advertising'], color: '#c98500', d2c: 'partial', note: 'Amazon-bound campaign is not D2C' },
-    { id: 'snapchat', label: 'Snapchat', srcKeys: ['snapchat_ads', 'snapchat', 'snap'], color: '#d55181', d2c: true },
-    { id: 'applovin', label: 'AppLovin', srcKeys: ['applovin', 'applovin_ads'], color: '#008300', d2c: true },
-    { id: 'pinterest', label: 'Pinterest', srcKeys: ['pinterest_ads', 'pinterest'], color: '#9085e9', d2c: true },
-    { id: 'chatgpt', label: 'ChatGPT Ads', srcKeys: ['chatgpt_ads', 'chatgpt', 'openai_ads'], color: '#e66767', d2c: true },
-    { id: 'reddit', label: 'Reddit', srcKeys: ['reddit_ads', 'reddit'], color: '#8888a8', other: true, d2c: true },
-    { id: 'taboola', label: 'Taboola', srcKeys: ['taboola_ads', 'taboola'], color: '#8888a8', other: true, d2c: true },
-    { id: 'outbrain', label: 'Outbrain', srcKeys: ['outbrain_ads', 'outbrain'], color: '#8888a8', other: true, d2c: true, note: 'Manual daily feed (outbrain ads); a day not imported is missing' },
-    { id: 'x', label: 'X Ads', srcKeys: ['x_ads', 'x', 'twitter_ads'], color: '#8888a8', other: true, d2c: true, note: 'Only cash cost (spend − credit + Premium fee) folds into MER' }
+    { id: 'meta', label: 'Meta', srcKeys: ['meta', 'meta_ads', 'facebook', 'fb_ads'], color: '#3987e5', d2c: true, file: 'meta_ads_data.json' },
+    { id: 'google', label: 'Google Ads', srcKeys: ['google_ads', 'google', 'google_advertising'], color: '#d95926', d2c: true, file: 'google_ads_data.json' },
+    { id: 'tiktok', label: 'TikTok Ads', srcKeys: ['tiktok_ads', 'tiktok'], color: '#199e70', d2c: 'partial', note: 'Shop ads + website; only the website share is D2C', file: 'tiktok_ads_data.json' },
+    { id: 'bing', label: 'Bing / Microsoft', srcKeys: ['bing_ads', 'bing', 'microsoft_ads', 'microsoft_advertising', 'microsoft'], color: '#c98500', d2c: 'partial', note: 'Amazon-bound campaign is not D2C', file: 'bing_ads_data.json' },
+    { id: 'snapchat', label: 'Snapchat', srcKeys: ['snapchat_ads', 'snapchat', 'snap'], color: '#d55181', d2c: true, file: 'snapchat_ads_data.json' },
+    { id: 'applovin', label: 'AppLovin', srcKeys: ['applovin', 'applovin_ads', 'app_lovin', 'appLovin'], color: '#008300', d2c: true, file: 'applovin_ads_data.json' },
+    { id: 'pinterest', label: 'Pinterest', srcKeys: ['pinterest_ads', 'pinterest'], color: '#9085e9', d2c: true, file: 'pinterest_ads_data.json' },
+    { id: 'chatgpt', label: 'ChatGPT Ads', srcKeys: ['chatgpt_ads', 'chatgpt', 'openai_ads'], color: '#e66767', d2c: true, file: 'chatgpt_ads_data.json' },
+    { id: 'reddit', label: 'Reddit', srcKeys: ['reddit_ads', 'reddit'], color: '#8888a8', other: true, d2c: true, file: 'reddit_ads_data.json' },
+    { id: 'taboola', label: 'Taboola', srcKeys: ['taboola_ads', 'taboola'], color: '#8888a8', other: true, d2c: true, darkWhenZero: true, file: 'taboola_ads_data.json' },
+    { id: 'outbrain', label: 'Outbrain', srcKeys: ['outbrain_ads', 'outbrain'], color: '#8888a8', other: true, d2c: true, darkWhenZero: true, note: 'Manual daily feed (outbrain ads); a day not imported is missing', file: 'outbrain_ads_data.json' },
+    { id: 'x', label: 'X Ads', srcKeys: ['x_ads', 'x', 'twitter_ads', 'twitter'], color: '#8888a8', other: true, d2c: true, note: 'Only cash cost (spend − credit + Premium fee) folds into MER', file: 'x_ads_data.json' }
   ];
   var OTHER_COLOR = '#8888a8';
   var GROWTH_PCT = 15;          // ±15 % week over week
@@ -55,6 +69,56 @@
   var WINDOWS = [14, 28, 60, 90];
   var DEFAULT_WINDOW = 28;
   var MAX_STACK_SERIES = 7;     // top 7 by window spend + Other (fixed palette, never cycled)
+  var ADV_DAILY_FILE = 'advertising_sources_daily.json';
+  var ALIASES = {};
+  CHANNELS.forEach(function (ch) {
+    ALIASES[ch.id] = ch.id;
+    (ch.srcKeys || []).forEach(function (k) { ALIASES[k] = ch.id; ALIASES[String(k).toLowerCase()] = ch.id; });
+  });
+  function canonicalId(key) {
+    if (key == null) return null;
+    var s = String(key);
+    if (ALIASES[s]) return ALIASES[s];
+    var lower = s.toLowerCase();
+    if (ALIASES[lower]) return ALIASES[lower];
+    var norm = lower.replace(/[\s-]+/g, '_').replace(/_advertising$/, '_ads');
+    if (ALIASES[norm]) return ALIASES[norm];
+    var stripped = norm.replace(/_ads$/, '');
+    if (ALIASES[stripped]) return ALIASES[stripped];
+    return null;
+  }
+  function dailyFileName(ch) { return ch.id + '_ads_daily.json'; }
+  // Upstream publish contract (CFO / data repo). Empty *_ads_data.json stubs are
+  // not this feed. A missing calendar day is omitted or {missing:true} — never a
+  // bare spend:0 without complete/closed_day/spend_status.
+  var SCHEMA_CONTRACT = {
+    advertising_sources_daily: {
+      file: ADV_DAILY_FILE,
+      shape: 'date-keyed map or {advertising_sources:{YYYY-MM-DD:{<alias>: node}}} or {daily:[{date, ...channels}]}',
+      aliases: ALIASES,
+      node: '{spend, complete|closed_day|spend_status, live, source, platform_revenue?, platform_roas?, conversions?, clicks?, impressions?, spend_d2c?, spend_amazon?, destination?, cash_cost?}',
+      measured_zero: 'spend:0 AND (complete:true | closed_day:true | spend_status:verified | live:false with status not_live|pre_launch|not_launched|dark)',
+      missing: 'omit the day, or spend:null / missing:true / status missing|no_feed|unpublished — never calendar-fill $0 after the last durable row'
+    },
+    channel_ads_daily: {
+      file: '<id>_ads_daily.json',
+      shape: 'date-keyed map or {by_date|by_day|daily|days}',
+      platform: 'platform_revenue / platform_roas / conversions are that channel only; Meta/Google may be spend-only (ROAS stays —)'
+    },
+    channel_ads_data: {
+      file: '<id>_ads_data.json',
+      note: 'optional manual overlay. status pre_launch|no_feed with daily:[] is a stub and is ignored (not $0)'
+    }
+  };
+  function nodeFromAdv(adv, ch) {
+    if (!adv || typeof adv !== 'object' || !ch) return undefined;
+    var node = pick(adv, ch.srcKeys);
+    if (node !== undefined) return node;
+    Object.keys(adv).forEach(function (k) {
+      if (canonicalId(k) === ch.id && node === undefined) node = adv[k];
+    });
+    return node;
+  }
 
   /* ------------------------------------------------------------ utils */
   function num(v) {
@@ -109,9 +173,73 @@
   function pick(map, keys) {
     if (!map || typeof map !== 'object') return undefined;
     for (var i = 0; i < keys.length; i++) {
-      if (Object.prototype.hasOwnProperty.call(map, keys[i])) return map[keys[i]];
+      if (Object.prototype.hasOwnProperty.call(map, keys[i]) && map[keys[i]] != null) return map[keys[i]];
     }
     return undefined;
+  }
+  // A node is a placeholder (not a published day) when the pipeline explicitly
+  // says there is no feed / the day is missing / a $0 stub is pre-launch.
+  // Published live $0 (Pinterest paused, Taboola 0 campaigns with a pulled row)
+  // is NOT a placeholder — those days are real zeros.
+  function isPlaceholderNode(node) {
+    if (node == null || node === false) return true;
+    if (typeof node !== 'object') return false;
+    if (node.missing === true) return true;
+    if (node.data_available === false || node.zero_assumed === true) return true;
+    var st = node.status != null ? String(node.status) : '';
+    if (st === 'missing' || st === 'no_feed' || st === 'unpublished' || st === 'no_data') return true;
+    if (st === 'pre_launch' && (node.spend == null || n0(node.spend) === 0) && !node.complete) return true;
+    var src = node.source != null ? String(node.source) : '';
+    if ((src === 'no_feed' || src === 'no feed' || src === 'none') && (node.spend == null || n0(node.spend) === 0)) return true;
+    return false;
+  }
+  // $0 is a real published zero only when the feed marked the day complete.
+  // A $0 without those flags (calendar fill, stub, copied-forward row) is missing.
+  function isMeasuredZero(node) {
+    if (node == null) return false;
+    if (typeof node === 'number' || typeof node === 'string') return num(node) === 0;
+    if (typeof node !== 'object') return false;
+    if (isPlaceholderNode(node)) return false;
+    var s = num(node.spend);
+    if (s == null) s = num(node.daily_spend);
+    if (s == null) s = num(node.ad_spend);
+    if (s !== 0) return false;
+    if (node.complete === true || node.closed_day === true) return true;
+    if (node.spend_status === 'verified') return true;
+    var st = node.status != null ? String(node.status) : '';
+    if (node.live === false && (st === 'not_live' || st === 'pre_launch' || st === 'not_launched' || st === 'dark')) return true;
+    return false;
+  }
+  function asDateMap(doc) {
+    if (!doc || typeof doc !== 'object') return {};
+    if (Array.isArray(doc)) {
+      var fromArr = {};
+      doc.forEach(function (row) { if (row && isDate(row.date)) fromArr[row.date] = row; });
+      return fromArr;
+    }
+    if (doc.advertising_sources && typeof doc.advertising_sources === 'object') return asDateMap(doc.advertising_sources);
+    var nested = doc.by_date || doc.by_day;
+    if (nested && typeof nested === 'object') return asDateMap(nested);
+    if (Array.isArray(doc.daily) || Array.isArray(doc.days)) {
+      var fromDaily = {};
+      (doc.daily || doc.days).forEach(function (row) {
+        if (!row) return;
+        if (isDate(row.date)) fromDaily[row.date] = row;
+      });
+      return fromDaily;
+    }
+    var keys = Object.keys(doc);
+    var dates = keys.filter(isDate);
+    if (!dates.length) return {};
+    var meta = keys.filter(function (k) {
+      return !isDate(k) && k.charAt(0) !== '_' && k !== 'as_of' && k !== 'source' && k !== 'status' && k !== 'message' && k !== 'schema_version';
+    });
+    if (dates.length >= meta.length) {
+      var map = {};
+      dates.forEach(function (d) { map[d] = doc[d]; });
+      return map;
+    }
+    return {};
   }
   function hostArray(name) {
     var g = typeof globalThis !== 'undefined' ? globalThis : root;
@@ -131,7 +259,7 @@
     return {
       date: date, spend: null, spend_d2c: null, spend_amazon: null, cash_cost: null,
       clicks: null, impressions: null, conversions: null, revenue: null, roas: null,
-      hasPlatform: false, live: null, complete: null,
+      hasPlatform: false, live: null, complete: null, spendKind: null,
       spendSource: null, platformSource: null
     };
   }
@@ -155,11 +283,12 @@
     if (node == null) return null;
     if (typeof node === 'number' || typeof node === 'string') return num(node);
     if (typeof node !== 'object') return null;
-    if (node.data_available === false || node.zero_assumed === true) return null;
-    if (node.status === 'missing' || node.status === 'no_feed' || node.status === 'unpublished') return null;
+    if (isPlaceholderNode(node)) return null;
     var s = num(node.spend);
     if (s == null) s = num(node.daily_spend);
     if (s == null) s = num(node.ad_spend);
+    if (s == null) return null;
+    if (s === 0 && typeof node === 'object' && !isMeasuredZero(node)) return null;
     return s;
   }
 
@@ -168,6 +297,7 @@
     var s = spendFromNode(ch, node);
     if (s == null) return false;
     rec.spend = round2(s);
+    rec.spendKind = s > 0 ? 'positive' : 'measured_zero';
     rec.spendSource = (node && typeof node === 'object' && node.source) ? String(node.source) : sourceLabel;
     if (node && typeof node === 'object') {
       if (ch.id === 'tiktok') {
@@ -222,7 +352,31 @@
   }
 
   /* ------------------------------------------------------- build series */
-  // inputs: { embedded: [rows], mer, settings, changes, rankings, tracking, seriesFile, throttlesFile }
+  function fileRows(file) {
+    if (!file || typeof file !== 'object') return [];
+    var rows = [];
+    function pushRow(date, node) {
+      if (!isDate(date) || node == null) return;
+      var obj = typeof node === 'object' ? Object.assign({ date: date }, node) : { date: date, spend: node };
+      rows.push(obj);
+    }
+    if (Array.isArray(file.daily)) file.daily.forEach(function (row) { if (row && isDate(row.date)) rows.push(row); });
+    if (Array.isArray(file.days)) {
+      file.days.forEach(function (day) {
+        if (!day || !isDate(day.date)) return;
+        if (day.channels && typeof day.channels === 'object') return;
+        rows.push(day);
+      });
+    }
+    var by = file.by_date || file.by_day;
+    if (by && typeof by === 'object' && !Array.isArray(by)) {
+      Object.keys(by).forEach(function (d) { pushRow(d, by[d]); });
+    }
+    return rows;
+  }
+
+  // inputs: { embedded, mer, settings, changes, rankings, tracking, seriesFile,
+  //           throttlesFile, channelFiles, dailyFiles, advertisingSourcesDaily }
   function buildSeries(inputs) {
     inputs = inputs || {};
     var embedded = inputs.embedded || [].concat(hostArray('PARTIAL_REPORTS') || [], hostArray('REPORTS') || []);
@@ -232,15 +386,37 @@
     var series28 = (thr && thr.series_28d && thr.series_28d.by_channel) || {};
     var blended28 = (thr && thr.series_28d && thr.series_28d.blended) || [];
     var seriesFile = inputs.seriesFile || null;
+    var channelFiles = inputs.channelFiles || {};
+    var dailyFiles = inputs.dailyFiles || {};
+    var advDaily = inputs.advertisingSourcesDaily || null;
 
-    var out = { channels: {}, dates: {}, spendThrough: null, platformThrough: null, merAsOf: (mer && isDate(mer.as_of)) ? mer.as_of : null, blended: {} };
-    CHANNELS.forEach(function (ch) { out.channels[ch.id] = { days: {} }; });
+    var out = { channels: {}, dates: {}, spendThrough: null, platformThrough: null, merAsOf: (mer && isDate(mer.as_of)) ? mer.as_of : null, blended: {}, channelFeedThrough: {} };
+    CHANNELS.forEach(function (ch) { out.channels[ch.id] = { days: {}, durableThrough: null }; });
 
     function rec(ch, date) {
       var days = out.channels[ch.id].days;
       if (!days[date]) days[date] = emptyRec(date);
       out.dates[date] = true;
       return days[date];
+    }
+    function markDurable(ch, date, node) {
+      if (!isDate(date) || !node) return;
+      if (isPlaceholderNode(node)) return;
+      var s = spendFromNode(ch, node);
+      var measured = s != null && (s > 0 || isMeasuredZero(node) || (typeof node === 'object' && (node.complete === true || node.closed_day === true)));
+      if (!measured && !(typeof node === 'object' && node.complete === true)) return;
+      if (!out.channels[ch.id].durableThrough || date > out.channels[ch.id].durableThrough) out.channels[ch.id].durableThrough = date;
+    }
+    function ingestAdvDay(date, adv, sourceLabel, durable) {
+      if (!isDate(date) || !adv || typeof adv !== 'object') return;
+      CHANNELS.forEach(function (ch) {
+        var node = nodeFromAdv(adv, ch);
+        if (node === undefined || isPlaceholderNode(node)) return;
+        var r = rec(ch, date);
+        applySpend(r, ch, node, sourceLabel);
+        if (typeof node === 'object') applyPlatform(r, ch, node, sourceLabel);
+        if (durable) markDurable(ch, date, node);
+      });
     }
 
     // 1. embedded daily report rows (freshest spend, same numbers as Daily Reports)
@@ -253,10 +429,32 @@
     Object.keys(embeddedByDate).forEach(function (date) {
       var adv = embeddedByDate[date].advertising_sources;
       CHANNELS.forEach(function (ch) {
-        var node = pick(adv, ch.srcKeys);
-        if (node === undefined) return;
+        var node = nodeFromAdv(adv, ch);
+        if (node === undefined || isPlaceholderNode(node)) return;
         var r = rec(ch, date);
         applySpend(r, ch, node, 'daily report advertising_sources');
+        markDurable(ch, date, node);
+      });
+    });
+
+    // 1b. advertising_sources_daily.json (CFO export — fills PARTIAL holes, never invents)
+    var advDailyMap = asDateMap(advDaily);
+    Object.keys(advDailyMap).forEach(function (date) {
+      ingestAdvDay(date, advDailyMap[date], 'advertising_sources_daily.json', true);
+    });
+
+    // 1c. per-channel *_ads_daily.json (box runner files)
+    CHANNELS.forEach(function (ch) {
+      var dailyDoc = dailyFiles[ch.id];
+      if (!dailyDoc) return;
+      var map = asDateMap(dailyDoc);
+      Object.keys(map).forEach(function (date) {
+        var node = map[date];
+        if (node === undefined || isPlaceholderNode(node)) return;
+        var r = rec(ch, date);
+        applySpend(r, ch, node, dailyFileName(ch));
+        if (typeof node === 'object') applyPlatform(r, ch, node, dailyFileName(ch));
+        markDurable(ch, date, node);
       });
     });
 
@@ -265,10 +463,11 @@
       if (!isDate(date)) return;
       var adv = merAdv[date];
       CHANNELS.forEach(function (ch) {
-        var node = pick(adv, ch.srcKeys);
-        if (node === undefined || node === null) return;
+        var node = nodeFromAdv(adv, ch);
+        if (node === undefined || isPlaceholderNode(node)) return;
         var r = rec(ch, date);
         applySpend(r, ch, node, 'mer_for_manus.json advertising_sources');
+        if (spendFromNode(ch, node) > 0) markDurable(ch, date, node);
       });
     });
 
@@ -288,8 +487,8 @@
     Object.keys(merAdv).forEach(function (date) {
       if (!isDate(date)) return;
       CHANNELS.forEach(function (ch) {
-        var node = pick(merAdv[date], ch.srcKeys);
-        if (!node || typeof node !== 'object') return;
+        var node = nodeFromAdv(merAdv[date], ch);
+        if (!node || typeof node !== 'object' || isPlaceholderNode(node)) return;
         applyPlatform(rec(ch, date), ch, node, 'mer_for_manus.json advertising_sources');
       });
     });
@@ -299,7 +498,7 @@
         var by = block && typeof block === 'object' && (block.by_date || block.by_day);
         if (!by || typeof by !== 'object') return;
         Object.keys(by).forEach(function (date) {
-          if (!isDate(date) || !by[date] || typeof by[date] !== 'object') return;
+          if (!isDate(date) || !by[date] || typeof by[date] !== 'object' || isPlaceholderNode(by[date])) return;
           var r = rec(ch, date);
           applySpend(r, ch, by[date], 'mer_for_manus.json#' + ch.id);
           applyPlatform(r, ch, by[date], 'mer_for_manus.json#' + ch.id);
@@ -307,19 +506,48 @@
       });
     }
 
-    // 5. ads_throttle/series.json (older spend only)
+    // 5. ads_throttle/series.json (older spend only). source:no_feed + $0 is not a published day.
     if (seriesFile && Array.isArray(seriesFile.days)) {
       seriesFile.days.forEach(function (day) {
         if (!day || !isDate(day.date) || !day.channels) return;
         CHANNELS.forEach(function (ch) {
           var node = day.channels[ch.id];
-          if (!node) return;
-          applySpend(rec(ch, day.date), ch, { spend: node.spend, spend_d2c: node.d2c, spend_amazon: node.amazon, source: node.source && node.source !== 'no_feed' ? 'ads_throttle/series.json ← ' + node.source : null }, 'ads_throttle/series.json');
+          if (!node || isPlaceholderNode(node) || node.source === 'no_feed') return;
+          if (node.spend == null) return;
+          applySpend(rec(ch, day.date), ch, { spend: node.spend, spend_d2c: node.d2c, spend_amazon: node.amazon, source: node.source ? 'ads_throttle/series.json ← ' + node.source : 'ads_throttle/series.json' }, 'ads_throttle/series.json');
         });
         if (!out.blended[day.date] && num(day.d2c_ad_spend) != null) {
           out.blended[day.date] = { date: day.date, d2c_ad_spend: num(day.d2c_ad_spend), total_ad_spend: num(day.total_ad_spend), shopify_revenue: num(day.shopify_d2c_revenue), blended_mer: num(day.blended_mer), source: 'ads_throttle/series.json' };
         }
       });
+    }
+
+    // 6. optional <channel>_ads_data.json (lowest priority; skip empty pre-launch stubs)
+    CHANNELS.forEach(function (ch) {
+      var file = channelFiles[ch.id] || (ch.file && inputs[ch.id + 'File']) || null;
+      if (!file || isPlaceholderNode(file)) {
+        if (!file || !fileRows(file).length) return;
+      }
+      fileRows(file).forEach(function (row) {
+        if (!row || !isDate(row.date) || isPlaceholderNode(row)) return;
+        var r = rec(ch, row.date);
+        applySpend(r, ch, row, ch.file || 'channel file');
+        applyPlatform(r, ch, row, ch.file || 'channel file');
+      });
+    });
+
+    // 7. mer.channel_ad_spend snapshot for mer.as_of only, when that day still has no row
+    if (mer && isDate(mer.as_of) && mer.channel_ad_spend && typeof mer.channel_ad_spend === 'object' && !Array.isArray(mer.channel_ad_spend)) {
+      var snapSpend = mer.channel_ad_spend;
+      if (!Object.keys(snapSpend).every(function (k) { return isDate(k); })) {
+        CHANNELS.forEach(function (ch) {
+          var r = rec(ch, mer.as_of);
+          if (r.spend != null) return;
+          var node = pick(snapSpend, ch.srcKeys.concat([ch.id]));
+          if (node === undefined || isPlaceholderNode(node)) return;
+          applySpend(r, ch, typeof node === 'object' ? node : { spend: node }, 'mer_for_manus.json channel_ad_spend');
+        });
+      }
     }
 
     // blended D2C per day (series_28d.blended wins)
@@ -333,6 +561,35 @@
       };
     });
 
+    // Drop $0 rows after a durable feed stops (copied-forward / calendar-fill false zeros).
+    CHANNELS.forEach(function (ch) {
+      var bag = out.channels[ch.id];
+      var lastPos = null;
+      Object.keys(bag.days).sort().forEach(function (d) {
+        if (bag.days[d].spend > 0) lastPos = d;
+      });
+      var cut = bag.durableThrough;
+      Object.keys(bag.days).forEach(function (d) {
+        var r = bag.days[d];
+        if (r.spend == null || r.spend > 0) return;
+        var afterDurable = cut && d > cut;
+        var afterPositive = lastPos && d > lastPos && r.spendKind !== 'measured_zero';
+        if (afterDurable || afterPositive) {
+          r.spend = null; r.spendKind = null; r.spendSource = null;
+          r.spend_d2c = null; r.spend_amazon = null;
+        }
+      });
+      var latest = null, plat = null;
+      Object.keys(bag.days).forEach(function (d) {
+        var r = bag.days[d];
+        if (r.spend != null && (!latest || d > latest)) latest = d;
+        if (r.hasPlatform && r.spend != null && r.spend > 0 && (!plat || d > plat)) plat = d;
+      });
+      bag.feedThrough = latest;
+      bag.platformThrough = plat;
+      out.channelFeedThrough[ch.id] = latest;
+    });
+
     // dates with any published spend
     var dates = Object.keys(out.dates).filter(function (d) {
       return CHANNELS.some(function (ch) { var r = out.channels[ch.id].days[d]; return r && r.spend != null; });
@@ -341,10 +598,8 @@
     out.spendThrough = dates.length ? dates[dates.length - 1] : null;
     var pt = null;
     CHANNELS.forEach(function (ch) {
-      Object.keys(out.channels[ch.id].days).forEach(function (d) {
-        var r = out.channels[ch.id].days[d];
-        if (r.hasPlatform && r.spend != null && r.spend > 0 && (!pt || d > pt)) pt = d;
-      });
+      var p = out.channels[ch.id].platformThrough;
+      if (p && (!pt || p > pt)) pt = p;
     });
     out.platformThrough = pt;
     return out;
@@ -363,7 +618,7 @@
       var r = days[d];
       if (r && r[field] != null) { total += r[field]; present += 1; }
     });
-    return { total: round2(total), present: present };
+    return { total: present ? round2(total) : null, present: present };
   }
 
   // present7 / presentPrev7: days in each window with a published spend row for
@@ -429,14 +684,17 @@
     if (ctx.nextEligible) detail.push('next eligible ' + mmdd(ctx.nextEligible));
 
     if (tracking === 'DOWN') return { code: 'tracking_down', label: 'HOLD · TRACKING DOWN', cls: 'ac-bad', detail: detail };
+    if (ctx.dark && !(ctx.spend7 > 0)) {
+      return { code: 'not_live', label: 'NOT LAUNCHED', cls: 'ac-muted', detail: detail };
+    }
+    if (kind === 'scale') return { code: 'scaling', label: 'SCALING INTO', cls: 'ac-good', detail: detail };
+    if (kind === 'kill') return { code: 'killed', label: 'KILLED / PAUSED', cls: 'ac-bad', detail: detail };
+    if (kind === 'cut') return { code: 'cutting', label: 'CUTTING', cls: 'ac-warn', detail: detail };
     if (ctx.live === false && !(ctx.spend7 > 0)) {
       var lbl = ctx.status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE';
       if (ctx.launch && ctx.launch.launch_date && ctx.launch.launch_date > (ctx.asOf || '')) lbl += ' · launches ' + mmdd(ctx.launch.launch_date);
       return { code: 'not_live', label: lbl, cls: 'ac-muted', detail: detail };
     }
-    if (kind === 'scale') return { code: 'scaling', label: 'SCALING INTO', cls: 'ac-good', detail: detail };
-    if (kind === 'kill') return { code: 'killed', label: 'KILLED / PAUSED', cls: 'ac-bad', detail: detail };
-    if (kind === 'cut') return { code: 'cutting', label: 'CUTTING', cls: 'ac-warn', detail: detail };
     if (mode === 'frozen') return { code: 'frozen', label: 'FROZEN · VIEW ONLY', cls: 'ac-muted', detail: detail };
     if (mode === 'hold') return { code: 'hold', label: 'HOLD', cls: 'ac-warn', detail: detail };
     if (mode === 'view') return { code: 'view', label: 'VIEW ONLY', cls: 'ac-muted', detail: detail };
@@ -473,8 +731,8 @@
     });
     var roas7 = pDays > 0 && pSpend > 0 ? pRev / pSpend : null;
 
-    var yday = end && days[end] ? days[end] : null;
-    var growth = growthVerdict(s7.total, p7.total, s7.present, p7.present);
+    var ydayRec = end && days[end] ? days[end] : null;
+    var growth = growthVerdict(n0(s7.total), n0(p7.total), s7.present, p7.present);
 
     var mer = inputs.mer || null;
     var thr = (mer && mer.ad_channel_throttles) || inputs.throttlesFile || null;
@@ -492,13 +750,32 @@
     var rank = null;
     (rankings.channels || []).forEach(function (c) { if (c && c.channel === ch.id) rank = c; });
 
+    var spendLatest = (series.channels[ch.id] && series.channels[ch.id].feedThrough) || null;
+    if (!spendLatest) {
+      Object.keys(days).forEach(function (d) { if (days[d].spend != null && (!spendLatest || d > spendLatest)) spendLatest = d; });
+    }
+    var missing7 = last7.filter(function (d) { return !days[d] || days[d].spend == null; });
+    var missingPrev7 = prev7.filter(function (d) { return !days[d] || days[d].spend == null; });
+    var stale = !!(spendLatest && last7.length && spendLatest < last7[0]);
+    if (stale) {
+      growth = { code: 'stale', label: 'STALE · last row ' + mmdd(spendLatest) + ' · ' + s7.present + '/7 + ' + p7.present + '/7 days', wow: null, missing: missing7.length + missingPrev7.length };
+    }
+
     var block = mer && mer[ch.id] && typeof mer[ch.id] === 'object' ? mer[ch.id] : null;
     var status = (block && block.status) || null;
+    var blockAsOf = block && isDate(block.as_of) ? block.as_of : null;
+    var liveFresh = !!(blockAsOf && last7.length && blockAsOf >= last7[0]);
     var live = null;
-    if (block && typeof block.live === 'boolean') live = block.live;
-    if (live == null && yday && typeof yday.live === 'boolean') live = yday.live;
-    if (live == null) live = s7.total > 0 ? true : (s7.present ? false : null);
-    if (live === false && s7.total > 0) live = true; // money moved — the feed status is stale
+    if (s7.total > 0) live = true;
+    else if (liveFresh && block && typeof block.live === 'boolean') live = block.live;
+    else if (ydayRec && typeof ydayRec.live === 'boolean' && ydayRec.spend != null) live = ydayRec.live;
+    else if (s7.present && s7.total === 0) live = false;
+
+    var darkHint = !!(ch.darkWhenZero || (setCh && setCh.not_launched_while_zero) || status === 'pre_launch' || status === 'not_live' || status === 'not_launched');
+    var dark = darkHint && !(s7.total > 0) && !stale && s7.present === 0 && p7.present === 0;
+    if (dark) {
+      growth = { code: 'nofeed', label: 'NO FEED', wow: null, missing: 14 };
+    }
 
     var launch = thrCh && (thrCh.launch_date || thrCh.soft_read_date) ? thrCh : (setCh && (setCh.launch_date || setCh.soft_read_date) ? setCh : null);
     var post = posture({
@@ -512,30 +789,33 @@
       status: status,
       spend7: s7.total,
       asOf: end,
-      launch: launch
+      launch: launch,
+      dark: dark
     });
 
     var spendSource = null, platformSource = null;
     for (var i = last7.length - 1; i >= 0 && !spendSource; i--) { var rr = days[last7[i]]; if (rr && rr.spendSource) spendSource = rr.spendSource; }
+    if (!spendSource && spendLatest && days[spendLatest]) spendSource = days[spendLatest].spendSource;
     for (var j = last7.length - 1; j >= 0 && !platformSource; j--) { var pr = days[last7[j]]; if (pr && pr.platformSource) platformSource = pr.platformSource; }
-    var spendLatest = null;
-    Object.keys(days).forEach(function (d) { if (days[d].spend != null && (!spendLatest || d > spendLatest)) spendLatest = d; });
+
+    var feedCode = dark ? 'dark' : (s7.present === 0 && p7.present === 0 && !spendLatest ? 'nofeed' : (stale ? 'stale' : (s7.present < 7 ? 'incomplete' : (s7.total === 0 ? 'zero' : 'ok'))));
+    var statusLabel = live === true ? 'LIVE' : (feedCode === 'stale' ? 'STALE' : (feedCode === 'dark' ? 'NOT LAUNCHED' : (feedCode === 'nofeed' ? '—' : (live === false ? (status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE') : '—'))));
 
     return {
       ch: ch,
       end: end,
-      yday: yday ? yday.spend : null,
-      ydayCash: yday ? yday.cash_cost : null,
+      yday: ydayRec && ydayRec.spend != null ? ydayRec.spend : null,
+      ydayCash: ydayRec && ydayRec.cash_cost != null ? ydayRec.cash_cost : null,
       spend7: s7.total, spend7Days: s7.present,
       prev7: p7.total, prev7Days: p7.present,
-      spend30: s30.total,
+      spend30: s30.total, spend30Days: s30.present,
       d2c7: d2c7.present ? d2c7.total : null,
       cash7: cash7.present ? cash7.total : null,
       platformRev7: pDays ? round2(pRev) : null,
       platformConv7: pDays ? pConv : null,
       platformClicks7: pDays ? pClicks : null,
       platformDays7: pDays,
-      platformLatest: pLatest,
+      platformLatest: pLatest || (series.channels[ch.id] && series.channels[ch.id].platformThrough) || null,
       roas7: roas7 == null ? null : Math.round(roas7 * 100) / 100,
       growth: growth,
       posture: post,
@@ -547,7 +827,9 @@
       rank: rank,
       rankDate: rankings.date || null,
       status: status,
+      statusLabel: statusLabel,
       live: live,
+      feed: { code: feedCode, through: spendLatest, missing7: missing7, missingPrev7: missingPrev7, durableThrough: series.channels[ch.id] && series.channels[ch.id].durableThrough || null },
       ownerBot: (setCh && setCh.owner_bot) || (thrCh && thrCh.owner_bot) || null,
       notes: (setCh && setCh.notes) || (thrCh && thrCh.strategy_notes) || null,
       spendSource: spendSource,
@@ -565,8 +847,8 @@
     var missing7 = last7all.filter(function (d) { return !dayHasSpend(d); });
     var missingPrev7 = prev7all.filter(function (d) { return !dayHasSpend(d); });
     statsList.forEach(function (s) {
-      if (s.growth.code === 'incomplete') incomplete += 1;
-      tracked7 += s.spend7; tracked7prev += s.prev7;
+      if (s.growth.code === 'incomplete' || s.growth.code === 'stale') incomplete += 1;
+      tracked7 += n0(s.spend7); tracked7prev += n0(s.prev7);
       if (s.live) live += 1;
       if (s.growth.code === 'growing') growing += 1;
       if (s.growth.code === 'shrinking' || s.growth.code === 'stopped') shrinking += 1;
@@ -600,13 +882,23 @@
   function freshness(series, inputs) {
     var notes = [];
     var mer = inputs && inputs.mer;
-    if (series.spendThrough) notes.push({ k: 'Spend through', v: shortDate(series.spendThrough), src: 'daily report advertising_sources' });
+    if (series.spendThrough) notes.push({ k: 'Portfolio spend through', v: shortDate(series.spendThrough), src: 'latest day any channel published spend (not a single all-clear)' });
+    if (series.merAsOf) notes.push({ k: 'mer_for_manus.json', v: 'as of ' + series.merAsOf, src: 'rebuild_mer.py', warn: series.spendThrough && series.merAsOf < series.spendThrough ? (daysBetween(series.merAsOf, series.spendThrough) + ' days behind portfolio spend') : null });
     if (series.platformThrough) {
       var lag = series.spendThrough ? daysBetween(series.platformThrough, series.spendThrough) : 0;
-      notes.push({ k: 'Platform revenue / ROAS through', v: shortDate(series.platformThrough), src: 'mer_for_manus.json' + (series.merAsOf ? ' as of ' + series.merAsOf : ''), warn: lag > 1 ? lag + ' days behind spend — ROAS columns stop there' : null });
+      notes.push({ k: 'Platform revenue / ROAS through', v: shortDate(series.platformThrough), src: 'per-channel platform_revenue (Meta/Google spend-only stay —)', warn: lag > 1 ? lag + ' days behind portfolio spend — ROAS columns stop there' : null });
     } else {
       notes.push({ k: 'Platform revenue / ROAS', v: 'no feed', src: mer ? 'mer_for_manus.json has no platform rows' : 'mer_for_manus.json not loaded', warn: 'no platform-reported revenue available' });
     }
+    var staleList = [];
+    var nofeedList = [];
+    CHANNELS.forEach(function (ch) {
+      var through = series.channelFeedThrough && series.channelFeedThrough[ch.id];
+      if (!through) nofeedList.push(ch.label);
+      else if (series.spendThrough && through < series.spendThrough) staleList.push(ch.label + ' ' + mmdd(through));
+    });
+    if (staleList.length) notes.push({ k: 'Stale channel feeds', v: staleList.join(' · '), src: 'per-channel last measured row', warn: 'missing days are not $0' });
+    if (nofeedList.length) notes.push({ k: 'No published spend rows', v: nofeedList.join(', '), src: 'advertising_sources / *_ads_daily.json', warn: 'NO FEED — display is —, not $0' });
     var rankings = unwrapRankings((inputs && inputs.rankings) || (mer && mer.ad_channel_throttles && mer.ad_channel_throttles.rankings) || null);
     notes.push({ k: 'Jarvis rankings', v: rankings.date ? mmdd(rankings.date) : 'none', src: 'ads_throttle/rankings.json' });
     var trk = (inputs && inputs.tracking) || (mer && mer.ad_channel_throttles && mer.ad_channel_throttles.tracking_health) || null;
@@ -708,13 +1000,13 @@
     return pillHtml('TRK ' + st, 'ac-muted');
   }
   function growthCls(code) {
-    if (code === 'incomplete') return 'ac-warn';
+    if (code === 'incomplete' || code === 'stale') return 'ac-warn';
     return code === 'growing' || code === 'launching' ? 'ac-good' : code === 'shrinking' || code === 'stopped' ? 'ac-bad' : 'ac-muted';
   }
   function growthArrow(g) {
     if (g.code === 'growing' || g.code === 'launching') return '▲';
     if (g.code === 'shrinking' || g.code === 'stopped') return '▼';
-    if (g.code === 'incomplete' || g.code === 'nofeed') return '◌';
+    if (g.code === 'incomplete' || g.code === 'nofeed' || g.code === 'stale') return '◌';
     return '▬';
   }
 
@@ -777,12 +1069,12 @@
     else if (s.spend7 > 0) platformNote = 'no platform read';
     else platformNote = '';
     var head = '<h3><span class="ac-dot" style="background:' + ch.color + '"></span>' + esc(ch.label)
-      + (s.live === true ? pillHtml('LIVE', 'ac-good') : s.live === false ? pillHtml(s.status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE', 'ac-muted') : pillHtml('NO FEED', 'ac-muted'))
+      + (s.statusLabel === 'LIVE' ? pillHtml('LIVE', 'ac-good') : s.statusLabel === 'STALE' ? pillHtml('STALE', 'ac-warn') : s.statusLabel === 'NOT LAUNCHED' ? pillHtml('NOT LAUNCHED', 'ac-muted') : s.live === false ? pillHtml(s.status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE', 'ac-muted') : pillHtml(s.statusLabel || 'NO FEED', 'ac-muted'))
       + (s.mode ? pillHtml(String(s.mode).toUpperCase(), s.mode === 'auto' ? 'ac-ok' : 'ac-muted') : '')
       + trackingPill(s.tracking) + '</h3>';
     var nums = '<div class="ac-nums">'
       + '<div><div class="l">Yesterday</div><div class="v">' + usd(s.yday) + '</div><div class="s">' + (s.end ? shortDate(s.end) : '') + (ch.id === 'x' && s.ydayCash != null ? ' · cash ' + usd(s.ydayCash) : '') + '</div></div>'
-      + '<div><div class="l">7-day spend</div><div class="v">' + usd(s.spend7) + '</div><div class="s ' + growthCls(g.code) + '">' + growthArrow(g) + ' ' + esc(g.label) + (wowTxt ? ' · ' + wowTxt : '') + '</div>' + (g.code === 'incomplete' ? '<div class="s ac-warn">missing days are not $0 — feed gap</div>' : '') + '</div>'
+      + '<div><div class="l">7-day spend</div><div class="v">' + usd(s.spend7) + '</div><div class="s ' + growthCls(g.code) + '">' + growthArrow(g) + ' ' + esc(g.label) + (wowTxt ? ' · ' + wowTxt : '') + '</div>' + (g.code === 'incomplete' || g.code === 'stale' ? '<div class="s ac-warn">missing days are not $0 — ' + esc((s.feed && s.feed.missing7 || []).map(mmdd).join(', ') || 'feed gap') + '</div>' : '') + '</div>'
       + '<div><div class="l">Share 7d</div><div class="v">' + (s.share == null ? '—' : s.share.toFixed(0) + '%') + '</div><div class="s">of tracked ad spend · 30d ' + usd(s.spend30) + '</div></div>'
       + '<div><div class="l">Platform ROAS 7d</div><div class="v">' + roasTxt(s.roas7) + '</div><div class="s">' + esc(platformNote) + '</div></div>'
       + '<div><div class="l">Platform revenue 7d</div><div class="v">' + usd(s.platformRev7) + '</div><div class="s">platform-reported, not store sales</div></div>'
@@ -793,9 +1085,9 @@
     var post = '<div class="ac-post"><span class="ac-lbl ' + s.posture.cls + '">' + esc(s.posture.label) + '</span>'
       + (s.posture.detail.length ? '<br><span class="ac-muted">' + esc(s.posture.detail.join(' · ')) + '</span>' : '')
       + (s.rank ? '<br><span class="ac-muted">Jarvis ' + mmdd(s.rankDate) + ': ' + esc(s.rank.tier || '—') + (num(s.rank.roas_7d) != null ? ' · ' + roasTxt(s.rank.roas_7d) + ' 7d' : '') + (num(s.rank.roas_28d) != null ? ' · ' + roasTxt(s.rank.roas_28d) + ' 28d' : '') + (num(s.rank.wow_spend_change_pct) != null ? ' · spend ' + pct(s.rank.wow_spend_change_pct, 0) + ' WoW' : '') + '</span>' : '')
-      + (s.d2c7 != null && Math.abs(s.d2c7 - s.spend7) > 0.5 ? '<br><span class="ac-muted">D2C share of spend 7d: ' + usd(s.d2c7) + (ch.note ? ' — ' + esc(ch.note) : '') + '</span>' : (ch.note && ch.id === 'x' ? '<br><span class="ac-muted">' + esc(ch.note) + (s.cash7 != null ? ' · cash cost 7d ' + usd(s.cash7) : '') + '</span>' : ''))
+      + (s.d2c7 != null && s.spend7 != null && Math.abs(s.d2c7 - s.spend7) > 0.5 ? '<br><span class="ac-muted">D2C share of spend 7d: ' + usd(s.d2c7) + (ch.note ? ' — ' + esc(ch.note) : '') + '</span>' : (ch.note && ch.id === 'x' ? '<br><span class="ac-muted">' + esc(ch.note) + (s.cash7 != null ? ' · cash cost 7d ' + usd(s.cash7) : '') + '</span>' : ''))
       + '</div>';
-    var src = '<div class="ac-src">spend: ' + esc(s.spendSource || 'no feed') + (s.spendLatest ? ' · through ' + mmdd(s.spendLatest) : '')
+    var src = '<div class="ac-src">spend: ' + esc(s.spendSource || 'no feed') + (s.spendLatest ? ' · through ' + mmdd(s.spendLatest) : '') + (s.feed && s.feed.code === 'stale' ? ' · STALE vs portfolio ' + mmdd(s.end) : '')
       + '<br>platform: ' + esc(s.platformSource || 'none')
       + (s.ownerBot ? '<br>owner: ' + esc(s.ownerBot) : '')
       + (s.trackingNotes ? '<br>tracking: ' + esc(String(s.trackingNotes).slice(0, 220)) + (String(s.trackingNotes).length > 220 ? '…' : '') : '')
@@ -827,12 +1119,12 @@
     }
     var end = series.spendThrough;
     var stats = CHANNELS.map(function (ch) { return channelStats(ch, series, inputs, end); });
-    var tracked = stats.reduce(function (a, s) { return a + s.spend7; }, 0);
+    var tracked = stats.reduce(function (a, s) { return a + n0(s.spend7); }, 0);
     stats.forEach(function (s) {
-      s.share = tracked > 0 ? s.spend7 / tracked * 100 : null;
+      s.share = tracked > 0 && s.spend7 != null ? s.spend7 / tracked * 100 : null;
       s.platformAny = Object.keys(series.channels[s.ch.id].days).some(function (d) { return series.channels[s.ch.id].days[d].hasPlatform; });
     });
-    stats.sort(function (a, b) { return b.spend7 - a.spend7 || a.ch.label.localeCompare(b.ch.label); });
+    stats.sort(function (a, b) { return n0(b.spend7) - n0(a.spend7) || a.ch.label.localeCompare(b.ch.label); });
     var sum = summarize(stats, series, inputs, end);
     var win = STATE.window;
     var dates = windowDates(end, win);
@@ -853,8 +1145,8 @@
 
     // stacked spend by channel
     var ordered = stats.slice().sort(function (a, b) {
-      var sa = sumWindow(series.channels[a.ch.id].days, dates, 'spend').total;
-      var sb = sumWindow(series.channels[b.ch.id].days, dates, 'spend').total;
+      var sa = n0(sumWindow(series.channels[a.ch.id].days, dates, 'spend').total);
+      var sb = n0(sumWindow(series.channels[b.ch.id].days, dates, 'spend').total);
       return sb - sa;
     });
     var top = [], other = null;
@@ -877,23 +1169,23 @@
       + '</tr></thead><tbody>';
     stats.forEach(function (s) {
       html += '<tr data-ch="' + s.ch.id + '"><td><span class="ac-dot" style="background:' + s.ch.color + '"></span>' + esc(s.ch.label) + '</td>'
-        + '<td class="' + (s.live === true ? 'ac-good' : 'ac-muted') + '">' + (s.live === true ? 'LIVE' : s.live === false ? (s.status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE') : '—') + '</td>'
+        + '<td class="' + (s.statusLabel === 'LIVE' ? 'ac-good' : s.statusLabel === 'STALE' ? 'ac-warn' : 'ac-muted') + '">' + esc(s.statusLabel || '—') + '</td>'
         + '<td class="' + s.posture.cls + '">' + esc(s.posture.label) + '</td>'
         + '<td>' + usd(s.yday) + '</td><td>' + usd(s.spend7) + '</td>'
         + '<td class="' + growthCls(s.growth.code) + '">' + (s.growth.wow == null ? '—' : pct(s.growth.wow, 0)) + '</td>'
         + '<td class="' + growthCls(s.growth.code) + '">' + growthArrow(s.growth) + ' ' + esc(s.growth.label) + '</td>'
-        + '<td>' + (s.share == null ? '—' : s.share.toFixed(0) + '%') + '</td><td>' + usd(s.spend30) + '</td>'
+        + '<td>' + (s.share == null || s.spend7 == null ? '—' : s.share.toFixed(0) + '%') + '</td><td>' + usd(s.spend30) + (s.spend30Days != null && s.spend30Days < 30 && s.spend30 != null ? ' <span class="ac-muted">(' + s.spend30Days + 'd)</span>' : '') + '</td>'
         + '<td>' + usd(s.platformRev7) + '</td><td>' + roasTxt(s.roas7) + (s.platformDays7 > 0 && s.platformDays7 < 7 ? ' <span class="ac-muted">(' + s.platformDays7 + 'd)</span>' : '') + '</td><td>' + intTxt(s.platformConv7) + '</td>'
         + '<td class="' + (s.tracking === 'OK' ? 'ac-good' : s.tracking === 'WARN' ? 'ac-warn' : s.tracking === 'DOWN' ? 'ac-bad' : 'ac-muted') + '">' + esc(s.tracking || '—') + '</td>'
         + '<td class="ac-muted" style="font-family:var(--font-body);text-align:left">' + esc(s.change ? actionLabel(s.change) : '—') + '</td></tr>';
     });
-    html += '</tbody></table></div><div class="ac-sub" style="margin-top:8px">Platform ROAS = platform-reported conversion value ÷ spend over the days that platform reported (' + esc(((inputs.settings || {}).global || {}).roas_source || 'platform_reported') + '). Meta and Google publish spend only on this feed, so their ROAS reads “—” here; Jarvis\'s weekly ranking ROAS is shown on the card. Shopify-attributed revenue appears when <code>shopify_attribution_daily.json</code> has coverage.</div></div>';
+    html += '</tbody></table></div><div class="ac-sub" style="margin-top:8px">Platform ROAS = that channel\'s platform-reported conversion value ÷ spend over the days it reported (' + esc(((inputs.settings || {}).global || {}).roas_source || 'platform_reported') + '). Meta and Google publish spend only on this feed, so their ROAS reads “—” here; Jarvis\'s weekly ranking ROAS is shown on the card. A missing day is “—”, never a false $0. Measured $0 (complete/closed/verified) stays $0. Shopify-attributed revenue appears when <code>shopify_attribution_daily.json</code> has coverage. CFO publishes <code>advertising_sources_daily.json</code> and <code>&lt;channel&gt;_ads_daily.json</code> next to this page — empty <code>*_ads_data.json</code> stubs are ignored.</div></div>';
 
     // cards
     html += '<div class="ac-grid">' + stats.map(function (s) { return cardHtml(s, win, dates); }).join('') + '</div>';
 
     // daily grid
-    var gridCols = stats.filter(function (s) { return s.spend30 > 0 || s.spend7 > 0; });
+    var gridCols = stats.filter(function (s) { return n0(s.spend30) > 0 || n0(s.spend7) > 0; });
     html += '<div class="ac-panel" style="margin-top:14px"><details><summary style="cursor:pointer;font-size:.7rem;letter-spacing:.1em;color:var(--cyan);text-transform:uppercase">Daily grid · spend per channel · last ' + win + ' days</summary><div class="ac-table-wrap" style="margin-top:8px"><table class="ac-table"><thead><tr><th>Day</th>'
       + gridCols.map(function (s) { return '<th>' + esc(s.ch.label) + '</th>'; }).join('') + '<th>Tracked total</th><th>Blended MER</th></tr></thead><tbody>';
     dates.slice().reverse().forEach(function (d) {
@@ -955,11 +1247,22 @@
       seriesFile: 'ads_throttle/series.json'
     };
     var keys = Object.keys(files);
-    return Promise.all(keys.map(function (k) {
-      return fetchJson(files[k]).then(function (doc) { return doc; }, function () { return null; });
+    var extra = [ADV_DAILY_FILE].concat(
+      CHANNELS.map(function (ch) { return dailyFileName(ch); }),
+      CHANNELS.map(function (ch) { return ch.file; }).filter(Boolean)
+    );
+    return Promise.all(keys.concat(extra).map(function (k) {
+      var url = files[k] || k;
+      return fetchJson(url).then(function (doc) { return doc; }, function () { return null; });
     })).then(function (docs) {
-      var inputs = {};
+      var inputs = { channelFiles: {}, dailyFiles: {} };
       keys.forEach(function (k, i) { inputs[k] = docs[i]; });
+      var offset = keys.length;
+      inputs.advertisingSourcesDaily = docs[offset];
+      CHANNELS.forEach(function (ch, i) {
+        inputs.dailyFiles[ch.id] = docs[offset + 1 + i];
+        inputs.channelFiles[ch.id] = docs[offset + 1 + CHANNELS.length + i] || null;
+      });
       STATE.inputs = inputs;
       STATE.loaded = true;
       return inputs;
@@ -984,6 +1287,16 @@
     CHANNELS: CHANNELS,
     GROWTH_PCT: GROWTH_PCT,
     ACTION_RECENT_DAYS: ACTION_RECENT_DAYS,
+    ALIASES: ALIASES,
+    ADV_DAILY_FILE: ADV_DAILY_FILE,
+    SCHEMA_CONTRACT: SCHEMA_CONTRACT,
+    canonicalId: canonicalId,
+    dailyFileName: dailyFileName,
+    nodeFromAdv: nodeFromAdv,
+    isPlaceholderNode: isPlaceholderNode,
+    isMeasuredZero: isMeasuredZero,
+    spendFromNode: spendFromNode,
+    asDateMap: asDateMap,
     buildSeries: buildSeries,
     channelStats: channelStats,
     summarize: summarize,

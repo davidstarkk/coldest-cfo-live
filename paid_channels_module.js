@@ -7,9 +7,11 @@
    Per-channel feed order (same as Bing):
      1. PARTIAL_REPORTS[].advertising_sources.<aliases>
         or mer_for_manus.json advertising_sources[YYYY-MM-DD].<aliases>
-     2. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest; x, taboola and outbrain are display-only)
-     3. optional <channel>_ads_data.json
-     4. localStorage manual day (channel tabs)
+     2. advertising_sources_daily.json / <channel>_ads_daily.json (CFO export)
+     3. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest; x, taboola and outbrain are display-only)
+     4. optional <channel>_ads_data.json (empty pre_launch / no_feed stubs ignored)
+     5. localStorage manual day (channel tabs)
+   A missing mer.x / unpublished Taboola-Outbrain-X day is "missing", not $0.
 
    mer_for_manus.json daily_inputs contract (match these keys exactly):
      d2c_ad_spend, blended_mer, total_ad_spend,
@@ -62,9 +64,10 @@
 
   var FEEDS = {};
   CHANNELS.forEach(function (ch) {
-    FEEDS[ch.id] = { file: null, mer: null, manual: null };
+    FEEDS[ch.id] = { file: null, mer: null, manual: null, daily: null };
   });
   var MER_DOC = null;
+  var ADV_DAILY = null;
 
   function hostArray(name) {
     try {
@@ -341,14 +344,30 @@
   }
 
   function isPlaceholderNode(node) {
-    if (!node || typeof node !== 'object') return false;
-    return (node.status === 'no_feed' || node.source === 'no feed' || node.source === 'none') && num(node.spend) === 0;
+    if (node == null || node === false) return true;
+    if (typeof node !== 'object') return false;
+    if (node.missing === true || node.data_available === false || node.zero_assumed === true) return true;
+    var st = node.status != null ? String(node.status) : '';
+    if (st === 'missing' || st === 'no_feed' || st === 'unpublished' || st === 'no_data') return true;
+    if (st === 'pre_launch' && num(node.spend) === 0 && !node.complete && !(Array.isArray(node.daily) && node.daily.length)) return true;
+    return (st === 'no_feed' || node.source === 'no feed' || node.source === 'none') && num(node.spend) === 0;
   }
 
   function pickSourceNode(sources, ch) {
     if (!sources || typeof sources !== 'object' || !ch) return null;
-    for (var i = 0; i < ch.sourceKeys.length; i++) {
-      if (sources[ch.sourceKeys[i]] != null) return { key: ch.sourceKeys[i], node: sources[ch.sourceKeys[i]] };
+    var keys = (ch.sourceKeys || []).slice();
+    Object.keys(sources).forEach(function (k) {
+      var norm = String(k).toLowerCase().replace(/[\s-]+/g, '_');
+      var hit = keys.some(function (sk) {
+        var s = String(sk).toLowerCase();
+        return s === String(k).toLowerCase() || s === norm || s.replace(/_ads$/, '') === norm.replace(/_ads$/, '');
+      });
+      if (hit && keys.indexOf(k) === -1) keys.push(k);
+    });
+    for (var i = 0; i < keys.length; i++) {
+      if (!Object.prototype.hasOwnProperty.call(sources, keys[i])) continue;
+      if (sources[keys[i]] == null || isPlaceholderNode(sources[keys[i]])) continue;
+      return { key: keys[i], node: sources[keys[i]] };
     }
     return null;
   }
@@ -537,15 +556,34 @@
     return out;
   }
 
+  function advertisingSourcesDailyDays(ch) {
+    var src = ADV_DAILY;
+    if (!src || typeof src !== 'object') return {};
+    var map = src.advertising_sources && typeof src.advertising_sources === 'object' ? src.advertising_sources : src;
+    var out = {};
+    Object.keys(map).forEach(function (date) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+      var day = map[date];
+      if (!day || typeof day !== 'object' || Array.isArray(day)) return;
+      var picked = pickSourceNode(day, ch);
+      if (!picked || isPlaceholderNode(picked.node)) return;
+      out[date] = nodeToDay(date, picked.node, 'advertising_sources_daily.json');
+    });
+    return out;
+  }
+
   function mergeDaysFor(ch) {
     var days = {};
     var file = FEEDS[ch.id].file;
     var merB = merBlockFor(ch);
-    Object.assign(days, dailyMapFromBlock(file, ch.file));
+    if (file && !isPlaceholderNode(file)) Object.assign(days, dailyMapFromBlock(file, ch.file));
     Object.assign(days, merAdvertisingSourcesDays(ch));
     Object.assign(days, dailyMapFromBlock(merB, 'mer_for_manus.json#' + ch.merKey));
     var snap = snapshotFromBlock(merB, 'mer_for_manus.json#' + ch.merKey);
-    if (snap && snap.date) days[snap.date] = snap;
+    if (snap && snap.date && !isPlaceholderNode(merB)) days[snap.date] = snap;
+    Object.assign(days, advertisingSourcesDailyDays(ch));
+    var dailyDoc = (FEEDS[ch.id] && FEEDS[ch.id].daily) || null;
+    if (dailyDoc && !isPlaceholderNode(dailyDoc)) Object.assign(days, dailyMapFromBlock(dailyDoc, ch.id + '_ads_daily.json'));
     Object.assign(days, dailyMapFromBlock(FEEDS[ch.id].manual, 'manual'));
 
     var partials = hostArray('PARTIAL_REPORTS');
@@ -943,7 +981,7 @@
   }
 
   function setFeeds(id, file, mer, manual) {
-    FEEDS[id] = FEEDS[id] || { file: null, mer: null, manual: null };
+    FEEDS[id] = FEEDS[id] || { file: null, mer: null, manual: null, daily: null };
     FEEDS[id].file = file || null;
     FEEDS[id].mer = mer || null;
     FEEDS[id].manual = manual || null;
@@ -1078,15 +1116,29 @@
     return (MER_DOC && MER_DOC.x && typeof MER_DOC.x === 'object') ? MER_DOC.x : null;
   }
 
+  function xAdvNode(date) {
+    var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
+    var picked = src ? pickSourceNode(src, { sourceKeys: ['x_ads', 'x', 'twitter_ads', 'twitter'] }) : null;
+    if (picked) return picked.node;
+    var daily = ADV_DAILY && (ADV_DAILY.advertising_sources || ADV_DAILY);
+    var day = daily && daily[date];
+    picked = day ? pickSourceNode(day, { sourceKeys: ['x_ads', 'x', 'twitter_ads', 'twitter'] }) : null;
+    return picked ? picked.node : null;
+  }
+
   function xDayRow(date) {
     var b = xBlock();
-    if (!b || !b.live || !b.by_date || !b.by_date[date]) return null;
-    return b.by_date[date];
+    if (b && b.live && b.by_date && b.by_date[date]) return b.by_date[date];
+    var node = xAdvNode(date);
+    if (node && node.spend != null && !isPlaceholderNode(node)) return node;
+    return null;
   }
 
   function xSpendTxt(date) {
     var r = xDayRow(date);
-    return r ? usd(r.spend) + ' (cash cost ' + usd(r.cash_cost) + ')' : '$0.00 · not live';
+    if (r) return usd(r.spend) + (r.cash_cost != null ? ' (cash cost ' + usd(r.cash_cost) + ')' : '');
+    if (!xBlock()) return 'missing';
+    return '$0.00 · not live';
   }
 
   function xDetailHtml(date) {
@@ -1094,6 +1146,10 @@
     var r = xDayRow(date);
     function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
     if (!r) {
+      if (!b) {
+        return '<tr><td>X Ads</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>no X Ads feed published</td></tr>'
+          + '<tr class="pc-split"><td colspan="7">↳ X spend is unpublished here — display is missing, not $0. CFO publishes advertising_sources.x_ads / x_ads_daily.json.</td></tr>';
+      }
       return '<tr><td>X Ads</td><td>$0.00</td><td>0</td><td>0</td><td>$0.00</td><td>—</td><td>not live</td></tr>'
         + '<tr class="pc-split"><td colspan="7">↳ X Premium Business fee / ad credit: not live until the account id and start date are set. $0 in ad spend and MER.</td></tr>';
     }
@@ -1125,9 +1181,12 @@
 
   function taboolaDayRow(date) {
     var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
-    var node = src && src.taboola_ads;
+    var node = src && (src.taboola_ads || src.taboola);
     if (node && node.missing) return null;
-    if (node && node.complete && node.spend != null) return node;
+    if (node && (node.complete || node.closed_day) && node.spend != null) return node;
+    var daily = ADV_DAILY && (ADV_DAILY.advertising_sources || ADV_DAILY);
+    var dnode = daily && daily[date] && (daily[date].taboola_ads || daily[date].taboola);
+    if (dnode && !dnode.missing && dnode.spend != null) return dnode;
     var b = MER_DOC && MER_DOC.taboola;
     var by = b && b.by_date;
     if (by && by[date] && by[date].spend != null) return by[date];
@@ -1185,9 +1244,12 @@
 
   function outbrainDayRow(date) {
     var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
-    var node = src && src.outbrain_ads;
+    var node = src && (src.outbrain_ads || src.outbrain);
     if (node && node.missing) return null;
-    if (node && node.complete && node.spend != null) return node;
+    if (node && (node.complete || node.closed_day) && node.spend != null) return node;
+    var daily = ADV_DAILY && (ADV_DAILY.advertising_sources || ADV_DAILY);
+    var dnode = daily && daily[date] && (daily[date].outbrain_ads || daily[date].outbrain);
+    if (dnode && !dnode.missing && dnode.spend != null) return dnode;
     var b = MER_DOC && MER_DOC.outbrain;
     var by = b && b.by_date;
     if (by && by[date] && by[date].spend != null) return by[date];
@@ -1504,8 +1566,16 @@
       var rows = Array.isArray(d) ? d : ((d && d.PARTIAL_REPORTS) || (d && d.reports) || []);
       mergeOverlayRows(rows);
     }).catch(function () { /* overlay is optional and never required in git */ }));
+    jobs.push(fetchJson('advertising_sources_daily.json').then(function (d) { ADV_DAILY = d; }).catch(function () { ADV_DAILY = null; }));
     CHANNELS.forEach(function (ch) {
-      jobs.push(fetchJson(ch.file).then(function (d) { FEEDS[ch.id].file = d; }).catch(function () { FEEDS[ch.id].file = null; }));
+      jobs.push(fetchJson(ch.file).then(function (d) { FEEDS[ch.id].file = isPlaceholderNode(d) ? null : d; }).catch(function () { FEEDS[ch.id].file = null; }));
+      jobs.push(fetchJson(ch.id + '_ads_daily.json').then(function (d) { FEEDS[ch.id].daily = d; }).catch(function () { FEEDS[ch.id].daily = null; }));
+    });
+    ['taboola', 'outbrain', 'x'].forEach(function (id) {
+      jobs.push(fetchJson(id + '_ads_daily.json').then(function (d) {
+        if (!FEEDS[id]) FEEDS[id] = { file: null, mer: null, manual: null, daily: null };
+        FEEDS[id].daily = d;
+      }).catch(function () { /* optional */ }));
     });
     if (examplePinterestRequested()) {
       jobs.push(fetchJson('scripts/fixtures/pinterest_example.json').then(function (fx) {
@@ -1573,7 +1643,8 @@
     publishedAmount: publishedAmount,
     mergeOverlayRows: mergeOverlayRows,
     hydratePartialFromMer: hydratePartialFromMer,
-    _setMerDoc: function (doc) { MER_DOC = doc || null; }
+    _setMerDoc: function (doc) { MER_DOC = doc || null; },
+    _setAdvDaily: function (doc) { ADV_DAILY = doc || null; }
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

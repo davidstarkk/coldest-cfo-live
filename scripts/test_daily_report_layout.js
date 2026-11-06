@@ -202,6 +202,9 @@ test('X Ads: not live = $0 / not live; live shows cash cost, credit, fee and fla
   assert.ok(html.indexOf('expires 2026-11-30') !== -1);
   assert.strictEqual(Paid.xSpendTxt('2026-11-02'), '$400.00 (cash cost $333.33)');
   Paid._setMerDoc(null);
+  assert.strictEqual(Paid.xSpendTxt('2026-11-04'), 'missing');
+  assert.ok(Paid.xDetailHtml('2026-11-04').indexOf('missing') !== -1);
+  assert.ok(Paid.xDetailHtml('2026-11-04').indexOf('$0.00') === -1);
 });
 
 test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; ROAS platform-reported next to Shopify-attributed', function () {

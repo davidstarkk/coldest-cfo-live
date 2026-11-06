@@ -189,6 +189,7 @@ test('channel stats: 7d windows, WoW, platform ROAS only over reported days, sha
 test('posture: tracking DOWN overrides, kill/cut/raise within 14 days, hold / view / frozen, pre-launch', function () {
   assert.strictEqual(A.posture({ tracking: 'DOWN', mode: 'auto', change: { date: '2026-11-01', action: 'raise_20pct' }, asOf: '2026-11-02', live: true, spend7: 100 }).code, 'tracking_down');
   assert.strictEqual(A.posture({ mode: 'auto', change: { date: '2026-10-29', action: 'kill_under_1x' }, asOf: '2026-11-02', live: true, spend7: 100 }).code, 'killed');
+  assert.strictEqual(A.posture({ mode: 'auto', change: { date: '2026-10-30', action: 'kill_under_1x' }, asOf: '2026-11-04', live: false, spend7: 0 }).code, 'killed', 'Jarvis kill still shows when the 7d window is empty');
   assert.strictEqual(A.posture({ mode: 'auto', change: { date: '2026-10-29', action: 'cut_20pct_and_change_strategy' }, asOf: '2026-11-02', live: true, spend7: 100 }).code, 'cutting');
   assert.strictEqual(A.posture({ mode: 'auto', change: { date: '2026-10-01', action: 'raise_20pct' }, asOf: '2026-11-02', live: true, spend7: 100 }).code, 'auto', 'a 32-day-old raise is history, not posture');
   assert.strictEqual(A.posture({ mode: 'hold', live: true, spend7: 100 }).code, 'hold');
@@ -227,25 +228,218 @@ test('rankings unwrap and action labels', function () {
   assert.strictEqual(A.actionLabel(changes[0]), 'Scaled $350 → $420/day on 10/30 by jarvis');
 });
 
-test('live page data: every channel resolves, no NaN, Meta ROAS stays — on spend-only feed', function () {
+function extractLiteral(html, name) {
+  var needle = 'const ' + name + ' = ';
+  var start = html.indexOf(needle);
+  if (start < 0) return [];
+  start += needle.length;
+  var i = start, depth = 0, inStr = null, esc = false;
+  for (; i < html.length; i++) {
+    var ch = html[i];
+    if (inStr) {
+      if (esc) { esc = false; continue; }
+      if (ch === '\\') { esc = true; continue; }
+      if (ch === inStr) inStr = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") { inStr = ch; continue; }
+    if (ch === '{' || ch === '[') depth++;
+    else if (ch === '}' || ch === ']') {
+      depth--;
+      if (depth === 0) {
+        try { return JSON.parse(html.slice(start, i + 1)); }
+        catch (e) { return []; }
+      }
+    }
+  }
+  return [];
+}
+
+function liveEmbedded() {
   var fs = require('fs');
   var path = require('path');
   var html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
-  var m = html.match(/^const PARTIAL_REPORTS\s*=\s*(\[.*?\]);\s*$/m);
-  var r = html.match(/^const REPORTS\s*=\s*(\[.*?\]);\s*$/m);
-  var embedded = [].concat(m ? JSON.parse(m[1]) : [], r ? JSON.parse(r[1]) : []);
+  return [].concat(extractLiteral(html, 'PARTIAL_REPORTS'), extractLiteral(html, 'REPORTS'));
+}
+
+test('live page data: every channel resolves, missing totals stay null, Meta ROAS stays — on spend-only feed', function () {
+  var embedded = liveEmbedded();
   var inp = { embedded: embedded, mer: require('../mer_for_manus.json'), settings: require('../ads_throttle/settings.json'), changes: require('../ads_throttle/changes.json'), rankings: require('../ads_throttle/rankings.json'), tracking: require('../ads_throttle/tracking_health.json'), seriesFile: require('../ads_throttle/series.json') };
   var s = A.buildSeries(inp);
   assert.ok(s.spendThrough >= '2026-11-01');
   var stats = A.CHANNELS.map(function (ch) { return A.channelStats(ch, s, inp, s.spendThrough); });
   stats.forEach(function (st) {
-    ['spend7', 'prev7', 'spend30'].forEach(function (k) { assert.ok(Number.isFinite(st[k]), st.ch.id + '.' + k); });
+    ['spend7', 'prev7', 'spend30'].forEach(function (k) {
+      assert.ok(st[k] == null || Number.isFinite(st[k]), st.ch.id + '.' + k);
+    });
     if (st.roas7 != null) assert.ok(Number.isFinite(st.roas7));
     assert.ok(st.posture && st.posture.label);
+    assert.ok(st.statusLabel);
+    assert.ok(st.feed && st.feed.code);
   });
   var meta = stats.filter(function (x) { return x.ch.id === 'meta'; })[0];
   assert.ok(meta.spend7 > 0);
   assert.strictEqual(meta.roas7, null);
+});
+
+test('canonical aliases join microsoft_ads / Microsoft Ads onto bing', function () {
+  assert.strictEqual(A.canonicalId('microsoft_ads'), 'bing');
+  assert.strictEqual(A.canonicalId('Microsoft Ads'), 'bing');
+  assert.strictEqual(A.canonicalId('google_advertising'), 'google');
+  assert.strictEqual(A.canonicalId('openai_ads'), 'chatgpt');
+  assert.strictEqual(A.canonicalId('twitter_ads'), 'x');
+  var bing = A.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0];
+  var node = A.nodeFromAdv({ microsoft_ads: { spend: 12, complete: true } }, bing);
+  assert.strictEqual(A.spendFromNode(bing, node), 12);
+});
+
+test('stubs, JSON null, and unmeasured $0 are missing — not published zeros', function () {
+  var bing = A.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0];
+  assert.strictEqual(A.isPlaceholderNode({ status: 'pre_launch', spend: 0, daily: [] }), true);
+  assert.strictEqual(A.isPlaceholderNode({ status: 'no_feed', spend: 0, daily: [] }), true);
+  assert.strictEqual(A.spendFromNode(bing, { spend: 0, source: 'no_feed' }), null);
+  assert.strictEqual(A.spendFromNode(bing, { spend: 0 }), null, 'bare $0 without complete is missing');
+  assert.strictEqual(A.spendFromNode(bing, { spend: 0, complete: true }), 0);
+  assert.strictEqual(A.isMeasuredZero({ spend: 0, closed_day: true }), true);
+  assert.strictEqual(A.spendFromNode(bing, null), null);
+  var s = A.buildSeries({
+    embedded: [{ date: '2026-11-04', report_status: 'partial', advertising_sources: { bing_ads: null, meta: day('2026-11-04', 100) } }],
+    channelFiles: { bing: { status: 'pre_launch', spend: 0, daily: [] } }
+  });
+  assert.strictEqual(s.channels.bing.days['2026-11-04'] && s.channels.bing.days['2026-11-04'].spend, undefined);
+  assert.strictEqual(s.channels.meta.days['2026-11-04'].spend, 100);
+});
+
+test('advertising_sources_daily and *_ads_daily fill PARTIAL holes; first published spend wins', function () {
+  var inp = {
+    embedded: [
+      { date: '2026-11-03', report_status: 'partial', advertising_sources: { meta: day('2026-11-03', 1000) } },
+      { date: '2026-11-04', report_status: 'partial', advertising_sources: { meta: day('2026-11-04', 1100) } }
+    ],
+    advertisingSourcesDaily: {
+      '2026-11-03': { meta: { spend: 9999, complete: true }, bing_ads: { spend: 40, complete: true, platform_revenue: 80, conversions: 2, roas: 2 } },
+      '2026-11-05': { meta: { spend: 1200, complete: true }, microsoft_ads: { spend: 50, complete: true, platform_revenue: 100, conversions: 1 } }
+    },
+    dailyFiles: {
+      bing: { '2026-11-06': { spend: 60, complete: true, platform_revenue: 90 } },
+      taboola: { '2026-11-03': { spend: 200, complete: true, platform_revenue: 40 }, '2026-11-04': { spend: 305.29, complete: true, platform_revenue: 10 } }
+    }
+  };
+  var s = A.buildSeries(inp);
+  assert.strictEqual(s.channels.meta.days['2026-11-03'].spend, 1000, 'PARTIAL wins over advertising_sources_daily');
+  assert.strictEqual(s.channels.meta.days['2026-11-05'].spend, 1200, 'daily export fills the 11/5 hole');
+  assert.strictEqual(s.channels.bing.days['2026-11-03'].spend, 40);
+  assert.strictEqual(s.channels.bing.days['2026-11-05'].spend, 50, 'microsoft_ads alias');
+  assert.strictEqual(s.channels.bing.days['2026-11-06'].spend, 60);
+  assert.strictEqual(s.channels.bing.days['2026-11-03'].hasPlatform, true);
+  assert.strictEqual(s.channels.bing.days['2026-11-03'].revenue, 80);
+  assert.strictEqual(s.channels.taboola.days['2026-11-03'].spend, 200);
+  assert.strictEqual(s.channels.taboola.days['2026-11-04'].spend, 305.29);
+  assert.strictEqual(s.spendThrough, '2026-11-06');
+  var bing = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0], s, inp, '2026-11-06');
+  assert.strictEqual(bing.platformRev7, 270);
+  assert.ok(bing.roas7 != null);
+});
+
+test('false zeros after a durable stop are stripped; measured zeros on a live feed stay', function () {
+  var inp = {
+    mer: {
+      as_of: '2026-11-04',
+      advertising_sources: {
+        '2026-10-29': { bing_ads: { spend: 80, complete: true, live: true, source: 'Pipeboard Bing' } },
+        '2026-10-30': { bing_ads: { spend: 90, complete: true, live: true, source: 'Pipeboard Bing' } },
+        '2026-10-31': { bing_ads: { spend: 0, live: true, source: 'copied' } },
+        '2026-11-01': { bing_ads: { spend: 0, complete: true, live: true, source: 'copied-complete' } },
+        '2026-11-03': { outbrain_ads: { spend: 0, complete: true, live: false, status: 'not_launched' } },
+        '2026-11-04': { outbrain_ads: { spend: 0, closed_day: true, live: false, status: 'not_launched' } }
+      }
+    }
+  };
+  var s = A.buildSeries(inp);
+  assert.strictEqual(s.channels.bing.days['2026-10-30'].spend, 90);
+  assert.ok(!s.channels.bing.days['2026-10-31'] || s.channels.bing.days['2026-10-31'].spend == null, 'unmeasured $0 after stop is missing');
+  assert.ok(!s.channels.bing.days['2026-11-01'] || s.channels.bing.days['2026-11-01'].spend == null, 'copied complete $0 after durable stop is stripped');
+  assert.strictEqual(s.channels.bing.durableThrough, '2026-10-30');
+  assert.strictEqual(s.channels.outbrain.days['2026-11-03'].spend, 0);
+  assert.strictEqual(s.channels.outbrain.days['2026-11-04'].spend, 0);
+  var bing = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0], s, inp, '2026-11-04');
+  assert.strictEqual(bing.spend7, 170, 'only the two measured days, missing days not $0');
+  assert.strictEqual(bing.spend7Days, 2);
+  assert.strictEqual(bing.growth.code, 'incomplete');
+  assert.strictEqual(A._fmt.usd(bing.yday), '—');
+  var staleInp = {
+    mer: {
+      as_of: '2026-10-26',
+      bing: { status: 'live', live: true, as_of: '2026-10-26' },
+      advertising_sources: {
+        '2026-10-26': { bing_ads: { spend: 80, complete: true, live: true } },
+        '2026-10-27': { meta: { spend: 1, complete: true } },
+        '2026-11-04': { meta: { spend: 1, complete: true } }
+      }
+    }
+  };
+  var staleSeries = A.buildSeries(staleInp);
+  var staleBing = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0], staleSeries, staleInp, '2026-11-04');
+  assert.strictEqual(staleBing.spend7, null);
+  assert.ok(staleBing.feed.code === 'stale' || staleBing.growth.code === 'stale');
+  assert.notStrictEqual(staleBing.statusLabel, 'LIVE', 'stale mer.live is not LIVE');
+  assert.strictEqual(A._fmt.usd(staleBing.spend7), '—');
+  var outb = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'outbrain'; })[0], s, inp, '2026-11-04');
+  assert.strictEqual(outb.spend7, 0);
+  assert.strictEqual(outb.spend7Days, 2);
+  assert.strictEqual(outb.growth.code, 'incomplete');
+});
+
+test('no published rows is NO FEED / —, never $0; Taboola unpublished is not launched $0', function () {
+  var inp = { embedded: [{ date: '2026-11-04', report_status: 'partial', advertising_sources: { meta: day('2026-11-04', 50) } }] };
+  var s = A.buildSeries(inp);
+  var x = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'x'; })[0], s, inp, s.spendThrough);
+  var tab = A.channelStats(A.CHANNELS.filter(function (c) { return c.id === 'taboola'; })[0], s, inp, s.spendThrough);
+  assert.strictEqual(x.spend7, null);
+  assert.strictEqual(x.growth.code, 'nofeed');
+  assert.ok(x.statusLabel === '—' || x.statusLabel === 'NO FEED');
+  assert.strictEqual(tab.spend7, null);
+  assert.strictEqual(tab.growth.code, 'nofeed');
+  assert.ok(tab.statusLabel === 'NOT LAUNCHED' || tab.statusLabel === '—');
+  assert.strictEqual(A._fmt.usd(0), '$0');
+  assert.strictEqual(A._fmt.usd(null), '—');
+});
+
+test('schema contract is exported for CFO publishers', function () {
+  assert.strictEqual(A.ADV_DAILY_FILE, 'advertising_sources_daily.json');
+  assert.strictEqual(A.dailyFileName({ id: 'bing' }), 'bing_ads_daily.json');
+  assert.ok(A.SCHEMA_CONTRACT.advertising_sources_daily);
+  assert.ok(A.SCHEMA_CONTRACT.channel_ads_daily);
+  assert.ok(/complete/.test(A.SCHEMA_CONTRACT.advertising_sources_daily.measured_zero));
+});
+
+test('screenshot window ending 11/4: unpublished channels are not painted $0 LIVE', function () {
+  var embedded = liveEmbedded();
+  var stubs = {
+    bing: require('../bing_ads_data.json'),
+    chatgpt: require('../chatgpt_ads_data.json'),
+    reddit: require('../reddit_ads_data.json'),
+    snapchat: require('../snapchat_ads_data.json'),
+    pinterest: require('../pinterest_ads_data.json')
+  };
+  var inp = { embedded: embedded, mer: require('../mer_for_manus.json'), settings: require('../ads_throttle/settings.json'), changes: require('../ads_throttle/changes.json'), rankings: require('../ads_throttle/rankings.json'), tracking: require('../ads_throttle/tracking_health.json'), seriesFile: require('../ads_throttle/series.json'), channelFiles: stubs };
+  var s = A.buildSeries(inp);
+  var end = s.spendThrough >= '2026-11-04' ? '2026-11-04' : s.spendThrough;
+  var byId = {};
+  A.CHANNELS.forEach(function (ch) { byId[ch.id] = A.channelStats(ch, s, inp, end); });
+  assert.ok(byId.meta.spend7 > 0);
+  assert.strictEqual(byId.meta.roas7, null);
+  assert.notStrictEqual(byId.bing.statusLabel, 'LIVE', 'stale mer.live must not paint Bing LIVE');
+  assert.ok(byId.bing.spend7 == null || byId.bing.feed.code === 'stale');
+  assert.strictEqual(A._fmt.usd(byId.bing.yday), '—');
+  assert.strictEqual(byId.chatgpt.statusLabel, 'STALE');
+  assert.strictEqual(byId.chatgpt.posture.code, 'killed');
+  assert.strictEqual(A._fmt.usd(byId.chatgpt.spend7), '—');
+  ['taboola', 'outbrain', 'x'].forEach(function (id) {
+    assert.strictEqual(byId[id].spend7, null, id + ' 7d is missing, not $0');
+    assert.ok(byId[id].growth.code === 'nofeed' || byId[id].statusLabel === 'NOT LAUNCHED');
+  });
+  assert.ok(byId.bing.spend30 == null || byId.bing.spend30Days < 30, '30d must not silently fill the unpublished week');
 });
 
 if (failed) {
