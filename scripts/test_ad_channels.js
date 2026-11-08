@@ -821,6 +821,24 @@ test('window length drives stats, summary and leaderboard; yesterday view compar
   assert.strictEqual(A.winLabel(1), 'YESTERDAY'); assert.strictEqual(A.winLabel(28), '28 DAYS');
 });
 
+test('heatmap header carries the weekday above each date; Thursday (email drop) columns get the overlay class', function () {
+  assert.deepStrictEqual(A.dropConfig(null), { days: [4], label: 'email drop' });
+  assert.deepStrictEqual(A.dropConfig({ global: { drop_weekdays: [1, 4], drop_label: 'blast' } }), { days: [1, 4], label: 'blast' });
+  assert.strictEqual(A.weekday('2026-11-05'), 4);
+  assert.strictEqual(A.isDropDay('2026-11-05'), true);                      // Thu
+  assert.strictEqual(A.isDropDay('2026-11-06'), false);                     // Fri
+  var s = A.buildSeries({ embedded: perfRows('2026-11-06', 10), mer: null });
+  var hm = A.heatmap(s, '2026-11-06', 7, SETTINGS);
+  var html = A.heatmapHtml(hm, A.dropConfig(null));
+  ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'].forEach(function (wd) { assert.ok(html.indexOf('>' + wd) !== -1, wd + ' header'); });
+  var thuHeader = html.match(/<th class="ac-wd ac-drop"[^>]*>Thu<span class="ac-drop-tag">email drop<\/span><\/th>/);
+  assert.ok(thuHeader, 'Thursday header is tagged as the drop day');
+  assert.strictEqual((html.match(/ac-drop(?!-tag)/g) || []).length, 2 /* header cells */ + hm.rows.length /* one cell per platform row */);
+  assert.ok(html.indexOf('Thu = email drop (email blast)') !== -1, 'legend names the drop day');
+  var none = A.heatmapHtml(A.heatmap(s, '2026-11-06', 7, SETTINGS), A.dropConfig({ global: { drop_weekdays: [] } }));
+  assert.strictEqual((none.match(/ac-drop(?!-tag)/g) || []).length, 0);
+});
+
 if (failed) {
   console.error(failed + ' ad-channel test(s) failed');
   process.exit(1);

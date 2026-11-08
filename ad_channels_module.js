@@ -89,6 +89,20 @@
     { id: 'x_ads', channel: 'x', label: 'X Ads' }
   ];
   var LOW_SPEND = 100;          // performance.py LOW_SPEND: below this a day's ROAS is not judged
+  // Drop days: Coldest sends its email blast on Thursdays (David 11/8). Those columns get a light
+  // overlay on the heatmap and the daily charts so a lift (or not) is visible against the blast.
+  // Override with ads_throttle/settings.json global.drop_weekdays ([0=Sun … 6=Sat]) / drop_label.
+  var DROP_DAYS = [4];
+  var DROP_LABEL = 'email drop';
+  var DROP_FILL = 'rgba(232,232,240,0.13)';
+  function dropConfig(settings) {
+    var g = (settings && settings.global) || {};
+    var days = Array.isArray(g.drop_weekdays) ? g.drop_weekdays.map(Number).filter(function (d) { return d >= 0 && d <= 6; }) : DROP_DAYS;
+    return { days: days, label: g.drop_label ? String(g.drop_label) : DROP_LABEL };
+  }
+  function weekday(date) { return isDate(date) ? new Date(date + 'T00:00:00Z').getUTCDay() : null; }
+  function isDropDay(date, cfg) { var wd = weekday(date); return wd != null && (cfg ? cfg.days : DROP_DAYS).indexOf(wd) !== -1; }
+  var WD_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   var HEATMAP_DAYS = 14;
   var GROWTH_PCT = 15;          // ±15 % week over week
   var ACTION_RECENT_DAYS = 14;  // a Jarvis raise/cut older than this is history, not posture
@@ -1281,6 +1295,7 @@
     '.ac-strip{position:relative;height:150px}',
     '.ac-foot{font-size:.68rem;color:var(--text-dim);margin-top:8px;line-height:1.5}',
     '.ac-heat-wrap{overflow-x:auto}.ac-heat{border-collapse:separate;border-spacing:2px;font-size:.7rem;width:100%}.ac-heat th{font-size:.58rem;letter-spacing:.06em;color:var(--text-dim);font-weight:600;text-align:center;padding:2px 0;white-space:nowrap}.ac-heat th:first-child{text-align:left}.ac-heat td{font-family:var(--font-mono);text-align:center;padding:5px 2px;border-radius:4px;min-width:40px;color:var(--text)}.ac-heat td:first-child{font-family:var(--font-body);text-align:left;white-space:nowrap;padding-left:0;min-width:140px}.ac-heat td.ac-h-none{color:var(--text-dim)}.ac-heat td.ac-h-low{color:var(--text-muted)}',
+    '.ac-heat th.ac-wd{font-size:.58rem;color:var(--text-muted);padding-top:4px;letter-spacing:.04em;position:relative}.ac-heat .ac-drop{background-image:linear-gradient(' + DROP_FILL + ',' + DROP_FILL + ')}.ac-heat th.ac-drop{color:var(--text);border-radius:4px 4px 0 0}.ac-heat .ac-drop-tag{display:block;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);line-height:1.1;margin-top:1px}',
     '.ac-bands{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.66rem;color:var(--text-muted);margin-top:8px}.ac-bands i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:middle}',
     '.ac-log{width:100%;border-collapse:collapse;font-size:.74rem}.ac-log th{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);text-align:left;padding:5px 8px;border-bottom:1px solid var(--border)}.ac-log td{padding:5px 8px;border-bottom:1px solid rgba(37,37,72,.5);vertical-align:top}.ac-log td.m{font-family:var(--font-mono);white-space:nowrap}',
     '@media (max-width:600px){.ac-card .ac-nums{grid-template-columns:1fr 1fr}.ac-chart{height:220px}}'
@@ -1380,10 +1395,10 @@
     return chart;
   }
 
-  function stackedChart(canvas, labels, seriesList, markers) {
+  function stackedChart(canvas, labels, seriesList, markers, dates, drop) {
     if (typeof Chart === 'undefined' || !canvas) return null;
     var chart = new Chart(canvas.getContext('2d'), {
-      plugins: [markersPlugin(markers || [])],
+      plugins: [dropDaysPlugin(dates || [], drop), markersPlugin(markers || [])],
       type: 'bar',
       data: {
         labels: labels,
@@ -1509,6 +1524,27 @@
     return chart;
   }
 
+  // Light column overlay on drop days (email blast) for the category-axis charts.
+  function dropDaysPlugin(dates, drop) {
+    return {
+      id: 'acDropDays',
+      beforeDatasetsDraw: function (chart) {
+        if (!dates || !dates.length) return;
+        var x = chart.scales.x, area = chart.chartArea, ctx = chart.ctx;
+        var n = dates.length;
+        var step = n > 1 ? (x.getPixelForValue(1) - x.getPixelForValue(0)) : (area.right - area.left);
+        ctx.save();
+        ctx.fillStyle = DROP_FILL;
+        dates.forEach(function (d, i) {
+          if (!isDropDay(d, drop)) return;
+          var cx = x.getPixelForValue(i);
+          ctx.fillRect(cx - step / 2, area.top, step, area.bottom - area.top);
+        });
+        ctx.restore();
+      }
+    };
+  }
+
   // Vertical hairline + label per Jarvis action on the daily spend chart.
   function markersPlugin(markers) {
     return {
@@ -1539,7 +1575,7 @@
   }
 
   // Daily Shop/DTC MER line with the Jarvis hold band and the owner's MER target.
-  function merStripChart(canvas, labels, points, th, target) {
+  function merStripChart(canvas, labels, points, th, target, drop) {
     if (typeof Chart === 'undefined' || !canvas) return null;
     var vals = points.map(function (p) { return p.mer; });
     if (!vals.some(function (v) { return v != null; })) return null;
@@ -1578,26 +1614,31 @@
           y: { min: 0, max: Math.ceil(top * 2) / 2, ticks: { color: '#8888a8', font: { size: 10 }, callback: function (v) { return v + 'x'; } }, grid: { color: 'rgba(37,37,72,0.7)' } }
         }
       },
-      plugins: [plug]
+      plugins: [dropDaysPlugin(points.map(function (p) { return p.date; }), drop), plug]
     });
     STATE.charts.push(chart);
     return chart;
   }
 
-  function heatmapHtml(hm) {
+  function heatmapHtml(hm, drop) {
+    drop = drop || dropConfig(null);
     if (!hm.rows.length) return '<div class="ac-empty">No platform-reported ROAS in the last ' + hm.dates.length + ' days (daily report performance.platforms).</div>';
-    var head = '<tr><th>Platform · ' + hm.dates.length + 'd spend</th>' + hm.dates.map(function (d) { return '<th>' + esc(mmdd(d)) + '</th>'; }).join('') + '</tr>';
+    function dropCls(d) { return isDropDay(d, drop) ? ' ac-drop' : ''; }
+    var head = '<tr><th rowspan="2" style="vertical-align:bottom">Platform · ' + hm.dates.length + 'd spend</th>'
+      + hm.dates.map(function (d) { var dd = isDropDay(d, drop); return '<th class="ac-wd' + dropCls(d) + '" title="' + (dd ? esc(drop.label) : '') + '">' + WD_SHORT[weekday(d)] + (dd ? '<span class="ac-drop-tag">' + esc(drop.label) + '</span>' : '') + '</th>'; }).join('') + '</tr>'
+      + '<tr>' + hm.dates.map(function (d) { return '<th class="' + dropCls(d).trim() + '">' + esc(mmdd(d)) + '</th>'; }).join('') + '</tr>';
     var body = hm.rows.map(function (r) {
       var cells = r.cells.map(function (c) {
-        if (c.ratio == null) return '<td class="ac-h-none" title="' + esc(mmdd(c.date) + ': no platform read') + '">·</td>';
-        var tip = mmdd(c.date) + ': ' + roasTxt(c.ratio) + ' · ' + usd(c.value) + ' ÷ ' + usd(c.spend) + (c.low ? ' · under $' + LOW_SPEND + ' spend, not judged' : ' · ' + BAND_LABEL[c.band]) + (c.basis ? ' · ' + c.basis : '');
+        var dc = dropCls(c.date);
+        if (c.ratio == null) return '<td class="ac-h-none' + dc + '" title="' + esc(shortDate(c.date) + ': no platform read' + (dc ? ' · ' + drop.label : '')) + '">·</td>';
+        var tip = shortDate(c.date) + (dc ? ' · ' + drop.label : '') + ': ' + roasTxt(c.ratio) + ' · ' + usd(c.value) + ' ÷ ' + usd(c.spend) + (c.low ? ' · under $' + LOW_SPEND + ' spend, not judged' : ' · ' + BAND_LABEL[c.band]) + (c.basis ? ' · ' + c.basis : '');
         var bg = c.low ? 'transparent' : bandFill(c.band, c.band === 'hold' ? 0.18 : 0.28);
-        return '<td class="' + (c.low ? 'ac-h-low' : '') + '" style="background:' + bg + '" title="' + esc(tip) + '">' + c.ratio.toFixed(1) + '</td>';
+        return '<td class="' + (c.low ? 'ac-h-low' : '') + dc + '" style="background-color:' + bg + '" title="' + esc(tip) + '">' + c.ratio.toFixed(1) + '</td>';
       }).join('');
       return '<tr><td><span class="ac-dot" style="background:' + r.color + '"></span>' + esc(r.label) + ' <span class="ac-muted">' + kusd(r.spend) + '</span></td>' + cells + '</tr>';
     }).join('');
     return '<div class="ac-heat-wrap"><table class="ac-heat"><thead>' + head + '</thead><tbody>' + body + '</tbody></table></div>'
-      + '<div class="ac-bands"><span><i style="background:' + bandFill('raise', 0.6) + '"></i>≥ ' + hm.thresholds.raise.toFixed(1) + 'x raise band</span><span><i style="background:' + bandFill('hold', 0.5) + '"></i>' + hm.thresholds.cut.toFixed(1) + '–' + hm.thresholds.raise.toFixed(1) + 'x hold</span><span><i style="background:' + bandFill('cut', 0.6) + '"></i>&lt; ' + hm.thresholds.cut.toFixed(1) + 'x cut band</span><span><i style="border:1px solid var(--border)"></i>under $' + LOW_SPEND + '/day, not judged</span><span>· no platform read</span></div>';
+      + '<div class="ac-bands"><span><i style="background:' + bandFill('raise', 0.6) + '"></i>≥ ' + hm.thresholds.raise.toFixed(1) + 'x raise band</span><span><i style="background:' + bandFill('hold', 0.5) + '"></i>' + hm.thresholds.cut.toFixed(1) + '–' + hm.thresholds.raise.toFixed(1) + 'x hold</span><span><i style="background:' + bandFill('cut', 0.6) + '"></i>&lt; ' + hm.thresholds.cut.toFixed(1) + 'x cut band</span><span><i style="border:1px solid var(--border)"></i>under $' + LOW_SPEND + '/day, not judged</span><span>· no platform read</span><span><i style="background:' + DROP_FILL + ';border:1px solid var(--border)"></i>' + esc(drop.days.map(function (d) { return WD_SHORT[d]; }).join(' / ')) + ' = ' + esc(drop.label) + ' (email blast)</span></div>';
   }
 
   function actionLogHtml(changes, asOf) {
@@ -1699,6 +1740,7 @@
     var lb = leaderboard(series, end, inputs.settings, win);
     var hmDays = Math.min(chartDays, MAX_HEATMAP_DAYS);
     var hm = heatmap(series, end, hmDays, inputs.settings);
+    var drop = dropConfig(inputs.settings);
     var endTxt = win === 1 ? esc(shortDate(end).toUpperCase()) : WL + ' ENDING ' + esc(shortDate(end).toUpperCase());
     var changesList = inputs.changes || (inputs.mer && inputs.mer.ad_channel_throttles && inputs.mer.ad_channel_throttles.recent_changes) || [];
     var markers = actionMarkers(changesList, dates);
@@ -1750,8 +1792,8 @@
       + (lb.rows.length ? '<div class="ac-lead" style="height:' + leadH + 'px"><canvas id="ac-shares"></canvas></div>' : '<div class="ac-empty">—</div>')
       + '<div class="ac-foot">Among the platforms that reported. A platform whose value share is far below its spend share is where the budget is least efficient on its own numbers.</div></div>'
       + '</div>';
-    html += '<div class="ac-panel"><div class="section-title">PLATFORM ROAS BY DAY · LAST ' + hmDays + ' DAYS' + (hmDays < win ? ' OF ' + win : '') + '</div>' + heatmapHtml(hm) + '</div>';
-    html += '<div class="ac-panel"><div class="section-title">DAILY AD SPEND BY CHANNEL · LAST ' + chartDays + ' DAYS' + (markers.length ? ' · ' + markers.length + ' JARVIS ACTION' + (markers.length === 1 ? '' : 'S') + ' MARKED' : '') + '</div><div class="ac-chart"><canvas id="ac-stack"></canvas></div></div>';
+    html += '<div class="ac-panel"><div class="section-title">PLATFORM ROAS BY DAY · LAST ' + hmDays + ' DAYS' + (hmDays < win ? ' OF ' + win : '') + '</div>' + heatmapHtml(hm, drop) + '</div>';
+    html += '<div class="ac-panel"><div class="section-title">DAILY AD SPEND BY CHANNEL · LAST ' + chartDays + ' DAYS' + (markers.length ? ' · ' + markers.length + ' JARVIS ACTION' + (markers.length === 1 ? '' : 'S') + ' MARKED' : '') + '</div><div class="ac-chart"><canvas id="ac-stack"></canvas></div><div class="ac-foot">Shaded columns = ' + esc(drop.days.map(function (d) { return WD_SHORT[d]; }).join(' / ')) + ' ' + esc(drop.label) + ' (email blast).</div></div>';
     html += '<div class="ac-panel"><div class="section-title">SHOP/DTC MER BY DAY · LAST ' + chartDays + ' DAYS</div>'
       + (merPts.some(function (p) { return p.mer != null; }) ? '<div class="ac-strip"><canvas id="ac-mer"></canvas></div>' : '<div class="ac-empty">No Shop/DTC rows in the daily reports for this window.</div>')
       + '<div class="ac-foot">Shop/DTC revenue ÷ known ad spend from each daily report (same numbers as the Daily Reports tab; partial days are provisional). Band = the Jarvis hold band; green line = owner MER target' + (merTarget != null ? ' ' + merTarget.toFixed(2) + 'x' : ' (not published)') + '.</div></div>';
@@ -1799,11 +1841,11 @@
     panel.innerHTML = html;
 
     // charts
-    var labels = dates.map(function (d) { return mmdd(d); });
+    var labels = dates.map(function (d) { return (chartDays <= 14 ? WD_SHORT[weekday(d)] + ' ' : '') + mmdd(d); });
     leaderboardChart(document.getElementById('ac-lead'), lb);
     sharesChart(document.getElementById('ac-shares'), lb);
-    stackedChart(document.getElementById('ac-stack'), labels, stackList, markers);
-    merStripChart(document.getElementById('ac-mer'), labels, merPts, th, merTarget);
+    stackedChart(document.getElementById('ac-stack'), labels, stackList, markers, dates, drop);
+    merStripChart(document.getElementById('ac-mer'), labels, merPts, th, merTarget, drop);
     stats.forEach(function (s) {
       var days = series.channels[s.ch.id].days;
       var spend = dates.map(function (d) { return days[d] && days[d].spend != null ? days[d].spend : null; });
@@ -1924,6 +1966,10 @@
     DEFAULT_WINDOW: DEFAULT_WINDOW,
     minSpendFor: minSpendFor,
     winLabel: winLabel,
+    dropConfig: dropConfig,
+    isDropDay: isDropDay,
+    weekday: weekday,
+    heatmapHtml: heatmapHtml,
     windowDates: windowDates,
     render: render,
     load: load,
