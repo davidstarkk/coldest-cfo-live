@@ -1485,6 +1485,14 @@
       raw: cfg
     };
   }
+  function splitPhrase(split) {
+    var s = split != null ? String(split) : '';
+    if (/even/i.test(s) && !/performance/i.test(s)) return ', split evenly across enabled formats';
+    if (!s || /performance/i.test(s) || /weighted/i.test(s) || /eligible_format/i.test(s)) {
+      return ', allocated by performance across eligible formats';
+    }
+    return ', ' + s.replace(/_/g, ' ');
+  }
   function spotifyPlannedCapLabel(src) {
     var cap = parseSpotifyPlannedCap(src);
     if (!cap || cap.daily == null) return '';
@@ -1493,8 +1501,7 @@
       : 'Planned test: ';
     out += moneyPlain(cap.daily) + '/day total cap';
     if (cap.total != null) out += ', ' + moneyPlain(cap.total) + ' overall';
-    if (!cap.split || /even/i.test(cap.split)) out += ', split evenly across enabled formats';
-    else out += ', ' + cap.split.replace(/_/g, ' ');
+    out += splitPhrase(cap.split);
     var bits = [];
     if (/^confirmed$/i.test(cap.formatGroupsStatus) && cap.perFormat != null) {
       var pf = moneyPlain(cap.perFormat) + ' each';

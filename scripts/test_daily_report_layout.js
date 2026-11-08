@@ -408,12 +408,12 @@ test('Spotify is display-only on Daily Reports (never overlaid into D2C totals)'
 });
 
 var SPOTIFY_CAP = require('./fixtures/spotify_ads_config.json');
-var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; start date not set). Plan only, not spend.';
+var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.';
 
 test('Spotify: companion daily starting cap labels the plan, not spend; legacy $300 ignored', function () {
   spotifyReset();
-  assert.strictEqual(SPOTIFY_CAP.planned_daily_cap_usd, 500);
-  assert.strictEqual(SPOTIFY_CAP.planned_test_total_cap_usd, 3500);
+  assert.strictEqual(SPOTIFY_CAP.planned_daily_cap_usd, 250);
+  assert.strictEqual(SPOTIFY_CAP.planned_test_total_cap_usd, 1750);
   assert.strictEqual(SPOTIFY_CAP.test_duration_days, 7);
   assert.strictEqual(SPOTIFY_CAP.start_date, null);
   assert.strictEqual(SPOTIFY_CAP.format_groups[0].id, 'audio');
@@ -462,7 +462,8 @@ test('Spotify: planned cap present is labelled separately from No data spend; ME
   var strip = Paid.spendPerChannelHtml('2026-11-05');
   assert.ok(strip.indexOf('<td>Spotify Ads</td><td>No data</td>') !== -1);
   assert.ok(strip.indexOf(SPOTIFY_CAP_LABEL) !== -1);
-  assert.ok(strip.indexOf('<td>$500') === -1, 'cap is not the spend cell');
+  assert.ok(strip.indexOf('<td>$250') === -1, 'cap is not the spend cell');
+  assert.ok(strip.indexOf('split evenly') === -1);
   assert.ok(strip.indexOf('Drive-Thru') === -1);
   var html = Paid.spotifyDetailHtml('2026-11-05');
   assert.ok(spotifyMainRow(html).indexOf('<td>No data</td>') !== -1);
@@ -487,8 +488,11 @@ test('Spotify: planned cap absent renders nothing (never hardcoded)', function (
   assert.ok(strip.indexOf('Planned starting cap') === -1);
   assert.ok(strip.indexOf('Planned test cap') === -1);
   assert.ok(html.indexOf('Planned test cap') === -1);
+  assert.ok(strip.indexOf('$250') === -1);
+  assert.ok(html.indexOf('$1,750') === -1);
   assert.ok(strip.indexOf('$500') === -1);
   assert.ok(html.indexOf('$3,500') === -1);
+  assert.ok(html.indexOf('split evenly') === -1);
   assert.ok(html.indexOf('$300') === -1);
   assert.ok(html.indexOf('Drive-Thru') === -1);
   assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'No data');

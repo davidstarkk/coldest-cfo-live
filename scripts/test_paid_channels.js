@@ -299,13 +299,13 @@ test('chatgpt tracking_verified:false shows tracking not verified, spend still c
   Paid._setMerDoc(null);
 });
 
-var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; start date not set). Plan only, not spend.';
+var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.';
 
 test('Spotify companion daily starting cap is a labelled plan, not spend; legacy $300 ignored', function () {
   var companion = require('./fixtures/spotify_ads_config.json');
   var parsed = Paid.parseSpotifyPlannedCap(companion);
-  assert.strictEqual(parsed.daily, 500);
-  assert.strictEqual(parsed.total, 3500);
+  assert.strictEqual(parsed.daily, 250);
+  assert.strictEqual(parsed.total, 1750);
   assert.strictEqual(parsed.start, null);
   assert.strictEqual(parsed.end, null);
   assert.strictEqual(parsed.perFormat, null);
@@ -314,7 +314,7 @@ test('Spotify companion daily starting cap is a labelled plan, not spend; legacy
   var withStart = JSON.parse(JSON.stringify(companion));
   withStart.start_date = '2026-12-01';
   withStart.end_date = null;
-  assert.strictEqual(Paid.spotifyPlannedCapLabel(withStart), 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; 2026-12-01 to 2026-12-07). Plan only, not spend.');
+  assert.strictEqual(Paid.spotifyPlannedCapLabel(withStart), 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; 2026-12-01 to 2026-12-07). Plan only, not spend.');
   assert.strictEqual(Paid.spotifyPlannedCapLabel({
     planned_total_cap_usd: 300,
     cap_type: 'lifetime_test',
@@ -325,8 +325,11 @@ test('Spotify companion daily starting cap is a labelled plan, not spend; legacy
   confirmed.format_groups.forEach(function (g) {
     g.confirmed = g.id !== 'horizontal';
   });
-  assert.strictEqual(Paid.parseSpotifyPlannedCap(confirmed).perFormat, 100);
-  assert.strictEqual(Paid.spotifyPlannedCapLabel(confirmed), 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats ($100 each: audio, image, carousel, vertical, square; start date not set). Plan only, not spend.');
+  assert.strictEqual(Paid.parseSpotifyPlannedCap(confirmed).perFormat, 50);
+  assert.strictEqual(Paid.spotifyPlannedCapLabel(confirmed), 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats ($50 each: audio, image, carousel, vertical, square; start date not set). Plan only, not spend.');
+  var evenLegacy = JSON.parse(JSON.stringify(companion));
+  evenLegacy.split = 'even_across_enabled_format_groups';
+  assert.ok(Paid.spotifyPlannedCapLabel(evenLegacy).indexOf('split evenly across enabled formats') !== -1);
 });
 
 test('Spotify planned cap is not spend and does not change D2C MER', function () {

@@ -94,7 +94,7 @@ test('mer as_of not newer than embedded stays STALE', function () {
 });
 
 var SPOTIFY_CAP = require('./fixtures/spotify_ads_config.json');
-var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; start date not set). Plan only, not spend.';
+var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.';
 
 test('Spotify line on rolling MER header: No data excluded from measured MER; cap absent on 11/5 fixture', function () {
   assert.strictEqual(mer.d2c_coverage.spotify_included_in_d2c, false);
@@ -107,8 +107,11 @@ test('Spotify line on rolling MER header: No data excluded from measured MER; ca
   assert.ok(note.indexOf('Planned 7-day test') === -1);
   assert.ok(note.indexOf('Planned starting cap') === -1);
   assert.ok(note.indexOf('Planned test cap') === -1);
+  assert.ok(note.indexOf('$250') === -1);
+  assert.ok(note.indexOf('$1,750') === -1);
   assert.ok(note.indexOf('$500') === -1);
   assert.ok(note.indexOf('$3,500') === -1);
+  assert.ok(note.indexOf('split evenly') === -1);
   assert.ok(note.indexOf('$300') === -1);
   var resolved = Header.resolve(embedded, mer);
   assert.strictEqual(resolved.data.latest.spend_7d, 91309.61);
@@ -122,7 +125,7 @@ test('Spotify companion daily starting cap labels the plan; MER unchanged; legac
   assert.ok(SPOTIFY_CAP_LABEL.indexOf('2026-12-') === -1);
   var withStart = JSON.parse(JSON.stringify(SPOTIFY_CAP));
   withStart.start_date = '2026-12-01';
-  assert.strictEqual(Header.spotifyPlannedCapLabel(withStart), 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; 2026-12-01 to 2026-12-07). Plan only, not spend.');
+  assert.strictEqual(Header.spotifyPlannedCapLabel(withStart), 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; 2026-12-01 to 2026-12-07). Plan only, not spend.');
   assert.strictEqual(Header.spotifyPlannedCapLabel({
     planned_total_cap_usd: 300,
     cap_type: 'lifetime_test',

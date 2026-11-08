@@ -148,7 +148,7 @@
     spotify_ads_config: {
       file: 'spotify_ads_config.json (optional) or mer_for_manus.json#spotify_ads_config',
       node: '{planned_daily_cap_usd, planned_test_total_cap_usd, test_duration_days, start_date, end_date, cap_type: daily_total_starting_cap, split, format_groups_status, format_groups:[{id, confirmed, conditional?}]}',
-      display: 'Planned 7-day test: $N/day total cap, $N overall, split evenly across enabled formats (formats pending; start date not set). Plan only, not spend.',
+      display: 'Planned 7-day test: $N/day total cap, $N overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.',
       never: 'not spend, not daily budget pacing, not blended MER / ROAS / tracked spend'
     },
     channel_ads_daily: {
@@ -285,6 +285,14 @@
       raw: cfg
     };
   }
+  function splitPhrase(split) {
+    var s = split != null ? String(split) : '';
+    if (/even/i.test(s) && !/performance/i.test(s)) return ', split evenly across enabled formats';
+    if (!s || /performance/i.test(s) || /weighted/i.test(s) || /eligible_format/i.test(s)) {
+      return ', allocated by performance across eligible formats';
+    }
+    return ', ' + s.replace(/_/g, ' ');
+  }
   function spotifyPlannedCapLabel(src) {
     var cap = parseSpotifyPlannedCap(src);
     if (!cap || cap.daily == null) return '';
@@ -293,8 +301,7 @@
       : 'Planned test: ';
     out += moneyPlain(cap.daily) + '/day total cap';
     if (cap.total != null) out += ', ' + moneyPlain(cap.total) + ' overall';
-    if (!cap.split || /even/i.test(cap.split)) out += ', split evenly across enabled formats';
-    else out += ', ' + cap.split.replace(/_/g, ' ');
+    out += splitPhrase(cap.split);
     var bits = [];
     if (/^confirmed$/i.test(cap.formatGroupsStatus) && cap.perFormat != null) {
       var pf = moneyPlain(cap.perFormat) + ' each';
