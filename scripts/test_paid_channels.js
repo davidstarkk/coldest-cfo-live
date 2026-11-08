@@ -299,6 +299,32 @@ test('chatgpt tracking_verified:false shows tracking not verified, spend still c
   Paid._setMerDoc(null);
 });
 
+test('Spotify planned cap is not spend and does not change D2C MER', function () {
+  var mer = {
+    as_of: '2026-10-24',
+    d2c_ad_spend: 13473.05,
+    blended_mer: 1.9735,
+    total_ad_spend: 13473.05,
+    shopify_d2c_revenue: 26598.51,
+    spotify_ads_config: require('./fixtures/spotify_ads_config.json')
+  };
+  var p = samplePartial();
+  global.PARTIAL_REPORTS = [p];
+  Paid._setMerDoc(mer);
+  Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, mer, null); });
+  Paid.CHANNELS.forEach(function (ch) { Paid.applyChannel(ch, Paid.mergeDaysFor(ch)); });
+  var s = Paid.channelSpends('2026-10-24');
+  assert.strictEqual(s.d2cAdSpend, 13473.05);
+  assert.strictEqual(s.totalAdSpend, 13473.05);
+  assert.strictEqual(s.blendedMer, 1.9735);
+  assert.ok(!s.channels.spotify);
+  assert.strictEqual(Paid.spotifyCapNote(), 'Planned test cap: $300 total (lifetime) — $100 each: Drive-Thru, 32oz GO, 128oz Limitless Gallon');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-10-24'), 'No data');
+  delete global.PARTIAL_REPORTS;
+  Paid._setMerDoc(null);
+  Paid._setSpotifyConfig(null);
+});
+
 test('chatgpt tracking_verified omitted still shows published zeros', function () {
   var ch = Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0];
   var mer = { chatgpt: { as_of: '2026-10-24', spend: 10, conversions: 0, revenue: 0 } };

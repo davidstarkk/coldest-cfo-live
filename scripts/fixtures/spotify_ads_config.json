@@ -1,0 +1,9 @@
+{
+  "planned_total_cap_usd": 300,
+  "cap_type": "lifetime_test",
+  "per_ad": [
+    { "name": "Drive-Thru", "cap_usd": 100 },
+    { "name": "32oz GO", "cap_usd": 100 },
+    { "name": "128oz Limitless Gallon", "cap_usd": 100 }
+  ]
+}
