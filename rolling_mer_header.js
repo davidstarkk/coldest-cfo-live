@@ -48,6 +48,15 @@
     if (capHasPlanFields(src.spotify)) return src.spotify;
     return null;
   }
+  function perAdCapNum(node) {
+    if (node == null) return null;
+    if (typeof node !== 'object') return numOrNull(node);
+    if (node.planned_cap_usd != null) return numOrNull(node.planned_cap_usd);
+    if (node.cap_usd != null) return numOrNull(node.cap_usd);
+    if (node.cap != null) return numOrNull(node.cap);
+    if (node.planned_cap != null) return numOrNull(node.planned_cap);
+    return null;
+  }
   function parseSpotifyPlannedCap(src) {
     var cfg = readSpotifyCapNode(src);
     if (!cfg) return null;
@@ -67,14 +76,11 @@
         if (typeof a === 'string') { pushAd(a, null); return; }
         if (typeof a !== 'object') return;
         var name = a.name || a.label || a.ad || a.product || a.creative || a.title;
-        var cap = numOrNull(a.cap_usd != null ? a.cap_usd : (a.planned_cap_usd != null ? a.planned_cap_usd : (a.cap != null ? a.cap : a.planned_cap)));
-        pushAd(name, cap);
+        pushAd(name, perAdCapNum(a));
       });
     } else if (raw && typeof raw === 'object') {
       Object.keys(raw).forEach(function (k) {
-        var v = raw[k];
-        var cap = (v && typeof v === 'object') ? numOrNull(v.cap_usd != null ? v.cap_usd : v.cap) : numOrNull(v);
-        pushAd(k, cap);
+        pushAd(k, perAdCapNum(raw[k]));
       });
     }
     if (total == null && !ads.length) return null;

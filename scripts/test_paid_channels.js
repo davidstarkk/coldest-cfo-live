@@ -299,6 +299,30 @@ test('chatgpt tracking_verified:false shows tracking not verified, spend still c
   Paid._setMerDoc(null);
 });
 
+test('Spotify companion per_ad.planned_cap_usd (not cap_usd) is a labelled plan, not spend', function () {
+  var companion = {
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    status: 'not_launched',
+    live: false,
+    per_ad: [
+      { name: 'Drive-Thru', planned_cap_usd: 100 },
+      { name: '32oz GO', planned_cap_usd: 100 },
+      { name: '128oz Limitless Gallon', planned_cap_usd: 100 }
+    ]
+  };
+  var parsed = Paid.parseSpotifyPlannedCap(companion);
+  assert.strictEqual(parsed.total, 300);
+  assert.strictEqual(parsed.perAd[0].cap, 100);
+  assert.ok(!Object.prototype.hasOwnProperty.call(companion.per_ad[0], 'cap_usd'));
+  assert.strictEqual(Paid.spotifyPlannedCapLabel(companion), 'Planned test cap: $300 total (lifetime) — $100 each: Drive-Thru, 32oz GO, 128oz Limitless Gallon');
+  assert.strictEqual(Paid.spotifyPlannedCapLabel({
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    per_ad: [{ name: 'Drive-Thru', cap_usd: 100 }, { name: '32oz GO', cap_usd: 100 }, { name: '128oz Limitless Gallon', cap_usd: 100 }]
+  }), 'Planned test cap: $300 total (lifetime) — $100 each: Drive-Thru, 32oz GO, 128oz Limitless Gallon');
+});
+
 test('Spotify planned cap is not spend and does not change D2C MER', function () {
   var mer = {
     as_of: '2026-10-24',

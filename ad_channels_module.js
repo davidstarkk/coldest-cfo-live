@@ -143,11 +143,11 @@
       not_launched: 'settings.channels.spotify(.not_launched_while_zero) or mer.spotify / mer.spotify_ads {status:not_launched, live:false} → NOT LAUNCHED, no metrics.',
       platform: 'platform_revenue / platform_roas only when Spotify reports them; spend-only rows keep ROAS "No data".',
       cash_cost: 'optional; kept separate from platform spend (same as x_ads)',
-      planned_cap: 'optional mer.spotify_ads_config / spotify_ads_config.json / mer.spotify_ads.planned_total_cap_usd (aliases planned_cap, planned_cap_usd) + cap_type + per_ad / per_ad_caps. Renders a labelled plan only — never spend, budget pacing, or MER/ROAS. Absent → show nothing (do not hardcode).'
+      planned_cap: 'optional mer.spotify_ads_config / spotify_ads_config.json / mer.spotify_ads.planned_total_cap_usd (aliases planned_cap, planned_cap_usd) + cap_type + per_ad / per_ad_caps. per_ad[].planned_cap_usd is the published field (alias cap_usd). Renders a labelled plan only — never spend, budget pacing, or MER/ROAS. Absent → show nothing (do not hardcode).'
     },
     spotify_ads_config: {
       file: 'spotify_ads_config.json (optional) or mer_for_manus.json#spotify_ads_config',
-      node: '{planned_total_cap_usd, cap_type: lifetime_test, per_ad:[{name, cap_usd}]}',
+      node: '{planned_total_cap_usd, cap_type: lifetime_test, status, live, per_ad:[{name, planned_cap_usd|cap_usd}]}',
       display: 'Planned test cap: $N total (lifetime) — $N each: …',
       never: 'not spend, not daily budget, not blended MER / ROAS / tracked spend'
     },
@@ -191,6 +191,16 @@
     if (capHasPlanFields(src.spotify)) return src.spotify;
     return null;
   }
+  function perAdCapNum(node) {
+    if (node == null) return null;
+    if (typeof node !== 'object') return num(node);
+    // Companion dashboard publishes planned_cap_usd; cap_usd remains an alias.
+    if (node.planned_cap_usd != null) return num(node.planned_cap_usd);
+    if (node.cap_usd != null) return num(node.cap_usd);
+    if (node.cap != null) return num(node.cap);
+    if (node.planned_cap != null) return num(node.planned_cap);
+    return null;
+  }
   function parseSpotifyPlannedCap(src) {
     var cfg = readSpotifyCapNode(src);
     if (!cfg) return null;
@@ -210,14 +220,11 @@
         if (typeof a === 'string') { pushAd(a, null); return; }
         if (typeof a !== 'object') return;
         var name = a.name || a.label || a.ad || a.product || a.creative || a.title;
-        var cap = num(a.cap_usd != null ? a.cap_usd : (a.planned_cap_usd != null ? a.planned_cap_usd : (a.cap != null ? a.cap : a.planned_cap)));
-        pushAd(name, cap);
+        pushAd(name, perAdCapNum(a));
       });
     } else if (raw && typeof raw === 'object') {
       Object.keys(raw).forEach(function (k) {
-        var v = raw[k];
-        var cap = (v && typeof v === 'object') ? num(v.cap_usd != null ? v.cap_usd : v.cap) : num(v);
-        pushAd(k, cap);
+        pushAd(k, perAdCapNum(raw[k]));
       });
     }
     if (total == null && !ads.length) return null;

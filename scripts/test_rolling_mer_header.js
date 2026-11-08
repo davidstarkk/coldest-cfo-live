@@ -112,6 +112,28 @@ test('Spotify line on rolling MER header: No data excluded from measured MER; ca
   assert.strictEqual(resolved.data.latest.rev_7d, 197402.55);
 });
 
+test('Spotify companion per_ad.planned_cap_usd shape labels the plan; MER unchanged', function () {
+  var companion = {
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    status: 'not_launched',
+    live: false,
+    per_ad: [
+      { name: 'Drive-Thru', planned_cap_usd: 100 },
+      { name: '32oz GO', planned_cap_usd: 100 },
+      { name: '128oz Limitless Gallon', planned_cap_usd: 100 }
+    ]
+  };
+  assert.strictEqual(Header.spotifyPlannedCapLabel(companion), SPOTIFY_CAP_LABEL);
+  var withCap = JSON.parse(JSON.stringify(mer));
+  withCap.spotify_ads_config = companion;
+  var resolved = Header.resolve(embedded, withCap);
+  var baseline = Header.resolve(embedded, mer);
+  assert.strictEqual(resolved.data.latest.spend_7d, baseline.data.latest.spend_7d);
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, baseline.data.latest.mer_7d_pooled);
+  assert.strictEqual(resolved.data.latest.rev_7d, baseline.data.latest.rev_7d);
+});
+
 test('Spotify planned cap present is labelled separately; MER / spend_7d unchanged', function () {
   var withCap = JSON.parse(JSON.stringify(mer));
   withCap.spotify_ads_config = SPOTIFY_CAP;

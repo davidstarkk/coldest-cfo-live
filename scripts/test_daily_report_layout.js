@@ -410,6 +410,38 @@ test('Spotify is display-only on Daily Reports (never overlaid into D2C totals)'
 var SPOTIFY_CAP = require('./fixtures/spotify_ads_config.json');
 var SPOTIFY_CAP_LABEL = 'Planned test cap: $300 total (lifetime) — $100 each: Drive-Thru, 32oz GO, 128oz Limitless Gallon';
 
+test('Spotify: companion per_ad.planned_cap_usd shape (not cap_usd) labels the plan, not spend', function () {
+  spotifyReset();
+  var companion = {
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    status: 'not_launched',
+    live: false,
+    per_ad: [
+      { name: 'Drive-Thru', planned_cap_usd: 100 },
+      { name: '32oz GO', planned_cap_usd: 100 },
+      { name: '128oz Limitless Gallon', planned_cap_usd: 100 }
+    ]
+  };
+  assert.ok(!Object.prototype.hasOwnProperty.call(SPOTIFY_CAP.per_ad[0], 'cap_usd'));
+  assert.strictEqual(SPOTIFY_CAP.per_ad[0].planned_cap_usd, 100);
+  Paid._setMerDoc({
+    as_of: '2026-11-05',
+    d2c_ad_spend: 13895.86,
+    blended_mer: 2.51,
+    total_ad_spend: 14695.42,
+    spotify_ads_config: companion,
+    advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } } }
+  });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'No data');
+  assert.strictEqual(Paid.spotifyCapNote(), SPOTIFY_CAP_LABEL);
+  var spends = Paid.channelSpends('2026-11-05');
+  assert.strictEqual(spends.d2cAdSpend, 13895.86);
+  assert.strictEqual(spends.blendedMer, 2.51);
+  assert.ok(!spends.channels.spotify);
+  spotifyReset();
+});
+
 test('Spotify: planned cap present is labelled separately from No data spend; MER unchanged', function () {
   spotifyReset();
   var mer = {

@@ -805,6 +805,62 @@ test('Spotify: planned cap present is a labelled plan, separate from No data spe
   assert.strictEqual(withCap.blended.mer, 2);
 });
 
+test('Spotify: companion dashboard per_ad.planned_cap_usd shape (not cap_usd) renders the labelled plan', function () {
+  var companion = {
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    status: 'not_launched',
+    live: false,
+    per_ad: [
+      { name: 'Drive-Thru', planned_cap_usd: 100 },
+      { name: '32oz GO', planned_cap_usd: 100 },
+      { name: '128oz Limitless Gallon', planned_cap_usd: 100 }
+    ]
+  };
+  assert.ok(!Object.prototype.hasOwnProperty.call(SPOTIFY_CAP.per_ad[0], 'cap_usd'), 'fixture matches companion: no cap_usd');
+  assert.strictEqual(SPOTIFY_CAP.per_ad[0].planned_cap_usd, 100);
+  assert.strictEqual(SPOTIFY_CAP.status, 'not_launched');
+  assert.strictEqual(SPOTIFY_CAP.live, false);
+  assert.strictEqual(A.spotifyPlannedCapLabel(companion), SPOTIFY_CAP_LABEL);
+  assert.strictEqual(A.spotifyPlannedCapLabel(SPOTIFY_CAP), SPOTIFY_CAP_LABEL);
+  var parsed = A.parseSpotifyPlannedCap(companion);
+  assert.strictEqual(parsed.total, 300);
+  assert.strictEqual(parsed.capType, 'lifetime_test');
+  assert.strictEqual(parsed.perAd.length, 3);
+  parsed.perAd.forEach(function (a) { assert.strictEqual(a.cap, 100); });
+  assert.strictEqual(A.spotifyPlannedCapLabel({
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    per_ad: [
+      { name: 'Drive-Thru', cap_usd: 100 },
+      { name: '32oz GO', cap_usd: 100 },
+      { name: '128oz Limitless Gallon', cap_usd: 100 }
+    ]
+  }), SPOTIFY_CAP_LABEL, 'cap_usd alias still works');
+  assert.strictEqual(A.spotifyPlannedCapLabel({
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    per_ad: {
+      'Drive-Thru': { planned_cap_usd: 100 },
+      '32oz GO': { planned_cap_usd: 100 },
+      '128oz Limitless Gallon': { planned_cap_usd: 100 }
+    }
+  }), SPOTIFY_CAP_LABEL, 'object-map planned_cap_usd');
+  var adv = metaWeeks('2026-11-05');
+  var c = spotifyCard({
+    embedded: [],
+    advertisingSourcesDaily: adv,
+    mer: { as_of: '2026-11-05', spend_7d: 700, rev_7d: 1400, mer_7d_pooled: 2, spotify_ads_config: companion }
+  }, '2026-11-05');
+  assert.strictEqual(c.stats.statusLabel, 'No data');
+  assert.strictEqual(c.stats.yday, null);
+  assert.strictEqual(c.stats.spend7, null);
+  assert.strictEqual(c.stats.plannedCapLabel, SPOTIFY_CAP_LABEL);
+  assert.ok(c.html.indexOf(SPOTIFY_CAP_LABEL) !== -1);
+  var yday = c.html.match(/<div class="l">Yesterday<\/div><div class="v">([^<]*)<\/div>/);
+  assert.ok(yday && yday[1] === 'No data', 'config status/live must not paint spend as $0');
+});
+
 test('Spotify: planned cap absent renders nothing (never hardcoded)', function () {
   var adv = metaWeeks('2026-11-05');
   var c = spotifyCard({ embedded: [], advertisingSourcesDaily: adv }, '2026-11-05');
