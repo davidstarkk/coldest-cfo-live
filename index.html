@@ -7353,6 +7353,9 @@ function renderRollingMer(resolved) {
   const missing = (!stale && D.missing_report_dates && D.missing_report_dates.length)
     ? `<div style="font-size:11px;color:#f59e0b;margin-top:6px;">Missing report dates: ${D.missing_report_dates.join(', ')}</div>`
     : '';
+  const spotifyNote = (typeof RollingMerHeader !== 'undefined' && RollingMerHeader.spotifyNoteHtml)
+    ? RollingMerHeader.spotifyNoteHtml(D, resolvedSafe.mer || null)
+    : '';
 
   slot.innerHTML = `
     <div style="
@@ -7372,6 +7375,7 @@ function renderRollingMer(resolved) {
         ${staleBadge}
         <div style="font-size:11px;opacity:${stale ? '0.45' : '0.6'};margin-top:4px;">As of ${L.date || D.as_of || '—'} · ${L.days_in_window || 7}d window · Target ${xTxt(target)} · Breakeven ${xTxt(breakeven)}</div>
         ${missing}
+        ${spotifyNote}
       </div>
       <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;${stale ? 'opacity:0.45;' : ''}">
         <div><span style="opacity:0.6;">Day-over-day:</span> <span style="color:${colorDelta(dod)};font-weight:600;">${fmtDelta(dod)}</span></div>

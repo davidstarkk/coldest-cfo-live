@@ -299,6 +299,65 @@ test('chatgpt tracking_verified:false shows tracking not verified, spend still c
   Paid._setMerDoc(null);
 });
 
+var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.';
+
+test('Spotify companion daily starting cap is a labelled plan, not spend; legacy $300 ignored', function () {
+  var companion = require('./fixtures/spotify_ads_config.json');
+  var parsed = Paid.parseSpotifyPlannedCap(companion);
+  assert.strictEqual(parsed.daily, 250);
+  assert.strictEqual(parsed.total, 1750);
+  assert.strictEqual(parsed.start, null);
+  assert.strictEqual(parsed.end, null);
+  assert.strictEqual(parsed.perFormat, null);
+  assert.strictEqual(parsed.formatGroupsStatus, 'pending');
+  assert.strictEqual(Paid.spotifyPlannedCapLabel(companion), SPOTIFY_CAP_LABEL);
+  var withStart = JSON.parse(JSON.stringify(companion));
+  withStart.start_date = '2026-12-01';
+  withStart.end_date = null;
+  assert.strictEqual(Paid.spotifyPlannedCapLabel(withStart), 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; 2026-12-01 to 2026-12-07). Plan only, not spend.');
+  assert.strictEqual(Paid.spotifyPlannedCapLabel({
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    per_ad: [{ name: 'Drive-Thru', planned_cap_usd: 100 }, { name: '32oz GO', planned_cap_usd: 100 }, { name: '128oz Limitless Gallon', planned_cap_usd: 100 }]
+  }), '');
+  var confirmed = JSON.parse(JSON.stringify(companion));
+  confirmed.format_groups_status = 'confirmed';
+  confirmed.format_groups.forEach(function (g) {
+    g.confirmed = g.id !== 'horizontal';
+  });
+  assert.strictEqual(Paid.parseSpotifyPlannedCap(confirmed).perFormat, 50);
+  assert.strictEqual(Paid.spotifyPlannedCapLabel(confirmed), 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats ($50 each: audio, image, carousel, vertical, square; start date not set). Plan only, not spend.');
+  var evenLegacy = JSON.parse(JSON.stringify(companion));
+  evenLegacy.split = 'even_across_enabled_format_groups';
+  assert.ok(Paid.spotifyPlannedCapLabel(evenLegacy).indexOf('split evenly across enabled formats') !== -1);
+});
+
+test('Spotify planned cap is not spend and does not change D2C MER', function () {
+  var mer = {
+    as_of: '2026-10-24',
+    d2c_ad_spend: 13473.05,
+    blended_mer: 1.9735,
+    total_ad_spend: 13473.05,
+    shopify_d2c_revenue: 26598.51,
+    spotify_ads_config: require('./fixtures/spotify_ads_config.json')
+  };
+  var p = samplePartial();
+  global.PARTIAL_REPORTS = [p];
+  Paid._setMerDoc(mer);
+  Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, mer, null); });
+  Paid.CHANNELS.forEach(function (ch) { Paid.applyChannel(ch, Paid.mergeDaysFor(ch)); });
+  var s = Paid.channelSpends('2026-10-24');
+  assert.strictEqual(s.d2cAdSpend, 13473.05);
+  assert.strictEqual(s.totalAdSpend, 13473.05);
+  assert.strictEqual(s.blendedMer, 1.9735);
+  assert.ok(!s.channels.spotify);
+  assert.strictEqual(Paid.spotifyCapNote(), SPOTIFY_CAP_LABEL);
+  assert.strictEqual(Paid.spotifySpendTxt('2026-10-24'), 'No data');
+  delete global.PARTIAL_REPORTS;
+  Paid._setMerDoc(null);
+  Paid._setSpotifyConfig(null);
+});
+
 test('chatgpt tracking_verified omitted still shows published zeros', function () {
   var ch = Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0];
   var mer = { chatgpt: { as_of: '2026-10-24', spend: 10, conversions: 0, revenue: 0 } };

@@ -93,6 +93,74 @@ test('mer as_of not newer than embedded stays STALE', function () {
   assert.strictEqual(resolved.stale, true);
 });
 
+var SPOTIFY_CAP = require('./fixtures/spotify_ads_config.json');
+var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.';
+
+test('Spotify line on rolling MER header: No data excluded from measured MER; cap absent on 11/5 fixture', function () {
+  assert.strictEqual(mer.d2c_coverage.spotify_included_in_d2c, false);
+  assert.ok(mer.d2c_coverage.excluded_channels.some(function (c) { return c.channel === 'spotify'; }));
+  assert.strictEqual(mer.channel_ad_spend['2026-11-05'].spotify, null);
+  assert.strictEqual(Header.spotifyExcludedFromMer(mer), true);
+  assert.strictEqual(Header.spotifyPlannedCapLabel(mer), '', 'cap absent → show nothing');
+  var note = Header.spotifyNoteHtml(mer, mer);
+  assert.ok(note.indexOf('Spotify Ads: No data — excluded from measured MER') !== -1);
+  assert.ok(note.indexOf('Planned 7-day test') === -1);
+  assert.ok(note.indexOf('Planned starting cap') === -1);
+  assert.ok(note.indexOf('Planned test cap') === -1);
+  assert.ok(note.indexOf('$250') === -1);
+  assert.ok(note.indexOf('$1,750') === -1);
+  assert.ok(note.indexOf('$500') === -1);
+  assert.ok(note.indexOf('$3,500') === -1);
+  assert.ok(note.indexOf('split evenly') === -1);
+  assert.ok(note.indexOf('$300') === -1);
+  var resolved = Header.resolve(embedded, mer);
+  assert.strictEqual(resolved.data.latest.spend_7d, 91309.61);
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.1619);
+  assert.strictEqual(resolved.data.latest.rev_7d, 197402.55);
+});
+
+test('Spotify companion daily starting cap labels the plan; MER unchanged; legacy $300 ignored', function () {
+  assert.strictEqual(Header.spotifyPlannedCapLabel(SPOTIFY_CAP), SPOTIFY_CAP_LABEL);
+  assert.ok(SPOTIFY_CAP_LABEL.indexOf('start date not set') !== -1);
+  assert.ok(SPOTIFY_CAP_LABEL.indexOf('2026-12-') === -1);
+  var withStart = JSON.parse(JSON.stringify(SPOTIFY_CAP));
+  withStart.start_date = '2026-12-01';
+  assert.strictEqual(Header.spotifyPlannedCapLabel(withStart), 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; 2026-12-01 to 2026-12-07). Plan only, not spend.');
+  assert.strictEqual(Header.spotifyPlannedCapLabel({
+    planned_total_cap_usd: 300,
+    cap_type: 'lifetime_test',
+    per_ad: [{ name: 'Drive-Thru', planned_cap_usd: 100 }]
+  }), '');
+  var withCap = JSON.parse(JSON.stringify(mer));
+  withCap.spotify_ads_config = SPOTIFY_CAP;
+  var resolved = Header.resolve(embedded, withCap);
+  var baseline = Header.resolve(embedded, mer);
+  assert.strictEqual(resolved.data.latest.spend_7d, baseline.data.latest.spend_7d);
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, baseline.data.latest.mer_7d_pooled);
+  assert.strictEqual(resolved.data.latest.rev_7d, baseline.data.latest.rev_7d);
+});
+
+test('Spotify planned cap present is labelled separately; MER / spend_7d unchanged', function () {
+  var withCap = JSON.parse(JSON.stringify(mer));
+  withCap.spotify_ads_config = SPOTIFY_CAP;
+  assert.strictEqual(Header.spotifyPlannedCapLabel(SPOTIFY_CAP), SPOTIFY_CAP_LABEL);
+  assert.strictEqual(Header.spotifyPlannedCapLabel(withCap), SPOTIFY_CAP_LABEL);
+  var resolved = Header.resolve(embedded, withCap);
+  var baseline = Header.resolve(embedded, mer);
+  assert.strictEqual(resolved.data.latest.spend_7d, baseline.data.latest.spend_7d);
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, baseline.data.latest.mer_7d_pooled);
+  assert.strictEqual(resolved.data.latest.rev_7d, baseline.data.latest.rev_7d);
+  assert.strictEqual(resolved.data.latest.spend_7d, 91309.61);
+  assert.strictEqual(resolved.data.latest.mer_7d_pooled, 2.1619);
+  var note = Header.spotifyNoteHtml(resolved.data, withCap);
+  assert.ok(note.indexOf(SPOTIFY_CAP_LABEL) !== -1);
+  assert.ok(note.indexOf('not spend') !== -1);
+  assert.ok(note.indexOf('Drive-Thru') === -1);
+  assert.ok(note.indexOf('$300') === -1);
+  assert.ok(note.indexOf('Spotify Ads: No data — excluded from measured MER') !== -1);
+  assert.strictEqual(Header.spotifyPlannedCapLabel({}), '');
+});
+
 if (failed) {
   console.error('\n' + failed + ' rolling MER header test(s) failed');
   process.exit(1);

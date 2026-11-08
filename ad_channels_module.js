@@ -84,7 +84,8 @@
     { id: 'chatgpt_ads', channel: 'chatgpt', label: 'ChatGPT Ads' },
     { id: 'taboola_ads', channel: 'taboola', label: 'Taboola' },
     { id: 'outbrain_ads', channel: 'outbrain', label: 'Outbrain' },
-    { id: 'x_ads', channel: 'x', label: 'X Ads' }
+    { id: 'x_ads', channel: 'x', label: 'X Ads' },
+    { id: 'spotify_ads', channel: 'spotify', label: 'Spotify Ads' }
   ];
   var LOW_SPEND = 100;          // performance.py LOW_SPEND: below this a day's ROAS is not judged
   var HEATMAP_DAYS = 14;
@@ -141,7 +142,14 @@
       measured_zero: 'spend:0 only with complete:true | closed_day:true | spend_status:verified (or live:false + status not_launched).',
       not_launched: 'settings.channels.spotify(.not_launched_while_zero) or mer.spotify / mer.spotify_ads {status:not_launched, live:false} → NOT LAUNCHED, no metrics.',
       platform: 'platform_revenue / platform_roas only when Spotify reports them; spend-only rows keep ROAS "No data".',
-      cash_cost: 'optional; kept separate from platform spend (same as x_ads)'
+      cash_cost: 'optional; kept separate from platform spend (same as x_ads)',
+      planned_cap: 'optional mer.spotify_ads_config / spotify_ads_config.json: planned_daily_cap_usd + planned_test_total_cap_usd + test_duration_days + start_date/end_date + split + format_groups_status + format_groups[{id, confirmed}]. Renders a labelled 7-day plan only — never spend, budget pacing, or MER/ROAS. Absent → show nothing (do not hardcode). Dates only when start_date is set (end = start + duration-1 if end_date null). Per-format $ only when format_groups_status is confirmed. Legacy planned_total_cap_usd / per_ad $100 entries are ignored.'
+    },
+    spotify_ads_config: {
+      file: 'spotify_ads_config.json (optional) or mer_for_manus.json#spotify_ads_config',
+      node: '{planned_daily_cap_usd, planned_test_total_cap_usd, test_duration_days, start_date, end_date, cap_type: daily_total_starting_cap, split, format_groups_status, format_groups:[{id, confirmed, conditional?}]}',
+      display: 'Planned 7-day test: $N/day total cap, $N overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.',
+      never: 'not spend, not daily budget pacing, not blended MER / ROAS / tracked spend'
     },
     channel_ads_daily: {
       file: '<id>_ads_daily.json',
@@ -161,6 +169,164 @@
     var keys = ch.srcKeys || [];
     for (var i = 0; i < keys.length; i++) if (map[keys[i]] != null) return map[keys[i]];
     return null;
+  }
+  // Planned starting daily cap (Spotify). Read-only display. Never spend / MER / ROAS.
+  function moneyPlain(v) {
+    var n = Number(v);
+    if (!Number.isFinite(n)) return null;
+    if (Math.abs(n - Math.round(n)) < 1e-9) return '$' + Math.round(n).toLocaleString('en-US');
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function capHasPlanFields(node) {
+    if (!node || typeof node !== 'object') return false;
+    return node.planned_daily_cap_usd != null || node.daily_cap_usd != null
+      || node.planned_daily_budget_usd != null
+      || node.planned_test_total_cap_usd != null || node.test_duration_days != null
+      || node.format_groups != null || node.formatGroups != null
+      || node.format_groups_status != null || node.formats_status != null
+      || node.cap_type === 'daily_total_starting_cap'
+      || (typeof node.split === 'string' && /format/i.test(node.split));
+  }
+  function readSpotifyCapNode(src) {
+    if (!src || typeof src !== 'object') return null;
+    if (src.spotify_ads_config && typeof src.spotify_ads_config === 'object') return src.spotify_ads_config;
+    if (src.spotifyAdsConfig && typeof src.spotifyAdsConfig === 'object') return src.spotifyAdsConfig;
+    if (capHasPlanFields(src)) return src;
+    if (capHasPlanFields(src.spotify_ads)) return src.spotify_ads;
+    if (capHasPlanFields(src.spotify)) return src.spotify;
+    return null;
+  }
+  function flagOn(v) {
+    if (v === true || v === 1) return true;
+    if (v === false || v === 0 || v == null || v === '') return false;
+    var s = String(v).toLowerCase();
+    return s === 'true' || s === 'yes' || s === 'enabled' || s === '1';
+  }
+  function parseFormatGroups(raw) {
+    var groups = [];
+    function push(name, node) {
+      var n = name ? String(name) : '';
+      var enabled = false;
+      var confirmed = false;
+      var conditional = false;
+      if (node && typeof node === 'object') {
+        if (!n) n = String(node.id || node.name || node.label || node.format || '');
+        enabled = flagOn(node.enabled);
+        confirmed = flagOn(node.confirmed);
+        conditional = flagOn(node.conditional);
+      } else if (typeof node === 'boolean' || typeof node === 'number' || typeof node === 'string') {
+        enabled = flagOn(node);
+      }
+      if (!n && !enabled && !confirmed) return;
+      groups.push({ name: n, enabled: enabled, confirmed: confirmed, conditional: conditional });
+    }
+    if (Array.isArray(raw)) {
+      raw.forEach(function (g) {
+        if (g == null) return;
+        if (typeof g === 'string') { push(g, null); return; }
+        if (typeof g !== 'object') return;
+        push(g.id || g.name || g.label || g.format, g);
+      });
+    } else if (raw && typeof raw === 'object') {
+      Object.keys(raw).forEach(function (k) { push(k, raw[k]); });
+    }
+    return groups;
+  }
+  function ymd(v) {
+    if (v == null || v === '') return null;
+    var s = String(v).trim().slice(0, 10);
+    return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : null;
+  }
+  function addDaysYmd(start, days) {
+    var p = start.split('-').map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    d.setUTCDate(d.getUTCDate() + days);
+    return d.toISOString().slice(0, 10);
+  }
+  function parseSpotifyPlannedCap(src) {
+    var cfg = readSpotifyCapNode(src);
+    if (!cfg) return null;
+    var daily = num(cfg.planned_daily_cap_usd);
+    if (daily == null) daily = num(cfg.daily_cap_usd);
+    if (daily == null) daily = num(cfg.planned_daily_budget_usd);
+    if (daily == null) return null;
+    var total = num(cfg.planned_test_total_cap_usd);
+    if (total == null) total = num(cfg.test_total_cap_usd);
+    if (total == null) total = num(cfg.planned_overall_cap_usd);
+    var duration = num(cfg.test_duration_days);
+    if (duration == null) duration = num(cfg.duration_days);
+    if (duration == null) duration = num(cfg.test_days);
+    var start = ymd(cfg.start_date != null ? cfg.start_date : cfg.start);
+    var end = ymd(cfg.end_date != null ? cfg.end_date : cfg.end);
+    if (start && !end && duration != null && duration > 0) end = addDaysYmd(start, Math.round(duration) - 1);
+    if (!start) end = null;
+    var groups = parseFormatGroups(cfg.format_groups || cfg.formatGroups || cfg.formats);
+    var status = cfg.format_groups_status != null ? String(cfg.format_groups_status)
+      : (cfg.formatGroupsStatus != null ? String(cfg.formatGroupsStatus)
+      : (cfg.formats_status != null ? String(cfg.formats_status) : ''));
+    var split = cfg.split != null ? String(cfg.split) : (cfg.split_type != null ? String(cfg.split_type) : '');
+    var capType = cfg.cap_type != null ? String(cfg.cap_type) : (cfg.capType != null ? String(cfg.capType) : '');
+    var enabled = groups.filter(function (g) { return g.confirmed || g.enabled; });
+    var perFormat = null;
+    if (/^confirmed$/i.test(status) && enabled.length) perFormat = daily / enabled.length;
+    return {
+      daily: daily,
+      total: total,
+      duration: duration,
+      start: start,
+      end: end,
+      capType: capType,
+      split: split,
+      formatGroupsStatus: status,
+      formatGroups: groups,
+      enabledCount: enabled.length,
+      enabledNames: enabled.map(function (g) { return g.name; }).filter(Boolean),
+      perFormat: perFormat,
+      raw: cfg
+    };
+  }
+  function splitPhrase(split) {
+    var s = split != null ? String(split) : '';
+    if (/even/i.test(s) && !/performance/i.test(s)) return ', split evenly across enabled formats';
+    if (!s || /performance/i.test(s) || /weighted/i.test(s) || /eligible_format/i.test(s)) {
+      return ', allocated by performance across eligible formats';
+    }
+    return ', ' + s.replace(/_/g, ' ');
+  }
+  function spotifyPlannedCapLabel(src) {
+    var cap = parseSpotifyPlannedCap(src);
+    if (!cap || cap.daily == null) return '';
+    var out = (cap.duration != null && cap.duration > 0)
+      ? ('Planned ' + Math.round(cap.duration) + '-day test: ')
+      : 'Planned test: ';
+    out += moneyPlain(cap.daily) + '/day total cap';
+    if (cap.total != null) out += ', ' + moneyPlain(cap.total) + ' overall';
+    out += splitPhrase(cap.split);
+    var bits = [];
+    if (/^confirmed$/i.test(cap.formatGroupsStatus) && cap.perFormat != null) {
+      var pf = moneyPlain(cap.perFormat) + ' each';
+      if (cap.enabledNames.length) pf += ': ' + cap.enabledNames.join(', ');
+      bits.push(pf);
+    } else {
+      bits.push('formats pending');
+    }
+    if (cap.start) bits.push(cap.start + ' to ' + (cap.end || cap.start));
+    else bits.push('start date not set');
+    out += ' (' + bits.join('; ') + '). Plan only, not spend.';
+    return out;
+  }
+  function spotifyPlannedCapFrom(inputs) {
+    if (!inputs) return null;
+    var bags = [inputs.spotifyAdsConfig, inputs.mer, inputs.advertisingSourcesDaily];
+    for (var i = 0; i < bags.length; i++) {
+      var cap = parseSpotifyPlannedCap(bags[i]);
+      if (cap) return cap;
+    }
+    return null;
+  }
+  function spotifyPlannedCapLabelFrom(inputs) {
+    var cap = spotifyPlannedCapFrom(inputs);
+    return cap ? spotifyPlannedCapLabel(cap.raw) : '';
   }
   function nodeFromAdv(adv, ch) {
     if (!adv || typeof adv !== 'object' || !ch) return undefined;
@@ -961,6 +1127,7 @@
 
     if (ch.noDataLabel && (growth.code === 'nofeed') && !dark) growth = Object.assign({}, growth, { label: ch.noDataLabel });
     if (ch.noDataLabel && statusLabel === '—') statusLabel = ch.noDataLabel;
+    var plannedCapLabel = ch.id === 'spotify' ? spotifyPlannedCapLabelFrom(inputs) : '';
     return {
       ch: ch,
       end: end,
@@ -996,7 +1163,8 @@
       notes: (setCh && setCh.notes) || (thrCh && thrCh.strategy_notes) || null,
       spendSource: spendSource,
       platformSource: platformSource,
-      spendLatest: spendLatest
+      spendLatest: spendLatest,
+      plannedCapLabel: plannedCapLabel
     };
   }
 
@@ -1178,7 +1346,7 @@
     return { dates: dates, rows: rows, thresholds: th };
   }
 
-  var SHORT = { meta: 'Meta', google: 'Google', tiktok: 'TikTok', bing: 'Bing', snapchat: 'Snap', applovin: 'AppLovin', pinterest: 'Pinterest', chatgpt: 'ChatGPT', reddit: 'Reddit', taboola: 'Taboola', outbrain: 'Outbrain', x: 'X' };
+    var SHORT = { meta: 'Meta', google: 'Google', tiktok: 'TikTok', bing: 'Bing', snapchat: 'Snap', applovin: 'AppLovin', pinterest: 'Pinterest', chatgpt: 'ChatGPT', reddit: 'Reddit', taboola: 'Taboola', outbrain: 'Outbrain', x: 'X', spotify: 'Spotify' };
   function markerLabel(c) {
     var k = actionKind(c.action);
     var ch = SHORT[c.channel] || c.channel;
@@ -1230,6 +1398,7 @@
     '.ac-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}',
     '.ac-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;border-top:3px solid var(--border)}',
     '.ac-card h3{font-size:.9rem;margin:0;display:flex;align-items:center;flex-wrap:wrap;gap:4px}',
+    '.ac-cap{font-size:.72rem;color:var(--text-muted);margin:8px 0 0;line-height:1.45}',
     '.ac-card .ac-nums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0 6px}.ac-card .ac-nums .l{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim)}.ac-card .ac-nums .v{font-family:var(--font-mono);font-size:1rem;font-weight:700}.ac-card .ac-nums .s{font-size:.66rem;color:var(--text-muted)}',
     '.ac-spark{position:relative;height:90px;margin:4px 0 8px}',
     '.ac-post{font-size:.76rem;line-height:1.5;margin-top:4px}.ac-post .ac-lbl{font-weight:700;letter-spacing:.06em}',
@@ -1592,7 +1761,8 @@
     var head = '<h3><span class="ac-dot" style="background:' + ch.color + '"></span>' + esc(ch.label)
       + (s.statusLabel === 'LIVE' ? pillHtml('LIVE', 'ac-good') : s.statusLabel === 'STALE' ? pillHtml('STALE', 'ac-warn') : s.statusLabel === 'NOT LAUNCHED' ? pillHtml('NOT LAUNCHED', 'ac-muted') : s.live === false ? pillHtml(s.status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE', 'ac-muted') : pillHtml(s.statusLabel || 'NO FEED', 'ac-muted'))
       + (s.mode ? pillHtml(String(s.mode).toUpperCase(), s.mode === 'auto' ? 'ac-ok' : 'ac-muted') : '')
-      + trackingPill(s.tracking) + '</h3>';
+      + trackingPill(s.tracking) + '</h3>'
+      + (s.plannedCapLabel ? '<div class="ac-cap">' + esc(s.plannedCapLabel) + '</div>' : '');
     var nums = '<div class="ac-nums">'
       + '<div><div class="l">Yesterday</div><div class="v">' + esc(dv(ch, usd(s.yday))) + '</div><div class="s">' + (s.end ? shortDate(s.end) : '') + (ch.cashCost && s.ydayCash != null ? ' · cash ' + usd(s.ydayCash) : '') + '</div></div>'
       + '<div><div class="l">7-day spend</div><div class="v">' + esc(dv(ch, usd(s.spend7))) + '</div><div class="s ' + growthCls(g.code) + '">' + growthArrow(g) + ' ' + esc(g.label) + (wowTxt ? ' · ' + wowTxt : '') + '</div>' + (g.code === 'incomplete' || g.code === 'stale' ? '<div class="s ac-warn">' + (ch.noDataLabel ? esc(ch.noDataLabel) + ' for ' : 'missing days are not $0 — ') + esc((s.feed && s.feed.missing7 || []).map(mmdd).join(', ') || 'feed gap') + (ch.noDataLabel ? ' · excluded from tracked spend' : '') + '</div>' : '') + '</div>'
@@ -1803,7 +1973,7 @@
     var keys = Object.keys(files);
     var dailyUrls = CHANNELS.map(function (ch) { return dailyFileName(ch); });
     var dataIds = CHANNELS.filter(function (ch) { return ch.file && OPTIONAL_DATA_FILES[ch.id]; }).map(function (ch) { return ch.id; });
-    var extra = [ADV_DAILY_FILE].concat(dailyUrls, dataIds.map(function (id) { return OPTIONAL_DATA_FILES[id]; }));
+    var extra = [ADV_DAILY_FILE].concat(dailyUrls, dataIds.map(function (id) { return OPTIONAL_DATA_FILES[id]; }), ['spotify_ads_config.json']);
     return Promise.all(keys.concat(extra).map(function (k) {
       var url = files[k] || k;
       return fetchJson(url).then(function (doc) { return doc; }, function () { return null; });
@@ -1818,6 +1988,7 @@
       dataIds.forEach(function (id, i) {
         inputs.channelFiles[id] = docs[offset + 1 + dailyUrls.length + i] || null;
       });
+      inputs.spotifyAdsConfig = docs[docs.length - 1] || null;
       STATE.inputs = inputs;
       STATE.loaded = true;
       return inputs;
@@ -1878,6 +2049,10 @@
     merDaily: merDaily,
     dayRoas: dayRoas,
     windowDates: windowDates,
+    parseSpotifyPlannedCap: parseSpotifyPlannedCap,
+    spotifyPlannedCapLabel: spotifyPlannedCapLabel,
+    spotifyPlannedCapFrom: spotifyPlannedCapFrom,
+    spotifyPlannedCapLabelFrom: spotifyPlannedCapLabelFrom,
     render: render,
     load: load,
     _state: STATE,

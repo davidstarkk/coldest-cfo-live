@@ -1,0 +1,28 @@
+{
+  "channel": "spotify",
+  "label": "Spotify Ads",
+  "status": "not_launched",
+  "live": false,
+  "planned_daily_cap_usd": 250,
+  "planned_test_total_cap_usd": 1750,
+  "test_duration_days": 7,
+  "start_date": null,
+  "end_date": null,
+  "cap_type": "daily_total_starting_cap",
+  "split": "performance_weighted_eligible_formats",
+  "format_groups_status": "pending",
+  "format_groups": [
+    { "id": "audio", "confirmed": false },
+    { "id": "image", "confirmed": false },
+    { "id": "carousel", "confirmed": false },
+    { "id": "vertical", "confirmed": false },
+    { "id": "horizontal", "confirmed": false, "conditional": true },
+    { "id": "square", "confirmed": false }
+  ],
+  "creative_products": {
+    "non_audio": ["Drive-Thru", "32oz GO", "36oz Limitless bottle"],
+    "audio": "3 existing audio ads unchanged"
+  },
+  "destination": "d2c",
+  "daily_file": "spotify_ads_daily.json"
+}
