@@ -773,8 +773,9 @@ test('Spotify: not-launched config → NOT LAUNCHED with no metrics; absence alo
 });
 
 var SPOTIFY_CAP = require('./fixtures/spotify_ads_config.json');
-var SPOTIFY_CAP_LABEL = 'Planned starting cap: $500/day total, split evenly across enabled formats (formats pending). Plan only, not spend.';
-var SPOTIFY_CONFIRMED_LABEL = 'Planned starting cap: $500/day total, split evenly across enabled formats ($100 each: audio, image, carousel, vertical, square). Plan only, not spend.';
+var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; start date not set). Plan only, not spend.';
+var SPOTIFY_CONFIRMED_LABEL = 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats ($100 each: audio, image, carousel, vertical, square; start date not set). Plan only, not spend.';
+var SPOTIFY_START_LABEL = 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; 2026-12-01 to 2026-12-07). Plan only, not spend.';
 var LEGACY_LIFETIME = {
   planned_total_cap_usd: 300,
   cap_type: 'lifetime_test',
@@ -807,6 +808,8 @@ test('Spotify: planned cap present is a labelled plan, separate from No data spe
   assert.ok(c.html.indexOf('class="ac-cap"') !== -1);
   assert.ok(c.html.indexOf('Drive-Thru') === -1);
   assert.ok(c.html.indexOf('$300') === -1);
+  assert.ok(c.html.indexOf('$100 each') === -1);
+  assert.ok(c.html.indexOf('2026-12-') === -1);
   var yday = c.html.match(/<div class="l">Yesterday<\/div><div class="v">([^<]*)<\/div>/);
   var spend7 = c.html.match(/<div class="l">7-day spend<\/div><div class="v">([^<]*)<\/div>/);
   var roas = c.html.match(/<div class="l">Platform ROAS 7d<\/div><div class="v">([^<]*)<\/div>/);
@@ -830,11 +833,16 @@ test('Spotify: companion daily starting cap — pending formats, no per-format $
   assert.strictEqual(SPOTIFY_CAP.status, 'not_launched');
   assert.strictEqual(SPOTIFY_CAP.live, false);
   assert.strictEqual(SPOTIFY_CAP.planned_daily_cap_usd, 500);
+  assert.strictEqual(SPOTIFY_CAP.planned_test_total_cap_usd, 3500);
+  assert.strictEqual(SPOTIFY_CAP.test_duration_days, 7);
+  assert.strictEqual(SPOTIFY_CAP.start_date, null);
+  assert.strictEqual(SPOTIFY_CAP.end_date, null);
   assert.strictEqual(SPOTIFY_CAP.cap_type, 'daily_total_starting_cap');
   assert.strictEqual(SPOTIFY_CAP.split, 'even_across_enabled_format_groups');
   assert.strictEqual(SPOTIFY_CAP.format_groups_status, 'pending');
   assert.strictEqual(SPOTIFY_CAP.destination, 'd2c');
   assert.strictEqual(SPOTIFY_CAP.daily_file, 'spotify_ads_daily.json');
+  assert.deepStrictEqual(SPOTIFY_CAP.creative_products.non_audio, ['Drive-Thru', '32oz GO', '36oz Limitless bottle']);
   assert.ok(!Object.prototype.hasOwnProperty.call(SPOTIFY_CAP, 'planned_total_cap_usd'));
   assert.ok(!Object.prototype.hasOwnProperty.call(SPOTIFY_CAP, 'per_ad'));
   assert.strictEqual(SPOTIFY_CAP.format_groups.length, 6);
@@ -846,10 +854,26 @@ test('Spotify: companion daily starting cap — pending formats, no per-format $
   assert.strictEqual(SPOTIFY_CAP.format_groups[4].conditional, true);
   var parsed = A.parseSpotifyPlannedCap(SPOTIFY_CAP);
   assert.strictEqual(parsed.daily, 500);
+  assert.strictEqual(parsed.total, 3500);
+  assert.strictEqual(parsed.duration, 7);
+  assert.strictEqual(parsed.start, null);
+  assert.strictEqual(parsed.end, null);
   assert.strictEqual(parsed.perFormat, null);
   assert.strictEqual(A.spotifyPlannedCapLabel(SPOTIFY_CAP), SPOTIFY_CAP_LABEL);
+  assert.ok(SPOTIFY_CAP_LABEL.indexOf('$500/day') !== -1);
+  assert.ok(SPOTIFY_CAP_LABEL.indexOf('$3,500') !== -1);
+  assert.ok(SPOTIFY_CAP_LABEL.indexOf('start date not set') !== -1);
+  assert.ok(SPOTIFY_CAP_LABEL.indexOf('2026-12-') === -1, 'no dates without start');
   assert.ok(SPOTIFY_CAP_LABEL.indexOf('$100 each') === -1);
   assert.strictEqual(A.spotifyPlannedCapLabel(LEGACY_LIFETIME), '', 'legacy lifetime/per_ad is not labelled');
+  var withStart = JSON.parse(JSON.stringify(SPOTIFY_CAP));
+  withStart.start_date = '2026-12-01';
+  withStart.end_date = null;
+  var started = A.parseSpotifyPlannedCap(withStart);
+  assert.strictEqual(started.start, '2026-12-01');
+  assert.strictEqual(started.end, '2026-12-07');
+  assert.strictEqual(A.spotifyPlannedCapLabel(withStart), SPOTIFY_START_LABEL);
+  assert.ok(SPOTIFY_START_LABEL.indexOf('start date not set') === -1);
   var mixed = JSON.parse(JSON.stringify(SPOTIFY_CAP));
   mixed.planned_total_cap_usd = 300;
   mixed.per_ad = LEGACY_LIFETIME.per_ad;
@@ -892,9 +916,11 @@ test('Spotify: planned cap absent renders nothing (never hardcoded)', function (
   var adv = metaWeeks('2026-11-05');
   var c = spotifyCard({ embedded: [], advertisingSourcesDaily: adv }, '2026-11-05');
   assert.strictEqual(c.stats.plannedCapLabel, '');
+  assert.ok(c.html.indexOf('Planned 7-day test') === -1);
   assert.ok(c.html.indexOf('Planned starting cap') === -1);
   assert.ok(c.html.indexOf('Planned test cap') === -1);
   assert.ok(c.html.indexOf('$500') === -1);
+  assert.ok(c.html.indexOf('$3,500') === -1);
   assert.ok(c.html.indexOf('$300') === -1);
   assert.ok(c.html.indexOf('Drive-Thru') === -1);
   assert.strictEqual(A.spotifyPlannedCapLabel({}), '');

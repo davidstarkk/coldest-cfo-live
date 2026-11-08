@@ -299,15 +299,22 @@ test('chatgpt tracking_verified:false shows tracking not verified, spend still c
   Paid._setMerDoc(null);
 });
 
-var SPOTIFY_CAP_LABEL = 'Planned starting cap: $500/day total, split evenly across enabled formats (formats pending). Plan only, not spend.';
+var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; start date not set). Plan only, not spend.';
 
 test('Spotify companion daily starting cap is a labelled plan, not spend; legacy $300 ignored', function () {
   var companion = require('./fixtures/spotify_ads_config.json');
   var parsed = Paid.parseSpotifyPlannedCap(companion);
   assert.strictEqual(parsed.daily, 500);
+  assert.strictEqual(parsed.total, 3500);
+  assert.strictEqual(parsed.start, null);
+  assert.strictEqual(parsed.end, null);
   assert.strictEqual(parsed.perFormat, null);
   assert.strictEqual(parsed.formatGroupsStatus, 'pending');
   assert.strictEqual(Paid.spotifyPlannedCapLabel(companion), SPOTIFY_CAP_LABEL);
+  var withStart = JSON.parse(JSON.stringify(companion));
+  withStart.start_date = '2026-12-01';
+  withStart.end_date = null;
+  assert.strictEqual(Paid.spotifyPlannedCapLabel(withStart), 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats (formats pending; 2026-12-01 to 2026-12-07). Plan only, not spend.');
   assert.strictEqual(Paid.spotifyPlannedCapLabel({
     planned_total_cap_usd: 300,
     cap_type: 'lifetime_test',
@@ -319,7 +326,7 @@ test('Spotify companion daily starting cap is a labelled plan, not spend; legacy
     g.confirmed = g.id !== 'horizontal';
   });
   assert.strictEqual(Paid.parseSpotifyPlannedCap(confirmed).perFormat, 100);
-  assert.strictEqual(Paid.spotifyPlannedCapLabel(confirmed), 'Planned starting cap: $500/day total, split evenly across enabled formats ($100 each: audio, image, carousel, vertical, square). Plan only, not spend.');
+  assert.strictEqual(Paid.spotifyPlannedCapLabel(confirmed), 'Planned 7-day test: $500/day total cap, $3,500 overall, split evenly across enabled formats ($100 each: audio, image, carousel, vertical, square; start date not set). Plan only, not spend.');
 });
 
 test('Spotify planned cap is not spend and does not change D2C MER', function () {

@@ -38,6 +38,7 @@
     if (!node || typeof node !== 'object') return false;
     return node.planned_daily_cap_usd != null || node.daily_cap_usd != null
       || node.planned_daily_budget_usd != null
+      || node.planned_test_total_cap_usd != null || node.test_duration_days != null
       || node.format_groups != null || node.formatGroups != null
       || node.format_groups_status != null || node.formats_status != null
       || node.cap_type === 'daily_total_starting_cap'
@@ -88,6 +89,17 @@
     }
     return groups;
   }
+  function ymd(v) {
+    if (v == null || v === '') return null;
+    var s = String(v).trim().slice(0, 10);
+    return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : null;
+  }
+  function addDaysYmd(start, days) {
+    var p = start.split('-').map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    d.setUTCDate(d.getUTCDate() + days);
+    return d.toISOString().slice(0, 10);
+  }
   function parseSpotifyPlannedCap(src) {
     var cfg = readSpotifyCapNode(src);
     if (!cfg) return null;
@@ -95,6 +107,16 @@
     if (daily == null) daily = numOrNull(cfg.daily_cap_usd);
     if (daily == null) daily = numOrNull(cfg.planned_daily_budget_usd);
     if (daily == null) return null;
+    var total = numOrNull(cfg.planned_test_total_cap_usd);
+    if (total == null) total = numOrNull(cfg.test_total_cap_usd);
+    if (total == null) total = numOrNull(cfg.planned_overall_cap_usd);
+    var duration = numOrNull(cfg.test_duration_days);
+    if (duration == null) duration = numOrNull(cfg.duration_days);
+    if (duration == null) duration = numOrNull(cfg.test_days);
+    var start = ymd(cfg.start_date != null ? cfg.start_date : cfg.start);
+    var end = ymd(cfg.end_date != null ? cfg.end_date : cfg.end);
+    if (start && !end && duration != null && duration > 0) end = addDaysYmd(start, Math.round(duration) - 1);
+    if (!start) end = null;
     var groups = parseFormatGroups(cfg.format_groups || cfg.formatGroups || cfg.formats);
     var status = cfg.format_groups_status != null ? String(cfg.format_groups_status)
       : (cfg.formatGroupsStatus != null ? String(cfg.formatGroupsStatus)
@@ -106,6 +128,10 @@
     if (/^confirmed$/i.test(status) && enabled.length) perFormat = daily / enabled.length;
     return {
       daily: daily,
+      total: total,
+      duration: duration,
+      start: start,
+      end: end,
       capType: capType,
       split: split,
       formatGroupsStatus: status,
@@ -119,17 +145,24 @@
   function spotifyPlannedCapLabel(src) {
     var cap = parseSpotifyPlannedCap(src);
     if (!cap || cap.daily == null) return '';
-    var out = 'Planned starting cap: ' + moneyPlain(cap.daily) + '/day total';
+    var out = (cap.duration != null && cap.duration > 0)
+      ? ('Planned ' + Math.round(cap.duration) + '-day test: ')
+      : 'Planned test: ';
+    out += moneyPlain(cap.daily) + '/day total cap';
+    if (cap.total != null) out += ', ' + moneyPlain(cap.total) + ' overall';
     if (!cap.split || /even/i.test(cap.split)) out += ', split evenly across enabled formats';
     else out += ', ' + cap.split.replace(/_/g, ' ');
+    var bits = [];
     if (/^confirmed$/i.test(cap.formatGroupsStatus) && cap.perFormat != null) {
-      out += ' (' + moneyPlain(cap.perFormat) + ' each';
-      if (cap.enabledNames.length) out += ': ' + cap.enabledNames.join(', ');
-      out += ')';
+      var pf = moneyPlain(cap.perFormat) + ' each';
+      if (cap.enabledNames.length) pf += ': ' + cap.enabledNames.join(', ');
+      bits.push(pf);
     } else {
-      out += ' (formats pending)';
+      bits.push('formats pending');
     }
-    out += '. Plan only, not spend.';
+    if (cap.start) bits.push(cap.start + ' to ' + (cap.end || cap.start));
+    else bits.push('start date not set');
+    out += ' (' + bits.join('; ') + '). Plan only, not spend.';
     return out;
   }
   function spotifyExcludedFromMer(mer) {

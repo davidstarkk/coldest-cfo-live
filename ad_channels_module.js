@@ -143,12 +143,12 @@
       not_launched: 'settings.channels.spotify(.not_launched_while_zero) or mer.spotify / mer.spotify_ads {status:not_launched, live:false} → NOT LAUNCHED, no metrics.',
       platform: 'platform_revenue / platform_roas only when Spotify reports them; spend-only rows keep ROAS "No data".',
       cash_cost: 'optional; kept separate from platform spend (same as x_ads)',
-      planned_cap: 'optional mer.spotify_ads_config / spotify_ads_config.json: planned_daily_cap_usd + cap_type daily_total_starting_cap + split even_across_enabled_format_groups + format_groups_status + format_groups[{id, confirmed, conditional?}]. Renders a labelled starting plan only — never spend, budget pacing, or MER/ROAS. Absent → show nothing (do not hardcode). Per-format $ = daily / count of confirmed:true (enabled:true accepted) only when format_groups_status is confirmed. Legacy planned_total_cap_usd / per_ad $100 entries are ignored.'
+      planned_cap: 'optional mer.spotify_ads_config / spotify_ads_config.json: planned_daily_cap_usd + planned_test_total_cap_usd + test_duration_days + start_date/end_date + split + format_groups_status + format_groups[{id, confirmed}]. Renders a labelled 7-day plan only — never spend, budget pacing, or MER/ROAS. Absent → show nothing (do not hardcode). Dates only when start_date is set (end = start + duration-1 if end_date null). Per-format $ only when format_groups_status is confirmed. Legacy planned_total_cap_usd / per_ad $100 entries are ignored.'
     },
     spotify_ads_config: {
       file: 'spotify_ads_config.json (optional) or mer_for_manus.json#spotify_ads_config',
-      node: '{planned_daily_cap_usd, cap_type: daily_total_starting_cap, split, format_groups_status, format_groups:[{id, confirmed, conditional?}]}',
-      display: 'Planned starting cap: $N/day total, split evenly across enabled formats (formats pending). Plan only, not spend. Per-format $ only when format_groups_status is confirmed (daily / enabled count).',
+      node: '{planned_daily_cap_usd, planned_test_total_cap_usd, test_duration_days, start_date, end_date, cap_type: daily_total_starting_cap, split, format_groups_status, format_groups:[{id, confirmed, conditional?}]}',
+      display: 'Planned 7-day test: $N/day total cap, $N overall, split evenly across enabled formats (formats pending; start date not set). Plan only, not spend.',
       never: 'not spend, not daily budget pacing, not blended MER / ROAS / tracked spend'
     },
     channel_ads_daily: {
@@ -181,6 +181,7 @@
     if (!node || typeof node !== 'object') return false;
     return node.planned_daily_cap_usd != null || node.daily_cap_usd != null
       || node.planned_daily_budget_usd != null
+      || node.planned_test_total_cap_usd != null || node.test_duration_days != null
       || node.format_groups != null || node.formatGroups != null
       || node.format_groups_status != null || node.formats_status != null
       || node.cap_type === 'daily_total_starting_cap'
@@ -231,6 +232,17 @@
     }
     return groups;
   }
+  function ymd(v) {
+    if (v == null || v === '') return null;
+    var s = String(v).trim().slice(0, 10);
+    return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : null;
+  }
+  function addDaysYmd(start, days) {
+    var p = start.split('-').map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    d.setUTCDate(d.getUTCDate() + days);
+    return d.toISOString().slice(0, 10);
+  }
   function parseSpotifyPlannedCap(src) {
     var cfg = readSpotifyCapNode(src);
     if (!cfg) return null;
@@ -238,6 +250,16 @@
     if (daily == null) daily = num(cfg.daily_cap_usd);
     if (daily == null) daily = num(cfg.planned_daily_budget_usd);
     if (daily == null) return null;
+    var total = num(cfg.planned_test_total_cap_usd);
+    if (total == null) total = num(cfg.test_total_cap_usd);
+    if (total == null) total = num(cfg.planned_overall_cap_usd);
+    var duration = num(cfg.test_duration_days);
+    if (duration == null) duration = num(cfg.duration_days);
+    if (duration == null) duration = num(cfg.test_days);
+    var start = ymd(cfg.start_date != null ? cfg.start_date : cfg.start);
+    var end = ymd(cfg.end_date != null ? cfg.end_date : cfg.end);
+    if (start && !end && duration != null && duration > 0) end = addDaysYmd(start, Math.round(duration) - 1);
+    if (!start) end = null;
     var groups = parseFormatGroups(cfg.format_groups || cfg.formatGroups || cfg.formats);
     var status = cfg.format_groups_status != null ? String(cfg.format_groups_status)
       : (cfg.formatGroupsStatus != null ? String(cfg.formatGroupsStatus)
@@ -249,6 +271,10 @@
     if (/^confirmed$/i.test(status) && enabled.length) perFormat = daily / enabled.length;
     return {
       daily: daily,
+      total: total,
+      duration: duration,
+      start: start,
+      end: end,
       capType: capType,
       split: split,
       formatGroupsStatus: status,
@@ -262,17 +288,24 @@
   function spotifyPlannedCapLabel(src) {
     var cap = parseSpotifyPlannedCap(src);
     if (!cap || cap.daily == null) return '';
-    var out = 'Planned starting cap: ' + moneyPlain(cap.daily) + '/day total';
+    var out = (cap.duration != null && cap.duration > 0)
+      ? ('Planned ' + Math.round(cap.duration) + '-day test: ')
+      : 'Planned test: ';
+    out += moneyPlain(cap.daily) + '/day total cap';
+    if (cap.total != null) out += ', ' + moneyPlain(cap.total) + ' overall';
     if (!cap.split || /even/i.test(cap.split)) out += ', split evenly across enabled formats';
     else out += ', ' + cap.split.replace(/_/g, ' ');
+    var bits = [];
     if (/^confirmed$/i.test(cap.formatGroupsStatus) && cap.perFormat != null) {
-      out += ' (' + moneyPlain(cap.perFormat) + ' each';
-      if (cap.enabledNames.length) out += ': ' + cap.enabledNames.join(', ');
-      out += ')';
+      var pf = moneyPlain(cap.perFormat) + ' each';
+      if (cap.enabledNames.length) pf += ': ' + cap.enabledNames.join(', ');
+      bits.push(pf);
     } else {
-      out += ' (formats pending)';
+      bits.push('formats pending');
     }
-    out += '. Plan only, not spend.';
+    if (cap.start) bits.push(cap.start + ' to ' + (cap.end || cap.start));
+    else bits.push('start date not set');
+    out += ' (' + bits.join('; ') + '). Plan only, not spend.';
     return out;
   }
   function spotifyPlannedCapFrom(inputs) {
