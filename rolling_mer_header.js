@@ -36,8 +36,12 @@
   }
   function capHasPlanFields(node) {
     if (!node || typeof node !== 'object') return false;
-    return node.planned_total_cap_usd != null || node.planned_cap != null || node.planned_cap_usd != null
-      || node.total_cap_usd != null || node.per_ad != null || node.per_ad_caps != null;
+    return node.planned_daily_cap_usd != null || node.daily_cap_usd != null
+      || node.planned_daily_budget_usd != null
+      || node.format_groups != null || node.formatGroups != null
+      || node.format_groups_status != null || node.formats_status != null
+      || node.cap_type === 'daily_total_starting_cap'
+      || (typeof node.split === 'string' && /format/i.test(node.split));
   }
   function readSpotifyCapNode(src) {
     if (!src || typeof src !== 'object') return null;
@@ -48,62 +52,85 @@
     if (capHasPlanFields(src.spotify)) return src.spotify;
     return null;
   }
-  function perAdCapNum(node) {
-    if (node == null) return null;
-    if (typeof node !== 'object') return numOrNull(node);
-    if (node.planned_cap_usd != null) return numOrNull(node.planned_cap_usd);
-    if (node.cap_usd != null) return numOrNull(node.cap_usd);
-    if (node.cap != null) return numOrNull(node.cap);
-    if (node.planned_cap != null) return numOrNull(node.planned_cap);
-    return null;
+  function flagOn(v) {
+    if (v === true || v === 1) return true;
+    if (v === false || v === 0 || v == null || v === '') return false;
+    var s = String(v).toLowerCase();
+    return s === 'true' || s === 'yes' || s === 'enabled' || s === '1';
+  }
+  function parseFormatGroups(raw) {
+    var groups = [];
+    function push(name, node) {
+      var n = name ? String(name) : '';
+      var enabled = false;
+      var confirmed = false;
+      var conditional = false;
+      if (node && typeof node === 'object') {
+        if (!n) n = String(node.id || node.name || node.label || node.format || '');
+        enabled = flagOn(node.enabled);
+        confirmed = flagOn(node.confirmed);
+        conditional = flagOn(node.conditional);
+      } else if (typeof node === 'boolean' || typeof node === 'number' || typeof node === 'string') {
+        enabled = flagOn(node);
+      }
+      if (!n && !enabled && !confirmed) return;
+      groups.push({ name: n, enabled: enabled, confirmed: confirmed, conditional: conditional });
+    }
+    if (Array.isArray(raw)) {
+      raw.forEach(function (g) {
+        if (g == null) return;
+        if (typeof g === 'string') { push(g, null); return; }
+        if (typeof g !== 'object') return;
+        push(g.id || g.name || g.label || g.format, g);
+      });
+    } else if (raw && typeof raw === 'object') {
+      Object.keys(raw).forEach(function (k) { push(k, raw[k]); });
+    }
+    return groups;
   }
   function parseSpotifyPlannedCap(src) {
     var cfg = readSpotifyCapNode(src);
     if (!cfg) return null;
-    var total = numOrNull(cfg.planned_total_cap_usd);
-    if (total == null) total = numOrNull(cfg.planned_cap);
-    if (total == null) total = numOrNull(cfg.planned_cap_usd);
-    if (total == null) total = numOrNull(cfg.total_cap_usd);
-    var ads = [];
-    var raw = cfg.per_ad || cfg.per_ad_caps || cfg.ads || cfg.creatives;
-    function pushAd(name, cap) {
-      if (!name && cap == null) return;
-      ads.push({ name: name ? String(name) : '', cap: cap });
-    }
-    if (Array.isArray(raw)) {
-      raw.forEach(function (a) {
-        if (a == null) return;
-        if (typeof a === 'string') { pushAd(a, null); return; }
-        if (typeof a !== 'object') return;
-        var name = a.name || a.label || a.ad || a.product || a.creative || a.title;
-        pushAd(name, perAdCapNum(a));
-      });
-    } else if (raw && typeof raw === 'object') {
-      Object.keys(raw).forEach(function (k) {
-        pushAd(k, perAdCapNum(raw[k]));
-      });
-    }
-    if (total == null && !ads.length) return null;
+    var daily = numOrNull(cfg.planned_daily_cap_usd);
+    if (daily == null) daily = numOrNull(cfg.daily_cap_usd);
+    if (daily == null) daily = numOrNull(cfg.planned_daily_budget_usd);
+    if (daily == null) return null;
+    var groups = parseFormatGroups(cfg.format_groups || cfg.formatGroups || cfg.formats);
+    var status = cfg.format_groups_status != null ? String(cfg.format_groups_status)
+      : (cfg.formatGroupsStatus != null ? String(cfg.formatGroupsStatus)
+      : (cfg.formats_status != null ? String(cfg.formats_status) : ''));
+    var split = cfg.split != null ? String(cfg.split) : (cfg.split_type != null ? String(cfg.split_type) : '');
     var capType = cfg.cap_type != null ? String(cfg.cap_type) : (cfg.capType != null ? String(cfg.capType) : '');
-    return { total: total, capType: capType, perAd: ads, raw: cfg };
+    var enabled = groups.filter(function (g) { return g.confirmed || g.enabled; });
+    var perFormat = null;
+    if (/^confirmed$/i.test(status) && enabled.length) perFormat = daily / enabled.length;
+    return {
+      daily: daily,
+      capType: capType,
+      split: split,
+      formatGroupsStatus: status,
+      formatGroups: groups,
+      enabledCount: enabled.length,
+      enabledNames: enabled.map(function (g) { return g.name; }).filter(Boolean),
+      perFormat: perFormat,
+      raw: cfg
+    };
   }
   function spotifyPlannedCapLabel(src) {
     var cap = parseSpotifyPlannedCap(src);
-    if (!cap) return '';
-    var typeBit = '';
-    if (/lifetime/i.test(cap.capType)) typeBit = ' (lifetime)';
-    else if (cap.capType && !/^daily$/i.test(cap.capType)) typeBit = ' (' + cap.capType.replace(/_/g, ' ') + ')';
-    var out = 'Planned test cap:';
-    if (cap.total != null) out += ' ' + moneyPlain(cap.total) + ' total' + typeBit;
-    else if (typeBit) out += typeBit;
-    var named = cap.perAd.filter(function (a) { return a.name; });
-    if (named.length) {
-      var caps = named.map(function (a) { return a.cap; }).filter(function (c) { return c != null; });
-      var same = caps.length === named.length && caps.length > 0 && caps.every(function (c) { return c === caps[0]; });
-      if (same) out += ' — ' + moneyPlain(caps[0]) + ' each: ' + named.map(function (a) { return a.name; }).join(', ');
-      else out += ' — ' + named.map(function (a) { return a.name + (a.cap != null ? ' ' + moneyPlain(a.cap) : ''); }).join(', ');
+    if (!cap || cap.daily == null) return '';
+    var out = 'Planned starting cap: ' + moneyPlain(cap.daily) + '/day total';
+    if (!cap.split || /even/i.test(cap.split)) out += ', split evenly across enabled formats';
+    else out += ', ' + cap.split.replace(/_/g, ' ');
+    if (/^confirmed$/i.test(cap.formatGroupsStatus) && cap.perFormat != null) {
+      out += ' (' + moneyPlain(cap.perFormat) + ' each';
+      if (cap.enabledNames.length) out += ': ' + cap.enabledNames.join(', ');
+      out += ')';
+    } else {
+      out += ' (formats pending)';
     }
-    return out === 'Planned test cap:' ? '' : out;
+    out += '. Plan only, not spend.';
+    return out;
   }
   function spotifyExcludedFromMer(mer) {
     if (!mer || typeof mer !== 'object') return false;

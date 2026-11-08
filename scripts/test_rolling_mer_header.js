@@ -94,7 +94,7 @@ test('mer as_of not newer than embedded stays STALE', function () {
 });
 
 var SPOTIFY_CAP = require('./fixtures/spotify_ads_config.json');
-var SPOTIFY_CAP_LABEL = 'Planned test cap: $300 total (lifetime) — $100 each: Drive-Thru, 32oz GO, 128oz Limitless Gallon';
+var SPOTIFY_CAP_LABEL = 'Planned starting cap: $500/day total, split evenly across enabled formats (formats pending). Plan only, not spend.';
 
 test('Spotify line on rolling MER header: No data excluded from measured MER; cap absent on 11/5 fixture', function () {
   assert.strictEqual(mer.d2c_coverage.spotify_included_in_d2c, false);
@@ -104,7 +104,9 @@ test('Spotify line on rolling MER header: No data excluded from measured MER; ca
   assert.strictEqual(Header.spotifyPlannedCapLabel(mer), '', 'cap absent → show nothing');
   var note = Header.spotifyNoteHtml(mer, mer);
   assert.ok(note.indexOf('Spotify Ads: No data — excluded from measured MER') !== -1);
+  assert.ok(note.indexOf('Planned starting cap') === -1);
   assert.ok(note.indexOf('Planned test cap') === -1);
+  assert.ok(note.indexOf('$500') === -1);
   assert.ok(note.indexOf('$300') === -1);
   var resolved = Header.resolve(embedded, mer);
   assert.strictEqual(resolved.data.latest.spend_7d, 91309.61);
@@ -112,21 +114,15 @@ test('Spotify line on rolling MER header: No data excluded from measured MER; ca
   assert.strictEqual(resolved.data.latest.rev_7d, 197402.55);
 });
 
-test('Spotify companion per_ad.planned_cap_usd shape labels the plan; MER unchanged', function () {
-  var companion = {
+test('Spotify companion daily starting cap labels the plan; MER unchanged; legacy $300 ignored', function () {
+  assert.strictEqual(Header.spotifyPlannedCapLabel(SPOTIFY_CAP), SPOTIFY_CAP_LABEL);
+  assert.strictEqual(Header.spotifyPlannedCapLabel({
     planned_total_cap_usd: 300,
     cap_type: 'lifetime_test',
-    status: 'not_launched',
-    live: false,
-    per_ad: [
-      { name: 'Drive-Thru', planned_cap_usd: 100 },
-      { name: '32oz GO', planned_cap_usd: 100 },
-      { name: '128oz Limitless Gallon', planned_cap_usd: 100 }
-    ]
-  };
-  assert.strictEqual(Header.spotifyPlannedCapLabel(companion), SPOTIFY_CAP_LABEL);
+    per_ad: [{ name: 'Drive-Thru', planned_cap_usd: 100 }]
+  }), '');
   var withCap = JSON.parse(JSON.stringify(mer));
-  withCap.spotify_ads_config = companion;
+  withCap.spotify_ads_config = SPOTIFY_CAP;
   var resolved = Header.resolve(embedded, withCap);
   var baseline = Header.resolve(embedded, mer);
   assert.strictEqual(resolved.data.latest.spend_7d, baseline.data.latest.spend_7d);
@@ -149,6 +145,8 @@ test('Spotify planned cap present is labelled separately; MER / spend_7d unchang
   var note = Header.spotifyNoteHtml(resolved.data, withCap);
   assert.ok(note.indexOf(SPOTIFY_CAP_LABEL) !== -1);
   assert.ok(note.indexOf('not spend') !== -1);
+  assert.ok(note.indexOf('Drive-Thru') === -1);
+  assert.ok(note.indexOf('$300') === -1);
   assert.ok(note.indexOf('Spotify Ads: No data — excluded from measured MER') !== -1);
   assert.strictEqual(Header.spotifyPlannedCapLabel({}), '');
 });

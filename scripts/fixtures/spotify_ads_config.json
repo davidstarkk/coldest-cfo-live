@@ -1,11 +1,20 @@
 {
-  "planned_total_cap_usd": 300,
-  "cap_type": "lifetime_test",
+  "channel": "spotify",
+  "label": "Spotify Ads",
   "status": "not_launched",
   "live": false,
-  "per_ad": [
-    { "name": "Drive-Thru", "planned_cap_usd": 100 },
-    { "name": "32oz GO", "planned_cap_usd": 100 },
-    { "name": "128oz Limitless Gallon", "planned_cap_usd": 100 }
-  ]
+  "planned_daily_cap_usd": 500,
+  "cap_type": "daily_total_starting_cap",
+  "split": "even_across_enabled_format_groups",
+  "format_groups_status": "pending",
+  "format_groups": [
+    { "id": "audio", "confirmed": false },
+    { "id": "image", "confirmed": false },
+    { "id": "carousel", "confirmed": false },
+    { "id": "vertical", "confirmed": false },
+    { "id": "horizontal", "confirmed": false, "conditional": true },
+    { "id": "square", "confirmed": false }
+  ],
+  "destination": "d2c",
+  "daily_file": "spotify_ads_daily.json"
 }
