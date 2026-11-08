@@ -41,7 +41,9 @@
      days it reported; Meta / Google spend-only nodes stay "—".
 
    Verdicts are derived, labelled and explained:
-     growth  = measured spend, last 7 days vs the 7 before (±15 %)
+     growth  = measured spend over the selected window (yesterday / 7 / 14 / 28 /
+               60 / 90 days) vs the same length before (±15 %); the selector drives
+               every panel, the daily charts never show fewer than 7 days
      posture = Jarvis mode + last budget action (≤ 14 days) + tracking
    Platform ROAS = platform-reported conversion value ÷ spend, summed over
    the days the platform reported; display-only, never store revenue.
@@ -90,8 +92,13 @@
   var HEATMAP_DAYS = 14;
   var GROWTH_PCT = 15;          // ±15 % week over week
   var ACTION_RECENT_DAYS = 14;  // a Jarvis raise/cut older than this is history, not posture
-  var WINDOWS = [14, 28, 60, 90];
-  var DEFAULT_WINDOW = 28;
+  var WINDOWS = [1, 7, 14, 28, 60, 90];   // 1 = yesterday view
+  var DEFAULT_WINDOW = 7;
+  var MIN_CHART_DAYS = 7;       // the time-series panels never show fewer days than this
+  var MAX_HEATMAP_DAYS = 28;    // wider windows show their last 28 days in the heatmap
+  function winLabel(n) { return n === 1 ? 'YESTERDAY' : n + ' DAYS'; }
+  function winShort(n) { return n === 1 ? 'yesterday' : n + 'd'; }
+  function winBtn(n) { return n === 1 ? 'YDAY' : n + 'D'; }
   var MAX_STACK_SERIES = 7;     // top 7 by window spend + Other (fixed palette, never cycled)
   var ADV_DAILY_FILE = 'advertising_sources_daily.json';
   // Only fetch *_ads_data.json overlays that this repo actually ships (stubs). The
@@ -773,11 +780,12 @@
 
   // present7 / presentPrev7: days in each window with a published spend row for
   // the channel. A window with holes is reported as INCOMPLETE, never judged.
-  function growthVerdict(spend7, prev7, present7, presentPrev7) {
+  function growthVerdict(spend7, prev7, present7, presentPrev7, n) {
+    n = n || 7;
     if (present7 != null && presentPrev7 != null) {
-      if (present7 === 0 && presentPrev7 === 0) return { code: 'nofeed', label: 'NO FEED', wow: null, missing: 14 };
-      if (present7 < 7 || presentPrev7 < 7) {
-        return { code: 'incomplete', label: 'INCOMPLETE · ' + present7 + '/7 + ' + presentPrev7 + '/7 days', wow: null, missing: (7 - present7) + (7 - presentPrev7) };
+      if (present7 === 0 && presentPrev7 === 0) return { code: 'nofeed', label: 'NO FEED', wow: null, missing: 2 * n };
+      if (present7 < n || presentPrev7 < n) {
+        return { code: 'incomplete', label: 'INCOMPLETE · ' + present7 + '/' + n + ' + ' + presentPrev7 + '/' + n + ' days', wow: null, missing: (n - present7) + (n - presentPrev7) };
       }
     }
     if (spend7 <= 0 && prev7 <= 0) return { code: 'none', label: 'NO SPEND', wow: null };
@@ -858,12 +866,15 @@
   }
 
   /* ---------------------------------------------------- channel stats */
-  function channelStats(ch, series, inputs, endDate) {
+  // n = window length in days (default 7; 1 = yesterday). Field names keep their *7 suffix for
+  // compatibility; they mean "this window" and the result carries `win`.
+  function channelStats(ch, series, inputs, endDate, n) {
     inputs = inputs || {};
+    n = n || 7;
     var days = series.channels[ch.id].days;
     var end = endDate || series.spendThrough;
-    var last7 = end ? windowDates(end, 7) : [];
-    var prev7 = end ? windowDates(addDays(end, -7), 7) : [];
+    var last7 = end ? windowDates(end, n) : [];
+    var prev7 = end ? windowDates(addDays(end, -n), n) : [];
     var last30 = end ? windowDates(end, 30) : [];
     var s7 = sumWindow(days, last7, 'spend');
     var p7 = sumWindow(days, prev7, 'spend');
@@ -884,7 +895,7 @@
     var roas7 = pDays > 0 && pSpend > 0 ? pRev / pSpend : null;
 
     var ydayRec = end && days[end] ? days[end] : null;
-    var growth = growthVerdict(n0(s7.total), n0(p7.total), s7.present, p7.present);
+    var growth = growthVerdict(n0(s7.total), n0(p7.total), s7.present, p7.present, n);
 
     var mer = inputs.mer || null;
     var thr = (mer && mer.ad_channel_throttles) || inputs.throttlesFile || null;
@@ -910,7 +921,7 @@
     var missingPrev7 = prev7.filter(function (d) { return !days[d] || days[d].spend == null; });
     var stale = !!(spendLatest && last7.length && spendLatest < last7[0]);
     if (stale) {
-      growth = { code: 'stale', label: 'STALE · last row ' + mmdd(spendLatest) + ' · ' + s7.present + '/7 + ' + p7.present + '/7 days', wow: null, missing: missing7.length + missingPrev7.length };
+      growth = { code: 'stale', label: 'STALE · last row ' + mmdd(spendLatest) + ' · ' + s7.present + '/' + n + ' + ' + p7.present + '/' + n + ' days', wow: null, missing: missing7.length + missingPrev7.length };
     }
 
     var blk0 = mer ? chEntry(mer, ch) : null;
@@ -932,7 +943,7 @@
     var darkHint = !!(ch.darkWhenZero || (setCh && (setCh.not_launched_while_zero || setCh.status === 'not_launched')) || status === 'pre_launch' || status === 'not_live' || status === 'not_launched');
     var dark = darkHint && !(s7.total > 0) && !stale && s7.present === 0 && p7.present === 0;
     if (dark) {
-      growth = { code: 'nofeed', label: 'NO FEED', wow: null, missing: 14 };
+      growth = { code: 'nofeed', label: 'NO FEED', wow: null, missing: 2 * n };
     }
 
     var launch = thrCh && (thrCh.launch_date || thrCh.soft_read_date) ? thrCh : (setCh && (setCh.launch_date || setCh.soft_read_date) ? setCh : null);
@@ -956,7 +967,7 @@
     if (!spendSource && spendLatest && days[spendLatest]) spendSource = days[spendLatest].spendSource;
     for (var j = last7.length - 1; j >= 0 && !platformSource; j--) { var pr = days[last7[j]]; if (pr && pr.platformSource) platformSource = pr.platformSource; }
 
-    var feedCode = dark ? 'dark' : (s7.present === 0 && p7.present === 0 && !spendLatest ? 'nofeed' : (stale ? 'stale' : (s7.present < 7 ? 'incomplete' : (s7.total === 0 ? 'zero' : 'ok'))));
+    var feedCode = dark ? 'dark' : (s7.present === 0 && p7.present === 0 && !spendLatest ? 'nofeed' : (stale ? 'stale' : (s7.present < n ? 'incomplete' : (s7.total === 0 ? 'zero' : 'ok'))));
     var statusLabel = live === true ? 'LIVE' : (live === false ? ((feedCode === 'dark' || status === 'not_launched') ? 'NOT LAUNCHED' : (status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE')) : (feedCode === 'stale' ? 'STALE' : (feedCode === 'dark' ? 'NOT LAUNCHED' : (feedCode === 'nofeed' ? '—' : '—'))));
 
     if (ch.noDataLabel && (growth.code === 'nofeed') && !dark) growth = Object.assign({}, growth, { label: ch.noDataLabel });
@@ -964,6 +975,7 @@
     return {
       ch: ch,
       end: end,
+      win: n,
       yday: ydayRec && ydayRec.spend != null ? ydayRec.spend : null,
       ydayCash: ydayRec && ydayRec.cash_cost != null ? ydayRec.cash_cost : null,
       spend7: s7.total, spend7Days: s7.present,
@@ -1000,11 +1012,12 @@
     };
   }
 
-  function summarize(statsList, series, inputs, endDate) {
+  function summarize(statsList, series, inputs, endDate, n) {
+    n = n || 7;
     var end = endDate || series.spendThrough;
     var tracked7 = 0, tracked7prev = 0, live = 0, growing = 0, shrinking = 0, scaling = 0, cutting = 0, launching = 0, incomplete = 0;
-    var last7all = end ? windowDates(end, 7) : [];
-    var prev7all = end ? windowDates(addDays(end, -7), 7) : [];
+    var last7all = end ? windowDates(end, n) : [];
+    var prev7all = end ? windowDates(addDays(end, -n), n) : [];
     function dayHasSpend(d) { return CHANNELS.some(function (ch) { var r = series.channels[ch.id].days[d]; return r && r.spend != null; }); }
     var missing7 = last7all.filter(function (d) { return !dayHasSpend(d); });
     var missingPrev7 = prev7all.filter(function (d) { return !dayHasSpend(d); });
@@ -1012,7 +1025,7 @@
     statsList.forEach(function (s) {
       // Unknown spend (no measured row) is excluded from tracked / D2C totals — list it as coverage.
       var notLaunched = s.feed && s.feed.code === 'dark';
-      if (!notLaunched && (s.spend7Days == null || s.spend7Days < 7)) unmeasured.push({ id: s.ch.id, label: s.ch.label, days: s.spend7Days || 0 });
+      if (!notLaunched && (s.spend7Days == null || s.spend7Days < n)) unmeasured.push({ id: s.ch.id, label: s.ch.label, days: s.spend7Days || 0 });
       if (s.growth.code === 'incomplete' || s.growth.code === 'stale') incomplete += 1;
       tracked7 += n0(s.spend7); tracked7prev += n0(s.prev7);
       if (s.live) live += 1;
@@ -1022,7 +1035,7 @@
       if (s.posture.code === 'scaling') scaling += 1;
       if (s.posture.code === 'cutting' || s.posture.code === 'killed') cutting += 1;
     });
-    var last7 = end ? windowDates(end, 7) : [];
+    var last7 = end ? windowDates(end, n) : [];
     var d2c = 0, rev = 0, present = 0, blendedSource = null;
     last7.forEach(function (d) {
       var b = series.blended[d];
@@ -1030,19 +1043,31 @@
       d2c += b.d2c_ad_spend; rev += b.shopify_revenue; present += 1; blendedSource = b.source;
     });
     var blended = null;
-    if (present === 7 && d2c > 0) blended = { d2c: round2(d2c), rev: round2(rev), mer: Math.round(rev / d2c * 100) / 100, source: blendedSource, through: end, days: present };
-    else if (inputs && inputs.mer && num(inputs.mer.spend_7d) != null && num(inputs.mer.rev_7d) != null && n0(inputs.mer.spend_7d) > 0) {
+    // One source per number: the feed's blended series when it covers the whole window, else the
+    // daily reports' Shop/DTC line (revenue ÷ known ads, current through yesterday), else the
+    // feed's pooled 7d. Never a mix of the two series, never a partial window.
+    var dRev = 0, dAds = 0, dPresent = 0, dMissing = [];
+    last7.forEach(function (d) {
+      var x = series.d2c && series.d2c[d];
+      if (!x || x.mer == null) { dMissing.push(d); return; }
+      dRev += x.revenue; dAds += x.ads; dPresent += 1;
+    });
+    if (present === n && d2c > 0) blended = { d2c: round2(d2c), rev: round2(rev), mer: Math.round(rev / d2c * 100) / 100, source: blendedSource, through: end, days: present };
+    else if (dPresent === n && dAds > 0) blended = { d2c: round2(dAds), rev: round2(dRev), mer: Math.round(dRev / dAds * 100) / 100, source: 'daily report Shop/DTC revenue ÷ known ads', through: end, days: dPresent, shopDtc: true };
+    else if (n === 7 && inputs && inputs.mer && num(inputs.mer.spend_7d) != null && num(inputs.mer.rev_7d) != null && n0(inputs.mer.spend_7d) > 0) {
       blended = { d2c: round2(inputs.mer.spend_7d), rev: round2(inputs.mer.rev_7d), mer: num(inputs.mer.mer_7d_pooled) != null ? Math.round(inputs.mer.mer_7d_pooled * 100) / 100 : Math.round(inputs.mer.rev_7d / inputs.mer.spend_7d * 100) / 100, source: 'mer_for_manus.json 7d pooled', through: inputs.mer.as_of, days: 7 };
     }
     return {
       end: end,
+      win: n,
       tracked7: round2(tracked7), tracked7prev: round2(tracked7prev),
       trackedWow: tracked7prev > 0 && !missing7.length && !missingPrev7.length ? (tracked7 - tracked7prev) / tracked7prev * 100 : null,
       missingDays7: missing7, missingDaysPrev7: missingPrev7, incomplete: incomplete,
       live: live, growing: growing, shrinking: shrinking, launching: launching, scaling: scaling, cutting: cutting,
       channels: statsList.length,
       unmeasured7: unmeasured,
-      blended: blended
+      blended: blended,
+      blendedMissing: blended ? [] : dMissing
     };
   }
 
@@ -1087,6 +1112,13 @@
       source: settings && settings.global ? 'ads_throttle/settings.json' : 'defaults (settings not loaded)'
     };
   }
+  // The rule's $200 is per 7 days. Scale it to the window; a window shorter than a week is
+  // judged on at least LOW_SPEND per day (performance.py: under $100 is not judged).
+  function minSpendFor(th, n) {
+    n = n || 7;
+    var scaled = th.minSpend * n / 7;
+    return Math.round(n < 7 ? Math.max(LOW_SPEND * n, scaled) : scaled);
+  }
 
   // Band = where a platform-reported ROAS sits against the Jarvis rule.
   function band(roas, spend, th) {
@@ -1101,9 +1133,13 @@
 
   // 7-day leaderboard over platform units (performance.platforms) with the channel-level
   // record as fallback for channels whose only platform read comes from mer_for_manus.json.
-  function leaderboard(series, end, settings) {
-    var th = thresholds(settings);
-    var last7 = end ? windowDates(end, 7) : [];
+  function leaderboard(series, end, settings, n) {
+    n = n || 7;
+    var th = Object.assign({}, thresholds(settings));
+    th.minSpend7 = th.minSpend;
+    th.minSpend = minSpendFor(th, n);
+    th.win = n;
+    var last7 = end ? windowDates(end, n) : [];
     var rows = [], covered = {};
     PLATFORM_UNITS.forEach(function (u) {
       var days = series.platforms[u.id] ? series.platforms[u.id].days : {};
@@ -1147,7 +1183,7 @@
       return last7.some(function (d) { var r = series.channels[ch.id].days[d]; return r && r.spend > 0; });
     }).map(function (ch) { return ch.label; });
     return {
-      end: end, thresholds: th, rows: rows,
+      end: end, win: n, thresholds: th, rows: rows,
       pooled: totSpend > 0 ? { spend: round2(totSpend), value: round2(totValue), roas: Math.round(totValue / totSpend * 100) / 100, platforms: rows.length } : null,
       above: judged.filter(function (r) { return r.band === 'raise'; }).length,
       below: judged.filter(function (r) { return r.band === 'cut'; }).length,
@@ -1238,6 +1274,7 @@
     '.ac-mini{width:100%;border-collapse:collapse;font-size:.7rem;margin-top:6px}.ac-mini th,.ac-mini td{padding:3px 5px;text-align:right;white-space:nowrap;border-bottom:1px solid rgba(37,37,72,.5)}.ac-mini th{color:var(--text-dim);font-weight:600;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase}.ac-mini td{font-family:var(--font-mono)}.ac-mini th:first-child,.ac-mini td:first-child{text-align:left;font-family:var(--font-body)}',
     '.ac-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.7rem;color:var(--text-muted);margin-top:6px}',
     '.ac-empty{padding:24px;color:var(--text-muted);text-align:center}',
+    '.ac-view{font-size:.78rem;color:var(--text-muted);margin:-4px 0 10px}.ac-view b{color:var(--text)}',
     '.ac-kpi .v small{font-size:.75rem;font-weight:600;color:var(--text-muted)}',
     '.ac-two{display:grid;grid-template-columns:3fr 2fr;gap:14px}@media (max-width:900px){.ac-two{grid-template-columns:1fr}}',
     '.ac-lead{position:relative}',
@@ -1415,7 +1452,7 @@
         ctx.font = '600 11px JetBrains Mono, monospace'; ctx.textBaseline = 'middle';
         meta.data.forEach(function (bar, i) {
           var r = rows[i];
-          var txt = (r.roas7 == null ? '—' : r.roas7.toFixed(2) + 'x') + '  ' + kusd(r.spend7) + (r.days < 7 ? '  ' + r.days + '/7d' : '');
+          var txt = (r.roas7 == null ? '—' : r.roas7.toFixed(2) + 'x') + '  ' + kusd(r.spend7) + (lb.win > 1 && r.days < lb.win ? '  ' + r.days + '/' + lb.win + 'd' : '');
           var w = ctx.measureText(txt).width;
           var inside = bar.x - area.left > w + 16;
           ctx.fillStyle = inside ? '#0d0d1a' : '#e8e8f0'; ctx.textAlign = inside ? 'right' : 'left';
@@ -1433,7 +1470,7 @@
       options: {
         indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
         layout: { padding: { top: 14, right: 8 } },
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { var r = rows[c.dataIndex]; return [roasTxt(r.roas7) + ' · ' + usd(r.value7) + ' platform value ÷ ' + usd(r.spend7) + ' spend', r.days + ' of 7 days reported' + (r.latest ? ' · through ' + mmdd(r.latest) : ''), BAND_LABEL[r.band] + (r.basis ? ' · ' + r.basis : '')]; } } } },
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { var r = rows[c.dataIndex]; return [roasTxt(r.roas7) + ' · ' + usd(r.value7) + ' platform value ÷ ' + usd(r.spend7) + ' spend', (lb.win === 1 ? 'reported ' + mmdd(r.latest) : r.days + ' of ' + lb.win + ' days reported' + (r.latest ? ' · through ' + mmdd(r.latest) : '')), BAND_LABEL[r.band] + (r.basis ? ' · ' + r.basis : '')]; } } } },
         scales: {
           x: { min: 0, max: maxRoas, ticks: { color: '#5c5c7a', font: { size: 10 }, callback: function (v) { return v + 'x'; } }, grid: { color: 'rgba(37,37,72,0.7)' } },
           y: { ticks: { color: '#e8e8f0', font: { size: 11 } }, grid: { display: false } }
@@ -1454,8 +1491,8 @@
       data: {
         labels: rows.map(function (r) { return r.label; }),
         datasets: [
-          { label: '% of platform spend 7d', data: rows.map(function (r) { return Math.round(r.spendShare * 10) / 10; }), backgroundColor: '#8888a8', borderRadius: 2, barThickness: 7 },
-          { label: '% of platform-reported value 7d', data: rows.map(function (r) { return Math.round((r.valueShare || 0) * 10) / 10; }), backgroundColor: '#00d4d4', borderRadius: 2, barThickness: 7 }
+          { label: '% of platform spend ' + winShort(lb.win || 7), data: rows.map(function (r) { return Math.round(r.spendShare * 10) / 10; }), backgroundColor: '#8888a8', borderRadius: 2, barThickness: 7 },
+          { label: '% of platform-reported value ' + winShort(lb.win || 7), data: rows.map(function (r) { return Math.round((r.valueShare || 0) * 10) / 10; }), backgroundColor: '#00d4d4', borderRadius: 2, barThickness: 7 }
         ]
       },
       options: {
@@ -1584,9 +1621,10 @@
   function cardHtml(s, stacked, dates) {
     var ch = s.ch;
     var g = s.growth;
-    var wowTxt = g.wow == null ? (g.code === 'launching' ? 'new' : '') : pct(g.wow, 0) + ' WoW';
+    var W = winShort(s.win || 7);
+    var wowTxt = g.wow == null ? (g.code === 'launching' ? 'new' : '') : pct(g.wow, 0) + (s.win === 7 ? ' WoW' : s.win === 1 ? ' DoD' : ' vs prior');
     var platformNote;
-    if (s.platformDays7 > 0) platformNote = s.platformDays7 + ' of 7 days reported' + (s.platformLatest && s.end && s.platformLatest < s.end ? ' · through ' + mmdd(s.platformLatest) : '') + (s.platformBasis ? ' · ' + s.platformBasis : '');
+    if (s.platformDays7 > 0) platformNote = (s.win === 1 ? 'platform reported' : s.platformDays7 + ' of ' + s.win + ' days reported') + (s.platformLatest && s.end && s.platformLatest < s.end ? ' · through ' + mmdd(s.platformLatest) : '') + (s.platformBasis ? ' · ' + s.platformBasis : '');
     else if (s.spend7 > 0) platformNote = 'no platform read';
     else platformNote = '';
     var head = '<h3><span class="ac-dot" style="background:' + ch.color + '"></span>' + esc(ch.label)
@@ -1595,18 +1633,18 @@
       + trackingPill(s.tracking) + '</h3>';
     var nums = '<div class="ac-nums">'
       + '<div><div class="l">Yesterday</div><div class="v">' + esc(dv(ch, usd(s.yday))) + '</div><div class="s">' + (s.end ? shortDate(s.end) : '') + (ch.cashCost && s.ydayCash != null ? ' · cash ' + usd(s.ydayCash) : '') + '</div></div>'
-      + '<div><div class="l">7-day spend</div><div class="v">' + esc(dv(ch, usd(s.spend7))) + '</div><div class="s ' + growthCls(g.code) + '">' + growthArrow(g) + ' ' + esc(g.label) + (wowTxt ? ' · ' + wowTxt : '') + '</div>' + (g.code === 'incomplete' || g.code === 'stale' ? '<div class="s ac-warn">' + (ch.noDataLabel ? esc(ch.noDataLabel) + ' for ' : 'missing days are not $0 — ') + esc((s.feed && s.feed.missing7 || []).map(mmdd).join(', ') || 'feed gap') + (ch.noDataLabel ? ' · excluded from tracked spend' : '') + '</div>' : '') + '</div>'
-      + '<div><div class="l">Share 7d</div><div class="v">' + esc(dv(ch, s.share == null ? '—' : s.share.toFixed(0) + '%')) + '</div><div class="s">of tracked ad spend · 30d ' + esc(dv(ch, usd(s.spend30))) + '</div></div>'
-      + '<div><div class="l">Platform ROAS 7d</div><div class="v">' + esc(dv(ch, roasTxt(s.roas7))) + '</div><div class="s">' + esc(platformNote) + '</div></div>'
-      + '<div><div class="l">Platform revenue 7d</div><div class="v">' + esc(dv(ch, usd(s.platformRev7))) + '</div><div class="s">platform-reported, not store sales</div></div>'
-      + '<div><div class="l">Conversions 7d</div><div class="v">' + esc(dv(ch, intTxt(s.platformConv7))) + '</div><div class="s">' + (s.platformClicks7 != null ? intTxt(s.platformClicks7) + ' clicks' : '') + '</div></div>'
+      + '<div><div class="l">' + (s.win === 1 ? 'Spend (yesterday)' : s.win + '-day spend') + '</div><div class="v">' + esc(dv(ch, usd(s.spend7))) + '</div><div class="s ' + growthCls(g.code) + '">' + growthArrow(g) + ' ' + esc(g.label) + (wowTxt ? ' · ' + wowTxt : '') + '</div>' + (g.code === 'incomplete' || g.code === 'stale' ? '<div class="s ac-warn">' + (ch.noDataLabel ? esc(ch.noDataLabel) + ' for ' : 'missing days are not $0 — ') + esc((s.feed && s.feed.missing7 || []).map(mmdd).join(', ') || 'feed gap') + (ch.noDataLabel ? ' · excluded from tracked spend' : '') + '</div>' : '') + '</div>'
+      + '<div><div class="l">Share ' + W + '</div><div class="v">' + esc(dv(ch, s.share == null ? '—' : s.share.toFixed(0) + '%')) + '</div><div class="s">of tracked ad spend · 30d ' + esc(dv(ch, usd(s.spend30))) + '</div></div>'
+      + '<div><div class="l">Platform ROAS ' + W + '</div><div class="v">' + esc(dv(ch, roasTxt(s.roas7))) + '</div><div class="s">' + esc(platformNote) + '</div></div>'
+      + '<div><div class="l">Platform revenue ' + W + '</div><div class="v">' + esc(dv(ch, usd(s.platformRev7))) + '</div><div class="s">platform-reported, not store sales</div></div>'
+      + '<div><div class="l">Conversions ' + W + '</div><div class="v">' + esc(dv(ch, intTxt(s.platformConv7))) + '</div><div class="s">' + (s.platformClicks7 != null ? intTxt(s.platformClicks7) + ' clicks' : '') + '</div></div>'
       + '</div>';
     var spark = '<div class="ac-spark"><canvas id="ac-spark-' + ch.id + '"></canvas></div>'
       + '<div class="ac-legend"><span><span class="ac-dot" style="background:' + ch.color + '"></span>daily spend</span>' + (s.platformDays7 > 0 || s.platformAny ? '<span><span class="ac-dot" style="background:#e8e8f0"></span>platform-reported revenue</span>' : '') + '<span>' + esc(String(stacked)) + ' days</span></div>';
     var post = '<div class="ac-post"><span class="ac-lbl ' + s.posture.cls + '">' + esc(s.posture.label) + '</span>'
       + (s.posture.detail.length ? '<br><span class="ac-muted">' + esc(s.posture.detail.join(' · ')) + '</span>' : '')
       + (s.rank ? '<br><span class="ac-muted">Jarvis ' + mmdd(s.rankDate) + ': ' + esc(s.rank.tier || '—') + (num(s.rank.roas_7d) != null ? ' · ' + roasTxt(s.rank.roas_7d) + ' 7d' : '') + (num(s.rank.roas_28d) != null ? ' · ' + roasTxt(s.rank.roas_28d) + ' 28d' : '') + (num(s.rank.wow_spend_change_pct) != null ? ' · spend ' + pct(s.rank.wow_spend_change_pct, 0) + ' WoW' : '') + '</span>' : '')
-      + (s.d2c7 != null && s.spend7 != null && Math.abs(s.d2c7 - s.spend7) > 0.5 ? '<br><span class="ac-muted">D2C share of spend 7d: ' + usd(s.d2c7) + (ch.note ? ' — ' + esc(ch.note) : '') + '</span>' : (ch.note && ch.cashCost ? '<br><span class="ac-muted">' + esc(ch.note) + (s.cash7 != null ? ' · cash cost 7d ' + usd(s.cash7) : '') + '</span>' : ''))
+      + (s.d2c7 != null && s.spend7 != null && Math.abs(s.d2c7 - s.spend7) > 0.5 ? '<br><span class="ac-muted">D2C share of spend ' + W + ': ' + usd(s.d2c7) + (ch.note ? ' — ' + esc(ch.note) : '') + '</span>' : (ch.note && ch.cashCost ? '<br><span class="ac-muted">' + esc(ch.note) + (s.cash7 != null ? ' · cash cost 7d ' + usd(s.cash7) : '') + '</span>' : ''))
       + '</div>';
     var src = '<div class="ac-src">spend: ' + esc(s.spendSource || 'no feed') + (s.spendLatest ? ' · through ' + mmdd(s.spendLatest) : '') + (s.feed && s.feed.code === 'stale' ? ' · STALE vs portfolio ' + mmdd(s.end) : '')
       + '<br>platform: ' + esc(s.platformSource || 'none')
@@ -1643,21 +1681,25 @@
       return;
     }
     var end = series.spendThrough;
-    var stats = CHANNELS.map(function (ch) { return channelStats(ch, series, inputs, end); });
+    var win = STATE.window;                       // the selected view: 1 (yesterday), 7, 14, 28, 60, 90
+    var W = winShort(win), WL = winLabel(win);
+    var chartDays = Math.max(win, MIN_CHART_DAYS); // time-series panels always show at least a week
+    var stats = CHANNELS.map(function (ch) { return channelStats(ch, series, inputs, end, win); });
     var tracked = stats.reduce(function (a, s) { return a + n0(s.spend7); }, 0);
     stats.forEach(function (s) {
       s.share = tracked > 0 && s.spend7 != null ? s.spend7 / tracked * 100 : null;
       s.platformAny = Object.keys(series.channels[s.ch.id].days).some(function (d) { return series.channels[s.ch.id].days[d].hasPlatform; });
     });
     stats.sort(function (a, b) { return n0(b.spend7) - n0(a.spend7) || a.ch.label.localeCompare(b.ch.label); });
-    var sum = summarize(stats, series, inputs, end);
-    var win = STATE.window;
-    var dates = windowDates(end, win);
+    var sum = summarize(stats, series, inputs, end, win);
+    var dates = windowDates(end, chartDays);
     var notes = freshness(series, inputs);
 
     var html = '';
-    var lb = leaderboard(series, end, inputs.settings);
-    var hm = heatmap(series, end, HEATMAP_DAYS, inputs.settings);
+    var lb = leaderboard(series, end, inputs.settings, win);
+    var hmDays = Math.min(chartDays, MAX_HEATMAP_DAYS);
+    var hm = heatmap(series, end, hmDays, inputs.settings);
+    var endTxt = win === 1 ? esc(shortDate(end).toUpperCase()) : WL + ' ENDING ' + esc(shortDate(end).toUpperCase());
     var changesList = inputs.changes || (inputs.mer && inputs.mer.ad_channel_throttles && inputs.mer.ad_channel_throttles.recent_changes) || [];
     var markers = actionMarkers(changesList, dates);
     var merPts = merDaily(series, dates);
@@ -1665,18 +1707,19 @@
     var th = lb.thresholds;
 
     html += '<div class="ac-head"><div><h2>Ad channels · who is winning, daily</h2><div class="ac-sub">Every platform\'s own reported return against the Jarvis rule (cut &lt; ' + th.cut.toFixed(1) + 'x · hold · raise ≥ ' + th.raise.toFixed(1) + 'x), spend by channel with Jarvis actions marked, and Shop/DTC MER by day against the target. Platform value is the platform\'s own attribution: it over-credits and overlaps, compares platforms, and is never added to store revenue.</div></div>'
-      + '<div class="ac-win">' + WINDOWS.map(function (w) { return '<button data-win="' + w + '" class="' + (w === win ? 'on' : '') + '">' + w + 'D</button>'; }).join('') + '</div></div>';
+      + '<div class="ac-win" role="tablist" aria-label="Window">' + WINDOWS.map(function (w) { return '<button data-win="' + w + '" class="' + (w === win ? 'on' : '') + '" title="' + (w === 1 ? 'Yesterday only' : 'Last ' + w + ' days') + '">' + winBtn(w) + '</button>'; }).join('') + '</div></div>';
+    html += '<div class="ac-view">Showing <b>' + (win === 1 ? 'yesterday, ' + esc(shortDate(end)) : 'the ' + win + ' days ending ' + esc(shortDate(end))) + '</b>' + (win > 1 ? ' vs the ' + win + ' days before' : ' vs the day before') + ' · every panel below follows this selector' + (chartDays > win ? ' (the daily charts keep the last ' + chartDays + ' days for context)' : '') + '.</div>';
     html += '<div class="ac-asof">' + notes.map(function (n) { return '<span><b>' + esc(n.k) + ':</b> ' + esc(n.v) + ' <span class="ac-muted">(' + esc(n.src) + ')</span>' + (n.warn ? ' <span class="ac-warn-txt">⚠ ' + esc(n.warn) + '</span>' : '') + '</span>'; }).join('') + '</div>';
 
     var pooledTxt = lb.pooled ? roasTxt(lb.pooled.roas) : '—';
     var merDelta = sum.blended && merTarget != null ? sum.blended.mer - merTarget : null;
     html += '<div class="ac-kpis">'
-      + '<div class="ac-kpi"><div class="l">Blended MER 7d (D2C)</div><div class="v">' + (sum.blended ? roasTxt(sum.blended.mer) : '—') + '</div>' + (merDelta != null ? '<div class="s ' + (merDelta >= 0 ? 'ac-good' : 'ac-bad') + '">' + (merDelta >= 0 ? '+' : '−') + Math.abs(merDelta).toFixed(2) + ' vs target ' + merTarget.toFixed(2) + 'x</div>' : '') + '<div class="s">' + (sum.blended ? usd(sum.blended.rev) + ' Shopify D2C ÷ ' + usd(sum.blended.d2c) + ' D2C ads · through ' + mmdd(sum.blended.through) : 'blended series not published for this window') + '</div></div>'
-      + '<div class="ac-kpi"><div class="l">Platform ROAS 7d · pooled</div><div class="v">' + pooledTxt + '</div><div class="s">' + (lb.pooled ? usd(lb.pooled.value) + ' platform value ÷ ' + usd(lb.pooled.spend) + ' · ' + lb.pooled.platforms + ' platforms reporting' : 'no platform reads in the window') + '</div></div>'
-      + '<div class="ac-kpi"><div class="l">Above raise / below cut</div><div class="v"><span class="ac-good">' + lb.above + '</span> <span class="ac-muted">/</span> <span class="ac-bad">' + lb.below + '</span></div><div class="s">' + lb.hold + ' in hold band · 7d platform ROAS, ≥ ' + usd(th.minSpend) + ' spend</div></div>'
-      + '<div class="ac-kpi"><div class="l">Tracked ad spend 7d</div><div class="v">' + usd(sum.tracked7) + '</div><div class="s ' + (sum.trackedWow == null ? 'ac-muted' : sum.trackedWow > 0 ? 'ac-good' : sum.trackedWow < 0 ? 'ac-bad' : 'ac-muted') + '">' + (sum.missingDays7.length || sum.missingDaysPrev7.length ? '<span class="ac-warn">⚠ no channel spend for ' + esc(sum.missingDays7.concat(sum.missingDaysPrev7).map(mmdd).join(', ')) + ' — WoW withheld</span>' : sum.trackedWow == null ? 'no prior week' : pct(sum.trackedWow, 0) + ' vs prior 7d (' + usd(sum.tracked7prev) + ')') + '</div>'
-      + (sum.unmeasured7 && sum.unmeasured7.length ? '<div class="s ac-muted">measured only · excludes unmeasured days: ' + esc(sum.unmeasured7.map(function (u) { return u.label + ' ' + u.days + '/7d'; }).join(', ')) + '</div>' : '') + '</div>'
-      + '<div class="ac-kpi"><div class="l">Growing / shrinking</div><div class="v"><span class="ac-good">' + sum.growing + '</span> <span class="ac-muted">/</span> <span class="ac-bad">' + sum.shrinking + '</span></div><div class="s">' + sum.live + ' of ' + sum.channels + ' live · spend 7d vs prior 7d, ±' + GROWTH_PCT + '%' + (sum.incomplete ? ' · <span class="ac-warn">' + sum.incomplete + ' incomplete</span>' : '') + '</div></div>'
+      + '<div class="ac-kpi"><div class="l">Blended MER ' + W + ' (D2C)</div><div class="v">' + (sum.blended ? roasTxt(sum.blended.mer) : '—') + '</div>' + (merDelta != null ? '<div class="s ' + (merDelta >= 0 ? 'ac-good' : 'ac-bad') + '">' + (merDelta >= 0 ? '+' : '−') + Math.abs(merDelta).toFixed(2) + ' vs target ' + merTarget.toFixed(2) + 'x</div>' : '') + '<div class="s">' + (sum.blended ? usd(sum.blended.rev) + (sum.blended.shopDtc ? ' Shop/DTC ÷ ' + usd(sum.blended.d2c) + ' known ads (daily reports)' : ' Shopify D2C ÷ ' + usd(sum.blended.d2c) + ' D2C ads') + ' · through ' + mmdd(sum.blended.through) : 'withheld — no Shop/DTC row for ' + esc((sum.blendedMissing || []).slice(0, 4).map(mmdd).join(', ')) + ((sum.blendedMissing || []).length > 4 ? ' +' + (sum.blendedMissing.length - 4) + ' more' : '')) + '</div></div>'
+      + '<div class="ac-kpi"><div class="l">Platform ROAS ' + W + ' · pooled</div><div class="v">' + pooledTxt + '</div><div class="s">' + (lb.pooled ? usd(lb.pooled.value) + ' platform value ÷ ' + usd(lb.pooled.spend) + ' · ' + lb.pooled.platforms + ' platforms reporting' : 'no platform reads in the window') + '</div></div>'
+      + '<div class="ac-kpi"><div class="l">Above raise / below cut</div><div class="v"><span class="ac-good">' + lb.above + '</span> <span class="ac-muted">/</span> <span class="ac-bad">' + lb.below + '</span></div><div class="s">' + lb.hold + ' in hold band · ' + W + ' platform ROAS, ≥ ' + usd(th.minSpend) + ' spend</div></div>'
+      + '<div class="ac-kpi"><div class="l">Tracked ad spend ' + W + '</div><div class="v">' + usd(sum.tracked7) + '</div><div class="s ' + (sum.trackedWow == null ? 'ac-muted' : sum.trackedWow > 0 ? 'ac-good' : sum.trackedWow < 0 ? 'ac-bad' : 'ac-muted') + '">' + (sum.missingDays7.length || sum.missingDaysPrev7.length ? '<span class="ac-warn">⚠ no channel spend for ' + esc(sum.missingDays7.concat(sum.missingDaysPrev7).map(mmdd).join(', ')) + ' — comparison withheld</span>' : sum.trackedWow == null ? 'no prior ' + (win === 1 ? 'day' : 'window') : pct(sum.trackedWow, 0) + ' vs prior ' + (win === 1 ? 'day' : W) + ' (' + usd(sum.tracked7prev) + ')') + '</div>'
+      + (sum.unmeasured7 && sum.unmeasured7.length ? '<div class="s ac-muted">measured only · excludes unmeasured days: ' + esc(sum.unmeasured7.map(function (u) { return u.label + ' ' + u.days + '/' + win + 'd'; }).join(', ')) + '</div>' : '') + '</div>'
+      + '<div class="ac-kpi"><div class="l">Growing / shrinking</div><div class="v"><span class="ac-good">' + sum.growing + '</span> <span class="ac-muted">/</span> <span class="ac-bad">' + sum.shrinking + '</span></div><div class="s">' + sum.live + ' of ' + sum.channels + ' live · spend ' + W + ' vs prior ' + (win === 1 ? 'day' : W) + ', ±' + GROWTH_PCT + '%' + (sum.incomplete ? ' · <span class="ac-warn">' + sum.incomplete + ' incomplete</span>' : '') + '</div></div>'
       + '<div class="ac-kpi"><div class="l">Scaling into / cutting</div><div class="v"><span class="ac-good">' + sum.scaling + '</span> <span class="ac-muted">/</span> <span class="ac-warn">' + sum.cutting + '</span></div><div class="s">Jarvis budget actions, last ' + ACTION_RECENT_DAYS + ' days</div></div>'
       + '</div>';
 
@@ -1700,23 +1743,23 @@
     var stackList = other ? top.concat([Object.assign({}, other, { label: 'Other (' + other.names.join(', ') + ')' })]) : top;
     var leadH = Math.max(140, 40 + lb.rows.length * 26);
     html += '<div class="ac-two">'
-      + '<div class="ac-panel"><div class="section-title">WHO IS WINNING · PLATFORM ROAS, 7 DAYS ENDING ' + esc(shortDate(end).toUpperCase()) + '</div>'
-      + (lb.rows.length ? '<div class="ac-lead" style="height:' + leadH + 'px"><canvas id="ac-lead"></canvas></div>' : '<div class="ac-empty">No platform-reported value in the last 7 days.</div>')
-      + '<div class="ac-foot">Bar = platform-reported purchase value ÷ that platform\'s own spend over the days it reported (daily report “Who\'s performing”, ' + esc(th.source) + ' thresholds). Grey = under ' + usd(th.minSpend) + ' in 7 days, not judged.' + (lb.noRead.length ? ' No platform read this week: ' + esc(lb.noRead.join(', ')) + '.' : '') + '</div></div>'
-      + '<div class="ac-panel"><div class="section-title">SPEND SHARE VS VALUE SHARE · 7 DAYS</div>'
+      + '<div class="ac-panel"><div class="section-title">WHO IS WINNING · PLATFORM ROAS, ' + endTxt + '</div>'
+      + (lb.rows.length ? '<div class="ac-lead" style="height:' + leadH + 'px"><canvas id="ac-lead"></canvas></div>' : '<div class="ac-empty">No platform-reported value ' + (win === 1 ? 'for ' + esc(shortDate(end)) : 'in the last ' + win + ' days') + '.</div>')
+      + '<div class="ac-foot">Bar = platform-reported purchase value ÷ that platform\'s own spend over the days it reported (daily report “Who\'s performing”, ' + esc(th.source) + ' thresholds). Grey = under ' + usd(th.minSpend) + (win === 1 ? ' on the day' : ' in ' + win + ' days') + ', not judged (rule: ' + usd(th.minSpend7) + ' per 7 days).' + (lb.noRead.length ? ' No platform read in this window: ' + esc(lb.noRead.join(', ')) + '.' : '') + '</div></div>'
+      + '<div class="ac-panel"><div class="section-title">SPEND SHARE VS VALUE SHARE · ' + WL + '</div>'
       + (lb.rows.length ? '<div class="ac-lead" style="height:' + leadH + 'px"><canvas id="ac-shares"></canvas></div>' : '<div class="ac-empty">—</div>')
       + '<div class="ac-foot">Among the platforms that reported. A platform whose value share is far below its spend share is where the budget is least efficient on its own numbers.</div></div>'
       + '</div>';
-    html += '<div class="ac-panel"><div class="section-title">PLATFORM ROAS BY DAY · LAST ' + HEATMAP_DAYS + ' DAYS</div>' + heatmapHtml(hm) + '</div>';
-    html += '<div class="ac-panel"><div class="section-title">DAILY AD SPEND BY CHANNEL · LAST ' + win + ' DAYS' + (markers.length ? ' · ' + markers.length + ' JARVIS ACTION' + (markers.length === 1 ? '' : 'S') + ' MARKED' : '') + '</div><div class="ac-chart"><canvas id="ac-stack"></canvas></div></div>';
-    html += '<div class="ac-panel"><div class="section-title">SHOP/DTC MER BY DAY · LAST ' + win + ' DAYS</div>'
+    html += '<div class="ac-panel"><div class="section-title">PLATFORM ROAS BY DAY · LAST ' + hmDays + ' DAYS' + (hmDays < win ? ' OF ' + win : '') + '</div>' + heatmapHtml(hm) + '</div>';
+    html += '<div class="ac-panel"><div class="section-title">DAILY AD SPEND BY CHANNEL · LAST ' + chartDays + ' DAYS' + (markers.length ? ' · ' + markers.length + ' JARVIS ACTION' + (markers.length === 1 ? '' : 'S') + ' MARKED' : '') + '</div><div class="ac-chart"><canvas id="ac-stack"></canvas></div></div>';
+    html += '<div class="ac-panel"><div class="section-title">SHOP/DTC MER BY DAY · LAST ' + chartDays + ' DAYS</div>'
       + (merPts.some(function (p) { return p.mer != null; }) ? '<div class="ac-strip"><canvas id="ac-mer"></canvas></div>' : '<div class="ac-empty">No Shop/DTC rows in the daily reports for this window.</div>')
       + '<div class="ac-foot">Shop/DTC revenue ÷ known ad spend from each daily report (same numbers as the Daily Reports tab; partial days are provisional). Band = the Jarvis hold band; green line = owner MER target' + (merTarget != null ? ' ' + merTarget.toFixed(2) + 'x' : ' (not published)') + '.</div></div>';
     html += '<div class="ac-panel"><div class="section-title">JARVIS BUDGET ACTIONS</div>' + actionLogHtml(changesList, end) + '</div>';
 
     // portfolio table
-    html += '<div class="ac-panel"><div class="section-title">PORTFOLIO · 7 DAYS ENDING ' + esc(shortDate(end).toUpperCase()) + '</div><div class="ac-table-wrap"><table class="ac-table"><thead><tr>'
-      + '<th>Channel</th><th>Status</th><th>Posture</th><th>Yesterday</th><th>7d spend</th><th>WoW</th><th>Trend</th><th>Share</th><th>30d</th><th>Plat. rev 7d</th><th>Plat. ROAS 7d</th><th>Conv 7d</th><th>Tracking</th><th>Last Jarvis action</th>'
+    html += '<div class="ac-panel"><div class="section-title">PORTFOLIO · ' + endTxt + '</div><div class="ac-table-wrap"><table class="ac-table"><thead><tr>'
+      + '<th>Channel</th><th>Status</th><th>Posture</th><th>Yesterday</th><th>' + (win === 1 ? 'Spend' : W + ' spend') + '</th><th>' + (win === 7 ? 'WoW' : 'vs prior') + '</th><th>Trend</th><th>Share</th><th>30d</th><th>Plat. rev ' + W + '</th><th>Plat. ROAS ' + W + '</th><th>Conv ' + W + '</th><th>Tracking</th><th>Last Jarvis action</th>'
       + '</tr></thead><tbody>';
     stats.forEach(function (s) {
       html += '<tr data-ch="' + s.ch.id + '"><td><span class="ac-dot" style="background:' + s.ch.color + '"></span>' + esc(s.ch.label) + '</td>'
@@ -1726,7 +1769,7 @@
         + '<td class="' + growthCls(s.growth.code) + '">' + (s.growth.wow == null ? '—' : pct(s.growth.wow, 0)) + '</td>'
         + '<td class="' + growthCls(s.growth.code) + '">' + growthArrow(s.growth) + ' ' + esc(s.growth.label) + '</td>'
         + '<td>' + esc(dv(s.ch, s.share == null || s.spend7 == null ? '—' : s.share.toFixed(0) + '%')) + '</td><td>' + esc(dv(s.ch, usd(s.spend30))) + (s.spend30Days != null && s.spend30Days < 30 && s.spend30 != null ? ' <span class="ac-muted">(' + s.spend30Days + 'd)</span>' : '') + '</td>'
-        + '<td>' + esc(dv(s.ch, usd(s.platformRev7))) + '</td><td>' + esc(dv(s.ch, roasTxt(s.roas7))) + (s.platformDays7 > 0 && s.platformDays7 < 7 ? ' <span class="ac-muted">(' + s.platformDays7 + 'd)</span>' : '') + '</td><td>' + esc(dv(s.ch, intTxt(s.platformConv7))) + '</td>'
+        + '<td>' + esc(dv(s.ch, usd(s.platformRev7))) + '</td><td>' + esc(dv(s.ch, roasTxt(s.roas7))) + (s.platformDays7 > 0 && s.platformDays7 < win ? ' <span class="ac-muted">(' + s.platformDays7 + 'd)</span>' : '') + '</td><td>' + esc(dv(s.ch, intTxt(s.platformConv7))) + '</td>'
         + '<td class="' + (s.tracking === 'OK' ? 'ac-good' : s.tracking === 'WARN' ? 'ac-warn' : s.tracking === 'DOWN' ? 'ac-bad' : 'ac-muted') + '">' + esc(s.tracking || '—') + '</td>'
         + '<td class="ac-muted" style="font-family:var(--font-body);text-align:left">' + esc(s.change ? actionLabel(s.change) : '—') + '</td></tr>';
     });
@@ -1877,6 +1920,10 @@
     markerLabel: markerLabel,
     merDaily: merDaily,
     dayRoas: dayRoas,
+    WINDOWS: WINDOWS,
+    DEFAULT_WINDOW: DEFAULT_WINDOW,
+    minSpendFor: minSpendFor,
+    winLabel: winLabel,
     windowDates: windowDates,
     render: render,
     load: load,

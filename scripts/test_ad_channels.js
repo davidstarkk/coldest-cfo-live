@@ -599,7 +599,10 @@ test('current published 11/5 feed is current, not made stale by old embedded row
   var mer = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'fixtures', 'cfo_2026_11_05_mer.json'), 'utf8'));
   var seriesFile = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, 'fixtures', 'cfo_2026_11_05_series.json'), 'utf8'));
   assert.strictEqual(mer.as_of, '2026-11-05');
-  var inp = { embedded: liveEmbedded(), mer: mer, seriesFile: seriesFile,
+  // The live page keeps advancing with the mirror sync; this fixture is a frozen 11/5 review, so
+  // only embedded rows up to its as_of take part.
+  var embedded1105 = liveEmbedded().filter(function (r) { return r && r.date < '2026-11-05'; });
+  var inp = { embedded: embedded1105, mer: mer, seriesFile: seriesFile,
     settings: require('../ads_throttle/settings.json'), changes: require('../ads_throttle/changes.json'),
     rankings: require('../ads_throttle/rankings.json'), tracking: require('../ads_throttle/tracking_health.json'),
     channelFiles: { bing: require('../bing_ads_data.json'), chatgpt: require('../chatgpt_ads_data.json') }
@@ -770,6 +773,52 @@ test('Spotify: not-launched config → NOT LAUNCHED with no metrics; absence alo
   assert.notStrictEqual(bare.stats.posture.code, 'killed');
   assert.notStrictEqual(bare.stats.statusLabel, 'NOT LIVE');
   assert.strictEqual(bare.stats.statusLabel, 'No data');
+});
+
+/* ---------------------------------------------- window selector: yesterday / 7 / 14 / 28 / 60 / 90 */
+test('window length drives stats, summary and leaderboard; yesterday view compares to the day before', function () {
+  assert.deepStrictEqual(A.WINDOWS, [1, 7, 14, 28, 60, 90]);
+  assert.strictEqual(A.DEFAULT_WINDOW, 7);
+  var rows = perfRows('2026-11-04', 28);
+  var s = A.buildSeries({ embedded: rows, mer: null });
+  var meta = A.CHANNELS[0];
+  var d1 = A.channelStats(meta, s, { settings: SETTINGS }, '2026-11-04', 1);
+  assert.strictEqual(d1.win, 1);
+  assert.strictEqual(d1.spend7, 10000);                    // one day
+  assert.strictEqual(d1.prev7, 10000);                     // the day before
+  assert.strictEqual(d1.growth.code, 'flat');
+  assert.strictEqual(d1.platformDays7, 1);
+  assert.strictEqual(d1.roas7, 2.4);
+  var d14 = A.channelStats(meta, s, { settings: SETTINGS }, '2026-11-04', 14);
+  assert.strictEqual(d14.win, 14);
+  assert.strictEqual(d14.spend7, 140000);
+  assert.strictEqual(d14.spend7Days, 14);
+  assert.strictEqual(d14.growth.code, 'flat');             // 14 vs prior 14 both complete
+  var d28 = A.channelStats(meta, s, { settings: SETTINGS }, '2026-11-04', 28);
+  assert.strictEqual(d28.growth.code, 'incomplete');       // prior 28 has no rows
+  assert.strictEqual(d28.growth.label, 'INCOMPLETE · 28/28 + 0/28 days');
+  var statsAll = A.CHANNELS.map(function (ch) { return A.channelStats(ch, s, { settings: SETTINGS }, '2026-11-04', 1); });
+  var sum1 = A.summarize(statsAll, s, { settings: SETTINGS }, '2026-11-04', 1);
+  assert.strictEqual(sum1.win, 1);
+  assert.strictEqual(sum1.tracked7, 10000 + 2000 + 3000 + 500 + 20);
+  assert.strictEqual(sum1.trackedWow, 0);
+  // leaderboard min spend scales with the window: $200/7d → $100 floor per day for yesterday, $400 for 14d
+  var th = A.thresholds(SETTINGS);
+  assert.strictEqual(A.minSpendFor(th, 1), 100);
+  assert.strictEqual(A.minSpendFor(th, 7), 200);
+  assert.strictEqual(A.minSpendFor(th, 14), 400);
+  assert.strictEqual(A.minSpendFor(th, 3), 300);           // 3 × $100/day floor beats 3/7 × $200
+  var lb1 = A.leaderboard(s, '2026-11-04', SETTINGS, 1);
+  assert.strictEqual(lb1.win, 1);
+  assert.strictEqual(lb1.thresholds.minSpend, 100);
+  assert.strictEqual(lb1.thresholds.minSpend7, 200);
+  var by1 = {}; lb1.rows.forEach(function (r) { by1[r.id] = r; });
+  assert.strictEqual(by1.meta.spend7, 9990); assert.strictEqual(by1.meta.days, 1); assert.strictEqual(by1.meta.band, 'hold');
+  assert.strictEqual(by1.bing_ads.band, 'low');            // $20 on the day
+  var lb14 = A.leaderboard(s, '2026-11-04', SETTINGS, 14);
+  assert.strictEqual(lb14.rows.filter(function (r) { return r.id === 'meta'; })[0].spend7, 9990 * 14);
+  assert.strictEqual(lb14.thresholds.minSpend, 400);
+  assert.strictEqual(A.winLabel(1), 'YESTERDAY'); assert.strictEqual(A.winLabel(28), '28 DAYS');
 });
 
 if (failed) {
