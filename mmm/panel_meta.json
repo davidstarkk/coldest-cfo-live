@@ -1,0 +1,217 @@
+{
+  "panel_version": 1,
+  "as_of": "2026-11-03",
+  "computed_at": "2026-11-04T16:05:21Z",
+  "kpi": "shopify_net_revenue_ex_tax (Shopify D2C net, same definition as blended_mer)",
+  "rows": 947,
+  "first_day": "2024-04-01",
+  "last_day": "2026-11-03",
+  "channels": [
+    "meta",
+    "google",
+    "tiktok_web",
+    "tiktok_shop",
+    "applovin",
+    "bing",
+    "pinterest",
+    "snapchat",
+    "reddit",
+    "chatgpt",
+    "taboola",
+    "outbrain",
+    "x",
+    "amazon",
+    "whatnot"
+  ],
+  "d2c_channels": [
+    "meta",
+    "google",
+    "tiktok_web",
+    "applovin",
+    "bing",
+    "pinterest",
+    "snapchat",
+    "reddit",
+    "chatgpt",
+    "taboola",
+    "outbrain",
+    "x"
+  ],
+  "non_d2c_channels": [
+    "tiktok_shop",
+    "amazon",
+    "whatnot"
+  ],
+  "missing_kpi_days": [
+    "2026-10-09"
+  ],
+  "company_history_only_days": 912,
+  "data_sufficiency": {
+    "sufficient_for_mmm": false,
+    "min_days_required": 180,
+    "consecutive_usable_days": 34,
+    "run_days": 36,
+    "kpi_gap_days_in_run": [
+      "2026-10-09",
+      "2026-10-10"
+    ],
+    "usable_span": {
+      "start": "2026-09-28",
+      "end": "2026-11-02"
+    },
+    "days_with_channel_split": 35,
+    "days_with_kpi": 837,
+    "reasons": [
+      "only 34 usable days in the longest per-channel run (36 days, 2 missing spend or Shopify revenue); need 180"
+    ],
+    "channels": {
+      "meta": {
+        "days_reported": 35,
+        "days_with_spend": 35,
+        "spend_cv": 0.282,
+        "d2c_share_pct": 73.66,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": false
+      },
+      "google": {
+        "days_reported": 32,
+        "days_with_spend": 32,
+        "spend_cv": 0.358,
+        "d2c_share_pct": 11.39,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": false
+      },
+      "tiktok_web": {
+        "days_reported": 35,
+        "days_with_spend": 35,
+        "spend_cv": 0.521,
+        "d2c_share_pct": 13.2,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": false
+      },
+      "tiktok_shop": {
+        "days_reported": 35,
+        "days_with_spend": 35,
+        "spend_cv": 0.499,
+        "d2c_share_pct": null,
+        "d2c": false,
+        "curve_eligible": false,
+        "prior_dominated_expected": false
+      },
+      "applovin": {
+        "days_reported": 35,
+        "days_with_spend": 7,
+        "spend_cv": 0.297,
+        "d2c_share_pct": 0.34,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "bing": {
+        "days_reported": 35,
+        "days_with_spend": 29,
+        "spend_cv": 2.207,
+        "d2c_share_pct": 0.13,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "pinterest": {
+        "days_reported": 35,
+        "days_with_spend": 6,
+        "spend_cv": 0.609,
+        "d2c_share_pct": 0.1,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "snapchat": {
+        "days_reported": 35,
+        "days_with_spend": 9,
+        "spend_cv": 0.294,
+        "d2c_share_pct": 0.75,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "reddit": {
+        "days_reported": 35,
+        "days_with_spend": 3,
+        "spend_cv": 0.391,
+        "d2c_share_pct": 0.2,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "chatgpt": {
+        "days_reported": 35,
+        "days_with_spend": 5,
+        "spend_cv": 0.485,
+        "d2c_share_pct": 0.23,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "taboola": {
+        "days_reported": 35,
+        "days_with_spend": 0,
+        "spend_cv": null,
+        "d2c_share_pct": 0.0,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "outbrain": {
+        "days_reported": 35,
+        "days_with_spend": 0,
+        "spend_cv": null,
+        "d2c_share_pct": 0.0,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "x": {
+        "days_reported": 35,
+        "days_with_spend": 0,
+        "spend_cv": null,
+        "d2c_share_pct": 0.0,
+        "d2c": true,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      },
+      "amazon": {
+        "days_reported": 34,
+        "days_with_spend": 34,
+        "spend_cv": 0.231,
+        "d2c_share_pct": null,
+        "d2c": false,
+        "curve_eligible": false,
+        "prior_dominated_expected": false
+      },
+      "whatnot": {
+        "days_reported": 35,
+        "days_with_spend": 26,
+        "spend_cv": 0.459,
+        "d2c_share_pct": null,
+        "d2c": false,
+        "curve_eligible": false,
+        "prior_dominated_expected": true
+      }
+    }
+  },
+  "sources": [
+    "private_finance_data/data.db daily_inputs (dedupe by source, day)",
+    "advertising_sources_daily.json spend_d2c (minor channels)",
+    "<channel>_ads_daily.json fallback",
+    "index.html REPORTS / MERGED_DATA (closed-day revenue context; company history without channel split)",
+    "mmm/events.json + mmm/studios_events.json (named events)"
+  ],
+  "never": [
+    "zero-fill a missing day",
+    "invent spend or revenue",
+    "fit below min_days_required"
+  ]
+}
