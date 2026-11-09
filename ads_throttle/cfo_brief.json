@@ -1,0 +1,859 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-08",
+  "computed_at": "2026-11-09T23:46:26Z",
+  "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
+  "rule": {
+    "source": "ads_throttle/settings.json",
+    "roas_source": "platform_reported",
+    "raise_above_roas": 2.8,
+    "cut_below_roas": 2.0,
+    "min_spend_7d": 200.0,
+    "step_pct": 20,
+    "window_days": 7
+  },
+  "portfolio": {
+    "mer_7d": 1.9863,
+    "mer_30d": 2.2773,
+    "mer_target": 3.24,
+    "mer_gap": -1.25,
+    "stance": "below_target",
+    "d2c_revenue_7d": 201869.75,
+    "d2c_spend_7d": 101629.68,
+    "channel_spend_7d": 101492.68,
+    "spend_judged_pct": 75.3,
+    "spend_in_auto_mode_pct": 18.2,
+    "excluded_from_d2c_spend": [
+      {
+        "channel": "bing",
+        "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
+      },
+      {
+        "channel": "reddit",
+        "reason": "reddit_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
+      },
+      {
+        "channel": "chatgpt",
+        "reason": "chatgpt_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
+      }
+    ]
+  },
+  "summary": {
+    "act_now": [
+      "snapchat"
+    ],
+    "by_verdict": {
+      "cut": [
+        "google",
+        "x"
+      ],
+      "hold": [
+        "meta",
+        "tiktok"
+      ],
+      "insufficient": [
+        "bing",
+        "chatgpt",
+        "spotify"
+      ],
+      "not_launched": [
+        "outbrain"
+      ],
+      "paused": [
+        "pinterest",
+        "taboola"
+      ],
+      "raise": [
+        "applovin",
+        "snapchat"
+      ],
+      "tracking_down": [
+        "reddit"
+      ]
+    },
+    "open_asks": 12,
+    "open_asks_high": 5,
+    "feed_status": "degraded"
+  },
+  "channels": {
+    "meta": {
+      "label": "Meta",
+      "mode": "frozen",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "verdict": "hold",
+      "rule_says": "Hold - in band",
+      "actionable": false,
+      "blockers": [
+        "mode:frozen"
+      ],
+      "cautions": [
+        "tracking_health is 9 days old",
+        "ROAS from daily_inputs.platform_roas (account-day read), not the channel daily file"
+      ],
+      "spend_7d": 70102.91,
+      "spend_days_measured": 7,
+      "roas_7d": 2.26,
+      "roas_days": 7,
+      "roas_source": "daily_inputs.platform_roas",
+      "platform_revenue_7d": 159011.57,
+      "roas_prior_7d": 2.13,
+      "spend_prior_7d": 64016.05,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 2.26,
+        "spend_7d": 70336.51,
+        "tier": "Lagging",
+        "tier_label": "Lagging (improving)",
+        "tracking": "OK (EMQ 9.2, CAPI 99.6%)",
+        "roas_gap_pct": 0.0
+      },
+      "mmm_verdict": null
+    },
+    "google": {
+      "label": "Google Ads",
+      "mode": "auto",
+      "owner_bot": "Google \u00b7 Ads",
+      "verdict": "cut",
+      "rule_says": "Cut -20% + new strategy",
+      "actionable": false,
+      "blockers": [
+        "roas_disputed"
+      ],
+      "cautions": [
+        "tracking_health is 9 days old",
+        "ROAS from daily_inputs.platform_roas (account-day read), not the channel daily file"
+      ],
+      "spend_7d": 13902.66,
+      "spend_days_measured": 7,
+      "roas_7d": 1.53,
+      "roas_days": 7,
+      "roas_source": "daily_inputs.platform_roas",
+      "platform_revenue_7d": 21155.41,
+      "roas_prior_7d": 2.06,
+      "spend_prior_7d": 12971.2,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": {
+        "date": "2026-10-29",
+        "action": "cut_20pct_and_change_strategy"
+      },
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 6.07,
+        "spend_7d": 13860.35,
+        "tier": "Steady",
+        "tier_label": "Steady",
+        "tracking": "OK; attribution ratio 1.70 -> raises frozen",
+        "roas_gap_pct": 74.8
+      },
+      "mmm_verdict": null
+    },
+    "tiktok": {
+      "label": "TikTok (website)",
+      "mode": "view",
+      "owner_bot": null,
+      "verdict": "hold",
+      "rule_says": "Hold - in band",
+      "actionable": false,
+      "blockers": [
+        "mode:view",
+        "roas_disputed"
+      ],
+      "cautions": [
+        "ROAS from daily_inputs.platform_roas (account-day read), not the channel daily file"
+      ],
+      "spend_7d": 10329.52,
+      "spend_days_measured": 7,
+      "roas_7d": 2.39,
+      "roas_days": 7,
+      "roas_source": "daily_inputs.platform_roas",
+      "platform_revenue_7d": 38069.53,
+      "roas_prior_7d": 2.97,
+      "spend_prior_7d": 7576.37,
+      "tracking_status": "unknown",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 3.36,
+        "spend_7d": 15932.47,
+        "tier": "Steady",
+        "tier_label": "Steady",
+        "tracking": "OK",
+        "roas_gap_pct": 28.9
+      },
+      "mmm_verdict": null
+    },
+    "snapchat": {
+      "label": "Snapchat",
+      "mode": "auto",
+      "owner_bot": "snapchat ads bot",
+      "verdict": "raise",
+      "rule_says": "Scale +20%",
+      "actionable": true,
+      "blockers": [],
+      "cautions": [
+        "tracking_health is 9 days old",
+        "tracking WARN"
+      ],
+      "spend_7d": 3791.93,
+      "spend_days_measured": 7,
+      "roas_7d": 8.67,
+      "roas_days": 7,
+      "roas_source": "channel daily file",
+      "platform_revenue_7d": 32862.12,
+      "roas_prior_7d": 7.42,
+      "spend_prior_7d": 2590.78,
+      "tracking_status": "WARN",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": {
+        "date": "2026-10-30",
+        "action": "raise_20pct"
+      },
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 8.37,
+        "spend_7d": 3791.93,
+        "tier": "Lead",
+        "tier_label": "Lead (view-through caveat)",
+        "tracking": "OK (connector slot-limited until 11/17)",
+        "roas_gap_pct": 3.5
+      },
+      "mmm_verdict": null
+    },
+    "applovin": {
+      "label": "AppLovin",
+      "mode": "view",
+      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
+      "verdict": "raise",
+      "rule_says": "Scale +20%",
+      "actionable": false,
+      "blockers": [
+        "mode:view"
+      ],
+      "cautions": [],
+      "spend_7d": 1153.21,
+      "spend_days_measured": 7,
+      "roas_7d": 3.73,
+      "roas_days": 7,
+      "roas_source": "channel daily file",
+      "platform_revenue_7d": 4300.77,
+      "roas_prior_7d": 1.8,
+      "spend_prior_7d": 1253.73,
+      "tracking_status": "unknown",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 3.73,
+        "spend_7d": 1153.21,
+        "tier": "Lead",
+        "tier_label": "Lead (2nd week)",
+        "tracking": "OK; Shopify broad-union 79 vs 80 platform (ratio 1.01)",
+        "roas_gap_pct": 0.0
+      },
+      "mmm_verdict": null
+    },
+    "bing": {
+      "label": "Bing",
+      "mode": "auto",
+      "owner_bot": "Bing Ads bot",
+      "verdict": "insufficient",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "feed_gap:4/7 days measured"
+      ],
+      "cautions": [
+        "tracking_health is 9 days old"
+      ],
+      "spend_7d": 307.26,
+      "spend_days_measured": 4,
+      "roas_7d": null,
+      "roas_days": 4,
+      "roas_source": "channel daily file",
+      "platform_revenue_7d": null,
+      "roas_prior_7d": 6.01,
+      "spend_prior_7d": 463.2,
+      "tracking_status": "OK",
+      "feed_status": "stale",
+      "last_measured_day": "2026-11-05",
+      "last_change": {
+        "date": "2026-10-27",
+        "action": "cut_20pct_and_change_strategy"
+      },
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 4.2,
+        "spend_7d": 918.86,
+        "tier": "Steady",
+        "tier_label": "Steady",
+        "tracking": "OK (ratio 0.74 in band)"
+      },
+      "mmm_verdict": null
+    },
+    "x": {
+      "label": "X",
+      "mode": "view",
+      "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
+      "verdict": "cut",
+      "rule_says": "Cut -20% + new strategy",
+      "actionable": false,
+      "blockers": [
+        "mode:view"
+      ],
+      "cautions": [],
+      "spend_7d": 893.37,
+      "spend_days_measured": 7,
+      "roas_7d": 1.37,
+      "roas_days": 7,
+      "roas_source": "channel daily file",
+      "platform_revenue_7d": 1227.63,
+      "roas_prior_7d": null,
+      "spend_prior_7d": 0.0,
+      "tracking_status": "unknown",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 1.37,
+        "spend_7d": 893.37,
+        "tier": "Lagging",
+        "tier_label": "Lagging (launch week)",
+        "tracking": "OK; raises frozen (6 Shopify vs 15 platform)",
+        "roas_gap_pct": 0.0
+      },
+      "mmm_verdict": null
+    },
+    "reddit": {
+      "label": "Reddit",
+      "mode": "hold",
+      "owner_bot": "reddit bot",
+      "verdict": "tracking_down",
+      "rule_says": "Hold - tracking down",
+      "actionable": false,
+      "blockers": [
+        "mode:hold",
+        "feed_gap:4/7 days measured",
+        "tracking_down"
+      ],
+      "cautions": [
+        "tracking_health is 9 days old",
+        "ROAS from daily_inputs.platform_roas (account-day read), not the channel daily file"
+      ],
+      "spend_7d": 506.05,
+      "spend_days_measured": 4,
+      "roas_7d": null,
+      "roas_days": 7,
+      "roas_source": "channel daily file + daily_inputs.platform_roas",
+      "platform_revenue_7d": null,
+      "roas_prior_7d": 1.42,
+      "spend_prior_7d": null,
+      "tracking_status": "DOWN",
+      "feed_status": "stale",
+      "last_measured_day": "2026-11-05",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 1.25,
+        "spend_7d": 935.17,
+        "tier": "Closed",
+        "tier_label": "CLOSED (David 2026-11-09, reopen ~May 2027)",
+        "tracking": "WARN (10 platform vs 1 Shopify; 7/10 view-through)"
+      },
+      "mmm_verdict": null
+    },
+    "pinterest": {
+      "label": "Pinterest",
+      "mode": "hold",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "verdict": "paused",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "mode:hold",
+        "spend_stopped:2026-10-31"
+      ],
+      "cautions": [
+        "tracking_health is 9 days old"
+      ],
+      "spend_7d": 0.0,
+      "spend_days_measured": 7,
+      "roas_7d": null,
+      "roas_days": 7,
+      "roas_source": null,
+      "platform_revenue_7d": null,
+      "roas_prior_7d": 0.28,
+      "spend_prior_7d": 413.45,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": {
+        "date": "2026-10-29",
+        "action": "kill_under_1x"
+      },
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": null,
+        "spend_7d": 0.0,
+        "tier": "Paused",
+        "tier_label": "Paused (since 10/31)",
+        "tracking": "OK (no spend)"
+      },
+      "mmm_verdict": null
+    },
+    "chatgpt": {
+      "label": "ChatGPT",
+      "mode": "auto",
+      "owner_bot": "ads bot for chatgpt",
+      "verdict": "insufficient",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "feed_gap:4/7 days measured"
+      ],
+      "cautions": [
+        "tracking_health is 9 days old"
+      ],
+      "spend_7d": 0.0,
+      "spend_days_measured": 4,
+      "roas_7d": null,
+      "roas_days": 4,
+      "roas_source": null,
+      "platform_revenue_7d": null,
+      "roas_prior_7d": 0.0,
+      "spend_prior_7d": 932.92,
+      "tracking_status": "OK",
+      "feed_status": "stale",
+      "last_measured_day": "2026-11-05",
+      "last_change": {
+        "date": "2026-10-30",
+        "action": "kill_under_1x"
+      },
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": null,
+        "spend_7d": 0.0,
+        "tier": "Paused",
+        "tier_label": "Paused (since 10/30)",
+        "tracking": "OK (no spend)"
+      },
+      "mmm_verdict": null
+    },
+    "taboola": {
+      "label": "Taboola",
+      "mode": "auto",
+      "owner_bot": null,
+      "verdict": "paused",
+      "rule_says": "Kill - under 1x",
+      "actionable": false,
+      "blockers": [
+        "spend_stopped:2026-11-04"
+      ],
+      "cautions": [],
+      "spend_7d": 505.77,
+      "spend_days_measured": 7,
+      "roas_7d": 0.0,
+      "roas_days": 7,
+      "roas_source": "channel daily file",
+      "platform_revenue_7d": 0.0,
+      "roas_prior_7d": null,
+      "spend_prior_7d": 0.0,
+      "tracking_status": "unknown",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": 0.0,
+        "spend_7d": 505.77,
+        "tier": "Paused",
+        "tier_label": "Paused (since 11/4) - not enough data / broken click quality",
+        "tracking": "WARN"
+      },
+      "mmm_verdict": null
+    },
+    "outbrain": {
+      "label": "Outbrain",
+      "mode": "auto",
+      "owner_bot": "outbrain ads",
+      "verdict": "not_launched",
+      "rule_says": "Not launched",
+      "actionable": false,
+      "blockers": [],
+      "cautions": [],
+      "spend_7d": 0.0,
+      "spend_days_measured": 6,
+      "roas_7d": null,
+      "roas_days": 6,
+      "roas_source": null,
+      "platform_revenue_7d": null,
+      "roas_prior_7d": null,
+      "spend_prior_7d": null,
+      "tracking_status": "unknown",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-08",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-09",
+        "roas_7d": null,
+        "spend_7d": 0.0,
+        "tier": "Not live",
+        "tier_label": "Not live",
+        "tracking": "n/a"
+      },
+      "mmm_verdict": null
+    },
+    "spotify": {
+      "label": "Spotify",
+      "mode": "view",
+      "owner_bot": null,
+      "verdict": "insufficient",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "mode:view"
+      ],
+      "cautions": [],
+      "spend_7d": null,
+      "spend_days_measured": 0,
+      "roas_7d": null,
+      "roas_days": 0,
+      "roas_source": null,
+      "platform_revenue_7d": null,
+      "roas_prior_7d": null,
+      "spend_prior_7d": null,
+      "tracking_status": "unknown",
+      "feed_status": "quiet",
+      "last_measured_day": null,
+      "last_change": null,
+      "grok": null,
+      "mmm_verdict": null
+    }
+  },
+  "asks": [
+    {
+      "id": "feed.bing",
+      "severity": "high",
+      "channel": "bing",
+      "owner": "Bing Ads bot",
+      "title": "Bing: no measured row since 2026-11-05",
+      "detail": "bing_ads_daily.json has no measured row for 2026-11-06, 2026-11-07, 2026-11-08. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+      "first_seen": "2026-11-09",
+      "age_days": 0,
+      "evidence": {
+        "missing_days": [
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-08"
+        ],
+        "last_measured_day": "2026-11-05"
+      }
+    },
+    {
+      "id": "feed.reddit",
+      "severity": "high",
+      "channel": "reddit",
+      "owner": "reddit bot",
+      "title": "Reddit: no measured row since 2026-11-05",
+      "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-07, 2026-11-08. The platform reported spend on 2026-11-06 ($142.88), 2026-11-07 ($158.10), 2026-11-08 ($143.78). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+      "first_seen": "2026-11-09",
+      "age_days": 0,
+      "evidence": {
+        "missing_days": [
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-08"
+        ],
+        "last_measured_day": "2026-11-05"
+      }
+    },
+    {
+      "id": "file.tracking_health.stale",
+      "severity": "high",
+      "channel": null,
+      "owner": "Jarvis (daily)",
+      "title": "ads_throttle/tracking_health.json is 9 days old",
+      "detail": "Last written 2026-10-31T08:40:00-04:00; expected at most 2 days old (Jarvis (daily)). Hold - tracking down only fires from this file, so a stale OK can let a broken pixel be scaled.",
+      "first_seen": "2026-11-09",
+      "age_days": 0
+    },
+    {
+      "id": "roas.google.disputed",
+      "severity": "high",
+      "channel": "google",
+      "owner": "Google \u00b7 Ads",
+      "title": "Google Ads: CFO reads 1.53x, Grok reads 6.07x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 1.53x (daily_inputs.platform_roas, 2026-11-02..2026-11-08) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "first_seen": "2026-11-09",
+      "age_days": 0,
+      "evidence": {
+        "cfo_roas_7d": 1.53,
+        "grok_roas_7d": 6.07,
+        "gap_pct": 74.8
+      }
+    },
+    {
+      "id": "roas.tiktok.disputed",
+      "severity": "high",
+      "channel": "tiktok",
+      "owner": null,
+      "title": "TikTok (website): CFO reads 2.39x, Grok reads 3.36x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 2.39x (daily_inputs.platform_roas, 2026-11-02..2026-11-08) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "first_seen": "2026-11-09",
+      "age_days": 0,
+      "evidence": {
+        "cfo_roas_7d": 2.39,
+        "grok_roas_7d": 3.36,
+        "gap_pct": 28.9
+      }
+    },
+    {
+      "id": "changes.taboola.unlogged",
+      "severity": "medium",
+      "channel": "taboola",
+      "owner": null,
+      "title": "Taboola: spend stopped after 2026-11-04 with no entry in changes.json",
+      "detail": "Log the pause in ads_throttle/changes.json (date, channel, action, old_budget, new_budget, by) so the change-outcome history stays complete.",
+      "first_seen": "2026-11-09",
+      "age_days": 0,
+      "evidence": {
+        "last_spend_day": "2026-11-04"
+      }
+    },
+    {
+      "id": "feed.chatgpt",
+      "severity": "medium",
+      "channel": "chatgpt",
+      "owner": "ads bot for chatgpt",
+      "title": "ChatGPT: no measured row since 2026-11-05",
+      "detail": "chatgpt_ads_daily.json has no measured row for 2026-11-06, 2026-11-07, 2026-11-08. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+      "first_seen": "2026-11-09",
+      "age_days": 0,
+      "evidence": {
+        "missing_days": [
+          "2026-11-06",
+          "2026-11-07",
+          "2026-11-08"
+        ],
+        "last_measured_day": "2026-11-05"
+      }
+    },
+    {
+      "id": "file.shopify_attribution.stale",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO box ShopifyQL sync (daily)",
+      "title": "shopify_attribution_daily.json is 10 days old",
+      "detail": "Last written 2026-10-30; expected at most 2 days old (CFO box ShopifyQL sync (daily)). The dashboard is showing old data from it.",
+      "first_seen": "2026-11-09",
+      "age_days": 0
+    },
+    {
+      "id": "settings.chatgpt.drift",
+      "severity": "medium",
+      "channel": "chatgpt",
+      "owner": "ads bot for chatgpt",
+      "title": "ChatGPT: Grok ranking says paused, settings.json still says auto",
+      "detail": "rankings.json 2026-11-09: \"Paused (since 10/30)\". Set channels.chatgpt.mode to hold (or frozen) in ads_throttle/settings.json so the dashboard stops issuing a rule verdict.",
+      "first_seen": "2026-11-09",
+      "age_days": 0
+    },
+    {
+      "id": "settings.taboola.drift",
+      "severity": "medium",
+      "channel": "taboola",
+      "owner": null,
+      "title": "Taboola: Grok ranking says paused, settings.json still says auto",
+      "detail": "rankings.json 2026-11-09: \"Paused (since 11/4) - not enough data / broken click quality\". Set channels.taboola.mode to hold (or frozen) in ads_throttle/settings.json so the dashboard stops issuing a rule verdict.",
+      "first_seen": "2026-11-09",
+      "age_days": 0
+    },
+    {
+      "id": "settings.x.missing",
+      "severity": "medium",
+      "channel": "x",
+      "owner": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
+      "title": "X: $893 spent in 7 days with no settings.json block",
+      "detail": "Add channels.x (mode, owner_bot, daily_budget) to ads_throttle/settings.json. Until then the dashboard treats it as view only and never judges it.",
+      "first_seen": "2026-11-09",
+      "age_days": 0
+    },
+    {
+      "id": "settings.daily_budget.unknown",
+      "severity": "low",
+      "channel": null,
+      "owner": "Jarvis",
+      "title": "Current daily budget unknown for google, snapchat, bing, taboola",
+      "detail": "Write channels.<channel>.daily_budget in ads_throttle/settings.json after each change. Without it the dashboard can say raise / cut but not the new dollar budget.",
+      "first_seen": "2026-11-09",
+      "age_days": 0,
+      "evidence": {
+        "channels": [
+          "google",
+          "snapchat",
+          "bing",
+          "taboola"
+        ]
+      }
+    }
+  ],
+  "change_outcomes": [
+    {
+      "date": "2026-10-30",
+      "channel": "chatgpt",
+      "action": "kill_under_1x",
+      "by": "jarvis",
+      "status_logged": "paused by jarvis 10/30 10:06 AM ET",
+      "budget": {
+        "old": 90,
+        "new": 0
+      },
+      "before": {
+        "window": "2026-10-23..2026-10-29",
+        "spend": 904.01,
+        "roas": null,
+        "roas_days": 4
+      },
+      "after": {
+        "window": "2026-10-31..2026-11-06",
+        "spend": 0.0,
+        "roas": null,
+        "roas_days": 6
+      },
+      "outcome": "unmeasured",
+      "why": "fewer than 5 of 7 days with a platform read on one side of the change",
+      "spend_change_pct": -100.0
+    },
+    {
+      "date": "2026-10-30",
+      "channel": "snapchat",
+      "action": "raise_20pct",
+      "by": "jarvis",
+      "status_logged": "raised by jarvis 10/30 10:50 PM ET (Limitless d8cfb148 200->240, Drive-Thru 2c049090 150->180), read back OK",
+      "budget": {
+        "old": 350,
+        "new": 420
+      },
+      "before": {
+        "window": "2026-10-23..2026-10-29",
+        "spend": 1467.59,
+        "roas": 7.61,
+        "roas_days": 6
+      },
+      "after": {
+        "window": "2026-10-31..2026-11-06",
+        "spend": 3421.78,
+        "roas": 9.01,
+        "roas_days": 7
+      },
+      "roas_change_pct": 18.4,
+      "outcome": "improved",
+      "partial_window": true,
+      "spend_change_pct": 133.2
+    },
+    {
+      "date": "2026-10-29",
+      "channel": "google",
+      "action": "cut_20pct_and_change_strategy",
+      "by": "jarvis",
+      "status_logged": "held",
+      "budget": {
+        "old": 73.5,
+        "new": 58.8
+      },
+      "before": {
+        "window": "2026-10-22..2026-10-28",
+        "spend": 13311.26,
+        "roas": 3.19,
+        "roas_days": 5
+      },
+      "after": {
+        "window": "2026-10-30..2026-11-05",
+        "spend": 12948.19,
+        "roas": 1.53,
+        "roas_days": 7
+      },
+      "roas_change_pct": -52.0,
+      "outcome": "worse",
+      "partial_window": true,
+      "spend_change_pct": -2.7
+    },
+    {
+      "date": "2026-10-29",
+      "channel": "pinterest",
+      "action": "kill_under_1x",
+      "by": "jarvis",
+      "status_logged": "found PAUSED (updated 10/29 4:54 PM ET, before this run); logged 10/30 by jarvis",
+      "budget": {
+        "old": 65,
+        "new": 0
+      },
+      "before": {
+        "window": "2026-10-22..2026-10-28",
+        "spend": 181.41,
+        "roas": 0.0,
+        "roas_days": 7
+      },
+      "after": {
+        "window": "2026-10-30..2026-11-05",
+        "spend": 167.04,
+        "roas": 0.4,
+        "roas_days": 7
+      },
+      "roas_change_pct": null,
+      "outcome": "improved",
+      "spend_change_pct": -7.9
+    },
+    {
+      "date": "2026-10-27",
+      "channel": "bing",
+      "action": "cut_20pct_and_change_strategy",
+      "by": "jarvis",
+      "status_logged": "done (Bing Ads bot confirmed 10/27 ~11:00 ET)",
+      "budget": {
+        "old": 700,
+        "new": 560
+      },
+      "before": {
+        "window": "2026-10-20..2026-10-26",
+        "spend": 240.79,
+        "roas": 2.39,
+        "roas_days": 7
+      },
+      "after": {
+        "window": "2026-10-28..2026-11-03",
+        "spend": 305.83,
+        "roas": 8.94,
+        "roas_days": 7
+      },
+      "roas_change_pct": 274.1,
+      "outcome": "improved",
+      "spend_change_pct": 27.0
+    }
+  ],
+  "reply": {
+    "file": "ads_throttle/grok_ack.json",
+    "shape": {
+      "updated_at": "ISO time",
+      "by": "jarvis",
+      "acks": {
+        "<ask id>": {
+          "status": "working | done | wont_do",
+          "note": "one line",
+          "at": "ISO time"
+        }
+      }
+    },
+    "note": "Optional. An ask disappears on its own when the condition clears."
+  }
+}
