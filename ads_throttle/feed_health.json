@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-08",
-  "computed_at": "2026-11-09T23:46:26Z",
+  "computed_at": "2026-11-09T23:55:20Z",
   "summary": {
     "status": "degraded",
     "as_of_lag_days": 0,
@@ -269,7 +269,7 @@
       "file": "ads_throttle/grok_ack.json",
       "as_of": null,
       "age_days": null,
-      "status": "missing"
+      "status": "info"
     },
     "changes": {
       "file": "ads_throttle/changes.json",

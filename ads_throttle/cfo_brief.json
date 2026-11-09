@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-08",
-  "computed_at": "2026-11-09T23:46:26Z",
+  "computed_at": "2026-11-09T23:55:20Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -714,6 +714,7 @@
       "action": "kill_under_1x",
       "by": "jarvis",
       "status_logged": "paused by jarvis 10/30 10:06 AM ET",
+      "executed": true,
       "budget": {
         "old": 90,
         "new": 0
@@ -740,6 +741,7 @@
       "action": "raise_20pct",
       "by": "jarvis",
       "status_logged": "raised by jarvis 10/30 10:50 PM ET (Limitless d8cfb148 200->240, Drive-Thru 2c049090 150->180), read back OK",
+      "executed": true,
       "budget": {
         "old": 350,
         "new": 420
@@ -767,6 +769,7 @@
       "action": "cut_20pct_and_change_strategy",
       "by": "jarvis",
       "status_logged": "held",
+      "executed": false,
       "budget": {
         "old": 73.5,
         "new": 58.8
@@ -794,6 +797,7 @@
       "action": "kill_under_1x",
       "by": "jarvis",
       "status_logged": "found PAUSED (updated 10/29 4:54 PM ET, before this run); logged 10/30 by jarvis",
+      "executed": true,
       "budget": {
         "old": 65,
         "new": 0
@@ -820,6 +824,7 @@
       "action": "cut_20pct_and_change_strategy",
       "by": "jarvis",
       "status_logged": "done (Bing Ads bot confirmed 10/27 ~11:00 ET)",
+      "executed": true,
       "budget": {
         "old": 700,
         "new": 560
