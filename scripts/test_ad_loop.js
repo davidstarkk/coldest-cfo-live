@@ -103,6 +103,18 @@ test('change outcomes keep before/after as published', function () {
   assert.strictEqual(rows[2].outcome, 'pending'); assert.strictEqual(rows[2].readyOn, '2026-11-14'); assert.strictEqual(rows[2].roasAfter, null);
 });
 
+test('creative rows: ports shown as Grok wrote them, blanks stay blank', function () {
+  var rows = M.creativeRows({ creatives: { winners: [
+    { creative_id: 'a', name: 'best tumbler', format: 'video', spend_7d: 2717.51, roas_7d: 3.52, not_on: ['google'],
+      ported_to: [{ channel: 'snapchat', status: 'live', roas: 6.1 }, { channel: 'bing', status: 'rejected', note: 'video only' }] },
+    { creative_id: 'b', spend_7d: 600, roas_7d: 3.03 }] } });
+  assert.strictEqual(rows.length, 2);
+  assert.strictEqual(rows[0].ports[0].roas, 6.1); assert.strictEqual(rows[0].ports[1].roas, null);
+  assert.deepStrictEqual(rows[0].notOn, ['google']);
+  assert.strictEqual(rows[1].name, 'b'); assert.deepStrictEqual(rows[1].ports, []);
+  assert.deepStrictEqual(M.creativeRows({}), []);
+});
+
 test('file rows', function () {
   var rows = M.fileRows(health);
   assert.strictEqual(rows[0].status, 'stale'); assert.strictEqual(rows[0].age, 9); assert.strictEqual(rows[1].status, 'info');
