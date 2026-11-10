@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-08",
-  "computed_at": "2026-11-09T23:55:20Z",
+  "computed_at": "2026-11-10T00:09:47Z",
   "summary": {
     "status": "degraded",
     "as_of_lag_days": 0,

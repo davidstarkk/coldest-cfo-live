@@ -124,6 +124,22 @@
     });
   }
 
+  /* winning Meta creatives and the ports Grok reported; port numbers are shown as written */
+  function creativeRows(brief) {
+    var c = (brief && brief.creatives) || {};
+    return (c.winners || []).map(function (w) {
+      return {
+        id: w.creative_id, name: w.name || w.creative_id, format: w.format || null, campaign: w.campaign || null,
+        landing: w.landing_page || null, spend: num(w.spend_7d), roas: num(w.roas_7d), purchases: num(w.purchases_7d),
+        firstSeen: w.first_seen || null,
+        ports: (w.ported_to || []).map(function (p) {
+          return { channel: p.channel, status: p.status || 'unknown', roas: num(p.roas), spend: num(p.spend), launched: p.launched_on || null, note: p.note || '' };
+        }),
+        notOn: w.not_on || []
+      };
+    });
+  }
+
   function fileRows(health) {
     var files = (health && health.files) || {};
     return Object.keys(files).map(function (k) {
@@ -237,6 +253,29 @@
     return h + '</div>';
   }
 
+  function renderCreatives(brief) {
+    var c = (brief && brief.creatives) || null;
+    if (!c) return '';
+    var rows = creativeRows(brief), rule = c.rule || {};
+    var h = '<div class="lp-card"><h3>Winning Meta creatives and where they run (' + rows.length + ')</h3>';
+    if (c.status === 'no_feed') return h + '<p class="lp-note">No creative feed yet. It is written each weekday from Adnova by the creative routine in the data repo.</p></div>';
+    h += '<p class="lp-note">Meta creatives above ' + x(rule.min_roas) + ' on at least ' + usd(rule.min_spend_7d) + ' in the last 7 days, as of ' + esc(md(c.as_of)) +
+      (c.status === 'stale' ? ' — ' + esc(c.age_days) + ' days old' : '') + '. "Running on" is what Grok has reported; its numbers are shown as written.</p>';
+    if (!rows.length) return h + '<p class="lp-note">No creative cleared the bar this week.</p></div>';
+    h += '<div class="lp-scroll"><table class="lp-table"><thead><tr><th>Creative</th><th>7d spend</th><th>7d ROAS</th><th class="lp-l">Running on</th><th class="lp-l">Not yet on</th></tr></thead><tbody>';
+    rows.forEach(function (r) {
+      var ports = r.ports.map(function (p) {
+        var cls = p.status === 'live' ? 'lp-good' : p.status === 'rejected' ? 'lp-muted' : 'lp-warn';
+        return pill(p.channel + ' · ' + p.status + (p.roas != null ? ' · ' + x(p.roas) : ''), cls);
+      }).join(' ');
+      h += '<tr><td class="lp-why" style="max-width:360px">' + esc(r.name) + '<span class="lp-sub">' + esc([r.format, r.campaign].filter(Boolean).join(' · ')) + '</span></td>' +
+        '<td>' + usd(r.spend) + '</td><td>' + x(r.roas) + '</td>' +
+        '<td class="lp-l">' + (ports || '<span class="lp-sub">Meta only</span>') + '</td>' +
+        '<td class="lp-l lp-why">' + (r.notOn.length ? esc(r.notOn.join(', ')) : '—') + '</td></tr>';
+    });
+    return h + '</tbody></table></div><div class="lp-src">' + esc(c.source || '') + '</div></div>';
+  }
+
   function renderOutcomes(rows) {
     if (!rows.length) return '';
     var h = '<div class="lp-card"><h3>Did each budget change pay off</h3><p class="lp-note">Every entry in Grok\'s change log, with 7-day ROAS and spend before and after the change.</p>' +
@@ -273,7 +312,7 @@
     }
     var rows = boardRows(STATE.brief, STATE.health);
     panel.innerHTML = renderKpis(kpis(STATE.brief, STATE.health)) + renderBoard(rows) + renderAsks(askRows(STATE.brief)) +
-      renderFeeds(rows) + renderOutcomes(outcomeRows(STATE.brief)) + renderFiles(fileRows(STATE.health));
+      renderCreatives(STATE.brief) + renderFeeds(rows) + renderOutcomes(outcomeRows(STATE.brief)) + renderFiles(fileRows(STATE.health));
   }
 
   function ensureTab() {
@@ -330,7 +369,7 @@
 
   var api = {
     FEEDS: FEEDS, VERDICT: VERDICT, kpis: kpis, boardRows: boardRows, dayCells: dayCells, askRows: askRows,
-    outcomeRows: outcomeRows, fileRows: fileRows, blockerText: blockerText, render: render, load: load, _state: STATE
+    outcomeRows: outcomeRows, creativeRows: creativeRows, fileRows: fileRows, blockerText: blockerText, render: render, load: load, _state: STATE
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.AdLoop = api;
