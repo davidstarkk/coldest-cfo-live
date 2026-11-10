@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "node scripts/test_bing_ads.js && node scripts/test_paid_channels.js && node scripts/test_throttles.js && node scripts/test_rolling_mer_header.js && node scripts/test_daily_report_layout.js && node scripts/test_pinterest.js && node scripts/test_restore_protected_days.js && node scripts/test_report_quality.js && node scripts/test_ad_channels.js && node scripts/test_mmm_module.js && node scripts/test_nav_cleanup.js",
+    "test": "node scripts/test_bing_ads.js && node scripts/test_paid_channels.js && node scripts/test_throttles.js && node scripts/test_rolling_mer_header.js && node scripts/test_daily_report_layout.js && node scripts/test_pinterest.js && node scripts/test_restore_protected_days.js && node scripts/test_report_quality.js && node scripts/test_ad_channels.js && node scripts/test_mmm_module.js && node scripts/test_ad_loop.js && node scripts/test_nav_cleanup.js",
     "start": "node server.js",
     "pull:bing": "node scripts/pull_bing_ads.js"
   },
