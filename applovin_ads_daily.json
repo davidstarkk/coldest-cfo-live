@@ -10,7 +10,7 @@
   "revenue_basis": "platform_reported",
   "attribution_mode": "click",
   "note": "AppLovin is D2C (coldest.com Drive-Thru / Limitless; nothing to Amazon). Campaign Coldest_ROAS_Q4_2026 (id 3142498) live 2026-10-26 ~7 PM ET $300/day; pre-launch days $0. spend=cost, value=chka_usd_7d, conversions=sales. revenue_basis platform_reported. Single writer: cfo_backend/applovin_sync.py. amazon/amz in a campaign name is a future-safety split only. No API key in repo/CI.",
-  "updated_at": "2026-11-11T06:19:33.412867+00:00",
+  "updated_at": "2026-11-11T13:20:21.260576+00:00",
   "by_date": {
     "2026-08-25": {
       "spend": 0.0,
@@ -4151,7 +4151,7 @@
       "complete": true,
       "live": true,
       "source": "AppLovin Reporting API (platform-reported, click)",
-      "pulled_at": "2026-11-10T13:26:32.484697+00:00",
+      "pulled_at": "2026-11-11T13:20:21.259705+00:00",
       "api_rows": 4,
       "campaigns": [
         {
@@ -4167,7 +4167,7 @@
           "revenue": 371.93
         },
         {
-          "name": "New Ad style - Ridg Style",
+          "name": "Christmas/Black Friday Ads",
           "spend": 0.0,
           "destination": "d2c",
           "platform_revenue": 0.0,
@@ -4179,7 +4179,7 @@
           "revenue": 0.0
         },
         {
-          "name": "Christmas/Black Friday Ads",
+          "name": "New Ad style - Ridg Style",
           "spend": 0.0,
           "destination": "d2c",
           "platform_revenue": 0.0,
@@ -4222,7 +4222,7 @@
       "complete": true,
       "live": true,
       "source": "AppLovin Reporting API (platform-reported, click)",
-      "pulled_at": "2026-11-10T13:26:32.484697+00:00",
+      "pulled_at": "2026-11-11T13:20:21.259705+00:00",
       "api_rows": 4,
       "campaigns": [
         {
@@ -4236,6 +4236,18 @@
           "sales": 7,
           "conversions": 7,
           "revenue": 388.64
+        },
+        {
+          "name": "Christmas/Black Friday Ads",
+          "spend": 0.0,
+          "destination": "d2c",
+          "platform_revenue": 0.0,
+          "platform_roas_7d": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "sales": 0,
+          "conversions": 0,
+          "revenue": 0.0
         },
         {
           "name": "Coldest_ROAS",
@@ -4260,25 +4272,13 @@
           "sales": 0,
           "conversions": 0,
           "revenue": 0.0
-        },
-        {
-          "name": "Christmas/Black Friday Ads",
-          "spend": 0.0,
-          "destination": "d2c",
-          "platform_revenue": 0.0,
-          "platform_roas_7d": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "sales": 0,
-          "conversions": 0,
-          "revenue": 0.0
         }
       ]
     },
     "2026-11-10": {
       "spend": 171.64,
       "spend_d2c": 171.64,
-      "spend_amazon": 0.0,
+      "spend_amazon": 0,
       "clicks": 39,
       "impressions": 417,
       "conversions": 8,
@@ -4292,8 +4292,8 @@
       "destination": "d2c",
       "complete": true,
       "live": true,
-      "source": "AppLovin API values captured by owner bot 11/11",
-      "pulled_at": "2026-11-11T06:19:33.412867+00:00",
+      "source": "AppLovin Reporting API (platform-reported, click)",
+      "pulled_at": "2026-11-11T13:20:21.259705+00:00",
       "api_rows": 4,
       "campaigns": [
         {
@@ -4309,6 +4309,18 @@
           "revenue": 485.48
         },
         {
+          "name": "Christmas/Black Friday Ads",
+          "spend": 0.0,
+          "destination": "d2c",
+          "platform_revenue": 0.0,
+          "platform_roas_7d": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "sales": 0,
+          "conversions": 0,
+          "revenue": 0.0
+        },
+        {
           "name": "Coldest_ROAS",
           "spend": 0.0,
           "destination": "d2c",
@@ -4322,18 +4334,6 @@
         },
         {
           "name": "New Ad style - Ridg Style",
-          "spend": 0.0,
-          "destination": "d2c",
-          "platform_revenue": 0.0,
-          "platform_roas_7d": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "sales": 0,
-          "conversions": 0,
-          "revenue": 0.0
-        },
-        {
-          "name": "Christmas/Black Friday Ads",
           "spend": 0.0,
           "destination": "d2c",
           "platform_revenue": 0.0,
