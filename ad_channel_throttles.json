@@ -420,10 +420,11 @@
         "owner_bot": "Google \u00b7 Ads",
         "max_daily_budget": null,
         "min_daily_budget": null,
-        "notes": "Agreed ROAS basis 2026-11-10 (Finance \u00b7 CFO and Google \u00b7 Ads): account 5108535701. Use Google Ads conversions_value_by_conversion_date on the primary action Google Shopping App Purchase (7685918144) only. API read 11/10: data-driven attribution, 90-day click-through lookback, 30-day view-through lookback, primary_for_goal true. Window is the trailing 7 completed America/Los_Angeles days, reread at report time; each reread records pulled_at and how many days have matured. Never use all_conversions, Elevar, GA4, or the webpage Purchase tag as the ROAS source. Label it platform-reported, split JS_ from non-JS_, and mark days under 7 old as provisional. The 2.8/2.0 bands apply to the non-JS_ sandbox only; JS_* campaigns stay read-only unless David extends the rule (asked 10/27 1:20 PM ET). The Shopify view divides by the weekly Elevar broad-union ratio (1.703 for Nov 2-8: 1,023.39 platform purchases against 601 orders) as an advisory estimate only, not causal. A raise freeze while that ratio is out of range is proposed by Google \u00b7 Ads, pending CFO/David confirmation, and is not an agreed rule. daily_inputs.platform_roas (the frozen next-morning click-date snapshot) is not used for Google; the CFO PR will switch it. Reconciliation for Nov 2-8: the CFO's 1.54x was a stale click-date snapshot; live click-date is 2.95x; conversion-date is 6.49x ($89,957.47 / $13,861.86). JS_* was $13,227 at 6.50x; non-JS_ PMax NCA was $635 at 3.96x.",
+        "notes": "Agreed ROAS basis 2026-11-10 (Finance \u00b7 CFO and Google \u00b7 Ads): account 5108535701. Use Google Ads conversions_value_by_conversion_date on the primary action Google Shopping App Purchase (7685918144) only. API read 11/10: data-driven attribution, 90-day click-through lookback, 30-day view-through lookback, primary_for_goal true. Window is the trailing 7 completed America/Los_Angeles days, reread at report time; each reread records pulled_at and how many days have matured. Never use all_conversions, Elevar, GA4, or the webpage Purchase tag as the ROAS source. Label it platform-reported, split JS_ from non-JS_, and mark days under 7 old as provisional. The 2.8/2.0 bands apply to the non-JS_ sandbox only; JS_* campaigns stay read-only unless David extends the rule (asked 10/27 1:20 PM ET). The Shopify view divides by the weekly Elevar broad-union ratio (1.703 for Nov 2-8: 1,023.39 platform purchases against 601 orders) as an advisory estimate only, not causal. A raise freeze while that ratio is out of range is proposed by Google \u00b7 Ads, pending CFO/David confirmation, and is not an agreed rule. daily_inputs.platform_roas (the frozen next-morning click-date snapshot) is not used for Google; the CFO PR will switch it. Reconciliation for Nov 2-8: the CFO's 1.54x was a stale click-date snapshot; live click-date is 2.95x; conversion-date is 6.49x ($89,957.47 / $13,861.86). JS_* was $13,227 at 6.50x; non-JS_ PMax NCA was $635 at 3.96x. daily_budget 105.84 (written 2026-11-10 after the +20% PMax NCA sandbox raise) is the non-JS_ sandbox only, not account-wide.",
         "exclude_campaign_prefixes": [
           "JS_"
-        ]
+        ],
+        "daily_budget": 105.84
       },
       "tiktok": {
         "mode": "view",
@@ -494,11 +495,11 @@
       "note": "10/28 3:48 PM ET: no double-fire. Elevar server-side purchase covers ALL Shopify channels (Tapcart/Shop/Draft), so compare Snap purchases to all-channel Shopify orders, never Online Store only. Browser tag 339 + server share order-ID dedup; tag 339 stays on. Hold until Elevar's 10/29-data check confirms dedup, then back to auto."
     }
   },
-  "d2c_ad_spend": 14051.41,
-  "total_ad_spend": 21006.91,
+  "d2c_ad_spend": 14024.01,
+  "total_ad_spend": 20979.51,
   "shopify_d2c_revenue": 24921.01,
-  "blended_mer": 1.77,
-  "blended_mer_vs_threshold": -1.03,
+  "blended_mer": 1.78,
+  "blended_mer_vs_threshold": -1.02,
   "channels": {
     "meta": {
       "daily_budget": null,
@@ -624,8 +625,8 @@
       "known_gap": null
     },
     "google": {
-      "daily_budget": null,
-      "daily_budget_status": "unverified",
+      "daily_budget": 105.84,
+      "daily_budget_status": "settings_reported",
       "min_daily_budget": null,
       "max_daily_budget": null,
       "spend_7d": 13846.42,
@@ -730,14 +731,14 @@
         "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer). Shopping App Purchase 11/5 201 (47.1% of 427), 11/6 154 (42.7% of 361), 11/7 134 (41.6% of 322), 11/8 135 (38.0% of 355); Elevar server-side 11/5 135 (31.6%), 11/6 118 (32.7%), 11/7 102 (31.7%), 11/8 126 (35.5%). 11/9 95 Shopping App (30.6% of 310) and 86 Elevar (27.7%), may still grow \u2014 do not WARN on a still-filling yesterday alone. Earlier days also revised up vs yesterday's read: 11/5 Shopping 195\u2192201 / Elevar 128\u2192135; 11/6 143\u2192154 / 99\u2192118; 11/7 110\u2192134 / 88\u2192102; 11/8 125\u2192135 / 119\u2192126, as expected for filling conversion-date days. All above the 25%/20% WARN floors on two consecutive days that are each at least a day old (11/7 and 11/8). Begin checkout 92/129/115/132/118/105/90/49 (11/2-11/9). 11/10 so far: 4 Shopping App purchases / 1 Elevar / 2 begin checkout. Shopping App Purchase and Purchase (elevar server-side) both ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/2-11/8 mean of Shopping App (135/192/133/201/154/134/135)."
       },
       "rule_status": "Not enough data",
-      "last_change_date": "2026-10-29",
-      "last_change_action": "cut_20pct_and_change_strategy",
-      "next_eligible_date": null,
+      "last_change_date": "2026-11-10",
+      "last_change_action": "raise_20pct",
+      "next_eligible_date": "2026-11-13",
       "owner_bot": "Google \u00b7 Ads",
-      "strategy_notes": "Agreed ROAS basis 2026-11-10 (Finance \u00b7 CFO and Google \u00b7 Ads): account 5108535701. Use Google Ads conversions_value_by_conversion_date on the primary action Google Shopping App Purchase (7685918144) only. API read 11/10: data-driven attribution, 90-day click-through lookback, 30-day view-through lookback, primary_for_goal true. Window is the trailing 7 completed America/Los_Angeles days, reread at report time; each reread records pulled_at and how many days have matured. Never use all_conversions, Elevar, GA4, or the webpage Purchase tag as the ROAS source. Label it platform-reported, split JS_ from non-JS_, and mark days under 7 old as provisional. The 2.8/2.0 bands apply to the non-JS_ sandbox only; JS_* campaigns stay read-only unless David extends the rule (asked 10/27 1:20 PM ET). The Shopify view divides by the weekly Elevar broad-union ratio (1.703 for Nov 2-8: 1,023.39 platform purchases against 601 orders) as an advisory estimate only, not causal. A raise freeze while that ratio is out of range is proposed by Google \u00b7 Ads, pending CFO/David confirmation, and is not an agreed rule. daily_inputs.platform_roas (the frozen next-morning click-date snapshot) is not used for Google; the CFO PR will switch it. Reconciliation for Nov 2-8: the CFO's 1.54x was a stale click-date snapshot; live click-date is 2.95x; conversion-date is 6.49x ($89,957.47 / $13,861.86). JS_* was $13,227 at 6.50x; non-JS_ PMax NCA was $635 at 3.96x. Platform-reported conversion value unverified \u2014 ROAS not judged.",
+      "strategy_notes": "Agreed ROAS basis 2026-11-10 (Finance \u00b7 CFO and Google \u00b7 Ads): account 5108535701. Use Google Ads conversions_value_by_conversion_date on the primary action Google Shopping App Purchase (7685918144) only. API read 11/10: data-driven attribution, 90-day click-through lookback, 30-day view-through lookback, primary_for_goal true. Window is the trailing 7 completed America/Los_Angeles days, reread at report time; each reread records pulled_at and how many days have matured. Never use all_conversions, Elevar, GA4, or the webpage Purchase tag as the ROAS source. Label it platform-reported, split JS_ from non-JS_, and mark days under 7 old as provisional. The 2.8/2.0 bands apply to the non-JS_ sandbox only; JS_* campaigns stay read-only unless David extends the rule (asked 10/27 1:20 PM ET). The Shopify view divides by the weekly Elevar broad-union ratio (1.703 for Nov 2-8: 1,023.39 platform purchases against 601 orders) as an advisory estimate only, not causal. A raise freeze while that ratio is out of range is proposed by Google \u00b7 Ads, pending CFO/David confirmation, and is not an agreed rule. daily_inputs.platform_roas (the frozen next-morning click-date snapshot) is not used for Google; the CFO PR will switch it. Reconciliation for Nov 2-8: the CFO's 1.54x was a stale click-date snapshot; live click-date is 2.95x; conversion-date is 6.49x ($89,957.47 / $13,861.86). JS_* was $13,227 at 6.50x; non-JS_ PMax NCA was $635 at 3.96x. daily_budget 105.84 (written 2026-11-10 after the +20% PMax NCA sandbox raise) is the non-JS_ sandbox only, not account-wide. Platform-reported conversion value unverified \u2014 ROAS not judged.",
       "auto_rules": true,
       "mode": "auto",
-      "recommended_daily_budget": null,
+      "recommended_daily_budget": 105.84,
       "recommended_action": null,
       "launch_date": null,
       "soft_read_date": null,
@@ -878,7 +879,7 @@
       "max_daily_budget": null,
       "spend_7d": 644.5,
       "spend_7d_status": "unverified",
-      "spend_source": "reddit_ads_daily.json has no row (missing, not $0)",
+      "spend_source": "channel_status off",
       "spend_d2c_7d": null,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
@@ -944,9 +945,9 @@
         },
         {
           "date": "2026-11-09",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -1124,7 +1125,7 @@
       "max_daily_budget": null,
       "spend_7d": 0.0,
       "spend_7d_status": "verified",
-      "spend_source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
+      "spend_source": "channel_status off",
       "spend_d2c_7d": 0.0,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
@@ -1370,7 +1371,7 @@
       "max_daily_budget": null,
       "spend_7d": 0.0,
       "spend_7d_status": "verified",
-      "spend_source": "Pipeboard Pinterest Ads (platform-reported)",
+      "spend_source": "channel_status off",
       "spend_d2c_7d": 0.0,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
@@ -1610,10 +1611,10 @@
       "daily_budget_status": "unverified",
       "min_daily_budget": null,
       "max_daily_budget": null,
-      "spend_7d": 505.77,
+      "spend_7d": 506.68,
       "spend_7d_status": "verified",
-      "spend_source": "Taboola Backstage API (platform-reported)",
-      "spend_d2c_7d": 505.77,
+      "spend_source": "channel_status off",
+      "spend_d2c_7d": 506.68,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
       "shopify_revenue_7d": null,
@@ -1699,7 +1700,7 @@
       ],
       "destination": "shopify",
       "destination_split": {
-        "shopify": 505.77,
+        "shopify": 506.68,
         "amazon": 0.0
       },
       "tracking_status": "WARN",
@@ -1738,7 +1739,7 @@
       "max_daily_budget": null,
       "spend_7d": 0.0,
       "spend_7d_status": "verified",
-      "spend_source": "Outbrain UI (platform-reported)",
+      "spend_source": "channel_status off",
       "spend_d2c_7d": 0.0,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
@@ -1852,10 +1853,10 @@
       "daily_budget_status": "unverified",
       "min_daily_budget": null,
       "max_daily_budget": null,
-      "spend_7d": null,
-      "spend_7d_status": "unverified",
-      "spend_source": "spotify_ads_daily.json has no row (missing, not $0)",
-      "spend_d2c_7d": null,
+      "spend_7d": 0.0,
+      "spend_7d_status": "verified",
+      "spend_source": "channel_status off",
+      "spend_d2c_7d": 0.0,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
       "shopify_revenue_7d": null,
@@ -1880,9 +1881,9 @@
       "trend_3d": [
         {
           "date": "2026-11-07",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -1900,9 +1901,9 @@
         },
         {
           "date": "2026-11-08",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -1920,9 +1921,9 @@
         },
         {
           "date": "2026-11-09",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -1969,9 +1970,9 @@
       "min_daily_budget": null,
       "max_daily_budget": null,
       "spend_7d": 1116.38,
-      "spend_7d_status": "unverified",
+      "spend_7d_status": "verified",
       "spend_source": "X Ads API via user-X-ads get_account_stats (platform-reported)",
-      "spend_d2c_7d": null,
+      "spend_d2c_7d": 1116.38,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
       "shopify_revenue_7d": null,
@@ -4335,9 +4336,9 @@
         },
         {
           "date": "2026-11-09",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -4351,8 +4352,7 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         }
       ],
       "snapchat": [
@@ -6422,9 +6422,9 @@
         },
         {
           "date": "2026-10-30",
-          "spend": 153.55,
+          "spend": 0.0,
           "spend_status": "verified",
-          "spend_d2c": 153.55,
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -6434,17 +6434,17 @@
           "platform_roas": 0.44,
           "platform_status": "verified",
           "platform_source": "Pipeboard Pinterest Ads (platform-reported)",
-          "roas": 0.44,
-          "roas_status": "verified",
+          "roas": null,
+          "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
           "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-31",
-          "spend": 13.49,
+          "spend": 0.0,
           "spend_status": "verified",
-          "spend_d2c": 13.49,
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -6454,8 +6454,8 @@
           "platform_roas": 0.0,
           "platform_status": "verified",
           "platform_source": "Pipeboard Pinterest Ads (platform-reported)",
-          "roas": 0.0,
-          "roas_status": "verified",
+          "roas": null,
+          "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
           "roas_label": "platform-reported"
@@ -7626,9 +7626,9 @@
         },
         {
           "date": "2026-11-03",
-          "spend": 149.36,
+          "spend": 150.27,
           "spend_status": "verified",
-          "spend_d2c": 149.36,
+          "spend_d2c": 150.27,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -7768,9 +7768,9 @@
       "outbrain": [
         {
           "date": "2026-10-13",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -7784,14 +7784,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-14",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -7805,14 +7804,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-15",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -7826,14 +7824,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-16",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -7847,14 +7844,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-17",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -7868,14 +7864,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-18",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -7889,14 +7884,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-19",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -7910,14 +7904,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-20",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -7931,14 +7924,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-21",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -7952,14 +7944,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-22",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -7973,14 +7964,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-23",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -7994,14 +7984,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-24",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8015,14 +8004,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-25",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8036,14 +8024,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-26",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8057,14 +8044,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-27",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8078,14 +8064,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-28",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8099,14 +8084,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-29",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8120,14 +8104,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-30",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8141,14 +8124,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-31",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8162,14 +8144,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-01",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8183,14 +8164,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-02",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8204,8 +8184,7 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-03",
@@ -8351,9 +8330,9 @@
       "spotify": [
         {
           "date": "2026-10-13",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8367,14 +8346,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-14",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8388,14 +8366,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-15",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8409,14 +8386,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-16",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8430,14 +8406,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-17",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8451,14 +8426,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-18",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8472,14 +8446,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-19",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8493,14 +8466,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-20",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8514,14 +8486,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-21",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8535,14 +8506,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-22",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8556,14 +8526,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-23",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8577,14 +8546,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-24",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8598,14 +8566,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-25",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8619,14 +8586,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-26",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8640,14 +8606,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-27",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8661,14 +8626,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-28",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8682,14 +8646,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-29",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8703,14 +8666,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-30",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -8724,14 +8686,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-31",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8745,14 +8706,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-01",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8766,14 +8726,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-02",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8787,14 +8746,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-03",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8808,14 +8766,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-04",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8829,14 +8786,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-05",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8850,14 +8806,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-06",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8871,14 +8826,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-07",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8892,14 +8846,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-08",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8913,14 +8866,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-09",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8934,16 +8886,15 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         }
       ],
       "x": [
         {
           "date": "2026-10-13",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8957,14 +8908,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-14",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8978,14 +8928,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-15",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -8999,14 +8948,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-16",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9020,14 +8968,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-17",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9041,14 +8988,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-18",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9062,14 +9008,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-19",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9083,14 +9028,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-20",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9104,14 +9048,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-21",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9125,14 +9068,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-22",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9146,14 +9088,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-23",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9167,14 +9108,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-24",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9188,14 +9128,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-25",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9209,14 +9148,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-26",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9230,14 +9168,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-27",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9251,14 +9188,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-28",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9272,14 +9208,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-29",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9293,14 +9228,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-30",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": 0.0,
           "shopify_revenue_status": "verified",
@@ -9314,14 +9248,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-10-31",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9335,14 +9268,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-01",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9356,14 +9288,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-02",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9377,14 +9308,13 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-03",
-          "spend": null,
-          "spend_status": "unverified",
-          "spend_d2c": null,
+          "spend": 0.0,
+          "spend_status": "verified",
+          "spend_d2c": 0.0,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9398,8 +9328,7 @@
           "roas_status": "unverified",
           "roas_basis": "platform",
           "roas_source": "platform_reported",
-          "roas_label": "platform-reported",
-          "missing": true
+          "roas_label": "platform-reported"
         },
         {
           "date": "2026-11-04",
@@ -9730,21 +9659,21 @@
       },
       {
         "date": "2026-10-30",
-        "d2c_ad_spend": 13729.04,
+        "d2c_ad_spend": 13575.49,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 19543.45,
+        "total_ad_spend": 19389.9,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 23064.82,
         "shopify_revenue_status": "verified",
         "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
-        "blended_mer": 1.68,
+        "blended_mer": 1.7,
         "blended_mer_status": "verified"
       },
       {
         "date": "2026-10-31",
-        "d2c_ad_spend": 12425.38,
+        "d2c_ad_spend": 12411.89,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 17302.98,
+        "total_ad_spend": 17289.49,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 21349.35,
         "shopify_revenue_status": "verified",
@@ -9778,9 +9707,9 @@
       },
       {
         "date": "2026-11-03",
-        "d2c_ad_spend": 13604.45,
+        "d2c_ad_spend": 13605.36,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 21477.09,
+        "total_ad_spend": 21478.0,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 36961.57,
         "shopify_revenue_status": "verified",
@@ -9790,9 +9719,9 @@
       },
       {
         "date": "2026-11-04",
-        "d2c_ad_spend": 13755.51,
+        "d2c_ad_spend": 13728.11,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 20498.55,
+        "total_ad_spend": 20471.15,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 22959.75,
         "shopify_revenue_status": "verified",
@@ -9802,9 +9731,9 @@
       },
       {
         "date": "2026-11-05",
-        "d2c_ad_spend": 13904.46,
+        "d2c_ad_spend": 13877.06,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 20138.25,
+        "total_ad_spend": 20110.85,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 34876.92,
         "shopify_revenue_status": "verified",
@@ -9814,21 +9743,21 @@
       },
       {
         "date": "2026-11-06",
-        "d2c_ad_spend": 17205.54,
+        "d2c_ad_spend": 17178.14,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 24077.05,
+        "total_ad_spend": 24049.65,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 27930.26,
         "shopify_revenue_status": "verified",
         "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
-        "blended_mer": 1.62,
+        "blended_mer": 1.63,
         "blended_mer_status": "verified"
       },
       {
         "date": "2026-11-07",
-        "d2c_ad_spend": 16025.39,
+        "d2c_ad_spend": 15997.99,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 21855.29,
+        "total_ad_spend": 21827.89,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 26075.82,
         "shopify_revenue_status": "verified",
@@ -9838,9 +9767,9 @@
       },
       {
         "date": "2026-11-08",
-        "d2c_ad_spend": 16469.36,
+        "d2c_ad_spend": 16441.96,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 22736.14,
+        "total_ad_spend": 22708.74,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 30615.46,
         "shopify_revenue_status": "verified",
@@ -9850,19 +9779,29 @@
       },
       {
         "date": "2026-11-09",
-        "d2c_ad_spend": 14051.41,
+        "d2c_ad_spend": 14024.01,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 21006.91,
+        "total_ad_spend": 20979.51,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 24921.01,
         "shopify_revenue_status": "verified",
         "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
-        "blended_mer": 1.77,
+        "blended_mer": 1.78,
         "blended_mer_status": "verified"
       }
     ]
   },
   "recent_changes": [
+    {
+      "date": "2026-11-10",
+      "channel": "google",
+      "roas_7d": 3.96,
+      "spend_7d": 635,
+      "action": "raise_20pct",
+      "old_budget": 88.2,
+      "new_budget": 105.84,
+      "by": "Grok Bot"
+    },
     {
       "date": "2026-11-04",
       "channel": "taboola",

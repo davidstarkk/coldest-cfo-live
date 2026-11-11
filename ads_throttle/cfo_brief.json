@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-09",
-  "computed_at": "2026-11-10T18:43:10Z",
+  "computed_at": "2026-11-11T13:57:50Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -13,22 +13,17 @@
     "window_days": 7
   },
   "portfolio": {
-    "mer_7d": 1.9458,
-    "mer_30d": 2.2546,
+    "mer_7d": 1.9488,
+    "mer_30d": 2.2565,
     "mer_target": 3.24,
     "mer_gap": -1.29,
     "stance": "below_target",
     "d2c_revenue_7d": 204340.79,
-    "d2c_spend_7d": 105016.12,
-    "channel_spend_7d": 104851.72,
+    "d2c_spend_7d": 104852.63,
+    "channel_spend_7d": 104852.63,
     "spend_judged_pct": 74.9,
     "spend_in_auto_mode_pct": 19.3,
-    "excluded_from_d2c_spend": [
-      {
-        "channel": "reddit",
-        "reason": "reddit_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-      }
-    ]
+    "excluded_from_d2c_spend": []
   },
   "summary": {
     "act_now": [
@@ -36,8 +31,10 @@
       "x"
     ],
     "by_verdict": {
+      "cooldown": [
+        "google"
+      ],
       "cut": [
-        "google",
         "x"
       ],
       "hold": [
@@ -107,10 +104,11 @@
       "label": "Google Ads",
       "mode": "auto",
       "owner_bot": "Google \u00b7 Ads",
-      "verdict": "cut",
-      "rule_says": "Cut -20% + new strategy",
+      "verdict": "cooldown",
+      "rule_says": "Hold - cooldown",
       "actionable": false,
       "blockers": [
+        "cooldown",
         "roas_disputed"
       ],
       "cautions": [
@@ -129,8 +127,8 @@
       "feed_status": "fresh",
       "last_measured_day": "2026-11-09",
       "last_change": {
-        "date": "2026-10-29",
-        "action": "cut_20pct_and_change_strategy"
+        "date": "2026-11-10",
+        "action": "raise_20pct"
       },
       "grok": {
         "as_of": "2026-11-09",
@@ -443,7 +441,7 @@
       "cautions": [
         "tracking WARN"
       ],
-      "spend_7d": 505.77,
+      "spend_7d": 506.68,
       "spend_days_measured": 7,
       "roas_7d": 0.0,
       "roas_days": 7,
@@ -535,7 +533,7 @@
       "title": "Reddit: no measured row since 2026-11-08",
       "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-09. The platform reported spend on 2026-11-06 ($142.88), 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-09",
-      "age_days": 1,
+      "age_days": 2,
       "evidence": {
         "missing_days": [
           "2026-11-06",
@@ -557,7 +555,7 @@
       "title": "Bing: CFO reads 2.80x, Grok reads 4.20x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 2.80x (channel daily file, 2026-11-03..2026-11-09) says hold; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-10",
-      "age_days": 0,
+      "age_days": 1,
       "evidence": {
         "cfo_roas_7d": 2.8,
         "grok_roas_7d": 4.2,
@@ -572,7 +570,7 @@
       "title": "Google Ads: CFO reads 1.54x, Grok reads 6.07x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 1.54x (daily_inputs.platform_roas, 2026-11-03..2026-11-09) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
-      "age_days": 1,
+      "age_days": 2,
       "evidence": {
         "cfo_roas_7d": 1.54,
         "grok_roas_7d": 6.07,
@@ -592,7 +590,7 @@
       "title": "TikTok (website): CFO reads 2.37x, Grok reads 3.36x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 2.37x (daily_inputs.platform_roas, 2026-11-03..2026-11-09) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
-      "age_days": 1,
+      "age_days": 2,
       "evidence": {
         "cfo_roas_7d": 2.37,
         "grok_roas_7d": 3.36,
@@ -609,23 +607,22 @@
       "severity": "medium",
       "channel": null,
       "owner": "CFO box ShopifyQL sync (daily)",
-      "title": "shopify_attribution_daily.json is 11 days old",
+      "title": "shopify_attribution_daily.json is 12 days old",
       "detail": "Last written 2026-10-30; expected at most 2 days old (CFO box ShopifyQL sync (daily)). The dashboard is showing old data from it.",
       "first_seen": "2026-11-09",
-      "age_days": 1
+      "age_days": 2
     },
     {
       "id": "settings.daily_budget.unknown",
       "severity": "low",
       "channel": null,
       "owner": "Jarvis",
-      "title": "Current daily budget unknown for google, bing, x",
+      "title": "Current daily budget unknown for bing, x",
       "detail": "Write channels.<channel>.daily_budget in ads_throttle/settings.json after each change. Without it the dashboard can say raise / cut but not the new dollar budget.",
       "first_seen": "2026-11-09",
-      "age_days": 1,
+      "age_days": 2,
       "evidence": {
         "channels": [
-          "google",
           "bing",
           "x"
         ]
@@ -639,6 +636,26 @@
   ],
   "change_outcomes": [
     {
+      "date": "2026-11-10",
+      "channel": "google",
+      "action": "raise_20pct",
+      "by": "Grok Bot",
+      "status_logged": "done (executed by Google \u00b7 Ads at 1:38 PM ET)",
+      "executed": true,
+      "budget": {
+        "old": 88.2,
+        "new": 105.84
+      },
+      "before": {
+        "window": "2026-11-03..2026-11-09",
+        "spend": 13846.42,
+        "roas": 1.54,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-18"
+    },
+    {
       "date": "2026-11-04",
       "channel": "taboola",
       "action": "manual_cut",
@@ -651,7 +668,7 @@
       },
       "before": {
         "window": "2026-10-28..2026-11-03",
-        "spend": 149.36,
+        "spend": 150.27,
         "roas": 0.0,
         "roas_days": 7
       },
@@ -671,7 +688,7 @@
       },
       "before": {
         "window": "2026-10-28..2026-11-03",
-        "spend": 149.36,
+        "spend": 150.27,
         "roas": 0.0,
         "roas_days": 7
       },
@@ -820,7 +837,7 @@
     "file": "ads_throttle/creative_winners.json",
     "as_of": "2026-11-09",
     "snapshot_at": "2026-11-10T00:07:07.178Z",
-    "age_days": 1,
+    "age_days": 2,
     "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
     "rule": {
       "min_roas": 2.8,

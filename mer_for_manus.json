@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-09",
-  "computed_at": "2026-11-11T13:20:23.615089+00:00",
+  "computed_at": "2026-11-11T13:57:50.251748+00:00",
   "source": "daily_inputs",
   "db": "private_finance_data/data.db",
   "mer_7d_pooled": 1.9488,
@@ -58469,7 +58469,7 @@
   "feed_health": {
     "schema_version": 1,
     "as_of": "2026-11-09",
-    "computed_at": "2026-11-11T13:20:23Z",
+    "computed_at": "2026-11-11T13:57:50Z",
     "summary": {
       "status": "degraded",
       "as_of_lag_days": 1,
@@ -58742,7 +58742,7 @@
   "cfo_brief": {
     "schema_version": 1,
     "as_of": "2026-11-09",
-    "computed_at": "2026-11-11T13:20:23Z",
+    "computed_at": "2026-11-11T13:57:50Z",
     "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
     "rule": {
       "source": "ads_throttle/settings.json",
