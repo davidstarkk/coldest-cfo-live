@@ -1,1 +1,7 @@
 node_modules/
+
+# Plaintext subscription dumps — only encrypted envelopes may be committed
+subscriptions*.json
+!subscriptions*.enc.json
+!**/subscriptions*.enc.json
+

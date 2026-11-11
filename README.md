@@ -285,6 +285,20 @@ One block per ad platform (Meta, Google, TikTok, Bing, Snapchat, AppLovin, Pinte
 
 Window: 14 / 28 / 60 / 90 days (remembered in `localStorage`). Deep link `#ad-channels`. Tests: `node scripts/test_ad_channels.js`.
 
+## Subscriptions tab (`subscriptions_module.js`)
+
+Last item in the dashboard nav. Deep link `#subscriptions`.
+
+The list is **not** in this public repo as plaintext. The page fetches `subscriptions.enc.json` and decrypts it in the browser (PBKDF2-SHA256 → AES-256-GCM, same envelope `scripts/encrypt_subscriptions.mjs` writes). Until the password is entered the tab is only a prompt; a wrong password fails closed. Unlock can stay in `sessionStorage` until Lock / the tab closes — never `localStorage` of the password.
+
+Replace the live envelope by encrypting a dump (never commit the plaintext):
+
+```bash
+PASS='…' node scripts/encrypt_subscriptions.mjs dump.json subscriptions.enc.json
+```
+
+Do **not** commit `subscriptions.json` / other plaintext `subscriptions*.json` (gitignored). Tests decrypt a tiny example envelope at `scripts/fixtures/subscriptions.example.enc.json`, not the live file. Tests: `node scripts/test_subscriptions.js`.
+
 **Spotify Ads** (canonical key `spotify_ads`, aliases `spotify` / `Spotify` / `Spotify Ads`, optional `spotify_ads_daily.json`) is on both Ad Channels and Daily Reports. Until CFO publishes measured rows it shows a genuine **No data** state: an unmeasured day is never $0, complete or paused, and is excluded from tracked / D2C spend with a coverage note (MER is never inflated — Daily Reports keeps Spotify display-only; CFO folds measured spend). Measured $0 shows the number only; spend-only rows keep ROAS "No data"; `cash_cost` (billing) stays separate from platform spend. `mer.spotify {status:'not_launched', live:false}` or `settings.channels.spotify.not_launched_while_zero` → NOT LAUNCHED, no metrics.
 
 **Feed freshness.** The mirror sync only copies `index.html` + a few static files, so `mer_for_manus.json` and `ads_throttle/` go stale here unless the data repo's `after-daily-sync` publishes them (`lib/publish_live_feeds.sh`, needs the `LIVE_MIRROR_TOKEN` secret on `davidstarkk/coldest-cfo-dashboard`). The tab's as-of bar is per-channel (portfolio spend through ≠ every channel is current). Closed `REPORTS` rows carry no per-platform spend, so a day that has rolled from `PARTIAL_REPORTS` into `REPORTS` before the feed caught up shows as a gap (INCOMPLETE), not a drop. Preferred publish path for Bing / Taboola / Outbrain / X / residual ChatGPT: `advertising_sources_daily.json` plus `<id>_ads_daily.json` (canonical keys or aliases; omit missing days; mark measured zeros `complete: true`). Do not calendar-fill `$0` after a durable feed stops.

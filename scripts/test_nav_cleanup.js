@@ -20,7 +20,7 @@ test('hides exactly the tabs David listed on 11/03', function () {
 });
 
 test('never hides the tabs that stay', function () {
-  ['reports', 'throttles', 'ad_channels', 'cashflow', 'ltv', 'monthly_pnl', 'ytd_pnl', 'secondary_ads'].forEach(function (k) {
+  ['reports', 'throttles', 'ad_channels', 'cashflow', 'ltv', 'monthly_pnl', 'ytd_pnl', 'secondary_ads', 'subscriptions'].forEach(function (k) {
     assert.strictEqual(N.HIDDEN.indexOf(k), -1, k + ' must stay visible');
   });
 });
