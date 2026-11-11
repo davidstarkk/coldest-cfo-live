@@ -1,62 +1,47 @@
 {
-  "as_of": "2026-11-10",
-  "schema_version": "1.1",
-  "estimated": true,
-  "notes": "Finance PR #46 example JSON per display_state. channel_display.by_date[date][channel] is the authoritative bag.",
+  "as_of": "2026-11-09",
+  "mer_estimated": false,
+  "notes": "Exact per-state examples from coldest-cfo-dashboard PR #46 body (head 69045f7).",
   "channel_display": {
     "by_date": {
-      "2026-11-01": {
-        "chatgpt": {
-          "display_state": "off",
-          "display_amount": 0,
-          "measured_spend": 0,
-          "last_confirmed_date": null,
-          "last_confirmed_amount": null
-        },
+      "2026-11-09": {
         "outbrain": {
           "display_state": "off",
-          "display_amount": 0,
-          "measured_spend": 0
+          "display_amount": 0.0,
+          "last_confirmed_date": null,
+          "last_confirmed_amount": null,
+          "measured_spend": 0.0
         },
-        "spotify": {
+        "chatgpt": {
           "display_state": "off",
-          "display_amount": null,
-          "measured_spend": null
-        }
-      },
-      "2026-11-02": {
-        "pinterest": {
-          "display_state": "zero",
-          "display_amount": 0,
-          "measured_spend": 0
+          "display_amount": 0.0,
+          "last_confirmed_date": null,
+          "last_confirmed_amount": null,
+          "measured_spend": 0.0
         },
-        "taboola": {
+        "bing": {
           "display_state": "zero",
-          "display_amount": 0,
-          "measured_spend": 0
-        }
-      },
-      "2026-11-09": {
-        "meta": {
-          "display_state": "spend",
-          "display_amount": 12.34,
-          "measured_spend": 12.34
+          "display_amount": 0.0,
+          "last_confirmed_date": "2026-11-09",
+          "last_confirmed_amount": 0.0,
+          "measured_spend": 0.0,
+          "live": false
         },
         "x": {
           "display_state": "spend",
           "display_amount": 223.01,
-          "measured_spend": 223.01,
-          "cash_cost": null,
-          "cash_cost_status": "missing"
+          "last_confirmed_date": "2026-11-09",
+          "last_confirmed_amount": 223.01,
+          "measured_spend": 223.01
         }
       },
       "2026-11-10": {
         "x": {
           "display_state": "pending_backfill",
           "display_amount": null,
-          "measured_spend": null,
           "last_confirmed_date": "2026-11-09",
-          "last_confirmed_amount": 223.01
+          "last_confirmed_amount": 223.01,
+          "measured_spend": null
         }
       }
     }
@@ -65,54 +50,44 @@
     "2026-11-09": {
       "x_ads": {
         "display_state": "spend",
-        "display_amount": 999.0,
-        "measured_spend": 999.0,
-        "spend": 999.0,
-        "complete": true,
-        "live": true,
+        "display_amount": 223.01,
+        "last_confirmed_date": "2026-11-09",
+        "last_confirmed_amount": 223.01,
+        "measured_spend": 223.01,
+        "spend": 223.01,
         "cash_cost": null,
         "cash_cost_status": "missing"
-      },
-      "google_ads": {
+      }
+    },
+    "2026-11-04": {
+      "taboola_ads": {
         "display_state": "spend",
-        "display_amount": 45.67,
-        "measured_spend": 45.67,
-        "spend": 45.67,
+        "display_amount": 356.41,
+        "last_confirmed_date": "2026-11-04",
+        "last_confirmed_amount": 356.41,
+        "measured_spend": 356.41,
+        "spend": 356.41,
         "complete": true,
         "live": true
+      },
+      "chatgpt_ads": {
+        "display_state": "off",
+        "display_amount": 0.0,
+        "last_confirmed_date": null,
+        "last_confirmed_amount": null,
+        "measured_spend": 0.0
       }
-    }
-  },
-  "pending_backfill": {
-    "by_date": {
-      "2026-11-10": {
-        "meta": {
-          "last_confirmed_date": "2026-11-09",
-          "last_confirmed_amount": 9143.41
-        }
-      }
-    }
-  },
-  "chatgpt": {
-    "status": "off",
-    "live": false,
-    "as_of": "2026-11-10",
-    "by_date": {
-      "2026-11-01": { "spend": 0, "complete": true, "live": false, "spend_status": "verified" },
-      "2026-11-09": { "spend": 0, "complete": true, "live": false, "spend_status": "verified" }
-    }
-  },
-  "x": {
-    "status": "live",
-    "live": true,
-    "as_of": "2026-11-09",
-    "by_date": {
-      "2026-11-09": {
-        "spend": 223.01,
+    },
+    "2026-10-30": {
+      "chatgpt_ads": {
+        "display_state": "spend",
+        "display_amount": 28.91,
+        "last_confirmed_date": "2026-10-30",
+        "last_confirmed_amount": 28.91,
+        "measured_spend": 28.91,
+        "spend": 28.91,
         "complete": true,
-        "live": true,
-        "cash_cost": null,
-        "cash_cost_status": "missing"
+        "live": true
       }
     }
   }

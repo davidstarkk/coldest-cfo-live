@@ -1,0 +1,181 @@
+{
+  "as_of": "2026-11-11",
+  "schema": "channel_status.v1",
+  "source": "Owner report via Jarvis 2026-11-11, plus repo evidence (settings notes / verified_zero_paused). Unconfirmed ons are on until an owner report or repo evidence says otherwise.",
+  "display_states": ["off", "zero", "spend", "pending_backfill"],
+  "note": "display_state is decided by this registry first. If a channel is off for that date, display_state is off whatever the row says. Carry-forward of last_confirmed_* is display-only and must never be written into measured spend or sqlite. Off counts as $0 in MER. pending_backfill is display-only.",
+  "channels": {
+    "meta": {
+      "id": "meta",
+      "label": "Meta",
+      "state": "on",
+      "since": null,
+      "never_launched": false,
+      "confirmed": false,
+      "owner_bot": "Meta · Ad Buyer",
+      "evidence": "unconfirmed on (no owner report 2026-11-11; live spend in repo)",
+      "note": null
+    },
+    "google": {
+      "id": "google",
+      "label": "Google",
+      "state": "on",
+      "since": null,
+      "never_launched": false,
+      "confirmed": false,
+      "owner_bot": "Google · Ads",
+      "evidence": "unconfirmed on (no owner report 2026-11-11; live spend in repo)",
+      "note": null
+    },
+    "tiktok": {
+      "id": "tiktok",
+      "label": "TikTok",
+      "state": "on",
+      "since": null,
+      "never_launched": false,
+      "confirmed": false,
+      "owner_bot": null,
+      "evidence": "unconfirmed on (no owner report 2026-11-11; live spend in repo)",
+      "note": null
+    },
+    "bing": {
+      "id": "bing",
+      "label": "Bing",
+      "state": "on",
+      "since": null,
+      "never_launched": false,
+      "confirmed": true,
+      "owner_bot": "Bing Ads bot",
+      "evidence": "owner report via Jarvis 2026-11-11: Bing is on. Live: Brand 607657866, Competitor 607657868, Shopping 607657869, NB Exact 607676059, PMax 607691062. Paused: Non-brand 607657867 (11/10), MSAN 607657870 (11/9). Feed 11/4–11/10 spend matches owner list exactly (no gaps). Do not overwrite bing_ads_daily.json.",
+      "note": "Channel is on. Campaign pauses are not a channel-off. Non-brand still spent on 11/10 (same-day pause). MSAN is absent from the 11/10 campaign list.",
+      "live_campaigns": ["607657866", "607657868", "607657869", "607676059", "607691062"],
+      "paused_campaigns": [
+        {"id": "607657867", "name": "Non-brand Search", "paused_on": "2026-11-10"},
+        {"id": "607657870", "name": "MSAN", "paused_on": "2026-11-09"}
+      ]
+    },
+    "reddit": {
+      "id": "reddit",
+      "label": "Reddit",
+      "state": "off",
+      "since": "2026-11-09",
+      "never_launched": false,
+      "confirmed": true,
+      "owner_bot": "reddit bot",
+      "evidence": "ads_throttle/settings.json notes: David closed Reddit indefinitely on 2026-11-09; reopen review ~May 2027",
+      "note": "Off on/after 2026-11-09. Days before that stay on."
+    },
+    "snapchat": {
+      "id": "snapchat",
+      "label": "Snapchat",
+      "state": "on",
+      "since": null,
+      "never_launched": false,
+      "confirmed": false,
+      "owner_bot": "snapchat ads bot",
+      "evidence": "unconfirmed on (no owner report 2026-11-11; live spend in repo)",
+      "note": null
+    },
+    "chatgpt": {
+      "id": "chatgpt",
+      "label": "ChatGPT",
+      "state": "off",
+      "since": "2026-10-30",
+      "paused_on": "2026-10-30",
+      "never_launched": false,
+      "confirmed": true,
+      "owner_bot": "ads bot for chatgpt",
+      "evidence": "owner report via Jarvis 2026-11-11: all 10 campaigns paused, last two at 10/30 10:06 AM ET; spend $0 for 11/4-11/10. Feed has 10/30 spend $28.91 (same-day pause).",
+      "note": "paused_on 2026-10-30 keeps that day's measured spend. Off from 2026-10-31."
+    },
+    "pinterest": {
+      "id": "pinterest",
+      "label": "Pinterest",
+      "state": "off",
+      "since": "2026-10-30",
+      "never_launched": false,
+      "confirmed": true,
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "evidence": "ads_throttle/settings.json notes: PAUSED by David 10/30; later durable days are verified_zero_paused / live=false",
+      "note": "Off on/after 2026-10-30. Days before that stay on (launch 2026-10-25)."
+    },
+    "applovin": {
+      "id": "applovin",
+      "label": "AppLovin",
+      "state": "on",
+      "since": null,
+      "never_launched": false,
+      "confirmed": true,
+      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
+      "evidence": "owner report via Jarvis 2026-11-11: on. Campaign Coldest_ROAS_Q4_2026 (3142498) runs about $180/day.",
+      "note": null
+    },
+    "x": {
+      "id": "x",
+      "label": "X",
+      "state": "on",
+      "since": "2026-11-04",
+      "never_launched": false,
+      "confirmed": true,
+      "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
+      "evidence": "owner report via Jarvis 2026-11-11: on since 2026-11-04 8:40 PM ET",
+      "note": "Off before 2026-11-04. On from 2026-11-04 (account 18ce55yad5n). Do not overwrite x_ads_daily.json from the billed-spend list."
+    },
+    "taboola": {
+      "id": "taboola",
+      "label": "Taboola",
+      "state": "off",
+      "since": "2026-11-04",
+      "paused_on": "2026-11-04",
+      "never_launched": false,
+      "confirmed": true,
+      "owner_bot": null,
+      "evidence": "owner report via Jarvis 2026-11-11: all 3 campaigns paused ~9:28 AM ET 11/4. Spend 11/3 $150.27 (restated), 11/4 $356.41, confirmed $0 11/5-11/10.",
+      "note": "Same-day pause: 11/4 renders its spend, not Channel off. Off from 2026-11-05."
+    },
+    "outbrain": {
+      "id": "outbrain",
+      "label": "Outbrain",
+      "state": "off",
+      "since": null,
+      "never_launched": true,
+      "confirmed": true,
+      "owner_bot": "outbrain ads",
+      "evidence": "owner report via Jarvis 2026-11-11: never launched. 3 campaigns built 11/3, Off since, $0 / 0 impressions / 0 changes 11/4-11/10, held pending David's billing confirmation. Feed already has 11/3-11/9 at $0 with live=false.",
+      "note": "Always off. A $0 live=false row still maps to display_state off because the registry is off."
+    },
+    "spotify": {
+      "id": "spotify",
+      "label": "Spotify",
+      "state": "off",
+      "since": null,
+      "never_launched": true,
+      "confirmed": true,
+      "owner_bot": null,
+      "evidence": "owner report via Jarvis 2026-11-11: never launched (account a490bd93, 2 draft campaigns)",
+      "note": "Always off. Missing file/day is display_state off, not pending_backfill and not $0 invented into the source row."
+    },
+    "amazon": {
+      "id": "amazon",
+      "label": "Amazon",
+      "state": "on",
+      "since": null,
+      "never_launched": false,
+      "confirmed": false,
+      "owner_bot": null,
+      "evidence": "unconfirmed on (no owner report 2026-11-11; Sellerboard ads in repo)",
+      "note": "Non-D2C. Display only on this registry; MER fold stays in non_d2c.amazon_ads."
+    },
+    "whatnot": {
+      "id": "whatnot",
+      "label": "Whatnot",
+      "state": "on",
+      "since": null,
+      "never_launched": false,
+      "confirmed": false,
+      "owner_bot": null,
+      "evidence": "unconfirmed on (no owner report 2026-11-11; Whatnot ads in repo)",
+      "note": "Non-D2C. Display only on this registry."
+    }
+  }
+}

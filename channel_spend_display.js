@@ -41,19 +41,25 @@
     'chatgpt', 'reddit', 'taboola', 'outbrain', 'x', 'spotify', 'amazon', 'whatnot'
   ];
 
-  // Canonical names first (PR #46). Arrays are aliases, first wins.
+  // Canonical names first (PR #46 head 69045f7). Arrays are aliases, first wins.
+  // Do not alias display_state to `state` — registry uses `state` for on/off.
   var FIELD_MAP = {
-    display_state: ['display_state', 'spend_display_state', 'state'],
+    display_state: ['display_state', 'spend_display_state'],
     display_amount: ['display_amount', 'spend_display_amount', 'amount'],
     last_confirmed_date: ['last_confirmed_date', 'last_confirmed_as_of'],
     last_confirmed_amount: ['last_confirmed_amount', 'last_confirmed_spend'],
     measured_spend: ['measured_spend', 'spend', 'daily_spend', 'ad_spend'],
     cash_cost: ['cash_cost'],
     cash_cost_status: ['cash_cost_status'],
-    estimated: ['estimated', 'totals_estimated', 'includes_carried'],
-    registry_on: ['on', 'enabled', 'live'],
-    registry_since: ['since', 'off_since', 'paused_since', 'on_since'],
-    registry_owner: ['owner', 'owner_bot']
+    estimated: ['mer_estimated', 'estimated', 'totals_estimated', 'includes_carried'],
+    registry_id: ['id'],
+    registry_label: ['label'],
+    registry_state: ['state'],
+    registry_since: ['since'],
+    registry_paused_on: ['paused_on'],
+    registry_never_launched: ['never_launched'],
+    registry_confirmed: ['confirmed'],
+    registry_owner: ['owner_bot', 'owner']
   };
 
   var REGISTRY_PATHS = [
@@ -77,14 +83,23 @@
     ['channel_spend_display']
   ];
 
-  // Date-effective interim registry used only when the published contract is absent.
-  // `since` is the first date the listed `on` value applies (inclusive).
+  // 404 fallback matching ads_throttle/channel_status.json at dashboard 69045f7.
   var INTERIM_REGISTRY = {
-    chatgpt: { on: false, since: '2026-10-31', owner: 'ChatGPT Ads', note: 'paused 2026-10-30' },
-    outbrain: { on: false, since: null, owner: 'Outbrain' },
-    reddit: { on: false, since: null, owner: 'Reddit', note: 'closed' },
-    spotify: { on: false, since: null, owner: 'Spotify', note: 'not launched' },
-    x: { on: true, since: '2026-11-04', owner: 'x.com ads' }
+    meta: { id: 'meta', label: 'Meta', state: 'on', since: null, never_launched: false, confirmed: false },
+    google: { id: 'google', label: 'Google', state: 'on', since: null, never_launched: false, confirmed: false },
+    tiktok: { id: 'tiktok', label: 'TikTok', state: 'on', since: null, never_launched: false, confirmed: false },
+    bing: { id: 'bing', label: 'Bing', state: 'on', since: null, never_launched: false, confirmed: true },
+    reddit: { id: 'reddit', label: 'Reddit', state: 'off', since: '2026-11-09', never_launched: false, confirmed: true },
+    snapchat: { id: 'snapchat', label: 'Snapchat', state: 'on', since: null, never_launched: false, confirmed: false },
+    chatgpt: { id: 'chatgpt', label: 'ChatGPT', state: 'off', since: '2026-10-30', paused_on: '2026-10-30', never_launched: false, confirmed: true },
+    pinterest: { id: 'pinterest', label: 'Pinterest', state: 'off', since: '2026-10-30', never_launched: false, confirmed: true },
+    applovin: { id: 'applovin', label: 'AppLovin', state: 'on', since: null, never_launched: false, confirmed: true },
+    x: { id: 'x', label: 'X', state: 'on', since: '2026-11-04', never_launched: false, confirmed: true },
+    taboola: { id: 'taboola', label: 'Taboola', state: 'off', since: '2026-11-04', paused_on: '2026-11-04', never_launched: false, confirmed: true },
+    outbrain: { id: 'outbrain', label: 'Outbrain', state: 'off', since: null, never_launched: true, confirmed: true },
+    spotify: { id: 'spotify', label: 'Spotify', state: 'off', since: null, never_launched: true, confirmed: true },
+    amazon: { id: 'amazon', label: 'Amazon', state: 'on', since: null, never_launched: false, confirmed: false },
+    whatnot: { id: 'whatnot', label: 'Whatnot', state: 'on', since: null, never_launched: false, confirmed: false }
   };
 
   function isDate(s) {
@@ -195,33 +210,60 @@
     return null;
   }
 
+  function parseOnOff(v) {
+    if (v === true) return true;
+    if (v === false) return false;
+    if (v == null || v === '') return null;
+    var s = String(v);
+    if (s === 'on' || s === 'live' || s === 'enabled') return true;
+    if (s === 'off' || s === 'paused' || s === 'closed' || s === 'not_live' || s === 'not_launched' || s === 'pre_launch') return false;
+    return null;
+  }
+
   function normalizeRegistryEntry(raw) {
     if (raw == null) return null;
     if (typeof raw !== 'object') {
-      if (raw === true || raw === false) return { on: !!raw, since: null, owner: null };
-      if (raw === 'on' || raw === 'off') return { on: raw === 'on', since: null, owner: null };
-      return null;
+      var flag = parseOnOff(raw);
+      if (flag == null) return null;
+      return { id: null, label: null, state: flag ? 'on' : 'off', on: flag, since: null, paused_on: null, never_launched: false, confirmed: null, owner: null };
     }
-    var onRaw = readField(raw, FIELD_MAP.registry_on);
-    if (onRaw == null && raw.status != null) {
-      var st = String(raw.status);
-      if (st === 'on' || st === 'live' || st === 'enabled') onRaw = true;
-      else if (st === 'off' || st === 'paused' || st === 'closed' || st === 'not_live' || st === 'not_launched' || st === 'pre_launch') onRaw = false;
-    }
-    var on = onRaw == null ? null : !!onRaw;
+    var stateRaw = readField(raw, FIELD_MAP.registry_state);
+    if (stateRaw == null && raw.on != null) stateRaw = raw.on === true ? 'on' : (raw.on === false ? 'off' : raw.on);
+    var on = parseOnOff(stateRaw);
     return {
+      id: readField(raw, FIELD_MAP.registry_id) || null,
+      label: readField(raw, FIELD_MAP.registry_label) || null,
+      state: on === true ? 'on' : (on === false ? 'off' : (stateRaw != null ? String(stateRaw) : null)),
       on: on,
       since: readField(raw, FIELD_MAP.registry_since) || null,
+      paused_on: readField(raw, FIELD_MAP.registry_paused_on) || null,
+      never_launched: !!readField(raw, FIELD_MAP.registry_never_launched) || !!raw.never_launched,
+      confirmed: (function () {
+        var c = readField(raw, FIELD_MAP.registry_confirmed);
+        if (c == null && raw.confirmed != null) c = raw.confirmed;
+        return c == null ? null : !!c;
+      })(),
       owner: readField(raw, FIELD_MAP.registry_owner) || null,
       raw: raw
     };
   }
 
+  // paused_on = calendar day of the pause. That day stays ON (spend can render).
+  // Off starts the next day. never_launched is always off.
+  // state=off + since (no paused_on): off on/after since (Pinterest, Reddit).
   function registryOnAt(entry, date) {
     if (!entry) return null;
-    var on = entry.on;
-    var since = entry.since;
+    var n = entry.raw ? entry : normalizeRegistryEntry(entry);
+    if (!n) return null;
+    if (n.never_launched === true) return false;
+    var on = n.on;
+    var since = n.since;
+    var pausedOn = n.paused_on;
     if (!isDate(date)) return on;
+    if (isDate(pausedOn)) {
+      if (date === pausedOn) return true;
+      if (date > pausedOn) return false;
+    }
     if (on === false) {
       if (isDate(since) && date < since) return true;
       return false;
@@ -445,10 +487,10 @@
 
   /**
    * Interim fallback when display_state is absent (current live feeds, pre-#46).
-   *   off          → registry/feed live=false or paused
-   *   spend        → measured > 0 (wins over off so a spent day is never hidden)
-   *   zero         → measured 0 with live=true
-   *   pending      → live channel, no row for that day (never $0)
+   * Registry off for that date → Channel off (including a $0 live=false row).
+   * Pause day (paused_on) stays on, so measured spend that day still renders.
+   * zero may be live=false on an on-channel; that is $0, not Channel off.
+   * live=false never overrides a present display_state (see resolve).
    */
   function derive(input) {
     input = input || {};
@@ -460,19 +502,17 @@
     var live = nodeLive(node);
     if (live == null && input.feedLive != null) live = !!input.feedLive;
     var regOn = registryOnAt(input.registry, date);
-    var paused = !!(input.paused || nodePaused(node));
-    var off = (regOn === false) || (live === false) || paused || (input.feedLive === false && !(spend > 0));
 
+    if (regOn === false) {
+      return view(STATES.OFF, 0, { source: 'registry_off' });
+    }
     if (spend != null && spend > 0) {
       return view(STATES.SPEND, spend, { source: 'measured', estimated: false, measured_spend: spend });
     }
-    if (off) {
-      return view(STATES.OFF, 0, { source: 'off' });
-    }
-    if (hasRow && spend === 0 && live !== false) {
+    if (hasRow && spend === 0) {
       return view(STATES.ZERO, 0, { source: 'measured_zero', measured_spend: 0 });
     }
-    if (live === true || input.feedLive === true || input.assumeLive) {
+    if (regOn === true || live === true || input.feedLive === true || input.assumeLive) {
       var lc = input.lastConfirmed || null;
       if (!lc || !isDate(lc.date) || lc.amount == null) {
         return view(STATES.PENDING, null, {
@@ -557,15 +597,21 @@
     return /missing/i.test(s) || /No data/.test(s) || /not live/i.test(s);
   }
 
+  function merEstimated(doc) {
+    if (!doc || typeof doc !== 'object') return false;
+    var v = readField(doc, FIELD_MAP.estimated);
+    return v === true || v === 'true';
+  }
+
   function mergeRegistry(doc, extras) {
     var published = pickRegistryMap(doc, extras);
     var out = {};
     Object.keys(INTERIM_REGISTRY).forEach(function (id) {
-      out[id] = INTERIM_REGISTRY[id];
+      out[id] = normalizeRegistryEntry(INTERIM_REGISTRY[id]);
     });
     if (published) {
       Object.keys(published).forEach(function (id) {
-        if (id === 'schema' || id === 'schema_version' || id === 'as_of' || id === 'updated_at' || id === 'notes' || id === 'channels') return;
+        if (id === 'schema' || id === 'schema_version' || id === 'as_of' || id === 'updated_at' || id === 'notes' || id === 'source' || id === 'display_states' || id === 'channels') return;
         var n = normalizeRegistryEntry(published[id]);
         if (n) out[id] = n;
       });
@@ -601,7 +647,9 @@
     cashCostLabel: cashCostLabel,
     formatDateLabel: formatDateLabel,
     forbiddenSpendLabel: forbiddenSpendLabel,
-    measuredSpend: measuredSpend
+    measuredSpend: measuredSpend,
+    merEstimated: merEstimated,
+    parseOnOff: parseOnOff
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

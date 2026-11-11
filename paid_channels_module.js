@@ -1063,7 +1063,7 @@
     var mer = contract && contract.blendedMer != null
       ? contract.blendedMer
       : (d2c > 0 && shop > 0 ? shop / d2c : null);
-    var estimated = false;
+    var estimated = !!(Display && Display.merEstimated(MER_DOC));
     displayChannels().forEach(function (ch) {
       var v = displayViewFor(ch, date);
       if (v && (v.estimated || v.display_state === 'pending_backfill')) estimated = true;
