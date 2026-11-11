@@ -2,7 +2,7 @@
   "channel": "taboola",
   "status": "live",
   "live": true,
-  "as_of": "2026-11-09",
+  "as_of": "2026-11-10",
   "source": "Taboola Backstage API (platform-reported)",
   "ingest": "cfo_backend/taboola_sync.py (env TABOOLA_CLIENT_ID / TABOOLA_CLIENT_SECRET on the box; never in repo/CI)",
   "account_id": "taboolaaccount-davidcoldestcom",
@@ -16,7 +16,7 @@
     "utm_medium": "paid_native"
   },
   "note": "Taboola Ads (native). Account taboolaaccount-davidcoldestcom (id 2138422, USD, US/Eastern). spend=spent, revenue=conversions_value, conversions=cpa_actions_num (platform-reported). D2C. A pulled day with no rows is a measured $0; an unpulled day is missing. Single writer: cfo_backend/taboola_sync.py. No credentials in repo/CI.",
-  "updated_at": "2026-11-10T14:04:05.180677+00:00",
+  "updated_at": "2026-11-11T06:12:05.766993+00:00",
   "by_date": {
     "2026-10-04": {
       "spend": 0.0,
@@ -619,11 +619,11 @@
       "api_rows": 1
     },
     "2026-11-03": {
-      "spend": 149.36,
-      "spend_d2c": 149.36,
+      "spend": 150.27,
+      "spend_d2c": 150.27,
       "spend_amazon": 0.0,
-      "clicks": 1213,
-      "impressions": 261375,
+      "clicks": 1221,
+      "impressions": 261934,
       "conversions": 0,
       "revenue": 0.0,
       "platform_conversions": 0,
@@ -635,7 +635,7 @@
       "complete": true,
       "live": true,
       "source": "Taboola Backstage API (platform-reported)",
-      "pulled_at": "2026-11-06T14:14:45.833559+00:00",
+      "pulled_at": "2026-11-11T06:12:05.766564+00:00",
       "api_rows": 1
     },
     "2026-11-04": {
@@ -655,7 +655,7 @@
       "complete": true,
       "live": true,
       "source": "Taboola Backstage API (platform-reported)",
-      "pulled_at": "2026-11-07T14:09:46.662049+00:00",
+      "pulled_at": "2026-11-11T06:12:05.766564+00:00",
       "api_rows": 1
     },
     "2026-11-05": {
@@ -675,7 +675,7 @@
       "complete": true,
       "live": false,
       "source": "Taboola Backstage API (platform-reported)",
-      "pulled_at": "2026-11-08T14:03:09.982532+00:00",
+      "pulled_at": "2026-11-11T06:12:05.766564+00:00",
       "api_rows": 0
     },
     "2026-11-06": {
@@ -695,7 +695,7 @@
       "complete": true,
       "live": false,
       "source": "Taboola Backstage API (platform-reported)",
-      "pulled_at": "2026-11-09T14:13:29.560557+00:00",
+      "pulled_at": "2026-11-11T06:12:05.766564+00:00",
       "api_rows": 0
     },
     "2026-11-07": {
@@ -715,7 +715,7 @@
       "complete": true,
       "live": false,
       "source": "Taboola Backstage API (platform-reported)",
-      "pulled_at": "2026-11-10T14:04:05.176741+00:00",
+      "pulled_at": "2026-11-11T06:12:05.766564+00:00",
       "api_rows": 0
     },
     "2026-11-08": {
@@ -735,7 +735,7 @@
       "complete": true,
       "live": false,
       "source": "Taboola Backstage API (platform-reported)",
-      "pulled_at": "2026-11-10T14:04:05.176741+00:00",
+      "pulled_at": "2026-11-11T06:12:05.766564+00:00",
       "api_rows": 0
     },
     "2026-11-09": {
@@ -755,7 +755,27 @@
       "complete": true,
       "live": false,
       "source": "Taboola Backstage API (platform-reported)",
-      "pulled_at": "2026-11-10T14:04:05.176741+00:00",
+      "pulled_at": "2026-11-11T06:12:05.766564+00:00",
+      "api_rows": 0
+    },
+    "2026-11-10": {
+      "spend": 0.0,
+      "spend_d2c": 0.0,
+      "spend_amazon": 0.0,
+      "clicks": 0,
+      "impressions": 0,
+      "conversions": 0,
+      "revenue": 0.0,
+      "platform_conversions": 0,
+      "platform_revenue": 0.0,
+      "platform_roas": null,
+      "roas": null,
+      "revenue_basis": "platform_reported (Taboola conversions_value; display only, not store sales)",
+      "destination": "d2c",
+      "complete": true,
+      "live": false,
+      "source": "Taboola Backstage API (platform-reported)",
+      "pulled_at": "2026-11-11T06:12:05.766564+00:00",
       "api_rows": 0
     }
   }

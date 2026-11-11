@@ -1,5 +1,5 @@
 {
-  "status": "pre_launch",
+  "status": "off",
   "live": false,
   "as_of": "2026-11-10",
   "source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
@@ -851,5 +851,7 @@
       "destination": "d2c"
     }
   },
-  "tracking_verified": true
+  "tracking_verified": true,
+  "display_state": "off",
+  "display_amount": 0.0
 }

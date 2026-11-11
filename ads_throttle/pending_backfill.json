@@ -1,0 +1,3871 @@
+{
+  "as_of": "2026-11-09",
+  "count": 552,
+  "items": [
+    {
+      "channel": "meta",
+      "day": "2026-08-25",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-08-25",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-08-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-08-25",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-08-25",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-08-25",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-08-25",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-08-25",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-08-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-08-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-08-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-08-26",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-08-26",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-08-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-08-26",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-08-26",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-08-26",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-08-26",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-08-26",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-08-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-08-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-08-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-08-27",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-08-27",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-08-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-08-27",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-08-27",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-08-27",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-08-27",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-08-27",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-08-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-08-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-08-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-08-28",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-08-28",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-08-28",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-08-28",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-08-28",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-08-28",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-08-28",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-08-28",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-08-28",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-08-28",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-08-28",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-08-29",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-08-29",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-08-29",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-08-29",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-08-29",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-08-29",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-08-29",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-08-29",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-08-29",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-08-29",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-08-29",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-08-30",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-08-30",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-08-30",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-08-30",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-08-30",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-08-30",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-08-30",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-08-30",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-08-30",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-08-30",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-08-30",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-08-31",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-08-31",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-08-31",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-08-31",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-08-31",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-08-31",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-08-31",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-08-31",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-08-31",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-08-31",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-08-31",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-01",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-01",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-01",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-01",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-01",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-01",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-01",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-01",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-01",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-01",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-01",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-02",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-02",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-02",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-02",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-02",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-02",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-02",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-02",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-02",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-02",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-02",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-03",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-03",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-03",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-03",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-03",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-03",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-03",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-03",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-03",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-03",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-03",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-04",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-04",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-04",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-04",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-04",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-04",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-04",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-04",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-04",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-04",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-04",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-05",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-05",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-05",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-05",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-05",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-05",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-05",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-05",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-05",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-05",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-05",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-06",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-06",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-06",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-06",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-06",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-06",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-06",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-06",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-06",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-06",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-06",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-07",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-07",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-07",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-07",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-07",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-07",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-07",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-07",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-07",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-07",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-07",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-08",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-08",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-08",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-08",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-08",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-08",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-08",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-08",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-08",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-08",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-08",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-09",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-09",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-09",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-09",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-09",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-09",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-09",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-09",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-09",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-09",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-09",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-10",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-10",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-10",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-10",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-10",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-10",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-10",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-10",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-10",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-10",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-10",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-11",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-11",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-11",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-11",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-11",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-11",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-11",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-11",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-11",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-11",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-11",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-12",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-12",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-12",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-12",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-12",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-12",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-12",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-12",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-12",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-12",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-12",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-13",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-13",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-13",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-13",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-13",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-13",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-13",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-13",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-13",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-13",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-13",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-14",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-14",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-14",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-14",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-14",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-14",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-14",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-14",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-14",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-14",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-14",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-15",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-15",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-15",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-15",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-15",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-15",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-15",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-15",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-15",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-15",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-15",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-16",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-16",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-16",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-16",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-16",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-16",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-16",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-16",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-16",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-16",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-16",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-17",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-17",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-17",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-17",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-17",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-17",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-17",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-17",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-17",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-17",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-17",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-18",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-18",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-18",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-18",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-18",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-18",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-18",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-18",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-18",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-18",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-18",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-19",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-19",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-19",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-19",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-19",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-19",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-19",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-19",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-19",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-19",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-19",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-20",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-20",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-20",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-20",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-20",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-20",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-20",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-20",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-20",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-20",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-20",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-21",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-21",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-21",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-21",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-21",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-21",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-21",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-21",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-21",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-21",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-21",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-22",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-22",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-22",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-22",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-22",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-22",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-22",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-22",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-22",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-22",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-22",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-23",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-23",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-23",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-23",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-23",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-23",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-23",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-23",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-23",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-23",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-23",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-24",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-24",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-24",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-24",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-24",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-24",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-24",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-24",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-24",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-24",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-24",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-25",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-25",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-25",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-25",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-25",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-25",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-25",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-26",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-26",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-26",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-26",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-26",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-26",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-26",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-09-27",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-27",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-09-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "bing",
+      "day": "2026-09-27",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-27",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-27",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-27",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-27",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-09-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-28",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-28",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-28",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-28",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-28",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-28",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-28",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-09-29",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-29",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-29",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-29",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-29",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-29",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-29",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-09-30",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-09-30",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-09-30",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-09-30",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-09-30",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-09-30",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-01",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-01",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-01",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-01",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-10-01",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-01",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-02",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-02",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-02",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-02",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-10-02",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-02",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-03",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-03",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-03",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-03",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "taboola",
+      "day": "2026-10-03",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-03",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-04",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-04",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-04",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-04",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-04",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-05",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-05",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-05",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-05",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-05",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-06",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-06",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-06",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-06",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-06",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-07",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-07",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-07",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-07",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-07",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-08",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-08",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-08",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-08",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-08",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-09",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-09",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-09",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-09",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-09",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-10-10",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": "2026-10-09",
+      "last_confirmed_amount": 4281.49
+    },
+    {
+      "channel": "google",
+      "day": "2026-10-10",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": "2026-10-09",
+      "last_confirmed_amount": 1113.18
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-10-10",
+      "owner_bot": null,
+      "last_confirmed_date": "2026-10-09",
+      "last_confirmed_amount": 2627.55
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-10",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-10",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-10",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-10",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-10",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-10-10",
+      "owner_bot": null,
+      "last_confirmed_date": "2026-10-09",
+      "last_confirmed_amount": 542.65
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-11",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-11",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-11",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-11",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-11",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "google",
+      "day": "2026-10-12",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": "2026-10-11",
+      "last_confirmed_amount": 998.41
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-12",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-12",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-12",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-12",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-12",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-13",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-13",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-13",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-13",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-13",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-14",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-14",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-14",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-14",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-14",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-15",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-15",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-15",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-15",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-15",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-16",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-16",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-16",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-16",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-16",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-17",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-17",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-17",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-17",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-17",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-18",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-18",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-18",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-18",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-18",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-19",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-19",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-19",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-19",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-19",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-20",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-20",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-20",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-20",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-20",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-21",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-21",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-21",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-21",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-21",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-22",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-22",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-22",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-22",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-22",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-23",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-23",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-23",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-23",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-23",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-24",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-10-24",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-24",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-24",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-24",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-25",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "chatgpt",
+      "day": "2026-10-25",
+      "owner_bot": "ads bot for chatgpt",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "pinterest",
+      "day": "2026-10-25",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-25",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-26",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-26",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-27",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-28",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": "2026-10-27",
+      "last_confirmed_amount": 417.86
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-28",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-10-29",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": "2026-10-27",
+      "last_confirmed_amount": 417.86
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-29",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-30",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-10-31",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-01",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-02",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-03",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-04",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-05",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "reddit",
+      "day": "2026-11-06",
+      "owner_bot": "reddit bot",
+      "last_confirmed_date": "2026-11-05",
+      "last_confirmed_amount": 150.12
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-06",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-07",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-08",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-09",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "meta",
+      "day": "2026-11-10",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": "2026-11-09",
+      "last_confirmed_amount": 9143.41
+    },
+    {
+      "channel": "google",
+      "day": "2026-11-10",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": "2026-11-09",
+      "last_confirmed_amount": 1712.59
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-11-10",
+      "owner_bot": null,
+      "last_confirmed_date": "2026-11-09",
+      "last_confirmed_amount": 4301.28
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-11-10",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": "2026-11-09",
+      "last_confirmed_amount": 604.0
+    },
+    {
+      "channel": "applovin",
+      "day": "2026-11-10",
+      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
+      "last_confirmed_date": "2026-11-09",
+      "last_confirmed_amount": 173.3
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-10",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-11-10",
+      "owner_bot": null,
+      "last_confirmed_date": "2026-11-09",
+      "last_confirmed_amount": 853.45
+    }
+  ],
+  "note": "Display-only. pending_backfill must not be written into measured spend, daily_inputs, or sqlite. Off days are $0, not pending."
+}
