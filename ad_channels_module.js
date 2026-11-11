@@ -51,6 +51,10 @@
 (function (root) {
   'use strict';
 
+  var Display = (typeof require === 'function'
+    ? (function () { try { return require('./channel_spend_display.js'); } catch (e) { return root.ChannelSpendDisplay; } })()
+    : root.ChannelSpendDisplay);
+
   var CHANNELS = [
     { id: 'meta', label: 'Meta', srcKeys: ['meta', 'meta_ads', 'facebook', 'fb_ads'], color: '#3987e5', d2c: true, file: 'meta_ads_data.json' },
     { id: 'google', label: 'Google Ads', srcKeys: ['google_ads', 'google', 'google_advertising'], color: '#d95926', d2c: true, file: 'google_ads_data.json' },
@@ -264,7 +268,11 @@
     if (node.data_available === false || node.zero_assumed === true) return true;
     var st = node.status != null ? String(node.status) : '';
     if (st === 'missing' || st === 'no_feed' || st === 'unpublished' || st === 'no_data') return true;
-    if (st === 'pre_launch' && (node.spend == null || n0(node.spend) === 0) && !node.complete) return true;
+    var hasDays = (Array.isArray(node.daily) && node.daily.length)
+      || (node.by_date && typeof node.by_date === 'object' && Object.keys(node.by_date).length)
+      || (node.by_day && typeof node.by_day === 'object' && Object.keys(node.by_day).length);
+    // Root status is NOT per-day truth (ChatGPT root is 'off' / historically 'pre_launch').
+    if ((st === 'pre_launch' || st === 'off' || st === 'paused') && (node.spend == null || n0(node.spend) === 0) && !node.complete && !hasDays) return true;
     var src = node.source != null ? String(node.source) : '';
     if ((src === 'no_feed' || src === 'no feed' || src === 'none') && (node.spend == null || n0(node.spend) === 0)) return true;
     return false;
@@ -1659,6 +1667,45 @@
     return '<table class="ac-log"><thead><tr><th>Date</th><th>Channel</th><th>Action</th><th>Budget</th><th>ROAS 7d at the time</th><th>Note</th></tr></thead><tbody>' + rows + '</tbody></table>';
   }
 
+  function lastConfirmedRec(ch, date, days) {
+    if (!days || !date) return null;
+    var keys = Object.keys(days).filter(function (d) { return d < date && days[d] && days[d].spend != null; }).sort();
+    if (!keys.length) return null;
+    var k = keys[keys.length - 1];
+    return { date: k, amount: days[k].spend };
+  }
+
+  function displayExtrasFromState() {
+    var inputs = STATE.inputs || {};
+    return {
+      channelStatus: inputs.channelStatus || null,
+      pendingDoc: inputs.pendingBackfill || null,
+      advDaily: inputs.advertisingSourcesDaily || null
+    };
+  }
+
+  function channelSpendLabel(ch, date, rec, days) {
+    if (!Display) return rec && rec.spend != null ? usd(rec.spend, 2) : (ch.noDataLabel || '—');
+    var extras = displayExtrasFromState();
+    var mer = (STATE.inputs && STATE.inputs.mer) || null;
+    var registryMap = Display.mergeRegistry(mer, extras);
+    var reg = Display.registryEntryFrom(registryMap, ch.id);
+    var dayNode = Display.pickDayContract(mer, ch.id, date, extras);
+    var v = Display.resolve({
+      channelId: ch.id,
+      date: date,
+      dayNode: dayNode,
+      measured: rec && rec.spend != null ? rec : null,
+      hasRow: !!(rec && rec.spend != null),
+      registry: reg,
+      feedLive: rec && typeof rec.live === 'boolean' ? rec.live : null,
+      lastConfirmed: lastConfirmedRec(ch, date, days),
+      assumeLive: Display.registryOnAt(reg, date) === true || (rec && rec.live === true)
+    });
+    var txt = Display.formatWithCash(v, rec && rec.cash_cost, rec && rec.cash_cost_status);
+    return txt || (ch.noDataLabel || '—');
+  }
+
   function cardHtml(s, stacked, dates) {
     var ch = s.ch;
     var g = s.growth;
@@ -1668,12 +1715,20 @@
     if (s.platformDays7 > 0) platformNote = (s.win === 1 ? 'platform reported' : s.platformDays7 + ' of ' + s.win + ' days reported') + (s.platformLatest && s.end && s.platformLatest < s.end ? ' · through ' + mmdd(s.platformLatest) : '') + (s.platformBasis ? ' · ' + s.platformBasis : '');
     else if (s.spend7 > 0) platformNote = 'no platform read';
     else platformNote = '';
+    var xReg = Display && Display.registryEntryFrom(Display.mergeRegistry((STATE.inputs && STATE.inputs.mer) || null, displayExtrasFromState()), 'x');
+    var xOff = ch.id === 'x' && Display && Display.registryOnAt(xReg, s.end) === false;
+    var statusPill = xOff || (ch.id === 'x' && s.live === false && !(s.yday > 0))
+      ? pillHtml('Channel off', 'ac-muted')
+      : (s.statusLabel === 'LIVE' ? pillHtml('LIVE', 'ac-good') : s.statusLabel === 'STALE' ? pillHtml('STALE', 'ac-warn') : s.statusLabel === 'NOT LAUNCHED' ? pillHtml('NOT LAUNCHED', 'ac-muted') : s.live === false ? pillHtml(s.status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE', 'ac-muted') : pillHtml(s.statusLabel || 'NO FEED', 'ac-muted'));
     var head = '<h3><span class="ac-dot" style="background:' + ch.color + '"></span>' + esc(ch.label)
-      + (s.statusLabel === 'LIVE' ? pillHtml('LIVE', 'ac-good') : s.statusLabel === 'STALE' ? pillHtml('STALE', 'ac-warn') : s.statusLabel === 'NOT LAUNCHED' ? pillHtml('NOT LAUNCHED', 'ac-muted') : s.live === false ? pillHtml(s.status === 'pre_launch' ? 'PRE-LAUNCH' : 'NOT LIVE', 'ac-muted') : pillHtml(s.statusLabel || 'NO FEED', 'ac-muted'))
+      + statusPill
       + (s.mode ? pillHtml(String(s.mode).toUpperCase(), s.mode === 'auto' ? 'ac-ok' : 'ac-muted') : '')
       + trackingPill(s.tracking) + '</h3>';
+    var ydayDays = (STATE.series && STATE.series.channels[ch.id] && STATE.series.channels[ch.id].days) || {};
+    var ydayRec = s.end ? ydayDays[s.end] : null;
+    var ydaySpendTxt = ch.id === 'x' ? channelSpendLabel(ch, s.end, ydayRec, ydayDays) : dv(ch, usd(s.yday));
     var nums = '<div class="ac-nums">'
-      + '<div><div class="l">Yesterday</div><div class="v">' + esc(dv(ch, usd(s.yday))) + '</div><div class="s">' + (s.end ? shortDate(s.end) : '') + (ch.cashCost && s.ydayCash != null ? ' · cash ' + usd(s.ydayCash) : '') + '</div></div>'
+      + '<div><div class="l">Yesterday</div><div class="v">' + esc(ydaySpendTxt) + '</div><div class="s">' + (s.end ? shortDate(s.end) : '') + (ch.cashCost && s.ydayCash != null && ch.id !== 'x' ? ' · cash ' + usd(s.ydayCash) : '') + '</div></div>'
       + '<div><div class="l">' + (s.win === 1 ? 'Spend (yesterday)' : s.win + '-day spend') + '</div><div class="v">' + esc(dv(ch, usd(s.spend7))) + '</div><div class="s ' + growthCls(g.code) + '">' + growthArrow(g) + ' ' + esc(g.label) + (wowTxt ? ' · ' + wowTxt : '') + '</div>' + (g.code === 'incomplete' || g.code === 'stale' ? '<div class="s ac-warn">' + (ch.noDataLabel ? esc(ch.noDataLabel) + ' for ' : 'missing days are not $0 — ') + esc((s.feed && s.feed.missing7 || []).map(mmdd).join(', ') || 'feed gap') + (ch.noDataLabel ? ' · excluded from tracked spend' : '') + '</div>' : '') + '</div>'
       + '<div><div class="l">Share ' + W + '</div><div class="v">' + esc(dv(ch, s.share == null ? '—' : s.share.toFixed(0) + '%')) + '</div><div class="s">of tracked ad spend · 30d ' + esc(dv(ch, usd(s.spend30))) + '</div></div>'
       + '<div><div class="l">Platform ROAS ' + W + '</div><div class="v">' + esc(dv(ch, roasTxt(s.roas7))) + '</div><div class="s">' + esc(platformNote) + '</div></div>'
@@ -1695,12 +1750,15 @@
     var rows = dates.slice(-14).reverse().map(function (d) {
       var r = STATE.series.channels[ch.id].days[d];
       var nd = esc(dv(ch, '—'));
-      if (!r) return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td></tr>';
+      var spendCell = ch.id === 'x'
+        ? esc(channelSpendLabel(ch, d, r, STATE.series.channels[ch.id].days))
+        : (r ? esc(dv(ch, usd(r.spend, 2))) : nd);
+      if (!r) return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + spendCell + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td></tr>';
       var roas = dayRoas(r);
       // measured $0 day: number-only row (metrics n/a "—"), never "No data" next to a number of spend
       var gap = r.spend === 0 ? '—' : nd;
       function g(txt) { return txt === '—' ? gap : txt; }
-      return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + esc(dv(ch, usd(r.spend, 2))) + '</td><td>' + (r.hasPlatform ? esc(g(usd(r.revenue, 2))) : gap) + '</td><td>' + (r.hasPlatform ? esc(g(intTxt(r.conversions))) : gap) + '</td><td>' + esc(g(roasTxt(roas))) + '</td></tr>';
+      return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + spendCell + '</td><td>' + (r.hasPlatform ? esc(g(usd(r.revenue, 2))) : gap) + '</td><td>' + (r.hasPlatform ? esc(g(intTxt(r.conversions))) : gap) + '</td><td>' + esc(g(roasTxt(roas))) + '</td></tr>';
     }).join('');
     var det = '<details><summary>Last 14 days</summary><table class="ac-mini"><thead><tr><th>Day</th><th>Spend</th><th>Plat. rev</th><th>Conv</th><th>ROAS</th></tr></thead><tbody>' + rows + '</tbody></table></details>';
     return '<div class="ac-card" id="ac-card-' + ch.id + '" style="border-top-color:' + ch.color + '">' + head + nums + spark + post + src + det + '</div>';
@@ -1883,7 +1941,9 @@
       changes: 'ads_throttle/changes.json',
       rankings: 'ads_throttle/rankings.json',
       tracking: 'ads_throttle/tracking_health.json',
-      seriesFile: 'ads_throttle/series.json'
+      seriesFile: 'ads_throttle/series.json',
+      channelStatus: 'ads_throttle/channel_status.json',
+      pendingBackfill: 'ads_throttle/pending_backfill.json'
     };
     var keys = Object.keys(files);
     var dailyUrls = CHANNELS.map(function (ch) { return dailyFileName(ch); });
@@ -1969,6 +2029,7 @@
     dropConfig: dropConfig,
     isDropDay: isDropDay,
     weekday: weekday,
+    channelSpendLabel: channelSpendLabel,
     heatmapHtml: heatmapHtml,
     windowDates: windowDates,
     render: render,

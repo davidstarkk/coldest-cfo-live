@@ -1,0 +1,23 @@
+{
+  "schema": "channel_status.v1",
+  "as_of": "2026-11-10",
+  "updated_at": "2026-11-10T18:00:00+00:00",
+  "notes": "Finance PR #46 example. 15 channels; on/off is date-effective via since.",
+  "channels": {
+    "meta": { "on": true, "since": "2024-01-01", "owner": "Meta Ads" },
+    "google": { "on": true, "since": "2024-01-01", "owner": "Google Ads" },
+    "tiktok": { "on": true, "since": "2024-01-01", "owner": "TikTok Ads" },
+    "bing": { "on": true, "since": "2026-09-01", "owner": "Bing / Microsoft Ads" },
+    "snapchat": { "on": true, "since": "2026-09-01", "owner": "Snapchat Ads" },
+    "applovin": { "on": true, "since": "2026-09-01", "owner": "AppLovin" },
+    "pinterest": { "on": true, "since": "2026-10-25", "owner": "Pinterest Ads" },
+    "chatgpt": { "on": false, "since": "2026-10-31", "owner": "ChatGPT Ads" },
+    "reddit": { "on": false, "since": null, "owner": "Reddit Ads" },
+    "taboola": { "on": true, "since": "2026-10-01", "owner": "Taboola Ads" },
+    "outbrain": { "on": false, "since": null, "owner": "Outbrain Ads" },
+    "x": { "on": true, "since": "2026-11-04", "owner": "x.com ads" },
+    "spotify": { "on": false, "since": null, "owner": "Spotify Ads" },
+    "amazon": { "on": true, "since": "2024-01-01", "owner": "Amazon Ads" },
+    "whatnot": { "on": true, "since": "2024-01-01", "owner": "Whatnot" }
+  }
+}

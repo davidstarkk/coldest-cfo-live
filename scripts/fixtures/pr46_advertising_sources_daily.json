@@ -1,0 +1,23 @@
+{
+  "as_of": "2026-11-09",
+  "advertising_sources": {
+    "2026-11-09": {
+      "bing_ads": {
+        "display_state": "zero",
+        "display_amount": 0,
+        "measured_spend": 0,
+        "spend": 0,
+        "complete": true,
+        "live": true
+      },
+      "reddit_ads": {
+        "display_state": "spend",
+        "display_amount": 48.99,
+        "measured_spend": 48.99,
+        "spend": 48.99,
+        "complete": true,
+        "live": true
+      }
+    }
+  }
+}

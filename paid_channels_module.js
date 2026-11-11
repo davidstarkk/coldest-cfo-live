@@ -11,8 +11,10 @@
      3. mer_for_manus.json <channel> block  (exact keys: bing, reddit, snapchat, chatgpt, pinterest; x, taboola, outbrain and spotify are display-only)
      4. optional <channel>_ads_data.json (empty pre_launch / no_feed stubs ignored)
      5. localStorage manual day (channel tabs)
-   A missing mer.x / unpublished Taboola-Outbrain-X day is "missing", not $0.
-   An unmeasured Spotify Ads (spotify_ads) day reads "No data" — never $0, never added to D2C spend.
+   Spend cells render only from display_state (off / zero / spend / pending_backfill)
+   via channel_spend_display.js. Never "missing", "No data", or "$0.00 · not live".
+   An unmeasured Spotify Ads (spotify_ads) outcome metric may still read "No data";
+   the spend cell follows display_state (Channel off until launched).
 
    mer_for_manus.json daily_inputs contract (match these keys exactly):
      d2c_ad_spend, blended_mer, total_ad_spend,
@@ -42,6 +44,10 @@
 (function (root) {
   'use strict';
 
+  var Display = (typeof require === 'function'
+    ? (function () { try { return require('./channel_spend_display.js'); } catch (e) { return root.ChannelSpendDisplay; } })()
+    : root.ChannelSpendDisplay);
+
   var CHANNELS = [
     { id: 'meta', label: 'Meta', tabKey: 'meta_ads', tabLabel: 'META ADS', merKey: 'meta', file: 'meta_ads_data.json', sourceKeys: ['meta', 'meta_ads', 'facebook', 'fb_ads'], pipelineDefault: true },
     { id: 'google', label: 'Google Ads', tabKey: 'google_ads', tabLabel: 'GOOGLE ADS', merKey: 'google', file: 'google_ads_data.json', sourceKeys: ['google_ads', 'google', 'google_advertising'], pipelineDefault: true },
@@ -69,6 +75,8 @@
   });
   var MER_DOC = null;
   var ADV_DAILY = null;
+  var CHANNEL_STATUS = null;
+  var PENDING_BACKFILL = null;
 
   function hostArray(name) {
     try {
@@ -215,7 +223,8 @@
     var node = pickKeyed(map, keys);
     if (node === undefined) return null;
     var amt = publishedAmount(node, ['spend', 'daily_spend', 'ad_spend', 'amount']);
-    if (!amt.published) return emptyDay(date);
+    // Explicit null / unpublished channel_ad_spend must not shadow a measured feed row.
+    if (!amt.published) return null;
     var rich = null;
     var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
     if (src) {
@@ -358,8 +367,13 @@
     if (node.missing === true || node.data_available === false || node.zero_assumed === true) return true;
     var st = node.status != null ? String(node.status) : '';
     if (st === 'missing' || st === 'no_feed' || st === 'unpublished' || st === 'no_data') return true;
-    if (st === 'pre_launch' && (finiteNum(node.spend) == null || finiteNum(node.spend) === 0) && !node.complete && !(Array.isArray(node.daily) && node.daily.length)) return true;
-    return (st === 'no_feed' || node.source === 'no feed' || node.source === 'none') && (finiteNum(node.spend) == null || finiteNum(node.spend) === 0);
+    var hasDays = (Array.isArray(node.daily) && node.daily.length)
+      || (node.by_date && typeof node.by_date === 'object' && Object.keys(node.by_date).length)
+      || (node.by_day && typeof node.by_day === 'object' && Object.keys(node.by_day).length);
+    // Root status is NOT per-day truth (ChatGPT root is 'off' / historically 'pre_launch').
+    // A populated by_date is a real feed; only empty wrappers are stubs.
+    if ((st === 'pre_launch' || st === 'off' || st === 'paused') && (finiteNum(node.spend) == null || finiteNum(node.spend) === 0) && !node.complete && !hasDays) return true;
+    return (st === 'no_feed' || node.source === 'no feed' || node.source === 'none') && (finiteNum(node.spend) == null || finiteNum(node.spend) === 0) && !hasDays;
   }
 
   // Same measured-zero rule as ad_channels_module.js. Bare {spend:0} is missing.
@@ -916,6 +930,47 @@
       }
     });
 
+    // X is display-listed (not in CHANNELS overlay) but its cash cost belongs in D2C /
+    // blended totals when mer_for_manus has not already published the as-of contract.
+    if (!channels.x) {
+      var xNode = xDayRow(date);
+      var xView = displayViewFor(X_DISPLAY, date);
+      if (xNode && spendIsPublished(xNode) && xView.display_state !== 'off') {
+        var xAmt = finiteNum(xNode.cash_cost);
+        if (xAmt == null) xAmt = nestedSpend(xNode);
+        var xDay = nodeToDay(date, xNode, xNode.source || 'x_ads_daily.json');
+        channels.x = xDay;
+        d2cLines.push({
+          key: 'x',
+          label: 'X Ads',
+          spend: round2(xAmt == null ? 0 : xAmt),
+          kind: 'd2c',
+          source: xDay.source,
+          channel: 'x',
+          day: xDay,
+          estimated: xView.display_state === 'pending_backfill'
+        });
+      } else if (xView.display_state === 'pending_backfill' && xView.last_confirmed_amount != null) {
+        var carried = emptyDay(date);
+        carried.spend = round2(xView.last_confirmed_amount);
+        carried.hasFeed = true;
+        carried.status = 'pending_backfill';
+        channels.x = carried;
+        d2cLines.push({
+          key: 'x',
+          label: 'X Ads',
+          spend: carried.spend,
+          kind: 'd2c',
+          source: 'pending_backfill',
+          channel: 'x',
+          day: carried,
+          estimated: true
+        });
+      } else {
+        channels.x = emptyDay(date);
+      }
+    }
+
     var tt = tiktokSplitFor(date);
     if (tt.d2c != null) {
       d2cLines.push({
@@ -1008,6 +1063,11 @@
     var mer = contract && contract.blendedMer != null
       ? contract.blendedMer
       : (d2c > 0 && shop > 0 ? shop / d2c : null);
+    var estimated = false;
+    displayChannels().forEach(function (ch) {
+      var v = displayViewFor(ch, date);
+      if (v && (v.estimated || v.display_state === 'pending_backfill')) estimated = true;
+    });
     return {
       date: date,
       channels: out,
@@ -1016,10 +1076,60 @@
       d2cAdSpend: d2c,
       shopifyD2C: shop,
       blendedMer: mer,
+      estimated: estimated,
       nonD2c: contract ? contract.nonD2c : dest.other.concat(dest.amazon),
       destination: dest,
       contract: contract
     };
+  }
+
+  function xAmountForTotals(node) {
+    if (!node) return 0;
+    var cash = finiteNum(node.cash_cost);
+    if (cash != null) return round2(cash);
+    var spend = nestedSpend(node);
+    return spend == null ? 0 : round2(spend);
+  }
+
+  // Fold X into PARTIAL totals from x_ads_daily.json / mer.x when the pipeline
+  // row has not already published advertising_sources.x_ads.
+  function applyXOverlay() {
+    var partials = hostArray('PARTIAL_REPORTS');
+    if (!partials) return;
+    partials.forEach(function (r) {
+      if (!r || !r.date) return;
+      r.advertising_sources = r.advertising_sources || {};
+      var existing = publishedKeyedNode(r.advertising_sources, X_DISPLAY.sourceKeys.concat(['x', 'twitter_ads', 'twitter']));
+      var node = existing || xDayRow(r.date);
+      var view = displayViewFor(X_DISPLAY, r.date);
+      if (view.display_state === 'off') return;
+      if (!node && view.display_state === 'pending_backfill' && view.last_confirmed_amount != null) {
+        node = { spend: view.last_confirmed_amount, cash_cost: view.last_confirmed_amount, complete: true, live: true, source: 'pending_backfill' };
+      }
+      if (!node || (!spendIsPublished(node) && view.display_state !== 'pending_backfill')) return;
+      if (!existing) r.advertising_sources.x_ads = node;
+      if (r._pc_x_pipeline == null) r._pc_x_pipeline = !!existing;
+      if (r._pc_x_pipeline) {
+        r._pc_x_applied = 0;
+        return;
+      }
+      var spend = view.display_state === 'pending_backfill' ? round2(view.last_confirmed_amount) : xAmountForTotals(node);
+      var prev = r._pc_x_applied || 0;
+      var delta = round2(spend - prev);
+      r.x_ad_spend = spend;
+      if (view.estimated || view.display_state === 'pending_backfill') r.totals_estimated = true;
+      if (Math.abs(delta) < 0.005) return;
+      var p = r.provisional_totals;
+      if (p) {
+        if (p.ads != null) p.ads = round2(num(p.ads) + delta);
+        if (p.net_profit != null) p.net_profit = round2(num(p.net_profit) - delta);
+        if (p.revenue > 0 && p.ads > 0) p.mer = p.revenue / p.ads;
+        if (p.revenue > 0 && p.net_profit != null) p.net_margin_pct = (p.net_profit / p.revenue) * 100;
+      }
+      if (r.total_ad_spend != null) r.total_ad_spend = round2(num(r.total_ad_spend) + delta);
+      if (r.blended_ad_spend != null) r.blended_ad_spend = round2(num(r.blended_ad_spend) + delta);
+      r._pc_x_applied = spend;
+    });
   }
 
   function setFeeds(id, file, mer, manual) {
@@ -1193,33 +1303,52 @@
   }
 
   function xSpendTxt(date) {
+    return spendCellTxt(X_DISPLAY, date);
+  }
+
+  function xSectionHtml(date) {
+    var txt = xSpendTxt(date);
+    var v = displayViewFor(X_DISPLAY, date);
     var r = xDayRow(date);
-    if (r) return usd(r.spend) + (r.cash_cost != null ? ' (cash cost ' + usd(r.cash_cost) + ')' : '');
-    if (!xBlock()) return 'missing';
-    return '$0.00 · not live';
+    var html = '<div class="pc-x-section" data-pc-x="' + esc(date) + '">'
+      + '<div class="pc-title">X Ads</div>'
+      + '<div class="pc-kpi-val" style="font-size:1.1rem;margin:4px 0 8px">' + esc(txt) + '</div>';
+    if (r && v.display_state === 'spend') {
+      var cashLbl = Display.cashCostLabel(r.cash_cost, r.cash_cost_status);
+      html += '<div class="pc-sub">Platform spend ' + usd(r.spend)
+        + (cashLbl ? ' · cash cost ' + cashLbl : '')
+        + (r.fee != null ? ' · Premium fee ' + usd(r.fee) : '')
+        + '. Cash cost folds into D2C / blended MER.</div>';
+    } else if (v.display_state === 'pending_backfill') {
+      html += '<div class="pc-sub">Live channel, no row for this day — carried last confirmed amount. Totals that include this figure are estimated.</div>';
+    } else if (v.display_state === 'off') {
+      html += '<div class="pc-sub">Channel off — not counted in D2C / blended MER.</div>';
+    }
+    html += '</div>';
+    return html;
   }
 
   function xDetailHtml(date) {
     var b = xBlock();
     var r = xDayRow(date);
+    var spendLabel = xSpendTxt(date);
     function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
     if (!r) {
-      if (!b) {
-        return '<tr><td>X Ads</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>no X Ads feed published</td></tr>'
-          + '<tr class="pc-split"><td colspan="7">↳ X spend is unpublished here — display is missing, not $0. CFO publishes advertising_sources.x_ads / x_ads_daily.json.</td></tr>';
-      }
-      return '<tr><td>X Ads</td><td>$0.00</td><td>0</td><td>0</td><td>$0.00</td><td>—</td><td>not live</td></tr>'
-        + '<tr class="pc-split"><td colspan="7">↳ X Premium Business fee / ad credit: not live until the account id and start date are set. $0 in ad spend and MER.</td></tr>';
+      var note = displayViewFor(X_DISPLAY, date).display_state === 'off'
+        ? 'X Ads channel off'
+        : 'X Ads pending backfill — last confirmed amount carried; not $0.';
+      return '<tr><td>X Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc(note) + '</td></tr>'
+        + '<tr class="pc-split"><td colspan="7">↳ ' + esc(note) + ' CFO publishes advertising_sources.x_ads / x_ads_daily.json.</td></tr>';
     }
     var spend = num(r.spend);
     var cash = finiteNum(r.cash_cost);
     var srcLabel = (b && b.source) || r.source || 'advertising_sources';
     var plan = (b && b.plan) || r.plan || 'monthly';
     var flags = (b && b.flags) || r.flags || [];
-    var html = '<tr><td>X Ads</td><td>' + usd(spend) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
+    var html = '<tr><td>X Ads</td><td>' + esc(spendLabel) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
       + '</td><td>' + usd(r.revenue) + '</td><td>' + esc(rx(spend > 0 ? num(r.revenue) / spend : null)) + ' · platform-reported</td><td>'
       + esc(srcLabel) + '</td></tr>'
-      + '<tr class="pc-split"><td>↳ X cash cost</td><td>' + (cash == null ? 'missing' : usd(cash)) + '</td><td colspan="5">ad credit −' + usd(r.credit_used)
+      + '<tr class="pc-split"><td>↳ X cash cost</td><td>' + esc(Display.cashCostLabel(r.cash_cost, r.cash_cost_status) || '—') + '</td><td colspan="5">ad credit −' + usd(r.credit_used)
       + ' · cash spend ' + usd(r.cash_spend) + ' · Premium fee ' + usd(r.fee) + ' (' + esc(plan)
       + ') · ROAS on cash cost ' + esc(rx(cash > 0 ? num(r.revenue) / cash : null)) + '</td></tr>';
     flags.forEach(function (f) {
@@ -1268,27 +1397,24 @@
   }
 
   function taboolaSpendTxt(date) {
-    var r = taboolaDayRow(date);
-    if (!r) return 'missing';
-    var spend = num(r.spend);
-    return usd(spend) + (spend > 0 || r.live ? '' : ' · not live');
+    return spendCellTxt(TABOOLA_DISPLAY, date);
   }
 
   function taboolaDetailHtml(date) {
     var r = taboolaDayRow(date);
     var shop = taboolaShopify(date);
-    var shopTxt = shop == null ? 'missing' : usd(shop);
+    var shopTxt = shop == null ? '—' : usd(shop);
+    var spendLabel = taboolaSpendTxt(date);
     function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
     if (!r) {
-      return '<tr><td>Taboola Ads</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>no Taboola report pulled</td></tr>'
+      return '<tr><td>Taboola Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>no Taboola report pulled</td></tr>'
         + '<tr class="pc-split"><td>↳ Taboola Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=taboola / utm_medium=paid_native</td></tr>';
     }
     var spend = num(r.spend);
     var rev = num(r.platform_revenue != null ? r.platform_revenue : r.revenue);
-    var live = !!r.live || spend > 0;
-    return '<tr><td>Taboola Ads</td><td>' + usd(spend) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
+    return '<tr><td>Taboola Ads</td><td>' + esc(spendLabel) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
       + '</td><td>' + usd(rev) + '</td><td>' + esc(rx(spend > 0 ? rev / spend : null)) + ' · platform-reported</td><td>'
-      + esc((r.source || 'Taboola Backstage API') + (live ? '' : ' · not live (0 campaigns)')) + '</td></tr>'
+      + esc(r.source || 'Taboola Backstage API') + '</td></tr>'
       + '<tr class="pc-split"><td>↳ Taboola Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=taboola / utm_medium=paid_native · platform ROAS '
       + esc(rx(spend > 0 ? rev / spend : null)) + ' platform-reported</td></tr>';
   }
@@ -1333,19 +1459,17 @@
   }
 
   function outbrainSpendTxt(date) {
-    var r = outbrainDayRow(date);
-    if (!r) return 'missing';
-    var spend = num(r.spend);
-    return usd(spend) + (spend > 0 || r.live ? '' : ' · not live');
+    return spendCellTxt(OUTBRAIN_DISPLAY, date);
   }
 
   function outbrainDetailHtml(date) {
     var r = outbrainDayRow(date);
     var shop = outbrainShopify(date);
-    var shopTxt = shop == null ? 'missing' : usd(shop);
+    var shopTxt = shop == null ? '—' : usd(shop);
+    var spendLabel = outbrainSpendTxt(date);
     function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
     if (!r) {
-      return '<tr><td>Outbrain Ads</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>missing</td><td>no Outbrain file imported</td></tr>'
+      return '<tr><td>Outbrain Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>no Outbrain file imported</td></tr>'
         + '<tr class="pc-split"><td>↳ Outbrain Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=outbrain / click id obclid</td></tr>';
     }
     var spend = num(r.spend);
@@ -1355,10 +1479,9 @@
     var conv = convKnown ? num(r.conversions) : null;
     var roas = rev == null ? 'unknown' : rx(spend > 0 ? rev / spend : null);
     var cpa = conv == null ? 'unknown' : (conv > 0 ? usd(spend / conv) : '—');
-    var live = !!r.live || spend > 0;
-    return '<tr><td>Outbrain Ads</td><td>' + usd(spend) + '</td><td>' + (r.clicks == null ? 'unknown' : intOrDash(r.clicks))
+    return '<tr><td>Outbrain Ads</td><td>' + esc(spendLabel) + '</td><td>' + (r.clicks == null ? 'unknown' : intOrDash(r.clicks))
       + '</td><td>' + (conv == null ? 'unknown' : intOrDash(conv)) + '</td><td>' + (rev == null ? 'unknown' : usd(rev)) + '</td><td>'
-      + esc(roas) + ' · platform-reported</td><td>' + esc((r.source || 'Outbrain UI') + (live ? '' : ' · not live')) + '</td></tr>'
+      + esc(roas) + ' · platform-reported</td><td>' + esc(r.source || 'Outbrain UI') + '</td></tr>'
       + '<tr class="pc-split"><td>↳ Outbrain Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=outbrain / obclid · CPA '
       + esc(cpa) + ' · platform ROAS ' + esc(roas) + ' platform-reported</td></tr>';
   }
@@ -1419,24 +1542,16 @@
   }
 
   function spotifySpendTxt(date) {
-    var r = spotifyDayRow(date);
-    if (!r) return spotifyNotLaunched() ? 'Not launched' : SPOTIFY_NO_DATA;
-    var spend = finiteNum(r.spend);
-    if (spend == null) spend = finiteNum(r.daily_spend);
-    if (spend == null) spend = finiteNum(r.ad_spend);
-    var cash = finiteNum(r.cash_cost);
-    return usd(spend) + (cash != null ? ' (cash cost ' + usd(cash) + ')' : '');
+    return spendCellTxt(SPOTIFY_DISPLAY, date);
   }
 
   function spotifyDetailHtml(date) {
     var r = spotifyDayRow(date);
     var nd = SPOTIFY_NO_DATA;
+    var spendLabel = spendCellTxt(SPOTIFY_DISPLAY, date, { plain: true });
     if (!r) {
-      if (spotifyNotLaunched()) {
-        return '<tr><td>Spotify Ads</td><td>Not launched</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc((spotifyBlock() || {}).source || 'Spotify Ads not launched') + '</td></tr>';
-      }
-      return '<tr><td>Spotify Ads</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>no spotify_ads feed published</td></tr>'
-        + '<tr class="pc-split"><td colspan="7">↳ Spotify spend unmeasured for this day — excluded from D2C ad spend / MER (coverage). CFO publishes advertising_sources.spotify_ads / spotify_ads_daily.json.</td></tr>';
+      return '<tr><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc((spotifyBlock() || {}).source || 'Spotify Ads') + '</td></tr>'
+        + '<tr class="pc-split"><td colspan="7">↳ Spotify spend cell follows display_state (Channel off / $0 / amount / pending backfill). Outcome metrics stay unmeasured until a Spotify row exists.</td></tr>';
     }
     var spend = finiteNum(r.spend);
     if (spend == null) spend = finiteNum(r.daily_spend);
@@ -1449,7 +1564,7 @@
     // A measured $0 day is a number-only row: unpublished metrics read "—" (n/a at $0 spend), never "No data".
     var gap = spend === 0 ? '—' : nd;
     var roasCell = roas != null && Number.isFinite(roas) && roas > 0 ? Number(roas).toFixed(2) + 'x · platform-reported' : gap;
-    var html = '<tr><td>Spotify Ads</td><td>' + usd(spend) + '</td><td>' + (clicks == null ? gap : intOrDash(clicks)) + '</td><td>' + (conv == null ? gap : intOrDash(conv))
+    var html = '<tr><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>' + (clicks == null ? gap : intOrDash(clicks)) + '</td><td>' + (conv == null ? gap : intOrDash(conv))
       + '</td><td>' + (plat && plat.revenue != null ? usd(plat.revenue) : gap) + '</td><td>' + esc(roasCell) + '</td><td>'
       + esc(r.source || 'spotify_ads') + '</td></tr>';
     var cash = finiteNum(r.cash_cost);
@@ -1484,8 +1599,19 @@
     return out;
   }
 
-  function spendTxt(day) {
-    return day && day.hasFeed ? usd(day.spend) : 'missing';
+  function spendTxt(day, ch) {
+    if (ch && day && day.date) return spendCellTxt(ch, day.date);
+    if (day && day.spendDisplay) return Display.format(day.spendDisplay);
+    if (!day) return Display.format(Display.resolve({ hasRow: false }));
+    if (day.hasFeed) {
+      return Display.format(Display.resolve({
+        date: day.date,
+        measured: day,
+        hasRow: true,
+        feedLive: day.live
+      }));
+    }
+    return Display.format(Display.resolve({ date: day.date, hasRow: false, measured: null }));
   }
 
   function metricTxt(day, kind, ch) {
@@ -1506,7 +1632,7 @@
     return txt;
   }
 
-  function dayForDisplay(ch, date) {
+  function dayForDisplayMeasured(ch, date) {
     var fromRow = spendFromChannelAdSpend(ch, date);
     if (fromRow) return fromRow;
     var known = CHANNELS.filter(function (c) { return c.id === ch.id; })[0];
@@ -1533,15 +1659,134 @@
     return emptyDay(date);
   }
 
+  function addCalendarDay(date, n) {
+    var d = new Date(date + 'T00:00:00Z');
+    d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
+  }
+
+  function blockLiveAt(block, date) {
+    if (!block || typeof block.live !== 'boolean') return null;
+    if (!date || !block.as_of || date === block.as_of) return block.live;
+    return null;
+  }
+
+  function feedLiveFor(ch, date) {
+    var daily = FEEDS[ch.id] && FEEDS[ch.id].daily;
+    var fromDaily = blockLiveAt(daily, date);
+    if (fromDaily != null) return fromDaily;
+    var merB = (ch.id && FEEDS[ch.id] && FEEDS[ch.id].mer && FEEDS[ch.id].mer[ch.merKey])
+      || (MER_DOC && ch.merKey && MER_DOC[ch.merKey])
+      || null;
+    var fromMer = blockLiveAt(merB, date);
+    if (fromMer != null) return fromMer;
+    if (ch.id === 'x') {
+      var fromX = blockLiveAt(xBlock(), date);
+      if (fromX != null) return fromX;
+    }
+    if (ch.id === 'spotify') {
+      var fromS = blockLiveAt(spotifyBlock(), date);
+      if (fromS != null) return fromS;
+    }
+    return null;
+  }
+
+  function measuredNodeFor(ch, date) {
+    if (!ch) return null;
+    if (ch.id === 'x') return xDayRow(date);
+    if (ch.id === 'taboola') return taboolaDayRow(date);
+    if (ch.id === 'outbrain') return outbrainDayRow(date);
+    if (ch.id === 'spotify') return spotifyDayRow(date);
+    var day = dayForDisplayMeasured(ch, date);
+    if (!day || day.hasFeed === false) return null;
+    return day;
+  }
+
+  function lastConfirmedFor(ch, date) {
+    if (!Display || !date) return null;
+    var d = date;
+    for (var i = 0; i < 180; i++) {
+      d = addCalendarDay(d, -1);
+      var node = measuredNodeFor(ch, d);
+      if (node == null) continue;
+      var spend = Display.measuredSpend(node);
+      if (spend == null && node.hasFeed) spend = finiteNum(node.spend);
+      if (spend == null) continue;
+      if (typeof node === 'object' && node.hasFeed === false) continue;
+      if (typeof node === 'object' && node.hasFeed !== true && !spendIsPublished(node) && spend === 0 && !isMeasuredZero(node)) continue;
+      return { date: d, amount: spend };
+    }
+    return null;
+  }
+
+  function displayExtras() {
+    return { channelStatus: CHANNEL_STATUS, pendingDoc: PENDING_BACKFILL, advDaily: ADV_DAILY };
+  }
+
+  function displayViewFor(ch, date) {
+    if (!Display) return { display_state: 'off', valid: true, display_amount: 0 };
+    var extras = displayExtras();
+    var registryMap = Display.mergeRegistry(MER_DOC, extras);
+    var reg = Display.registryEntryFrom(registryMap, ch.id);
+    var dayNode = Display.pickDayContract(MER_DOC, ch.id, date, extras);
+    var measured = measuredNodeFor(ch, date);
+    var hasRow = measured != null;
+    if (measured && measured.hasFeed === false) {
+      measured = null;
+      hasRow = false;
+    }
+    var live = feedLiveFor(ch, date);
+    var last = hasRow ? null : lastConfirmedFor(ch, date);
+    var assumeLive = live === true || Display.registryOnAt(reg, date) === true;
+    return Display.resolve({
+      channelId: ch.id,
+      date: date,
+      dayNode: dayNode,
+      measured: measured,
+      hasRow: hasRow,
+      registry: reg,
+      feedLive: live,
+      lastConfirmed: last,
+      assumeLive: assumeLive
+    });
+  }
+
+  function spendCellTxt(ch, date, opts) {
+    opts = opts || {};
+    var v = displayViewFor(ch, date);
+    var txt = Display.format(v);
+    if (txt && !opts.plain && v.display_state === 'spend' && (ch.id === 'x' || ch.id === 'spotify')) {
+      var row = ch.id === 'x' ? xDayRow(date) : spotifyDayRow(date);
+      var contractCash = v.cash_cost;
+      var contractStatus = v.cash_cost_status;
+      txt = Display.formatWithCash(
+        v,
+        contractCash != null ? contractCash : (row && row.cash_cost),
+        contractStatus || (row && row.cash_cost_status)
+      );
+    }
+    if (txt) return txt;
+    if (v && v.display_state === 'pending_backfill') return 'pending backfill (last confirmed —)';
+    return 'Channel off';
+  }
+
+  function dayForDisplay(ch, date) {
+    var day = dayForDisplayMeasured(ch, date);
+    if (Display) day.spendDisplay = displayViewFor(ch, date);
+    return day;
+  }
+
   function spendPerChannelHtml(date) {
+    var estimated = false;
     var rows = displayChannels().map(function (ch) {
-      if (ch.id === 'x') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(xSpendTxt(date)) + '</td></tr>';
-      if (ch.id === 'taboola') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(taboolaSpendTxt(date)) + '</td></tr>';
-      if (ch.id === 'outbrain') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(outbrainSpendTxt(date)) + '</td></tr>';
-      if (ch.id === 'spotify') return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spotifySpendTxt(date)) + '</td></tr>';
-      return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spendTxt(dayForDisplay(ch, date))) + '</td></tr>';
+      var v = displayViewFor(ch, date);
+      if (v && (v.estimated || v.display_state === 'pending_backfill')) estimated = true;
+      return '<tr><td>' + esc(ch.label) + '</td><td>' + esc(spendCellTxt(ch, date)) + '</td></tr>';
     }).join('');
-    return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    var foot = estimated
+      ? '<p class="pc-estimated" style="margin:8px 0 0;font-size:12px;color:var(--text-muted,#8888a8)">Totals that include a carried figure are estimated.</p>'
+      : '';
+    return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>' + foot;
   }
 
   function detailBreakdownHtml(date) {
@@ -1553,7 +1798,7 @@
       var d = dayForDisplay(ch, date);
       var html = '<tr>'
         + '<td>' + esc(ch.label) + '</td>'
-        + '<td>' + esc(spendTxt(d)) + '</td>'
+        + '<td>' + esc(spendCellTxt(ch, date, { plain: true })) + '</td>'
         + '<td>' + esc(metricTxt(d, 'clicks', ch)) + '</td>'
         + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'conversions', ch)) + '</td>'
         + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'revenue', ch)) + '</td>'
@@ -1565,7 +1810,8 @@
       }
       return html;
     }).join('');
-    return '<table class="pc-table"><thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Revenue</th><th>ROAS</th><th>Source</th></tr></thead><tbody>'
+    return xSectionHtml(date)
+      + '<table class="pc-table"><thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Conv.</th><th>Revenue</th><th>ROAS</th><th>Source</th></tr></thead><tbody>'
       + rows
       + '</tbody></table>';
   }
@@ -1677,6 +1923,7 @@
     CHANNELS.forEach(function (ch) {
       applyChannel(ch, mergeDaysFor(ch));
     });
+    applyXOverlay();
     renderStrip();
     CHANNELS.forEach(function (ch) {
       var tab = document.getElementById('tab-' + ch.tabKey);
@@ -1731,6 +1978,8 @@
       mergeOverlayRows(rows);
     }).catch(function () { /* overlay is optional and never required in git */ }));
     jobs.push(fetchJson('advertising_sources_daily.json').then(function (d) { ADV_DAILY = d; }).catch(function () { ADV_DAILY = null; }));
+    jobs.push(fetchJson('ads_throttle/channel_status.json').then(function (d) { CHANNEL_STATUS = d; }).catch(function () { CHANNEL_STATUS = null; }));
+    jobs.push(fetchJson('ads_throttle/pending_backfill.json').then(function (d) { PENDING_BACKFILL = d; }).catch(function () { PENDING_BACKFILL = null; }));
     CHANNELS.forEach(function (ch) {
       jobs.push(fetchJson(ch.file).then(function (d) { FEEDS[ch.id].file = isPlaceholderNode(d) ? null : d; }).catch(function () { FEEDS[ch.id].file = null; }));
       jobs.push(fetchJson(ch.id + '_ads_daily.json').then(function (d) { FEEDS[ch.id].daily = d; }).catch(function () { FEEDS[ch.id].daily = null; }));
@@ -1801,7 +2050,11 @@
     spotifyDayRow: spotifyDayRow,
     xDetailHtml: xDetailHtml,
     xSpendTxt: xSpendTxt,
+    xSectionHtml: xSectionHtml,
     spendTxt: spendTxt,
+    spendCellTxt: spendCellTxt,
+    displayViewFor: displayViewFor,
+    applyXOverlay: applyXOverlay,
     metricTxt: metricTxt,
     roasDisplay: roasDisplay,
     dayForDisplay: dayForDisplay,
@@ -1819,7 +2072,10 @@
     _setDailyFile: function (id, doc) {
       FEEDS[id] = FEEDS[id] || { file: null, mer: null, manual: null, daily: null };
       FEEDS[id].daily = doc || null;
-    }
+    },
+    _setChannelStatus: function (doc) { CHANNEL_STATUS = doc || null; },
+    _setPendingBackfill: function (doc) { PENDING_BACKFILL = doc || null; },
+    Display: Display
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

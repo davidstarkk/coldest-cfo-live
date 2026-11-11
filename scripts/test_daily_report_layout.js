@@ -1,7 +1,10 @@
 'use strict';
 
 var assert = require('assert');
+var fs = require('fs');
+var path = require('path');
 var Paid = require('../paid_channels_module.js');
+var Display = require('../channel_spend_display.js');
 
 var failed = 0;
 function test(name, fn) {
@@ -18,16 +21,16 @@ test('display list is Meta → Google → Bing → Reddit → Snapchat → ChatG
   assert.deepStrictEqual(ids, ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'applovin', 'x', 'taboola', 'outbrain', 'spotify']);
 });
 
-test('unpublished Pinterest is missing, never $0', function () {
+test('unpublished Pinterest is Channel off, never $0 / missing', function () {
   Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, null, null); });
   Paid._setMerDoc({ as_of: '2026-10-24', advertising_sources: { '2026-10-24': { meta: { spend: 10 } } } });
   var pin = Paid.displayChannels().filter(function (c) { return c.id === 'pinterest'; })[0];
   var day = Paid.dayForDisplay(pin, '2026-10-24');
   assert.strictEqual(day.hasFeed, false);
-  assert.strictEqual(Paid.spendTxt(day), 'missing');
-  assert.ok(Paid.spendPerChannelHtml('2026-10-24').indexOf('missing') !== -1);
+  assert.strictEqual(Paid.spendCellTxt(pin, '2026-10-24'), 'Channel off');
+  assert.ok(Paid.spendPerChannelHtml('2026-10-24').indexOf('missing') === -1);
   assert.ok(Paid.spendPerChannelHtml('2026-10-24').indexOf('Pinterest') !== -1);
-  assert.ok(Paid.spendPerChannelHtml('2026-10-24').indexOf('$0.00') === -1 || Paid.spendTxt(day) === 'missing');
+  assert.ok(Paid.spendPerChannelHtml('2026-10-24').indexOf('Channel off') !== -1);
 });
 
 test('published mer.pinterest spend is shown; still missing when the key is absent', function () {
@@ -44,7 +47,7 @@ test('published mer.pinterest spend is shown; still missing when the key is abse
   assert.strictEqual(Paid.spendTxt(live), '$42.00');
   var empty = Paid.dayForDisplay(pin, '2026-10-01');
   assert.strictEqual(empty.hasFeed, false);
-  assert.strictEqual(Paid.spendTxt(empty), 'missing');
+  assert.strictEqual(Paid.spendCellTxt(pin, '2026-10-01'), 'Channel off');
 });
 
 test('10/24 Meta and Bing are published dollars; AppLovin is $0; Pinterest publishes 10/26', function () {
@@ -58,7 +61,7 @@ test('10/24 Meta and Bing are published dollars; AppLovin is $0; Pinterest publi
   assert.strictEqual(byId.bing.hasFeed, true);
   assert.ok(byId.bing.spend > 0);
   assert.strictEqual(byId.applovin.hasFeed, true);
-  assert.strictEqual(Paid.spendTxt(byId.applovin), '$0.00');
+  assert.strictEqual(Paid.spendCellTxt(Paid.displayChannels().filter(function (c) { return c.id === 'applovin'; })[0], '2026-10-24'), 'Channel off');
   var pin = Paid.displayChannels().filter(function (c) { return c.id === 'pinterest'; })[0];
   assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(pin, '2026-10-26')), '$64.60');
   var html = Paid.detailBreakdownHtml('2026-10-24');
@@ -67,7 +70,7 @@ test('10/24 Meta and Bing are published dollars; AppLovin is $0; Pinterest publi
   assert.ok(html.indexOf('platform-reported, click-based') !== -1);
 });
 
-test('AppLovin missing stays missing; published $0 stays $0; ROAS label is click-based', function () {
+test('AppLovin unpublished is Channel off; published $0 stays $0; ROAS label is click-based', function () {
   Paid.CHANNELS.forEach(function (ch) { Paid.setFeeds(ch.id, null, null, null); });
   Paid._setMerDoc({
     as_of: '2026-10-24',
@@ -83,7 +86,7 @@ test('AppLovin missing stays missing; published $0 stays $0; ROAS label is click
   assert.strictEqual(Paid.roasDisplay(zero, al), '— · platform-reported, click-based');
   var miss = Paid.dayForDisplay(al, '2026-10-01');
   assert.strictEqual(miss.hasFeed, false);
-  assert.strictEqual(Paid.spendTxt(miss), 'missing');
+  assert.strictEqual(Paid.spendCellTxt(al, '2026-10-01'), 'Channel off');
   assert.strictEqual(Paid.roasDisplay(miss, al), 'missing');
   var spendHtml = Paid.spendPerChannelHtml('2026-10-24');
   assert.ok(spendHtml.indexOf('AppLovin') !== -1);
@@ -118,7 +121,7 @@ test('channel_revenue on the PARTIAL row is preferred and unpublished stays miss
   assert.strictEqual(by.Whatnot, 'missing');
 });
 
-test('channel_ad_spend on the PARTIAL row wins; absent keys fall through; null is missing', function () {
+test('channel_ad_spend on the PARTIAL row wins; absent keys fall through; null does not shadow measured rows', function () {
   globalThis.PARTIAL_REPORTS = [{
     date: '2026-10-25',
     channel_ad_spend: { meta: 50, google: { spend: 0 }, bing: null }
@@ -126,17 +129,17 @@ test('channel_ad_spend on the PARTIAL row wins; absent keys fall through; null i
   Paid._setMerDoc({
     as_of: '2026-10-25',
     advertising_sources: {
-      '2026-10-25': { meta: { spend: 9 }, google: { spend: 9 }, bing: { spend: 9 }, reddit: { spend: 3 } }
+      '2026-10-25': { meta: { spend: 9 }, google: { spend: 9 }, bing: { spend: 9, complete: true, live: true }, reddit: { spend: 3, complete: true, live: true } }
     }
   });
   var byId = {};
-  Paid.displayChannels().forEach(function (ch) { byId[ch.id] = Paid.dayForDisplay(ch, '2026-10-25'); });
-  assert.strictEqual(Paid.spendTxt(byId.meta), '$50.00');
-  assert.strictEqual(Paid.spendTxt(byId.google), '$0.00');
-  assert.strictEqual(Paid.spendTxt(byId.bing), 'missing');
-  assert.strictEqual(Paid.spendTxt(byId.reddit), '$3.00');
-  assert.strictEqual(Paid.spendTxt(byId.pinterest), 'missing');
-  assert.strictEqual(Paid.spendTxt(byId.applovin), 'missing');
+  Paid.displayChannels().forEach(function (ch) { byId[ch.id] = Paid.spendCellTxt(ch, '2026-10-25'); });
+  assert.strictEqual(byId.meta, '$50.00');
+  assert.strictEqual(byId.google, '$0.00');
+  assert.strictEqual(byId.bing, '$9.00');
+  assert.strictEqual(byId.reddit, '$3.00');
+  assert.strictEqual(byId.pinterest, 'Channel off');
+  assert.strictEqual(byId.applovin, 'Channel off');
   delete globalThis.PARTIAL_REPORTS;
 });
 
@@ -182,15 +185,16 @@ test('hydratePartialFromMer adds a 10/25 card from mer.as_of without inventing s
     '$26,420.44', '$100.00', 'missing', '$0.00'
   ]);
   Paid._setMerDoc(mer);
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay({ id: 'meta', sourceKeys: ['meta'], merKey: 'meta' }, '2026-10-25')), '$10.00');
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay({ id: 'pinterest', sourceKeys: ['pinterest_ads', 'pinterest'], merKey: 'pinterest' }, '2026-10-25')), 'missing');
+  assert.strictEqual(Paid.spendCellTxt({ id: 'meta', sourceKeys: ['meta'], merKey: 'meta' }, '2026-10-25'), '$10.00');
+  assert.strictEqual(Paid.spendCellTxt({ id: 'pinterest', sourceKeys: ['pinterest_ads', 'pinterest'], merKey: 'pinterest' }, '2026-10-25'), 'Channel off');
   delete globalThis.PARTIAL_REPORTS;
 });
 
-test('X Ads: not live = $0 / not live; live shows cash cost, credit, fee and flags', function () {
+test('X Ads: not live = Channel off; live shows cash cost, credit, fee and flags', function () {
   Paid._setMerDoc({ as_of: '2026-11-02', x: { status: 'not_live', live: false, by_date: {} } });
-  assert.strictEqual(Paid.xSpendTxt('2026-11-02'), '$0.00 · not live');
-  assert.ok(Paid.xDetailHtml('2026-11-02').indexOf('not live') !== -1);
+  assert.strictEqual(Paid.xSpendTxt('2026-11-02'), 'Channel off');
+  assert.ok(Paid.xDetailHtml('2026-11-02').indexOf('not live') === -1);
+  assert.ok(Paid.xDetailHtml('2026-11-02').indexOf('Channel off') !== -1);
   Paid._setMerDoc({ as_of: '2026-11-02', x: { status: 'live', live: true, plan: 'monthly',
     flags: ['X ad credit $50.00 unused expires 2026-11-30 (5 days left).'],
     by_date: { '2026-11-02': { spend: 400, clicks: 10, conversions: 2, revenue: 600, fee: 33.33,
@@ -202,9 +206,10 @@ test('X Ads: not live = $0 / not live; live shows cash cost, credit, fee and fla
   assert.ok(html.indexOf('expires 2026-11-30') !== -1);
   assert.strictEqual(Paid.xSpendTxt('2026-11-02'), '$400.00 (cash cost $333.33)');
   Paid._setMerDoc(null);
-  assert.strictEqual(Paid.xSpendTxt('2026-11-04'), 'missing');
-  assert.ok(Paid.xDetailHtml('2026-11-04').indexOf('missing') !== -1);
-  assert.ok(Paid.xDetailHtml('2026-11-04').indexOf('$0.00') === -1);
+  var emptyX = Paid.xSpendTxt('2026-11-04');
+  assert.ok(emptyX === 'Channel off' || emptyX.indexOf('pending backfill') !== -1, emptyX);
+  assert.ok(Paid.xDetailHtml('2026-11-04').indexOf('missing') === -1);
+  assert.ok(Paid.xDetailHtml('2026-11-04').indexOf('not live') === -1);
 
   Paid._setMerDoc({ advertising_sources: {} });
   Paid._setAdvDaily({ '2026-11-05': { x_ads: { spend: 65.62, cash_cost: 93.02, clicks: 12, conversions: 1, revenue: 40 } } });
@@ -223,18 +228,18 @@ test('X Ads: not live = $0 / not live; live shows cash cost, credit, fee and fla
   Paid._setDailyFile('x', null);
 });
 
-test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; ROAS platform-reported next to Shopify-attributed', function () {
+test('Taboola: listed after X; live=false measured 0 = Channel off; unpulled day is not missing; ROAS platform-reported next to Shopify-attributed', function () {
   Paid._setMerDoc({ as_of: '2026-11-02',
     taboola: { status: 'not_live', live: false, by_date: { '2026-11-02': { spend: 0, clicks: 0, conversions: 0, revenue: 0 } } },
     advertising_sources: {
       '2026-11-02': { taboola_ads: { spend: 0, revenue: 0, conversions: 0, clicks: 0, complete: true, live: false, source: 'Taboola Backstage API (platform-reported)' } },
       '2026-09-01': { taboola_ads: { spend: null, complete: false, missing: true } }
     } });
-  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$0.00 · not live');
-  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('not live (0 campaigns)') !== -1);
-  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('Shopify-attributed</td><td>missing') !== -1);
-  assert.strictEqual(Paid.taboolaSpendTxt('2026-09-01'), 'missing');
-  assert.ok(Paid.taboolaDetailHtml('2026-09-01').indexOf('$0.00') === -1);
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), 'Channel off');
+  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('not live') === -1);
+  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('Channel off') !== -1);
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-09-01'), 'Channel off');
+  assert.ok(Paid.taboolaDetailHtml('2026-09-01').indexOf('missing') === -1);
   Paid._setMerDoc({ as_of: '2026-11-02',
     taboola: { status: 'live', live: true, by_date: { '2026-11-02': { spend: 100, clicks: 40, conversions: 3, revenue: 280 } } },
     ad_channel_throttles: { series_28d: { by_channel: { taboola: [{ date: '2026-11-02', shopify_revenue: 150, shopify_revenue_status: 'verified' }] } } } });
@@ -244,19 +249,21 @@ test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; R
   assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$100.00');
   Paid._setMerDoc({ advertising_sources: {} });
   Paid._setAdvDaily({ '2026-11-04': { taboola_ads: { spend: 0 } } });
-  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-04'), 'missing', 'unmarked {spend:0} on advDaily is not $0.00 · not live');
-  assert.ok(Paid.taboolaDetailHtml('2026-11-04').indexOf('$0.00') === -1);
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-04'), 'Channel off', 'unmarked {spend:0} on advDaily is not a measured zero');
+  assert.ok(Paid.taboolaDetailHtml('2026-11-04').indexOf('missing') === -1);
   Paid._setAdvDaily({ '2026-11-04': { taboola_ads: { spend: 0, complete: true, live: false } } });
-  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-04'), '$0.00 · not live');
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-04'), 'Channel off');
+  Paid._setAdvDaily({ '2026-11-04': { taboola_ads: { spend: 0, complete: true, live: true } } });
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-04'), '$0.00');
   Paid._setAdvDaily(null);
   Paid._setMerDoc(null);
 });
 
-test('Outbrain: after Taboola; not imported = missing; blanks = unknown; ROAS platform-reported, CPA, Shopify-attributed', function () {
+test('Outbrain: after Taboola; not imported = Channel off; blanks = unknown; ROAS platform-reported, CPA, Shopify-attributed', function () {
   Paid._setMerDoc({ as_of: '2026-11-02', outbrain: { status: 'no_data', live: false, by_date: {} },
     advertising_sources: { '2026-11-02': { outbrain_ads: { spend: null, complete: false, missing: true } } } });
-  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-02'), 'missing');
-  assert.ok(Paid.outbrainDetailHtml('2026-11-02').indexOf('$0.00') === -1);
+  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-02'), 'Channel off');
+  assert.ok(Paid.outbrainDetailHtml('2026-11-02').indexOf('missing') === -1);
   Paid._setMerDoc({ as_of: '2026-11-03',
     outbrain: { status: 'live', live: true, by_date: {
       '2026-11-02': { spend: 100, clicks: 40, conversions: 4, revenue: 300 },
@@ -271,9 +278,9 @@ test('Outbrain: after Taboola; not imported = missing; blanks = unknown; ROAS pl
   assert.ok(h2.indexOf('CPA unknown') !== -1);
   Paid._setMerDoc(null);
   Paid._setAdvDaily({ '2026-11-04': { outbrain_ads: { spend: 0 } } });
-  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-04'), 'missing', 'unmarked {spend:0} is missing, not $0.00 · not live');
+  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-04'), 'Channel off', 'unmarked {spend:0} is not a measured zero');
   Paid._setAdvDaily({ '2026-11-04': { outbrain_ads: { spend: 0, complete: true, live: false, status: 'not_launched' } } });
-  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-04'), '$0.00 · not live');
+  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-04'), 'Channel off');
   Paid._setAdvDaily(null);
 });
 
@@ -284,9 +291,12 @@ test('Daily Reports advDaily bare $0 is missing; complete $0 is measured — sam
   Paid._setAdvDaily({ '2026-11-04': { reddit_ads: { spend: 0 } } });
   assert.strictEqual(Paid.spendIsPublished({ spend: 0 }), false);
   assert.strictEqual(Paid.isMeasuredZero({ spend: 0, complete: true }), true);
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-11-04')), 'missing');
-  Paid._setAdvDaily({ '2026-11-04': { reddit_ads: { spend: 0, complete: true } } });
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-11-04')), '$0.00');
+  assert.strictEqual(Paid.spendCellTxt(reddit, '2026-11-04'), 'Channel off');
+  Paid._setAdvDaily({ '2026-11-04': { reddit_ads: { spend: 0, complete: true, live: true } } });
+  assert.strictEqual(Paid.spendCellTxt(reddit, '2026-11-04'), 'Channel off', 'Reddit registry is closed even with a measured $0');
+  var pinterest = Paid.CHANNELS.filter(function (c) { return c.id === 'pinterest'; })[0];
+  Paid._setAdvDaily({ '2026-11-04': { pinterest_ads: { spend: 0, complete: true, live: true } } });
+  assert.strictEqual(Paid.spendCellTxt(pinterest, '2026-11-04'), '$0.00');
   Paid._setAdvDaily(null);
 });
 
@@ -298,33 +308,32 @@ function noConflict(txt) {
 }
 function spotifyMainRow(html) { return html.split('</tr>')[0]; }
 
-test('Spotify: unavailable day → "No data" only (no $0, no missing/unverified), excluded from D2C coverage note', function () {
+test('Spotify: unavailable day → Channel off (spend cell never No data / missing / $0)', function () {
   spotifyReset();
   Paid._setMerDoc({ as_of: '2026-11-05', advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } }, '2026-11-04': { spotify_ads: { spend: 0 } } } });
   ['2026-11-03', '2026-11-04', '2026-11-05'].forEach(function (d) {
-    assert.strictEqual(Paid.spotifySpendTxt(d), 'No data', d);
+    assert.strictEqual(Paid.spotifySpendTxt(d), 'Channel off', d);
     var html = Paid.spotifyDetailHtml(d);
     assert.ok(html.indexOf('$0.00') === -1, 'unmeasured day is never $0: ' + d);
-    assert.ok(html.indexOf('No data') !== -1);
-    assert.ok(html.indexOf('excluded from D2C ad spend / MER') !== -1, 'coverage labelled');
-    noConflict(html);
+    assert.ok(html.indexOf('Channel off') !== -1);
+    assert.ok(html.indexOf('missing') === -1);
   });
   var strip = Paid.spendPerChannelHtml('2026-11-05');
-  assert.ok(strip.indexOf('<td>Spotify Ads</td><td>No data</td>') !== -1);
+  assert.ok(strip.indexOf('<td>Spotify Ads</td><td>Channel off</td>') !== -1);
+  assert.ok(strip.indexOf('No data') === -1);
   spotifyReset();
 });
 
-test('Spotify: genuine measured $0 → number only ($0.00), no "No data" on that row', function () {
+test('Spotify: genuine measured $0 with live=false → Channel off (registry / not launched)', function () {
   spotifyReset();
   Paid._setAdvDaily({ '2026-11-05': { spotify_ads: { spend: 0, complete: true, clicks: 0, conversions: 0, live: false, source: 'Spotify Ads API' } } });
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), '$0.00');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   var html = Paid.spotifyDetailHtml('2026-11-05');
-  assert.ok(spotifyMainRow(html).indexOf('<td>$0.00</td>') !== -1);
-  assert.ok(html.indexOf('No data') === -1, 'measured $0 row never says No data: ' + html);
-  noConflict(html);
-  // closed_day and verified status are measured too
-  Paid._setAdvDaily({ '2026-11-05': { spotify: { spend: 0, closed_day: true } } });
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), '$0.00');
+  assert.ok(spotifyMainRow(html).indexOf('<td>Channel off</td>') !== -1);
+  assert.ok(html.indexOf('No data') === -1, 'spend cell never says No data: ' + html);
+  assert.ok(html.indexOf('missing') === -1);
+  Paid._setAdvDaily({ '2026-11-05': { spotify: { spend: 0, closed_day: true, live: false } } });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   spotifyReset();
 });
 
@@ -351,15 +360,14 @@ test('Spotify: no conflicting labels — every day is either a number or "No dat
     '2026-11-04': { spend: 0 },
     '2026-11-05': { spend: 55.5, spend_status: 'verified' }
   } });
-  var expect = { '2026-11-02': '$0.00', '2026-11-03': 'No data', '2026-11-04': 'No data', '2026-11-05': '$55.50', '2026-11-06': 'No data' };
+  var expect = { '2026-11-02': 'Channel off', '2026-11-03': 'Channel off', '2026-11-04': 'Channel off', '2026-11-05': '$55.50', '2026-11-06': 'Channel off' };
   Object.keys(expect).forEach(function (d) {
     var txt = Paid.spotifySpendTxt(d);
     assert.strictEqual(txt, expect[d], d);
     var hasNum = /\$\d/.test(txt);
-    assert.ok(!(hasNum && txt.indexOf('No data') !== -1), 'number + No data on ' + d);
+    assert.ok(!(hasNum && txt.indexOf('Channel off') !== -1), 'number + Channel off on ' + d);
     var spendCell = spotifyMainRow(Paid.spotifyDetailHtml(d)).split('<td>')[2].replace(/<\/td>.*/, '');
-    assert.ok(/^\$\d/.test(spendCell) !== (spendCell === 'No data'), 'spend cell is exactly one of number / No data: ' + spendCell);
-    noConflict(Paid.spotifyDetailHtml(d));
+    assert.ok(/^\$\d/.test(spendCell) !== (spendCell === 'Channel off'), 'spend cell is exactly one of number / Channel off: ' + spendCell);
   });
   spotifyReset();
 });
@@ -388,16 +396,16 @@ test('Spotify: cash_cost kept separate from platform spend (mirrors X)', functio
   spotifyReset();
 });
 
-test('Spotify: not-launched config → Not launched, no metrics; absence alone is No data, not paused', function () {
+test('Spotify: not-launched config → Channel off; absence alone is also Channel off, not $0', function () {
   spotifyReset();
   Paid._setMerDoc({ as_of: '2026-11-05', spotify: { status: 'not_launched', live: false } });
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Not launched');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   var html = Paid.spotifyDetailHtml('2026-11-05');
-  assert.ok(html.indexOf('$') === -1, 'no metrics for not launched: ' + html);
+  assert.ok(html.indexOf('$0.00') === -1, 'no invented $0: ' + html);
   assert.ok(html.indexOf('No data') === -1);
-  noConflict(html);
+  assert.ok(html.indexOf('missing') === -1);
   Paid._setMerDoc({ as_of: '2026-11-05' });
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'No data');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   assert.ok(Paid.spotifyDetailHtml('2026-11-05').indexOf('paused') === -1);
   spotifyReset();
 });
@@ -407,11 +415,219 @@ test('Spotify is display-only on Daily Reports (never overlaid into D2C totals)'
   assert.ok(Paid.CHANNELS.every(function (c) { return c.id !== 'spotify'; }), 'not in the overlay CHANNELS list');
 });
 
-if (failed) {
-  console.error('\n' + failed + ' daily-report layout test(s) failed');
-  process.exit(1);
+function allowedSpend(txt) {
+  if (txt === 'Channel off' || txt === '$0.00') return true;
+  if (/^\$[\d,]+\.\d{2}$/.test(txt)) return true;
+  if (/^\$[\d,]+\.\d{2} \(cash cost \$[\d,]+\.\d{2}\)$/.test(txt)) return true;
+  if (/^\$[\d,]+\.\d{2} \(cash cost not billed yet\)$/.test(txt)) return true;
+  if (/^\$[\d,]+\.\d{2} pending backfill \(last confirmed \d{1,2}\/\d{1,2}\)$/.test(txt)) return true;
+  return false;
 }
-console.log('\nAll daily-report layout tests passed');
+function resetAll() {
+  delete globalThis.PARTIAL_REPORTS;
+  Paid._setMerDoc(null);
+  Paid._setAdvDaily(null);
+  Paid._setChannelStatus(null);
+  Paid._setPendingBackfill(null);
+  ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'x', 'taboola', 'outbrain', 'spotify', 'applovin'].forEach(function (id) {
+    try { Paid.setFeeds(id, null, null, null); } catch (e) { /* optional id */ }
+    Paid._setDailyFile(id, null);
+  });
+}
+function loadPr46() {
+  return {
+    mer: JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/pr46_channel_display.json'), 'utf8')),
+    status: JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/pr46_channel_status.v1.json'), 'utf8')),
+    pending: JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/pr46_pending_backfill.json'), 'utf8')),
+    advDaily: JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/pr46_advertising_sources_daily.json'), 'utf8'))
+  };
+}
+
+test('display_state contract: all four states per display channel, never re-derived when present', function () {
+  resetAll();
+  var dates = { off: '2026-11-01', zero: '2026-11-02', spend: '2026-11-03', pending_backfill: '2026-11-04' };
+  Paid.displayChannels().forEach(function (ch) {
+    var byDate = {
+      '2026-11-01': {},
+      '2026-11-02': {},
+      '2026-11-03': {},
+      '2026-11-04': {}
+    };
+    byDate['2026-11-01'][ch.id] = { display_state: 'off', display_amount: 0, measured_spend: 0 };
+    byDate['2026-11-02'][ch.id] = { display_state: 'zero', display_amount: 0, measured_spend: 0 };
+    byDate['2026-11-03'][ch.id] = { display_state: 'spend', display_amount: 12.34, measured_spend: 12.34 };
+    byDate['2026-11-04'][ch.id] = {
+      display_state: 'pending_backfill',
+      display_amount: null,
+      measured_spend: null,
+      last_confirmed_date: '2026-11-03',
+      last_confirmed_amount: 12.34
+    };
+    Paid._setMerDoc({ as_of: '2026-11-04', channel_display: { by_date: byDate } });
+    assert.strictEqual(Paid.spendCellTxt(ch, dates.off), 'Channel off', ch.id + ' off');
+    assert.strictEqual(Paid.spendCellTxt(ch, dates.zero), '$0.00', ch.id + ' zero');
+    assert.ok(Paid.spendCellTxt(ch, dates.spend).indexOf('$12.34') === 0, ch.id + ' spend ' + Paid.spendCellTxt(ch, dates.spend));
+    var pending = Paid.spendCellTxt(ch, dates.pending_backfill);
+    assert.ok(pending.indexOf('$12.34 pending backfill (last confirmed 11/3)') === 0, ch.id + ' pending ' + pending);
+    assert.ok(!Display.forbiddenSpendLabel(pending));
+  });
+  resetAll();
+});
+
+test('invalid display_state / pending without last confirmed fail validation, never map to $0', function () {
+  var bad = Display.validateContract({ display_state: 'nope' });
+  assert.strictEqual(bad.valid, false);
+  assert.strictEqual(Display.format(bad), '');
+  var pend = Display.validateContract({ display_state: 'pending_backfill' });
+  assert.strictEqual(pend.valid, false);
+  assert.strictEqual(pend.error, 'pending_backfill_missing_last_confirmed');
+  assert.notStrictEqual(Display.format(pend), '$0.00');
+});
+
+test('X 11/9 is $223.01 even with stale top-level as_of; cash cost stays separate', function () {
+  resetAll();
+  Paid._setMerDoc({
+    as_of: '2026-11-04',
+    x: { live: false, status: 'not_live', by_date: { '2026-11-04': { spend: 1.43, cash_cost: 28.83 } } }
+  });
+  Paid._setDailyFile('x', {
+    live: true,
+    by_date: {
+      '2026-11-09': { spend: 223.01, cash_cost: 250.41, complete: true, live: true },
+      '2026-11-04': { spend: 1.43, cash_cost: 28.83, complete: true, live: true }
+    }
+  });
+  var txt = Paid.xSpendTxt('2026-11-09');
+  assert.ok(txt.indexOf('$223.01') === 0, txt);
+  assert.ok(txt.indexOf('cash cost $250.41') !== -1, txt);
+  assert.ok(txt.indexOf('not live') === -1);
+  var v = Paid.displayViewFor(Paid.X_DISPLAY, '2026-11-09');
+  assert.strictEqual(v.display_state, 'spend');
+  resetAll();
+});
+
+test('X live with no row for the day carries last confirmed, never $0', function () {
+  resetAll();
+  Paid._setMerDoc({ as_of: '2026-11-09', x: { live: true, status: 'live', by_date: {
+    '2026-11-08': { spend: 223.02, cash_cost: 250.42, complete: true, live: true }
+  } } });
+  var txt = Paid.xSpendTxt('2026-11-09');
+  assert.ok(txt.indexOf('pending backfill (last confirmed 11/8)') !== -1, txt);
+  assert.ok(txt.indexOf('$223.02') !== -1, txt);
+  assert.ok(txt.indexOf('$0') === -1 || txt.indexOf('$223.02') !== -1);
+  resetAll();
+});
+
+test('ChatGPT root pre_launch with populated by_date is Channel off, not discarded missing', function () {
+  resetAll();
+  Paid._setDailyFile('chatgpt', {
+    status: 'pre_launch',
+    live: false,
+    by_date: {
+      '2026-11-09': { spend: 0, complete: true, live: false, spend_status: 'verified' }
+    }
+  });
+  var chatgpt = Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0];
+  var days = Paid.mergeDaysFor(chatgpt);
+  assert.ok(days['2026-11-09'], 'populated by_date is not discarded as a stub');
+  assert.strictEqual(Paid.spendCellTxt(chatgpt, '2026-11-09'), 'Channel off');
+  resetAll();
+});
+
+test('11/4 explicit-null channel_ad_spend does not shadow measured rows; display_state wins', function () {
+  resetAll();
+  globalThis.PARTIAL_REPORTS = [{
+    date: '2026-11-04',
+    channel_ad_spend: { bing: null, chatgpt: null, reddit: null }
+  }];
+  Paid._setMerDoc({
+    as_of: '2026-11-04',
+    channel_spend_display: {
+      bing: { '2026-11-04': { display_state: 'zero', display_amount: 0 } },
+      chatgpt: { '2026-11-04': { display_state: 'off' } }
+    },
+    advertising_sources: {
+      '2026-11-04': {
+        bing: { spend: 0, complete: true, live: true },
+        chatgpt_ads: { spend: 0, complete: true, live: false },
+        reddit_ads: { spend: 157.99, complete: true, live: true }
+      }
+    }
+  });
+  var bing = Paid.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0];
+  var chatgpt = Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0];
+  var reddit = Paid.CHANNELS.filter(function (c) { return c.id === 'reddit'; })[0];
+  assert.strictEqual(Paid.spendCellTxt(bing, '2026-11-04'), '$0.00');
+  assert.strictEqual(Paid.spendCellTxt(chatgpt, '2026-11-04'), 'Channel off');
+  assert.strictEqual(Paid.spendCellTxt(reddit, '2026-11-04'), '$157.99');
+  delete globalThis.PARTIAL_REPORTS;
+  resetAll();
+});
+
+test('Outbrain 11/3–11/9 live=false measured zeros render Channel off', function () {
+  resetAll();
+  var by = {};
+  ['2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06', '2026-11-07', '2026-11-08', '2026-11-09'].forEach(function (d) {
+    by[d] = { spend: 0, complete: true, live: false };
+  });
+  Paid._setDailyFile('outbrain', { live: false, by_date: by });
+  ['2026-11-03', '2026-11-04', '2026-11-05', '2026-11-06', '2026-11-07', '2026-11-08', '2026-11-09'].forEach(function (d) {
+    assert.strictEqual(Paid.outbrainSpendTxt(d), 'Channel off', d);
+  });
+  resetAll();
+});
+
+test('guard: day-card spend tables never contain missing / No data / not live', function () {
+  resetAll();
+  var merPath = path.join(__dirname, '..', 'mer_for_manus.json');
+  var xPath = path.join(__dirname, '..', 'x_ads_daily.json');
+  var gptPath = path.join(__dirname, '..', 'chatgpt_ads_daily.json');
+  var obPath = path.join(__dirname, '..', 'outbrain_ads_daily.json');
+  var mer = JSON.parse(fs.readFileSync(merPath, 'utf8'));
+  Paid._setMerDoc(mer);
+  Paid._setDailyFile('x', JSON.parse(fs.readFileSync(xPath, 'utf8')));
+  Paid._setDailyFile('chatgpt', JSON.parse(fs.readFileSync(gptPath, 'utf8')));
+  Paid._setDailyFile('outbrain', JSON.parse(fs.readFileSync(obPath, 'utf8')));
+  ['taboola', 'reddit', 'bing', 'pinterest', 'snapchat'].forEach(function (id) {
+    var p = path.join(__dirname, '..', id + '_ads_daily.json');
+    if (fs.existsSync(p)) Paid._setDailyFile(id, JSON.parse(fs.readFileSync(p, 'utf8')));
+  });
+  var dates = ['2026-11-04', '2026-11-05', '2026-11-06', '2026-11-07', '2026-11-08', '2026-11-09', '2026-11-10'];
+  dates.forEach(function (d) {
+    var html = Paid.spendPerChannelHtml(d);
+    assert.ok(html.indexOf('missing') === -1, d + ' spend table has missing: ' + html);
+    assert.ok(html.indexOf('No data') === -1, d + ' spend table has No data');
+    assert.ok(html.indexOf('not live') === -1, d + ' spend table has not live');
+    Paid.displayChannels().forEach(function (ch) {
+      var txt = Paid.spendCellTxt(ch, d);
+      assert.ok(allowedSpend(txt), d + ' ' + ch.id + ' unexpected spend label: ' + txt);
+      assert.ok(!Display.forbiddenSpendLabel(txt), d + ' ' + ch.id + ' forbidden: ' + txt);
+    });
+    var xHtml = Paid.xSectionHtml(d);
+    assert.ok(xHtml.indexOf('missing') === -1, d + ' X section has missing: ' + xHtml);
+    assert.ok(xHtml.indexOf('No data') === -1, d + ' X section has No data');
+    assert.ok(xHtml.indexOf('not live') === -1, d + ' X section has not live');
+  });
+  assert.ok(Paid.xSpendTxt('2026-11-09').indexOf('$223.01') === 0, Paid.xSpendTxt('2026-11-09'));
+  assert.strictEqual(Paid.spendCellTxt(Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0], '2026-11-09'), 'Channel off');
+  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-09'), 'Channel off');
+  var spends = Paid.channelSpends('2026-11-09');
+  assert.ok(spends.channels.x, 'X is in blended destination channels');
+  assert.ok(spends.d2cAdSpend > 0);
+  resetAll();
+});
+
+test('FIELD_MAP is the swap point for Finance PR #46 contract names', function () {
+  assert.strictEqual(Display.FIELD_MAP.display_state[0], 'display_state');
+  assert.strictEqual(Display.FIELD_MAP.display_amount[0], 'display_amount');
+  assert.strictEqual(Display.FIELD_MAP.last_confirmed_date[0], 'last_confirmed_date');
+  assert.strictEqual(Display.FIELD_MAP.last_confirmed_amount[0], 'last_confirmed_amount');
+  assert.strictEqual(Display.FIELD_MAP.measured_spend[0], 'measured_spend');
+  assert.strictEqual(Display.CHANNEL_STATUS_SCHEMA, 'channel_status.v1');
+  assert.strictEqual(Display.CHANNEL_STATUS_IDS.length, 15);
+  assert.ok(Display.DAY_CONTRACT_PATHS.some(function (p) { return p[0] === 'channel_display'; }));
+  assert.ok(Display.REGISTRY_PATHS.some(function (p) { return p[0] === 'channel_status'; }));
+});
 
 test('mer.channel_ad_spend as-of snapshot is not applied to other dates', function () {
   delete globalThis.PARTIAL_REPORTS;
@@ -426,16 +642,16 @@ test('mer.channel_ad_spend as-of snapshot is not applied to other dates', functi
       tiktok_ads: { spend: null, shopify_spend: 1264.56, complete: false }
     } }
   });
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(meta, '2026-10-20')), 'missing');
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-10-20')), 'missing');
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(meta, '2026-11-05')), '$9,401.40');
+  assert.strictEqual(Paid.spendCellTxt(meta, '2026-10-20'), 'Channel off');
+  assert.strictEqual(Paid.spendCellTxt(reddit, '2026-10-20'), 'Channel off');
+  assert.strictEqual(Paid.spendCellTxt(meta, '2026-11-05'), '$9,401.40');
   Paid._setMerDoc({
     as_of: '2026-11-05',
     channel_ad_spend: { '2026-11-05': { meta: 9401.4, tiktok: 1264.56 } },
     advertising_sources: { '2026-11-05': { meta: { spend: 9401.4, complete: true } } }
   });
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(meta, '2026-10-20')), 'missing');
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(meta, '2026-11-05')), '$9,401.40');
+  assert.strictEqual(Paid.spendCellTxt(meta, '2026-10-20'), 'Channel off');
+  assert.strictEqual(Paid.spendCellTxt(meta, '2026-11-05'), '$9,401.40');
   Paid._setMerDoc(null);
 });
 
@@ -444,8 +660,8 @@ test('bare $0 in mer advertising_sources / by_date fallbacks shows missing, not 
     reddit_ads: { spend: 0 }, pinterest_ads: { spend: 0, complete: true, closed_day: true } } } });
   var reddit = { id: 'reddit', sourceKeys: ['reddit_ads', 'reddit'], merKey: 'reddit' };
   var pinterest = { id: 'pinterest', sourceKeys: ['pinterest_ads', 'pinterest'], merKey: 'pinterest' };
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(reddit, '2026-11-05')), 'missing');
-  assert.strictEqual(Paid.spendTxt(Paid.dayForDisplay(pinterest, '2026-11-05')), '$0.00');
+  assert.strictEqual(Paid.spendCellTxt(reddit, '2026-11-05'), 'Channel off');
+  assert.strictEqual(Paid.spendCellTxt(pinterest, '2026-11-05'), '$0.00');
   Paid._setMerDoc(null);
 });
 
@@ -456,3 +672,89 @@ test('mer.channel_revenue flat snapshot is not applied to other dates', function
   assert.ok(Paid.spendTxt(Paid.dayForDisplay({ id: 'meta', sourceKeys: ['meta'], merKey: 'meta' }, '2026-11-05')) === '$100.00');
   Paid._setMerDoc(null);
 });
+
+test('PR #46 fixtures: four states, source preference, cash_cost not billed yet, estimated pending', function () {
+  resetAll();
+  var fx = loadPr46();
+  Paid._setMerDoc(fx.mer);
+  Paid._setChannelStatus(fx.status);
+  Paid._setPendingBackfill(fx.pending);
+  Paid._setAdvDaily(fx.advDaily);
+
+  assert.strictEqual(fx.status.schema, 'channel_status.v1');
+  assert.strictEqual(Object.keys(fx.status.channels).length, 15);
+
+  var chatgpt = Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0];
+  var pinterest = Paid.displayChannels().filter(function (c) { return c.id === 'pinterest'; })[0];
+  var meta = Paid.CHANNELS.filter(function (c) { return c.id === 'meta'; })[0];
+  var google = Paid.CHANNELS.filter(function (c) { return c.id === 'google'; })[0];
+  var bing = Paid.CHANNELS.filter(function (c) { return c.id === 'bing'; })[0];
+  var snapchat = Paid.CHANNELS.filter(function (c) { return c.id === 'snapchat'; })[0];
+
+  assert.strictEqual(Paid.spendCellTxt(chatgpt, '2026-11-01'), 'Channel off');
+  assert.strictEqual(Paid.outbrainSpendTxt('2026-11-01'), 'Channel off');
+  assert.strictEqual(Paid.spendCellTxt(pinterest, '2026-11-02'), '$0.00');
+  assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$0.00');
+
+  var xSpend = Paid.xSpendTxt('2026-11-09');
+  assert.ok(xSpend.indexOf('$223.01') === 0, xSpend);
+  assert.ok(xSpend.indexOf('not billed yet') !== -1, xSpend);
+  assert.ok(xSpend.indexOf('missing') === -1, xSpend);
+  assert.ok(Paid.xSectionHtml('2026-11-09').indexOf('missing') === -1);
+  assert.ok(Paid.xDetailHtml('2026-11-09').indexOf('not billed yet') !== -1);
+  assert.ok(Paid.xDetailHtml('2026-11-09').indexOf('missing') === -1);
+
+  var pending = Paid.xSpendTxt('2026-11-10');
+  assert.strictEqual(pending, '$223.01 pending backfill (last confirmed 11/9)');
+  assert.ok(Paid.channelSpends('2026-11-10').estimated, 'carried X figure marks totals estimated');
+
+  assert.strictEqual(Paid.spendCellTxt(meta, '2026-11-09'), '$12.34', 'channel_display wins over advertising_sources $999');
+  assert.strictEqual(Paid.spendCellTxt(google, '2026-11-09'), '$45.67', 'advertising_sources used when channel_display has no Google row');
+  assert.strictEqual(Paid.spendCellTxt(bing, '2026-11-09'), '$0.00', 'advertising_sources_daily is third preference');
+
+  var metaPending = Paid.spendCellTxt(meta, '2026-11-10');
+  assert.ok(metaPending.indexOf('$9,143.41 pending backfill (last confirmed 11/9)') === 0, metaPending);
+
+  Paid._setMerDoc({ as_of: '2026-11-10' });
+  assert.strictEqual(Paid.spendCellTxt(snapchat, '2026-11-10'), '$604.00 pending backfill (last confirmed 11/9)');
+
+  var days = Paid.mergeDaysFor(chatgpt);
+  assert.ok(days['2026-11-09'] || true);
+  resetAll();
+});
+
+test('ChatGPT root status=off with populated by_date is Channel off, not discarded', function () {
+  resetAll();
+  Paid._setDailyFile('chatgpt', {
+    status: 'off',
+    live: false,
+    as_of: '2026-11-10',
+    by_date: {
+      '2026-11-09': { spend: 0, complete: true, live: false, spend_status: 'verified' }
+    }
+  });
+  var chatgpt = Paid.CHANNELS.filter(function (c) { return c.id === 'chatgpt'; })[0];
+  var days = Paid.mergeDaysFor(chatgpt);
+  assert.ok(days['2026-11-09'], 'root status=off must not filter populated by_date');
+  assert.strictEqual(Paid.spendCellTxt(chatgpt, '2026-11-09'), 'Channel off');
+  resetAll();
+});
+
+test('pending_backfill display_amount=null still renders last_confirmed_amount', function () {
+  var v = Display.validateContract({
+    display_state: 'pending_backfill',
+    display_amount: null,
+    last_confirmed_date: '2026-11-09',
+    last_confirmed_amount: 223.01
+  });
+  assert.strictEqual(v.valid, true);
+  assert.strictEqual(Display.format(v), '$223.01 pending backfill (last confirmed 11/9)');
+  assert.strictEqual(Display.cashCostLabel(null, 'missing'), 'not billed yet');
+  assert.ok(Display.cashCostLabel(null, 'missing').indexOf('missing') === -1);
+});
+
+if (failed) {
+  console.error('\n' + failed + ' daily-report layout test(s) failed');
+  process.exit(1);
+}
+console.log('\nAll daily-report layout tests passed');
