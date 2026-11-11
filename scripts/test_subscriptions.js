@@ -251,6 +251,63 @@ test('published source has no plaintext fields from the example fixture', async 
   });
 });
 
+test('mark as canceled drops active KPIs and charts; undo restores; local wins over committed', async function () {
+  var enc = JSON.parse(fs.readFileSync(FIXTURE, 'utf8'));
+  var data = await M.decryptEnvelope(enc, PASS_OK);
+  var before = M.kpis(data);
+  var active = data.subscriptions.filter(function (r) { return M.normStatus(r.status) === 'active'; });
+  var target = active[0];
+  var marks = M.markCanceled({}, target.id, '2026-11-11T12:00:00Z');
+  var after = M.kpis(data, marks);
+  assert.strictEqual(after.active, before.active - 1);
+  assert.strictEqual(after.monthly, before.monthly - (Number(target.monthly_cost) || 0));
+  assert.strictEqual(after.annual, before.annual - (Number(target.annual_cost) || 0));
+  assert.ok(after.canceled >= 1);
+  assert.ok(after.renewals30 <= before.renewals30);
+
+  var applied = M.applyOverrides(data.subscriptions, marks);
+  var row = applied.filter(function (r) { return String(r.id) === String(target.id); })[0];
+  assert.strictEqual(M.effectiveStatus(row), 'canceled');
+  assert.strictEqual(M.statusLabel('canceled'), 'Canceled (marked)');
+  assert.strictEqual(M.statusClass('canceled'), 'su-off');
+  assert.strictEqual(M.applyFilters(applied, { showOff: false }).length, before.active - 1 + before.unknown);
+  assert.ok(M.applyFilters(applied, { showOff: true }).some(function (r) { return r.marked; }));
+
+  var chartRows = applied.filter(function (r) { return M.effectiveStatus(r) === 'active'; });
+  var beforeAnnual = M.breakdown(data.subscriptions.filter(function (r) { return M.normStatus(r.status) === 'active'; }), 'cycle')
+    .reduce(function (s, x) { return s + x.annual; }, 0);
+  var afterAnnual = M.breakdown(chartRows, 'cycle').reduce(function (s, x) { return s + x.annual; }, 0);
+  assert.strictEqual(afterAnnual, beforeAnnual - (Number(target.annual_cost) || 0));
+
+  var restored = M.kpis(data, M.undoMark(marks, target.id, {}));
+  assert.strictEqual(restored.active, before.active);
+  assert.strictEqual(restored.monthly, before.monthly);
+  assert.strictEqual(restored.annual, before.annual);
+
+  var committed = M.listToMarkMap([{ id: target.id, status: 'canceled', marked_at: '2026-01-01' }]);
+  var localClear = M.undoMark({}, target.id, committed);
+  var merged = M.mergeMarks(committed, localClear);
+  assert.strictEqual(Object.keys(merged).length, 0);
+  var localWin = M.mergeMarks(committed, M.markCanceled({}, 'other', '2026-11-11'));
+  assert.strictEqual(localWin[String(target.id)].status, 'canceled');
+  assert.strictEqual(localWin.other.status, 'canceled');
+  assert.deepStrictEqual(M.exportMarks(marks), [{ id: String(target.id), status: 'canceled', marked_at: '2026-11-11T12:00:00Z' }]);
+});
+
+test('override blob is AES-GCM with a fresh IV and does not contain plaintext ids', async function () {
+  var enc = JSON.parse(fs.readFileSync(FIXTURE, 'utf8'));
+  var unlocked = await M.decryptSubscriptions(enc, PASS_OK);
+  var id = 'override-id-should-not-leak-plaintext';
+  var payload = { local: M.markCanceled({}, id, '2026-11-11T00:00:00Z'), committed: {} };
+  var blob1 = await M.encryptJsonWithKey(unlocked.key, payload);
+  var blob2 = await M.encryptJsonWithKey(unlocked.key, payload);
+  assert.strictEqual(blob1.cipher, 'AES-256-GCM');
+  assert.notStrictEqual(blob1.iv, blob2.iv);
+  assert.ok(JSON.stringify(blob1).indexOf(id) === -1);
+  var round = await M.decryptJsonWithKey(unlocked.key, blob1.iv, blob1.ct);
+  assert.strictEqual(round.local[id].status, 'canceled');
+});
+
 Promise.all(pending).then(function () {
   if (failed) {
     console.error('\n' + failed + ' subscriptions test(s) failed');

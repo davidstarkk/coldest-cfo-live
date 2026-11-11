@@ -12,9 +12,12 @@
   'use strict';
 
   var FILE = 'subscriptions.enc.json';
+  var OVERRIDES_FILE = 'subscriptions_overrides.enc.json';
+  var EXAMPLE_FILE = 'scripts/fixtures/subscriptions.example.enc.json';
   var TAB_KEY = 'subscriptions';
   var HASH = '#subscriptions';
   var SESSION_KEY = 'cfo_su_session';
+  var LOCAL_KEY = 'cfo_su_ovr';
   var DAY_MS = 86400000;
   var RENEWAL_DAYS = 30;
   var PAGE_SIZE = 25;
@@ -32,7 +35,11 @@
 
   var STATE = {
     envelope: null,
+    overridesEnvelope: null,
     data: null,
+    key: null,
+    localMarks: {},
+    committedMarks: {},
     loaded: false,
     unlocked: false,
     error: '',
@@ -66,6 +73,20 @@
     return u;
   }
 
+  function bytesToB64(u) {
+    if (typeof Buffer !== 'undefined') return Buffer.from(u).toString('base64');
+    var s = '';
+    for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]);
+    return btoa(s);
+  }
+
+  function randomBytes(n) {
+    var u = new Uint8Array(n);
+    var c = typeof crypto !== 'undefined' ? crypto : require('crypto').webcrypto;
+    c.getRandomValues(u);
+    return u;
+  }
+
   function assertEnvelope(enc) {
     if (!enc || enc.v !== 1) throw new Error('Unsupported envelope');
     if (enc.kdf !== 'PBKDF2-SHA256') throw new Error('Unsupported envelope');
@@ -75,30 +96,58 @@
     if (!Number.isFinite(iter) || iter < 1) throw new Error('Unsupported envelope');
   }
 
-  function decryptEnvelope(enc, password) {
-    assertEnvelope(enc);
+  function deriveKey(password, salt, iter) {
     var subtle = getSubtle();
     if (!subtle) return Promise.reject(new Error('WebCrypto unavailable'));
-    if (!password) return Promise.reject(new Error('Enter the password'));
-    var salt = b64ToBytes(enc.salt);
-    var iv = b64ToBytes(enc.iv);
-    var ct = b64ToBytes(enc.ct);
-    var iter = Number(enc.iter);
     return subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']).then(function (base) {
       return subtle.deriveKey(
         { name: 'PBKDF2', hash: 'SHA-256', salt: salt, iterations: iter },
         base,
         { name: 'AES-GCM', length: 256 },
-        false,
-        ['decrypt']
+        true,
+        ['encrypt', 'decrypt']
       );
-    }).then(function (key) {
-      return subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct);
-    }).then(function (pt) {
-      var text = new TextDecoder().decode(pt);
-      var data = JSON.parse(text);
-      if (!data || !Array.isArray(data.subscriptions)) throw new Error('Unexpected payload');
-      return data;
+    });
+  }
+
+  function aesDecrypt(key, iv, ct) {
+    return getSubtle().decrypt({ name: 'AES-GCM', iv: iv }, key, ct);
+  }
+
+  function aesEncrypt(key, iv, bytes) {
+    return getSubtle().encrypt({ name: 'AES-GCM', iv: iv }, key, bytes);
+  }
+
+  function decryptJsonWithKey(key, ivB64, ctB64) {
+    return aesDecrypt(key, b64ToBytes(ivB64), b64ToBytes(ctB64)).then(function (pt) {
+      return JSON.parse(new TextDecoder().decode(pt));
+    });
+  }
+
+  function encryptJsonWithKey(key, obj) {
+    var iv = randomBytes(12);
+    var bytes = new TextEncoder().encode(JSON.stringify(obj));
+    return aesEncrypt(key, iv, bytes).then(function (ct) {
+      return { v: 1, cipher: 'AES-256-GCM', iv: bytesToB64(iv), ct: bytesToB64(new Uint8Array(ct)) };
+    });
+  }
+
+  function decryptEnvelope(enc, password) {
+    assertEnvelope(enc);
+    if (!password) return Promise.reject(new Error('Enter the password'));
+    var salt = b64ToBytes(enc.salt);
+    var iter = Number(enc.iter);
+    return deriveKey(password, salt, iter).then(function (key) {
+      return decryptJsonWithKey(key, enc.iv, enc.ct).then(function (data) {
+        return { data: data, key: key };
+      });
+    });
+  }
+
+  function decryptSubscriptions(enc, password) {
+    return decryptEnvelope(enc, password).then(function (res) {
+      if (!res.data || !Array.isArray(res.data.subscriptions)) throw new Error('Unexpected payload');
+      return res;
     });
   }
 
@@ -153,21 +202,36 @@
   function normStatus(s) {
     var v = String(s == null ? '' : s).trim().toLowerCase();
     if (v === 'active') return 'active';
+    if (v === 'canceled (marked)' || v === 'canceled_marked') return 'canceled';
     if (v === 'turned off' || v === 'turned_off' || v === 'inactive' || v === 'cancelled' || v === 'canceled') return 'turned off';
     return 'unknown';
   }
 
+  function effectiveStatus(r) {
+    if (r && r.marked) return 'canceled';
+    return normStatus(r && r.status);
+  }
+
+  function isOffLike(st) {
+    return st === 'turned off' || st === 'canceled';
+  }
+
   function statusLabel(s) {
-    var n = normStatus(s);
+    var n = typeof s === 'string' && (s === 'canceled' || s === 'turned off' || s === 'active' || s === 'unknown')
+      ? s
+      : (s && typeof s === 'object' ? effectiveStatus(s) : normStatus(s));
     if (n === 'active') return 'Active';
+    if (n === 'canceled') return 'Canceled (marked)';
     if (n === 'turned off') return 'Turned off';
     return 'Needs verification';
   }
 
   function statusClass(s) {
-    var n = normStatus(s);
+    var n = typeof s === 'string' && (s === 'canceled' || s === 'turned off' || s === 'active' || s === 'unknown')
+      ? s
+      : (s && typeof s === 'object' ? effectiveStatus(s) : normStatus(s));
     if (n === 'active') return 'su-good';
-    if (n === 'turned off') return 'su-off';
+    if (n === 'canceled' || n === 'turned off') return 'su-off';
     return 'su-warn';
   }
 
@@ -205,12 +269,87 @@
     return parseDay(data && data.generated_at) || Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate());
   }
 
-  function kpis(data) {
-    var rows = (data && data.subscriptions) || [];
+  function parseOverrideList(doc) {
+    if (!doc) return [];
+    if (Array.isArray(doc)) return doc;
+    if (Array.isArray(doc.overrides)) return doc.overrides;
+    if (doc.byId && typeof doc.byId === 'object') {
+      return Object.keys(doc.byId).map(function (k) { return doc.byId[k]; });
+    }
+    return [];
+  }
+
+  function listToMarkMap(list) {
+    var out = {};
+    (list || []).forEach(function (o) {
+      if (!o || o.id == null || o.id === '') return;
+      var id = String(o.id);
+      var st = String(o.status || '').toLowerCase();
+      if (st === 'canceled' || st === 'cancelled') {
+        out[id] = { id: id, status: 'canceled', marked_at: o.marked_at || null };
+      } else if (st === 'clear' || st === 'undo' || st === 'active') {
+        out[id] = { id: id, status: 'clear' };
+      }
+    });
+    return out;
+  }
+
+  function mergeMarks(committed, local) {
+    var out = {};
+    [committed || {}, local || {}].forEach(function (src) {
+      Object.keys(src).forEach(function (id) {
+        var o = src[id];
+        if (!o) return;
+        if (o.status === 'canceled') out[id] = { id: id, status: 'canceled', marked_at: o.marked_at || null };
+        else delete out[id];
+      });
+    });
+    return out;
+  }
+
+  function applyOverrides(rows, markMap) {
+    markMap = markMap || {};
+    return (rows || []).map(function (r) {
+      var id = r && r.id != null ? String(r.id) : '';
+      var o = id && markMap[id];
+      if (o && o.status === 'canceled') {
+        return Object.assign({}, r, { marked: true, marked_at: o.marked_at || null });
+      }
+      return Object.assign({}, r, { marked: false, marked_at: null });
+    });
+  }
+
+  function markCanceled(map, id, at) {
+    var out = Object.assign({}, map || {});
+    var key = String(id);
+    out[key] = { id: key, status: 'canceled', marked_at: at || new Date().toISOString() };
+    return out;
+  }
+
+  function undoMark(local, id, committed) {
+    var out = Object.assign({}, local || {});
+    var key = String(id);
+    delete out[key];
+    if (committed && committed[key] && committed[key].status === 'canceled') {
+      out[key] = { id: key, status: 'clear' };
+    }
+    return out;
+  }
+
+  function exportMarks(markMap) {
+    return Object.keys(markMap || {}).filter(function (id) {
+      return markMap[id] && markMap[id].status === 'canceled';
+    }).map(function (id) {
+      return { id: markMap[id].id, status: 'canceled', marked_at: markMap[id].marked_at };
+    }).sort(function (a, b) { return String(a.id).localeCompare(String(b.id)); });
+  }
+
+  function kpis(data, markMap) {
+    var rows = applyOverrides((data && data.subscriptions) || [], markMap);
     var from = asOfMs(data);
-    var monthly = 0, annual = 0, active = 0, off = 0, unknown = 0, renewals30 = 0;
+    var monthly = 0, annual = 0, active = 0, off = 0, unknown = 0, canceled = 0, renewals30 = 0;
     rows.forEach(function (r) {
-      var st = normStatus(r.status);
+      var st = effectiveStatus(r);
       if (st === 'active') {
         active += 1;
         monthly += num(r.monthly_cost) || 0;
@@ -220,10 +359,11 @@
           var days = Math.round((nxt - from) / DAY_MS);
           if (days >= 0 && days <= RENEWAL_DAYS) renewals30 += 1;
         }
-      } else if (st === 'turned off') off += 1;
+      } else if (st === 'canceled') { canceled += 1; off += 1; }
+      else if (st === 'turned off') off += 1;
       else unknown += 1;
     });
-    return { monthly: monthly, annual: annual, active: active, off: off, unknown: unknown, renewals30: renewals30 };
+    return { monthly: monthly, annual: annual, active: active, off: off, unknown: unknown, canceled: canceled, renewals30: renewals30 };
   }
 
   function applyFilters(rows, f) {
@@ -232,13 +372,13 @@
     var cycle = (f.cycle && f.cycle !== 'all') ? String(f.cycle).toLowerCase() : '';
     var category = (f.category && f.category !== 'all') ? String(f.category) : '';
     return (rows || []).filter(function (r) {
-      var st = normStatus(r.status);
-      if (!f.showOff && st === 'turned off') return false;
+      var st = effectiveStatus(r);
+      if (!f.showOff && isOffLike(st)) return false;
       if (cycle && String(r.cycle || '').toLowerCase() !== cycle) return false;
       if (category && String(r.category || '') !== category) return false;
       if (!inBucket(r.monthly_cost, f.bucket)) return false;
       if (q) {
-        var blob = [r.name, r.description, r.category, r.cycle, cycleLabel(r.cycle), r.status, statusLabel(st)].map(function (x) { return x == null ? '' : String(x); }).join(' ').toLowerCase();
+        var blob = [r.name, r.description, r.category, r.cycle, cycleLabel(r.cycle), r.status, statusLabel(st), r.marked_at].map(function (x) { return x == null ? '' : String(x); }).join(' ').toLowerCase();
         if (blob.indexOf(q) === -1) return false;
       }
       return true;
@@ -344,6 +484,7 @@
     '.su-check input{accent-color:var(--cyan)}',
     '.su-err{color:var(--red);font-size:.78rem;margin-top:10px;min-height:1.1em}',
     '.su-head{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;margin-bottom:14px}',
+    '.su-head-actions{display:flex;flex-wrap:wrap;gap:8px}',
     '.su-head h3{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:0}',
     '.su-asof{font-size:.76rem;color:var(--text-muted)}',
     '.su-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}',
@@ -375,6 +516,9 @@
     '.su-desc{display:block;font-size:.7rem;color:var(--text-dim);font-weight:400;margin-top:2px}',
     '.su-link{color:var(--cyan);text-decoration:none;font-size:.72rem;font-weight:600}',
     '.su-link:hover{text-decoration:underline}',
+    'button.su-act{background:none;border:none;padding:0;font:inherit;color:var(--cyan);cursor:pointer;font-size:.72rem;font-weight:600}',
+    'button.su-act:hover{text-decoration:underline}',
+    '.su-mark-date{display:block;font-size:.64rem;color:var(--text-dim);margin-top:3px;font-weight:400;letter-spacing:0;text-transform:none}',
     '.su-empty{color:var(--text-muted);font-size:.82rem;padding:16px 0}',
     '.su-charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}',
     '.su-chart{position:relative;height:220px}',
@@ -428,23 +572,64 @@
     return panel;
   }
 
-  /* ------------------------------------------------------------ session */
-  function readSession() {
+  /* ------------------------------------------------------------ session / encrypted local marks */
+  function dataFileUrl() {
+    try {
+      if (typeof location !== 'undefined' && /(?:\?|&)su_example=1(?:&|$)/.test(location.search || '')) return EXAMPLE_FILE;
+    } catch (e) { /* noop */ }
+    return FILE;
+  }
+
+  function readSessionJwk() {
     try {
       var raw = sessionStorage.getItem(SESSION_KEY);
       if (!raw) return null;
-      var data = JSON.parse(raw);
-      if (!data || !Array.isArray(data.subscriptions)) return null;
-      return data;
+      var doc = JSON.parse(raw);
+      if (!doc || doc.v !== 2 || !doc.jwk) return null;
+      return doc.jwk;
     } catch (e) { return null; }
   }
 
-  function writeSession(data) {
-    try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(data)); } catch (e) { /* noop */ }
+  function writeSessionJwk(jwk) {
+    try { sessionStorage.setItem(SESSION_KEY, JSON.stringify({ v: 2, jwk: jwk })); } catch (e) { /* noop */ }
   }
 
   function clearSession() {
     try { sessionStorage.removeItem(SESSION_KEY); } catch (e) { /* noop */ }
+  }
+
+  function readLocalBlob() {
+    try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || 'null'); } catch (e) { return null; }
+  }
+
+  function writeLocalBlob(blob) {
+    try { localStorage.setItem(LOCAL_KEY, JSON.stringify(blob)); } catch (e) { /* noop */ }
+  }
+
+  function mergedMarks() {
+    return mergeMarks(STATE.committedMarks, STATE.localMarks);
+  }
+
+  function persistLocalMarks() {
+    if (!STATE.key) return Promise.resolve();
+    return encryptJsonWithKey(STATE.key, { local: STATE.localMarks, committed: STATE.committedMarks }).then(function (blob) {
+      writeLocalBlob(blob);
+    }).catch(function () { /* noop */ });
+  }
+
+  function loadLocalMarks(key) {
+    var blob = readLocalBlob();
+    if (!blob || !blob.iv || !blob.ct) return Promise.resolve({ local: {}, committed: {} });
+    return decryptJsonWithKey(key, blob.iv, blob.ct).then(function (doc) {
+      return {
+        local: (doc && doc.local) || {},
+        committed: (doc && doc.committed) || {}
+      };
+    }).catch(function () { return { local: {}, committed: {} }; });
+  }
+
+  function importAesKey(jwk) {
+    return getSubtle().importKey('jwk', jwk, { name: 'AES-GCM' }, true, ['encrypt', 'decrypt']);
   }
 
   /* ------------------------------------------------------------ render */
@@ -470,11 +655,16 @@
     var bits = [];
     if (r.manage_url) bits.push('<a class="su-link" href="' + esc(r.manage_url) + '" target="_blank" rel="noopener noreferrer">Manage / Pay</a>');
     if (r.cancel_url) bits.push('<a class="su-link" href="' + esc(r.cancel_url) + '" target="_blank" rel="noopener noreferrer">Cancel</a>');
+    if (r.id != null && r.id !== '') {
+      if (r.marked) bits.push('<button type="button" class="su-act" data-act="undo" data-id="' + esc(r.id) + '">Undo</button>');
+      else bits.push('<button type="button" class="su-act" data-act="cancel" data-id="' + esc(r.id) + '">Mark as canceled</button>');
+    }
     return bits.length ? bits.join(' · ') : '—';
   }
 
   function visibleRows() {
-    var rows = applyFilters((STATE.data && STATE.data.subscriptions) || [], {
+    var rows = applyOverrides((STATE.data && STATE.data.subscriptions) || [], mergedMarks());
+    rows = applyFilters(rows, {
       search: STATE.search,
       showOff: STATE.showOff,
       cycle: STATE.cycle,
@@ -537,12 +727,15 @@
       '<div class="su-app">' +
         '<div class="su-head">' +
           '<div><h3>Subscriptions</h3><div class="su-asof" id="su-asof"></div>' + src + '</div>' +
-          '<button type="button" class="su-btn-ghost" id="su-lock">Lock</button>' +
+          '<div class="su-head-actions">' +
+            '<button type="button" class="su-btn-ghost" id="su-export">Export changes</button>' +
+            '<button type="button" class="su-btn-ghost" id="su-lock">Lock</button>' +
+          '</div>' +
         '</div>' +
         '<div class="su-kpis" id="su-kpis"></div>' +
         '<div class="su-filters">' +
           '<input id="su-search" type="search" placeholder="Search name or category" value="' + esc(STATE.search) + '">' +
-          '<label class="su-check"><input id="su-showoff" type="checkbox"' + (STATE.showOff ? ' checked' : '') + '> Include turned off</label>' +
+          '<label class="su-check"><input id="su-showoff" type="checkbox"' + (STATE.showOff ? ' checked' : '') + '> Include turned off / canceled</label>' +
           '<select id="su-cycle">' + cycleOpts + '</select>' +
           '<select id="su-category">' + catOpts + '</select>' +
           '<div class="su-chips" id="su-buckets">' + chips + '</div>' +
@@ -555,6 +748,7 @@
       '</div>';
 
     document.getElementById('su-lock').addEventListener('click', lock);
+    document.getElementById('su-export').addEventListener('click', exportChanges);
     document.getElementById('su-search').addEventListener('input', function (ev) {
       STATE.search = ev.target.value;
       STATE.page = 1;
@@ -591,7 +785,7 @@
   }
 
   function refreshApp(panel) {
-    var k = kpis(STATE.data);
+    var k = kpis(STATE.data, mergedMarks());
     var kpisEl = document.getElementById('su-kpis');
     if (kpisEl) {
       kpisEl.innerHTML =
@@ -650,20 +844,32 @@
           if (prev) prev.addEventListener('click', function () { STATE.page = Math.max(1, STATE.page - 1); refreshApp(panel); });
           if (next) next.addEventListener('click', function () { STATE.page += 1; refreshApp(panel); });
         }
+        wrap.onclick = function (ev) {
+          var btn = ev.target.closest ? ev.target.closest('[data-act]') : null;
+          if (!btn) return;
+          var act = btn.getAttribute('data-act');
+          var id = btn.getAttribute('data-id');
+          if (!id) return;
+          if (act === 'cancel') onMarkCanceled(id);
+          else if (act === 'undo') onUndo(id);
+        };
       }
     }
-    var chartRows = rows.filter(function (r) { return normStatus(r.status) === 'active'; });
+    var chartRows = rows.filter(function (r) { return effectiveStatus(r) === 'active'; });
     drawCharts(chartRows);
   }
 
-  function kpiCard(val, label) {
-    return '<div class="su-kpi"><div class="su-v">' + esc(val) + '</div><div class="su-l">' + esc(label) + '</div></div>';
+  function kpiCard(val, label, cls) {
+    return '<div class="su-kpi' + (cls ? ' ' + cls : '') + '"><div class="su-v">' + esc(val) + '</div><div class="su-l">' + esc(label) + '</div></div>';
   }
 
   function rowHtml(r) {
-    var st = normStatus(r.status);
+    var st = effectiveStatus(r);
     var title = r.status_reason ? ' title="' + esc(r.status_reason) + '"' : '';
     var desc = r.description ? '<span class="su-desc">' + esc(r.description) + '</span>' : '';
+    var markDate = st === 'canceled' && r.marked_at
+      ? '<span class="su-mark-date">' + fmtDay(r.marked_at) + '</span>'
+      : '';
     return '<tr>' +
       '<td><span class="su-name">' + esc(r.name || '—') + '</span>' + desc + '</td>' +
       '<td>' + esc(r.category || '—') + '</td>' +
@@ -671,7 +877,7 @@
       '<td>' + (r.cycle ? pill(cycleLabel(r.cycle), 'su-cycle') : '—') + '</td>' +
       '<td>' + usd(r.monthly_cost) + '</td>' +
       '<td>' + usd(r.annual_cost) + '</td>' +
-      '<td><span' + title + '>' + pill(statusLabel(st), statusClass(st)) + '</span></td>' +
+      '<td><span' + title + '>' + pill(statusLabel(st), statusClass(st)) + '</span>' + markDate + '</td>' +
       '<td>' + fmtDay(r.last_charge) + '</td>' +
       '<td>' + fmtDay(r.next_renewal) + '</td>' +
       '<td>' + linkCell(r) + '</td>' +
@@ -727,31 +933,100 @@
     renderLock(panel);
   }
 
+  function onMarkCanceled(id) {
+    STATE.localMarks = markCanceled(STATE.localMarks, id, new Date().toISOString());
+    persistLocalMarks();
+    var panel = document.getElementById('tab-' + TAB_KEY);
+    if (panel) refreshApp(panel);
+  }
+
+  function onUndo(id) {
+    STATE.localMarks = undoMark(STATE.localMarks, id, STATE.committedMarks);
+    persistLocalMarks();
+    var panel = document.getElementById('tab-' + TAB_KEY);
+    if (panel) refreshApp(panel);
+  }
+
+  function exportChanges() {
+    var list = exportMarks(mergedMarks());
+    var text = JSON.stringify(list, null, 2);
+    if (typeof document === 'undefined') return text;
+    var blob = new Blob([text], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'subscriptions-overrides.json';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+      URL.revokeObjectURL(a.href);
+      if (a.parentNode) a.parentNode.removeChild(a);
+    }, 0);
+    return text;
+  }
+
+  function afterUnlock(data, key, fromPassword, password) {
+    STATE.data = data;
+    STATE.key = key;
+    STATE.unlocked = true;
+    STATE.busy = false;
+    STATE.error = '';
+    var committedP = Promise.resolve({});
+    if (fromPassword && password && STATE.overridesEnvelope) {
+      committedP = decryptEnvelope(STATE.overridesEnvelope, password).then(function (res) {
+        return listToMarkMap(parseOverrideList(res.data));
+      }).catch(function () { return {}; });
+    }
+    return loadLocalMarks(key).then(function (stored) {
+      STATE.localMarks = stored.local || {};
+      return committedP.then(function (fromFile) {
+        STATE.committedMarks = Object.keys(fromFile).length ? fromFile : (stored.committed || {});
+        if (fromPassword && STATE.remember) {
+          return getSubtle().exportKey('jwk', key).then(function (jwk) { writeSessionJwk(jwk); });
+        }
+        if (fromPassword && !STATE.remember) clearSession();
+      });
+    }).then(function () {
+      return persistLocalMarks();
+    }).then(function () {
+      render();
+    });
+  }
+
   function unlock(password) {
     if (STATE.busy) return;
     STATE.error = '';
     STATE.busy = true;
     render();
-    decryptEnvelope(STATE.envelope, password).then(function (data) {
-      STATE.data = data;
-      STATE.unlocked = true;
-      STATE.busy = false;
-      STATE.error = '';
-      if (STATE.remember) writeSession(data);
-      else clearSession();
-      render();
+    decryptSubscriptions(STATE.envelope, password).then(function (res) {
+      return afterUnlock(res.data, res.key, true, password);
     }).catch(function () {
       STATE.busy = false;
       STATE.unlocked = false;
       STATE.data = null;
+      STATE.key = null;
       STATE.error = 'Wrong password';
       render();
+    });
+  }
+
+  function restoreSession() {
+    var jwk = readSessionJwk();
+    if (!jwk || !STATE.envelope) return Promise.resolve(false);
+    return importAesKey(jwk).then(function (key) {
+      return decryptJsonWithKey(key, STATE.envelope.iv, STATE.envelope.ct).then(function (data) {
+        if (!data || !Array.isArray(data.subscriptions)) throw new Error('Unexpected payload');
+        return afterUnlock(data, key, false, null);
+      }).then(function () { return true; });
+    }).catch(function () {
+      clearSession();
+      return false;
     });
   }
 
   function lock() {
     STATE.unlocked = false;
     STATE.data = null;
+    STATE.key = null;
     STATE.error = '';
     STATE.search = '';
     STATE.showOff = false;
@@ -771,15 +1046,12 @@
   }
 
   function load() {
-    return getJson(FILE).then(function (enc) {
-      STATE.envelope = enc;
+    var mainUrl = dataFileUrl();
+    return Promise.all([getJson(mainUrl), getJson(OVERRIDES_FILE)]).then(function (docs) {
+      STATE.envelope = docs[0];
+      STATE.overridesEnvelope = docs[1];
       STATE.loaded = true;
-      var cached = readSession();
-      if (cached) {
-        STATE.data = cached;
-        STATE.unlocked = true;
-      }
-      return enc;
+      return restoreSession();
     });
   }
 
@@ -802,14 +1074,30 @@
 
   var api = {
     FILE: FILE,
+    OVERRIDES_FILE: OVERRIDES_FILE,
+    EXAMPLE_FILE: EXAMPLE_FILE,
     TAB_KEY: TAB_KEY,
     HASH: HASH,
     SESSION_KEY: SESSION_KEY,
+    LOCAL_KEY: LOCAL_KEY,
     BUCKETS: BUCKETS,
     PAGE_SIZE: PAGE_SIZE,
-    decryptEnvelope: decryptEnvelope,
+    decryptEnvelope: function (enc, password) {
+      return decryptSubscriptions(enc, password).then(function (r) { return r.data; });
+    },
+    decryptSubscriptions: decryptSubscriptions,
+    encryptJsonWithKey: encryptJsonWithKey,
+    decryptJsonWithKey: decryptJsonWithKey,
     kpis: kpis,
     applyFilters: applyFilters,
+    applyOverrides: applyOverrides,
+    mergeMarks: mergeMarks,
+    listToMarkMap: listToMarkMap,
+    parseOverrideList: parseOverrideList,
+    markCanceled: markCanceled,
+    undoMark: undoMark,
+    exportMarks: exportMarks,
+    effectiveStatus: effectiveStatus,
     sortRows: sortRows,
     pageSlice: pageSlice,
     inBucket: inBucket,

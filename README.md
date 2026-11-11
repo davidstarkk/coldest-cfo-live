@@ -291,6 +291,8 @@ Last item in the dashboard nav. Deep link `#subscriptions`.
 
 The list is **not** in this public repo as plaintext. The page fetches `subscriptions.enc.json` and decrypts it in the browser (PBKDF2-SHA256 → AES-256-GCM, same envelope `scripts/encrypt_subscriptions.mjs` writes). Until the password is entered the tab is only a prompt; a wrong password fails closed. Unlock can stay in `sessionStorage` until Lock / the tab closes — never `localStorage` of the password.
 
+Per-row **Mark as canceled** / **Undo** drops that row from active run-rate KPIs and charts immediately. Marks persist in `localStorage` as an AES-GCM blob (same derived key as the dump, fresh IV) so ids never sit in plaintext. **Export changes** downloads `{id, status:"canceled", marked_at}` JSON to fold into the master dump. An optional committed `subscriptions_overrides.enc.json` (same envelope format; ignored if missing) is merged under the local marks so they can be made permanent across browsers. `?su_example=1` loads the tiny example fixture for UI testing only.
+
 Replace the live envelope by encrypting a dump (never commit the plaintext):
 
 ```bash
