@@ -1,1293 +1,2551 @@
 {
-  "as_of": "2026-10-24",
-  "source": "daily_inputs",
+  "as_of": "2026-11-09",
+  "source": "ad_channel_throttles.series_28d",
   "window_days": 28,
   "days": [
     {
-      "date": "2026-09-27",
-      "shopify_d2c_revenue": 31256.73,
-      "total_ad_spend": 19979.71,
-      "d2c_ad_spend": 14044.89,
-      "blended_mer": 2.23,
-      "channels": {
-        "meta": {
-          "spend": 14044.89,
-          "roas": null,
-          "source": "REPORTS.shop_ad_spend"
-        },
-        "google": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 2000,
-          "roas": null,
-          "source": "REPORTS.tiktok_ad_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-09-28",
-      "shopify_d2c_revenue": 16488.72,
-      "total_ad_spend": 16708.06,
-      "d2c_ad_spend": 10523.13,
-      "blended_mer": 1.57,
-      "channels": {
-        "meta": {
-          "spend": 8970.58,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1552.55,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-09-29",
-      "shopify_d2c_revenue": 17615.85,
-      "total_ad_spend": 18919.2,
-      "d2c_ad_spend": 12727.9,
-      "blended_mer": 1.38,
-      "channels": {
-        "meta": {
-          "spend": 8754.7,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 3973.2,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-09-30",
-      "shopify_d2c_revenue": 13177.22,
-      "total_ad_spend": 16398.11,
-      "d2c_ad_spend": 11443.59,
-      "blended_mer": 1.15,
-      "channels": {
-        "meta": {
-          "spend": 7873.28,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 515.51,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 3054.8,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-01",
-      "shopify_d2c_revenue": 48431.26,
-      "total_ad_spend": 16295.39,
-      "d2c_ad_spend": 10918.71,
-      "blended_mer": 4.44,
-      "channels": {
-        "meta": {
-          "spend": 6308.72,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 737.85,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 3872.14,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-02",
-      "shopify_d2c_revenue": 18729.22,
-      "total_ad_spend": 12545.65,
-      "d2c_ad_spend": 7593.53,
-      "blended_mer": 2.47,
-      "channels": {
-        "meta": {
-          "spend": 5782.95,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 647.98,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1162.6,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-03",
-      "shopify_d2c_revenue": 16833.44,
-      "total_ad_spend": 11046.07,
-      "d2c_ad_spend": 6393.2,
-      "blended_mer": 2.63,
-      "channels": {
-        "meta": {
-          "spend": 4439.7,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 782.59,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1170.91,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-04",
-      "shopify_d2c_revenue": 63469.52,
-      "total_ad_spend": 11331.68,
-      "d2c_ad_spend": 6562.6,
-      "blended_mer": 9.67,
-      "channels": {
-        "meta": {
-          "spend": 4555.16,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 747.02,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1260.42,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-05",
-      "shopify_d2c_revenue": 30937.62,
-      "total_ad_spend": 15958.32,
-      "d2c_ad_spend": 8727.96,
-      "blended_mer": 3.54,
-      "channels": {
-        "meta": {
-          "spend": 6612.63,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 959.23,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1156.1,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-06",
-      "shopify_d2c_revenue": 26727.82,
-      "total_ad_spend": 20963.39,
-      "d2c_ad_spend": 11912.02,
-      "blended_mer": 2.24,
-      "channels": {
-        "meta": {
-          "spend": 8279.44,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 1060.27,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 2572.31,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-07",
-      "shopify_d2c_revenue": 16341.93,
-      "total_ad_spend": 17920.05,
-      "d2c_ad_spend": 9874.59,
-      "blended_mer": 1.65,
-      "channels": {
-        "meta": {
-          "spend": 7169.61,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 1039.59,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1665.39,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-08",
-      "shopify_d2c_revenue": 59087.58,
-      "total_ad_spend": 15091.57,
-      "d2c_ad_spend": 10146,
-      "blended_mer": 5.82,
-      "channels": {
-        "meta": {
-          "spend": 8044.93,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 1084.19,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1016.88,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-09",
-      "shopify_d2c_revenue": 0,
-      "total_ad_spend": 8564.87,
-      "d2c_ad_spend": 6785.55,
-      "blended_mer": 0,
-      "channels": {
-        "meta": {
-          "spend": 4281.49,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 1113.18,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1390.88,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-10",
-      "shopify_d2c_revenue": 0,
-      "total_ad_spend": 0,
-      "d2c_ad_spend": 0,
-      "blended_mer": null,
-      "channels": {
-        "meta": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "google": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
-        }
-      }
-    },
-    {
-      "date": "2026-10-11",
-      "shopify_d2c_revenue": 28079.62,
-      "total_ad_spend": 14796.79,
-      "d2c_ad_spend": 9791.3,
-      "blended_mer": 2.87,
-      "channels": {
-        "meta": {
-          "spend": 6848.36,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": 998.41,
-          "roas": null,
-          "source": "advertising_sources.google_ads"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1944.53,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
-      "date": "2026-10-12",
-      "shopify_d2c_revenue": 21517.7,
-      "total_ad_spend": 14303.1,
-      "d2c_ad_spend": 8247.2,
-      "blended_mer": 2.61,
-      "channels": {
-        "meta": {
-          "spend": 7113.6,
-          "roas": null,
-          "source": "advertising_sources.meta"
-        },
-        "google": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "reddit": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "snapchat": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "chatgpt": {
-          "spend": 0,
-          "roas": null,
-          "source": "no_feed"
-        },
-        "tiktok": {
-          "spend": 1133.6,
-          "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
-        }
-      }
-    },
-    {
       "date": "2026-10-13",
-      "shopify_d2c_revenue": 14950.38,
-      "total_ad_spend": 15087.21,
-      "d2c_ad_spend": 10244.39,
-      "blended_mer": 1.46,
+      "shopify_d2c_revenue": 14592.25,
+      "total_ad_spend": 15163.34,
+      "d2c_ad_spend": 10244.8,
+      "blended_mer": 1.42,
       "channels": {
         "meta": {
           "spend": 7858.74,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 7858.74,
+          "amazon": 0.0
         },
         "google": {
           "spend": 930.44,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 930.44,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 0.41,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.41,
+          "amazon": 75.72
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 1455.21,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1455.21,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-14",
-      "shopify_d2c_revenue": 14658.26,
-      "total_ad_spend": 12819.12,
-      "d2c_ad_spend": 7596.14,
-      "blended_mer": 1.93,
+      "shopify_d2c_revenue": 14164.5,
+      "total_ad_spend": 12895.06,
+      "d2c_ad_spend": 7596.74,
+      "blended_mer": 1.86,
       "channels": {
         "meta": {
           "spend": 5703.13,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 5703.13,
+          "amazon": 0.0
         },
         "google": {
           "spend": 1055.02,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1055.02,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 0.6,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.6,
+          "amazon": 75.34
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 837.99,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 837.99,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-15",
-      "shopify_d2c_revenue": 56416.52,
-      "total_ad_spend": 17498.06,
-      "d2c_ad_spend": 9927.13,
-      "blended_mer": 5.68,
+      "shopify_d2c_revenue": 56645.59,
+      "total_ad_spend": 17571.37,
+      "d2c_ad_spend": 9927.55,
+      "blended_mer": 5.71,
       "channels": {
         "meta": {
           "spend": 7693.77,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 7693.77,
+          "amazon": 0.0
         },
         "google": {
           "spend": 1084.04,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1084.04,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 0.42,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.42,
+          "amazon": 72.89
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 1149.32,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1149.32,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-16",
-      "shopify_d2c_revenue": 33923.62,
-      "total_ad_spend": 22825.61,
-      "d2c_ad_spend": 14317.24,
-      "blended_mer": 2.37,
+      "shopify_d2c_revenue": 33324.41,
+      "total_ad_spend": 22902.83,
+      "d2c_ad_spend": 14319.77,
+      "blended_mer": 2.33,
       "channels": {
         "meta": {
           "spend": 10471.3,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 10471.3,
+          "amazon": 0.0
         },
         "google": {
           "spend": 1513.82,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1513.82,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 2.53,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2.53,
+          "amazon": 74.69
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 2332.12,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2332.12,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-17",
-      "shopify_d2c_revenue": 19434.51,
-      "total_ad_spend": 18208.97,
-      "d2c_ad_spend": 12625.73,
-      "blended_mer": 1.54,
+      "shopify_d2c_revenue": 19551.76,
+      "total_ad_spend": 18283.96,
+      "d2c_ad_spend": 12627.04,
+      "blended_mer": 1.55,
       "channels": {
         "meta": {
           "spend": 9948.99,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 9948.99,
+          "amazon": 0.0
         },
         "google": {
           "spend": 1696.71,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1696.71,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 1.31,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1.31,
+          "amazon": 73.68
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 980.03,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 980.03,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-18",
-      "shopify_d2c_revenue": 63071.49,
-      "total_ad_spend": 16479.46,
-      "d2c_ad_spend": 10930.79,
-      "blended_mer": 5.77,
+      "shopify_d2c_revenue": 62838.93,
+      "total_ad_spend": 16549.55,
+      "d2c_ad_spend": 10932.94,
+      "blended_mer": 5.75,
       "channels": {
         "meta": {
           "spend": 8283.74,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 8283.74,
+          "amazon": 0.0
         },
         "google": {
           "spend": 1718.1,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1718.1,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 2.15,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2.15,
+          "amazon": 67.94
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 928.95,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 928.95,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-19",
-      "shopify_d2c_revenue": 31420.67,
-      "total_ad_spend": 24815.42,
-      "d2c_ad_spend": 16292.52,
-      "blended_mer": 1.93,
+      "shopify_d2c_revenue": 30769.72,
+      "total_ad_spend": 24893.02,
+      "d2c_ad_spend": 16294.48,
+      "blended_mer": 1.89,
       "channels": {
         "meta": {
           "spend": 11953.74,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 11953.74,
+          "amazon": 0.0
         },
         "google": {
           "spend": 1803.44,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1803.44,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 1.96,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1.96,
+          "amazon": 75.64
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 2535.34,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2535.34,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-20",
-      "shopify_d2c_revenue": 37699.72,
-      "total_ad_spend": 22791.28,
-      "d2c_ad_spend": 15976.92,
-      "blended_mer": 2.36,
+      "shopify_d2c_revenue": 37582.26,
+      "total_ad_spend": 24399.69,
+      "d2c_ad_spend": 15977.75,
+      "blended_mer": 2.35,
       "channels": {
         "meta": {
           "spend": 12573.32,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 12573.32,
+          "amazon": 0.0
         },
         "google": {
           "spend": 2251.4,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2251.4,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 0.83,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.83,
+          "amazon": 74.12
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 1152.2,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1152.2,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-21",
-      "shopify_d2c_revenue": 48336.29,
-      "total_ad_spend": 24176.7,
-      "d2c_ad_spend": 15083.83,
-      "blended_mer": 3.2,
+      "shopify_d2c_revenue": 47690.16,
+      "total_ad_spend": 24258.99,
+      "d2c_ad_spend": 15084.94,
+      "blended_mer": 3.16,
       "channels": {
         "meta": {
           "spend": 11571.39,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 11571.39,
+          "amazon": 0.0
         },
         "google": {
           "spend": 2061.56,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2061.56,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 1.11,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1.11,
+          "amazon": 77.64
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 1450.88,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1450.88,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-22",
-      "shopify_d2c_revenue": 50658.54,
-      "total_ad_spend": 25028.81,
-      "d2c_ad_spend": 17285.68,
-      "blended_mer": 2.93,
+      "shopify_d2c_revenue": 49991.43,
+      "total_ad_spend": 25697.8,
+      "d2c_ad_spend": 17286.35,
+      "blended_mer": 2.89,
       "channels": {
         "meta": {
           "spend": 12870.31,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 12870.31,
+          "amazon": 0.0
         },
         "google": {
           "spend": 2208.25,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2208.25,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 0.67,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.67,
+          "amazon": 70.28
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 2207.12,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2207.12,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-23",
-      "shopify_d2c_revenue": 37453.32,
-      "total_ad_spend": 25942.86,
-      "d2c_ad_spend": 18750.2,
-      "blended_mer": 2,
+      "shopify_d2c_revenue": 37058.31,
+      "total_ad_spend": 26748.81,
+      "d2c_ad_spend": 18775.89,
+      "blended_mer": 1.97,
       "channels": {
         "meta": {
-          "spend": 15196.4,
+          "spend": 15221.05,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 15221.05,
+          "amazon": 0.0
         },
         "google": {
           "spend": 2081.14,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2081.14,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 0,
-          "d2c": 0,
-          "amazon": 0,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 1.04,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1.04,
+          "amazon": 70.38
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 1472.66,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1472.66,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
         }
       }
     },
     {
       "date": "2026-10-24",
-      "shopify_d2c_revenue": 26598.51,
-      "total_ad_spend": 21678.86,
-      "d2c_ad_spend": 14382.78,
+      "shopify_d2c_revenue": 26420.44,
+      "total_ad_spend": 21679.94,
+      "d2c_ad_spend": 14383.86,
       "blended_mer": 1.84,
       "channels": {
         "meta": {
-          "spend": 11521.87,
+          "spend": 11522.95,
           "roas": null,
-          "source": "advertising_sources.meta"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 11522.95,
+          "amazon": 0.0
         },
         "google": {
           "spend": 1951.18,
           "roas": null,
-          "source": "advertising_sources.google_ads"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1951.18,
+          "amazon": 0.0
         },
         "bing": {
-          "spend": 77.33,
+          "spend": 0.97,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
           "d2c": 0.97,
-          "amazon": 76.36,
-          "roas": null,
-          "source": "mer_for_manus.json#bing"
+          "amazon": 76.36
         },
         "reddit": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "snapchat": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "chatgpt": {
-          "spend": 0,
+          "spend": null,
           "roas": null,
           "source": "no_feed"
         },
         "tiktok": {
           "spend": 908.76,
           "roas": null,
-          "source": "advertising_sources.tiktok_ads.shopify_spend"
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 908.76,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "shopify_d2c_revenue": 29621.76,
+      "total_ad_spend": 20360.09,
+      "d2c_ad_spend": 12917.1,
+      "blended_mer": 2.29,
+      "channels": {
+        "meta": {
+          "spend": 10123.2,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 10123.2,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1949.45,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1949.45,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 60.56,
+          "roas": 1.78,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 60.56,
+          "amazon": 69.74
+        },
+        "reddit": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "snapchat": {
+          "spend": 71.92,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 71.92,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "tiktok": {
+          "spend": 711.97,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 711.97,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-10-26",
+      "shopify_d2c_revenue": 22881.92,
+      "total_ad_spend": 21782.77,
+      "d2c_ad_spend": 12704.64,
+      "blended_mer": 1.8,
+      "channels": {
+        "meta": {
+          "spend": 8553.78,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 8553.78,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1699.22,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1699.22,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 175.61,
+          "roas": 2.66,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 175.61,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "snapchat": {
+          "spend": 348.5,
+          "roas": 8.75,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 348.5,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 308.57,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 308.57,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 1554.22,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1554.22,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 64.74,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 64.74,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-10-27",
+      "shopify_d2c_revenue": 17529.16,
+      "total_ad_spend": 22542.85,
+      "d2c_ad_spend": 14581.81,
+      "blended_mer": 1.2,
+      "channels": {
+        "meta": {
+          "spend": 10418.57,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 10418.57,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1905.57,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1905.57,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 88.1,
+          "roas": 3.57,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 88.1,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 417.86,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 417.86,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 348.55,
+          "roas": 10.15,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 348.55,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 214.23,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 214.23,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 900.31,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 900.31,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 65.0,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 65.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 223.62,
+          "roas": 0.47,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 223.62,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-10-28",
+      "shopify_d2c_revenue": 18843.78,
+      "total_ad_spend": 20431.71,
+      "d2c_ad_spend": 12382.12,
+      "blended_mer": 1.52,
+      "channels": {
+        "meta": {
+          "spend": 8858.66,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 8858.66,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1516.45,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1516.45,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 84.57,
+          "roas": 2.62,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 84.57,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "snapchat": {
+          "spend": 348.62,
+          "roas": 9.4,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 348.62,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 204.12,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 204.12,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 1007.72,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1007.72,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 51.67,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 51.67,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 310.31,
+          "roas": 0.96,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 310.31,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-10-29",
+      "shopify_d2c_revenue": 32247.11,
+      "total_ad_spend": 21341.85,
+      "d2c_ad_spend": 13506.67,
+      "blended_mer": 2.39,
+      "channels": {
+        "meta": {
+          "spend": 9614.75,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 9614.75,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 2070.41,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2070.41,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 68.41,
+          "roas": 5.43,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 68.41,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "snapchat": {
+          "spend": 350.0,
+          "roas": 3.72,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 350.0,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 177.09,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 177.09,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 903.22,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 903.22,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 65.0,
+          "roas": 0.72,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 65.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 257.79,
+          "roas": 1.37,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 257.79,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-10-30",
+      "shopify_d2c_revenue": 23064.82,
+      "total_ad_spend": 19543.45,
+      "d2c_ad_spend": 13729.04,
+      "blended_mer": 1.68,
+      "channels": {
+        "meta": {
+          "spend": 9129.39,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 9129.39,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1842.36,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1842.36,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 19.28,
+          "roas": 52.32,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 19.28,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 416.49,
+          "roas": 0.75,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 416.49,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 357.26,
+          "roas": 2.73,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 357.26,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 28.91,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 28.91,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 1624.44,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1624.44,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 153.55,
+          "roas": 0.44,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 153.55,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 157.36,
+          "roas": 2.82,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 157.36,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-10-31",
+      "shopify_d2c_revenue": 21349.35,
+      "total_ad_spend": 17302.98,
+      "d2c_ad_spend": 12425.38,
+      "blended_mer": 1.72,
+      "channels": {
+        "meta": {
+          "spend": 8659.29,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 8659.29,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1941.14,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1941.14,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 7.62,
+          "roas": 17.8,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 7.62,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 356.88,
+          "roas": 2.18,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 356.88,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 419.93,
+          "roas": 3.29,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 419.93,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 874.83,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 874.83,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 13.49,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 13.49,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 152.2,
+          "roas": 4.71,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 152.2,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-11-01",
+      "shopify_d2c_revenue": 35740.17,
+      "total_ad_spend": 18076.99,
+      "d2c_ad_spend": 12326.84,
+      "blended_mer": 2.9,
+      "channels": {
+        "meta": {
+          "spend": 8781.61,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 8781.61,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1996.05,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1996.05,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 19.61,
+          "roas": 13.49,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 19.61,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 247.57,
+          "roas": 3.86,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 247.57,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 417.92,
+          "roas": 13.65,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 417.92,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 711.63,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 711.63,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 152.45,
+          "roas": 2.21,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 152.45,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-11-02",
+      "shopify_d2c_revenue": 22449.97,
+      "total_ad_spend": 19003.91,
+      "d2c_ad_spend": 11573.01,
+      "blended_mer": 1.94,
+      "channels": {
+        "meta": {
+          "spend": 7479.92,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 7479.92,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1768.83,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1768.83,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 41.05,
+          "roas": 11.12,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 41.05,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 157.99,
+          "roas": 0.39,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 157.99,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 420.0,
+          "roas": 7.33,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 420.0,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 1554.09,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1554.09,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 151.13,
+          "roas": 1.02,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 151.13,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-11-03",
+      "shopify_d2c_revenue": 36961.57,
+      "total_ad_spend": 21477.09,
+      "d2c_ad_spend": 13604.45,
+      "blended_mer": 2.72,
+      "channels": {
+        "meta": {
+          "spend": 8833.73,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 8833.73,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1713.5,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1713.5,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 65.29,
+          "roas": 4.22,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 65.29,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 520.0,
+          "roas": 10.43,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 520.0,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 2171.05,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2171.05,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 151.52,
+          "roas": 4.83,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 151.52,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 149.36,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 149.36,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        }
+      }
+    },
+    {
+      "date": "2026-11-04",
+      "shopify_d2c_revenue": 22959.75,
+      "total_ad_spend": 20498.55,
+      "d2c_ad_spend": 13755.51,
+      "blended_mer": 1.67,
+      "channels": {
+        "meta": {
+          "spend": 9971.93,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 9971.93,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1625.13,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1625.13,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 103.21,
+          "roas": 5.41,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 103.21,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 197.94,
+          "roas": 3.33,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 197.94,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 520.0,
+          "roas": 6.76,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 520.0,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 800.84,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 800.84,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 151.22,
+          "roas": 3.19,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 151.22,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 356.41,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 356.41,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": 1.43,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1.43,
+          "amazon": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-05",
+      "shopify_d2c_revenue": 34876.92,
+      "total_ad_spend": 20138.25,
+      "d2c_ad_spend": 13904.46,
+      "blended_mer": 2.51,
+      "channels": {
+        "meta": {
+          "spend": 9408.6,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 9408.6,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 2061.18,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2061.18,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 97.71,
+          "roas": 7.21,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 97.71,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 150.12,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 150.12,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 520.0,
+          "roas": 12.27,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 520.0,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 1264.56,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1264.56,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 152.4,
+          "roas": 4.38,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 152.4,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": 222.49,
+          "roas": 0.27,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 222.49,
+          "amazon": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-06",
+      "shopify_d2c_revenue": 27930.26,
+      "total_ad_spend": 24077.05,
+      "d2c_ad_spend": 17205.54,
+      "blended_mer": 1.62,
+      "channels": {
+        "meta": {
+          "spend": 11711.18,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 11711.18,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 2041.55,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2041.55,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 165.19,
+          "roas": 3.71,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 165.19,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "snapchat": {
+          "spend": 603.93,
+          "roas": 8.87,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 603.93,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 2250.94,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2250.94,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 182.42,
+          "roas": 5.25,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 182.42,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": 222.93,
+          "roas": 1.7,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 222.93,
+          "amazon": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-07",
+      "shopify_d2c_revenue": 26075.82,
+      "total_ad_spend": 21855.29,
+      "d2c_ad_spend": 16025.39,
+      "blended_mer": 1.63,
+      "channels": {
+        "meta": {
+          "spend": 11335.67,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 11335.67,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 2353.99,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2353.99,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 176.64,
+          "roas": 1.86,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 176.64,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 152.15,
+          "roas": 0.0,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 152.15,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 604.0,
+          "roas": 7.83,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 604.0,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 970.31,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 970.31,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 181.73,
+          "roas": 5.16,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 181.73,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": 223.5,
+          "roas": 1.99,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 223.5,
+          "amazon": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-08",
+      "shopify_d2c_revenue": 30615.46,
+      "total_ad_spend": 22736.14,
+      "d2c_ad_spend": 16469.36,
+      "blended_mer": 1.86,
+      "channels": {
+        "meta": {
+          "spend": 11361.88,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 11361.88,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 2338.48,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 2338.48,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 269.77,
+          "roas": 3.39,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 269.77,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": 144.29,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 144.29,
+          "amazon": 0.0
+        },
+        "snapchat": {
+          "spend": 604.0,
+          "roas": 7.26,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 604.0,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 1317.73,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1317.73,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 182.79,
+          "roas": 2.03,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 182.79,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": 223.02,
+          "roas": 1.54,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 223.02,
+          "amazon": 0.0
+        }
+      }
+    },
+    {
+      "date": "2026-11-09",
+      "shopify_d2c_revenue": 24921.01,
+      "total_ad_spend": 21006.91,
+      "d2c_ad_spend": 14051.41,
+      "blended_mer": 1.77,
+      "channels": {
+        "meta": {
+          "spend": 9143.41,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 9143.41,
+          "amazon": 0.0
+        },
+        "google": {
+          "spend": 1712.59,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1712.59,
+          "amazon": 0.0
+        },
+        "bing": {
+          "spend": 416.84,
+          "roas": 0.56,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 416.84,
+          "amazon": 0.0
+        },
+        "reddit": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "snapchat": {
+          "spend": 604.0,
+          "roas": 7.17,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 604.0,
+          "amazon": 0.0
+        },
+        "chatgpt": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "tiktok": {
+          "spend": 1750.86,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 1750.86,
+          "amazon": 0.0
+        },
+        "pinterest": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "applovin": {
+          "spend": 173.3,
+          "roas": 2.24,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 173.3,
+          "amazon": 0.0
+        },
+        "taboola": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "outbrain": {
+          "spend": 0.0,
+          "roas": null,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 0.0,
+          "amazon": 0.0
+        },
+        "spotify": {
+          "spend": null,
+          "roas": null,
+          "source": "no_feed"
+        },
+        "x": {
+          "spend": 223.01,
+          "roas": 0.59,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 223.01,
+          "amazon": 0.0
         }
       }
     }

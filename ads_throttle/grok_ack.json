@@ -1,5 +1,46 @@
 {
-  "updated_at": null,
-  "by": null,
-  "acks": {}
+  "updated_at": "2026-11-10T09:55:27-05:00",
+  "by": "jarvis",
+  "acks": {
+    "feed.bing": {
+      "status": "working",
+      "note": "Routed to Bing Ads bot to backfill 11/9 row in bing_ads_daily.json today.",
+      "at": "2026-11-10T09:50:00-05:00"
+    },
+    "feed.chatgpt": {
+      "status": "working",
+      "note": "Routed to ChatGPT ads bot to backfill 11/9 row in chatgpt_ads_daily.json today.",
+      "at": "2026-11-10T09:50:00-05:00"
+    },
+    "feed.reddit": {
+      "status": "wont_do",
+      "note": "David closed Reddit 11/9 until ~May 2027; no Reddit feed work. Closed-day rows 11/6-11/9 may be backfilled once from the platform spend already listed if CFO wants a complete history.",
+      "at": "2026-11-10T09:50:00-05:00"
+    },
+    "roas.google.disputed": {
+      "status": "done",
+      "note": "Agreed Google ROAS basis written to channels.google.notes on 2026-11-10 (conversion-date, primary action 7685918144).",
+      "at": "2026-11-10T09:55:27-05:00"
+    },
+    "roas.tiktok.disputed": {
+      "status": "done",
+      "note": "Agreed TikTok ROAS basis written to channels.tiktok.notes on 2026-11-10 (complete_payment_roas on WEB_CONVERSIONS only).",
+      "at": "2026-11-10T09:55:27-05:00"
+    },
+    "file.tracking_health.stale": {
+      "status": "done",
+      "note": "tracking_health.json rewritten 2026-11-10 from the 8:40 AM checkout-signals run.",
+      "at": "2026-11-10T09:50:00-05:00"
+    },
+    "settings.daily_budget.unknown": {
+      "status": "working",
+      "note": "Snapchat live budget written (604/day); google, bing, taboola budgets to be written once their bots report actual values.",
+      "at": "2026-11-10T09:50:00-05:00"
+    },
+    "changes.taboola.unlogged": {
+      "status": "done",
+      "note": "Logged the 11/4 9:24 AM ET $500->$250 cut and the ~9:28 AM ET pause ($250->$0) in changes.json after taboola bot confirmed the pre-pause caps.",
+      "at": "2026-11-10T09:51:00-05:00"
+    }
+  }
 }

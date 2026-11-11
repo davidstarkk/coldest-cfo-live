@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-10-28T08:30:00-04:00",
-  "updated_by": "jarvis (10/28: Reddit on hold until purchase tracking verified; Meta carve-out noted)",
+  "updated_at": "2026-11-10T09:55:27-05:00",
+  "updated_by": "jarvis (11/10: agreed Google/TikTok ROAS basis in channel notes)",
   "global": {
     "step_pct": 20,
     "window_days": 7,
@@ -20,14 +20,15 @@
       "owner_bot": "reddit bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "HOLD from 10/28 8:30 AM ET: purchase/checkout events not firing (pixel a2_j3pu0ku22iae) and no Shopify UTM sessions, so 0x platform ROAS is untrustworthy. No cut or raise until the reddit bot verifies Purchase tracking; then back to auto."
+      "notes": "HOLD. David closed Reddit indefinitely on 2026-11-09; reopen review ~May 2027. settings.json mode_legend has no closed/paused mode (only auto/hold/frozen/view), so mode stays hold — no raise or cut. Prior 10/28 tracking-HOLD: purchase/checkout events not firing (pixel a2_j3pu0ku22iae) and no Shopify UTM sessions."
     },
     "snapchat": {
       "mode": "auto",
       "owner_bot": "snapchat ads bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports."
+      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports.",
+      "daily_budget": 604
     },
     "bing": {
       "mode": "auto",
@@ -37,11 +38,11 @@
       "notes": "main campaign sends to Amazon, not Shopify"
     },
     "chatgpt": {
-      "mode": "auto",
+      "mode": "hold",
       "owner_bot": "ads bot for chatgpt",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan."
+      "notes": "HOLD. Paused since 10/30 (rankings 2026-11-09). No raise or cut until David relaunches. Prior: David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan — still paused."
     },
     "meta": {
       "mode": "frozen",
@@ -55,17 +56,18 @@
       "owner_bot": "Google \u00b7 Ads",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "David 10/27: same 2.8/2.0 rule applies. Judge conversions by conversion date. Sandbox kept separate. JS_* (Jasen's) campaigns are read-only and excluded from raises and cuts until David says the rule covers them (asked 10/27 1:20 PM ET).",
+      "notes": "Agreed ROAS basis 2026-11-10 (Finance \u00b7 CFO and Google \u00b7 Ads): account 5108535701. Use Google Ads conversions_value_by_conversion_date on the primary action Google Shopping App Purchase (7685918144) only. API read 11/10: data-driven attribution, 90-day click-through lookback, 30-day view-through lookback, primary_for_goal true. Window is the trailing 7 completed America/Los_Angeles days, reread at report time; each reread records pulled_at and how many days have matured. Never use all_conversions, Elevar, GA4, or the webpage Purchase tag as the ROAS source. Label it platform-reported, split JS_ from non-JS_, and mark days under 7 old as provisional. The 2.8/2.0 bands apply to the non-JS_ sandbox only; JS_* campaigns stay read-only unless David extends the rule (asked 10/27 1:20 PM ET). The Shopify view divides by the weekly Elevar broad-union ratio (1.703 for Nov 2-8: 1,023.39 platform purchases against 601 orders) as an advisory estimate only, not causal. A raise freeze while that ratio is out of range is proposed by Google \u00b7 Ads, pending CFO/David confirmation, and is not an agreed rule. daily_inputs.platform_roas (the frozen next-morning click-date snapshot) is not used for Google; the CFO PR will switch it. Reconciliation for Nov 2-8: the CFO's 1.54x was a stale click-date snapshot; live click-date is 2.95x; conversion-date is 6.49x ($89,957.47 / $13,861.86). JS_* was $13,227 at 6.50x; non-JS_ PMax NCA was $635 at 3.96x. daily_budget 105.84 (written 2026-11-10 after the +20% PMax NCA sandbox raise) is the non-JS_ sandbox only, not account-wide.",
       "exclude_campaign_prefixes": [
         "JS_"
-      ]
+      ],
+      "daily_budget": 105.84
     },
     "tiktok": {
       "mode": "view",
       "owner_bot": null,
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "Shopify share only"
+      "notes": "Agreed ROAS basis 2026-11-10: use complete_payment_roas on WEB_CONVERSIONS (Shopify website) campaigns only, advertiser 7376735830968287249, reread at report time. GMV Max/Shop and the GMV-link VIDEO_VIEWS traffic spend go on separate lines. This matches 'Shopify share only'. Reconciliation: account-wide 3.59x includes $5,603 of traffic campaigns with $0 web payments; website-only is about 5.53x on $10,330; the CFO's 2.37x was a frozen snapshot."
     },
     "pinterest": {
       "mode": "hold",
@@ -87,7 +89,7 @@
       "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable."
     },
     "taboola": {
-      "mode": "auto",
+      "mode": "hold",
       "owner_bot": null,
       "max_daily_budget": null,
       "min_daily_budget": null,
@@ -96,7 +98,7 @@
       "raise_above_roas": 2.8,
       "hold_at_roas": 2.0,
       "kill_below_roas": 1.0,
-      "notes": "Added 11/3 at Jarvis's request. Non-Meta thresholds: raise at 2.8x, hold at 2.0x, kill under 1x (7-day platform-reported ROAS). Acct taboolaaccount-davidcoldestcom (id 2138422). 0 campaigns on 11/3, so Not launched / $0 until there is spend. Shopify side: utm_source=taboola, utm_medium=paid_native."
+      "notes": "HOLD. Paused since 11/4 (rankings 2026-11-09: broken click quality). No raise or cut while paused. Reboot eligible 11/29 with postmortem c97c9211. Added 11/3 at Jarvis's request. Channel thresholds remain on this block but mode hold wins. Acct taboolaaccount-davidcoldestcom (id 2138422). Shopify side: utm_source=taboola, utm_medium=paid_native."
     },
     "outbrain": {
       "mode": "auto",
@@ -109,6 +111,14 @@
       "hold_at_roas": 2.0,
       "kill_below_roas": 1.0,
       "notes": "Added 11/3 (Outbrain / Teads Direct Response). Non-Meta thresholds: raise at 2.8x, hold at 2.0x, kill under 1x (7-day platform-reported ROAS). Campaigns OB_US_SALES_<PRODUCT>_MOBILE_MAXCONV (Drive-Thru, Limitless, Hoodies). No API: outbrain ads drops a daily file in /workspace/outbrain_exports/. Judged on real reported spend only, never the planned budget. Shopify side: utm_source=outbrain, click id obclid."
+    },
+    "x": {
+      "mode": "auto",
+      "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
+      "max_daily_budget": null,
+      "min_daily_budget": null,
+      "roas_source": "platform_reported",
+      "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend − ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json."
     }
   },
   "mode_legend": {

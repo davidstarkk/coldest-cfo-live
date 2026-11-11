@@ -92,5 +92,46 @@
     "by": "jarvis",
     "approved_by": "David 10/30 10:49 PM ET",
     "next_eligible": "2026-11-06"
+  },
+  {
+    "date": "2026-11-04",
+    "channel": "taboola",
+    "entity": "Drive-Thru 50792636, Limitless 50792651, Hoodies 50792652",
+    "action": "manual_cut",
+    "old_budget": 500,
+    "new_budget": 250,
+    "budget_note": "David cut total daily budget from $500 to $250 at 9:24 AM ET: Drive-Thru 50792636 $200->$100, Limitless 50792651 $175->$88, Hoodies 50792652 $125->$62. Confirmed by taboola bot from the 11/4 9:24:31 ET budget ledger.",
+    "status": "done (David cut 11/4 9:24 AM ET; logged 11/10 after taboola bot confirmed the pre-cut $500 and post-cut $250 caps)",
+    "by": "jarvis",
+    "approved_by": "David 11/4 9:24 AM ET"
+  },
+  {
+    "date": "2026-11-04",
+    "channel": "taboola",
+    "entity": "Drive-Thru 50792636, Limitless 50792651, Hoodies 50792652",
+    "action": "pause",
+    "old_budget": 250,
+    "new_budget": 0,
+    "budget_note": "All three campaigns paused ~9:28 AM ET. Pre-pause daily caps totaled $250: Drive-Thru 50792636 $100, Limitless 50792651 $88, Hoodies 50792652 $62.",
+    "status": "paused ~9:28 AM ET 11/4; logged 11/10 after taboola bot confirmed the pre-pause $250/day caps (later read back on the paused campaigns; 11/9 watch still showed the same caps)",
+    "by": "jarvis",
+    "note": "Fulfills changes.taboola.unlogged. Last spend day 2026-11-04. Earlier the same morning David had cut the account from $500/day to $250/day at 9:24 AM ET."
+  },
+  {
+    "date": "2026-11-10",
+    "channel": "google",
+    "entity": "Grok Bot | PMax NCA sandbox, campaign 24373267631, budget 15960180711, account 5108535701",
+    "roas_7d": 3.96,
+    "spend_7d": 635,
+    "roas_source": "platform-reported, conversion date, action 7685918144, non-JS_ PMax NCA sandbox, Nov 2-8",
+    "action": "raise_20pct",
+    "old_budget": 88.2,
+    "new_budget": 105.84,
+    "budget_note": "Non-JS_ PMax NCA sandbox only, not account-wide. $88.20 -> $105.84 (+20%) at 2026-11-10T18:38:30Z (1:38 PM ET). Campaign 24373267631, budget 15960180711, account 5108535701.",
+    "status": "done (executed by Google · Ads at 1:38 PM ET)",
+    "by": "Grok Bot",
+    "approved_by": "David 11/10 1:36 PM ET",
+    "next_eligible": "2026-11-17",
+    "note": "Nov 2-8 3.96x on $635 (conversion date, action 7685918144). daily_budget is the non-JS_ sandbox only, not account-wide."
   }
 ]
