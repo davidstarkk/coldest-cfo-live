@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "as_of": "2026-11-09",
-  "computed_at": "2026-11-11T14:10:15Z",
+  "as_of": "2026-11-10",
+  "computed_at": "2026-11-11T14:36:37Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -13,16 +13,16 @@
     "window_days": 7
   },
   "portfolio": {
-    "mer_7d": 1.9488,
-    "mer_30d": 2.2565,
+    "mer_7d": 1.8309,
+    "mer_30d": 2.2258,
     "mer_target": 3.24,
-    "mer_gap": -1.29,
+    "mer_gap": -1.41,
     "stance": "below_target",
-    "d2c_revenue_7d": 204340.79,
-    "d2c_spend_7d": 104852.63,
-    "channel_spend_7d": 104852.63,
-    "spend_judged_pct": 74.9,
-    "spend_in_auto_mode_pct": 19.3,
+    "d2c_revenue_7d": 194107.09,
+    "d2c_spend_7d": 106019.01,
+    "channel_spend_7d": 106019.01,
+    "spend_judged_pct": 75.7,
+    "spend_in_auto_mode_pct": 19.9,
     "excluded_from_d2c_spend": []
   },
   "summary": {
@@ -77,17 +77,17 @@
       "cautions": [
         "ROAS from daily_inputs.platform_roas, not the channel daily file"
       ],
-      "spend_7d": 71766.4,
+      "spend_7d": 73388.39,
       "spend_days_measured": 7,
-      "roas_7d": 2.21,
+      "roas_7d": 2.06,
       "roas_days": 7,
       "roas_source": "daily_inputs.platform_roas",
-      "platform_revenue_7d": 158439.76,
-      "roas_prior_7d": 2.18,
-      "spend_prior_7d": 62942.19,
+      "platform_revenue_7d": 151111.03,
+      "roas_prior_7d": 2.47,
+      "spend_prior_7d": 61357.35,
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": null,
       "grok": {
         "as_of": "2026-11-09",
@@ -96,7 +96,7 @@
         "tier": "Lagging",
         "tier_label": "Lagging (improving)",
         "tracking": "OK (EMQ 9.2, CAPI 99.6%)",
-        "roas_gap_pct": 2.2
+        "roas_gap_pct": 8.8
       },
       "mmm_verdict": null
     },
@@ -115,17 +115,17 @@
         "ROAS from daily_inputs.platform_roas, not the channel daily file",
         "No data"
       ],
-      "spend_7d": 13846.42,
+      "spend_7d": 14137.9,
       "spend_days_measured": 7,
-      "roas_7d": 1.54,
+      "roas_7d": 1.53,
       "roas_days": 7,
       "roas_source": "daily_inputs.platform_roas",
-      "platform_revenue_7d": 21190.02,
-      "roas_prior_7d": 1.82,
-      "spend_prior_7d": 13040.81,
+      "platform_revenue_7d": 21597.99,
+      "roas_prior_7d": 1.68,
+      "spend_prior_7d": 12848.74,
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": {
         "date": "2026-11-10",
         "action": "raise_20pct"
@@ -137,7 +137,7 @@
         "tier": "Steady",
         "tier_label": "Steady",
         "tracking": "OK; attribution ratio 1.70 -> raises frozen",
-        "roas_gap_pct": 74.6
+        "roas_gap_pct": 74.8
       },
       "mmm_verdict": null
     },
@@ -155,17 +155,17 @@
       "cautions": [
         "ROAS from daily_inputs.platform_roas, not the channel daily file"
       ],
-      "spend_7d": 10526.29,
+      "spend_7d": 9356.45,
       "spend_days_measured": 7,
-      "roas_7d": 2.37,
+      "roas_7d": 2.45,
       "roas_days": 7,
       "roas_source": "daily_inputs.platform_roas",
-      "platform_revenue_7d": 38251.83,
-      "roas_prior_7d": 2.84,
-      "spend_prior_7d": 7576.24,
+      "platform_revenue_7d": 36583.28,
+      "roas_prior_7d": 2.61,
+      "spend_prior_7d": 8846.98,
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": null,
       "grok": {
         "as_of": "2026-11-09",
@@ -174,7 +174,7 @@
         "tier": "Steady",
         "tier_label": "Steady",
         "tracking": "OK",
-        "roas_gap_pct": 29.5
+        "roas_gap_pct": 27.1
       },
       "mmm_verdict": null
     },
@@ -187,17 +187,17 @@
       "actionable": true,
       "blockers": [],
       "cautions": [],
-      "spend_7d": 3975.93,
+      "spend_7d": 4059.92,
       "spend_days_measured": 7,
-      "roas_7d": 8.58,
+      "roas_7d": 8.16,
       "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": 34116.52,
-      "roas_prior_7d": 7.23,
-      "spend_prior_7d": 2662.28,
+      "platform_revenue_7d": 33145.39,
+      "roas_prior_7d": 7.46,
+      "spend_prior_7d": 2833.73,
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": {
         "date": "2026-10-30",
         "action": "raise_20pct"
@@ -209,7 +209,7 @@
         "tier": "Lead",
         "tier_label": "Lead (view-through caveat)",
         "tracking": "OK (connector slot-limited until 11/17)",
-        "roas_gap_pct": 2.4
+        "roas_gap_pct": 2.5
       },
       "mmm_verdict": null
     },
@@ -224,17 +224,17 @@
         "mode:view"
       ],
       "cautions": [],
-      "spend_7d": 1175.38,
+      "spend_7d": 1195.5,
       "spend_days_measured": 7,
-      "roas_7d": 3.86,
+      "roas_7d": 3.59,
       "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": 4535.72,
-      "roas_prior_7d": 1.71,
-      "spend_prior_7d": 1404.86,
+      "platform_revenue_7d": 4289.3,
+      "roas_prior_7d": 2.27,
+      "spend_prior_7d": 1332.76,
       "tracking_status": "unknown",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": null,
       "grok": {
         "as_of": "2026-11-09",
@@ -243,7 +243,7 @@
         "tier": "Lead",
         "tier_label": "Lead (2nd week)",
         "tracking": "OK; Shopify broad-union 79 vs 80 platform (ratio 1.01)",
-        "roas_gap_pct": 3.4
+        "roas_gap_pct": 3.8
       },
       "mmm_verdict": null
     },
@@ -258,17 +258,17 @@
         "roas_disputed"
       ],
       "cautions": [],
-      "spend_7d": 1294.65,
+      "spend_7d": 1579.54,
       "spend_days_measured": 7,
-      "roas_7d": 2.8,
+      "roas_7d": 2.35,
       "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": 3628.5,
-      "roas_prior_7d": 8.44,
-      "spend_prior_7d": 328.64,
+      "platform_revenue_7d": 3711.38,
+      "roas_prior_7d": 8.94,
+      "spend_prior_7d": 305.83,
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": {
         "date": "2026-10-27",
         "action": "cut_20pct_and_change_strategy"
@@ -280,7 +280,7 @@
         "tier": "Steady",
         "tier_label": "Steady",
         "tracking": "OK (ratio 0.74 in band)",
-        "roas_gap_pct": 33.3
+        "roas_gap_pct": 44.0
       },
       "mmm_verdict": null
     },
@@ -293,17 +293,17 @@
       "actionable": true,
       "blockers": [],
       "cautions": [],
-      "spend_7d": 1116.38,
+      "spend_7d": 1300.4,
       "spend_days_measured": 7,
-      "roas_7d": 1.22,
+      "roas_7d": 1.1,
       "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": 1358.55,
+      "platform_revenue_7d": 1427.28,
       "roas_prior_7d": null,
       "spend_prior_7d": 0.0,
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": null,
       "grok": {
         "as_of": "2026-11-09",
@@ -312,7 +312,7 @@
         "tier": "Lagging",
         "tier_label": "Lagging (launch week)",
         "tracking": "OK; raises frozen (6 Shopify vs 15 platform)",
-        "roas_gap_pct": 10.9
+        "roas_gap_pct": 19.7
       },
       "mmm_verdict": null
     },
@@ -325,19 +325,19 @@
       "actionable": false,
       "blockers": [
         "mode:hold",
-        "feed_gap:5/7 days measured"
+        "feed_gap:4/7 days measured"
       ],
       "cautions": [
         "tracking WARN",
         "ROAS from daily_inputs.platform_roas, not the channel daily file"
       ],
       "spend_7d": 644.5,
-      "spend_days_measured": 5,
+      "spend_days_measured": 4,
       "roas_7d": null,
       "roas_days": 7,
       "roas_source": "channel daily file + daily_inputs.platform_roas",
       "platform_revenue_7d": null,
-      "roas_prior_7d": 1.32,
+      "roas_prior_7d": 1.78,
       "spend_prior_7d": null,
       "tracking_status": "WARN",
       "feed_status": "stale",
@@ -371,11 +371,11 @@
       "roas_days": 7,
       "roas_source": null,
       "platform_revenue_7d": null,
-      "roas_prior_7d": 0.33,
-      "spend_prior_7d": 348.71,
+      "roas_prior_7d": 0.4,
+      "spend_prior_7d": 283.71,
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": {
         "date": "2026-10-29",
         "action": "kill_under_1x"
@@ -409,10 +409,10 @@
       "roas_source": null,
       "platform_revenue_7d": null,
       "roas_prior_7d": 0.0,
-      "spend_prior_7d": 624.35,
+      "spend_prior_7d": 410.12,
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": {
         "date": "2026-10-30",
         "action": "kill_under_1x"
@@ -441,17 +441,17 @@
       "cautions": [
         "tracking WARN"
       ],
-      "spend_7d": 506.68,
+      "spend_7d": 356.41,
       "spend_days_measured": 7,
       "roas_7d": 0.0,
       "roas_days": 7,
       "roas_source": "channel daily file",
       "platform_revenue_7d": 0.0,
-      "roas_prior_7d": null,
-      "spend_prior_7d": 0.0,
+      "roas_prior_7d": 0.0,
+      "spend_prior_7d": 150.27,
       "tracking_status": "WARN",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": {
         "date": "2026-11-04",
         "action": "pause"
@@ -485,7 +485,7 @@
       "spend_prior_7d": null,
       "tracking_status": "unknown",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-09",
+      "last_measured_day": "2026-11-10",
       "last_change": null,
       "grok": {
         "as_of": "2026-11-09",
@@ -531,13 +531,14 @@
       "channel": "reddit",
       "owner": "reddit bot",
       "title": "Reddit: no measured row since 2026-11-08",
-      "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-09. The platform reported spend on 2026-11-06 ($142.88), 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+      "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-09, 2026-11-10. The platform reported spend on 2026-11-06 ($142.88), 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-09",
       "age_days": 2,
       "evidence": {
         "missing_days": [
           "2026-11-06",
-          "2026-11-09"
+          "2026-11-09",
+          "2026-11-10"
         ],
         "last_measured_day": "2026-11-08"
       },
@@ -552,14 +553,14 @@
       "severity": "high",
       "channel": "bing",
       "owner": "Bing Ads bot",
-      "title": "Bing: CFO reads 2.80x, Grok reads 4.20x \u2014 the rule lands in different bands",
-      "detail": "CFO 7d platform ROAS 2.80x (channel daily file, 2026-11-03..2026-11-09) says hold; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "title": "Bing: CFO reads 2.35x, Grok reads 4.20x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 2.35x (channel daily file, 2026-11-04..2026-11-10) says hold; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-10",
       "age_days": 1,
       "evidence": {
-        "cfo_roas_7d": 2.8,
+        "cfo_roas_7d": 2.35,
         "grok_roas_7d": 4.2,
-        "gap_pct": 33.3
+        "gap_pct": 44.0
       }
     },
     {
@@ -567,14 +568,14 @@
       "severity": "high",
       "channel": "google",
       "owner": "Google \u00b7 Ads",
-      "title": "Google Ads: CFO reads 1.54x, Grok reads 6.07x \u2014 the rule lands in different bands",
-      "detail": "CFO 7d platform ROAS 1.54x (daily_inputs.platform_roas, 2026-11-03..2026-11-09) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "title": "Google Ads: CFO reads 1.53x, Grok reads 6.07x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 1.53x (daily_inputs.platform_roas, 2026-11-04..2026-11-10) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
       "age_days": 2,
       "evidence": {
-        "cfo_roas_7d": 1.54,
+        "cfo_roas_7d": 1.53,
         "grok_roas_7d": 6.07,
-        "gap_pct": 74.6
+        "gap_pct": 74.8
       },
       "ack": {
         "status": "done",
@@ -587,14 +588,14 @@
       "severity": "high",
       "channel": "tiktok",
       "owner": null,
-      "title": "TikTok (website): CFO reads 2.37x, Grok reads 3.36x \u2014 the rule lands in different bands",
-      "detail": "CFO 7d platform ROAS 2.37x (daily_inputs.platform_roas, 2026-11-03..2026-11-09) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "title": "TikTok (website): CFO reads 2.45x, Grok reads 3.36x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 2.45x (daily_inputs.platform_roas, 2026-11-04..2026-11-10) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
       "age_days": 2,
       "evidence": {
-        "cfo_roas_7d": 2.37,
+        "cfo_roas_7d": 2.45,
         "grok_roas_7d": 3.36,
-        "gap_pct": 29.5
+        "gap_pct": 27.1
       },
       "ack": {
         "status": "done",

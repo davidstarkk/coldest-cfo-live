@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-10T09:55:27-05:00",
+  "updated_at": "2026-11-11T10:00:00-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
@@ -29,8 +29,8 @@
     },
     "file.tracking_health.stale": {
       "status": "done",
-      "note": "tracking_health.json rewritten 2026-11-10 from the 8:40 AM checkout-signals run.",
-      "at": "2026-11-10T09:50:00-05:00"
+      "note": "tracking_health.json rewritten 2026-11-11 from the 8:30 AM checkout-signals run.",
+      "at": "2026-11-11T10:00:00-05:00"
     },
     "settings.daily_budget.unknown": {
       "status": "working",
@@ -41,6 +41,26 @@
       "status": "done",
       "note": "Logged the 11/4 9:24 AM ET $500->$250 cut and the ~9:28 AM ET pause ($250->$0) in changes.json after taboola bot confirmed the pre-pause caps.",
       "at": "2026-11-10T09:51:00-05:00"
+    },
+    "roas.bing.disputed": {
+      "status": "working",
+      "note": "Not yet routed: no inter-bot messaging tool available to Jarvis today; ask drafted for Bing Ads bot to agree one ROAS basis and write it to settings.json channels.bing.notes. No raise/cut on Bing until then.",
+      "at": "2026-11-11T10:00:00-05:00"
+    },
+    "file.shopify_attribution.stale": {
+      "status": "working",
+      "note": "Owner is CFO box ShopifyQL sync; not routable from Jarvis today, flagged for Builder fix.",
+      "at": "2026-11-11T10:00:00-05:00"
+    },
+    "step.snapchat.raise_20pct": {
+      "status": "working",
+      "note": "Brief 11/11 act_now: Snapchat +20% ($604 -> $724.80, under $784/day cap, last raise 10/30 so cooldown clear). NOT executed or logged: no inter-bot messaging tool to reach snapchat ads bot; awaiting bot confirmation.",
+      "at": "2026-11-11T10:00:00-05:00"
+    },
+    "step.x.cut_20pct": {
+      "status": "working",
+      "note": "Brief 11/11 act_now: X cut -20% (ROAS 1.10x 7d on $1,300) plus new strategy. NOT executed or logged: no inter-bot messaging tool to reach x.com ads bot; awaiting bot confirmation of live budgets.",
+      "at": "2026-11-11T10:00:00-05:00"
     }
   }
 }
