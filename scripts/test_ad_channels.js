@@ -687,7 +687,7 @@ test('Spotify: unavailable → "No data" only; never $0 / LIVE / paused; exclude
   assert.ok(c.html.indexOf('$0') === -1, 'no $0 anywhere on the unmeasured card');
   assert.ok(c.html.indexOf('missing') === -1 && c.html.indexOf('unverified') === -1);
   assert.ok(/paused/i.test(c.html) === false);
-  assert.ok(rowFor(c.html, A._fmt.shortDate('2026-11-05')).indexOf('No data') !== -1);
+  assert.ok(rowFor(c.html, A._fmt.shortDate('2026-11-05')).indexOf('Channel off') !== -1);
   var stats = A.CHANNELS.map(function (ch) { return A.channelStats(ch, c.series, inp, '2026-11-05'); });
   var sum = A.summarize(stats, c.series, inp, '2026-11-05');
   assert.strictEqual(sum.tracked7, 700, 'unknown Spotify spend adds nothing to tracked spend');
@@ -730,12 +730,12 @@ test('Spotify: no conflicting labels — each day is a number or "No data", neve
   adv['2026-11-05'].spotify_ads = { spend: 55.5, spend_status: 'verified' };
   var inp = { embedded: [], advertisingSourcesDaily: adv };
   var c = spotifyCard(inp, '2026-11-05');
-  var expect = { '2026-11-02': '$0.00', '2026-11-03': 'No data', '2026-11-04': 'No data', '2026-11-05': '$55.50' };
+  var expect = { '2026-11-02': '$0.00', '2026-11-03': 'Channel off', '2026-11-04': 'Channel off', '2026-11-05': '$55.50' };
   Object.keys(expect).forEach(function (d) {
     var row = rowFor(c.html, A._fmt.shortDate(d));
     var spendCell = row.split('<td>')[2].replace(/<\/td>.*/, '');
     assert.strictEqual(spendCell, expect[d], d);
-    if (expect[d] === 'No data') assert.ok(!/\$\d/.test(row), 'no number on a No data day ' + d + ': ' + row);
+    if (expect[d] === 'Channel off') assert.ok(!/\$\d/.test(row), 'no number on a Channel off day ' + d + ': ' + row);
     else if (expect[d] === '$0.00') assert.ok(row.indexOf('No data') === -1, 'no No data on measured $0 ' + d);
     assert.ok(row.indexOf('missing') === -1 && row.indexOf('unverified') === -1);
   });

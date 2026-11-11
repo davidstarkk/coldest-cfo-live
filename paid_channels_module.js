@@ -1367,9 +1367,11 @@
   // Spotify Ads (canonical feed key spotify_ads) is display-only like X / Taboola / Outbrain:
   // CFO (coldest-cfo-dashboard) folds only measured Spotify spend into d2c_ad_spend / blended_mer.
   // This module never overlays it, so unknown Spotify spend stays out of D2C totals / MER.
-  // Display rule (CFO): a measured day shows numbers only; an unmeasured day shows "No data"
-  // only; spend-only rows show ROAS "No data"; platform spend and billing / cash cost stay separate.
+  // Display rule (David): unmeasured / never-launched spend cells are "Channel off".
+  // Outcome metrics may still read "No data". Measured days show numbers only.
+  // Spend-only rows show ROAS "No data"; platform spend and billing / cash cost stay separate.
   var SPOTIFY_NO_DATA = 'No data';
+  var SPOTIFY_CHANNEL_OFF = 'Channel off';
   var SPOTIFY_KEYS = ['spotify_ads', 'spotify', 'Spotify', 'Spotify Ads'];
   function moneyPlain(v) {
     var n = Number(v);
@@ -1582,7 +1584,7 @@
 
   function spotifySpendTxt(date) {
     var r = spotifyDayRow(date);
-    if (!r) return spotifyNotLaunched() ? 'Not launched' : SPOTIFY_NO_DATA;
+    if (!r) return SPOTIFY_CHANNEL_OFF;
     var spend = finiteNum(r.spend);
     if (spend == null) spend = finiteNum(r.daily_spend);
     if (spend == null) spend = finiteNum(r.ad_spend);
@@ -1595,10 +1597,10 @@
     var nd = SPOTIFY_NO_DATA;
     if (!r) {
       if (spotifyNotLaunched()) {
-        return '<tr><td>Spotify Ads</td><td>Not launched</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc((spotifyBlock() || {}).source || 'Spotify Ads not launched') + '</td></tr>'
+        return '<tr><td>Spotify Ads</td><td>' + SPOTIFY_CHANNEL_OFF + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc((spotifyBlock() || {}).source || 'Spotify Ads not launched') + '</td></tr>'
           + spotifyCapRow(7);
       }
-      return '<tr><td>Spotify Ads</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>no spotify_ads feed published</td></tr>'
+      return '<tr><td>Spotify Ads</td><td>' + SPOTIFY_CHANNEL_OFF + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>no spotify_ads feed published</td></tr>'
         + '<tr class="pc-split"><td colspan="7">↳ Spotify spend unmeasured for this day — excluded from D2C ad spend / MER (coverage). CFO publishes advertising_sources.spotify_ads / spotify_ads_daily.json.</td></tr>'
         + spotifyCapRow(7);
     }
@@ -1962,6 +1964,7 @@
     outbrainSpendTxt: outbrainSpendTxt,
     SPOTIFY_DISPLAY: SPOTIFY_DISPLAY,
     SPOTIFY_NO_DATA: SPOTIFY_NO_DATA,
+    SPOTIFY_CHANNEL_OFF: SPOTIFY_CHANNEL_OFF,
     spotifyDetailHtml: spotifyDetailHtml,
     spotifySpendTxt: spotifySpendTxt,
     spotifyDayRow: spotifyDayRow,

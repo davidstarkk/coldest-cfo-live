@@ -352,7 +352,7 @@ test('Spotify planned cap is not spend and does not change D2C MER', function ()
   assert.strictEqual(s.blendedMer, 1.9735);
   assert.ok(!s.channels.spotify);
   assert.strictEqual(Paid.spotifyCapNote(), SPOTIFY_CAP_LABEL);
-  assert.strictEqual(Paid.spotifySpendTxt('2026-10-24'), 'No data');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-10-24'), 'Channel off');
   delete global.PARTIAL_REPORTS;
   Paid._setMerDoc(null);
   Paid._setSpotifyConfig(null);

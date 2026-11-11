@@ -1786,12 +1786,15 @@
     var rows = dates.slice(-14).reverse().map(function (d) {
       var r = STATE.series.channels[ch.id].days[d];
       var nd = esc(dv(ch, '—'));
-      if (!r) return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td></tr>';
+      // Unmeasured / never-launched Spotify spend cells are Channel off (David). Outcome cells keep No data.
+      var spotifyOff = ch.id === 'spotify' && (!r || r.spend == null);
+      var spendCell = spotifyOff ? 'Channel off' : (!r ? nd : esc(dv(ch, usd(r.spend, 2))));
+      if (!r) return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + spendCell + '</td><td>' + nd + '</td><td>' + nd + '</td><td>' + nd + '</td></tr>';
       var roas = dayRoas(r);
       // measured $0 day: number-only row (metrics n/a "—"), never "No data" next to a number of spend
       var gap = r.spend === 0 ? '—' : nd;
       function g(txt) { return txt === '—' ? gap : txt; }
-      return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + esc(dv(ch, usd(r.spend, 2))) + '</td><td>' + (r.hasPlatform ? esc(g(usd(r.revenue, 2))) : gap) + '</td><td>' + (r.hasPlatform ? esc(g(intTxt(r.conversions))) : gap) + '</td><td>' + esc(g(roasTxt(roas))) + '</td></tr>';
+      return '<tr><td>' + esc(shortDate(d)) + '</td><td>' + spendCell + '</td><td>' + (r.hasPlatform ? esc(g(usd(r.revenue, 2))) : gap) + '</td><td>' + (r.hasPlatform ? esc(g(intTxt(r.conversions))) : gap) + '</td><td>' + esc(g(roasTxt(roas))) + '</td></tr>';
     }).join('');
     var det = '<details><summary>Last 14 days</summary><table class="ac-mini"><thead><tr><th>Day</th><th>Spend</th><th>Plat. rev</th><th>Conv</th><th>ROAS</th></tr></thead><tbody>' + rows + '</tbody></table></details>';
     return '<div class="ac-card" id="ac-card-' + ch.id + '" style="border-top-color:' + ch.color + '">' + head + nums + spark + post + src + det + '</div>';

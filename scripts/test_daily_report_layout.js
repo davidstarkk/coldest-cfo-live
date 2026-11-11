@@ -298,19 +298,19 @@ function noConflict(txt) {
 }
 function spotifyMainRow(html) { return html.split('</tr>')[0]; }
 
-test('Spotify: unavailable day → "No data" only (no $0, no missing/unverified), excluded from D2C coverage note', function () {
+test('Spotify: unavailable day → Channel off spend (no $0, no missing/unverified), excluded from D2C coverage note', function () {
   spotifyReset();
   Paid._setMerDoc({ as_of: '2026-11-05', advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } }, '2026-11-04': { spotify_ads: { spend: 0 } } } });
   ['2026-11-03', '2026-11-04', '2026-11-05'].forEach(function (d) {
-    assert.strictEqual(Paid.spotifySpendTxt(d), 'No data', d);
+    assert.strictEqual(Paid.spotifySpendTxt(d), 'Channel off', d);
     var html = Paid.spotifyDetailHtml(d);
     assert.ok(html.indexOf('$0.00') === -1, 'unmeasured day is never $0: ' + d);
-    assert.ok(html.indexOf('No data') !== -1);
+    assert.ok(spotifyMainRow(html).indexOf('<td>Channel off</td>') !== -1);
     assert.ok(html.indexOf('excluded from D2C ad spend / MER') !== -1, 'coverage labelled');
     noConflict(html);
   });
   var strip = Paid.spendPerChannelHtml('2026-11-05');
-  assert.ok(strip.indexOf('<td>Spotify Ads</td><td>No data</td>') !== -1);
+  assert.ok(strip.indexOf('<td>Spotify Ads</td><td>Channel off</td>') !== -1);
   spotifyReset();
 });
 
@@ -351,14 +351,14 @@ test('Spotify: no conflicting labels — every day is either a number or "No dat
     '2026-11-04': { spend: 0 },
     '2026-11-05': { spend: 55.5, spend_status: 'verified' }
   } });
-  var expect = { '2026-11-02': '$0.00', '2026-11-03': 'No data', '2026-11-04': 'No data', '2026-11-05': '$55.50', '2026-11-06': 'No data' };
+  var expect = { '2026-11-02': '$0.00', '2026-11-03': 'Channel off', '2026-11-04': 'Channel off', '2026-11-05': '$55.50', '2026-11-06': 'Channel off' };
   Object.keys(expect).forEach(function (d) {
     var txt = Paid.spotifySpendTxt(d);
     assert.strictEqual(txt, expect[d], d);
     var hasNum = /\$\d/.test(txt);
-    assert.ok(!(hasNum && txt.indexOf('No data') !== -1), 'number + No data on ' + d);
+    assert.ok(!(hasNum && txt.indexOf('Channel off') !== -1), 'number + Channel off on ' + d);
     var spendCell = spotifyMainRow(Paid.spotifyDetailHtml(d)).split('<td>')[2].replace(/<\/td>.*/, '');
-    assert.ok(/^\$\d/.test(spendCell) !== (spendCell === 'No data'), 'spend cell is exactly one of number / No data: ' + spendCell);
+    assert.ok(/^\$\d/.test(spendCell) !== (spendCell === 'Channel off'), 'spend cell is exactly one of number / Channel off: ' + spendCell);
     noConflict(Paid.spotifyDetailHtml(d));
   });
   spotifyReset();
@@ -388,16 +388,16 @@ test('Spotify: cash_cost kept separate from platform spend (mirrors X)', functio
   spotifyReset();
 });
 
-test('Spotify: not-launched config → Not launched, no metrics; absence alone is No data, not paused', function () {
+test('Spotify: not-launched config → Channel off, no metrics; absence alone is Channel off, not paused', function () {
   spotifyReset();
   Paid._setMerDoc({ as_of: '2026-11-05', spotify: { status: 'not_launched', live: false } });
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Not launched');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   var html = Paid.spotifyDetailHtml('2026-11-05');
   assert.ok(html.indexOf('$') === -1, 'no metrics for not launched: ' + html);
-  assert.ok(html.indexOf('No data') === -1);
+  assert.ok(spotifyMainRow(html).indexOf('<td>Channel off</td>') !== -1);
   noConflict(html);
   Paid._setMerDoc({ as_of: '2026-11-05' });
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'No data');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   assert.ok(Paid.spotifyDetailHtml('2026-11-05').indexOf('paused') === -1);
   spotifyReset();
 });
@@ -429,7 +429,7 @@ test('Spotify: companion daily starting cap labels the plan, not spend; legacy $
     spotify_ads_config: SPOTIFY_CAP,
     advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } } }
   });
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'No data');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   assert.strictEqual(Paid.spotifyCapNote(), SPOTIFY_CAP_LABEL);
   Paid._setMerDoc({
     as_of: '2026-11-05',
@@ -457,16 +457,16 @@ test('Spotify: planned cap present is labelled separately from No data spend; ME
     advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } } }
   };
   Paid._setMerDoc(mer);
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'No data');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   assert.strictEqual(Paid.spotifyCapNote(), SPOTIFY_CAP_LABEL);
   var strip = Paid.spendPerChannelHtml('2026-11-05');
-  assert.ok(strip.indexOf('<td>Spotify Ads</td><td>No data</td>') !== -1);
+  assert.ok(strip.indexOf('<td>Spotify Ads</td><td>Channel off</td>') !== -1);
   assert.ok(strip.indexOf(SPOTIFY_CAP_LABEL) !== -1);
   assert.ok(strip.indexOf('<td>$250') === -1, 'cap is not the spend cell');
   assert.ok(strip.indexOf('split evenly') === -1);
   assert.ok(strip.indexOf('Drive-Thru') === -1);
   var html = Paid.spotifyDetailHtml('2026-11-05');
-  assert.ok(spotifyMainRow(html).indexOf('<td>No data</td>') !== -1);
+  assert.ok(spotifyMainRow(html).indexOf('<td>Channel off</td>') !== -1);
   assert.ok(html.indexOf(SPOTIFY_CAP_LABEL) !== -1);
   assert.ok(html.indexOf('not spend') !== -1);
   var spends = Paid.channelSpends('2026-11-05');
@@ -495,7 +495,7 @@ test('Spotify: planned cap absent renders nothing (never hardcoded)', function (
   assert.ok(html.indexOf('split evenly') === -1);
   assert.ok(html.indexOf('$300') === -1);
   assert.ok(html.indexOf('Drive-Thru') === -1);
-  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'No data');
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   var mer = require('./fixtures/cfo_2026_11_05_mer.json');
   Paid._setMerDoc(mer);
   assert.strictEqual(Paid.spotifyCapNote(), '', '11/5 fixture has no cap fields');
