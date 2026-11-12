@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-12T09:57:31-05:00",
+  "updated_at": "2026-11-12T09:59:05-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
@@ -64,8 +64,8 @@
     },
     "feed.taboola": {
       "status": "working",
-      "note": "Brief 11/12: 11/11 row still missing (paused channel needs a measured $0 row). Routed to taboola bot 11/12 ~10 AM ET. Awaiting confirmation.",
-      "at": "2026-11-12T09:55:41-05:00"
+      "note": "11/11 row still unwritten. taboola bot blocked: TABOOLA_CLIENT_ID and TABOOLA_CLIENT_SECRET are not in the box env (and there is no /home/box/.secrets/taboola.env). Jarvis also found them unset and could not restore them. No hand-typed row. Will raise on the 4 PM list if still missing; once env is back, taboola bot will run taboola_sync.py --start 2026-11-11 --end 2026-11-11 only.",
+      "at": "2026-11-12T09:59:05-05:00"
     },
     "creative.unported": {
       "status": "working",
