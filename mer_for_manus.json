@@ -1,27 +1,27 @@
 {
-  "as_of": "2026-11-10",
-  "computed_at": "2026-11-12T14:15:30.582761+00:00",
+  "as_of": "2026-11-11",
+  "computed_at": "2026-11-12T14:32:08.798384+00:00",
   "source": "daily_inputs",
   "db": "private_finance_data/data.db",
-  "mer_7d_pooled": 1.8309,
-  "mer_30d_pooled": 2.2258,
+  "mer_7d_pooled": 1.8426,
+  "mer_30d_pooled": 2.2014,
   "mer_target": 3.24,
   "mer_breakeven": null,
-  "status": "PARTIAL_DAILY_INPUTS",
-  "delta_dod": -0.1176,
-  "delta_wow": -0.3022,
-  "rev_7d": 194107.09,
-  "spend_7d": 106019.01,
-  "rev_30d": 906586.09,
-  "spend_30d": 407305.43,
+  "status": "CURRENT_DAILY_INPUTS",
+  "delta_dod": 0.0121,
+  "delta_wow": -0.3042,
+  "rev_7d": 200187.78,
+  "spend_7d": 108645.9,
+  "rev_30d": 914466.9,
+  "spend_30d": 415411.05,
   "profit_7d": null,
   "net_margin_7d_pct": null,
   "budget_recommendation": {
     "action": "MAINTAIN",
     "magnitude": "small",
-    "reason": "Rebuilt from daily_inputs through 2026-11-10. Closed reports_30days.json froze at 2026-09-27; do not scale from this feed until a closed 7-day window exists. Missing finalized daily_inputs: none."
+    "reason": "Rebuilt from daily_inputs through 2026-11-11. Closed reports_30days.json froze at 2026-09-27; do not scale from this feed until a closed 7-day window exists."
   },
-  "data_ready": false,
+  "data_ready": true,
   "missing_report_dates": [],
   "incomplete_fields": [],
   "provenance": {
@@ -34,13 +34,12 @@
   },
   "schema_version": "1.1",
   "_notes": "Current daily mer rebuilt from private_finance_data/data.db daily_inputs. blended_mer / mer_7d_pooled / mer_30d_pooled = Shopify D2C net_revenue_ex_tax / d2c_ad_spend (Meta + Google + Bing D2C + Reddit + Snapchat + ChatGPT if tracking_verified + Pinterest + AppLovin D2C + Taboola + Outbrain + Spotify when measured + TikTok Shopify share + X Ads platform spend; cash_cost is missing unless billed in the source. Registry-off days count as $0. rev_7d/spend_7d are those D2C window sums \u2014 not company revenue and not total_ad_spend. Amazon-bound Bing, Whatnot, TikTok Shop, and Amazon ads are non-D2C lines and remain in total_ad_spend. AppLovin is D2C (coldest.com); only an amazon/amz campaign-name split stays in non_d2c.applovin. Unverified/missing channels (incl. Spotify with no pull) are excluded from d2c_ad_spend / blended MER \u2014 never a silent $0. See d2c_coverage. data_ready is false while incomplete_fields lists usual missing closed-day sources (Whatnot, Sellerboard, ShipHero, TikTok Shop GMV Max); those stay null, not $0.",
-  "d2c_ad_spend": 14752.48,
+  "d2c_ad_spend": 16332.02,
   "d2c_coverage": {
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "included_channels": [
       "meta",
       "google",
-      "bing",
       "reddit",
       "snapchat",
       "chatgpt",
@@ -52,41 +51,48 @@
       "tiktok",
       "x"
     ],
-    "excluded_channels": [],
+    "excluded_channels": [
+      {
+        "channel": "bing",
+        "status": "unverified",
+        "included_in_d2c": false,
+        "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
+      }
+    ],
     "spotify_included_in_d2c": true,
     "note": "Missing/unverified channels are omitted from d2c_ad_spend and blended MER. Only a closed measured pull (complete/closed_day/spend_status=verified, or positive spend) is included. Spotify has no connector pull in this repo; UI No data is Builder-owned."
   },
-  "blended_mer": 1.81,
-  "shop_revenue": 26727.87,
+  "blended_mer": 1.78,
+  "shop_revenue": 29040.44,
   "channel_revenue": {
-    "shopify": 26727.87,
-    "amazon": 15279.75,
-    "tiktok": 22426.99,
-    "whatnot": 9837.0
+    "shopify": 29040.44,
+    "amazon": 16875.78,
+    "tiktok": 18182.85,
+    "whatnot": 14015.0
   },
   "channel_ad_spend": {
-    "2026-11-10": {
-      "meta": 10436.46,
-      "google": 2004.98,
-      "tiktok": 1001.21,
-      "bing": 350.18,
+    "2026-11-11": {
+      "meta": 11677.57,
+      "google": 1654.47,
+      "tiktok": 2099.55,
+      "bing": null,
       "reddit": 0.0,
-      "snapchat": 603.99,
+      "snapchat": 617.64,
       "chatgpt": 0.0,
       "pinterest": 0.0,
-      "applovin": 171.64,
-      "x": 184.02,
+      "applovin": 179.28,
+      "x": 103.51,
       "taboola": 0.0,
       "outbrain": 0.0,
       "spotify": 0.0,
-      "amazon": 3702.93,
-      "whatnot": 1170.6
+      "amazon": 3767.79,
+      "whatnot": 1729.19
     }
   },
-  "total_ad_spend": 22127.65,
+  "total_ad_spend": 24520.71,
   "non_d2c": {
     "bing_amazon": {
-      "spend": 0.0,
+      "spend": null,
       "destination": "amazon"
     },
     "applovin": {
@@ -94,16 +100,16 @@
       "destination": "amazon"
     },
     "whatnot": {
-      "spend": 1170.6
+      "spend": 1729.19
     },
     "tiktok_shop": {
-      "spend": 1699.85
+      "spend": 1891.3
     },
     "tiktok_unallocated": {
-      "spend": 801.79
+      "spend": 800.41
     },
     "amazon_ads": {
-      "spend": 3702.93,
+      "spend": 3767.79,
       "source": "sellerboard"
     }
   },
@@ -22148,7 +22154,7 @@
     },
     "2026-11-10": {
       "meta": {
-        "spend": 10436.46,
+        "spend": 10459.44,
         "clicks": null,
         "conversions": null,
         "revenue": null,
@@ -22158,13 +22164,13 @@
         "live": true,
         "complete": true,
         "closed_day": true,
-        "updated_at": "2026-11-11T14:35:00.628123+00:00",
+        "updated_at": "2026-11-11T20:43:52.866201+00:00",
         "platform_revenue": null,
         "platform_roas_status": "unavailable_spend_only",
         "display_state": "spend",
-        "display_amount": 10436.46,
+        "display_amount": 10459.44,
         "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 10436.46,
+        "last_confirmed_amount": 10459.44,
         "owner_bot": "Meta \u00b7 Ad Buyer"
       },
       "google_ads": {
@@ -22476,6 +22482,61 @@
       }
     },
     "2026-11-11": {
+      "meta": {
+        "spend": 11677.57,
+        "clicks": null,
+        "conversions": null,
+        "revenue": null,
+        "impressions": null,
+        "roas": null,
+        "source": "daily_inputs.meta",
+        "live": true,
+        "complete": true,
+        "closed_day": true,
+        "updated_at": "2026-11-12T14:30:40.648576+00:00",
+        "platform_revenue": null,
+        "platform_roas_status": "unavailable_spend_only",
+        "display_state": "spend",
+        "display_amount": 11677.57,
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 11677.57,
+        "owner_bot": "Meta \u00b7 Ad Buyer"
+      },
+      "google_ads": {
+        "spend": 1654.47,
+        "clicks": null,
+        "conversions": null,
+        "revenue": null,
+        "impressions": null,
+        "roas": null,
+        "source": "daily_inputs.google_ads",
+        "live": true,
+        "complete": true,
+        "closed_day": true,
+        "updated_at": "2026-11-12T14:29:22.694228+00:00",
+        "platform_revenue": null,
+        "platform_roas_status": "unavailable_spend_only",
+        "display_state": "spend",
+        "display_amount": 1654.47,
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 1654.47,
+        "owner_bot": "Google \u00b7 Ads"
+      },
+      "tiktok_ads": {
+        "spend": 4791.26,
+        "shopify_spend": 2099.55,
+        "shop_spend": 1891.3,
+        "unallocated_spend": 800.41,
+        "complete": false,
+        "closed_day": true,
+        "source": "Pipeboard TikTok Ads MCP; standard + GMV Max, hourly aligned",
+        "coverage_status": null,
+        "display_state": "spend",
+        "display_amount": 4791.26,
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 4791.26,
+        "owner_bot": null
+      },
       "applovin": {
         "spend": 179.28,
         "clicks": 57,
@@ -22541,6 +22602,17 @@
         "last_confirmed_amount": 179.28,
         "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)"
       },
+      "whatnot": {
+        "spend": 1729.19,
+        "revenue": 14015.0,
+        "complete": true,
+        "source": "daily_inputs.whatnot",
+        "display_state": "spend",
+        "display_amount": 1729.19,
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 1729.19,
+        "owner_bot": null
+      },
       "bing_ads": {
         "spend": null,
         "clicks": null,
@@ -22586,25 +22658,23 @@
         "owner_bot": "reddit bot"
       },
       "snapchat_ads": {
-        "spend": null,
+        "spend": 617.64,
         "clicks": null,
         "conversions": null,
-        "revenue": null,
+        "revenue": 4898.69,
         "impressions": null,
-        "roas": null,
-        "source": "snapchat_ads_daily.json has no row (not pulled / unverified) - missing, not $0",
-        "live": null,
-        "complete": false,
-        "closed_day": false,
-        "missing": true,
-        "spend_status": "unverified",
-        "spend_d2c": null,
-        "spend_amazon": null,
+        "roas": 7.93,
+        "source": "daily_inputs.snapchat_ads (Snapchat Ads via Pipeboard) + daily_inputs.platform_roas (Snapchat purchase value, Eastern day)",
+        "live": true,
+        "complete": true,
+        "closed_day": true,
+        "spend_d2c": 617.64,
+        "spend_amazon": 0,
         "destination": "d2c",
-        "display_state": "pending_backfill",
-        "display_amount": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 603.99,
+        "display_state": "spend",
+        "display_amount": 617.64,
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 617.64,
         "owner_bot": "snapchat ads bot"
       },
       "chatgpt_ads": {
@@ -22630,20 +22700,18 @@
         "owner_bot": "ads bot for chatgpt"
       },
       "pinterest_ads": {
-        "spend": null,
+        "spend": 0.0,
         "clicks": null,
         "conversions": null,
-        "revenue": null,
+        "revenue": 0.0,
         "impressions": null,
         "roas": null,
-        "source": "pinterest_ads_daily.json has no row (not pulled / unverified) - missing, not $0",
-        "live": null,
-        "complete": false,
-        "closed_day": false,
-        "missing": true,
-        "spend_status": "unverified",
-        "spend_d2c": null,
-        "spend_amazon": null,
+        "source": "daily_inputs.pinterest_ads (Pinterest Ads via Pipeboard) + daily_inputs.platform_roas (Pinterest checkout value, account day)",
+        "live": false,
+        "complete": true,
+        "closed_day": true,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
         "destination": "d2c",
         "display_state": "off",
         "display_amount": 0.0,
@@ -22810,8 +22878,8 @@
         "destination": "d2c",
         "display_state": "pending_backfill",
         "display_amount": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 603.99,
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 617.64,
         "owner_bot": "snapchat ads bot"
       },
       "chatgpt_ads": {
@@ -22958,7 +23026,7 @@
     }
   },
   "channel_display": {
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "source": "ads_throttle/channel_status.json",
     "by_date": {
       "2026-08-25": {
@@ -32358,11 +32426,11 @@
       "2026-11-10": {
         "meta": {
           "display_state": "spend",
-          "display_amount": 10436.46,
+          "display_amount": 10459.44,
           "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 10436.46,
+          "last_confirmed_amount": 10459.44,
           "owner_bot": "Meta \u00b7 Ad Buyer",
-          "measured_spend": 10436.46
+          "measured_spend": 10459.44
         },
         "google": {
           "display_state": "spend",
@@ -32479,28 +32547,28 @@
       },
       "2026-11-11": {
         "meta": {
-          "display_state": "pending_backfill",
-          "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 10436.46,
+          "display_state": "spend",
+          "display_amount": 11677.57,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 11677.57,
           "owner_bot": "Meta \u00b7 Ad Buyer",
-          "measured_spend": null
+          "measured_spend": 11677.57
         },
         "google": {
-          "display_state": "pending_backfill",
-          "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 2004.98,
+          "display_state": "spend",
+          "display_amount": 1654.47,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 1654.47,
           "owner_bot": "Google \u00b7 Ads",
-          "measured_spend": null
+          "measured_spend": 1654.47
         },
         "tiktok": {
-          "display_state": "pending_backfill",
-          "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 3502.85,
+          "display_state": "spend",
+          "display_amount": 4791.26,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 4791.26,
           "owner_bot": null,
-          "measured_spend": null
+          "measured_spend": 4791.26
         },
         "bing": {
           "display_state": "pending_backfill",
@@ -32519,12 +32587,12 @@
           "measured_spend": null
         },
         "snapchat": {
-          "display_state": "pending_backfill",
-          "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 603.99,
+          "display_state": "spend",
+          "display_amount": 617.64,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 617.64,
           "owner_bot": "snapchat ads bot",
-          "measured_spend": null
+          "measured_spend": 617.64
         },
         "chatgpt": {
           "display_state": "off",
@@ -32540,7 +32608,7 @@
           "last_confirmed_date": null,
           "last_confirmed_amount": null,
           "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
-          "measured_spend": null
+          "measured_spend": 0.0
         },
         "applovin": {
           "display_state": "spend",
@@ -32591,36 +32659,36 @@
           "measured_spend": null
         },
         "whatnot": {
-          "display_state": "pending_backfill",
-          "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 1170.6,
+          "display_state": "spend",
+          "display_amount": 1729.19,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 1729.19,
           "owner_bot": null,
-          "measured_spend": null
+          "measured_spend": 1729.19
         }
       },
       "2026-11-12": {
         "meta": {
           "display_state": "pending_backfill",
           "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 10436.46,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 11677.57,
           "owner_bot": "Meta \u00b7 Ad Buyer",
           "measured_spend": null
         },
         "google": {
           "display_state": "pending_backfill",
           "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 2004.98,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 1654.47,
           "owner_bot": "Google \u00b7 Ads",
           "measured_spend": null
         },
         "tiktok": {
           "display_state": "pending_backfill",
           "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 3502.85,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 4791.26,
           "owner_bot": null,
           "measured_spend": null
         },
@@ -32643,8 +32711,8 @@
         "snapchat": {
           "display_state": "pending_backfill",
           "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 603.99,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 617.64,
           "owner_bot": "snapchat ads bot",
           "measured_spend": null
         },
@@ -32715,8 +32783,8 @@
         "whatnot": {
           "display_state": "pending_backfill",
           "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 1170.6,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 1729.19,
           "owner_bot": null,
           "measured_spend": null
         }
@@ -36546,39 +36614,11 @@
         "last_confirmed_amount": null
       },
       {
-        "channel": "meta",
-        "day": "2026-11-11",
-        "owner_bot": "Meta \u00b7 Ad Buyer",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 10436.46
-      },
-      {
-        "channel": "google",
-        "day": "2026-11-11",
-        "owner_bot": "Google \u00b7 Ads",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 2004.98
-      },
-      {
-        "channel": "tiktok",
-        "day": "2026-11-11",
-        "owner_bot": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 3502.85
-      },
-      {
         "channel": "bing",
         "day": "2026-11-11",
         "owner_bot": "Bing Ads bot",
         "last_confirmed_date": "2026-11-10",
         "last_confirmed_amount": 350.18
-      },
-      {
-        "channel": "snapchat",
-        "day": "2026-11-11",
-        "owner_bot": "snapchat ads bot",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 603.99
       },
       {
         "channel": "amazon",
@@ -36588,32 +36628,25 @@
         "last_confirmed_amount": null
       },
       {
-        "channel": "whatnot",
-        "day": "2026-11-11",
-        "owner_bot": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 1170.6
-      },
-      {
         "channel": "meta",
         "day": "2026-11-12",
         "owner_bot": "Meta \u00b7 Ad Buyer",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 10436.46
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 11677.57
       },
       {
         "channel": "google",
         "day": "2026-11-12",
         "owner_bot": "Google \u00b7 Ads",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 2004.98
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 1654.47
       },
       {
         "channel": "tiktok",
         "day": "2026-11-12",
         "owner_bot": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 3502.85
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 4791.26
       },
       {
         "channel": "bing",
@@ -36626,8 +36659,8 @@
         "channel": "snapchat",
         "day": "2026-11-12",
         "owner_bot": "snapchat ads bot",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 603.99
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 617.64
       },
       {
         "channel": "applovin",
@@ -36647,16 +36680,16 @@
         "channel": "whatnot",
         "day": "2026-11-12",
         "owner_bot": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 1170.6
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 1729.19
       }
     ]
   },
   "mer_estimated": false,
   "mer_includes_carry_forward": false,
   "pending_backfill": {
-    "as_of": "2026-11-10",
-    "count": 561,
+    "as_of": "2026-11-11",
+    "count": 556,
     "items": [
       {
         "channel": "meta",
@@ -40481,39 +40514,11 @@
         "last_confirmed_amount": null
       },
       {
-        "channel": "meta",
-        "day": "2026-11-11",
-        "owner_bot": "Meta \u00b7 Ad Buyer",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 10436.46
-      },
-      {
-        "channel": "google",
-        "day": "2026-11-11",
-        "owner_bot": "Google \u00b7 Ads",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 2004.98
-      },
-      {
-        "channel": "tiktok",
-        "day": "2026-11-11",
-        "owner_bot": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 3502.85
-      },
-      {
         "channel": "bing",
         "day": "2026-11-11",
         "owner_bot": "Bing Ads bot",
         "last_confirmed_date": "2026-11-10",
         "last_confirmed_amount": 350.18
-      },
-      {
-        "channel": "snapchat",
-        "day": "2026-11-11",
-        "owner_bot": "snapchat ads bot",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 603.99
       },
       {
         "channel": "amazon",
@@ -40523,32 +40528,25 @@
         "last_confirmed_amount": null
       },
       {
-        "channel": "whatnot",
-        "day": "2026-11-11",
-        "owner_bot": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 1170.6
-      },
-      {
         "channel": "meta",
         "day": "2026-11-12",
         "owner_bot": "Meta \u00b7 Ad Buyer",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 10436.46
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 11677.57
       },
       {
         "channel": "google",
         "day": "2026-11-12",
         "owner_bot": "Google \u00b7 Ads",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 2004.98
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 1654.47
       },
       {
         "channel": "tiktok",
         "day": "2026-11-12",
         "owner_bot": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 3502.85
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 4791.26
       },
       {
         "channel": "bing",
@@ -40561,8 +40559,8 @@
         "channel": "snapchat",
         "day": "2026-11-12",
         "owner_bot": "snapchat ads bot",
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 603.99
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 617.64
       },
       {
         "channel": "applovin",
@@ -40582,44 +40580,44 @@
         "channel": "whatnot",
         "day": "2026-11-12",
         "owner_bot": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 1170.6
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 1729.19
       }
     ],
     "note": "Display-only. pending_backfill must not be written into measured spend, daily_inputs, or sqlite. Off days are $0, not pending."
   },
   "bing": {
     "status": "live",
-    "live": true,
-    "as_of": "2026-11-10",
-    "spend": 350.18,
-    "spend_d2c": 350.18,
-    "spend_amazon": 0,
+    "live": null,
+    "as_of": "2026-11-11",
+    "spend": null,
+    "spend_d2c": null,
+    "spend_amazon": null,
     "destination": "d2c",
-    "clicks": 392,
-    "conversions": 5,
-    "revenue": 358.2,
-    "impressions": 6668,
-    "roas": 1.02,
-    "spend_7d": 1579.54,
-    "spend_d2c_7d": 1579.54,
+    "clicks": null,
+    "conversions": null,
+    "revenue": null,
+    "impressions": null,
+    "roas": null,
+    "spend_7d": 1476.33,
+    "spend_d2c_7d": 1476.33,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
-      "measured_days": 7,
+      "measured_days": 6,
       "window_days": 7,
-      "status": "verified"
+      "status": "unverified"
     },
     "coverage_30d": {
-      "measured_days": 30,
+      "measured_days": 29,
       "window_days": 30,
-      "status": "verified"
+      "status": "unverified"
     },
-    "clicks_7d": 2341,
-    "conversions_7d": 41,
-    "revenue_7d": 3711.38,
-    "impressions_7d": 123387,
-    "roas_7d": 2.35,
-    "spend_30d": 3250.8,
+    "clicks_7d": 2211,
+    "conversions_7d": 34,
+    "revenue_7d": 3152.63,
+    "impressions_7d": 120511,
+    "roas_7d": 2.14,
+    "spend_30d": 3178.06,
     "by_date": {
       "2026-09-28": {
         "spend": 73.65,
@@ -42540,17 +42538,18 @@
     },
     "source": "Pipeboard Microsoft Ads campaign report (platform-reported)",
     "note": "Bing is live. Campaign 605195379 (bing to amz tumbler listing 1) is Amazon-bound and excluded from Shopify D2C MER. Leftover D2C is JS_SNO_Brand_Beta_Mobile_$24 (~$1/day).",
-    "display_state": "spend",
-    "display_amount": 350.18,
-    "last_confirmed_date": "2026-11-10",
-    "last_confirmed_amount": 350.18,
+    "display_state": "pending_backfill",
+    "display_amount": null,
+    "last_confirmed_date": null,
+    "last_confirmed_amount": null,
     "planned_daily_budget": 1000,
-    "account_id": "141681759"
+    "account_id": "141681759",
+    "latest_day_missing": true
   },
   "reddit": {
     "status": "off",
     "live": false,
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "spend": null,
     "spend_d2c": null,
     "spend_amazon": null,
@@ -42560,11 +42559,11 @@
     "revenue": null,
     "impressions": null,
     "roas": null,
-    "spend_7d": 644.5,
-    "spend_d2c_7d": 644.5,
+    "spend_7d": 446.56,
+    "spend_d2c_7d": 446.56,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
-      "measured_days": 4,
+      "measured_days": 3,
       "window_days": 7,
       "status": "unverified"
     },
@@ -42573,10 +42572,10 @@
       "window_days": 30,
       "status": "unverified"
     },
-    "clicks_7d": 369,
+    "clicks_7d": 248,
     "conversions_7d": null,
     "revenue_7d": null,
-    "impressions_7d": 19795,
+    "impressions_7d": 7903,
     "roas_7d": null,
     "spend_30d": 2241.29,
     "by_date": {
@@ -43072,18 +43071,18 @@
   "snapchat": {
     "status": "live",
     "live": true,
-    "as_of": "2026-11-10",
-    "spend": 603.99,
-    "spend_d2c": 603.99,
+    "as_of": "2026-11-11",
+    "spend": 617.64,
+    "spend_d2c": 617.64,
     "spend_amazon": 0,
     "destination": "d2c",
     "clicks": null,
     "conversions": null,
-    "revenue": 4451.97,
+    "revenue": 4898.69,
     "impressions": null,
-    "roas": 7.37,
-    "spend_7d": 4059.92,
-    "spend_d2c_7d": 4059.92,
+    "roas": 7.93,
+    "spend_7d": 4157.56,
+    "spend_d2c_7d": 4157.56,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
       "measured_days": 7,
@@ -43091,16 +43090,16 @@
       "status": "verified"
     },
     "coverage_30d": {
-      "measured_days": 17,
+      "measured_days": 18,
       "window_days": 30,
       "status": "unverified"
     },
-    "clicks_7d": 316,
+    "clicks_7d": 128,
     "conversions_7d": null,
-    "revenue_7d": 33145.39,
-    "impressions_7d": 70098,
-    "roas_7d": 8.16,
-    "spend_30d": 7662.62,
+    "revenue_7d": 34529.51,
+    "impressions_7d": 36050,
+    "roas_7d": 8.31,
+    "spend_30d": 8280.26,
     "by_date": {
       "2026-09-28": {
         "spend": 0.0,
@@ -43803,35 +43802,47 @@
         "roas": 7.37,
         "destination": "d2c",
         "live": true
+      },
+      "2026-11-11": {
+        "spend": 617.64,
+        "spend_d2c": 617.64,
+        "spend_amazon": 0,
+        "clicks": null,
+        "conversions": null,
+        "revenue": 4898.69,
+        "impressions": null,
+        "roas": 7.93,
+        "destination": "d2c",
+        "live": true
       }
     },
     "source": "manual_daily_file",
     "note": "Snapchat Ads live from 2026-10-25 (SNAP | Prospecting | Purchases | Meta Winners | Launch v1). Spend from Pipeboard Snapchat Ads.",
     "display_state": "spend",
-    "display_amount": 603.99,
-    "last_confirmed_date": "2026-11-10",
-    "last_confirmed_amount": 603.99
+    "display_amount": 617.64,
+    "last_confirmed_date": "2026-11-11",
+    "last_confirmed_amount": 617.64
   },
   "chatgpt": {
     "status": "off",
     "live": false,
-    "as_of": "2026-11-10",
-    "spend": 0.0,
-    "spend_d2c": 0,
-    "spend_amazon": 0,
+    "as_of": "2026-11-11",
+    "spend": null,
+    "spend_d2c": null,
+    "spend_amazon": null,
     "destination": "d2c",
-    "clicks": 0,
-    "conversions": 0,
-    "revenue": 0.0,
-    "impressions": 0,
+    "clicks": null,
+    "conversions": null,
+    "revenue": null,
+    "impressions": null,
     "roas": null,
     "spend_7d": 0.0,
     "spend_d2c_7d": 0.0,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
-      "measured_days": 7,
+      "measured_days": 6,
       "window_days": 7,
-      "status": "verified"
+      "status": "unverified"
     },
     "coverage_30d": {
       "measured_days": 16,
@@ -44490,12 +44501,13 @@
     "display_amount": 0.0,
     "last_confirmed_date": null,
     "last_confirmed_amount": null,
-    "tracking_verified": true
+    "tracking_verified": true,
+    "latest_day_missing": true
   },
   "pinterest": {
     "status": "off",
     "live": false,
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "spend": 0.0,
     "spend_d2c": 0,
     "spend_amazon": 0,
@@ -44728,6 +44740,18 @@
         "roas": null,
         "destination": "d2c",
         "live": false
+      },
+      "2026-11-11": {
+        "spend": 0.0,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
+        "clicks": null,
+        "conversions": null,
+        "revenue": 0.0,
+        "impressions": null,
+        "roas": null,
+        "destination": "d2c",
+        "live": false
       }
     },
     "source": "Pipeboard Pinterest Ads (platform-reported)",
@@ -44742,34 +44766,34 @@
   "taboola": {
     "status": "off",
     "live": false,
-    "as_of": "2026-11-10",
-    "spend": 0.0,
-    "spend_d2c": 0,
-    "spend_amazon": 0,
+    "as_of": "2026-11-11",
+    "spend": null,
+    "spend_d2c": null,
+    "spend_amazon": null,
     "destination": "d2c",
-    "clicks": 0,
-    "conversions": 0,
-    "revenue": 0.0,
-    "impressions": 0,
+    "clicks": null,
+    "conversions": null,
+    "revenue": null,
+    "impressions": null,
     "roas": null,
-    "spend_7d": 356.41,
-    "spend_d2c_7d": 356.41,
+    "spend_7d": 0.0,
+    "spend_d2c_7d": 0.0,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
-      "measured_days": 7,
+      "measured_days": 6,
       "window_days": 7,
-      "status": "verified"
+      "status": "unverified"
     },
     "coverage_30d": {
-      "measured_days": 30,
+      "measured_days": 29,
       "window_days": 30,
-      "status": "verified"
+      "status": "unverified"
     },
-    "clicks_7d": 4195,
+    "clicks_7d": 0,
     "conversions_7d": 0,
     "revenue_7d": 0.0,
-    "impressions_7d": 511576,
-    "roas_7d": 0.0,
+    "impressions_7d": 0,
+    "roas_7d": null,
     "spend_30d": 506.68,
     "by_date": {
       "2026-10-04": {
@@ -45235,12 +45259,13 @@
     "display_amount": 0.0,
     "last_confirmed_date": null,
     "last_confirmed_amount": null,
-    "account_id": "taboolaaccount-davidcoldestcom"
+    "account_id": "taboolaaccount-davidcoldestcom",
+    "latest_day_missing": true
   },
   "outbrain": {
     "status": "off",
     "live": false,
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "spend": 0.0,
     "spend_d2c": 0,
     "spend_amazon": 0,
@@ -45259,7 +45284,7 @@
       "status": "verified"
     },
     "coverage_30d": {
-      "measured_days": 8,
+      "measured_days": 9,
       "window_days": 30,
       "status": "unverified"
     },
@@ -45677,7 +45702,7 @@
   "spotify": {
     "status": "off",
     "live": false,
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "spend": null,
     "spend_d2c": null,
     "spend_amazon": null,
@@ -45718,18 +45743,18 @@
   "applovin": {
     "status": "live",
     "live": true,
-    "as_of": "2026-11-10",
-    "spend": 171.64,
-    "spend_d2c": 171.64,
+    "as_of": "2026-11-11",
+    "spend": 179.28,
+    "spend_d2c": 179.28,
     "spend_amazon": 0,
     "destination": "d2c",
-    "clicks": 39,
-    "conversions": 8,
-    "revenue": 485.48,
-    "impressions": 417,
-    "roas": 2.83,
-    "spend_7d": 1195.5,
-    "spend_d2c_7d": 1195.5,
+    "clicks": 57,
+    "conversions": 12,
+    "revenue": 596.31,
+    "impressions": 702,
+    "roas": 3.33,
+    "spend_7d": 1223.56,
+    "spend_d2c_7d": 1223.56,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
       "measured_days": 7,
@@ -45741,12 +45766,12 @@
       "window_days": 30,
       "status": "verified"
     },
-    "clicks_7d": 532,
-    "conversions_7d": 77,
-    "revenue_7d": 4289.3,
-    "impressions_7d": 6486,
-    "roas_7d": 3.59,
-    "spend_30d": 2751.88,
+    "clicks_7d": 515,
+    "conversions_7d": 75,
+    "revenue_7d": 4403.83,
+    "impressions_7d": 6179,
+    "roas_7d": 3.6,
+    "spend_30d": 2931.16,
     "by_date": {
       "2026-08-25": {
         "spend": 0.0,
@@ -49358,9 +49383,9 @@
     "source": "AppLovin Reporting API (platform-reported, click)",
     "note": "AppLovin is D2C (every creative lands on coldest.com Drive-Thru / Limitless; nothing goes to Amazon). Campaign Coldest_ROAS_Q4_2026 (id 3142498) went live 2026-10-26 ~7 PM ET at $300/day; pre-launch days stay $0. spend=cost, value=chka_usd_7d, conversions=sales. revenue_basis platform_reported. Single writer: cfo_backend/applovin_sync.py. amazon/amz in a campaign name is a future-safety split only (then spend_amazon stays in non_d2c.applovin). No API key in this repo or CI.",
     "display_state": "spend",
-    "display_amount": 171.64,
-    "last_confirmed_date": "2026-11-10",
-    "last_confirmed_amount": 171.64,
+    "display_amount": 179.28,
+    "last_confirmed_date": "2026-11-11",
+    "last_confirmed_amount": 179.28,
     "revenue_basis": "platform_reported",
     "attribution_mode": "click",
     "day_basis": "AppLovin report day"
@@ -49368,7 +49393,7 @@
   "x": {
     "channel": "x",
     "label": "X Ads",
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "account_id": "18ce55yad5n",
     "start_date": "2026-11-04",
     "end_date": null,
@@ -49391,73 +49416,73 @@
     "status": "live",
     "live": true,
     "has_stats": true,
-    "spend": 184.02,
-    "clicks": 572,
+    "spend": 103.51,
+    "clicks": 315,
     "conversions": 1,
-    "revenue": 68.73,
-    "impressions": 97587,
-    "roas": 0.37,
+    "revenue": 76.23,
+    "impressions": 43683,
+    "roas": 0.74,
     "fee": 27.4,
-    "credit_used": 0,
-    "cash_spend": 184.02,
+    "credit_used": 103.51,
+    "cash_spend": 0.0,
     "cash_cost": null,
-    "roas_total": 0.37,
-    "roas_cash": 0.33,
+    "roas_total": 0.74,
+    "roas_cash": 2.78,
     "w7": {
-      "spend": 1300.4,
+      "spend": 1402.48,
       "fee": 191.78,
-      "credit_used": 0.0,
-      "cash_spend": 1300.4,
-      "cash_cost": 1492.18,
-      "revenue": 1427.28,
-      "conversions": 18,
-      "clicks": 4907,
-      "impressions": 903690,
-      "roas_total": 1.1,
-      "roas_cash": 0.96,
+      "credit_used": 103.51,
+      "cash_spend": 1298.97,
+      "cash_cost": 1490.75,
+      "revenue": 1503.51,
+      "conversions": 19,
+      "clicks": 5221,
+      "impressions": 946921,
+      "roas_total": 1.07,
+      "roas_cash": 1.01,
       "days": 7,
       "spend_missing_days": []
     },
     "w30": {
-      "spend": 1300.4,
-      "fee": 191.78,
-      "credit_used": 0.0,
+      "spend": 1403.91,
+      "fee": 219.18,
+      "credit_used": 103.51,
       "cash_spend": 1300.4,
-      "cash_cost": 1492.18,
-      "revenue": 1427.28,
-      "conversions": 18,
-      "clicks": 4907,
-      "impressions": 903690,
-      "roas_total": 1.1,
-      "roas_cash": 0.96,
-      "days": 7,
+      "cash_cost": 1519.58,
+      "revenue": 1503.51,
+      "conversions": 19,
+      "clicks": 5222,
+      "impressions": 947373,
+      "roas_total": 1.07,
+      "roas_cash": 0.99,
+      "days": 8,
       "spend_missing_days": []
     },
     "since_start": {
-      "spend": 1300.4,
-      "fee": 191.78,
-      "credit_used": 0.0,
+      "spend": 1403.91,
+      "fee": 219.18,
+      "credit_used": 103.51,
       "cash_spend": 1300.4,
-      "cash_cost": 1492.18,
-      "revenue": 1427.28,
-      "conversions": 18,
-      "clicks": 4907,
-      "impressions": 903690,
-      "roas_total": 1.1,
-      "roas_cash": 0.96,
-      "days": 7,
+      "cash_cost": 1519.58,
+      "revenue": 1503.51,
+      "conversions": 19,
+      "clicks": 5222,
+      "impressions": 947373,
+      "roas_total": 1.07,
+      "roas_cash": 0.99,
+      "days": 8,
       "spend_missing_days": []
     },
-    "spend_7d": 1300.4,
-    "revenue_7d": 1427.28,
-    "conversions_7d": 18,
+    "spend_7d": 1402.48,
+    "revenue_7d": 1503.51,
+    "conversions_7d": 19,
     "fee_7d": 191.78,
-    "credit_used_7d": 0.0,
-    "cash_spend_7d": 1300.4,
-    "cash_cost_7d": 1492.18,
-    "roas_7d": 1.1,
-    "roas_cash_7d": 0.96,
-    "spend_30d": 1300.4,
+    "credit_used_7d": 103.51,
+    "cash_spend_7d": 1298.97,
+    "cash_cost_7d": 1490.75,
+    "roas_7d": 1.07,
+    "roas_cash_7d": 1.01,
+    "spend_30d": 1403.91,
     "by_date": {
       "2026-11-04": {
         "spend": 1.43,
@@ -49468,7 +49493,7 @@
         "revenue": 0.0,
         "fee": 27.4,
         "credit_used": 0,
-        "credit_basis": "not_activated",
+        "credit_basis": "modeled",
         "cash_spend": 1.43,
         "cash_cost": 28.83,
         "has_stats": true,
@@ -49483,7 +49508,7 @@
         "revenue": 59.06,
         "fee": 27.4,
         "credit_used": 0,
-        "credit_basis": "not_activated",
+        "credit_basis": "modeled",
         "cash_spend": 222.49,
         "cash_cost": 249.89,
         "has_stats": true,
@@ -49498,7 +49523,7 @@
         "revenue": 379.48,
         "fee": 27.4,
         "credit_used": 0,
-        "credit_basis": "not_activated",
+        "credit_basis": "modeled",
         "cash_spend": 222.93,
         "cash_cost": 250.33,
         "has_stats": true,
@@ -49513,7 +49538,7 @@
         "revenue": 444.79,
         "fee": 27.4,
         "credit_used": 0,
-        "credit_basis": "not_activated",
+        "credit_basis": "modeled",
         "cash_spend": 223.5,
         "cash_cost": 250.9,
         "has_stats": true,
@@ -49528,7 +49553,7 @@
         "revenue": 344.3,
         "fee": 27.4,
         "credit_used": 0,
-        "credit_basis": "not_activated",
+        "credit_basis": "modeled",
         "cash_spend": 223.02,
         "cash_cost": 250.42,
         "has_stats": true,
@@ -49543,7 +49568,7 @@
         "revenue": 130.92,
         "fee": 27.4,
         "credit_used": 0,
-        "credit_basis": "not_activated",
+        "credit_basis": "modeled",
         "cash_spend": 223.01,
         "cash_cost": 250.41,
         "has_stats": true,
@@ -49558,37 +49583,60 @@
         "revenue": 68.73,
         "fee": 27.4,
         "credit_used": 0,
-        "credit_basis": "not_activated",
+        "credit_basis": "modeled",
         "cash_spend": 184.02,
         "cash_cost": 211.42,
+        "has_stats": true,
+        "spend_known": true
+      },
+      "2026-11-11": {
+        "spend": 103.51,
+        "clicks": 315,
+        "impressions": 43683,
+        "engagements": 1445,
+        "conversions": 1,
+        "revenue": 76.23,
+        "fee": 27.4,
+        "credit_used": 103.51,
+        "credit_basis": "modeled",
+        "cash_spend": 0.0,
+        "cash_cost": 27.4,
         "has_stats": true,
         "spend_known": true
       }
     },
     "note": "X Ads: platform spend/revenue from the X Ads API (platform-reported). cash_cost = (spend - ad credit used) + subscription fee; only cash_cost folds into d2c_ad_spend / total_ad_spend / blended MER, so credit-funded spend is not counted and the fee is counted once. roas = revenue / spend; roas_cash = revenue / cash_cost.",
     "credit": {
-      "basis": "not_activated",
+      "basis": "modeled",
       "activation_date": "2026-11-11",
-      "available_now": 0.0,
+      "available_now": 11896.49,
       "expiring_soon": [],
       "expiring_soon_amount": 0,
       "expiry_warn_days": 7,
       "lost_unused": 0.0,
-      "grants": []
+      "grants": [
+        {
+          "granted_on": "2026-11-11",
+          "expires_on": "2027-02-01",
+          "amount": 12000.0,
+          "used": 103.51,
+          "remaining": 11896.49,
+          "days_left": 82,
+          "status": "active"
+        }
+      ]
     },
-    "flags": [
-      "X ad credit is not activated (x_ads_config.json credit_activation_date is null); no credit offsets spend. Activate it in the Premium Business portal."
-    ],
+    "flags": [],
     "folds_into_mer": "spend",
     "cash_cost_status": "missing",
     "cash_cost_note": "X Ads API row stores billed_charge_local_micro as spend. Premium fee / credit FIFO is config-modeled, not a billed amount from the source. Never copy platform spend into cash_cost, never write $0.",
     "display_state": "spend",
-    "display_amount": 184.02,
-    "last_confirmed_date": "2026-11-10",
-    "last_confirmed_amount": 184.02
+    "display_amount": 103.51,
+    "last_confirmed_date": "2026-11-11",
+    "last_confirmed_amount": 103.51
   },
   "ad_channel_throttles": {
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "read_only": true,
     "orchestrator": "Jarvis",
     "source": "daily_inputs + ads_throttle/settings.json + ads_throttle/changes.json + ads_throttle/tracking_health.json + ads_throttle/rankings.json + shopify_attribution_daily.json",
@@ -49924,7 +49972,7 @@
       }
     },
     "attribution": {
-      "as_of": "2026-11-10",
+      "as_of": "2026-11-11",
       "total_orders_7d": null,
       "attributed_paid_pct": null,
       "owned_pct": null,
@@ -50084,21 +50132,21 @@
         "note": "10/28 3:48 PM ET: no double-fire. Elevar server-side purchase covers ALL Shopify channels (Tapcart/Shop/Draft), so compare Snap purchases to all-channel Shopify orders, never Online Store only. Browser tag 339 + server share order-ID dedup; tag 339 stays on. Hold until Elevar's 10/29-data check confirms dedup, then back to auto."
       }
     },
-    "d2c_ad_spend": 14752.48,
-    "total_ad_spend": 22127.65,
-    "shopify_d2c_revenue": 26727.87,
-    "blended_mer": 1.81,
-    "blended_mer_vs_threshold": -0.99,
+    "d2c_ad_spend": 16332.02,
+    "total_ad_spend": 24520.71,
+    "shopify_d2c_revenue": 29040.44,
+    "blended_mer": 1.78,
+    "blended_mer_vs_threshold": -1.02,
     "channels": {
       "meta": {
         "daily_budget": null,
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 73388.39,
+        "spend_7d": 75117.01,
         "spend_7d_status": "verified",
         "spend_source": "daily_inputs.meta",
-        "spend_d2c_7d": 73388.39,
+        "spend_d2c_7d": 75117.01,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
@@ -50111,7 +50159,7 @@
         "platform_conversions_7d": null,
         "platform_revenue_7d": null,
         "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no meta_ads_daily.json row for 2026-11-10",
+        "platform_revenue_source": "no meta_ads_daily.json row for 2026-11-11",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -50121,26 +50169,6 @@
         "roas_7d": null,
         "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 11361.88,
-            "spend_status": "verified",
-            "spend_d2c": 11361.88,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "daily_inputs.meta has spend only; no Shopify-attributed purchase value",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no meta_ads_daily.json row for 2026-11-08",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 9162.67,
@@ -50163,9 +50191,9 @@
           },
           {
             "date": "2026-11-10",
-            "spend": 10436.46,
+            "spend": 10459.44,
             "spend_status": "verified",
-            "spend_d2c": 10436.46,
+            "spend_d2c": 10459.44,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
@@ -50180,11 +50208,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 11677.57,
+            "spend_status": "verified",
+            "spend_d2c": 11677.57,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "daily_inputs.meta has spend only; no Shopify-attributed purchase value",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no meta_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 73388.39,
+          "shopify": 75117.01,
           "amazon": 0.0
         },
         "tracking_status": "OK",
@@ -50218,10 +50266,10 @@
         "daily_budget_status": "settings_reported",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 14137.9,
+        "spend_7d": 14167.24,
         "spend_7d_status": "verified",
         "spend_source": "daily_inputs.google_ads",
-        "spend_d2c_7d": 14137.9,
+        "spend_d2c_7d": 14167.24,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
@@ -50234,7 +50282,7 @@
         "platform_conversions_7d": null,
         "platform_revenue_7d": null,
         "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no google_ads_daily.json row for 2026-11-10",
+        "platform_revenue_source": "no google_ads_daily.json row for 2026-11-11",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -50244,26 +50292,6 @@
         "roas_7d": null,
         "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 2338.48,
-            "spend_status": "verified",
-            "spend_d2c": 2338.48,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "daily_inputs.google_ads has spend only; no Shopify-attributed conversion value",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no google_ads_daily.json row for 2026-11-08",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 1712.59,
@@ -50303,11 +50331,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 1654.47,
+            "spend_status": "verified",
+            "spend_d2c": 1654.47,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "daily_inputs.google_ads has spend only; no Shopify-attributed conversion value",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no google_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 14137.9,
+          "shopify": 14167.24,
           "amazon": 0.0
         },
         "tracking_status": "OK",
@@ -50343,52 +50391,32 @@
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 1579.54,
-        "spend_7d_status": "verified",
-        "spend_source": "bing_ads_daily.json spend_d2c",
-        "spend_d2c_7d": 1579.54,
+        "spend_7d": 1476.33,
+        "spend_7d_status": "unverified",
+        "spend_source": "bing_ads_daily.json has no row (missing, not $0)",
+        "spend_d2c_7d": null,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
         "shopify_revenue_status": "unverified",
-        "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
+        "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
         "shopify_roas_7d": null,
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": 41,
-        "platform_revenue_7d": 3711.38,
-        "platform_revenue_status": "verified",
-        "platform_revenue_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
-        "platform_roas_7d": 2.35,
-        "platform_roas_status": "verified",
+        "platform_conversions_7d": null,
+        "platform_revenue_7d": null,
+        "platform_revenue_status": "unverified",
+        "platform_revenue_source": "no bing_ads_daily.json row for 2026-11-11",
+        "platform_roas_7d": null,
+        "platform_roas_status": "unverified",
         "roas_basis": "platform",
         "roas_source": "platform_reported",
         "rule_roas_source": "platform_reported",
         "roas_label": "platform-reported",
-        "roas_7d": 2.35,
-        "roas_7d_status": "verified",
+        "roas_7d": null,
+        "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 269.77,
-            "spend_status": "verified",
-            "spend_d2c": 269.77,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
-            "platform_conversions": 7,
-            "platform_revenue": 914.22,
-            "platform_roas": 3.39,
-            "platform_status": "verified",
-            "platform_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
-            "roas": 3.39,
-            "roas_status": "verified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 416.84,
@@ -50428,11 +50456,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": null,
+            "spend_status": "unverified",
+            "spend_d2c": null,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no bing_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 1579.54,
+          "shopify": 0.0,
           "amazon": 0.0
         },
         "tracking_status": "OK",
@@ -50444,7 +50492,7 @@
           "purchases_7d_avg": 6.3,
           "notes": "11/10: 6 conv / $426.04 revenue on $352.15 spend (Brand Search 5 / $322.81 on $128.14; PMax 1 / $103.23 on $30.26; Shopping 0 on $170.94; Competitor $10.63, NB Exact $4.44, Non-brand $7.74). 6 vs 11/3-11/9 avg 6.3 is not a >50% drop. Shopify 11/10 bing UTM: 6 orders / $466.54, matching the 6 platform conv (Brand 5 + PMax 1). No double count (GTM tag 250 still paused). Prior days revised vs yesterday: 11/4 7\u21928 (Brand), 11/7 6\u21927 (Brand), 11/8 7\u21928 (Brand 7 + Shopping 1 / $174.99). Daily conv 11/3-11/10: 4/8/4/8/7/8/5/6. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. No begin-checkout goal. 11/11 so far: $82.78 spend (Shopping $64.09) and 1 Brand conv / $52.24 \u2014 early, not judged."
         },
-        "rule_status": "Hold - in band",
+        "rule_status": "Not enough data",
         "last_change_date": "2026-10-27",
         "last_change_action": "cut_20pct_and_change_strategy",
         "next_eligible_date": null,
@@ -50466,7 +50514,7 @@
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 644.5,
+        "spend_7d": 446.56,
         "spend_7d_status": "unverified",
         "spend_source": "channel_status off",
         "spend_d2c_7d": null,
@@ -50482,7 +50530,7 @@
         "platform_conversions_7d": null,
         "platform_revenue_7d": null,
         "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no reddit_ads_daily.json row for 2026-11-10",
+        "platform_revenue_source": "no reddit_ads_daily.json row for 2026-11-11",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -50492,26 +50540,6 @@
         "roas_7d": null,
         "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 144.29,
-            "spend_status": "verified",
-            "spend_d2c": 144.29,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in reddit_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "reddit_ads_daily.json 2026-11-08 conversion value unknown (blank)",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 0.0,
@@ -50551,11 +50579,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 0.0,
+            "spend_status": "verified",
+            "spend_d2c": 0.0,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue in reddit_ads_daily.json",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no reddit_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 644.5,
+          "shopify": 446.56,
           "amazon": 0.0
         },
         "tracking_status": "WARN",
@@ -50589,10 +50637,10 @@
         "daily_budget_status": "settings_reported",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 4059.92,
+        "spend_7d": 4157.56,
         "spend_7d_status": "verified",
         "spend_source": "manual_daily_file",
-        "spend_d2c_7d": 4059.92,
+        "spend_d2c_7d": 4157.56,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
@@ -50602,39 +50650,19 @@
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": 120,
-        "platform_revenue_7d": 33145.39,
+        "platform_conversions_7d": 78,
+        "platform_revenue_7d": 34529.51,
         "platform_revenue_status": "verified",
         "platform_revenue_source": "manual_daily_file",
-        "platform_roas_7d": 8.16,
+        "platform_roas_7d": 8.31,
         "platform_roas_status": "verified",
         "roas_basis": "platform",
         "roas_source": "platform_reported",
         "rule_roas_source": "platform_reported",
         "roas_label": "platform-reported",
-        "roas_7d": 8.16,
+        "roas_7d": 8.31,
         "roas_7d_status": "verified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 604.0,
-            "spend_status": "verified",
-            "spend_d2c": 604.0,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "snapchat feed revenue is ads-platform attributed, not Shopify D2C",
-            "platform_conversions": null,
-            "platform_revenue": 4385.73,
-            "platform_roas": 7.26,
-            "platform_status": "verified",
-            "platform_source": "manual_daily_file",
-            "roas": 7.26,
-            "roas_status": "verified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 604.0,
@@ -50674,11 +50702,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 617.64,
+            "spend_status": "verified",
+            "spend_d2c": 617.64,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "snapchat feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": null,
+            "platform_revenue": 4898.69,
+            "platform_roas": 7.93,
+            "platform_status": "verified",
+            "platform_source": "manual_daily_file",
+            "roas": 7.93,
+            "roas_status": "verified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 4059.92,
+          "shopify": 4157.56,
           "amazon": 0.0
         },
         "tracking_status": "OK",
@@ -50725,10 +50773,10 @@
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": 0,
-        "platform_revenue_7d": 0.0,
-        "platform_revenue_status": "verified",
-        "platform_revenue_source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
+        "platform_conversions_7d": null,
+        "platform_revenue_7d": null,
+        "platform_revenue_status": "unverified",
+        "platform_revenue_source": "no chatgpt_ads_daily.json row for 2026-11-11",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -50738,26 +50786,6 @@
         "roas_7d": null,
         "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 0.0,
-            "spend_status": "verified",
-            "spend_d2c": 0.0,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in chatgpt_ads_daily.json",
-            "platform_conversions": 0,
-            "platform_revenue": 0.0,
-            "platform_roas": null,
-            "platform_status": "verified",
-            "platform_source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 0.0,
@@ -50797,6 +50825,26 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 0.0,
+            "spend_status": "verified",
+            "spend_d2c": 0.0,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue in chatgpt_ads_daily.json",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no chatgpt_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
@@ -50818,7 +50866,7 @@
         "last_change_action": "kill_under_1x",
         "next_eligible_date": null,
         "owner_bot": "ads bot for chatgpt",
-        "strategy_notes": "HOLD. Paused since 10/30 (rankings 2026-11-09). No raise or cut until David relaunches. Prior: David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan \u2014 still paused. ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
+        "strategy_notes": "HOLD. Paused since 10/30 (rankings 2026-11-09). No raise or cut until David relaunches. Prior: David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan \u2014 still paused. Platform-reported conversion value unverified \u2014 ROAS not judged.",
         "auto_rules": false,
         "mode": "hold",
         "recommended_daily_budget": null,
@@ -50835,10 +50883,10 @@
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 9356.45,
+        "spend_7d": 10655.16,
         "spend_7d_status": "verified",
         "spend_source": "daily_inputs.tiktok_ads.shopify_spend",
-        "spend_d2c_7d": 9356.45,
+        "spend_d2c_7d": 10655.16,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
@@ -50851,7 +50899,7 @@
         "platform_conversions_7d": null,
         "platform_revenue_7d": null,
         "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no tiktok_ads_daily.json row for 2026-11-10",
+        "platform_revenue_source": "no tiktok_ads_daily.json row for 2026-11-11",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -50861,26 +50909,6 @@
         "roas_7d": null,
         "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 1317.73,
-            "spend_status": "verified",
-            "spend_d2c": 1317.73,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "daily_inputs.tiktok_ads has shopify_spend only; no Shopify-attributed revenue",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no tiktok_ads_daily.json row for 2026-11-08",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 1750.86,
@@ -50920,11 +50948,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 2099.55,
+            "spend_status": "verified",
+            "spend_d2c": 2099.55,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "daily_inputs.tiktok_ads has shopify_spend only; no Shopify-attributed revenue",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no tiktok_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 9356.45,
+          "shopify": 10655.16,
           "amazon": 0.0
         },
         "tracking_status": "OK",
@@ -50985,26 +51033,6 @@
         "roas_7d_status": "unverified",
         "trend_3d": [
           {
-            "date": "2026-11-08",
-            "spend": 0.0,
-            "spend_status": "verified",
-            "spend_d2c": 0.0,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "pinterest feed revenue is ads-platform attributed, not Shopify D2C",
-            "platform_conversions": null,
-            "platform_revenue": 0.0,
-            "platform_roas": null,
-            "platform_status": "verified",
-            "platform_source": "Pipeboard Pinterest Ads (platform-reported)",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
-          {
             "date": "2026-11-09",
             "spend": 0.0,
             "spend_status": "verified",
@@ -51026,6 +51054,26 @@
           },
           {
             "date": "2026-11-10",
+            "spend": 0.0,
+            "spend_status": "verified",
+            "spend_d2c": 0.0,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "pinterest feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": null,
+            "platform_revenue": 0.0,
+            "platform_roas": null,
+            "platform_status": "verified",
+            "platform_source": "Pipeboard Pinterest Ads (platform-reported)",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
             "spend": 0.0,
             "spend_status": "verified",
             "spend_d2c": 0.0,
@@ -51081,10 +51129,10 @@
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 1195.5,
+        "spend_7d": 1223.56,
         "spend_7d_status": "verified",
         "spend_source": "applovin_ads_daily.json spend_d2c",
-        "spend_d2c_7d": 1195.5,
+        "spend_d2c_7d": 1223.56,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
@@ -51094,39 +51142,19 @@
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": 77,
-        "platform_revenue_7d": 4289.3,
+        "platform_conversions_7d": 75,
+        "platform_revenue_7d": 4403.83,
         "platform_revenue_status": "verified",
         "platform_revenue_source": "AppLovin Reporting API (platform-reported, click)",
-        "platform_roas_7d": 3.59,
+        "platform_roas_7d": 3.6,
         "platform_roas_status": "verified",
         "roas_basis": "platform",
         "roas_source": "platform_reported",
         "rule_roas_source": "platform_reported",
         "roas_label": "platform-reported",
-        "roas_7d": 3.59,
+        "roas_7d": 3.6,
         "roas_7d_status": "verified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 182.79,
-            "spend_status": "verified",
-            "spend_d2c": 182.79,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue",
-            "platform_conversions": 10,
-            "platform_revenue": 371.93,
-            "platform_roas": 2.03,
-            "platform_status": "verified",
-            "platform_source": "AppLovin Reporting API (platform-reported, click)",
-            "roas": 2.03,
-            "roas_status": "verified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 173.3,
@@ -51166,11 +51194,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 179.28,
+            "spend_status": "verified",
+            "spend_d2c": 179.28,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue",
+            "platform_conversions": 12,
+            "platform_revenue": 596.31,
+            "platform_roas": 3.33,
+            "platform_status": "verified",
+            "platform_source": "AppLovin Reporting API (platform-reported, click)",
+            "roas": 3.33,
+            "roas_status": "verified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 1195.5,
+          "shopify": 1223.56,
           "amazon": 0.0
         },
         "tracking_status": "unknown",
@@ -51200,52 +51248,32 @@
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 356.41,
+        "spend_7d": 0.0,
         "spend_7d_status": "verified",
         "spend_source": "channel_status off",
-        "spend_d2c_7d": 356.41,
+        "spend_d2c_7d": 0.0,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
         "shopify_revenue_status": "unverified",
-        "shopify_revenue_source": "taboola feed revenue is ads-platform attributed, not Shopify D2C",
+        "shopify_revenue_source": "no Shopify-attributed revenue in taboola_ads_daily.json",
         "shopify_roas_7d": null,
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": 0,
-        "platform_revenue_7d": 0.0,
-        "platform_revenue_status": "verified",
-        "platform_revenue_source": "Taboola Backstage API (platform-reported)",
-        "platform_roas_7d": 0.0,
-        "platform_roas_status": "verified",
+        "platform_conversions_7d": null,
+        "platform_revenue_7d": null,
+        "platform_revenue_status": "unverified",
+        "platform_revenue_source": "no taboola_ads_daily.json row for 2026-11-11",
+        "platform_roas_7d": null,
+        "platform_roas_status": "unverified",
         "roas_basis": "platform",
         "roas_source": "platform_reported",
         "rule_roas_source": "platform_reported",
         "roas_label": "platform-reported",
-        "roas_7d": 0.0,
-        "roas_7d_status": "verified",
+        "roas_7d": null,
+        "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 0.0,
-            "spend_status": "verified",
-            "spend_d2c": 0.0,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "taboola feed revenue is ads-platform attributed, not Shopify D2C",
-            "platform_conversions": 0,
-            "platform_revenue": 0.0,
-            "platform_roas": null,
-            "platform_status": "verified",
-            "platform_source": "Taboola Backstage API (platform-reported)",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 0.0,
@@ -51285,11 +51313,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 0.0,
+            "spend_status": "verified",
+            "spend_d2c": 0.0,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue in taboola_ads_daily.json",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no taboola_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 356.41,
+          "shopify": 0.0,
           "amazon": 0.0
         },
         "tracking_status": "WARN",
@@ -51306,7 +51354,7 @@
         "last_change_action": "pause",
         "next_eligible_date": null,
         "owner_bot": null,
-        "strategy_notes": "HOLD. Paused since 11/4 (rankings 2026-11-09: broken click quality). No raise or cut while paused. Reboot eligible 11/29 with postmortem c97c9211. Added 11/3 at Jarvis's request. Channel thresholds remain on this block but mode hold wins. Acct taboolaaccount-davidcoldestcom (id 2138422). Shopify side: utm_source=taboola, utm_medium=paid_native. ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
+        "strategy_notes": "HOLD. Paused since 11/4 (rankings 2026-11-09: broken click quality). No raise or cut while paused. Reboot eligible 11/29 with postmortem c97c9211. Added 11/3 at Jarvis's request. Channel thresholds remain on this block but mode hold wins. Acct taboolaaccount-davidcoldestcom (id 2138422). Shopify side: utm_source=taboola, utm_medium=paid_native. Platform-reported conversion value unverified \u2014 ROAS not judged.",
         "auto_rules": false,
         "mode": "hold",
         "recommended_daily_budget": null,
@@ -51342,7 +51390,7 @@
         "platform_conversions_7d": null,
         "platform_revenue_7d": null,
         "platform_revenue_status": "unverified",
-        "platform_revenue_source": "outbrain_ads_daily.json 2026-11-10 conversion value unknown (blank)",
+        "platform_revenue_source": "outbrain_ads_daily.json 2026-11-11 conversion value unknown (blank)",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -51352,26 +51400,6 @@
         "roas_7d": null,
         "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 0.0,
-            "spend_status": "verified",
-            "spend_d2c": 0.0,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "outbrain_ads_daily.json 2026-11-08 conversion value unknown (blank)",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 0.0,
@@ -51406,6 +51434,26 @@
             "platform_roas": null,
             "platform_status": "unverified",
             "platform_source": "outbrain_ads_daily.json 2026-11-10 conversion value unknown (blank)",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 0.0,
+            "spend_status": "verified",
+            "spend_d2c": 0.0,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "outbrain_ads_daily.json 2026-11-11 conversion value unknown (blank)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
@@ -51458,7 +51506,7 @@
         "platform_conversions_7d": null,
         "platform_revenue_7d": null,
         "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no spotify_ads_daily.json row for 2026-11-10",
+        "platform_revenue_source": "no spotify_ads_daily.json row for 2026-11-11",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -51468,26 +51516,6 @@
         "roas_7d": null,
         "roas_7d_status": "unverified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 0.0,
-            "spend_status": "verified",
-            "spend_d2c": 0.0,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no spotify_ads_daily.json row for 2026-11-08",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 0.0,
@@ -51527,6 +51555,26 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 0.0,
+            "spend_status": "verified",
+            "spend_d2c": 0.0,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no spotify_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
@@ -51558,10 +51606,10 @@
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 1300.4,
+        "spend_7d": 1402.48,
         "spend_7d_status": "verified",
         "spend_source": "X Ads API via user-X-ads get_account_stats (platform-reported)",
-        "spend_d2c_7d": 1300.4,
+        "spend_d2c_7d": 1402.48,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
@@ -51571,39 +51619,19 @@
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": 18,
-        "platform_revenue_7d": 1427.28,
+        "platform_conversions_7d": 19,
+        "platform_revenue_7d": 1503.51,
         "platform_revenue_status": "verified",
         "platform_revenue_source": "X Ads API via user-X-ads get_account_stats (platform-reported)",
-        "platform_roas_7d": 1.1,
+        "platform_roas_7d": 1.07,
         "platform_roas_status": "verified",
         "roas_basis": "platform",
         "roas_source": "platform_reported",
         "rule_roas_source": "platform_reported",
         "roas_label": "platform-reported",
-        "roas_7d": 1.1,
+        "roas_7d": 1.07,
         "roas_7d_status": "verified",
         "trend_3d": [
-          {
-            "date": "2026-11-08",
-            "spend": 223.02,
-            "spend_status": "verified",
-            "spend_d2c": 223.02,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue",
-            "platform_conversions": 4,
-            "platform_revenue": 344.3,
-            "platform_roas": 1.54,
-            "platform_status": "verified",
-            "platform_source": "X Ads API via user-X-ads get_account_stats (platform-reported)",
-            "roas": 1.54,
-            "roas_status": "verified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-11-09",
             "spend": 223.01,
@@ -51643,11 +51671,31 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 103.51,
+            "spend_status": "verified",
+            "spend_d2c": 103.51,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue",
+            "platform_conversions": 1,
+            "platform_revenue": 76.23,
+            "platform_roas": 0.74,
+            "platform_status": "verified",
+            "platform_source": "X Ads API via user-X-ads get_account_stats (platform-reported)",
+            "roas": 0.74,
+            "roas_status": "verified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 1300.4,
+          "shopify": 1402.48,
           "amazon": 0.0
         },
         "tracking_status": "OK",
@@ -51680,26 +51728,6 @@
     "series_28d": {
       "by_channel": {
         "meta": [
-          {
-            "date": "2026-10-14",
-            "spend": 5703.13,
-            "spend_status": "verified",
-            "spend_d2c": 5703.13,
-            "spend_amazon": 0.0,
-            "shopify_revenue": null,
-            "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "daily_inputs.meta has spend only; no Shopify-attributed purchase value",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no meta_ads_daily.json row for 2026-10-14",
-            "roas": null,
-            "roas_status": "unverified",
-            "roas_basis": "platform",
-            "roas_source": "platform_reported",
-            "roas_label": "platform-reported"
-          },
           {
             "date": "2026-10-15",
             "spend": 7693.77,
@@ -52222,9 +52250,9 @@
           },
           {
             "date": "2026-11-10",
-            "spend": 10436.46,
+            "spend": 10459.44,
             "spend_status": "verified",
-            "spend_d2c": 10436.46,
+            "spend_d2c": 10459.44,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
@@ -52239,29 +52267,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "google": [
+          },
           {
-            "date": "2026-10-14",
-            "spend": 1055.02,
+            "date": "2026-11-11",
+            "spend": 11677.57,
             "spend_status": "verified",
-            "spend_d2c": 1055.02,
+            "spend_d2c": 11677.57,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "daily_inputs.google_ads has spend only; no Shopify-attributed conversion value",
+            "shopify_revenue_source": "daily_inputs.meta has spend only; no Shopify-attributed purchase value",
             "platform_conversions": null,
             "platform_revenue": null,
             "platform_roas": null,
             "platform_status": "unverified",
-            "platform_source": "no google_ads_daily.json row for 2026-10-14",
+            "platform_source": "no meta_ads_daily.json row for 2026-11-11",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          },
+          }
+        ],
+        "google": [
           {
             "date": "2026-10-15",
             "spend": 1084.04,
@@ -52801,29 +52829,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "bing": [
+          },
           {
-            "date": "2026-10-14",
-            "spend": 0.6,
+            "date": "2026-11-11",
+            "spend": 1654.47,
             "spend_status": "verified",
-            "spend_d2c": 0.6,
-            "spend_amazon": 75.34,
+            "spend_d2c": 1654.47,
+            "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
-            "platform_conversions": 0,
-            "platform_revenue": 0.0,
-            "platform_roas": 0.0,
-            "platform_status": "verified",
-            "platform_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
-            "roas": 0.0,
-            "roas_status": "verified",
+            "shopify_revenue_source": "daily_inputs.google_ads has spend only; no Shopify-attributed conversion value",
+            "platform_conversions": null,
+            "platform_revenue": null,
+            "platform_roas": null,
+            "platform_status": "unverified",
+            "platform_source": "no google_ads_daily.json row for 2026-11-11",
+            "roas": null,
+            "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          },
+          }
+        ],
+        "bing": [
           {
             "date": "2026-10-15",
             "spend": 0.42,
@@ -53363,30 +53391,30 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "reddit": [
+          },
           {
-            "date": "2026-10-14",
+            "date": "2026-11-11",
             "spend": null,
             "spend_status": "unverified",
             "spend_d2c": null,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "reddit feed revenue is ads-platform attributed, not Shopify D2C",
-            "platform_conversions": 0,
-            "platform_revenue": 0.0,
+            "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
+            "platform_conversions": null,
+            "platform_revenue": null,
             "platform_roas": null,
-            "platform_status": "verified",
-            "platform_source": "Pipeboard Reddit Ads (platform-reported)",
+            "platform_status": "unverified",
+            "platform_source": "no bing_ads_daily.json row for 2026-11-11",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported",
             "missing": true
-          },
+          }
+        ],
+        "reddit": [
           {
             "date": "2026-10-15",
             "spend": null,
@@ -53941,30 +53969,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "snapchat": [
+          },
           {
-            "date": "2026-10-14",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "date": "2026-11-11",
+            "spend": 0.0,
+            "spend_status": "verified",
+            "spend_d2c": 0.0,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "snapchat feed revenue is ads-platform attributed, not Shopify D2C",
-            "platform_conversions": 0,
-            "platform_revenue": 0.0,
+            "shopify_revenue_source": "no Shopify-attributed revenue in reddit_ads_daily.json",
+            "platform_conversions": null,
+            "platform_revenue": null,
             "platform_roas": null,
-            "platform_status": "verified",
-            "platform_source": "manual_daily_file",
+            "platform_status": "unverified",
+            "platform_source": "no reddit_ads_daily.json row for 2026-11-11",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
-            "roas_label": "platform-reported",
-            "missing": true
-          },
+            "roas_label": "platform-reported"
+          }
+        ],
+        "snapchat": [
           {
             "date": "2026-10-15",
             "spend": null,
@@ -54514,30 +54541,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "chatgpt": [
+          },
           {
-            "date": "2026-10-14",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "date": "2026-11-11",
+            "spend": 617.64,
+            "spend_status": "verified",
+            "spend_d2c": 617.64,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in chatgpt_ads_daily.json",
-            "platform_conversions": 0,
-            "platform_revenue": 0.0,
-            "platform_roas": null,
+            "shopify_revenue_source": "snapchat feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": null,
+            "platform_revenue": 4898.69,
+            "platform_roas": 7.93,
             "platform_status": "verified",
-            "platform_source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
-            "roas": null,
-            "roas_status": "unverified",
+            "platform_source": "manual_daily_file",
+            "roas": 7.93,
+            "roas_status": "verified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
-            "roas_label": "platform-reported",
-            "missing": true
-          },
+            "roas_label": "platform-reported"
+          }
+        ],
+        "chatgpt": [
           {
             "date": "2026-10-15",
             "spend": null,
@@ -55088,29 +55114,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "tiktok": [
+          },
           {
-            "date": "2026-10-14",
-            "spend": 837.99,
+            "date": "2026-11-11",
+            "spend": 0.0,
             "spend_status": "verified",
-            "spend_d2c": 837.99,
+            "spend_d2c": 0.0,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "daily_inputs.tiktok_ads has shopify_spend only; no Shopify-attributed revenue",
+            "shopify_revenue_source": "no Shopify-attributed revenue in chatgpt_ads_daily.json",
             "platform_conversions": null,
             "platform_revenue": null,
             "platform_roas": null,
             "platform_status": "unverified",
-            "platform_source": "no tiktok_ads_daily.json row for 2026-10-14",
+            "platform_source": "no chatgpt_ads_daily.json row for 2026-11-11",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          },
+          }
+        ],
+        "tiktok": [
           {
             "date": "2026-10-15",
             "spend": 1149.32,
@@ -55650,30 +55676,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "pinterest": [
+          },
           {
-            "date": "2026-10-14",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "date": "2026-11-11",
+            "spend": 2099.55,
+            "spend_status": "verified",
+            "spend_d2c": 2099.55,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in pinterest_ads_daily.json",
+            "shopify_revenue_source": "daily_inputs.tiktok_ads has shopify_spend only; no Shopify-attributed revenue",
             "platform_conversions": null,
             "platform_revenue": null,
             "platform_roas": null,
             "platform_status": "unverified",
-            "platform_source": "no pinterest_ads_daily.json row for 2026-10-14",
+            "platform_source": "no tiktok_ads_daily.json row for 2026-11-11",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
-            "roas_label": "platform-reported",
-            "missing": true
-          },
+            "roas_label": "platform-reported"
+          }
+        ],
+        "pinterest": [
           {
             "date": "2026-10-15",
             "spend": null,
@@ -56224,29 +56249,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "applovin": [
+          },
           {
-            "date": "2026-10-14",
+            "date": "2026-11-11",
             "spend": 0.0,
             "spend_status": "verified",
             "spend_d2c": 0.0,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue",
-            "platform_conversions": 0,
+            "shopify_revenue_source": "pinterest feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": null,
             "platform_revenue": 0.0,
             "platform_roas": null,
             "platform_status": "verified",
-            "platform_source": "AppLovin Reporting API (platform-reported, click)",
+            "platform_source": "Pipeboard Pinterest Ads (platform-reported)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          },
+          }
+        ],
+        "applovin": [
           {
             "date": "2026-10-15",
             "spend": 0.0,
@@ -56786,29 +56811,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "taboola": [
+          },
           {
-            "date": "2026-10-14",
-            "spend": 0.0,
+            "date": "2026-11-11",
+            "spend": 179.28,
             "spend_status": "verified",
-            "spend_d2c": 0.0,
+            "spend_d2c": 179.28,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "taboola feed revenue is ads-platform attributed, not Shopify D2C",
-            "platform_conversions": 0,
-            "platform_revenue": 0.0,
-            "platform_roas": null,
+            "shopify_revenue_source": "no Shopify-attributed revenue",
+            "platform_conversions": 12,
+            "platform_revenue": 596.31,
+            "platform_roas": 3.33,
             "platform_status": "verified",
-            "platform_source": "Taboola Backstage API (platform-reported)",
-            "roas": null,
-            "roas_status": "unverified",
+            "platform_source": "AppLovin Reporting API (platform-reported, click)",
+            "roas": 3.33,
+            "roas_status": "verified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          },
+          }
+        ],
+        "taboola": [
           {
             "date": "2026-10-15",
             "spend": 0.0,
@@ -57348,29 +57373,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "outbrain": [
+          },
           {
-            "date": "2026-10-14",
+            "date": "2026-11-11",
             "spend": 0.0,
             "spend_status": "verified",
             "spend_d2c": 0.0,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
+            "shopify_revenue_source": "no Shopify-attributed revenue in taboola_ads_daily.json",
             "platform_conversions": null,
             "platform_revenue": null,
             "platform_roas": null,
             "platform_status": "unverified",
-            "platform_source": "no outbrain_ads_daily.json row for 2026-10-14",
+            "platform_source": "no taboola_ads_daily.json row for 2026-11-11",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          },
+          }
+        ],
+        "outbrain": [
           {
             "date": "2026-10-15",
             "spend": 0.0,
@@ -57910,29 +57935,29 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "spotify": [
+          },
           {
-            "date": "2026-10-14",
+            "date": "2026-11-11",
             "spend": 0.0,
             "spend_status": "verified",
             "spend_d2c": 0.0,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue",
+            "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
             "platform_conversions": null,
             "platform_revenue": null,
             "platform_roas": null,
             "platform_status": "unverified",
-            "platform_source": "no spotify_ads_daily.json row for 2026-10-14",
+            "platform_source": "outbrain_ads_daily.json 2026-11-11 conversion value unknown (blank)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          },
+          }
+        ],
+        "spotify": [
           {
             "date": "2026-10-15",
             "spend": 0.0,
@@ -58472,11 +58497,9 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          }
-        ],
-        "x": [
+          },
           {
-            "date": "2026-10-14",
+            "date": "2026-11-11",
             "spend": 0.0,
             "spend_status": "verified",
             "spend_d2c": 0.0,
@@ -58488,13 +58511,15 @@
             "platform_revenue": null,
             "platform_roas": null,
             "platform_status": "unverified",
-            "platform_source": "no x_ads_daily.json row for 2026-10-14",
+            "platform_source": "no spotify_ads_daily.json row for 2026-11-11",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
-          },
+          }
+        ],
+        "x": [
           {
             "date": "2026-10-15",
             "spend": 0.0,
@@ -59034,22 +59059,30 @@
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
+          },
+          {
+            "date": "2026-11-11",
+            "spend": 103.51,
+            "spend_status": "verified",
+            "spend_d2c": 103.51,
+            "spend_amazon": 0.0,
+            "shopify_revenue": null,
+            "shopify_revenue_status": "unverified",
+            "shopify_revenue_source": "no Shopify-attributed revenue",
+            "platform_conversions": 1,
+            "platform_revenue": 76.23,
+            "platform_roas": 0.74,
+            "platform_status": "verified",
+            "platform_source": "X Ads API via user-X-ads get_account_stats (platform-reported)",
+            "roas": 0.74,
+            "roas_status": "verified",
+            "roas_basis": "platform",
+            "roas_source": "platform_reported",
+            "roas_label": "platform-reported"
           }
         ]
       },
       "blended": [
-        {
-          "date": "2026-10-14",
-          "d2c_ad_spend": 7596.74,
-          "d2c_ad_spend_status": "verified",
-          "total_ad_spend": 12895.06,
-          "total_ad_spend_status": "verified",
-          "shopify_revenue": 14164.5,
-          "shopify_revenue_status": "verified",
-          "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
-          "blended_mer": 1.86,
-          "blended_mer_status": "verified"
-        },
         {
           "date": "2026-10-15",
           "d2c_ad_spend": 9927.55,
@@ -59364,14 +59397,26 @@
         },
         {
           "date": "2026-11-10",
-          "d2c_ad_spend": 14752.48,
+          "d2c_ad_spend": 14775.46,
           "d2c_ad_spend_status": "verified",
-          "total_ad_spend": 22127.65,
+          "total_ad_spend": 22150.63,
           "total_ad_spend_status": "verified",
           "shopify_revenue": 26727.87,
           "shopify_revenue_status": "verified",
           "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
           "blended_mer": 1.81,
+          "blended_mer_status": "verified"
+        },
+        {
+          "date": "2026-11-11",
+          "d2c_ad_spend": 16332.02,
+          "d2c_ad_spend_status": "verified",
+          "total_ad_spend": 24520.71,
+          "total_ad_spend_status": "verified",
+          "shopify_revenue": 29040.44,
+          "shopify_revenue_status": "verified",
+          "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
+          "blended_mer": 1.78,
           "blended_mer_status": "verified"
         }
       ]
@@ -59558,7 +59603,7 @@
     "shopify_orders_yesterday": 306
   },
   "attribution": {
-    "as_of": "2026-11-10",
+    "as_of": "2026-11-11",
     "total_orders_7d": null,
     "attributed_paid_pct": null,
     "owned_pct": null,
@@ -59572,26 +59617,26 @@
   },
   "feed_health": {
     "schema_version": 1,
-    "as_of": "2026-11-10",
-    "computed_at": "2026-11-12T14:15:30Z",
+    "as_of": "2026-11-11",
+    "computed_at": "2026-11-12T14:32:08Z",
     "summary": {
       "status": "degraded",
-      "as_of_lag_days": 1,
+      "as_of_lag_days": 0,
       "channels_fresh": [
         "applovin",
-        "bing",
-        "chatgpt",
         "google",
         "meta",
         "outbrain",
         "pinterest",
         "snapchat",
-        "taboola",
         "tiktok",
         "x"
       ],
       "channels_stale": [
-        "reddit"
+        "bing",
+        "chatgpt",
+        "reddit",
+        "taboola"
       ],
       "channels_quiet": [
         "spotify"
@@ -59604,7 +59649,7 @@
       "meta": {
         "label": "Meta",
         "status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "days_behind": 0,
         "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
@@ -59612,12 +59657,12 @@
         "source": "daily_inputs.meta",
         "owner_bot": "Meta \u00b7 Ad Buyer",
         "days_14": "##############",
-        "window_14": "2026-10-28..2026-11-10"
+        "window_14": "2026-10-29..2026-11-11"
       },
       "google": {
         "label": "Google Ads",
         "status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "days_behind": 0,
         "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
@@ -59625,12 +59670,12 @@
         "source": "daily_inputs.google_ads",
         "owner_bot": "Google \u00b7 Ads",
         "days_14": "##############",
-        "window_14": "2026-10-28..2026-11-10"
+        "window_14": "2026-10-29..2026-11-11"
       },
       "tiktok": {
         "label": "TikTok (website)",
         "status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "days_behind": 0,
         "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
@@ -59638,12 +59683,12 @@
         "source": "daily_inputs.tiktok_ads",
         "owner_bot": null,
         "days_14": "##############",
-        "window_14": "2026-10-28..2026-11-10"
+        "window_14": "2026-10-29..2026-11-11"
       },
       "snapchat": {
         "label": "Snapchat",
         "status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "days_behind": 0,
         "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
@@ -59651,12 +59696,12 @@
         "source": "snapchat_ads_daily.json",
         "owner_bot": "snapchat ads bot",
         "days_14": "##############",
-        "window_14": "2026-10-28..2026-11-10"
+        "window_14": "2026-10-29..2026-11-11"
       },
       "applovin": {
         "label": "AppLovin",
         "status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "days_behind": 0,
         "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
@@ -59664,43 +59709,46 @@
         "source": "applovin_ads_daily.json",
         "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
         "days_14": "##############",
-        "window_14": "2026-10-28..2026-11-10"
+        "window_14": "2026-10-29..2026-11-11"
       },
       "bing": {
         "label": "Bing",
-        "status": "fresh",
+        "status": "stale",
         "last_measured_day": "2026-11-10",
-        "days_behind": 0,
-        "missing_days_7d": [],
+        "days_behind": 1,
+        "missing_days_7d": [
+          "2026-11-11"
+        ],
         "spend_seen_in_platform_roas": null,
         "expected_daily": true,
         "source": "bing_ads_daily.json",
         "owner_bot": "Bing Ads bot",
-        "days_14": "##############",
-        "window_14": "2026-10-28..2026-11-10"
+        "days_14": "#############.",
+        "window_14": "2026-10-29..2026-11-11"
       },
       "x": {
         "label": "X",
         "status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "days_behind": 0,
         "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
         "expected_daily": true,
         "source": "x_ads_daily.json",
         "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
-        "days_14": "-------#######",
-        "window_14": "2026-10-28..2026-11-10"
+        "days_14": "------########",
+        "window_14": "2026-10-29..2026-11-11"
       },
       "reddit": {
         "label": "Reddit",
         "status": "stale",
         "last_measured_day": "2026-11-08",
-        "days_behind": 2,
+        "days_behind": 3,
         "missing_days_7d": [
           "2026-11-06",
           "2026-11-09",
-          "2026-11-10"
+          "2026-11-10",
+          "2026-11-11"
         ],
         "spend_seen_in_platform_roas": {
           "2026-11-06": 142.88,
@@ -59709,60 +59757,64 @@
         "expected_daily": true,
         "source": "reddit_ads_daily.json",
         "owner_bot": "reddit bot",
-        "days_14": "..####0##.##..",
-        "window_14": "2026-10-28..2026-11-10"
+        "days_14": ".####0##.##...",
+        "window_14": "2026-10-29..2026-11-11"
       },
       "pinterest": {
         "label": "Pinterest",
         "status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "days_behind": 0,
         "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
         "expected_daily": true,
         "source": "pinterest_ads_daily.json",
         "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
-        "days_14": "####0000000000",
-        "window_14": "2026-10-28..2026-11-10"
+        "days_14": "###00000000000",
+        "window_14": "2026-10-29..2026-11-11"
       },
       "chatgpt": {
         "label": "ChatGPT",
-        "status": "fresh",
+        "status": "stale",
         "last_measured_day": "2026-11-10",
-        "days_behind": 0,
-        "missing_days_7d": [],
+        "days_behind": 1,
+        "missing_days_7d": [
+          "2026-11-11"
+        ],
         "spend_seen_in_platform_roas": null,
         "expected_daily": true,
         "source": "chatgpt_ads_daily.json",
         "owner_bot": "ads bot for chatgpt",
-        "days_14": "###00000000000",
-        "window_14": "2026-10-28..2026-11-10"
+        "days_14": "##00000000000.",
+        "window_14": "2026-10-29..2026-11-11"
       },
       "taboola": {
         "label": "Taboola",
-        "status": "fresh",
+        "status": "stale",
         "last_measured_day": "2026-11-10",
-        "days_behind": 0,
-        "missing_days_7d": [],
+        "days_behind": 1,
+        "missing_days_7d": [
+          "2026-11-11"
+        ],
         "spend_seen_in_platform_roas": null,
         "expected_daily": true,
         "source": "taboola_ads_daily.json",
         "owner_bot": null,
-        "days_14": "000000##000000",
-        "window_14": "2026-10-28..2026-11-10"
+        "days_14": "00000##000000.",
+        "window_14": "2026-10-29..2026-11-11"
       },
       "outbrain": {
         "label": "Outbrain",
         "status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "days_behind": 0,
         "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
         "expected_daily": false,
         "source": "outbrain_ads_daily.json",
         "owner_bot": "outbrain ads",
-        "days_14": "......00000000",
-        "window_14": "2026-10-28..2026-11-10"
+        "days_14": ".....000000000",
+        "window_14": "2026-10-29..2026-11-11"
       },
       "spotify": {
         "label": "Spotify",
@@ -59770,20 +59822,20 @@
         "last_measured_day": null,
         "days_behind": null,
         "missing_days_7d": [
-          "2026-11-04",
           "2026-11-05",
           "2026-11-06",
           "2026-11-07",
           "2026-11-08",
           "2026-11-09",
-          "2026-11-10"
+          "2026-11-10",
+          "2026-11-11"
         ],
         "spend_seen_in_platform_roas": null,
         "expected_daily": false,
         "source": "spotify_ads_daily.json",
         "owner_bot": null,
         "days_14": "..............",
-        "window_14": "2026-10-28..2026-11-10"
+        "window_14": "2026-10-29..2026-11-11"
       }
     },
     "files": {
@@ -59846,8 +59898,8 @@
   },
   "cfo_brief": {
     "schema_version": 1,
-    "as_of": "2026-11-10",
-    "computed_at": "2026-11-12T14:15:30Z",
+    "as_of": "2026-11-11",
+    "computed_at": "2026-11-12T14:32:08Z",
     "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
     "rule": {
       "source": "ads_throttle/settings.json",
@@ -59859,17 +59911,22 @@
       "window_days": 7
     },
     "portfolio": {
-      "mer_7d": 1.8309,
-      "mer_30d": 2.2258,
+      "mer_7d": 1.8426,
+      "mer_30d": 2.2014,
       "mer_target": 3.24,
-      "mer_gap": -1.41,
+      "mer_gap": -1.4,
       "stance": "below_target",
-      "d2c_revenue_7d": 194107.09,
-      "d2c_spend_7d": 106019.01,
-      "channel_spend_7d": 106019.01,
-      "spend_judged_pct": 75.7,
-      "spend_in_auto_mode_pct": 19.9,
-      "excluded_from_d2c_spend": []
+      "d2c_revenue_7d": 200187.78,
+      "d2c_spend_7d": 108645.9,
+      "channel_spend_7d": 108645.9,
+      "spend_judged_pct": 75.4,
+      "spend_in_auto_mode_pct": 19.5,
+      "excluded_from_d2c_spend": [
+        {
+          "channel": "bing",
+          "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
+        }
+      ]
     },
     "summary": {
       "act_now": [
@@ -59884,29 +59941,29 @@
           "x"
         ],
         "hold": [
-          "bing",
           "meta",
           "tiktok"
         ],
         "insufficient": [
+          "bing",
+          "chatgpt",
           "reddit",
           "spotify"
         ],
         "not_launched": [
-          "outbrain"
+          "outbrain",
+          "taboola"
         ],
         "paused": [
-          "chatgpt",
-          "pinterest",
-          "taboola"
+          "pinterest"
         ],
         "raise": [
           "applovin",
           "snapchat"
         ]
       },
-      "open_asks": 5,
-      "open_asks_high": 1,
+      "open_asks": 7,
+      "open_asks_high": 2,
       "feed_status": "degraded"
     },
     "channels": {
@@ -59923,17 +59980,17 @@
         "cautions": [
           "ROAS from daily_inputs.platform_roas, not the channel daily file"
         ],
-        "spend_7d": 73388.39,
+        "spend_7d": 75117.01,
         "spend_days_measured": 7,
-        "roas_7d": 2.06,
+        "roas_7d": 2.07,
         "roas_days": 7,
         "roas_source": "daily_inputs.platform_roas",
-        "platform_revenue_7d": 151111.03,
-        "roas_prior_7d": 2.47,
-        "spend_prior_7d": 61357.35,
+        "platform_revenue_7d": 155665.23,
+        "roas_prior_7d": 2.46,
+        "spend_prior_7d": 62470.62,
         "tracking_status": "OK",
         "feed_status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "last_change": null,
         "grok": {
           "as_of": "2026-11-09",
@@ -59942,7 +59999,7 @@
           "tier": "Lagging",
           "tier_label": "Lagging (improving)",
           "tracking": "OK (EMQ 9.2, CAPI 99.6%)",
-          "roas_gap_pct": 8.8
+          "roas_gap_pct": 8.4
         },
         "mmm_verdict": null
       },
@@ -59961,17 +60018,17 @@
           "ROAS from daily_inputs.platform_roas, not the channel daily file",
           "No data"
         ],
-        "spend_7d": 14137.9,
+        "spend_7d": 14167.24,
         "spend_days_measured": 7,
-        "roas_7d": 1.53,
+        "roas_7d": 1.52,
         "roas_days": 7,
         "roas_source": "daily_inputs.platform_roas",
-        "platform_revenue_7d": 21597.99,
-        "roas_prior_7d": 1.68,
-        "spend_prior_7d": 12848.74,
+        "platform_revenue_7d": 21451.07,
+        "roas_prior_7d": 1.59,
+        "spend_prior_7d": 12957.42,
         "tracking_status": "OK",
         "feed_status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "last_change": {
           "date": "2026-11-10",
           "action": "raise_20pct"
@@ -59983,7 +60040,7 @@
           "tier": "Steady",
           "tier_label": "Steady",
           "tracking": "OK; attribution ratio 1.70 -> raises frozen",
-          "roas_gap_pct": 74.8
+          "roas_gap_pct": 75.0
         },
         "mmm_verdict": null
       },
@@ -60001,17 +60058,17 @@
         "cautions": [
           "ROAS from daily_inputs.platform_roas, not the channel daily file"
         ],
-        "spend_7d": 9356.45,
+        "spend_7d": 10655.16,
         "spend_days_measured": 7,
-        "roas_7d": 2.45,
+        "roas_7d": 2.43,
         "roas_days": 7,
         "roas_source": "daily_inputs.platform_roas",
-        "platform_revenue_7d": 36583.28,
-        "roas_prior_7d": 2.61,
-        "spend_prior_7d": 8846.98,
+        "platform_revenue_7d": 39436.31,
+        "roas_prior_7d": 2.43,
+        "spend_prior_7d": 8640.1,
         "tracking_status": "OK",
         "feed_status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "last_change": null,
         "grok": {
           "as_of": "2026-11-09",
@@ -60020,7 +60077,7 @@
           "tier": "Steady",
           "tier_label": "Steady",
           "tracking": "OK",
-          "roas_gap_pct": 27.1
+          "roas_gap_pct": 27.7
         },
         "mmm_verdict": null
       },
@@ -60033,17 +60090,17 @@
         "actionable": true,
         "blockers": [],
         "cautions": [],
-        "spend_7d": 4059.92,
+        "spend_7d": 4157.56,
         "spend_days_measured": 7,
-        "roas_7d": 8.16,
+        "roas_7d": 8.31,
         "roas_days": 7,
         "roas_source": "channel daily file",
-        "platform_revenue_7d": 33145.39,
-        "roas_prior_7d": 7.46,
-        "spend_prior_7d": 2833.73,
+        "platform_revenue_7d": 34529.51,
+        "roas_prior_7d": 7.11,
+        "spend_prior_7d": 3005.11,
         "tracking_status": "OK",
         "feed_status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "last_change": {
           "date": "2026-10-30",
           "action": "raise_20pct"
@@ -60055,7 +60112,7 @@
           "tier": "Lead",
           "tier_label": "Lead (view-through caveat)",
           "tracking": "OK (connector slot-limited until 11/17)",
-          "roas_gap_pct": 2.5
+          "roas_gap_pct": 0.7
         },
         "mmm_verdict": null
       },
@@ -60070,17 +60127,17 @@
           "mode:view"
         ],
         "cautions": [],
-        "spend_7d": 1195.5,
+        "spend_7d": 1223.56,
         "spend_days_measured": 7,
-        "roas_7d": 3.59,
+        "roas_7d": 3.6,
         "roas_days": 7,
         "roas_source": "channel daily file",
-        "platform_revenue_7d": 4289.3,
-        "roas_prior_7d": 2.27,
-        "spend_prior_7d": 1332.76,
+        "platform_revenue_7d": 4403.83,
+        "roas_prior_7d": 2.74,
+        "spend_prior_7d": 1173.67,
         "tracking_status": "unknown",
         "feed_status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "last_change": null,
         "grok": {
           "as_of": "2026-11-09",
@@ -60089,7 +60146,7 @@
           "tier": "Lead",
           "tier_label": "Lead (2nd week)",
           "tracking": "OK; Shopify broad-union 79 vs 80 platform (ratio 1.01)",
-          "roas_gap_pct": 3.8
+          "roas_gap_pct": 3.5
         },
         "mmm_verdict": null
       },
@@ -60097,23 +60154,23 @@
         "label": "Bing",
         "mode": "auto",
         "owner_bot": "Bing Ads bot",
-        "verdict": "hold",
-        "rule_says": "Hold - in band",
+        "verdict": "insufficient",
+        "rule_says": "Not enough data",
         "actionable": false,
         "blockers": [
-          "roas_disputed"
+          "feed_gap:6/7 days measured"
         ],
         "cautions": [],
-        "spend_7d": 1579.54,
-        "spend_days_measured": 7,
-        "roas_7d": 2.35,
-        "roas_days": 7,
+        "spend_7d": 1476.33,
+        "spend_days_measured": 6,
+        "roas_7d": null,
+        "roas_days": 6,
         "roas_source": "channel daily file",
-        "platform_revenue_7d": 3711.38,
-        "roas_prior_7d": 8.94,
-        "spend_prior_7d": 305.83,
+        "platform_revenue_7d": null,
+        "roas_prior_7d": 9.46,
+        "spend_prior_7d": 324.47,
         "tracking_status": "OK",
-        "feed_status": "fresh",
+        "feed_status": "stale",
         "last_measured_day": "2026-11-10",
         "last_change": {
           "date": "2026-10-27",
@@ -60125,8 +60182,7 @@
           "spend_7d": 918.86,
           "tier": "Steady",
           "tier_label": "Steady",
-          "tracking": "OK (ratio 0.74 in band)",
-          "roas_gap_pct": 44.0
+          "tracking": "OK (ratio 0.74 in band)"
         },
         "mmm_verdict": null
       },
@@ -60139,17 +60195,17 @@
         "actionable": true,
         "blockers": [],
         "cautions": [],
-        "spend_7d": 1300.4,
+        "spend_7d": 1402.48,
         "spend_days_measured": 7,
-        "roas_7d": 1.1,
+        "roas_7d": 1.07,
         "roas_days": 7,
         "roas_source": "channel daily file",
-        "platform_revenue_7d": 1427.28,
-        "roas_prior_7d": null,
-        "spend_prior_7d": 0.0,
+        "platform_revenue_7d": 1503.51,
+        "roas_prior_7d": 0.0,
+        "spend_prior_7d": 1.43,
         "tracking_status": "OK",
         "feed_status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "last_change": null,
         "grok": {
           "as_of": "2026-11-09",
@@ -60158,7 +60214,7 @@
           "tier": "Lagging",
           "tier_label": "Lagging (launch week)",
           "tracking": "OK; raises frozen (6 Shopify vs 15 platform)",
-          "roas_gap_pct": 19.7
+          "roas_gap_pct": 21.9
         },
         "mmm_verdict": null
       },
@@ -60171,19 +60227,19 @@
         "actionable": false,
         "blockers": [
           "mode:hold",
-          "feed_gap:4/7 days measured"
+          "feed_gap:3/7 days measured"
         ],
         "cautions": [
           "tracking WARN",
           "ROAS from daily_inputs.platform_roas, not the channel daily file"
         ],
-        "spend_7d": 644.5,
-        "spend_days_measured": 4,
+        "spend_7d": 446.56,
+        "spend_days_measured": 3,
         "roas_7d": null,
         "roas_days": 7,
         "roas_source": "channel daily file + daily_inputs.platform_roas",
         "platform_revenue_7d": null,
-        "roas_prior_7d": 1.78,
+        "roas_prior_7d": 2.01,
         "spend_prior_7d": null,
         "tracking_status": "WARN",
         "feed_status": "stale",
@@ -60217,11 +60273,11 @@
         "roas_days": 7,
         "roas_source": null,
         "platform_revenue_7d": null,
-        "roas_prior_7d": 0.4,
-        "spend_prior_7d": 283.71,
+        "roas_prior_7d": 0.49,
+        "spend_prior_7d": 232.04,
         "tracking_status": "OK",
         "feed_status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "last_change": {
           "date": "2026-10-29",
           "action": "kill_under_1x"
@@ -60240,24 +60296,24 @@
         "label": "ChatGPT",
         "mode": "hold",
         "owner_bot": "ads bot for chatgpt",
-        "verdict": "paused",
+        "verdict": "insufficient",
         "rule_says": "Not enough data",
         "actionable": false,
         "blockers": [
           "mode:hold",
-          "spend_stopped:2026-10-30"
+          "feed_gap:6/7 days measured"
         ],
         "cautions": [],
         "spend_7d": 0.0,
-        "spend_days_measured": 7,
+        "spend_days_measured": 6,
         "roas_7d": null,
-        "roas_days": 7,
+        "roas_days": 6,
         "roas_source": null,
         "platform_revenue_7d": null,
         "roas_prior_7d": 0.0,
-        "spend_prior_7d": 410.12,
+        "spend_prior_7d": 206.0,
         "tracking_status": "OK",
-        "feed_status": "fresh",
+        "feed_status": "stale",
         "last_measured_day": "2026-11-10",
         "last_change": {
           "date": "2026-10-30",
@@ -60277,26 +60333,26 @@
         "label": "Taboola",
         "mode": "hold",
         "owner_bot": null,
-        "verdict": "paused",
-        "rule_says": "Kill - under 1x",
+        "verdict": "not_launched",
+        "rule_says": "Not launched",
         "actionable": false,
         "blockers": [
           "mode:hold",
-          "spend_stopped:2026-11-04"
+          "feed_gap:6/7 days measured"
         ],
         "cautions": [
           "tracking WARN"
         ],
-        "spend_7d": 356.41,
-        "spend_days_measured": 7,
-        "roas_7d": 0.0,
-        "roas_days": 7,
-        "roas_source": "channel daily file",
-        "platform_revenue_7d": 0.0,
+        "spend_7d": 0.0,
+        "spend_days_measured": 6,
+        "roas_7d": null,
+        "roas_days": 6,
+        "roas_source": null,
+        "platform_revenue_7d": null,
         "roas_prior_7d": 0.0,
-        "spend_prior_7d": 150.27,
+        "spend_prior_7d": 506.68,
         "tracking_status": "WARN",
-        "feed_status": "fresh",
+        "feed_status": "stale",
         "last_measured_day": "2026-11-10",
         "last_change": {
           "date": "2026-11-04",
@@ -60331,7 +60387,7 @@
         "spend_prior_7d": null,
         "tracking_status": "unknown",
         "feed_status": "fresh",
-        "last_measured_day": "2026-11-10",
+        "last_measured_day": "2026-11-11",
         "last_change": null,
         "grok": {
           "as_of": "2026-11-09",
@@ -60372,19 +60428,41 @@
     },
     "asks": [
       {
+        "id": "feed.bing",
+        "severity": "high",
+        "channel": "bing",
+        "owner": "Bing Ads bot",
+        "title": "Bing: no measured row since 2026-11-10",
+        "detail": "bing_ads_daily.json has no measured row for 2026-11-11. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+        "first_seen": "2026-11-12",
+        "age_days": 0,
+        "evidence": {
+          "missing_days": [
+            "2026-11-11"
+          ],
+          "last_measured_day": "2026-11-10"
+        },
+        "ack": {
+          "status": "working",
+          "note": "Routed to Bing Ads bot to backfill 11/9 row in bing_ads_daily.json today.",
+          "at": "2026-11-10T09:50:00-05:00"
+        }
+      },
+      {
         "id": "feed.reddit",
         "severity": "high",
         "channel": "reddit",
         "owner": "reddit bot",
         "title": "Reddit: no measured row since 2026-11-08",
-        "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-09, 2026-11-10. The platform reported spend on 2026-11-06 ($142.88), 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+        "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-09, 2026-11-10, 2026-11-11. The platform reported spend on 2026-11-06 ($142.88), 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
         "first_seen": "2026-11-09",
         "age_days": 3,
         "evidence": {
           "missing_days": [
             "2026-11-06",
             "2026-11-09",
-            "2026-11-10"
+            "2026-11-10",
+            "2026-11-11"
           ],
           "last_measured_day": "2026-11-08"
         },
@@ -60395,23 +60473,19 @@
         }
       },
       {
-        "id": "roas.bing.disputed",
+        "id": "feed.taboola",
         "severity": "high",
-        "channel": "bing",
-        "owner": "Bing Ads bot",
-        "title": "Bing: CFO reads 2.35x, Grok reads 4.20x \u2014 the rule lands in different bands",
-        "detail": "CFO 7d platform ROAS 2.35x (channel daily file, 2026-11-04..2026-11-10) says hold; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
-        "first_seen": "2026-11-10",
-        "age_days": 2,
+        "channel": "taboola",
+        "owner": null,
+        "title": "Taboola: no measured row since 2026-11-10",
+        "detail": "taboola_ads_daily.json has no measured row for 2026-11-11. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+        "first_seen": "2026-11-12",
+        "age_days": 0,
         "evidence": {
-          "cfo_roas_7d": 2.35,
-          "grok_roas_7d": 4.2,
-          "gap_pct": 44.0
-        },
-        "ack": {
-          "status": "working",
-          "note": "Not yet routed: no inter-bot messaging tool available to Jarvis today; ask drafted for Bing Ads bot to agree one ROAS basis and write it to settings.json channels.bing.notes. No raise/cut on Bing until then.",
-          "at": "2026-11-11T10:00:00-05:00"
+          "missing_days": [
+            "2026-11-11"
+          ],
+          "last_measured_day": "2026-11-10"
         }
       },
       {
@@ -60419,14 +60493,14 @@
         "severity": "high",
         "channel": "google",
         "owner": "Google \u00b7 Ads",
-        "title": "Google Ads: CFO reads 1.53x, Grok reads 6.07x \u2014 the rule lands in different bands",
-        "detail": "CFO 7d platform ROAS 1.53x (daily_inputs.platform_roas, 2026-11-04..2026-11-10) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+        "title": "Google Ads: CFO reads 1.52x, Grok reads 6.07x \u2014 the rule lands in different bands",
+        "detail": "CFO 7d platform ROAS 1.52x (daily_inputs.platform_roas, 2026-11-05..2026-11-11) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
         "first_seen": "2026-11-09",
         "age_days": 3,
         "evidence": {
-          "cfo_roas_7d": 1.53,
+          "cfo_roas_7d": 1.52,
           "grok_roas_7d": 6.07,
-          "gap_pct": 74.8
+          "gap_pct": 75.0
         },
         "ack": {
           "status": "done",
@@ -60439,14 +60513,14 @@
         "severity": "high",
         "channel": "tiktok",
         "owner": null,
-        "title": "TikTok (website): CFO reads 2.45x, Grok reads 3.36x \u2014 the rule lands in different bands",
-        "detail": "CFO 7d platform ROAS 2.45x (daily_inputs.platform_roas, 2026-11-04..2026-11-10) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+        "title": "TikTok (website): CFO reads 2.43x, Grok reads 3.36x \u2014 the rule lands in different bands",
+        "detail": "CFO 7d platform ROAS 2.43x (daily_inputs.platform_roas, 2026-11-05..2026-11-11) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
         "first_seen": "2026-11-09",
         "age_days": 3,
         "evidence": {
-          "cfo_roas_7d": 2.45,
+          "cfo_roas_7d": 2.43,
           "grok_roas_7d": 3.36,
-          "gap_pct": 27.1
+          "gap_pct": 27.7
         },
         "ack": {
           "status": "done",
@@ -60485,6 +60559,27 @@
         "detail": "Last Adnova snapshot 2026-11-10T00:07:07.178Z. The daily creative routine (ops/creative/ROUTINE.md) did not run or could not push.",
         "first_seen": "2026-11-12",
         "age_days": 0
+      },
+      {
+        "id": "feed.chatgpt",
+        "severity": "medium",
+        "channel": "chatgpt",
+        "owner": "ads bot for chatgpt",
+        "title": "ChatGPT: no measured row since 2026-11-10",
+        "detail": "chatgpt_ads_daily.json has no measured row for 2026-11-11. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+        "first_seen": "2026-11-12",
+        "age_days": 0,
+        "evidence": {
+          "missing_days": [
+            "2026-11-11"
+          ],
+          "last_measured_day": "2026-11-10"
+        },
+        "ack": {
+          "status": "working",
+          "note": "Routed to ChatGPT ads bot to backfill 11/9 row in chatgpt_ads_daily.json today.",
+          "at": "2026-11-10T09:50:00-05:00"
+        }
       },
       {
         "id": "file.shopify_attribution.stale",
@@ -60561,8 +60656,15 @@
           "roas": 0.0,
           "roas_days": 7
         },
-        "outcome": "pending",
-        "ready_on": "2026-11-12"
+        "after": {
+          "window": "2026-11-05..2026-11-11",
+          "spend": 0.0,
+          "roas": null,
+          "roas_days": 6
+        },
+        "outcome": "unmeasured",
+        "why": "fewer than 5 of 7 days with a platform read on one side of the change",
+        "spend_change_pct": -100.0
       },
       {
         "date": "2026-11-04",
@@ -60581,8 +60683,15 @@
           "roas": 0.0,
           "roas_days": 7
         },
-        "outcome": "pending",
-        "ready_on": "2026-11-12"
+        "after": {
+          "window": "2026-11-05..2026-11-11",
+          "spend": 0.0,
+          "roas": null,
+          "roas_days": 6
+        },
+        "outcome": "unmeasured",
+        "why": "fewer than 5 of 7 days with a platform read on one side of the change",
+        "spend_change_pct": -100.0
       },
       {
         "date": "2026-10-30",
