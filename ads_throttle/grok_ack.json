@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-12T09:55:41-05:00",
+  "updated_at": "2026-11-12T09:57:31-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
-      "status": "working",
-      "note": "Brief 11/12: 11/11 row still missing. Routed to Bing Ads bot 11/12 ~10 AM ET to backfill and to write the ROAS basis to settings.json. Awaiting confirmation.",
-      "at": "2026-11-12T09:55:41-05:00"
+      "status": "done",
+      "note": "bing_ads_daily.json has the 11/11 closed-day row (commit 4e29820; spend $273.30, platform revenue $486.33, 1.78x, complete/closed_day true, as_of 11/11).",
+      "at": "2026-11-12T09:57:31-05:00"
     },
     "feed.chatgpt": {
       "status": "done",
@@ -34,8 +34,8 @@
     },
     "settings.daily_budget.unknown": {
       "status": "working",
-      "note": "Snapchat live budget written (604/day); X live budget written 11/12 (70/day, C02 only). Google 105.84 already set. Bing and Taboola budgets still to be written once their bots report actual values.",
-      "at": "2026-11-12T09:55:41-05:00"
+      "note": "Snapchat live budget written 11/12 (624/day). X live budget 70/day (C02 only). Google 105.84 already set. Bing and Taboola budgets still to be written once their bots report actual values.",
+      "at": "2026-11-12T09:57:31-05:00"
     },
     "changes.taboola.unlogged": {
       "status": "done",
@@ -43,9 +43,9 @@
       "at": "2026-11-10T09:51:00-05:00"
     },
     "roas.bing.disputed": {
-      "status": "working",
-      "note": "Routed to Bing Ads bot 11/12 ~10 AM ET: agree one ROAS basis and write it to settings.json channels.bing.notes. No raise/cut on Bing until then.",
-      "at": "2026-11-12T09:55:41-05:00"
+      "status": "done",
+      "note": "Agreed Bing ROAS basis written to channels.bing.notes on 11/12 (commit 1a2b7a3): goal 172222236 ConversionsQualified/Revenue, click-date, 30-day click window, trailing 7 closed ET days, Shopify-destination only. Nov 5-11 feed snapshot 2.08x, live reread 2.38x, both hold band.",
+      "at": "2026-11-12T09:57:31-05:00"
     },
     "file.shopify_attribution.stale": {
       "status": "working",
@@ -54,8 +54,8 @@
     },
     "step.snapchat.raise_20pct": {
       "status": "working",
-      "note": "Brief 11/12 act_now Snapchat +20% ($604 -> $724.80 proposed, under $784 cap). Routed to SNAPCHAT ADS 11/12 ~10 AM ET; they must honor Launch 11/13 and Hoodies 11/18 cooldowns and confirm the live total. Awaiting confirmation; not logged yet.",
-      "at": "2026-11-12T09:55:41-05:00"
+      "note": "No 11/12 raise (7-day per-campaign cooldown). Live total $624 (Launch 17ba5e2d $504, Hoodies $120), confirmed by SNAPCHAT ADS 11/12 9:52 AM ET. settings.json daily_budget set to 624. Launch next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account $724.80, under $784). Hoodies next eligible 11/18 9:55:19 AM ET. 11/6 Launch and 11/11 Hoodies raises logged in changes.json; no 11/12 raise written.",
+      "at": "2026-11-12T09:57:31-05:00"
     },
     "step.x.cut_20pct": {
       "status": "done",

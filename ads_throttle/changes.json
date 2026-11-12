@@ -149,5 +149,33 @@
     "logged_by": "jarvis",
     "next_eligible": "2026-11-14",
     "note": "Logged 11/12 after x.com ads confirmed the 11/11 daily ops. The 11/12 CFO brief still said cut (1.07x on $1,402) but that verdict was already applied 11/11. Raises stay frozen. settings.json daily_budget 70 is C02 only, not the paused C01/C03 line items."
+  },
+  {
+    "date": "2026-11-06",
+    "channel": "snapchat",
+    "entity": "SNAP | Prospecting | Purchases | Meta Winners | Launch v1 17ba5e2d-8cd3-426b-94b6-fa634db9f6e3",
+    "action": "raise_20pct",
+    "old_budget": 420,
+    "new_budget": 504,
+    "budget_note": "Launch $420 -> $504 at 11/6 9:40:12 AM ET (Limitless d8cfb148 $288, Drive-Thru 2c049090 $216). Confirmed live by SNAPCHAT ADS 11/12 9:52 AM ET (updated_at 2026-11-06T14:39:58Z).",
+    "status": "done (executed 11/6 9:40:12 AM ET; live read 11/12 9:52 AM ET). Logged 11/12 because throttle files were stale (brief still showed last raise 10/30).",
+    "by": "SNAPCHAT ADS",
+    "logged_by": "jarvis",
+    "next_eligible": "2026-11-13",
+    "note": "Next Launch step if trailing-7 is still above 2.8x: $504 -> $604.80 (Limitless $288 -> $345.60, Drive-Thru $216 -> $259.20), account total $724.80 with Hoodies $120, under the $784 cap. SNAPCHAT ADS will apply that on the 11/13 weekday run if the band and cap still clear."
+  },
+  {
+    "date": "2026-11-11",
+    "channel": "snapchat",
+    "entity": "Hoodies b4333284 squad 7189c922",
+    "action": "raise_20pct",
+    "old_budget": 100,
+    "new_budget": 120,
+    "budget_note": "Hoodies $100 -> $120 at 11/11 9:55:19 AM ET. Confirmed live by SNAPCHAT ADS 11/12 9:52 AM ET (updated_at 2026-11-11T14:55:19.802Z). This is why the live account total is $624, not $604.",
+    "status": "done (executed 11/11 9:55:19 AM ET; live read 11/12 9:52 AM ET). Logged 11/12 because throttle files were stale. No 11/12 raise.",
+    "by": "SNAPCHAT ADS",
+    "logged_by": "jarvis",
+    "next_eligible": "2026-11-18",
+    "note": "Hoodies is not eligible again before Tue 11/18 9:55:19 AM ET. Account live total $624/day (Launch $504 + Hoodies $120), under $784."
   }
 ]

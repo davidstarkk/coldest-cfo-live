@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-12T09:55:41-05:00",
-  "updated_by": "jarvis (11/12: X daily_budget 70 from x.com ads live read; 11/11 C02 cut logged)",
+  "updated_at": "2026-11-12T09:57:31-05:00",
+  "updated_by": "jarvis (11/12: Snap daily_budget 624 from SNAPCHAT ADS live read; no 11/12 raise)",
   "global": {
     "step_pct": 20,
     "window_days": 7,
@@ -27,8 +27,8 @@
       "owner_bot": "snapchat ads bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports.",
-      "daily_budget": 604
+      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. Live daily_budget 624 confirmed by SNAPCHAT ADS 11/12 9:52 AM ET (Launch 17ba5e2d $504: Limitless d8cfb148 $288, Drive-Thru 2c049090 $216; Hoodies b4333284 squad 7189c922 $120). Launch last raised 11/6 9:40:12 AM ET ($420->$504), next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account would be $724.80, under $784 cap). Hoodies last raised 11/11 9:55:19 AM ET ($100->$120), next eligible 11/18 9:55:19 AM ET. No 11/12 raise.",
+      "daily_budget": 624
     },
     "bing": {
       "mode": "auto",
