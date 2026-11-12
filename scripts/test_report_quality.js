@@ -159,6 +159,31 @@ test('channel dist comes from the same window: closed per-channel nets plus part
   assert.ok(/5 day\(s\) left out, not zero-filled/.test(d.note));
 });
 
+test('MER header is company-wide (all channels) over 7 calendar days, with deltas only from full windows', function () {
+  var rows = [];
+  for (var i = 0; i < 14; i++) {
+    var p = partial(shift('2026-11-11', -i), usual);
+    p.provisional_totals = { revenue: 60000, ads: i < 7 ? 20000 : 15000, net_profit: 6000 };
+    rows.push(p);
+  }
+  var h = Q.merHeader(Q.series([], rows));
+  assert.strictEqual(h.window.start, '2026-11-05');
+  assert.strictEqual(h.mer, 3);
+  assert.strictEqual(h.revenue, 420000);
+  assert.strictEqual(h.ads, 140000);
+  assert.strictEqual(h.margin_pct, 10);
+  assert.strictEqual(h.wow, -1);
+  assert.ok(Math.abs(h.dod - (3 - 420000 / 135000)) < 1e-9);
+  var gap = Q.merHeader(Q.series([], rows.slice(0, 3).concat(rows.slice(4))));
+  assert.strictEqual(gap.complete, false);
+  assert.strictEqual(gap.dod, null, 'no delta from a window with a missing day');
+  assert.deepStrictEqual(gap.window.missing, ['2026-11-08']);
+});
+
+test('latest-day header is the full date', function () {
+  assert.strictEqual(Q.longDate('2026-11-11'), 'Wednesday, November 11, 2026');
+});
+
 function shift(date, days) {
   var d = new Date(date + 'T12:00:00Z');
   d.setUTCDate(d.getUTCDate() + days);
