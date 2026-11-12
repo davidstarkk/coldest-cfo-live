@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-11-12T09:55:00-05:00",
+  "updated_at": "2026-11-12T09:55:41-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
       "status": "working",
-      "note": "Brief 11/12: 11/11 row still missing; Bing Ads bot to backfill. No messaging route from Jarvis, still open.",
-      "at": "2026-11-12T09:55:00-05:00"
+      "note": "Brief 11/12: 11/11 row still missing. Routed to Bing Ads bot 11/12 ~10 AM ET to backfill and to write the ROAS basis to settings.json. Awaiting confirmation.",
+      "at": "2026-11-12T09:55:41-05:00"
     },
     "feed.chatgpt": {
-      "status": "working",
-      "note": "Brief 11/12: 11/11 row missing; ChatGPT ads bot to backfill. Still open.",
-      "at": "2026-11-12T09:55:00-05:00"
+      "status": "done",
+      "note": "chatgpt_ads_daily.json has the 11/11 closed-day $0 row (commit 88d7f51; all 10 campaigns paused; complete/closed_day true).",
+      "at": "2026-11-12T09:55:41-05:00"
     },
     "feed.reddit": {
       "status": "wont_do",
@@ -34,8 +34,8 @@
     },
     "settings.daily_budget.unknown": {
       "status": "working",
-      "note": "Snapchat live budget written (604/day); google, bing, taboola budgets to be written once their bots report actual values.",
-      "at": "2026-11-10T09:50:00-05:00"
+      "note": "Snapchat live budget written (604/day); X live budget written 11/12 (70/day, C02 only). Google 105.84 already set. Bing and Taboola budgets still to be written once their bots report actual values.",
+      "at": "2026-11-12T09:55:41-05:00"
     },
     "changes.taboola.unlogged": {
       "status": "done",
@@ -44,8 +44,8 @@
     },
     "roas.bing.disputed": {
       "status": "working",
-      "note": "Not yet routed: no inter-bot messaging tool available to Jarvis today; ask drafted for Bing Ads bot to agree one ROAS basis and write it to settings.json channels.bing.notes. No raise/cut on Bing until then.",
-      "at": "2026-11-11T10:00:00-05:00"
+      "note": "Routed to Bing Ads bot 11/12 ~10 AM ET: agree one ROAS basis and write it to settings.json channels.bing.notes. No raise/cut on Bing until then.",
+      "at": "2026-11-12T09:55:41-05:00"
     },
     "file.shopify_attribution.stale": {
       "status": "working",
@@ -54,18 +54,18 @@
     },
     "step.snapchat.raise_20pct": {
       "status": "working",
-      "note": "Brief 11/12 act_now still Snapchat +20% ($604 -> $724.80, under $784/day cap, last raise 10/30). NOT executed or logged: Jarvis has no inter-bot messaging route to snapchat ads bot; needs bot confirmation of actual budget and IDs.",
-      "at": "2026-11-12T09:55:00-05:00"
+      "note": "Brief 11/12 act_now Snapchat +20% ($604 -> $724.80 proposed, under $784 cap). Routed to SNAPCHAT ADS 11/12 ~10 AM ET; they must honor Launch 11/13 and Hoodies 11/18 cooldowns and confirm the live total. Awaiting confirmation; not logged yet.",
+      "at": "2026-11-12T09:55:41-05:00"
     },
     "step.x.cut_20pct": {
-      "status": "working",
-      "note": "Brief 11/12 act_now still X cut -20% (ROAS 1.07x 7d on $1,402) plus new strategy. NOT executed or logged: no inter-bot messaging route to x.com ads bot; needs confirmed live budgets.",
-      "at": "2026-11-12T09:55:00-05:00"
+      "status": "done",
+      "note": "Already applied 11/11: C02 $87.50->$70 at 11:50 AM ET (x.com ads). No 11/12 cut (double-cut + 3-day cooldown until 11/14). Live total $70 (C02 only; C01 paused 11/11, C03 paused 11/10). Logged in changes.json and settings.json daily_budget 70. Next weekday review Mon 11/16 unless pinged 11/14.",
+      "at": "2026-11-12T09:55:41-05:00"
     },
     "feed.taboola": {
       "status": "working",
-      "note": "Brief 11/12: 11/11 row missing; Taboola paused, needs measured $0 row. Owner bot not routable from Jarvis today.",
-      "at": "2026-11-12T09:55:00-05:00"
+      "note": "Brief 11/12: 11/11 row still missing (paused channel needs a measured $0 row). Routed to taboola bot 11/12 ~10 AM ET. Awaiting confirmation.",
+      "at": "2026-11-12T09:55:41-05:00"
     },
     "creative.unported": {
       "status": "working",
