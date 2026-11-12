@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-11-11T10:00:00-05:00",
+  "updated_at": "2026-11-12T09:55:00-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
       "status": "working",
-      "note": "Routed to Bing Ads bot to backfill 11/9 row in bing_ads_daily.json today.",
-      "at": "2026-11-10T09:50:00-05:00"
+      "note": "Brief 11/12: 11/11 row still missing; Bing Ads bot to backfill. No messaging route from Jarvis, still open.",
+      "at": "2026-11-12T09:55:00-05:00"
     },
     "feed.chatgpt": {
       "status": "working",
-      "note": "Routed to ChatGPT ads bot to backfill 11/9 row in chatgpt_ads_daily.json today.",
-      "at": "2026-11-10T09:50:00-05:00"
+      "note": "Brief 11/12: 11/11 row missing; ChatGPT ads bot to backfill. Still open.",
+      "at": "2026-11-12T09:55:00-05:00"
     },
     "feed.reddit": {
       "status": "wont_do",
@@ -54,13 +54,28 @@
     },
     "step.snapchat.raise_20pct": {
       "status": "working",
-      "note": "Brief 11/11 act_now: Snapchat +20% ($604 -> $724.80, under $784/day cap, last raise 10/30 so cooldown clear). NOT executed or logged: no inter-bot messaging tool to reach snapchat ads bot; awaiting bot confirmation.",
-      "at": "2026-11-11T10:00:00-05:00"
+      "note": "Brief 11/12 act_now still Snapchat +20% ($604 -> $724.80, under $784/day cap, last raise 10/30). NOT executed or logged: Jarvis has no inter-bot messaging route to snapchat ads bot; needs bot confirmation of actual budget and IDs.",
+      "at": "2026-11-12T09:55:00-05:00"
     },
     "step.x.cut_20pct": {
       "status": "working",
-      "note": "Brief 11/11 act_now: X cut -20% (ROAS 1.10x 7d on $1,300) plus new strategy. NOT executed or logged: no inter-bot messaging tool to reach x.com ads bot; awaiting bot confirmation of live budgets.",
-      "at": "2026-11-11T10:00:00-05:00"
+      "note": "Brief 11/12 act_now still X cut -20% (ROAS 1.07x 7d on $1,402) plus new strategy. NOT executed or logged: no inter-bot messaging route to x.com ads bot; needs confirmed live budgets.",
+      "at": "2026-11-12T09:55:00-05:00"
+    },
+    "feed.taboola": {
+      "status": "working",
+      "note": "Brief 11/12: 11/11 row missing; Taboola paused, needs measured $0 row. Owner bot not routable from Jarvis today.",
+      "at": "2026-11-12T09:55:00-05:00"
+    },
+    "creative.unported": {
+      "status": "working",
+      "note": "8 Meta winners unported; handled by the Meta winners -> all channels routine.",
+      "at": "2026-11-12T09:55:00-05:00"
+    },
+    "creative.winners.stale": {
+      "status": "working",
+      "note": "Owner CFO creative routine; flagged for Builder, not routable from Jarvis.",
+      "at": "2026-11-12T09:55:00-05:00"
     }
   }
 }
