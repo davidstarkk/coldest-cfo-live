@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-10",
-  "computed_at": "2026-11-11T14:36:37Z",
+  "computed_at": "2026-11-12T13:57:17Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -59,7 +59,7 @@
         "snapchat"
       ]
     },
-    "open_asks": 3,
+    "open_asks": 5,
     "open_asks_high": 1,
     "feed_status": "degraded"
   },
@@ -533,7 +533,7 @@
       "title": "Reddit: no measured row since 2026-11-08",
       "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-09, 2026-11-10. The platform reported spend on 2026-11-06 ($142.88), 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-09",
-      "age_days": 2,
+      "age_days": 3,
       "evidence": {
         "missing_days": [
           "2026-11-06",
@@ -556,11 +556,16 @@
       "title": "Bing: CFO reads 2.35x, Grok reads 4.20x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 2.35x (channel daily file, 2026-11-04..2026-11-10) says hold; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-10",
-      "age_days": 1,
+      "age_days": 2,
       "evidence": {
         "cfo_roas_7d": 2.35,
         "grok_roas_7d": 4.2,
         "gap_pct": 44.0
+      },
+      "ack": {
+        "status": "working",
+        "note": "Not yet routed: no inter-bot messaging tool available to Jarvis today; ask drafted for Bing Ads bot to agree one ROAS basis and write it to settings.json channels.bing.notes. No raise/cut on Bing until then.",
+        "at": "2026-11-11T10:00:00-05:00"
       }
     },
     {
@@ -571,7 +576,7 @@
       "title": "Google Ads: CFO reads 1.53x, Grok reads 6.07x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 1.53x (daily_inputs.platform_roas, 2026-11-04..2026-11-10) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
-      "age_days": 2,
+      "age_days": 3,
       "evidence": {
         "cfo_roas_7d": 1.53,
         "grok_roas_7d": 6.07,
@@ -591,7 +596,7 @@
       "title": "TikTok (website): CFO reads 2.45x, Grok reads 3.36x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 2.45x (daily_inputs.platform_roas, 2026-11-04..2026-11-10) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
-      "age_days": 2,
+      "age_days": 3,
       "evidence": {
         "cfo_roas_7d": 2.45,
         "grok_roas_7d": 3.36,
@@ -604,14 +609,51 @@
       }
     },
     {
+      "id": "creative.unported",
+      "severity": "medium",
+      "channel": null,
+      "owner": "Jarvis",
+      "title": "8 winning Meta creative(s) not yet on any other channel",
+      "detail": "\"best tumbler for gifting- Copy\" (3.52x on $2,718), \"David's email - New Drop | BFCMR SA03\" (3.91x on $2,546), \"New Sales Ad | BFCMR SA01\" (4.14x on $1,916), \"PENDING PERMISSIONS | T2#2 | @coldestsami08 | 7548496099791670559 | moms-school-runs | copy-proven\" (3.76x on $1,753), \"EV#2 - 16 - Copy\" (3.44x on $980). Rebuild each for the channels in `not_on` (the landing page and Meta ad id are in creatives.winners) and add one entry per launch to ads_throttle/creative_ports.json; a creative that does not fit a channel gets status \"rejected\" with a one-line note.",
+      "first_seen": "2026-11-12",
+      "age_days": 0,
+      "evidence": {
+        "creative_ids": [
+          "21f428981646c9d1bdcc84f6dbb987c6",
+          "bf4bf9c6c6fe7cd5c32dd4e39bdb4469",
+          "819f18c250183889d7b2ca01f94a58b5",
+          "70aca745a00762ba739f43ef749bfc7f",
+          "54ccf257c3fd96d58c6bc8682d33a547",
+          "a992f47e8c1417c26361015218b4015f",
+          "838e7cfa33a35d94659718ae7d47ff46",
+          "f0d6f8731163588dabee5f65fdf5b353"
+        ]
+      }
+    },
+    {
+      "id": "creative.winners.stale",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO creative routine",
+      "title": "ads_throttle/creative_winners.json is 3 days old",
+      "detail": "Last Adnova snapshot 2026-11-10T00:07:07.178Z. The daily creative routine (ops/creative/ROUTINE.md) did not run or could not push.",
+      "first_seen": "2026-11-12",
+      "age_days": 0
+    },
+    {
       "id": "file.shopify_attribution.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO box ShopifyQL sync (daily)",
-      "title": "shopify_attribution_daily.json is 12 days old",
+      "title": "shopify_attribution_daily.json is 13 days old",
       "detail": "Last written 2026-10-30; expected at most 2 days old (CFO box ShopifyQL sync (daily)). The dashboard is showing old data from it.",
       "first_seen": "2026-11-09",
-      "age_days": 2
+      "age_days": 3,
+      "ack": {
+        "status": "working",
+        "note": "Owner is CFO box ShopifyQL sync; not routable from Jarvis today, flagged for Builder fix.",
+        "at": "2026-11-11T10:00:00-05:00"
+      }
     },
     {
       "id": "settings.daily_budget.unknown",
@@ -621,7 +663,7 @@
       "title": "Current daily budget unknown for bing, x",
       "detail": "Write channels.<channel>.daily_budget in ads_throttle/settings.json after each change. Without it the dashboard can say raise / cut but not the new dollar budget.",
       "first_seen": "2026-11-09",
-      "age_days": 2,
+      "age_days": 3,
       "evidence": {
         "channels": [
           "bing",
@@ -834,11 +876,11 @@
     }
   ],
   "creatives": {
-    "status": "ok",
+    "status": "stale",
     "file": "ads_throttle/creative_winners.json",
     "as_of": "2026-11-09",
     "snapshot_at": "2026-11-10T00:07:07.178Z",
-    "age_days": 2,
+    "age_days": 3,
     "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
     "rule": {
       "min_roas": 2.8,
