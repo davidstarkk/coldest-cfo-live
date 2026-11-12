@@ -49,6 +49,19 @@ test('headline passes values through and never fills a missing one', function ()
   assert.strictEqual(M.headline({}).mer, null);
 });
 
+test('total-company scope: the target sits under total-company MER', function () {
+  var d = JSON.parse(JSON.stringify(doc));
+  d.headline.target_scope = 'total_company';
+  d.governor.target_scope = 'total_company'; d.governor.compared_mer_7d = 3.33; d.governor.stance = 'room_to_add';
+  d.governor.add_order = d.governor.give_back_order.slice().reverse(); d.governor.give_back_order = [];
+  assert.strictEqual(M.headline(d).scope, 'total_company');
+  var html = M.renderGovernor(d);
+  assert.ok(html.indexOf('Total-company MER 3.33x is at or above the 3.24x target') !== -1);
+  assert.ok(html.indexOf('Shopify D2C MER is 1.83x') !== -1);
+  assert.deepStrictEqual(M.governorRows(d).map(function (r) { return r.channel; }), ['x', 'meta']);
+  assert.ok(M.renderTests({ incrementality: { status: 'scheduled', why: 'first test starts 2027-01-01', tests: [] } }).indexOf('Scheduled — first test starts 2027-01-01') !== -1);
+});
+
 test('governor rows keep the order the feed gave', function () {
   var rows = M.governorRows(doc);
   assert.deepStrictEqual(rows.map(function (r) { return r.channel; }), ['meta', 'x']);

@@ -19,7 +19,7 @@
   var FEED = 'ads_throttle/growth_brief.json';
   var STATUS = {
     ok: null, partial: 'Partial window', sufficient: null,
-    insufficient_data: 'Not enough data yet', no_feed: 'Feed not pulled yet', no_tests: 'No test approved yet', stale: 'Feed is old'
+    insufficient_data: 'Not enough data yet', no_feed: 'Feed not pulled yet', no_tests: 'No test approved yet', scheduled: 'Scheduled', stale: 'Feed is old'
   };
   var READ = {
     added_spend_lost_revenue: ['More spend, no more revenue', 'gr-bad'],
@@ -69,7 +69,7 @@
     var h = (doc && doc.headline) || {};
     return {
       asOf: (doc && doc.as_of) || null, mer: num(h.mer_7d), target: num(h.mer_target), totalMer: num(h.total_mer_7d),
-      breakeven: num(h.breakeven_mer_before_overhead), stance: h.stance || null, conflict: h.rule_conflict === true,
+      breakeven: num(h.breakeven_mer_before_overhead), stance: h.stance || null, scope: h.target_scope || 'shopify_d2c', conflict: h.rule_conflict === true,
       giveBack: h.first_to_give_back || [], ncac: num(h.blended_ncac), firstOrder: num(h.first_order_value),
       newShare: num(h.new_share_of_net_sales_pct), m2: num(h.revenue_per_customer_m2), paidBackBy: h.paid_back_by || null,
       margin: num(h.contribution_margin_pct), lowStock: h.low_stock || [], runRate: num(h.annual_run_rate),
@@ -176,13 +176,13 @@
 
   function renderHeadline(k) {
     return '<div class="gr-card"><h3>Data through ' + esc(md(k.asOf)) + '</h3><div class="gr-kpis">' +
-      box(x(k.mer), 'Shopify D2C MER, 7d', 'target ' + x(k.target) + ' · break-even ' + x(k.breakeven)) +
-      box(x(k.totalMer), 'Total-company MER, 7d', 'Shopify + Amazon + TikTok Shop + Whatnot') +
+      box(x(k.totalMer), 'Total-company MER, 7d', (k.scope === 'total_company' ? 'target ' + x(k.target) + ' · ' : '') + 'all sales channels') +
+      box(x(k.mer), 'Shopify D2C MER, 7d', (k.scope === 'total_company' ? '' : 'target ' + x(k.target) + ' · ') + 'break-even ' + x(k.breakeven)) +
       box(usd(k.ncac), 'New-customer CAC', 'first order ' + usd(k.firstOrder) + ' · blended') +
       box(pct(k.newShare), 'Net sales from new customers', 'the rest is returning customers') +
       box(k.paidBackBy ? esc(k.paidBackBy) : (k.ncac == null ? '—' : 'Not yet'), 'CAC paid back by', '90-day revenue per customer ' + usd(k.m2)) +
       box(big(k.runRate), 'Annual run-rate', k.multiple == null ? 'no target set' : k.multiple.toFixed(2) + 'x to reach the target') +
-      box(k.lowStock.length ? pill(k.lowStock.length + ' low', 'gr-bad') : pill('OK', 'gr-good'), 'Stock on selling products', k.lowStock.length ? esc(k.lowStock.join(', ')) : 'none under the floor') +
+      box(k.lowStock.length ? pill(k.lowStock.length + ' low', 'gr-warn') : pill('OK', 'gr-good'), 'Stock on selling products', k.lowStock.length ? esc(k.lowStock.join(', ')) + ' · information, not a block' : 'none under the floor') +
       '</div></div>';
   }
 
@@ -190,9 +190,12 @@
     var g = doc.governor;
     if (!g || g.status !== 'ok') return silent('Portfolio governor', g);
     var rows = governorRows(doc), giving = g.stance === 'give_back';
-    var intro = giving
-      ? 'Shopify D2C MER ' + x(g.mer_7d) + ' is under the ' + x(g.mer_target) + ' target. ' + pct(g.spend_reading_hold_or_raise_pct) + ' of spend reads hold or raise under the channel rule. Order below: first to give spend back.'
-      : 'Shopify D2C MER ' + x(g.mer_7d) + ' is at or above the ' + x(g.mer_target) + ' target. Order below: first to take more spend.';
+    var name = g.target_scope === 'total_company' ? 'Total-company MER ' : 'Shopify D2C MER ';
+    var compared = g.compared_mer_7d != null ? g.compared_mer_7d : g.mer_7d;
+    var intro = (giving
+      ? name + x(compared) + ' is under the ' + x(g.mer_target) + ' target. ' + pct(g.spend_reading_hold_or_raise_pct) + ' of spend reads hold or raise under the channel rule. Order below: first to give spend back.'
+      : name + x(compared) + ' is at or above the ' + x(g.mer_target) + ' target. Order below: first to take more spend.') +
+      (g.target_scope === 'total_company' ? ' Shopify D2C MER is ' + x(g.mer_7d) + ' against a break-even of ' + x(g.breakeven_mer_before_overhead) + ' before overhead.' : '');
     var body = '<p class="gr-note">' + esc(intro) + ' ' + esc(g.adopted ? 'Adopted by David.' : 'Advisory until David adopts it; no channel verdict changes.') + '</p>' +
       (rows.length ? table([['#', 1], ['Channel', 1], ['7d spend'], ['Share'], ['7d ROAS'], ['Last added $ returned'], ['Rule says', 1], ['Who can act', 1]], rows.map(function (r) {
         return '<tr><td>' + r.rank + '</td><td class="gr-left">' + esc(r.label) + '<span class="gr-sub">' + esc(r.mode) + '</span></td><td>' + usd(r.spend) + '</td><td>' + pct(r.share) +
@@ -254,7 +257,7 @@
 
   function renderTests(doc) {
     var t = doc.incrementality, h = doc.history, out = '';
-    if (!t || !(t.tests || []).length) out += card('5 · Holdout tests', '<p class="gr-empty">' + esc(statusNote(t) || 'No tests listed.') + ' Platform ROAS is the only read of what ads cause until one runs.</p>', t && t.basis);
+    if (!t || !(t.tests || []).length) out += card('5 · Holdout tests', '<p class="gr-empty">' + esc(statusNote(t) || 'No tests listed.') + (t && t.not_before_note ? ' ' + esc(t.not_before_note) : '') + ' Platform ROAS is the only read of what ads cause until one runs.</p>', t && t.basis);
     else {
       out += card('5 · Holdout tests', table([['Test', 1], ['Channel', 1], ['Status', 1], ['Dates', 1], ['Lift'], ['Noise'], ['Measured ROAS'], ['Platform ROAS'], ['Factor']], t.tests.map(function (r) {
         var o = r.readout || {};
@@ -296,7 +299,7 @@
     if (!m || !(m.products || []).length) return silent('8 · Product margin and stock', m);
     var b = m.blended || {}, inv = m.inventory || {};
     var rows = productRows(doc).map(function (p) {
-      var stock = p.flag === 'low' ? pill(p.stockDays.toFixed(1) + ' days', 'gr-bad') : (p.flag === 'not_tracked' ? '<span class="gr-muted">not tracked</span>' : (p.stockDays == null ? '—' : Math.round(p.stockDays) + ' days'));
+      var stock = p.flag === 'low' ? pill(p.stockDays.toFixed(1) + ' days', 'gr-warn') : (p.flag === 'not_tracked' ? '<span class="gr-muted">not tracked</span>' : (p.stockDays == null ? '—' : Math.round(p.stockDays) + ' days'));
       return '<tr><td>' + esc(p.title) + (p.estimated ? '<span class="gr-sub">part of the cost is the fallback rate</span>' : '') + '</td><td>' + int(p.units) + '</td><td>' + usd(p.revenue) + '<span class="gr-sub">' + pct(p.share) + '</span></td><td>' +
         pct(p.margin) + '</td><td>' + x(p.breakeven) + '</td><td>' + stock + '</td></tr>';
     });
