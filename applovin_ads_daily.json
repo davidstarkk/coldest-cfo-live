@@ -2,7 +2,7 @@
   "channel": "applovin",
   "status": "live",
   "live": true,
-  "as_of": "2026-11-10",
+  "as_of": "2026-11-11",
   "source": "AppLovin Reporting API (platform-reported, click)",
   "ingest": "cfo_backend/applovin_sync.py (optional env APPLOVIN_REPORTING_KEY; no key in repo/CI)",
   "day_basis": "AppLovin report day",
@@ -10,7 +10,7 @@
   "revenue_basis": "platform_reported",
   "attribution_mode": "click",
   "note": "AppLovin is D2C (coldest.com Drive-Thru / Limitless; nothing to Amazon). Campaign Coldest_ROAS_Q4_2026 (id 3142498) live 2026-10-26 ~7 PM ET $300/day; pre-launch days $0. spend=cost, value=chka_usd_7d, conversions=sales. revenue_basis platform_reported. Single writer: cfo_backend/applovin_sync.py. amazon/amz in a campaign name is a future-safety split only. No API key in repo/CI.",
-  "updated_at": "2026-11-11T13:20:21.260576+00:00",
+  "updated_at": "2026-11-12T13:22:20.215233+00:00",
   "by_date": {
     "2026-08-25": {
       "spend": 0.0,
@@ -4222,7 +4222,7 @@
       "complete": true,
       "live": true,
       "source": "AppLovin Reporting API (platform-reported, click)",
-      "pulled_at": "2026-11-11T13:20:21.259705+00:00",
+      "pulled_at": "2026-11-12T13:22:20.214192+00:00",
       "api_rows": 4,
       "campaigns": [
         {
@@ -4250,18 +4250,6 @@
           "revenue": 0.0
         },
         {
-          "name": "Coldest_ROAS",
-          "spend": 0.0,
-          "destination": "d2c",
-          "platform_revenue": 0.0,
-          "platform_roas_7d": 0.0,
-          "clicks": 0,
-          "impressions": 0,
-          "sales": 2,
-          "conversions": 2,
-          "revenue": 0.0
-        },
-        {
           "name": "New Ad style - Ridg Style",
           "spend": 0.0,
           "destination": "d2c",
@@ -4271,6 +4259,18 @@
           "impressions": 0,
           "sales": 0,
           "conversions": 0,
+          "revenue": 0.0
+        },
+        {
+          "name": "Coldest_ROAS",
+          "spend": 0.0,
+          "destination": "d2c",
+          "platform_revenue": 0.0,
+          "platform_roas_7d": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "sales": 2,
+          "conversions": 2,
           "revenue": 0.0
         }
       ]
@@ -4293,7 +4293,7 @@
       "complete": true,
       "live": true,
       "source": "AppLovin Reporting API (platform-reported, click)",
-      "pulled_at": "2026-11-11T13:20:21.259705+00:00",
+      "pulled_at": "2026-11-12T13:22:20.214192+00:00",
       "api_rows": 4,
       "campaigns": [
         {
@@ -4307,6 +4307,18 @@
           "sales": 4,
           "conversions": 4,
           "revenue": 485.48
+        },
+        {
+          "name": "New Ad style - Ridg Style",
+          "spend": 0.0,
+          "destination": "d2c",
+          "platform_revenue": 0.0,
+          "platform_roas_7d": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "sales": 0,
+          "conversions": 0,
+          "revenue": 0.0
         },
         {
           "name": "Christmas/Black Friday Ads",
@@ -4331,9 +4343,68 @@
           "sales": 4,
           "conversions": 4,
           "revenue": 0.0
+        }
+      ]
+    },
+    "2026-11-11": {
+      "spend": 179.28,
+      "spend_d2c": 179.28,
+      "spend_amazon": 0,
+      "clicks": 57,
+      "impressions": 702,
+      "conversions": 12,
+      "revenue": 596.31,
+      "platform_revenue": 596.31,
+      "platform_revenue_0d": 451.35,
+      "platform_roas": 3.33,
+      "roas": 3.33,
+      "sales": 12,
+      "revenue_basis": "platform_reported (AppLovin chka_usd_7d, attribution_mode=click)",
+      "destination": "d2c",
+      "complete": true,
+      "live": true,
+      "source": "AppLovin Reporting API (platform-reported, click)",
+      "pulled_at": "2026-11-12T13:22:20.214192+00:00",
+      "api_rows": 4,
+      "campaigns": [
+        {
+          "name": "Coldest_ROAS_Q4_2026",
+          "spend": 179.28,
+          "destination": "d2c",
+          "platform_revenue": 596.31,
+          "platform_roas_7d": 332.62,
+          "clicks": 57,
+          "impressions": 702,
+          "sales": 7,
+          "conversions": 7,
+          "revenue": 596.31
+        },
+        {
+          "name": "Coldest_ROAS",
+          "spend": 0.0,
+          "destination": "d2c",
+          "platform_revenue": 0.0,
+          "platform_roas_7d": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "sales": 5,
+          "conversions": 5,
+          "revenue": 0.0
         },
         {
           "name": "New Ad style - Ridg Style",
+          "spend": 0.0,
+          "destination": "d2c",
+          "platform_revenue": 0.0,
+          "platform_roas_7d": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "sales": 0,
+          "conversions": 0,
+          "revenue": 0.0
+        },
+        {
+          "name": "Christmas/Black Friday Ads",
           "spend": 0.0,
           "destination": "d2c",
           "platform_revenue": 0.0,
