@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-10",
-  "computed_at": "2026-11-12T13:57:17.705779+00:00",
+  "computed_at": "2026-11-12T14:15:30.582761+00:00",
   "source": "daily_inputs",
   "db": "private_finance_data/data.db",
   "mer_7d_pooled": 1.8309,
@@ -22674,20 +22674,18 @@
         "owner_bot": null
       },
       "outbrain_ads": {
-        "spend": null,
-        "clicks": null,
+        "spend": 0.0,
+        "clicks": 0,
         "conversions": null,
         "revenue": null,
-        "impressions": null,
+        "impressions": 0,
         "roas": null,
-        "source": "outbrain_ads_daily.json has no row (not pulled / unverified) - missing, not $0",
-        "live": null,
-        "complete": false,
-        "closed_day": false,
-        "missing": true,
-        "spend_status": "unverified",
-        "spend_d2c": null,
-        "spend_amazon": null,
+        "source": "Outbrain UI (platform-reported) \u00b7 ui_read",
+        "live": false,
+        "complete": true,
+        "closed_day": true,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
         "destination": "d2c",
         "display_state": "off",
         "display_amount": 0.0,
@@ -32574,7 +32572,7 @@
           "last_confirmed_date": null,
           "last_confirmed_amount": null,
           "owner_bot": "outbrain ads",
-          "measured_spend": null
+          "measured_spend": 0.0
         },
         "spotify": {
           "display_state": "off",
@@ -45581,6 +45579,50 @@
         ]
       },
       "2026-11-10": {
+        "spend": 0.0,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
+        "clicks": 0,
+        "conversions": null,
+        "revenue": null,
+        "impressions": 0,
+        "roas": null,
+        "destination": "d2c",
+        "live": false,
+        "campaigns": [
+          {
+            "id": "00de59dfcefbc8f1f5a922a59f71a7b664",
+            "name": "OB_US_SALES_DRIVETHRU_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "00c424aa2351bda8b042554daca0fc79c0",
+            "name": "OB_US_SALES_LIMITLESS_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "00bb60acb6e1bacfbf7e6e808d40744096",
+            "name": "OB_US_SALES_HOODIES_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          }
+        ]
+      },
+      "2026-11-11": {
         "spend": 0.0,
         "spend_d2c": 0,
         "spend_amazon": 0,
@@ -59531,7 +59573,7 @@
   "feed_health": {
     "schema_version": 1,
     "as_of": "2026-11-10",
-    "computed_at": "2026-11-12T13:57:17Z",
+    "computed_at": "2026-11-12T14:15:30Z",
     "summary": {
       "status": "degraded",
       "as_of_lag_days": 1,
@@ -59805,7 +59847,7 @@
   "cfo_brief": {
     "schema_version": 1,
     "as_of": "2026-11-10",
-    "computed_at": "2026-11-12T13:57:17Z",
+    "computed_at": "2026-11-12T14:15:30Z",
     "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
     "rule": {
       "source": "ads_throttle/settings.json",
