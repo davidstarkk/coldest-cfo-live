@@ -348,6 +348,16 @@
     return out;
   }
 
+  function renderRequests(doc) {
+    var g = doc.grok_requests, rows = (g && g.requests) || [];
+    if (!rows.length) return card('Requests from Grok', '<p class="gr-empty">None yet. Grok adds one to ' + esc((g && g.file) || 'ads_throttle/grok_requests.json') + ' when it needs a number or a check to find or make winners.</p>');
+    return card('Requests from Grok', rows.map(function (r) {
+      var open = r.status !== 'answered';
+      return '<div class="gr-ask ' + (open ? 'gr-medium' : 'gr-closed') + '"><b>' + esc(r.ask) + '</b>' + (r.answer ? '<p>' + esc(r.answer) + (r.where ? ' (' + esc(r.where) + ')' : '') + '</p>' : '') +
+        '<div class="gr-meta">' + esc(r.id) + ' · ' + esc(r.by || 'Grok') + ' · asked ' + esc(md(r.asked_on)) + ' · ' + (open ? 'open' + (r.age_days != null ? ' ' + int(r.age_days) + 'd' : '') : 'answered ' + esc(md(r.answered_on))) + '</div></div>';
+    }).join(''));
+  }
+
   function renderAsks(rows) {
     if (!rows.length) return '';
     return card('Open questions this raised', rows.map(function (a) {
@@ -366,7 +376,7 @@
         ' has not been published to this page yet. It is rebuilt every morning in the data repo and copied here by its publish step.</p></div>';
       return;
     }
-    panel.innerHTML = renderHeadline(headline(doc)) + renderAsks(askRows(doc)) + renderGovernor(doc) + renderMarginal(doc) + renderCustomers(doc) +
+    panel.innerHTML = renderHeadline(headline(doc)) + renderAsks(askRows(doc)) + renderRequests(doc) + renderGovernor(doc) + renderMarginal(doc) + renderCustomers(doc) +
       renderTests(doc) + renderHalo(doc) + renderMargin(doc) + renderCreative(doc) + renderPacing(doc);
   }
 
@@ -419,7 +429,7 @@
     FEED: FEED, headline: headline, governorRows: governorRows, marginalRows: marginalRows, paybackRows: paybackRows,
     productRows: productRows, autonomyRows: autonomyRows, askRows: askRows, statusNote: statusNote,
     renderGovernor: renderGovernor, renderMarginal: renderMarginal, renderCustomers: renderCustomers, renderTests: renderTests,
-    renderHalo: renderHalo, renderMargin: renderMargin, renderCreative: renderCreative, renderPacing: renderPacing,
+    renderHalo: renderHalo, renderRequests: renderRequests, renderMargin: renderMargin, renderCreative: renderCreative, renderPacing: renderPacing,
     render: render, load: load, _state: STATE
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

@@ -120,6 +120,16 @@ test('asks: open first by severity, closed last', function () {
   assert.deepStrictEqual(M.askRows(doc).map(function (a) { return a.id; }), ['inventory.low_cover', 'incrementality.no_test', 'plan.target_date.unset']);
 });
 
+test('Grok requests: open and answered are drawn as written', function () {
+  var html = M.renderRequests({ grok_requests: { requests: [
+    { id: 'r1', ask: 'Which hooks do winners share?', by: 'jarvis', asked_on: '2026-11-14', status: 'open', age_days: 2 },
+    { id: 'r2', ask: 'Share by landing page', asked_on: '2026-11-12', status: 'answered', answer: 'In new_customers.', where: 'growth_brief.new_customers', answered_on: '2026-11-13' }] } });
+  assert.ok(html.indexOf('open 2d') !== -1);
+  assert.ok(html.indexOf('In new_customers. (growth_brief.new_customers)') !== -1);
+  assert.ok(html.indexOf('answered 11/13') !== -1);
+  assert.ok(M.renderRequests({}).indexOf('None yet') !== -1);
+});
+
 test('blocks that are missing render a reason and no table', function () {
   ['renderGovernor', 'renderMarginal', 'renderHalo', 'renderMargin', 'renderCreative', 'renderPacing'].forEach(function (fn) {
     var html = M[fn]({});
