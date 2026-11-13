@@ -1,7 +1,7 @@
 {
   "status": "live",
   "live": true,
-  "as_of": "2026-11-11",
+  "as_of": "2026-11-12",
   "source": "Pipeboard Microsoft Ads campaign report (platform-reported)",
   "note": "Bing is live. Campaign 605195379 (bing to amz tumbler listing 1) is Amazon-bound and excluded from Shopify D2C MER. Leftover D2C is JS_SNO_Brand_Beta_Mobile_$24 (~$1/day).",
   "ingest": "pipeboard_or_file",
@@ -2231,6 +2231,108 @@
           "conversions": 0,
           "revenue": 0.0,
           "impressions": 325
+        }
+      ]
+    },
+    "2026-11-12": {
+      "spend": 197.28,
+      "clicks": 188,
+      "conversions": 5,
+      "revenue": 404.69,
+      "platform_conversions": 5,
+      "platform_revenue": 404.69,
+      "impressions": 7310,
+      "roas": 2.05,
+      "platform_roas": 2.05,
+      "source": "Pipeboard Microsoft Ads campaign report 2026-11-12 Daily (ConversionsQualified/Revenue, goal 172222236, platform-reported, click-date), pulled 2026-11-13 ET",
+      "pulled_at": "2026-11-13T10:40:00-05:00",
+      "live": true,
+      "complete": true,
+      "closed_day": true,
+      "spend_d2c": 197.28,
+      "spend_amazon": 0.0,
+      "destination": "d2c",
+      "campaigns": [
+        {
+          "id": "607657866",
+          "name": "Grok Bot | Bing | Brand Search",
+          "destination": "d2c",
+          "status": "active",
+          "spend": 117.03,
+          "clicks": 82,
+          "conversions": 5,
+          "revenue": 404.69,
+          "impressions": 611
+        },
+        {
+          "id": "607657867",
+          "name": "Grok Bot | Bing | Non-brand Search",
+          "destination": "d2c",
+          "status": "paused",
+          "spend": 0.0,
+          "clicks": 0,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 0,
+          "evidence": "verified_zero_paused",
+          "evidence_note": "no row in full-account 11/12 report; campaign paused"
+        },
+        {
+          "id": "607657868",
+          "name": "Grok Bot | Bing | Competitor Conquest",
+          "destination": "d2c",
+          "status": "paused",
+          "spend": 6.16,
+          "clicks": 4,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 79
+        },
+        {
+          "id": "607657869",
+          "name": "Grok Bot | Bing | Shopping",
+          "destination": "d2c",
+          "status": "paused",
+          "spend": 54.89,
+          "clicks": 88,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 5864
+        },
+        {
+          "id": "607657870",
+          "name": "Grok Bot | Bing | MSAN Retargeting",
+          "destination": "d2c",
+          "status": "paused",
+          "spend": 0.0,
+          "clicks": 0,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 0,
+          "evidence": "verified_zero_paused",
+          "evidence_note": "no row in full-account 11/12 report; campaign paused"
+        },
+        {
+          "id": "607676059",
+          "name": "Grok Bot | Bing | NB Exact - Tumblers 40oz",
+          "destination": "d2c",
+          "status": "active",
+          "spend": 3.74,
+          "clicks": 2,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 152
+        },
+        {
+          "id": "607691062",
+          "name": "Grok Bot | Bing | Performance Max",
+          "destination": "d2c",
+          "status": "active",
+          "spend": 15.46,
+          "clicks": 12,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 604
         }
       ]
     }
