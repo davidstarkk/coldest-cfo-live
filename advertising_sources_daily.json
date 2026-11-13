@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-11",
+  "as_of": "2026-11-12",
   "source": "daily_inputs",
   "note": "Per-day advertising_sources for the public mirror. display_state is registry-first (off|zero|spend|pending_backfill). google_ads/meta/tiktok_ads/whatnot from data.db; applovin from applovin_ads_daily.json with data.db fallback; bing/reddit/snapchat/chatgpt/pinterest/taboola/outbrain/spotify from durable daily files; x_ads from x_ads_daily.json (spend = platform billed, spend_d2c = platform spend, cash_cost missing unless billed in the source). Carry-forward is display-only.",
   "by_date": {
@@ -22372,7 +22372,7 @@
     },
     "2026-11-11": {
       "meta": {
-        "spend": 11677.57,
+        "spend": 11696.78,
         "clicks": null,
         "conversions": null,
         "revenue": null,
@@ -22382,13 +22382,13 @@
         "live": true,
         "complete": true,
         "closed_day": true,
-        "updated_at": "2026-11-12T14:30:40.648576+00:00",
+        "updated_at": "2026-11-12T20:44:02.777545+00:00",
         "platform_revenue": null,
         "platform_roas_status": "unavailable_spend_only",
         "display_state": "spend",
-        "display_amount": 11677.57,
+        "display_amount": 11696.78,
         "last_confirmed_date": "2026-11-11",
-        "last_confirmed_amount": 11677.57,
+        "last_confirmed_amount": 11696.78,
         "owner_bot": "Meta \u00b7 Ad Buyer"
       },
       "google_ads": {
@@ -22443,6 +22443,7 @@
         "platform_revenue_0d": 451.35,
         "platform_roas": 3.33,
         "revenue_basis": "platform_reported (AppLovin chka_usd_7d, attribution_mode=click)",
+        "spend_daily_inputs": 179.28,
         "campaigns": [
           {
             "id": "",
@@ -22702,6 +22703,61 @@
       }
     },
     "2026-11-12": {
+      "meta": {
+        "spend": 10052.74,
+        "clicks": null,
+        "conversions": null,
+        "revenue": null,
+        "impressions": null,
+        "roas": null,
+        "source": "daily_inputs.meta",
+        "live": true,
+        "complete": true,
+        "closed_day": true,
+        "updated_at": "2026-11-13T14:32:22.386449+00:00",
+        "platform_revenue": null,
+        "platform_roas_status": "unavailable_spend_only",
+        "display_state": "spend",
+        "display_amount": 10052.74,
+        "last_confirmed_date": "2026-11-12",
+        "last_confirmed_amount": 10052.74,
+        "owner_bot": "Meta \u00b7 Ad Buyer"
+      },
+      "google_ads": {
+        "spend": 1450.56,
+        "clicks": null,
+        "conversions": null,
+        "revenue": null,
+        "impressions": null,
+        "roas": null,
+        "source": "daily_inputs.google_ads",
+        "live": true,
+        "complete": true,
+        "closed_day": true,
+        "updated_at": "2026-11-13T14:28:27.358381+00:00",
+        "platform_revenue": null,
+        "platform_roas_status": "unavailable_spend_only",
+        "display_state": "spend",
+        "display_amount": 1450.56,
+        "last_confirmed_date": "2026-11-12",
+        "last_confirmed_amount": 1450.56,
+        "owner_bot": "Google \u00b7 Ads"
+      },
+      "tiktok_ads": {
+        "spend": 3579.56,
+        "shopify_spend": 778.71,
+        "shop_spend": 2000.31,
+        "unallocated_spend": 800.54,
+        "complete": false,
+        "closed_day": true,
+        "source": "Pipeboard TikTok Ads MCP; standard + GMV Max, hourly aligned",
+        "coverage_status": null,
+        "display_state": "spend",
+        "display_amount": 3579.56,
+        "last_confirmed_date": "2026-11-12",
+        "last_confirmed_amount": 3579.56,
+        "owner_bot": null
+      },
       "applovin": {
         "spend": 181.5,
         "clicks": 110,
@@ -22719,6 +22775,7 @@
         "platform_revenue_0d": 243.45,
         "platform_roas": 2.0,
         "revenue_basis": "platform_reported (AppLovin chka_usd_7d, attribution_mode=click)",
+        "spend_daily_inputs": 181.5,
         "campaigns": [
           {
             "id": "",
@@ -22766,6 +22823,17 @@
         "last_confirmed_date": "2026-11-12",
         "last_confirmed_amount": 181.5,
         "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)"
+      },
+      "whatnot": {
+        "spend": 2230.55,
+        "revenue": 17118.0,
+        "complete": true,
+        "source": "daily_inputs.whatnot",
+        "display_state": "spend",
+        "display_amount": 2230.55,
+        "last_confirmed_date": "2026-11-12",
+        "last_confirmed_amount": 2230.55,
+        "owner_bot": null
       },
       "bing_ads": {
         "spend": null,
