@@ -74,6 +74,12 @@
     return d.toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric' });
   }
 
+  function longDate(date) {
+    var d = noon(date);
+    if (isNaN(d.getTime())) return String(date);
+    return d.toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
   function weekdayName(date) {
     return noon(date).toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'long' });
   }
@@ -311,6 +317,13 @@
     'body.reports-active #rq-asof{display:flex}',
     '#rq-asof b{color:var(--text);font-weight:600}',
     '.rq-yday-note{grid-column:1/-1;font-size:.82rem;color:var(--yellow)}',
+    '#yday-bar.rq-top{max-width:1400px;margin:0 auto 12px;display:none}body.reports-active #yday-bar.rq-top{display:grid}',
+    '#yday-bar .yday-title.rq-day{color:var(--text);font-size:1.45rem;font-weight:700;letter-spacing:0;text-transform:none;line-height:1.2}',
+    '#rq-mer{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;padding:10px 18px;margin-bottom:12px;border:1px solid rgba(99,102,241,.3);border-radius:10px;background:linear-gradient(135deg,rgba(99,102,241,.10),rgba(139,92,246,.06))}',
+    '#rq-mer .rq-mer-l{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);font-weight:600;white-space:nowrap}',
+    '#rq-mer .rq-mer-big{font-size:1.9rem;font-weight:700;line-height:1.1}',
+    '#rq-mer .rq-mer-v{font-size:.92rem;font-weight:600;color:var(--text);margin-top:2px;white-space:nowrap}',
+    '#rq-mer .rq-mer-sub{flex-basis:100%;font-size:.7rem;color:var(--text-muted)}',
     '#rq-glance{margin:4px 0 16px}',
     '#rq-glance .rq-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:8px;background:var(--card)}',
     '#rq-glance td,#rq-glance th{padding:7px 10px;white-space:nowrap}',
@@ -406,20 +419,130 @@
     var dateEl = bar && bar.querySelector('.yday-date');
     if (!dateEl) return;
     var date = dateEl.getAttribute('data-rq-date') || dateEl.textContent.trim();
+    if (!map[date]) date = sortedDates(map)[0];
     var e = map[date];
-    if (!e || e.closed) return;
-    var q = assess(date, map);
+    if (!e) return;
     dateEl.setAttribute('data-rq-date', date);
-    dateEl.textContent = dayLabel(date);
+    /* The header is the day itself, large — not "latest available day". */
+    var title = bar.querySelector('.yday-title');
+    if (title) {
+      title.textContent = longDate(date);
+      title.classList.add('rq-day');
+      dateEl.style.display = 'none';
+    } else {
+      dateEl.textContent = dayLabel(date);
+    }
+    if (e.closed) return;
+    var q = assess(date, map);
     var c = chip(q);
     Array.prototype.forEach.call(bar.querySelectorAll('.yday-sub'), function (sub) {
       if (/source channels/.test(sub.textContent)) sub.textContent = q.sourcesIn + ' of ' + q.sourcesExpected + ' sources in' + (q.missing.length ? ' · ' + c.text : '');
     });
+    /* Fourth column: the day's net margin (net profit / revenue, as published). */
+    if (!bar.querySelector('.rq-margin')) {
+      var p = e.row.provisional_totals || {};
+      var rev = num(p.revenue), net = num(p.net_profit);
+      var m = rev > 0 && net != null ? net / rev * 100 : null;
+      var card = el('div', 'yday-card rq-margin');
+      card.appendChild(el('div', 'yday-label', 'Net margin'));
+      var v = el('div', 'yday-value', m == null ? MISSING : m.toFixed(1) + '%');
+      if (m != null) v.style.color = m > 0 ? 'var(--green)' : m < 0 ? 'var(--red)' : GREY;
+      card.appendChild(v);
+      card.appendChild(el('div', 'yday-sub', 'Net profit ÷ revenue'));
+      var cards = bar.querySelectorAll('.yday-card');
+      var last = cards[cards.length - 1];
+      bar.insertBefore(card, last ? last.nextSibling : null);
+    }
     if (!q.incomplete) return;
     Array.prototype.forEach.call(bar.querySelectorAll('.yday-value'), function (v) { if (v.style.color) v.style.color = GREY; });
     if (!bar.querySelector('.rq-yday-note')) {
       bar.appendChild(el('div', 'rq-yday-note', 'Incomplete — not a profit or loss verdict yet. ' + checks(q)[0]));
     }
+  }
+
+  /* The day's card sits above the rolling MER strip. */
+  function dayOnTop() {
+    var slot = document.getElementById('rolling-mer-slot');
+    var bar = document.getElementById('yday-bar');
+    if (!slot || !bar || !slot.parentNode) return;
+    bar.classList.add('rq-top');
+    if (bar.nextElementSibling !== slot) slot.parentNode.insertBefore(bar, slot);
+  }
+
+  /* Company-wide rolling MER from the same daily reports as the cards and
+     the 30-day average (all channels' revenue / all ad spend). The feed's
+     mer_7d_pooled is Shopify D2C only, so it is shown as its own figure and
+     never as the headline. Windows with left-out days are named, not judged. */
+  function merHeader(map, end) {
+    var w = rolling(map, 7, end);
+    if (!w || !w.days) return null;
+    var prev = rolling(map, 7, shiftDate(w.end, -1));
+    var week = rolling(map, 7, shiftDate(w.end, -7));
+    var m30 = rolling(map, WINDOW_DAYS, w.end);
+    function full(x) { return x && x.days === x.window && x.mer != null; }
+    return {
+      window: w, mer: w.mer, complete: w.days === w.window,
+      dod: full(w) && full(prev) ? w.mer - prev.mer : null,
+      wow: full(w) && full(week) ? w.mer - week.mer : null,
+      mer_30d: m30 ? m30.mer : null, days_30d: m30 ? m30.days : 0,
+      revenue: w.sum.revenue, ads: w.sum.ads, margin_pct: w.margin_pct
+    };
+  }
+
+  var lastMer = null; // what the template's widget was last painted with
+
+  function renderMerHeader(map) {
+    var slot = document.getElementById('rolling-mer-slot');
+    var h = slot && merHeader(map);
+    if (!h) return;
+    var embedded = typeof ROLLING_MER_DATA !== 'undefined' ? ROLLING_MER_DATA : root.ROLLING_MER_DATA;
+    var target = num(embedded && embedded.mer_target), breakeven = num(embedded && embedded.mer_breakeven);
+    var feed = lastMer && lastMer.data && lastMer.data !== embedded && !lastMer.stale ? lastMer.data : null;
+    var d2c = feed && feed.latest ? num(feed.latest.mer_7d_pooled) : null;
+    var sig = JSON.stringify([h.window.end, h.window.used, h.revenue, h.ads, d2c, feed && feed.as_of]);
+    var box = document.getElementById('rq-mer');
+    if (box && box.getAttribute('data-rq') === sig) return;
+    var color = !h.complete || h.mer == null ? GREY
+      : target != null && h.mer >= target ? 'var(--green)'
+      : breakeven != null && h.mer < breakeven ? 'var(--red)' : 'var(--yellow)';
+    function x(v) { return v == null ? MISSING : v.toFixed(2) + 'x'; }
+    function delta(v) { return v == null ? MISSING : (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2) + 'x'; }
+    function dcol(v) { return v == null ? '' : v >= 0 ? 'var(--green)' : 'var(--red)'; }
+    slot.textContent = '';
+    box = el('div');
+    box.id = 'rq-mer';
+    box.setAttribute('data-rq', sig);
+    var head = el('div');
+    head.appendChild(el('div', 'rq-mer-l', '7-day MER · all channels'));
+    var big = el('div', 'rq-mer-big', x(h.mer));
+    big.style.color = color;
+    head.appendChild(big);
+    box.appendChild(head);
+    var stats = [
+      ['Day over day', delta(h.dod), dcol(h.dod)],
+      ['Week over week', delta(h.wow), dcol(h.wow)],
+      ['30-day MER', x(h.mer_30d)],
+      ['7d revenue', fmt0(h.revenue)],
+      ['7d ad spend', fmt0(h.ads)],
+      ['7d net margin', h.margin_pct == null ? MISSING : h.margin_pct.toFixed(1) + '%']
+    ];
+    if (d2c != null) stats.push(['Shopify D2C 7d MER', x(d2c)]);
+    stats.forEach(function (s) {
+      var c = el('div');
+      c.appendChild(el('div', 'rq-mer-l', s[0]));
+      var v = el('div', 'rq-mer-v', s[1]);
+      if (s[2]) v.style.color = s[2];
+      c.appendChild(v);
+      box.appendChild(c);
+    });
+    var sub = [windowLabel(h.window)];
+    if (target != null) sub.push('Target ' + x(target));
+    if (breakeven != null) sub.push('Breakeven ' + x(breakeven));
+    var note = windowNote(h.window);
+    if (note) sub.push(note);
+    if (d2c != null) sub.push('Shopify D2C = Shopify net revenue ÷ D2C ad spend, as of ' + dayLabel(feed.as_of));
+    box.appendChild(el('div', 'rq-mer-sub', sub.join(' · ')));
+    slot.appendChild(box);
   }
 
   function fmt0(v) { return money(v, 0); }
@@ -593,6 +716,7 @@
   function apply() {
     if (typeof document === 'undefined') return;
     WRAPPED.forEach(wrap); // renderChannelPies is defined after this module loads
+    wrapMerWidget();
     var reports = typeof REPORTS !== 'undefined' ? REPORTS : root.REPORTS;
     var partials = typeof PARTIAL_REPORTS !== 'undefined' ? PARTIAL_REPORTS : root.PARTIAL_REPORTS;
     var map = series(reports, partials);
@@ -606,6 +730,9 @@
     applyDist(map);
     fixPiesNote(map);
     asOfBar(map, reports);
+    dayOnTop();
+    renderMerHeader(map);
+    fixText(document.getElementById('yday-bar'));
     fixText(document.getElementById('reports-summary'));
     fixText(tab);
   }
@@ -631,8 +758,24 @@
     root[name] = wrapped;
   }
 
+  /* The template paints its own (taller, D2C-feed) widget; keep what it was
+     given and repaint the compact company-wide strip over it. */
+  function wrapMerWidget() {
+    var fn = root.renderRollingMer;
+    if (typeof fn !== 'function' || fn.__rqWrapped) return;
+    var wrapped = function (resolved) {
+      if (resolved) lastMer = resolved;
+      var out = fn.apply(this, arguments);
+      try { apply(); } catch (err) { if (root.console) root.console.error('[report-quality]', err); }
+      return out;
+    };
+    wrapped.__rqWrapped = true;
+    root.renderRollingMer = wrapped;
+  }
+
   function boot() {
     WRAPPED.forEach(wrap);
+    wrapMerWidget();
     if (root.addEventListener) {
       root.addEventListener('hashchange', function () {
         var hash = (root.location.hash || '').slice(1);
@@ -643,6 +786,10 @@
         }
       });
     }
+    if (typeof document !== 'undefined' && document.readyState === 'loading') {
+      // Registered before the template's own DOMContentLoaded loader, so its first paint is already wrapped.
+      document.addEventListener('DOMContentLoaded', function () { WRAPPED.forEach(wrap); wrapMerWidget(); schedule(); });
+    }
     schedule();
     setTimeout(schedule, 1500);
   }
@@ -650,7 +797,7 @@
   var api = {
     CHANNELS: CHANNELS, money: money, stampET: stampET, dayLabel: dayLabel, series: series,
     baselines: baselines, assess: assess, checks: checks, chip: chip, apply: apply,
-    rolling: rolling, rollingDist: rollingDist, windowLabel: windowLabel, windowNote: windowNote, WINDOW_DAYS: WINDOW_DAYS
+    longDate: longDate, merHeader: merHeader, rolling: rolling, rollingDist: rollingDist, windowLabel: windowLabel, windowNote: windowNote, WINDOW_DAYS: WINDOW_DAYS
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

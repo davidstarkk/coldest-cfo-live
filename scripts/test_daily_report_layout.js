@@ -140,6 +140,19 @@ test('channel_ad_spend on the PARTIAL row wins; absent keys fall through; null i
   delete globalThis.PARTIAL_REPORTS;
 });
 
+test('ad spend table is one row per channel; D2C share noted only when it differs from spend', function () {
+  globalThis.PARTIAL_REPORTS = [{ date: '2026-10-25', channel_ad_spend: { bing: 130.3, snapchat: 617.64 } }];
+  Paid._setMerDoc({ as_of: '2026-10-25', advertising_sources: { '2026-10-25': {
+    bing_ads: { spend: 130.3, clicks: 243, spend_d2c: 60.56, spend_amazon: 69.74, destination: 'mixed' },
+    snapchat_ads: { spend: 617.64, spend_d2c: 617.64 } } } });
+  var html = Paid.detailBreakdownHtml('2026-10-25');
+  assert.ok(html.indexOf('pc-split') === -1 && html.indexOf('↳') === -1, 'no sub-rows');
+  assert.ok(html.indexOf('$130.30 · D2C $60.56') !== -1, 'Amazon-bound Bing keeps its D2C share on the same row');
+  assert.ok(html.indexOf('$617.64 · D2C') === -1, 'all-D2C channel is not repeated');
+  Paid._setMerDoc(null);
+  delete globalThis.PARTIAL_REPORTS;
+});
+
 test('scalar channel_ad_spend keeps mer clicks and Bing D2C split', function () {
   globalThis.PARTIAL_REPORTS = [{
     date: '2026-10-25',
@@ -232,7 +245,8 @@ test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; R
     } });
   assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$0.00 · not live');
   assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('not live (0 campaigns)') !== -1);
-  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('Shopify-attributed</td><td>missing') !== -1);
+  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('Shopify-attributed') === -1, 'unmeasured Shopify-attributed is not shown');
+  assert.ok(Paid.taboolaDetailHtml('2026-11-02').indexOf('pc-split') === -1, 'one row per channel');
   assert.strictEqual(Paid.taboolaSpendTxt('2026-09-01'), 'missing');
   assert.ok(Paid.taboolaDetailHtml('2026-09-01').indexOf('$0.00') === -1);
   Paid._setMerDoc({ as_of: '2026-11-02',
@@ -240,7 +254,8 @@ test('Taboola: listed after X; $0 day = $0 / not live; unpulled day = missing; R
     ad_channel_throttles: { series_28d: { by_channel: { taboola: [{ date: '2026-11-02', shopify_revenue: 150, shopify_revenue_status: 'verified' }] } } } });
   var html = Paid.taboolaDetailHtml('2026-11-02');
   assert.ok(html.indexOf('2.80x · platform-reported') !== -1);
-  assert.ok(html.indexOf('Shopify-attributed</td><td>$150.00') !== -1);
+  assert.ok(html.indexOf('Shopify-attributed $150.00') !== -1);
+  assert.strictEqual(html.split('<tr').length - 1, 1, 'one row per channel');
   assert.strictEqual(Paid.taboolaSpendTxt('2026-11-02'), '$100.00');
   Paid._setMerDoc({ advertising_sources: {} });
   Paid._setAdvDaily({ '2026-11-04': { taboola_ads: { spend: 0 } } });
@@ -265,10 +280,11 @@ test('Outbrain: after Taboola; not imported = missing; blanks = unknown; ROAS pl
   var html = Paid.outbrainDetailHtml('2026-11-02');
   assert.ok(html.indexOf('3.00x · platform-reported') !== -1);
   assert.ok(html.indexOf('CPA $25.00') !== -1);
-  assert.ok(html.indexOf('Shopify-attributed</td><td>$90.00') !== -1);
+  assert.ok(html.indexOf('Shopify-attributed $90.00') !== -1);
+  assert.strictEqual(html.split('<tr').length - 1, 1, 'one row per channel');
   var h2 = Paid.outbrainDetailHtml('2026-11-03');
   assert.ok(h2.indexOf('unknown · platform-reported') !== -1);
-  assert.ok(h2.indexOf('CPA unknown') !== -1);
+  assert.ok(h2.indexOf('CPA') === -1, 'unknown conversions: no CPA shown');
   Paid._setMerDoc(null);
   Paid._setAdvDaily({ '2026-11-04': { outbrain_ads: { spend: 0 } } });
   assert.strictEqual(Paid.outbrainSpendTxt('2026-11-04'), 'missing', 'unmarked {spend:0} is missing, not $0.00 · not live');
@@ -306,7 +322,8 @@ test('Spotify: unavailable day → "No data" only (no $0, no missing/unverified)
     var html = Paid.spotifyDetailHtml(d);
     assert.ok(html.indexOf('$0.00') === -1, 'unmeasured day is never $0: ' + d);
     assert.ok(html.indexOf('No data') !== -1);
-    assert.ok(html.indexOf('excluded from D2C ad spend / MER') !== -1, 'coverage labelled');
+    assert.ok(html.indexOf('not in D2C ad spend / MER') !== -1, 'coverage labelled');
+    assert.ok(html.indexOf('pc-split') === -1, 'one row per channel');
     noConflict(html);
   });
   var strip = Paid.spendPerChannelHtml('2026-11-05');
@@ -383,7 +400,7 @@ test('Spotify: cash_cost kept separate from platform spend (mirrors X)', functio
   assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), '$100.00 (cash cost $130.00)');
   var html = Paid.spotifyDetailHtml('2026-11-05');
   assert.ok(spotifyMainRow(html).indexOf('<td>$100.00</td>') !== -1, 'spend cell is platform spend');
-  assert.ok(html.indexOf('Spotify billing / cash cost</td><td>$130.00') !== -1);
+  assert.ok(html.indexOf('billing / cash cost $130.00') !== -1);
   assert.ok(html.indexOf('$230.00') === -1, 'cash cost never summed into spend');
   spotifyReset();
 });

@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-10T09:55:27-05:00",
-  "updated_by": "jarvis (11/10: agreed Google/TikTok ROAS basis in channel notes)",
+  "updated_at": "2026-11-12T09:57:31-05:00",
+  "updated_by": "jarvis (11/12: Snap daily_budget 624 from SNAPCHAT ADS live read; no 11/12 raise)",
   "global": {
     "step_pct": 20,
     "window_days": 7,
@@ -27,15 +27,15 @@
       "owner_bot": "snapchat ads bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports.",
-      "daily_budget": 604
+      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. Live daily_budget 624 confirmed by SNAPCHAT ADS 11/12 9:52 AM ET (Launch 17ba5e2d $504: Limitless d8cfb148 $288, Drive-Thru 2c049090 $216; Hoodies b4333284 squad 7189c922 $120). Launch last raised 11/6 9:40:12 AM ET ($420->$504), next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account would be $724.80, under $784 cap). Hoodies last raised 11/11 9:55:19 AM ET ($100->$120), next eligible 11/18 9:55:19 AM ET. No 11/12 raise.",
+      "daily_budget": 624
     },
     "bing": {
       "mode": "auto",
       "owner_bot": "Bing Ads bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "main campaign sends to Amazon, not Shopify"
+      "notes": "Agreed ROAS basis 2026-11-12 (Bing Ads bot, for Finance \u00b7 CFO 7-day rule): account 141681759 (customer 251620287). Use Microsoft Advertising campaign-report ConversionsQualified and Revenue on the conversion goal Grok Bot | Purchase (UET event, revenue) (172222236) only. API read 11/12: it is the only Active goal in the account (the other 10 are Paused), tracking_status RecordingConversions, UET tag 134596770, event action=purchase, variable revenue, count_type All, 30-day click-through conversion window (43,200 min), not excluded from bidding. Attribution is Microsoft's last-click, and conversions and revenue are reported on the ad-click date, not the conversion date (Microsoft Learn), so recent days keep maturing: 11/10 Brand was 4 conv/$254.97 at the 11/11 pull and 5/$322.81 at the 11/12 reread. The connector does not expose a view-through window. Window is the trailing 7 completed America/New_York days (all campaigns are EasternTimeUSCanada), read from bing_ads_daily.json by_date rows with complete/closed_day true. Each row records its pull time. Rows are a next-day click-date snapshot and are not rewritten as conversions mature (CLAUDE.md never-overwrite rule). Mark days under 7 old as provisional. ROAS = sum Revenue / sum Spend for Shopify-destination (d2c) campaigns only. Amazon-destination campaigns (605195379, 605195381, 603215198 and any other Amazon-bound campaign) are excluded from the rule and flagged. Never use the legacy Conversions column (deprecated, returns 0), the paused URL goals, Elevar, GA4 or Shopify UTM as the ROAS source. Label it platform-reported. Bands unchanged: above 2.8 raise 20% at most once per 7 days; 2.0-2.8 hold; below 2.0 cut 20% and change strategy; never pause the channel. Under-1x kill: pause a campaign or ad group under 1.0x for more than 3 days with at least $50 spend; relaunch needs David. David 11/6: go aggressive and balance around 4 ROAS (supersedes trimming); log every budget change in the ledger. Reconciliation for Nov 5-11: the feed snapshot is $1,749.63 spend / $3,638.96 revenue = 2.08x; the live click-date reread on 11/12 is $1,751.62 / $4,177.14 = 2.38x. Both are in the hold band."
     },
     "chatgpt": {
       "mode": "hold",
@@ -118,7 +118,8 @@
       "max_daily_budget": null,
       "min_daily_budget": null,
       "roas_source": "platform_reported",
-      "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend − ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json."
+      "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend − ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution).",
+      "daily_budget": 70
     }
   },
   "mode_legend": {

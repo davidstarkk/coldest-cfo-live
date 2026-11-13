@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-10",
-  "count": 554,
+  "as_of": "2026-11-11",
+  "count": 555,
   "items": [
     {
       "channel": "meta",
@@ -3825,48 +3825,6 @@
       "last_confirmed_amount": null
     },
     {
-      "channel": "meta",
-      "day": "2026-11-11",
-      "owner_bot": "Meta \u00b7 Ad Buyer",
-      "last_confirmed_date": "2026-11-10",
-      "last_confirmed_amount": 10436.46
-    },
-    {
-      "channel": "google",
-      "day": "2026-11-11",
-      "owner_bot": "Google \u00b7 Ads",
-      "last_confirmed_date": "2026-11-10",
-      "last_confirmed_amount": 2004.98
-    },
-    {
-      "channel": "tiktok",
-      "day": "2026-11-11",
-      "owner_bot": null,
-      "last_confirmed_date": "2026-11-10",
-      "last_confirmed_amount": 3502.85
-    },
-    {
-      "channel": "bing",
-      "day": "2026-11-11",
-      "owner_bot": "Bing Ads bot",
-      "last_confirmed_date": "2026-11-10",
-      "last_confirmed_amount": 350.18
-    },
-    {
-      "channel": "snapchat",
-      "day": "2026-11-11",
-      "owner_bot": "snapchat ads bot",
-      "last_confirmed_date": "2026-11-10",
-      "last_confirmed_amount": 603.99
-    },
-    {
-      "channel": "applovin",
-      "day": "2026-11-11",
-      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
-      "last_confirmed_date": "2026-11-10",
-      "last_confirmed_amount": 171.64
-    },
-    {
       "channel": "amazon",
       "day": "2026-11-11",
       "owner_bot": null,
@@ -3874,11 +3832,60 @@
       "last_confirmed_amount": null
     },
     {
-      "channel": "whatnot",
-      "day": "2026-11-11",
+      "channel": "meta",
+      "day": "2026-11-12",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": "2026-11-11",
+      "last_confirmed_amount": 11677.57
+    },
+    {
+      "channel": "google",
+      "day": "2026-11-12",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": "2026-11-11",
+      "last_confirmed_amount": 1654.47
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-11-12",
       "owner_bot": null,
-      "last_confirmed_date": "2026-11-10",
-      "last_confirmed_amount": 1170.6
+      "last_confirmed_date": "2026-11-11",
+      "last_confirmed_amount": 4791.26
+    },
+    {
+      "channel": "bing",
+      "day": "2026-11-12",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": "2026-11-11",
+      "last_confirmed_amount": 273.3
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-11-12",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": "2026-11-11",
+      "last_confirmed_amount": 617.64
+    },
+    {
+      "channel": "applovin",
+      "day": "2026-11-12",
+      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
+      "last_confirmed_date": "2026-11-11",
+      "last_confirmed_amount": 179.28
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-12",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-11-12",
+      "owner_bot": null,
+      "last_confirmed_date": "2026-11-11",
+      "last_confirmed_amount": 1729.19
     }
   ],
   "note": "Display-only. pending_backfill must not be written into measured spend, daily_inputs, or sqlite. Off days are $0, not pending."
