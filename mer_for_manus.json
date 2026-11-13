@@ -1,27 +1,27 @@
 {
   "as_of": "2026-11-11",
-  "computed_at": "2026-11-12T14:32:08.798384+00:00",
+  "computed_at": "2026-11-13T13:22:06.452564+00:00",
   "source": "daily_inputs",
   "db": "private_finance_data/data.db",
-  "mer_7d_pooled": 1.8426,
-  "mer_30d_pooled": 2.2014,
+  "mer_7d_pooled": 1.8379,
+  "mer_30d_pooled": 2.1999,
   "mer_target": 3.24,
   "mer_breakeven": null,
-  "status": "CURRENT_DAILY_INPUTS",
-  "delta_dod": 0.0121,
-  "delta_wow": -0.3042,
+  "status": "PARTIAL_DAILY_INPUTS",
+  "delta_dod": 0.0074,
+  "delta_wow": -0.3089,
   "rev_7d": 200187.78,
-  "spend_7d": 108645.9,
+  "spend_7d": 108919.2,
   "rev_30d": 914466.9,
-  "spend_30d": 415411.05,
+  "spend_30d": 415684.35,
   "profit_7d": null,
   "net_margin_7d_pct": null,
   "budget_recommendation": {
     "action": "MAINTAIN",
     "magnitude": "small",
-    "reason": "Rebuilt from daily_inputs through 2026-11-11. Closed reports_30days.json froze at 2026-09-27; do not scale from this feed until a closed 7-day window exists."
+    "reason": "Rebuilt from daily_inputs through 2026-11-11. Closed reports_30days.json froze at 2026-09-27; do not scale from this feed until a closed 7-day window exists. Missing finalized daily_inputs: none."
   },
-  "data_ready": true,
+  "data_ready": false,
   "missing_report_dates": [],
   "incomplete_fields": [],
   "provenance": {
@@ -34,12 +34,13 @@
   },
   "schema_version": "1.1",
   "_notes": "Current daily mer rebuilt from private_finance_data/data.db daily_inputs. blended_mer / mer_7d_pooled / mer_30d_pooled = Shopify D2C net_revenue_ex_tax / d2c_ad_spend (Meta + Google + Bing D2C + Reddit + Snapchat + ChatGPT if tracking_verified + Pinterest + AppLovin D2C + Taboola + Outbrain + Spotify when measured + TikTok Shopify share + X Ads platform spend; cash_cost is missing unless billed in the source. Registry-off days count as $0. rev_7d/spend_7d are those D2C window sums \u2014 not company revenue and not total_ad_spend. Amazon-bound Bing, Whatnot, TikTok Shop, and Amazon ads are non-D2C lines and remain in total_ad_spend. AppLovin is D2C (coldest.com); only an amazon/amz campaign-name split stays in non_d2c.applovin. Unverified/missing channels (incl. Spotify with no pull) are excluded from d2c_ad_spend / blended MER \u2014 never a silent $0. See d2c_coverage. data_ready is false while incomplete_fields lists usual missing closed-day sources (Whatnot, Sellerboard, ShipHero, TikTok Shop GMV Max); those stay null, not $0.",
-  "d2c_ad_spend": 16332.02,
+  "d2c_ad_spend": 16605.32,
   "d2c_coverage": {
     "as_of": "2026-11-11",
     "included_channels": [
       "meta",
       "google",
+      "bing",
       "reddit",
       "snapchat",
       "chatgpt",
@@ -51,18 +52,11 @@
       "tiktok",
       "x"
     ],
-    "excluded_channels": [
-      {
-        "channel": "bing",
-        "status": "unverified",
-        "included_in_d2c": false,
-        "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-      }
-    ],
+    "excluded_channels": [],
     "spotify_included_in_d2c": true,
     "note": "Missing/unverified channels are omitted from d2c_ad_spend and blended MER. Only a closed measured pull (complete/closed_day/spend_status=verified, or positive spend) is included. Spotify has no connector pull in this repo; UI No data is Builder-owned."
   },
-  "blended_mer": 1.78,
+  "blended_mer": 1.75,
   "shop_revenue": 29040.44,
   "channel_revenue": {
     "shopify": 29040.44,
@@ -89,10 +83,10 @@
       "whatnot": 1729.19
     }
   },
-  "total_ad_spend": 24520.71,
+  "total_ad_spend": 24794.01,
   "non_d2c": {
     "bing_amazon": {
-      "spend": null,
+      "spend": 0.0,
       "destination": "amazon"
     },
     "applovin": {
@@ -22567,11 +22561,11 @@
           },
           {
             "id": "",
-            "name": "Coldest_ROAS",
+            "name": "Christmas/Black Friday Ads",
             "destination": "d2c",
             "spend": 0.0,
             "clicks": 0,
-            "conversions": 5,
+            "conversions": 0,
             "revenue": 0.0,
             "impressions": 0
           },
@@ -22587,11 +22581,11 @@
           },
           {
             "id": "",
-            "name": "Christmas/Black Friday Ads",
+            "name": "Coldest_ROAS",
             "destination": "d2c",
             "spend": 0.0,
             "clicks": 0,
-            "conversions": 0,
+            "conversions": 5,
             "revenue": 0.0,
             "impressions": 0
           }
@@ -22676,20 +22670,19 @@
         "owner_bot": "snapchat ads bot"
       },
       "chatgpt_ads": {
-        "spend": null,
-        "clicks": null,
-        "conversions": null,
-        "revenue": null,
-        "impressions": null,
+        "spend": 0.0,
+        "clicks": 0,
+        "conversions": 0,
+        "revenue": 0.0,
+        "impressions": 0,
         "roas": null,
-        "source": "chatgpt_ads_daily.json has no row (not pulled / unverified) - missing, not $0",
-        "live": null,
-        "complete": false,
-        "closed_day": false,
-        "missing": true,
-        "spend_status": "unverified",
-        "spend_d2c": null,
-        "spend_amazon": null,
+        "source": "Pipeboard OpenAI Ads insights + conversion insights ad_account daily America/New_York 2026-11-11, pulled 2026-11-12 ET; measured $0 spend/impressions/clicks/conversions (all 10 campaigns paused)",
+        "live": false,
+        "complete": true,
+        "closed_day": true,
+        "spend_status": "verified",
+        "spend_d2c": 0,
+        "spend_amazon": 0,
         "destination": "d2c",
         "display_state": "off",
         "display_amount": 0.0,
@@ -22814,6 +22807,71 @@
       }
     },
     "2026-11-12": {
+      "applovin": {
+        "spend": 181.5,
+        "clicks": 110,
+        "conversions": 11,
+        "revenue": 362.96,
+        "impressions": 1780,
+        "roas": 2.0,
+        "source": "AppLovin Reporting API (platform-reported, click)",
+        "live": true,
+        "spend_d2c": 181.5,
+        "spend_amazon": 0.0,
+        "destination": "d2c",
+        "complete": true,
+        "platform_revenue": 362.96,
+        "platform_revenue_0d": 243.45,
+        "platform_roas": 2.0,
+        "revenue_basis": "platform_reported (AppLovin chka_usd_7d, attribution_mode=click)",
+        "campaigns": [
+          {
+            "id": "",
+            "name": "Coldest_ROAS_Q4_2026",
+            "destination": "d2c",
+            "spend": 181.5,
+            "clicks": 110,
+            "conversions": 7,
+            "revenue": 362.96,
+            "impressions": 1780
+          },
+          {
+            "id": "",
+            "name": "Coldest_ROAS",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 4,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "",
+            "name": "Christmas/Black Friday Ads",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "",
+            "name": "New Ad style - Ridg Style",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          }
+        ],
+        "display_state": "spend",
+        "display_amount": 181.5,
+        "last_confirmed_date": "2026-11-12",
+        "last_confirmed_amount": 181.5,
+        "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)"
+      },
       "bing_ads": {
         "spend": null,
         "clicks": null,
@@ -22832,8 +22890,8 @@
         "destination": "d2c",
         "display_state": "pending_backfill",
         "display_amount": null,
-        "last_confirmed_date": "2026-11-10",
-        "last_confirmed_amount": 350.18,
+        "last_confirmed_date": "2026-11-11",
+        "last_confirmed_amount": 273.3,
         "owner_bot": "Bing Ads bot"
       },
       "reddit_ads": {
@@ -32598,7 +32656,7 @@
           "last_confirmed_date": null,
           "last_confirmed_amount": null,
           "owner_bot": "ads bot for chatgpt",
-          "measured_spend": null
+          "measured_spend": 0.0
         },
         "pinterest": {
           "display_state": "off",
@@ -32693,8 +32751,8 @@
         "bing": {
           "display_state": "pending_backfill",
           "display_amount": null,
-          "last_confirmed_date": "2026-11-10",
-          "last_confirmed_amount": 350.18,
+          "last_confirmed_date": "2026-11-11",
+          "last_confirmed_amount": 273.3,
           "owner_bot": "Bing Ads bot",
           "measured_spend": null
         },
@@ -32731,12 +32789,12 @@
           "measured_spend": null
         },
         "applovin": {
-          "display_state": "pending_backfill",
-          "display_amount": null,
-          "last_confirmed_date": "2026-11-11",
-          "last_confirmed_amount": 179.28,
+          "display_state": "spend",
+          "display_amount": 181.5,
+          "last_confirmed_date": "2026-11-12",
+          "last_confirmed_amount": 181.5,
           "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
-          "measured_spend": null
+          "measured_spend": 181.5
         },
         "x": {
           "display_state": "spend",
@@ -36654,13 +36712,6 @@
         "last_confirmed_amount": 617.64
       },
       {
-        "channel": "applovin",
-        "day": "2026-11-12",
-        "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
-        "last_confirmed_date": "2026-11-11",
-        "last_confirmed_amount": 179.28
-      },
-      {
         "channel": "amazon",
         "day": "2026-11-12",
         "owner_bot": null,
@@ -36680,7 +36731,7 @@
   "mer_includes_carry_forward": false,
   "pending_backfill": {
     "as_of": "2026-11-11",
-    "count": 555,
+    "count": 554,
     "items": [
       {
         "channel": "meta",
@@ -40547,13 +40598,6 @@
         "last_confirmed_amount": 617.64
       },
       {
-        "channel": "applovin",
-        "day": "2026-11-12",
-        "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
-        "last_confirmed_date": "2026-11-11",
-        "last_confirmed_amount": 179.28
-      },
-      {
         "channel": "amazon",
         "day": "2026-11-12",
         "owner_bot": null,
@@ -43894,25 +43938,25 @@
     "status": "off",
     "live": false,
     "as_of": "2026-11-11",
-    "spend": null,
-    "spend_d2c": null,
-    "spend_amazon": null,
+    "spend": 0.0,
+    "spend_d2c": 0,
+    "spend_amazon": 0,
     "destination": "d2c",
-    "clicks": null,
-    "conversions": null,
-    "revenue": null,
-    "impressions": null,
+    "clicks": 0,
+    "conversions": 0,
+    "revenue": 0.0,
+    "impressions": 0,
     "roas": null,
     "spend_7d": 0.0,
     "spend_d2c_7d": 0.0,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
-      "measured_days": 6,
+      "measured_days": 7,
       "window_days": 7,
-      "status": "unverified"
+      "status": "verified"
     },
     "coverage_30d": {
-      "measured_days": 16,
+      "measured_days": 17,
       "window_days": 30,
       "status": "unverified"
     },
@@ -44560,6 +44604,18 @@
         "roas": null,
         "destination": "d2c",
         "live": false
+      },
+      "2026-11-11": {
+        "spend": 0.0,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
+        "clicks": 0,
+        "conversions": 0,
+        "revenue": 0.0,
+        "impressions": 0,
+        "roas": null,
+        "destination": "d2c",
+        "live": false
       }
     },
     "source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
@@ -44568,8 +44624,7 @@
     "display_amount": 0.0,
     "last_confirmed_date": null,
     "last_confirmed_amount": null,
-    "tracking_verified": true,
-    "latest_day_missing": true
+    "tracking_verified": true
   },
   "pinterest": {
     "status": "off",
@@ -49416,11 +49471,11 @@
           },
           {
             "id": "",
-            "name": "Coldest_ROAS",
+            "name": "Christmas/Black Friday Ads",
             "destination": "d2c",
             "spend": 0.0,
             "clicks": 0,
-            "conversions": 5,
+            "conversions": 0,
             "revenue": 0.0,
             "impressions": 0
           },
@@ -49436,7 +49491,61 @@
           },
           {
             "id": "",
+            "name": "Coldest_ROAS",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 5,
+            "revenue": 0.0,
+            "impressions": 0
+          }
+        ]
+      },
+      "2026-11-12": {
+        "spend": 181.5,
+        "spend_d2c": 181.5,
+        "spend_amazon": 0,
+        "clicks": 110,
+        "conversions": 11,
+        "revenue": 362.96,
+        "impressions": 1780,
+        "roas": 2.0,
+        "destination": "d2c",
+        "live": true,
+        "campaigns": [
+          {
+            "id": "",
+            "name": "Coldest_ROAS_Q4_2026",
+            "destination": "d2c",
+            "spend": 181.5,
+            "clicks": 110,
+            "conversions": 7,
+            "revenue": 362.96,
+            "impressions": 1780
+          },
+          {
+            "id": "",
+            "name": "Coldest_ROAS",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 4,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "",
             "name": "Christmas/Black Friday Ads",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "",
+            "name": "New Ad style - Ridg Style",
             "destination": "d2c",
             "spend": 0.0,
             "clicks": 0,
@@ -49708,7 +49817,7 @@
     "orchestrator": "Jarvis",
     "source": "daily_inputs + ads_throttle/settings.json + ads_throttle/changes.json + ads_throttle/tracking_health.json + ads_throttle/rankings.json + shopify_attribution_daily.json",
     "tracking_health": {
-      "as_of": "2026-11-11T08:30:00-05:00",
+      "as_of": "2026-11-12T08:32:00-05:00",
       "channels": {
         "meta": {
           "status": "OK",
@@ -49716,7 +49825,7 @@
           "last_purchase_event": "2026-11-11 (20 purchases so far today)",
           "purchases_24h": 242,
           "purchases_7d_avg": 272.7,
-          "notes": "11/10: 242 purchases, 208 checkouts on $10,581.08 spend, down 11.3% vs 11/3-11/9 avg (272.7) while Shopify down 14.8%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/3-11/10: 364/214/326/277/240/280/208/242; checkouts 302/208/290/252/282/291/181/208; spend $8,891.63/$10,023.83/$9,360.12/$11,766.97/$10,704.37/$11,892.78/$9,211.26/$10,581.08. 11/9 revised from yesterday's 175 checkouts / $9,164.59 to 181 / $9,211.26 (purchases stayed 208). 11/8 checkouts revised 286 to 291 and spend $11,892.68 to $11,892.78. Events flowing today (20 purchases / 37 checkouts / $1,082.01 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.3% (hourly; was 99.8% yesterday). Pixel 562761383897004 last_fired_time field read 11/10 6:59:59 PM ET (may lag, same pattern as prior days); insights confirm live 11/11 activity."
+          "notes": "11/12 run: 277 purchases on 11/11, OK. | Previous: 11/10: 242 purchases, 208 checkouts on $10,581.08 spend, down 11.3% vs 11/3-11/9 avg (272.7) while Shopify down 14.8%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/3-11/10: 364/214/326/277/240/280/208/242; checkouts 302/208/290/252/282/291/181/208; spend $8,891.63/$10,023.83/$9,360.12/$11,766.97/$10,704.37/$11,892.78/$9,211.26/$10,581.08. 11/9 revised from yesterday's 175 checkouts / $9,164.59 to 181 / $9,211.26 (purchases stayed 208). 11/8 checkouts revised 286 to 291 and spend $11,892.68 to $11,892.78. Events flowing today (20 purchases / 37 checkouts "
         },
         "google": {
           "status": "OK",
@@ -49724,7 +49833,7 @@
           "last_purchase_event": "2026-11-10 (104 Shopping App purchases, conversion date; may still grow)",
           "purchases_24h": 104,
           "purchases_7d_avg": 158.9,
-          "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer). Shopping App Purchase 11/7 145 (45.0% of 322), 11/8 160 (45.1% of 355), 11/9 129 (41.6% of 310); Elevar server-side 11/7 102 (31.7%), 11/8 144 (40.6%), 11/9 104 (33.5%). 11/10 104 Shopping App (34.0% of 306) and 107 Elevar (35.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised up vs yesterday's read: 11/7 Shopping 134\u2192145 / Elevar stayed 102; 11/8 135\u2192160 / 126\u2192144; 11/9 95\u2192129 / 86\u2192104, as expected for filling conversion-date days. 11/5 Shopping now 196 (was 201) / Elevar 157 (was 135); 11/6 Shopping 157 (was 154) / Elevar 118. All above the 25%/20% WARN floors on two consecutive days that are each at least a day old (11/8 and 11/9). Begin checkout 129/115/133/125/113/112/72/71 (11/3-11/10). 11/11 so far: 2 Shopping App purchases / 2 Elevar / 4 begin checkout. Shopping App Purchase and Purchase (elevar server-side) both ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/3-11/9 mean of Shopping App (192/133/196/157/145/160/129)."
+          "notes": "11/12 run: Shopping App 38.9% / Elevar 38.2% on 11/10 (11/11 still filling at 28.5% / 26.9%), OK. | Previous: Conversion-date rule (all_conversions_by_conversion_date from customer). Shopping App Purchase 11/7 145 (45.0% of 322), 11/8 160 (45.1% of 355), 11/9 129 (41.6% of 310); Elevar server-side 11/7 102 (31.7%), 11/8 144 (40.6%), 11/9 104 (33.5%). 11/10 104 Shopping App (34.0% of 306) and 107 Elevar (35.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised up vs yesterday's read: 11/7 Shopping 134\u2192145 / Elevar stayed 102; 11/8 135\u2192160 / 126\u2192144; 11/9 95\u2192129 / 86\u2192104, as expected for filling conversion-date days. 11/5 Shoppi"
         },
         "bing": {
           "status": "OK",
@@ -49732,7 +49841,7 @@
           "last_purchase_event": "2026-11-10 (Brand Search 5 conv $322.81 + PMax 1 conv $103.23)",
           "purchases_24h": 6,
           "purchases_7d_avg": 6.3,
-          "notes": "11/10: 6 conv / $426.04 revenue on $352.15 spend (Brand Search 5 / $322.81 on $128.14; PMax 1 / $103.23 on $30.26; Shopping 0 on $170.94; Competitor $10.63, NB Exact $4.44, Non-brand $7.74). 6 vs 11/3-11/9 avg 6.3 is not a >50% drop. Shopify 11/10 bing UTM: 6 orders / $466.54, matching the 6 platform conv (Brand 5 + PMax 1). No double count (GTM tag 250 still paused). Prior days revised vs yesterday: 11/4 7\u21928 (Brand), 11/7 6\u21927 (Brand), 11/8 7\u21928 (Brand 7 + Shopping 1 / $174.99). Daily conv 11/3-11/10: 4/8/4/8/7/8/5/6. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. No begin-checkout goal. 11/11 so far: $82.78 spend (Shopping $64.09) and 1 Brand conv / $52.24 \u2014 early, not judged."
+          "notes": "11/12 run: 5 purchases, OK. | Previous: 11/10: 6 conv / $426.04 revenue on $352.15 spend (Brand Search 5 / $322.81 on $128.14; PMax 1 / $103.23 on $30.26; Shopping 0 on $170.94; Competitor $10.63, NB Exact $4.44, Non-brand $7.74). 6 vs 11/3-11/9 avg 6.3 is not a >50% drop. Shopify 11/10 bing UTM: 6 orders / $466.54, matching the 6 platform conv (Brand 5 + PMax 1). No double count (GTM tag 250 still paused). Prior days revised vs yesterday: 11/4 7\u21928 (Brand), 11/7 6\u21927 (Brand), 11/8 7\u21928 (Brand 7 + Shopping 1 / $174.99). Daily conv 11/3-11/10: 4/8/4/8/7/8/5/6. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions "
         },
         "reddit": {
           "status": "WARN",
@@ -49740,7 +49849,7 @@
           "last_purchase_event": "2026-11-04 ET (2 click + 3 view purchases); 11/6 also shows 2 view purchases",
           "purchases_24h": 0,
           "purchases_7d_avg": 0.3,
-          "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-03T05:00:00Z to 2026-11-12T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10 or 11/11 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 31 page visit clicks / 6 page visit views, 0 purchases) then went dark \u2014 revised from yesterday's $43.77 / 30 clicks; not a new alert and not worse than the prior 0-purchase days. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 purchases; 11/6 $142.88, 64 clicks, 5 add-to-cart, 0 click + 2 view purchases; 11/5 $150.12, 86 clicks, 0 purchases; 11/4 $197.94, 121 clicks, 2 click + 3 view purchases. 11/3 had no report row (likely $0). Pixel last proved alive via page visits on 11/9. Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/10: 0 reddit UTM orders. purchases_7d_avg is 11/3-11/9 click-purchase mean (0/2/0/0/0/0/0 = 0.3)."
+          "notes": "11/12 run: WARN unchanged (channel closed 11/9; $0 on 11/11). | Previous: WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-03T05:00:00Z to 2026-11-12T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10 or 11/11 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 31 page visit clicks / 6 page visit views, 0 purchases) then went dark \u2014 revised from yesterday's $43.77 / 30 clicks; not a new alert and not worse than the prior 0-purchase days. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 purchases; 11/6 $142.88, 64 clicks, 5 add-to-"
         },
         "snapchat": {
           "status": "OK",
@@ -49772,7 +49881,7 @@
           "last_purchase_event": "2026-11-10 (119 real-time conversions; complete_payment 50, may still grow)",
           "purchases_24h": 119,
           "purchases_7d_avg": 99.7,
-          "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/3-11/10: 132/73/105/122/72/105/89/119 on $1.6-3.0k/day (11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03; 11/7 $1,763.89). 11/10 up 19.4% vs 11/3-11/9 avg (99.7) while Shopify down 14.8%; not a >50% drop. 11/9 complete_payment revised from yesterday's 52 to 90 (still-filling); 11/8 complete_payment revised 90 to 105 (real-time stayed 105); 11/7 complete_payment revised 59 to 63. 11/11 so far: 21 real-time / 3 complete_payment / $301.70. Checkout metric reads 0 on all days (INITIATE_ORDER exists on pixel), unchanged. TikTok 10/29 dip item already closed 11/4."
+          "notes": "11/12 run: 118 purchases, OK. | Previous: Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/3-11/10: 132/73/105/122/72/105/89/119 on $1.6-3.0k/day (11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03; 11/7 $1,763.89). 11/10 up 19.4% vs 11/3-11/9 avg (99.7) while Shopify down 14.8%; not a >50% drop. 11/9 complete_payment revised from yesterday's 52 to 90 (still-filling); 11/8 complete_payment revised 90 to 105 (real-time stayed 105); 11/7 complete_payment revised 59 to 63. 11/11 so far: 21 real-time / 3 complete_payment / $301.70. Checkout metric reads 0 o"
         },
         "taboola": {
           "status": "WARN",
@@ -49788,12 +49897,12 @@
           "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-11 8:14 AM ET (2026-11-11T13:14:18Z); 1 attributed purchase 11/10",
           "purchases_24h": 1,
           "purchases_7d_avg": 2.8,
-          "notes": "Begin Checkout 14yy8z (website_tag rifyu) re-verified TRACKING later in this same run via get_web_event_tag (last_tracked 2026-11-11T13:21:06Z = 11/11 8:21 AM ET). An earlier read in this same run showed DORMANT with a stale last_tracked_at of 2026-11-02T20:35:35Z \u2014 the same API flicker previously seen on 11/6\u201311/7 and 11/10 and noted in the X bot's re-verify caveat. Not marked WARN: the tag is TRACKING now, last checkout is within 12h, and purchases are flowing. Purchase 14yxvf TRACKING (last fire 11/11 8:14 AM ET); typed ATC 14zy3w TRACKING (last fire 11/11 8:23 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/10 $183.61 spend (pkcwu $79.53 after the $100\u2192$80 cut, pkcye $86.32, pkcyg $17.76 then paused 11/10 11:38 AM ET), 1 purchase (pkcwu 1 view-through $68.73, pkcye 0, pkcyg 0), 17 add-to-cart. 11/9 matches yesterday: $223.01 spend, 2 purchases (pkcwu 0, pkcye 2, pkcyg 0). Launch-to-11/10 daily purchases 0/1/4/6/4/2/1; purchases_7d_avg is the 11/4-11/9 mean (2.8). 1 vs 2.8 is a >50% drop on a tiny first-week sample, but not treated as a tracking WARN: spend also fell (C01 cut, C03 paused midday), Shopify 11/10 x UTM went 1\u21920, and the purchase tag fired today. checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night, first week ends ~11/11 (not yet past as of this morning). C01 and C02 RUNNING/servable; C03 Hoodies PAUSED. 11/11 so far: $39.83 spend (pkcwu $18.21, pkcye $21.62), 0 purchases, 0 ATC \u2014 purchase tag firing today."
+          "notes": "11/12 run: 1 purchase OK; Begin Checkout 14yy8z TRACKING (last fire 11/12 8:28 AM ET), no DORMANT flicker; C01 paused 11/11 11:36 AM ET. | Previous: Begin Checkout 14yy8z (website_tag rifyu) re-verified TRACKING later in this same run via get_web_event_tag (last_tracked 2026-11-11T13:21:06Z = 11/11 8:21 AM ET). An earlier read in this same run showed DORMANT with a stale last_tracked_at of 2026-11-02T20:35:35Z \u2014 the same API flicker previously seen on 11/6\u201311/7 and 11/10 and noted in the X bot's re-verify caveat. Not marked WARN: the tag is TRACKING now, last checkout is within 12h, and purchases are flowing. Purchase 14yxvf TRACKING (last fire 11/11 8:14 AM ET); typed ATC 14zy3w TRACKING (last fire 11/11 8:23 AM ET). Old custom ATC 14yxzi"
         }
       },
       "file_status": "ok",
       "source": "ads_throttle/tracking_health.json",
-      "shopify_orders_yesterday": 306
+      "shopify_orders_yesterday": 361
     },
     "rankings": {
       "date": "2026-11-09",
@@ -50067,8 +50176,8 @@
       "roas_label": "platform-reported"
     },
     "settings": {
-      "updated_at": "2026-11-10T09:55:27-05:00",
-      "updated_by": "jarvis (11/10: agreed Google/TikTok ROAS basis in channel notes)",
+      "updated_at": "2026-11-12T09:57:31-05:00",
+      "updated_by": "jarvis (11/12: Snap daily_budget 624 from SNAPCHAT ADS live read; no 11/12 raise)",
       "global": {
         "step_pct": 20,
         "window_days": 7,
@@ -50095,15 +50204,15 @@
           "owner_bot": "snapchat ads bot",
           "max_daily_budget": null,
           "min_daily_budget": null,
-          "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports.",
-          "daily_budget": 604
+          "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. Live daily_budget 624 confirmed by SNAPCHAT ADS 11/12 9:52 AM ET (Launch 17ba5e2d $504: Limitless d8cfb148 $288, Drive-Thru 2c049090 $216; Hoodies b4333284 squad 7189c922 $120). Launch last raised 11/6 9:40:12 AM ET ($420->$504), next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account would be $724.80, under $784 cap). Hoodies last raised 11/11 9:55:19 AM ET ($100->$120), next eligible 11/18 9:55:19 AM ET. No 11/12 raise.",
+          "daily_budget": 624
         },
         "bing": {
           "mode": "auto",
           "owner_bot": "Bing Ads bot",
           "max_daily_budget": null,
           "min_daily_budget": null,
-          "notes": "main campaign sends to Amazon, not Shopify"
+          "notes": "Agreed ROAS basis 2026-11-12 (Bing Ads bot, for Finance \u00b7 CFO 7-day rule): account 141681759 (customer 251620287). Use Microsoft Advertising campaign-report ConversionsQualified and Revenue on the conversion goal Grok Bot | Purchase (UET event, revenue) (172222236) only. API read 11/12: it is the only Active goal in the account (the other 10 are Paused), tracking_status RecordingConversions, UET tag 134596770, event action=purchase, variable revenue, count_type All, 30-day click-through conversion window (43,200 min), not excluded from bidding. Attribution is Microsoft's last-click, and conversions and revenue are reported on the ad-click date, not the conversion date (Microsoft Learn), so recent days keep maturing: 11/10 Brand was 4 conv/$254.97 at the 11/11 pull and 5/$322.81 at the 11/12 reread. The connector does not expose a view-through window. Window is the trailing 7 completed America/New_York days (all campaigns are EasternTimeUSCanada), read from bing_ads_daily.json by_date rows with complete/closed_day true. Each row records its pull time. Rows are a next-day click-date snapshot and are not rewritten as conversions mature (CLAUDE.md never-overwrite rule). Mark days under 7 old as provisional. ROAS = sum Revenue / sum Spend for Shopify-destination (d2c) campaigns only. Amazon-destination campaigns (605195379, 605195381, 603215198 and any other Amazon-bound campaign) are excluded from the rule and flagged. Never use the legacy Conversions column (deprecated, returns 0), the paused URL goals, Elevar, GA4 or Shopify UTM as the ROAS source. Label it platform-reported. Bands unchanged: above 2.8 raise 20% at most once per 7 days; 2.0-2.8 hold; below 2.0 cut 20% and change strategy; never pause the channel. Under-1x kill: pause a campaign or ad group under 1.0x for more than 3 days with at least $50 spend; relaunch needs David. David 11/6: go aggressive and balance around 4 ROAS (supersedes trimming); log every budget change in the ledger. Reconciliation for Nov 5-11: the feed snapshot is $1,749.63 spend / $3,638.96 revenue = 2.08x; the live click-date reread on 11/12 is $1,751.62 / $4,177.14 = 2.38x. Both are in the hold band."
         },
         "chatgpt": {
           "mode": "hold",
@@ -50186,7 +50295,8 @@
           "max_daily_budget": null,
           "min_daily_budget": null,
           "roas_source": "platform_reported",
-          "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json."
+          "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution).",
+          "daily_budget": 70
         }
       },
       "mode_legend": {
@@ -50199,11 +50309,11 @@
         "note": "10/28 3:48 PM ET: no double-fire. Elevar server-side purchase covers ALL Shopify channels (Tapcart/Shop/Draft), so compare Snap purchases to all-channel Shopify orders, never Online Store only. Browser tag 339 + server share order-ID dedup; tag 339 stays on. Hold until Elevar's 10/29-data check confirms dedup, then back to auto."
       }
     },
-    "d2c_ad_spend": 16332.02,
-    "total_ad_spend": 24520.71,
+    "d2c_ad_spend": 16605.32,
+    "total_ad_spend": 24794.01,
     "shopify_d2c_revenue": 29040.44,
-    "blended_mer": 1.78,
-    "blended_mer_vs_threshold": -1.02,
+    "blended_mer": 1.75,
+    "blended_mer_vs_threshold": -1.05,
     "channels": {
       "meta": {
         "daily_budget": null,
@@ -50309,7 +50419,7 @@
           "last_purchase_event": "2026-11-11 (20 purchases so far today)",
           "purchases_24h": 242,
           "purchases_7d_avg": 272.7,
-          "notes": "11/10: 242 purchases, 208 checkouts on $10,581.08 spend, down 11.3% vs 11/3-11/9 avg (272.7) while Shopify down 14.8%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/3-11/10: 364/214/326/277/240/280/208/242; checkouts 302/208/290/252/282/291/181/208; spend $8,891.63/$10,023.83/$9,360.12/$11,766.97/$10,704.37/$11,892.78/$9,211.26/$10,581.08. 11/9 revised from yesterday's 175 checkouts / $9,164.59 to 181 / $9,211.26 (purchases stayed 208). 11/8 checkouts revised 286 to 291 and spend $11,892.68 to $11,892.78. Events flowing today (20 purchases / 37 checkouts / $1,082.01 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.3% (hourly; was 99.8% yesterday). Pixel 562761383897004 last_fired_time field read 11/10 6:59:59 PM ET (may lag, same pattern as prior days); insights confirm live 11/11 activity."
+          "notes": "11/12 run: 277 purchases on 11/11, OK. | Previous: 11/10: 242 purchases, 208 checkouts on $10,581.08 spend, down 11.3% vs 11/3-11/9 avg (272.7) while Shopify down 14.8%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/3-11/10: 364/214/326/277/240/280/208/242; checkouts 302/208/290/252/282/291/181/208; spend $8,891.63/$10,023.83/$9,360.12/$11,766.97/$10,704.37/$11,892.78/$9,211.26/$10,581.08. 11/9 revised from yesterday's 175 checkouts / $9,164.59 to 181 / $9,211.26 (purchases stayed 208). 11/8 checkouts revised 286 to 291 and spend $11,892.68 to $11,892.78. Events flowing today (20 purchases / 37 checkouts "
         },
         "rule_status": "Frozen - view only",
         "last_change_date": null,
@@ -50432,7 +50542,7 @@
           "last_purchase_event": "2026-11-10 (104 Shopping App purchases, conversion date; may still grow)",
           "purchases_24h": 104,
           "purchases_7d_avg": 158.9,
-          "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer). Shopping App Purchase 11/7 145 (45.0% of 322), 11/8 160 (45.1% of 355), 11/9 129 (41.6% of 310); Elevar server-side 11/7 102 (31.7%), 11/8 144 (40.6%), 11/9 104 (33.5%). 11/10 104 Shopping App (34.0% of 306) and 107 Elevar (35.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised up vs yesterday's read: 11/7 Shopping 134\u2192145 / Elevar stayed 102; 11/8 135\u2192160 / 126\u2192144; 11/9 95\u2192129 / 86\u2192104, as expected for filling conversion-date days. 11/5 Shopping now 196 (was 201) / Elevar 157 (was 135); 11/6 Shopping 157 (was 154) / Elevar 118. All above the 25%/20% WARN floors on two consecutive days that are each at least a day old (11/8 and 11/9). Begin checkout 129/115/133/125/113/112/72/71 (11/3-11/10). 11/11 so far: 2 Shopping App purchases / 2 Elevar / 4 begin checkout. Shopping App Purchase and Purchase (elevar server-side) both ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/3-11/9 mean of Shopping App (192/133/196/157/145/160/129)."
+          "notes": "11/12 run: Shopping App 38.9% / Elevar 38.2% on 11/10 (11/11 still filling at 28.5% / 26.9%), OK. | Previous: Conversion-date rule (all_conversions_by_conversion_date from customer). Shopping App Purchase 11/7 145 (45.0% of 322), 11/8 160 (45.1% of 355), 11/9 129 (41.6% of 310); Elevar server-side 11/7 102 (31.7%), 11/8 144 (40.6%), 11/9 104 (33.5%). 11/10 104 Shopping App (34.0% of 306) and 107 Elevar (35.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised up vs yesterday's read: 11/7 Shopping 134\u2192145 / Elevar stayed 102; 11/8 135\u2192160 / 126\u2192144; 11/9 95\u2192129 / 86\u2192104, as expected for filling conversion-date days. 11/5 Shoppi"
         },
         "rule_status": "Not enough data",
         "last_change_date": "2026-11-10",
@@ -50458,31 +50568,31 @@
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 1476.33,
-        "spend_7d_status": "unverified",
-        "spend_source": "bing_ads_daily.json has no row (missing, not $0)",
-        "spend_d2c_7d": null,
+        "spend_7d": 1749.63,
+        "spend_7d_status": "verified",
+        "spend_source": "bing_ads_daily.json spend_d2c",
+        "spend_d2c_7d": 1749.63,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
         "shopify_revenue_status": "unverified",
-        "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
+        "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
         "shopify_roas_7d": null,
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": null,
-        "platform_revenue_7d": null,
-        "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no bing_ads_daily.json row for 2026-11-11",
-        "platform_roas_7d": null,
-        "platform_roas_status": "unverified",
+        "platform_conversions_7d": 39,
+        "platform_revenue_7d": 3638.96,
+        "platform_revenue_status": "verified",
+        "platform_revenue_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
+        "platform_roas_7d": 2.08,
+        "platform_roas_status": "verified",
         "roas_basis": "platform",
         "roas_source": "platform_reported",
         "rule_roas_source": "platform_reported",
         "roas_label": "platform-reported",
-        "roas_7d": null,
-        "roas_7d_status": "unverified",
+        "roas_7d": 2.08,
+        "roas_7d_status": "verified",
         "trend_3d": [
           {
             "date": "2026-11-09",
@@ -50526,20 +50636,20 @@
           },
           {
             "date": "2026-11-11",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "spend": 273.3,
+            "spend_status": "verified",
+            "spend_d2c": 273.3,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no bing_ads_daily.json row for 2026-11-11",
-            "roas": null,
-            "roas_status": "unverified",
+            "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 5,
+            "platform_revenue": 486.33,
+            "platform_roas": 1.78,
+            "platform_status": "verified",
+            "platform_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
+            "roas": 1.78,
+            "roas_status": "verified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
@@ -50547,7 +50657,7 @@
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 0.0,
+          "shopify": 1749.63,
           "amazon": 0.0
         },
         "tracking_status": "OK",
@@ -50557,14 +50667,14 @@
           "last_purchase_event": "2026-11-10 (Brand Search 5 conv $322.81 + PMax 1 conv $103.23)",
           "purchases_24h": 6,
           "purchases_7d_avg": 6.3,
-          "notes": "11/10: 6 conv / $426.04 revenue on $352.15 spend (Brand Search 5 / $322.81 on $128.14; PMax 1 / $103.23 on $30.26; Shopping 0 on $170.94; Competitor $10.63, NB Exact $4.44, Non-brand $7.74). 6 vs 11/3-11/9 avg 6.3 is not a >50% drop. Shopify 11/10 bing UTM: 6 orders / $466.54, matching the 6 platform conv (Brand 5 + PMax 1). No double count (GTM tag 250 still paused). Prior days revised vs yesterday: 11/4 7\u21928 (Brand), 11/7 6\u21927 (Brand), 11/8 7\u21928 (Brand 7 + Shopping 1 / $174.99). Daily conv 11/3-11/10: 4/8/4/8/7/8/5/6. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. No begin-checkout goal. 11/11 so far: $82.78 spend (Shopping $64.09) and 1 Brand conv / $52.24 \u2014 early, not judged."
+          "notes": "11/12 run: 5 purchases, OK. | Previous: 11/10: 6 conv / $426.04 revenue on $352.15 spend (Brand Search 5 / $322.81 on $128.14; PMax 1 / $103.23 on $30.26; Shopping 0 on $170.94; Competitor $10.63, NB Exact $4.44, Non-brand $7.74). 6 vs 11/3-11/9 avg 6.3 is not a >50% drop. Shopify 11/10 bing UTM: 6 orders / $466.54, matching the 6 platform conv (Brand 5 + PMax 1). No double count (GTM tag 250 still paused). Prior days revised vs yesterday: 11/4 7\u21928 (Brand), 11/7 6\u21927 (Brand), 11/8 7\u21928 (Brand 7 + Shopping 1 / $174.99). Daily conv 11/3-11/10: 4/8/4/8/7/8/5/6. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions "
         },
-        "rule_status": "Not enough data",
+        "rule_status": "Hold - in band",
         "last_change_date": "2026-10-27",
         "last_change_action": "cut_20pct_and_change_strategy",
         "next_eligible_date": null,
         "owner_bot": "Bing Ads bot",
-        "strategy_notes": "main campaign sends to Amazon, not Shopify. Rule uses D2C campaign spend and platform-reported ROAS only. Amazon-destination spend $0.00 (7d) is excluded from the rule.",
+        "strategy_notes": "Agreed ROAS basis 2026-11-12 (Bing Ads bot, for Finance \u00b7 CFO 7-day rule): account 141681759 (customer 251620287). Use Microsoft Advertising campaign-report ConversionsQualified and Revenue on the conversion goal Grok Bot | Purchase (UET event, revenue) (172222236) only. API read 11/12: it is the only Active goal in the account (the other 10 are Paused), tracking_status RecordingConversions, UET tag 134596770, event action=purchase, variable revenue, count_type All, 30-day click-through conversion window (43,200 min), not excluded from bidding. Attribution is Microsoft's last-click, and conversions and revenue are reported on the ad-click date, not the conversion date (Microsoft Learn), so recent days keep maturing: 11/10 Brand was 4 conv/$254.97 at the 11/11 pull and 5/$322.81 at the 11/12 reread. The connector does not expose a view-through window. Window is the trailing 7 completed America/New_York days (all campaigns are EasternTimeUSCanada), read from bing_ads_daily.json by_date rows with complete/closed_day true. Each row records its pull time. Rows are a next-day click-date snapshot and are not rewritten as conversions mature (CLAUDE.md never-overwrite rule). Mark days under 7 old as provisional. ROAS = sum Revenue / sum Spend for Shopify-destination (d2c) campaigns only. Amazon-destination campaigns (605195379, 605195381, 603215198 and any other Amazon-bound campaign) are excluded from the rule and flagged. Never use the legacy Conversions column (deprecated, returns 0), the paused URL goals, Elevar, GA4 or Shopify UTM as the ROAS source. Label it platform-reported. Bands unchanged: above 2.8 raise 20% at most once per 7 days; 2.0-2.8 hold; below 2.0 cut 20% and change strategy; never pause the channel. Under-1x kill: pause a campaign or ad group under 1.0x for more than 3 days with at least $50 spend; relaunch needs David. David 11/6: go aggressive and balance around 4 ROAS (supersedes trimming); log every budget change in the ledger. Reconciliation for Nov 5-11: the feed snapshot is $1,749.63 spend / $3,638.96 revenue = 2.08x; the live click-date reread on 11/12 is $1,751.62 / $4,177.14 = 2.38x. Both are in the hold band. Rule uses D2C campaign spend and platform-reported ROAS only. Amazon-destination spend $0.00 (7d) is excluded from the rule.",
         "auto_rules": true,
         "mode": "auto",
         "recommended_daily_budget": null,
@@ -50680,7 +50790,7 @@
           "last_purchase_event": "2026-11-04 ET (2 click + 3 view purchases); 11/6 also shows 2 view purchases",
           "purchases_24h": 0,
           "purchases_7d_avg": 0.3,
-          "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-03T05:00:00Z to 2026-11-12T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10 or 11/11 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 31 page visit clicks / 6 page visit views, 0 purchases) then went dark \u2014 revised from yesterday's $43.77 / 30 clicks; not a new alert and not worse than the prior 0-purchase days. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 purchases; 11/6 $142.88, 64 clicks, 5 add-to-cart, 0 click + 2 view purchases; 11/5 $150.12, 86 clicks, 0 purchases; 11/4 $197.94, 121 clicks, 2 click + 3 view purchases. 11/3 had no report row (likely $0). Pixel last proved alive via page visits on 11/9. Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/10: 0 reddit UTM orders. purchases_7d_avg is 11/3-11/9 click-purchase mean (0/2/0/0/0/0/0 = 0.3)."
+          "notes": "11/12 run: WARN unchanged (channel closed 11/9; $0 on 11/11). | Previous: WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-03T05:00:00Z to 2026-11-12T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10 or 11/11 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 31 page visit clicks / 6 page visit views, 0 purchases) then went dark \u2014 revised from yesterday's $43.77 / 30 clicks; not a new alert and not worse than the prior 0-purchase days. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 purchases; 11/6 $142.88, 64 clicks, 5 add-to-"
         },
         "rule_status": "Hold",
         "last_change_date": null,
@@ -50700,7 +50810,7 @@
         "known_gap": null
       },
       "snapchat": {
-        "daily_budget": 604.0,
+        "daily_budget": 624.0,
         "daily_budget_status": "settings_reported",
         "min_daily_budget": null,
         "max_daily_budget": null,
@@ -50806,14 +50916,14 @@
           "notes": "11/10 attributed purchases not independently verified this run: Pipeboard monthly account-slot limit (12 accounts) blocked main account 65349ac1 until 2026-11-17; did not query any Snapchat Ads Pipeboard tools / get_ad_accounts / switch account. Last live read (11/8 tracking_health run) was 11/7: Meta Winners + Hoodies = 54 attributed purchases on $604 spend. purchases_7d_avg 54.1 is 11/1-11/7 (56/31/57/42/78/61/54) from that live read plus the CFO Snap file through 11/5. Fallback: CFO snapchat_ads_daily.json as_of 11/9 (updated 11/10 1:42 PM ET; same content still as of this run) shows spend $603.93/$604/$604/$604 on 11/6-11/9 with revenue known ($5,354.48/$4,726.44/$4,385.73/$4,333.65) but conversions_known=false those days, and has no 11/10 row yet. GTM Snap tag 339 still has the __snapFresh guard, so no GTM regression. Not marked WARN or DOWN: this is a connector slot-limit data gap, not evidence that tracking broke. Other 2 accounts were $0 through 11/6 on prior reads."
         },
         "rule_status": "Scale +20%",
-        "last_change_date": "2026-10-30",
+        "last_change_date": "2026-11-11",
         "last_change_action": "raise_20pct",
-        "next_eligible_date": null,
+        "next_eligible_date": "2026-11-14",
         "owner_bot": "snapchat ads bot",
-        "strategy_notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
+        "strategy_notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. Live daily_budget 624 confirmed by SNAPCHAT ADS 11/12 9:52 AM ET (Launch 17ba5e2d $504: Limitless d8cfb148 $288, Drive-Thru 2c049090 $216; Hoodies b4333284 squad 7189c922 $120). Launch last raised 11/6 9:40:12 AM ET ($420->$504), next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account would be $724.80, under $784 cap). Hoodies last raised 11/11 9:55:19 AM ET ($100->$120), next eligible 11/18 9:55:19 AM ET. No 11/12 raise. ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
         "auto_rules": true,
         "mode": "auto",
-        "recommended_daily_budget": 724.8,
+        "recommended_daily_budget": 748.8,
         "recommended_action": "Scale +20%",
         "launch_date": null,
         "soft_read_date": null,
@@ -50840,10 +50950,10 @@
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": null,
-        "platform_revenue_7d": null,
-        "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no chatgpt_ads_daily.json row for 2026-11-11",
+        "platform_conversions_7d": 0,
+        "platform_revenue_7d": 0.0,
+        "platform_revenue_status": "verified",
+        "platform_revenue_source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -50902,11 +51012,11 @@
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
             "shopify_revenue_source": "no Shopify-attributed revenue in chatgpt_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
+            "platform_conversions": 0,
+            "platform_revenue": 0.0,
             "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no chatgpt_ads_daily.json row for 2026-11-11",
+            "platform_status": "verified",
+            "platform_source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
@@ -50933,7 +51043,7 @@
         "last_change_action": "kill_under_1x",
         "next_eligible_date": null,
         "owner_bot": "ads bot for chatgpt",
-        "strategy_notes": "HOLD. Paused since 10/30 (rankings 2026-11-09). No raise or cut until David relaunches. Prior: David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan \u2014 still paused. Platform-reported conversion value unverified \u2014 ROAS not judged.",
+        "strategy_notes": "HOLD. Paused since 10/30 (rankings 2026-11-09). No raise or cut until David relaunches. Prior: David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan \u2014 still paused. ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
         "auto_rules": false,
         "mode": "hold",
         "recommended_daily_budget": null,
@@ -51049,7 +51159,7 @@
           "last_purchase_event": "2026-11-10 (119 real-time conversions; complete_payment 50, may still grow)",
           "purchases_24h": 119,
           "purchases_7d_avg": 99.7,
-          "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/3-11/10: 132/73/105/122/72/105/89/119 on $1.6-3.0k/day (11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03; 11/7 $1,763.89). 11/10 up 19.4% vs 11/3-11/9 avg (99.7) while Shopify down 14.8%; not a >50% drop. 11/9 complete_payment revised from yesterday's 52 to 90 (still-filling); 11/8 complete_payment revised 90 to 105 (real-time stayed 105); 11/7 complete_payment revised 59 to 63. 11/11 so far: 21 real-time / 3 complete_payment / $301.70. Checkout metric reads 0 on all days (INITIATE_ORDER exists on pixel), unchanged. TikTok 10/29 dip item already closed 11/4."
+          "notes": "11/12 run: 118 purchases, OK. | Previous: Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/3-11/10: 132/73/105/122/72/105/89/119 on $1.6-3.0k/day (11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03; 11/7 $1,763.89). 11/10 up 19.4% vs 11/3-11/9 avg (99.7) while Shopify down 14.8%; not a >50% drop. 11/9 complete_payment revised from yesterday's 52 to 90 (still-filling); 11/8 complete_payment revised 90 to 105 (real-time stayed 105); 11/7 complete_payment revised 59 to 63. 11/11 so far: 21 real-time / 3 complete_payment / $301.70. Checkout metric reads 0 o"
         },
         "rule_status": "View only",
         "last_change_date": null,
@@ -51669,8 +51779,8 @@
         "known_gap": null
       },
       "x": {
-        "daily_budget": null,
-        "daily_budget_status": "unverified",
+        "daily_budget": 70.0,
+        "daily_budget_status": "settings_reported",
         "min_daily_budget": null,
         "max_daily_budget": null,
         "spend_7d": 1402.48,
@@ -51772,18 +51882,18 @@
           "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-11 8:14 AM ET (2026-11-11T13:14:18Z); 1 attributed purchase 11/10",
           "purchases_24h": 1,
           "purchases_7d_avg": 2.8,
-          "notes": "Begin Checkout 14yy8z (website_tag rifyu) re-verified TRACKING later in this same run via get_web_event_tag (last_tracked 2026-11-11T13:21:06Z = 11/11 8:21 AM ET). An earlier read in this same run showed DORMANT with a stale last_tracked_at of 2026-11-02T20:35:35Z \u2014 the same API flicker previously seen on 11/6\u201311/7 and 11/10 and noted in the X bot's re-verify caveat. Not marked WARN: the tag is TRACKING now, last checkout is within 12h, and purchases are flowing. Purchase 14yxvf TRACKING (last fire 11/11 8:14 AM ET); typed ATC 14zy3w TRACKING (last fire 11/11 8:23 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/10 $183.61 spend (pkcwu $79.53 after the $100\u2192$80 cut, pkcye $86.32, pkcyg $17.76 then paused 11/10 11:38 AM ET), 1 purchase (pkcwu 1 view-through $68.73, pkcye 0, pkcyg 0), 17 add-to-cart. 11/9 matches yesterday: $223.01 spend, 2 purchases (pkcwu 0, pkcye 2, pkcyg 0). Launch-to-11/10 daily purchases 0/1/4/6/4/2/1; purchases_7d_avg is the 11/4-11/9 mean (2.8). 1 vs 2.8 is a >50% drop on a tiny first-week sample, but not treated as a tracking WARN: spend also fell (C01 cut, C03 paused midday), Shopify 11/10 x UTM went 1\u21920, and the purchase tag fired today. checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night, first week ends ~11/11 (not yet past as of this morning). C01 and C02 RUNNING/servable; C03 Hoodies PAUSED. 11/11 so far: $39.83 spend (pkcwu $18.21, pkcye $21.62), 0 purchases, 0 ATC \u2014 purchase tag firing today."
+          "notes": "11/12 run: 1 purchase OK; Begin Checkout 14yy8z TRACKING (last fire 11/12 8:28 AM ET), no DORMANT flicker; C01 paused 11/11 11:36 AM ET. | Previous: Begin Checkout 14yy8z (website_tag rifyu) re-verified TRACKING later in this same run via get_web_event_tag (last_tracked 2026-11-11T13:21:06Z = 11/11 8:21 AM ET). An earlier read in this same run showed DORMANT with a stale last_tracked_at of 2026-11-02T20:35:35Z \u2014 the same API flicker previously seen on 11/6\u201311/7 and 11/10 and noted in the X bot's re-verify caveat. Not marked WARN: the tag is TRACKING now, last checkout is within 12h, and purchases are flowing. Purchase 14yxvf TRACKING (last fire 11/11 8:14 AM ET); typed ATC 14zy3w TRACKING (last fire 11/11 8:23 AM ET). Old custom ATC 14yxzi"
         },
-        "rule_status": "Cut -20% + new strategy",
-        "last_change_date": null,
-        "last_change_action": null,
-        "next_eligible_date": null,
+        "rule_status": "Hold - cooldown",
+        "last_change_date": "2026-11-11",
+        "last_change_action": "cut_20pct_and_change_strategy",
+        "next_eligible_date": "2026-11-14",
         "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
-        "strategy_notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
+        "strategy_notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution). ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
         "auto_rules": true,
         "mode": "auto",
-        "recommended_daily_budget": null,
-        "recommended_action": "Cut -20% + new strategy",
+        "recommended_daily_budget": 70.0,
+        "recommended_action": null,
         "launch_date": null,
         "soft_read_date": null,
         "first_binding_date": null,
@@ -53461,24 +53571,23 @@
           },
           {
             "date": "2026-11-11",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "spend": 273.3,
+            "spend_status": "verified",
+            "spend_d2c": 273.3,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no bing_ads_daily.json row for 2026-11-11",
-            "roas": null,
-            "roas_status": "unverified",
+            "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 5,
+            "platform_revenue": 486.33,
+            "platform_roas": 1.78,
+            "platform_status": "verified",
+            "platform_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
+            "roas": 1.78,
+            "roas_status": "verified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
-            "roas_label": "platform-reported",
-            "missing": true
+            "roas_label": "platform-reported"
           }
         ],
         "reddit": [
@@ -55191,11 +55300,11 @@
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
             "shopify_revenue_source": "no Shopify-attributed revenue in chatgpt_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
+            "platform_conversions": 0,
+            "platform_revenue": 0.0,
             "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no chatgpt_ads_daily.json row for 2026-11-11",
+            "platform_status": "verified",
+            "platform_source": "Pipeboard OpenAI Ads insights (platform-reported; America/New_York)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
@@ -59476,19 +59585,39 @@
         },
         {
           "date": "2026-11-11",
-          "d2c_ad_spend": 16332.02,
+          "d2c_ad_spend": 16605.32,
           "d2c_ad_spend_status": "verified",
-          "total_ad_spend": 24520.71,
+          "total_ad_spend": 24794.01,
           "total_ad_spend_status": "verified",
           "shopify_revenue": 29040.44,
           "shopify_revenue_status": "verified",
           "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
-          "blended_mer": 1.78,
+          "blended_mer": 1.75,
           "blended_mer_status": "verified"
         }
       ]
     },
     "recent_changes": [
+      {
+        "date": "2026-11-11",
+        "channel": "snapchat",
+        "roas_7d": null,
+        "spend_7d": null,
+        "action": "raise_20pct",
+        "old_budget": 100,
+        "new_budget": 120,
+        "by": "SNAPCHAT ADS"
+      },
+      {
+        "date": "2026-11-11",
+        "channel": "x",
+        "roas_7d": 1.6,
+        "spend_7d": null,
+        "action": "cut_20pct_and_change_strategy",
+        "old_budget": 87.5,
+        "new_budget": 70,
+        "by": "x.com ads"
+      },
       {
         "date": "2026-11-10",
         "channel": "google",
@@ -59498,6 +59627,16 @@
         "old_budget": 88.2,
         "new_budget": 105.84,
         "by": "Grok Bot"
+      },
+      {
+        "date": "2026-11-06",
+        "channel": "snapchat",
+        "roas_7d": null,
+        "spend_7d": null,
+        "action": "raise_20pct",
+        "old_budget": 420,
+        "new_budget": 504,
+        "by": "SNAPCHAT ADS"
       },
       {
         "date": "2026-11-04",
@@ -59582,7 +59721,7 @@
     ]
   },
   "tracking_health": {
-    "as_of": "2026-11-11T08:30:00-05:00",
+    "as_of": "2026-11-12T08:32:00-05:00",
     "channels": {
       "meta": {
         "status": "OK",
@@ -59590,7 +59729,7 @@
         "last_purchase_event": "2026-11-11 (20 purchases so far today)",
         "purchases_24h": 242,
         "purchases_7d_avg": 272.7,
-        "notes": "11/10: 242 purchases, 208 checkouts on $10,581.08 spend, down 11.3% vs 11/3-11/9 avg (272.7) while Shopify down 14.8%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/3-11/10: 364/214/326/277/240/280/208/242; checkouts 302/208/290/252/282/291/181/208; spend $8,891.63/$10,023.83/$9,360.12/$11,766.97/$10,704.37/$11,892.78/$9,211.26/$10,581.08. 11/9 revised from yesterday's 175 checkouts / $9,164.59 to 181 / $9,211.26 (purchases stayed 208). 11/8 checkouts revised 286 to 291 and spend $11,892.68 to $11,892.78. Events flowing today (20 purchases / 37 checkouts / $1,082.01 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.3% (hourly; was 99.8% yesterday). Pixel 562761383897004 last_fired_time field read 11/10 6:59:59 PM ET (may lag, same pattern as prior days); insights confirm live 11/11 activity."
+        "notes": "11/12 run: 277 purchases on 11/11, OK. | Previous: 11/10: 242 purchases, 208 checkouts on $10,581.08 spend, down 11.3% vs 11/3-11/9 avg (272.7) while Shopify down 14.8%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/3-11/10: 364/214/326/277/240/280/208/242; checkouts 302/208/290/252/282/291/181/208; spend $8,891.63/$10,023.83/$9,360.12/$11,766.97/$10,704.37/$11,892.78/$9,211.26/$10,581.08. 11/9 revised from yesterday's 175 checkouts / $9,164.59 to 181 / $9,211.26 (purchases stayed 208). 11/8 checkouts revised 286 to 291 and spend $11,892.68 to $11,892.78. Events flowing today (20 purchases / 37 checkouts "
       },
       "google": {
         "status": "OK",
@@ -59598,7 +59737,7 @@
         "last_purchase_event": "2026-11-10 (104 Shopping App purchases, conversion date; may still grow)",
         "purchases_24h": 104,
         "purchases_7d_avg": 158.9,
-        "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer). Shopping App Purchase 11/7 145 (45.0% of 322), 11/8 160 (45.1% of 355), 11/9 129 (41.6% of 310); Elevar server-side 11/7 102 (31.7%), 11/8 144 (40.6%), 11/9 104 (33.5%). 11/10 104 Shopping App (34.0% of 306) and 107 Elevar (35.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised up vs yesterday's read: 11/7 Shopping 134\u2192145 / Elevar stayed 102; 11/8 135\u2192160 / 126\u2192144; 11/9 95\u2192129 / 86\u2192104, as expected for filling conversion-date days. 11/5 Shopping now 196 (was 201) / Elevar 157 (was 135); 11/6 Shopping 157 (was 154) / Elevar 118. All above the 25%/20% WARN floors on two consecutive days that are each at least a day old (11/8 and 11/9). Begin checkout 129/115/133/125/113/112/72/71 (11/3-11/10). 11/11 so far: 2 Shopping App purchases / 2 Elevar / 4 begin checkout. Shopping App Purchase and Purchase (elevar server-side) both ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/3-11/9 mean of Shopping App (192/133/196/157/145/160/129)."
+        "notes": "11/12 run: Shopping App 38.9% / Elevar 38.2% on 11/10 (11/11 still filling at 28.5% / 26.9%), OK. | Previous: Conversion-date rule (all_conversions_by_conversion_date from customer). Shopping App Purchase 11/7 145 (45.0% of 322), 11/8 160 (45.1% of 355), 11/9 129 (41.6% of 310); Elevar server-side 11/7 102 (31.7%), 11/8 144 (40.6%), 11/9 104 (33.5%). 11/10 104 Shopping App (34.0% of 306) and 107 Elevar (35.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised up vs yesterday's read: 11/7 Shopping 134\u2192145 / Elevar stayed 102; 11/8 135\u2192160 / 126\u2192144; 11/9 95\u2192129 / 86\u2192104, as expected for filling conversion-date days. 11/5 Shoppi"
       },
       "bing": {
         "status": "OK",
@@ -59606,7 +59745,7 @@
         "last_purchase_event": "2026-11-10 (Brand Search 5 conv $322.81 + PMax 1 conv $103.23)",
         "purchases_24h": 6,
         "purchases_7d_avg": 6.3,
-        "notes": "11/10: 6 conv / $426.04 revenue on $352.15 spend (Brand Search 5 / $322.81 on $128.14; PMax 1 / $103.23 on $30.26; Shopping 0 on $170.94; Competitor $10.63, NB Exact $4.44, Non-brand $7.74). 6 vs 11/3-11/9 avg 6.3 is not a >50% drop. Shopify 11/10 bing UTM: 6 orders / $466.54, matching the 6 platform conv (Brand 5 + PMax 1). No double count (GTM tag 250 still paused). Prior days revised vs yesterday: 11/4 7\u21928 (Brand), 11/7 6\u21927 (Brand), 11/8 7\u21928 (Brand 7 + Shopping 1 / $174.99). Daily conv 11/3-11/10: 4/8/4/8/7/8/5/6. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. No begin-checkout goal. 11/11 so far: $82.78 spend (Shopping $64.09) and 1 Brand conv / $52.24 \u2014 early, not judged."
+        "notes": "11/12 run: 5 purchases, OK. | Previous: 11/10: 6 conv / $426.04 revenue on $352.15 spend (Brand Search 5 / $322.81 on $128.14; PMax 1 / $103.23 on $30.26; Shopping 0 on $170.94; Competitor $10.63, NB Exact $4.44, Non-brand $7.74). 6 vs 11/3-11/9 avg 6.3 is not a >50% drop. Shopify 11/10 bing UTM: 6 orders / $466.54, matching the 6 platform conv (Brand 5 + PMax 1). No double count (GTM tag 250 still paused). Prior days revised vs yesterday: 11/4 7\u21928 (Brand), 11/7 6\u21927 (Brand), 11/8 7\u21928 (Brand 7 + Shopping 1 / $174.99). Daily conv 11/3-11/10: 4/8/4/8/7/8/5/6. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions "
       },
       "reddit": {
         "status": "WARN",
@@ -59614,7 +59753,7 @@
         "last_purchase_event": "2026-11-04 ET (2 click + 3 view purchases); 11/6 also shows 2 view purchases",
         "purchases_24h": 0,
         "purchases_7d_avg": 0.3,
-        "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-03T05:00:00Z to 2026-11-12T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10 or 11/11 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 31 page visit clicks / 6 page visit views, 0 purchases) then went dark \u2014 revised from yesterday's $43.77 / 30 clicks; not a new alert and not worse than the prior 0-purchase days. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 purchases; 11/6 $142.88, 64 clicks, 5 add-to-cart, 0 click + 2 view purchases; 11/5 $150.12, 86 clicks, 0 purchases; 11/4 $197.94, 121 clicks, 2 click + 3 view purchases. 11/3 had no report row (likely $0). Pixel last proved alive via page visits on 11/9. Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/10: 0 reddit UTM orders. purchases_7d_avg is 11/3-11/9 click-purchase mean (0/2/0/0/0/0/0 = 0.3)."
+        "notes": "11/12 run: WARN unchanged (channel closed 11/9; $0 on 11/11). | Previous: WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-03T05:00:00Z to 2026-11-12T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10 or 11/11 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 31 page visit clicks / 6 page visit views, 0 purchases) then went dark \u2014 revised from yesterday's $43.77 / 30 clicks; not a new alert and not worse than the prior 0-purchase days. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 purchases; 11/6 $142.88, 64 clicks, 5 add-to-"
       },
       "snapchat": {
         "status": "OK",
@@ -59646,7 +59785,7 @@
         "last_purchase_event": "2026-11-10 (119 real-time conversions; complete_payment 50, may still grow)",
         "purchases_24h": 119,
         "purchases_7d_avg": 99.7,
-        "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/3-11/10: 132/73/105/122/72/105/89/119 on $1.6-3.0k/day (11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03; 11/7 $1,763.89). 11/10 up 19.4% vs 11/3-11/9 avg (99.7) while Shopify down 14.8%; not a >50% drop. 11/9 complete_payment revised from yesterday's 52 to 90 (still-filling); 11/8 complete_payment revised 90 to 105 (real-time stayed 105); 11/7 complete_payment revised 59 to 63. 11/11 so far: 21 real-time / 3 complete_payment / $301.70. Checkout metric reads 0 on all days (INITIATE_ORDER exists on pixel), unchanged. TikTok 10/29 dip item already closed 11/4."
+        "notes": "11/12 run: 118 purchases, OK. | Previous: Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/3-11/10: 132/73/105/122/72/105/89/119 on $1.6-3.0k/day (11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03; 11/7 $1,763.89). 11/10 up 19.4% vs 11/3-11/9 avg (99.7) while Shopify down 14.8%; not a >50% drop. 11/9 complete_payment revised from yesterday's 52 to 90 (still-filling); 11/8 complete_payment revised 90 to 105 (real-time stayed 105); 11/7 complete_payment revised 59 to 63. 11/11 so far: 21 real-time / 3 complete_payment / $301.70. Checkout metric reads 0 o"
       },
       "taboola": {
         "status": "WARN",
@@ -59662,12 +59801,12 @@
         "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-11 8:14 AM ET (2026-11-11T13:14:18Z); 1 attributed purchase 11/10",
         "purchases_24h": 1,
         "purchases_7d_avg": 2.8,
-        "notes": "Begin Checkout 14yy8z (website_tag rifyu) re-verified TRACKING later in this same run via get_web_event_tag (last_tracked 2026-11-11T13:21:06Z = 11/11 8:21 AM ET). An earlier read in this same run showed DORMANT with a stale last_tracked_at of 2026-11-02T20:35:35Z \u2014 the same API flicker previously seen on 11/6\u201311/7 and 11/10 and noted in the X bot's re-verify caveat. Not marked WARN: the tag is TRACKING now, last checkout is within 12h, and purchases are flowing. Purchase 14yxvf TRACKING (last fire 11/11 8:14 AM ET); typed ATC 14zy3w TRACKING (last fire 11/11 8:23 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/10 $183.61 spend (pkcwu $79.53 after the $100\u2192$80 cut, pkcye $86.32, pkcyg $17.76 then paused 11/10 11:38 AM ET), 1 purchase (pkcwu 1 view-through $68.73, pkcye 0, pkcyg 0), 17 add-to-cart. 11/9 matches yesterday: $223.01 spend, 2 purchases (pkcwu 0, pkcye 2, pkcyg 0). Launch-to-11/10 daily purchases 0/1/4/6/4/2/1; purchases_7d_avg is the 11/4-11/9 mean (2.8). 1 vs 2.8 is a >50% drop on a tiny first-week sample, but not treated as a tracking WARN: spend also fell (C01 cut, C03 paused midday), Shopify 11/10 x UTM went 1\u21920, and the purchase tag fired today. checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night, first week ends ~11/11 (not yet past as of this morning). C01 and C02 RUNNING/servable; C03 Hoodies PAUSED. 11/11 so far: $39.83 spend (pkcwu $18.21, pkcye $21.62), 0 purchases, 0 ATC \u2014 purchase tag firing today."
+        "notes": "11/12 run: 1 purchase OK; Begin Checkout 14yy8z TRACKING (last fire 11/12 8:28 AM ET), no DORMANT flicker; C01 paused 11/11 11:36 AM ET. | Previous: Begin Checkout 14yy8z (website_tag rifyu) re-verified TRACKING later in this same run via get_web_event_tag (last_tracked 2026-11-11T13:21:06Z = 11/11 8:21 AM ET). An earlier read in this same run showed DORMANT with a stale last_tracked_at of 2026-11-02T20:35:35Z \u2014 the same API flicker previously seen on 11/6\u201311/7 and 11/10 and noted in the X bot's re-verify caveat. Not marked WARN: the tag is TRACKING now, last checkout is within 12h, and purchases are flowing. Purchase 14yxvf TRACKING (last fire 11/11 8:14 AM ET); typed ATC 14zy3w TRACKING (last fire 11/11 8:23 AM ET). Old custom ATC 14yxzi"
       }
     },
     "file_status": "ok",
     "source": "ads_throttle/tracking_health.json",
-    "shopify_orders_yesterday": 306
+    "shopify_orders_yesterday": 361
   },
   "attribution": {
     "as_of": "2026-11-11",
@@ -59685,12 +59824,14 @@
   "feed_health": {
     "schema_version": 1,
     "as_of": "2026-11-11",
-    "computed_at": "2026-11-12T14:32:08Z",
+    "computed_at": "2026-11-13T13:22:06Z",
     "summary": {
       "status": "degraded",
-      "as_of_lag_days": 0,
+      "as_of_lag_days": 1,
       "channels_fresh": [
         "applovin",
+        "bing",
+        "chatgpt",
         "google",
         "meta",
         "outbrain",
@@ -59700,8 +59841,6 @@
         "x"
       ],
       "channels_stale": [
-        "bing",
-        "chatgpt",
         "reddit",
         "taboola"
       ],
@@ -59709,6 +59848,7 @@
         "spotify"
       ],
       "grok_files_stale": [
+        "mmm_recommendation",
         "shopify_attribution"
       ]
     },
@@ -59780,17 +59920,15 @@
       },
       "bing": {
         "label": "Bing",
-        "status": "stale",
-        "last_measured_day": "2026-11-10",
-        "days_behind": 1,
-        "missing_days_7d": [
-          "2026-11-11"
-        ],
+        "status": "fresh",
+        "last_measured_day": "2026-11-11",
+        "days_behind": 0,
+        "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
         "expected_daily": true,
         "source": "bing_ads_daily.json",
         "owner_bot": "Bing Ads bot",
-        "days_14": "#############.",
+        "days_14": "##############",
         "window_14": "2026-10-29..2026-11-11"
       },
       "x": {
@@ -59842,17 +59980,15 @@
       },
       "chatgpt": {
         "label": "ChatGPT",
-        "status": "stale",
-        "last_measured_day": "2026-11-10",
-        "days_behind": 1,
-        "missing_days_7d": [
-          "2026-11-11"
-        ],
+        "status": "fresh",
+        "last_measured_day": "2026-11-11",
+        "days_behind": 0,
+        "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
         "expected_daily": true,
         "source": "chatgpt_ads_daily.json",
         "owner_bot": "ads bot for chatgpt",
-        "days_14": "##00000000000.",
+        "days_14": "##000000000000",
         "window_14": "2026-10-29..2026-11-11"
       },
       "taboola": {
@@ -59908,7 +60044,7 @@
     "files": {
       "tracking_health": {
         "file": "ads_throttle/tracking_health.json",
-        "as_of": "2026-11-11T08:30:00-05:00",
+        "as_of": "2026-11-12T08:32:00-05:00",
         "age_days": 1,
         "max_age_days": 2,
         "status": "fresh",
@@ -59917,7 +60053,7 @@
       "rankings": {
         "file": "ads_throttle/rankings.json",
         "as_of": "2026-11-09",
-        "age_days": 3,
+        "age_days": 4,
         "max_age_days": 8,
         "status": "fresh",
         "writer": "Jarvis (Mondays)"
@@ -59925,7 +60061,7 @@
       "shopify_attribution": {
         "file": "shopify_attribution_daily.json",
         "as_of": "2026-10-30",
-        "age_days": 13,
+        "age_days": 14,
         "max_age_days": 2,
         "status": "stale",
         "writer": "CFO box ShopifyQL sync (daily)"
@@ -59933,28 +60069,28 @@
       "mmm_recommendation": {
         "file": "ads_throttle/mmm_recommendation.json",
         "as_of": "2026-11-04T16:05:21Z",
-        "age_days": 8,
+        "age_days": 9,
         "max_age_days": 8,
-        "status": "fresh",
+        "status": "stale",
         "writer": "mmm-refit.yml (weekly)"
       },
       "settings": {
         "file": "ads_throttle/settings.json",
-        "as_of": "2026-11-10T09:55:27-05:00",
-        "age_days": 2,
+        "as_of": "2026-11-12T09:57:31-05:00",
+        "age_days": 1,
         "status": "info"
       },
       "grok_ack": {
         "file": "ads_throttle/grok_ack.json",
-        "as_of": "2026-11-11T10:00:00-05:00",
+        "as_of": "2026-11-12T09:59:05-05:00",
         "age_days": 1,
         "status": "info"
       },
       "changes": {
         "file": "ads_throttle/changes.json",
-        "as_of": "2026-11-10",
+        "as_of": "2026-11-11",
         "age_days": 2,
-        "entries": 9,
+        "entries": 12,
         "status": "info"
       }
     },
@@ -59966,7 +60102,7 @@
   "cfo_brief": {
     "schema_version": 1,
     "as_of": "2026-11-11",
-    "computed_at": "2026-11-12T14:32:08Z",
+    "computed_at": "2026-11-13T13:22:06Z",
     "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
     "rule": {
       "source": "ads_throttle/settings.json",
@@ -59978,42 +60114,36 @@
       "window_days": 7
     },
     "portfolio": {
-      "mer_7d": 1.8426,
-      "mer_30d": 2.2014,
+      "mer_7d": 1.8379,
+      "mer_30d": 2.1999,
       "mer_target": 3.24,
       "mer_gap": -1.4,
       "stance": "below_target",
       "d2c_revenue_7d": 200187.78,
-      "d2c_spend_7d": 108645.9,
-      "channel_spend_7d": 108645.9,
-      "spend_judged_pct": 75.4,
-      "spend_in_auto_mode_pct": 19.5,
-      "excluded_from_d2c_spend": [
-        {
-          "channel": "bing",
-          "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-        }
-      ]
+      "d2c_spend_7d": 108919.2,
+      "channel_spend_7d": 108919.2,
+      "spend_judged_pct": 75.2,
+      "spend_in_auto_mode_pct": 19.7,
+      "excluded_from_d2c_spend": [],
+      "mer_target_scope": "total_company",
+      "total_company_mer_7d": 3.25,
+      "stance_on_target_scope": "room_to_add"
     },
     "summary": {
       "act_now": [
-        "snapchat",
-        "x"
+        "snapchat"
       ],
       "by_verdict": {
         "cooldown": [
-          "google"
-        ],
-        "cut": [
+          "google",
           "x"
         ],
         "hold": [
+          "bing",
           "meta",
           "tiktok"
         ],
         "insufficient": [
-          "bing",
-          "chatgpt",
           "reddit",
           "spotify"
         ],
@@ -60022,6 +60152,7 @@
           "taboola"
         ],
         "paused": [
+          "chatgpt",
           "pinterest"
         ],
         "raise": [
@@ -60029,8 +60160,8 @@
           "snapchat"
         ]
       },
-      "open_asks": 7,
-      "open_asks_high": 2,
+      "open_asks": 10,
+      "open_asks_high": 1,
       "feed_status": "degraded"
     },
     "channels": {
@@ -60169,7 +60300,7 @@
         "feed_status": "fresh",
         "last_measured_day": "2026-11-11",
         "last_change": {
-          "date": "2026-10-30",
+          "date": "2026-11-11",
           "action": "raise_20pct"
         },
         "grok": {
@@ -60221,24 +60352,24 @@
         "label": "Bing",
         "mode": "auto",
         "owner_bot": "Bing Ads bot",
-        "verdict": "insufficient",
-        "rule_says": "Not enough data",
+        "verdict": "hold",
+        "rule_says": "Hold - in band",
         "actionable": false,
         "blockers": [
-          "feed_gap:6/7 days measured"
+          "roas_disputed"
         ],
         "cautions": [],
-        "spend_7d": 1476.33,
-        "spend_days_measured": 6,
-        "roas_7d": null,
-        "roas_days": 6,
+        "spend_7d": 1749.63,
+        "spend_days_measured": 7,
+        "roas_7d": 2.08,
+        "roas_days": 7,
         "roas_source": "channel daily file",
-        "platform_revenue_7d": null,
+        "platform_revenue_7d": 3638.96,
         "roas_prior_7d": 9.46,
         "spend_prior_7d": 324.47,
         "tracking_status": "OK",
-        "feed_status": "stale",
-        "last_measured_day": "2026-11-10",
+        "feed_status": "fresh",
+        "last_measured_day": "2026-11-11",
         "last_change": {
           "date": "2026-10-27",
           "action": "cut_20pct_and_change_strategy"
@@ -60249,7 +60380,8 @@
           "spend_7d": 918.86,
           "tier": "Steady",
           "tier_label": "Steady",
-          "tracking": "OK (ratio 0.74 in band)"
+          "tracking": "OK (ratio 0.74 in band)",
+          "roas_gap_pct": 50.5
         },
         "mmm_verdict": null
       },
@@ -60257,10 +60389,12 @@
         "label": "X",
         "mode": "auto",
         "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
-        "verdict": "cut",
-        "rule_says": "Cut -20% + new strategy",
-        "actionable": true,
-        "blockers": [],
+        "verdict": "cooldown",
+        "rule_says": "Hold - cooldown",
+        "actionable": false,
+        "blockers": [
+          "cooldown"
+        ],
         "cautions": [],
         "spend_7d": 1402.48,
         "spend_days_measured": 7,
@@ -60273,7 +60407,10 @@
         "tracking_status": "OK",
         "feed_status": "fresh",
         "last_measured_day": "2026-11-11",
-        "last_change": null,
+        "last_change": {
+          "date": "2026-11-11",
+          "action": "cut_20pct_and_change_strategy"
+        },
         "grok": {
           "as_of": "2026-11-09",
           "roas_7d": 1.37,
@@ -60363,25 +60500,25 @@
         "label": "ChatGPT",
         "mode": "hold",
         "owner_bot": "ads bot for chatgpt",
-        "verdict": "insufficient",
+        "verdict": "paused",
         "rule_says": "Not enough data",
         "actionable": false,
         "blockers": [
           "mode:hold",
-          "feed_gap:6/7 days measured"
+          "spend_stopped:2026-10-30"
         ],
         "cautions": [],
         "spend_7d": 0.0,
-        "spend_days_measured": 6,
+        "spend_days_measured": 7,
         "roas_7d": null,
-        "roas_days": 6,
+        "roas_days": 7,
         "roas_source": null,
         "platform_revenue_7d": null,
         "roas_prior_7d": 0.0,
         "spend_prior_7d": 206.0,
         "tracking_status": "OK",
-        "feed_status": "stale",
-        "last_measured_day": "2026-11-10",
+        "feed_status": "fresh",
+        "last_measured_day": "2026-11-11",
         "last_change": {
           "date": "2026-10-30",
           "action": "kill_under_1x"
@@ -60495,27 +60632,6 @@
     },
     "asks": [
       {
-        "id": "feed.bing",
-        "severity": "high",
-        "channel": "bing",
-        "owner": "Bing Ads bot",
-        "title": "Bing: no measured row since 2026-11-10",
-        "detail": "bing_ads_daily.json has no measured row for 2026-11-11. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
-        "first_seen": "2026-11-12",
-        "age_days": 0,
-        "evidence": {
-          "missing_days": [
-            "2026-11-11"
-          ],
-          "last_measured_day": "2026-11-10"
-        },
-        "ack": {
-          "status": "working",
-          "note": "Routed to Bing Ads bot to backfill 11/9 row in bing_ads_daily.json today.",
-          "at": "2026-11-10T09:50:00-05:00"
-        }
-      },
-      {
         "id": "feed.reddit",
         "severity": "high",
         "channel": "reddit",
@@ -60523,7 +60639,7 @@
         "title": "Reddit: no measured row since 2026-11-08",
         "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-09, 2026-11-10, 2026-11-11. The platform reported spend on 2026-11-06 ($142.88), 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
         "first_seen": "2026-11-09",
-        "age_days": 3,
+        "age_days": 4,
         "evidence": {
           "missing_days": [
             "2026-11-06",
@@ -60547,12 +60663,37 @@
         "title": "Taboola: no measured row since 2026-11-10",
         "detail": "taboola_ads_daily.json has no measured row for 2026-11-11. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
         "first_seen": "2026-11-12",
-        "age_days": 0,
+        "age_days": 1,
         "evidence": {
           "missing_days": [
             "2026-11-11"
           ],
           "last_measured_day": "2026-11-10"
+        },
+        "ack": {
+          "status": "working",
+          "note": "11/11 row still unwritten. taboola bot blocked: TABOOLA_CLIENT_ID and TABOOLA_CLIENT_SECRET are not in the box env (and there is no /home/box/.secrets/taboola.env). Jarvis also found them unset and could not restore them. No hand-typed row. Will raise on the 4 PM list if still missing; once env is back, taboola bot will run taboola_sync.py --start 2026-11-11 --end 2026-11-11 only.",
+          "at": "2026-11-12T09:59:05-05:00"
+        }
+      },
+      {
+        "id": "roas.bing.disputed",
+        "severity": "high",
+        "channel": "bing",
+        "owner": "Bing Ads bot",
+        "title": "Bing: CFO reads 2.08x, Grok reads 4.20x \u2014 the rule lands in different bands",
+        "detail": "CFO 7d platform ROAS 2.08x (channel daily file, 2026-11-05..2026-11-11) says hold; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+        "first_seen": "2026-11-13",
+        "age_days": 0,
+        "evidence": {
+          "cfo_roas_7d": 2.08,
+          "grok_roas_7d": 4.2,
+          "gap_pct": 50.5
+        },
+        "ack": {
+          "status": "done",
+          "note": "Agreed Bing ROAS basis written to channels.bing.notes on 11/12 (commit 1a2b7a3): goal 172222236 ConversionsQualified/Revenue, click-date, 30-day click window, trailing 7 closed ET days, Shopify-destination only. Nov 5-11 feed snapshot 2.08x, live reread 2.38x, both hold band.",
+          "at": "2026-11-12T09:57:31-05:00"
         }
       },
       {
@@ -60563,7 +60704,7 @@
         "title": "Google Ads: CFO reads 1.52x, Grok reads 6.07x \u2014 the rule lands in different bands",
         "detail": "CFO 7d platform ROAS 1.52x (daily_inputs.platform_roas, 2026-11-05..2026-11-11) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
         "first_seen": "2026-11-09",
-        "age_days": 3,
+        "age_days": 4,
         "evidence": {
           "cfo_roas_7d": 1.52,
           "grok_roas_7d": 6.07,
@@ -60583,7 +60724,7 @@
         "title": "TikTok (website): CFO reads 2.43x, Grok reads 3.36x \u2014 the rule lands in different bands",
         "detail": "CFO 7d platform ROAS 2.43x (daily_inputs.platform_roas, 2026-11-05..2026-11-11) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
         "first_seen": "2026-11-09",
-        "age_days": 3,
+        "age_days": 4,
         "evidence": {
           "cfo_roas_7d": 2.43,
           "grok_roas_7d": 3.36,
@@ -60603,7 +60744,7 @@
         "title": "8 winning Meta creative(s) not yet on any other channel",
         "detail": "\"best tumbler for gifting- Copy\" (3.52x on $2,718), \"David's email - New Drop | BFCMR SA03\" (3.91x on $2,546), \"New Sales Ad | BFCMR SA01\" (4.14x on $1,916), \"PENDING PERMISSIONS | T2#2 | @coldestsami08 | 7548496099791670559 | moms-school-runs | copy-proven\" (3.76x on $1,753), \"EV#2 - 16 - Copy\" (3.44x on $980). Rebuild each for the channels in `not_on` (the landing page and Meta ad id are in creatives.winners) and add one entry per launch to ads_throttle/creative_ports.json; a creative that does not fit a channel gets status \"rejected\" with a one-line note.",
         "first_seen": "2026-11-12",
-        "age_days": 0,
+        "age_days": 1,
         "evidence": {
           "creative_ids": [
             "21f428981646c9d1bdcc84f6dbb987c6",
@@ -60615,6 +60756,11 @@
             "838e7cfa33a35d94659718ae7d47ff46",
             "f0d6f8731163588dabee5f65fdf5b353"
           ]
+        },
+        "ack": {
+          "status": "working",
+          "note": "8 Meta winners unported; handled by the Meta winners -> all channels routine.",
+          "at": "2026-11-12T09:55:00-05:00"
         }
       },
       {
@@ -60622,41 +60768,35 @@
         "severity": "medium",
         "channel": null,
         "owner": "CFO creative routine",
-        "title": "ads_throttle/creative_winners.json is 3 days old",
+        "title": "ads_throttle/creative_winners.json is 4 days old",
         "detail": "Last Adnova snapshot 2026-11-10T00:07:07.178Z. The daily creative routine (ops/creative/ROUTINE.md) did not run or could not push.",
         "first_seen": "2026-11-12",
-        "age_days": 0
-      },
-      {
-        "id": "feed.chatgpt",
-        "severity": "medium",
-        "channel": "chatgpt",
-        "owner": "ads bot for chatgpt",
-        "title": "ChatGPT: no measured row since 2026-11-10",
-        "detail": "chatgpt_ads_daily.json has no measured row for 2026-11-11. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
-        "first_seen": "2026-11-12",
-        "age_days": 0,
-        "evidence": {
-          "missing_days": [
-            "2026-11-11"
-          ],
-          "last_measured_day": "2026-11-10"
-        },
+        "age_days": 1,
         "ack": {
           "status": "working",
-          "note": "Routed to ChatGPT ads bot to backfill 11/9 row in chatgpt_ads_daily.json today.",
-          "at": "2026-11-10T09:50:00-05:00"
+          "note": "Owner CFO creative routine; flagged for Builder, not routable from Jarvis.",
+          "at": "2026-11-12T09:55:00-05:00"
         }
+      },
+      {
+        "id": "file.mmm_recommendation.stale",
+        "severity": "medium",
+        "channel": null,
+        "owner": "mmm-refit.yml (weekly)",
+        "title": "ads_throttle/mmm_recommendation.json is 9 days old",
+        "detail": "Last written 2026-11-04T16:05:21Z; expected at most 8 days old (mmm-refit.yml (weekly)). The dashboard is showing old data from it.",
+        "first_seen": "2026-11-13",
+        "age_days": 0
       },
       {
         "id": "file.shopify_attribution.stale",
         "severity": "medium",
         "channel": null,
         "owner": "CFO box ShopifyQL sync (daily)",
-        "title": "shopify_attribution_daily.json is 13 days old",
+        "title": "shopify_attribution_daily.json is 14 days old",
         "detail": "Last written 2026-10-30; expected at most 2 days old (CFO box ShopifyQL sync (daily)). The dashboard is showing old data from it.",
         "first_seen": "2026-11-09",
-        "age_days": 3,
+        "age_days": 4,
         "ack": {
           "status": "working",
           "note": "Owner is CFO box ShopifyQL sync; not routable from Jarvis today, flagged for Builder fix.",
@@ -60664,28 +60804,112 @@
         }
       },
       {
+        "id": "growth.new_customers.stale",
+        "severity": "medium",
+        "channel": null,
+        "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
+        "title": "growth/shopify_customers_daily.json is 3 days old",
+        "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
+        "first_seen": "2026-11-13",
+        "age_days": 0
+      },
+      {
+        "id": "tracking.new_customer_utm_coverage",
+        "severity": "medium",
+        "channel": null,
+        "owner": "Jarvis",
+        "title": "Only 49.5% of new-customer orders carry a UTM",
+        "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
+        "first_seen": "2026-11-11",
+        "age_days": 2
+      },
+      {
+        "id": "history.backfill",
+        "severity": "low",
+        "channel": null,
+        "owner": "Workspace cron",
+        "title": "Media-mix model has 34 of 180 usable days",
+        "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
+        "first_seen": "2026-11-11",
+        "age_days": 2
+      },
+      {
+        "id": "inventory.low_cover",
+        "severity": "low",
+        "channel": null,
+        "owner": "Jarvis",
+        "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
+        "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
+        "first_seen": "2026-11-11",
+        "age_days": 2,
+        "evidence": {
+          "products": [
+            "COLDEST 36oz Limitless Ultra v8"
+          ]
+        }
+      },
+      {
         "id": "settings.daily_budget.unknown",
         "severity": "low",
         "channel": null,
         "owner": "Jarvis",
-        "title": "Current daily budget unknown for bing, x",
+        "title": "Current daily budget unknown for bing",
         "detail": "Write channels.<channel>.daily_budget in ads_throttle/settings.json after each change. Without it the dashboard can say raise / cut but not the new dollar budget.",
         "first_seen": "2026-11-09",
-        "age_days": 3,
+        "age_days": 4,
         "evidence": {
           "channels": [
-            "bing",
-            "x"
+            "bing"
           ]
         },
         "ack": {
           "status": "working",
-          "note": "Snapchat live budget written (604/day); google, bing, taboola budgets to be written once their bots report actual values.",
-          "at": "2026-11-10T09:50:00-05:00"
+          "note": "Snapchat live budget written 11/12 (624/day). X live budget 70/day (C02 only). Google 105.84 already set. Bing and Taboola budgets still to be written once their bots report actual values.",
+          "at": "2026-11-12T09:57:31-05:00"
         }
       }
     ],
     "change_outcomes": [
+      {
+        "date": "2026-11-11",
+        "channel": "x",
+        "action": "cut_20pct_and_change_strategy",
+        "by": "x.com ads",
+        "status_logged": "done (executed by x.com ads 11/11 11:50 AM ET; live read confirmed 11/12 9:51 AM ET). No further cut on 11/12 (do not double-cut; 3-day cooldown until 11/14).",
+        "executed": true,
+        "budget": {
+          "old": 87.5,
+          "new": 70
+        },
+        "before": {
+          "window": "2026-11-04..2026-11-10",
+          "spend": 1300.4,
+          "roas": 1.1,
+          "roas_days": 7
+        },
+        "outcome": "pending",
+        "ready_on": "2026-11-19"
+      },
+      {
+        "date": "2026-11-11",
+        "channel": "snapchat",
+        "action": "raise_20pct",
+        "by": "SNAPCHAT ADS",
+        "status_logged": "done (executed 11/11 9:55:19 AM ET; live read 11/12 9:52 AM ET). Logged 11/12 because throttle files were stale. No 11/12 raise.",
+        "executed": true,
+        "budget": {
+          "old": 100,
+          "new": 120
+        },
+        "before": {
+          "window": "2026-11-04..2026-11-10",
+          "spend": 4059.92,
+          "roas": 8.16,
+          "roas_days": 7
+        },
+        "outcome": "pending",
+        "ready_on": "2026-11-19"
+      },
       {
         "date": "2026-11-10",
         "channel": "google",
@@ -60705,6 +60929,26 @@
         },
         "outcome": "pending",
         "ready_on": "2026-11-18"
+      },
+      {
+        "date": "2026-11-06",
+        "channel": "snapchat",
+        "action": "raise_20pct",
+        "by": "SNAPCHAT ADS",
+        "status_logged": "done (executed 11/6 9:40:12 AM ET; live read 11/12 9:52 AM ET). Logged 11/12 because throttle files were stale (brief still showed last raise 10/30).",
+        "executed": true,
+        "budget": {
+          "old": 420,
+          "new": 504
+        },
+        "before": {
+          "window": "2026-10-30..2026-11-05",
+          "spend": 3175.11,
+          "roas": 8.33,
+          "roas_days": 7
+        },
+        "outcome": "pending",
+        "ready_on": "2026-11-14"
       },
       {
         "date": "2026-11-04",
@@ -60902,7 +61146,7 @@
       "file": "ads_throttle/creative_winners.json",
       "as_of": "2026-11-09",
       "snapshot_at": "2026-11-10T00:07:07.178Z",
-      "age_days": 3,
+      "age_days": 4,
       "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
       "rule": {
         "min_roas": 2.8,
@@ -61144,6 +61388,1631 @@
         }
       },
       "note": "Optional. An ask disappears on its own when the condition clears."
+    },
+    "growth": {
+      "file": "ads_throttle/growth_brief.json",
+      "headline": {
+        "mer_7d": 1.8379,
+        "mer_target": 3.24,
+        "breakeven_mer_before_overhead": 1.39,
+        "stance": "room_to_add",
+        "rule_conflict": false,
+        "target_scope": "total_company",
+        "first_holdout_not_before": "2027-01-01",
+        "first_to_give_back": [],
+        "blended_ncac": null,
+        "first_order_value": 72.34,
+        "new_share_of_net_sales_pct": 30.9,
+        "revenue_per_customer_m2": 105.38,
+        "paid_back_by": null,
+        "contribution_margin_pct": 72.0,
+        "low_stock": [
+          "COLDEST 36oz Limitless Ultra v8"
+        ],
+        "annual_run_rate": 29469118.0,
+        "multiple_to_target": 3.39,
+        "total_mer_7d": 3.25,
+        "usable_history_days": 34,
+        "open_grok_requests": 0,
+        "tests_running": 0
+      }
+    }
+  },
+  "growth_brief": {
+    "schema_version": 1,
+    "as_of": "2026-11-11",
+    "computed_at": "2026-11-13T13:22:06Z",
+    "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
+    "governor": {
+      "status": "ok",
+      "target_scope": "total_company",
+      "compared_mer_7d": 3.25,
+      "adopted": false,
+      "adopted_note": "Advisory until David sets global.portfolio_governor in ads_throttle/settings.json. It orders channels; it does not change any channel's rule verdict.",
+      "mer_7d": 1.8379,
+      "mer_target": 3.24,
+      "stance": "room_to_add",
+      "d2c_revenue_7d": 200187.78,
+      "d2c_spend_7d": 108919.2,
+      "spend_the_target_supports_at_this_revenue": 61786.35,
+      "spend_above_that": 47132.85,
+      "total_company_mer_7d": 3.25,
+      "target_scope_note": "David 11/12: 3.24 is a total-company target, he believes \u2014 where the company is making money, not just breaking even. Shopify D2C MER is read against D2C break-even instead.",
+      "breakeven_mer_before_overhead": 1.39,
+      "mer_vs_breakeven": 0.45,
+      "spend_reading_hold_or_raise_pct": 99.6,
+      "rule_conflict": false,
+      "give_back_order": [],
+      "add_order": [
+        {
+          "channel": "snapchat",
+          "label": "Snapchat",
+          "spend_7d": 4157.56,
+          "share_of_spend_pct": 3.8,
+          "roas_7d": 8.31,
+          "marginal_roas": 11.41,
+          "ranked_on": "marginal_roas",
+          "rule_verdict": "raise",
+          "mode": "auto",
+          "who_can_act": "Grok"
+        },
+        {
+          "channel": "applovin",
+          "label": "AppLovin",
+          "spend_7d": 1223.56,
+          "share_of_spend_pct": 1.1,
+          "roas_7d": 3.6,
+          "marginal_roas": null,
+          "ranked_on": "roas_7d",
+          "rule_verdict": "raise",
+          "mode": "view",
+          "who_can_act": "David"
+        },
+        {
+          "channel": "x",
+          "label": "X",
+          "spend_7d": 1402.48,
+          "share_of_spend_pct": 1.3,
+          "roas_7d": 1.07,
+          "marginal_roas": null,
+          "ranked_on": "roas_7d",
+          "rule_verdict": "cooldown",
+          "mode": "auto",
+          "who_can_act": "David"
+        },
+        {
+          "channel": "meta",
+          "label": "Meta",
+          "spend_7d": 75117.01,
+          "share_of_spend_pct": 69.0,
+          "roas_7d": 2.07,
+          "marginal_roas": 0.16,
+          "ranked_on": "marginal_roas",
+          "rule_verdict": "hold",
+          "mode": "frozen",
+          "who_can_act": "David"
+        }
+      ],
+      "unranked": [
+        {
+          "channel": "google",
+          "spend_7d": 14167.24,
+          "why": "disputed read"
+        },
+        {
+          "channel": "tiktok",
+          "spend_7d": 10655.16,
+          "why": "disputed read"
+        },
+        {
+          "channel": "bing",
+          "spend_7d": 1749.63,
+          "why": "disputed read"
+        },
+        {
+          "channel": "reddit",
+          "spend_7d": 446.56,
+          "why": "no full 7-day read"
+        }
+      ],
+      "basis": "Ordered by what the last added dollars returned (marginal block) where spend rose, else by 7-day platform ROAS; lowest first. Disputed and unread channels are left out, not guessed."
+    },
+    "marginal": {
+      "status": "ok",
+      "basis": "platform-reported revenue and spend, this 7 days against the 7 days before",
+      "caveat": "Week over week, not causal: promotions, launches and seasonality are not removed. A holdout test (incrementality block) or the media-mix model is the causal read.",
+      "confounders_in_window": [
+        "pinterest_launch"
+      ],
+      "min_spend_move_pct": 10.0,
+      "min_spend_7d": 200.0,
+      "channels": {
+        "meta": {
+          "label": "Meta",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 75041.31,
+          "spend_prior": 62414.43,
+          "revenue": 155665.23,
+          "revenue_prior": 153700.7,
+          "roas": 2.07,
+          "roas_prior": 2.46,
+          "marginal_roas": 0.16,
+          "spend_change": 12626.88,
+          "revenue_change": 1964.53,
+          "spend_change_pct": 20.2,
+          "read": "added_spend"
+        },
+        "google": {
+          "label": "Google Ads",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 14073.47,
+          "spend_prior": 12882.83,
+          "revenue": 21451.07,
+          "revenue_prior": 20540.92,
+          "roas": 1.52,
+          "roas_prior": 1.59,
+          "marginal_roas": null,
+          "spend_change": 1190.64,
+          "revenue_change": 910.15,
+          "spend_change_pct": 9.2,
+          "read": "flat_spend",
+          "why": "spend moved +9.2%, under 10%: no margin to read"
+        },
+        "tiktok": {
+          "label": "TikTok (website)",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 16254.82,
+          "spend_prior": 14173.53,
+          "revenue": 39436.31,
+          "revenue_prior": 34450.05,
+          "roas": 2.43,
+          "roas_prior": 2.43,
+          "marginal_roas": 2.4,
+          "spend_change": 2081.29,
+          "revenue_change": 4986.26,
+          "spend_change_pct": 14.7,
+          "read": "added_spend"
+        },
+        "snapchat": {
+          "label": "Snapchat",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 4157.56,
+          "spend_prior": 3005.11,
+          "revenue": 34529.51,
+          "revenue_prior": 21381.2,
+          "roas": 8.31,
+          "roas_prior": 7.11,
+          "marginal_roas": 11.41,
+          "spend_change": 1152.45,
+          "revenue_change": 13148.31,
+          "spend_change_pct": 38.3,
+          "read": "added_spend"
+        },
+        "applovin": {
+          "label": "AppLovin",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 1223.56,
+          "spend_prior": 1173.67,
+          "revenue": 4403.83,
+          "revenue_prior": 3216.77,
+          "roas": 3.6,
+          "roas_prior": 2.74,
+          "marginal_roas": null,
+          "spend_change": 49.89,
+          "revenue_change": 1187.06,
+          "spend_change_pct": 4.3,
+          "read": "flat_spend",
+          "why": "spend moved +4.3%, under 10%: no margin to read"
+        },
+        "bing": {
+          "label": "Bing",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 1749.63,
+          "spend_prior": 324.47,
+          "revenue": 3638.96,
+          "revenue_prior": 3071.01,
+          "roas": 2.08,
+          "roas_prior": 9.46,
+          "marginal_roas": 0.4,
+          "spend_change": 1425.16,
+          "revenue_change": 567.95,
+          "spend_change_pct": 439.2,
+          "read": "added_spend"
+        },
+        "x": {
+          "label": "X",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 1402.48,
+          "spend_prior": 1.43,
+          "revenue": 1503.51,
+          "revenue_prior": 0.0,
+          "roas": 1.07,
+          "roas_prior": 0.0,
+          "marginal_roas": null,
+          "read": "insufficient",
+          "why": "under $200 of spend in one of the two weeks"
+        },
+        "reddit": {
+          "label": "Reddit",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 637.92,
+          "spend_prior": 1376.87,
+          "revenue": 0.0,
+          "revenue_prior": 2764.12,
+          "roas": 0.0,
+          "roas_prior": 2.01,
+          "marginal_roas": 3.74,
+          "spend_change": -738.95,
+          "revenue_change": -2764.12,
+          "spend_change_pct": -53.7,
+          "read": "cut_spend"
+        },
+        "pinterest": {
+          "label": "Pinterest",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 0.0,
+          "spend_prior": 232.04,
+          "revenue": 0.0,
+          "revenue_prior": 114.63,
+          "roas": null,
+          "roas_prior": 0.49,
+          "marginal_roas": null,
+          "read": "insufficient",
+          "why": "under $200 of spend in one of the two weeks"
+        },
+        "chatgpt": {
+          "label": "ChatGPT",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 0.0,
+          "spend_prior": 206.0,
+          "revenue": 0.0,
+          "revenue_prior": 0.0,
+          "roas": null,
+          "roas_prior": 0.0,
+          "marginal_roas": null,
+          "read": "insufficient",
+          "why": "under $200 of spend in one of the two weeks"
+        },
+        "taboola": {
+          "label": "Taboola",
+          "window": "2026-11-05..2026-11-11",
+          "prior_window": "2026-10-29..2026-11-04",
+          "spend": 0.0,
+          "spend_prior": 506.68,
+          "revenue": 0.0,
+          "revenue_prior": 0.0,
+          "roas": null,
+          "roas_prior": 0.0,
+          "marginal_roas": null,
+          "read": "insufficient",
+          "why": "under $200 of spend in one of the two weeks"
+        }
+      }
+    },
+    "new_customers": {
+      "status": "insufficient_data",
+      "as_of": "2026-11-10",
+      "source": "ShopifyQL via the Shopify connector (net_sales, ex tax; Shopify-defined new / returning)",
+      "now": {
+        "window": "2026-11-05..2026-11-11",
+        "days_with_customers": 6,
+        "days_with_spend": 7,
+        "new_customers": 662,
+        "new_customer_net_sales": 47888.91,
+        "returning_net_sales": 107195.25,
+        "new_share_of_net_sales_pct": 30.9,
+        "first_order_value": 72.34,
+        "d2c_ad_spend": 108919.2,
+        "blended_ncac": null,
+        "new_customer_mer": null
+      },
+      "prior": {
+        "window": "2026-10-29..2026-11-04",
+        "days_with_customers": 7,
+        "days_with_spend": 7,
+        "new_customers": 639,
+        "new_customer_net_sales": 44025.07,
+        "returning_net_sales": 131818.68,
+        "new_share_of_net_sales_pct": 25.0,
+        "first_order_value": 68.9,
+        "d2c_ad_spend": 90894.41,
+        "blended_ncac": 142.24,
+        "new_customer_mer": 0.48
+      },
+      "basis": "Blended: all D2C ad spend over all new Shopify customers. Organic and email first orders lower it; charging every ad dollar to new customers, although ads also bring returning customers back, raises it. Net sales exclude shipping charges and tax.",
+      "by_channel": {
+        "window": "2026-11-04..2026-11-10",
+        "utm_coverage_pct": 49.5,
+        "truncated": true,
+        "usable_for_ncac": false,
+        "why_withheld": "the UTM pull covers a different window than this brief",
+        "channels": {
+          "unattributed": {
+            "new_customers": 427,
+            "net_sales": 31784.6,
+            "spend_7d": null,
+            "ncac": null
+          },
+          "meta": {
+            "new_customers": 255,
+            "net_sales": 17161.78,
+            "spend_7d": null,
+            "ncac": null
+          },
+          "owned": {
+            "new_customers": 49,
+            "net_sales": 3849.93,
+            "spend_7d": null,
+            "ncac": null
+          },
+          "bing": {
+            "new_customers": 8,
+            "net_sales": 871.4,
+            "spend_7d": null,
+            "ncac": null
+          },
+          "google": {
+            "new_customers": 8,
+            "net_sales": 646.92,
+            "spend_7d": null,
+            "ncac": null
+          },
+          "x": {
+            "new_customers": 4,
+            "net_sales": 266.38,
+            "spend_7d": null,
+            "ncac": null
+          }
+        }
+      }
+    },
+    "ltv_payback": {
+      "status": "ok",
+      "as_of": "2026-11-10",
+      "source": "ShopifyQL via the Shopify connector (net_sales, ex tax; Shopify-defined new / returning)",
+      "basis": "Net sales per customer by calendar month of the first order, completed months only. m0 is the first-order month, m2 is about 90 days, m5 about 180. Each horizon pools the cohorts old enough to have it.",
+      "cohorts": [
+        {
+          "cohort": "2026-05",
+          "customers": 3534,
+          "revenue_per_customer_m0": 82.94,
+          "revenue_per_customer_m1": 98.95,
+          "revenue_per_customer_m2": 109.55,
+          "revenue_per_customer_m3": 121.49,
+          "revenue_per_customer_m5": 135.92,
+          "months_measured": 6
+        },
+        {
+          "cohort": "2026-06",
+          "customers": 4527,
+          "revenue_per_customer_m0": 84.47,
+          "revenue_per_customer_m1": 98.12,
+          "revenue_per_customer_m2": 110.15,
+          "revenue_per_customer_m3": 117.88,
+          "months_measured": 5
+        },
+        {
+          "cohort": "2026-07",
+          "customers": 3839,
+          "revenue_per_customer_m0": 81.6,
+          "revenue_per_customer_m1": 95.88,
+          "revenue_per_customer_m2": 104.43,
+          "revenue_per_customer_m3": 111.71,
+          "months_measured": 4
+        },
+        {
+          "cohort": "2026-08",
+          "customers": 4465,
+          "revenue_per_customer_m0": 79.35,
+          "revenue_per_customer_m1": 89.67,
+          "revenue_per_customer_m2": 98.06,
+          "months_measured": 3
+        },
+        {
+          "cohort": "2026-09",
+          "customers": 3062,
+          "revenue_per_customer_m0": 81.35,
+          "revenue_per_customer_m1": 93.78,
+          "months_measured": 2
+        },
+        {
+          "cohort": "2026-10",
+          "customers": 2561,
+          "revenue_per_customer_m0": 79.47,
+          "months_measured": 1
+        }
+      ],
+      "revenue_per_customer": {
+        "m0": 81.67,
+        "m1": 95.2,
+        "m2": 105.38,
+        "m3": 116.96,
+        "m5": 135.92
+      },
+      "cohorts_pooled": {
+        "m0": 21988,
+        "m1": 19427,
+        "m2": 16365,
+        "m3": 11900,
+        "m5": 3534
+      },
+      "payback": null
+    },
+    "incrementality": {
+      "status": "scheduled",
+      "file": "ads_throttle/incrementality_tests.json",
+      "geo_feed_days": 0,
+      "not_before": "2027-01-01",
+      "not_before_note": "David 11/12: no Meta holdouts during Black Friday / Cyber Monday. Grok starts them on January 1.",
+      "why": "first test starts 2027-01-01",
+      "tests": [],
+      "calibration": {},
+      "basis": "Geo holdout, difference-in-differences on Shopify net sales by shipping state: the held-out states against the rest, test days against the 28 days before. A calibration factor is published only for a completed test whose lift is outside its own noise.",
+      "how_to_start": "docs/INCREMENTALITY.md. A test needs David's approval (approved_by) before it runs."
+    },
+    "history": {
+      "status": "insufficient_data",
+      "usable_days": 34,
+      "days_required": 180,
+      "days_short": 146,
+      "usable_span": {
+        "start": "2026-09-28",
+        "end": "2026-11-02"
+      },
+      "gap_days_in_run": [
+        "2026-10-09",
+        "2026-10-10"
+      ],
+      "panel_as_of": "2026-11-03",
+      "ready_without_backfill": "2027-03-28",
+      "backfill_to_reach_it_now": "2026-05-07",
+      "daily_inputs": {
+        "shopify_analytics": {
+          "first_day": "2026-09-28",
+          "last_day": "2026-11-11",
+          "days": 43
+        },
+        "meta": {
+          "first_day": "2026-09-28",
+          "last_day": "2026-11-11",
+          "days": 44
+        },
+        "google_ads": {
+          "first_day": "2026-09-30",
+          "last_day": "2026-11-11",
+          "days": 41
+        },
+        "tiktok_ads": {
+          "first_day": "2026-09-28",
+          "last_day": "2026-11-11",
+          "days": 44
+        },
+        "applovin": {
+          "first_day": "2026-07-31",
+          "last_day": "2026-11-10",
+          "days": 99
+        },
+        "snapchat_ads": {
+          "first_day": "2026-10-01",
+          "last_day": "2026-11-11",
+          "days": 42
+        },
+        "pinterest_ads": {
+          "first_day": "2026-10-01",
+          "last_day": "2026-11-11",
+          "days": 42
+        },
+        "reddit_ads": {
+          "first_day": "2026-10-01",
+          "last_day": "2026-11-11",
+          "days": 38
+        },
+        "sellerboard": {
+          "first_day": "2026-09-28",
+          "last_day": "2026-11-11",
+          "days": 43
+        },
+        "whatnot": {
+          "first_day": "2026-09-28",
+          "last_day": "2026-11-11",
+          "days": 44
+        }
+      },
+      "how": "ops/growth/ROUTINE.md \"History backfill\": per-channel spend from each platform, fill-holes only through store.put_input, never over a measured day."
+    },
+    "halo": {
+      "status": "ok",
+      "d7": {
+        "window": "2026-11-05..2026-11-11",
+        "days_used": 7,
+        "days_skipped": [],
+        "revenue": {
+          "shopify": 200187.78,
+          "amazon": 114424.75,
+          "tiktok_shop": 130545.76,
+          "whatnot": 45656.0
+        },
+        "ad_spend": {
+          "d2c": 108919.2,
+          "amazon": 24824.92,
+          "tiktok_shop": 12186.41,
+          "whatnot": 5110.35
+        },
+        "total_revenue": 490814.29,
+        "total_ad_spend": 151040.88,
+        "total_mer": 3.25,
+        "d2c_mer": 1.84,
+        "amazon_tacos_pct": 21.7,
+        "amazon_share_of_revenue_pct": 23.3,
+        "d2c_ads_share_of_ad_spend_pct": 72.1
+      },
+      "d28": {
+        "window": "2026-10-15..2026-11-11",
+        "days_used": 28,
+        "days_skipped": [],
+        "revenue": {
+          "shopify": 885710.15,
+          "amazon": 433511.03,
+          "tiktok_shop": 752605.47,
+          "whatnot": 188818.0
+        },
+        "ad_spend": {
+          "d2c": 398009.85,
+          "amazon": 89159.51,
+          "tiktok_shop": 68194.13,
+          "whatnot": 22001.9
+        },
+        "total_revenue": 2260644.65,
+        "total_ad_spend": 577365.39,
+        "total_mer": 3.92,
+        "d2c_mer": 2.23,
+        "amazon_tacos_pct": 20.6,
+        "amazon_share_of_revenue_pct": 19.2,
+        "d2c_ads_share_of_ad_spend_pct": 68.9
+      },
+      "amazon_vs_d2c_spend": {
+        "correlation": -0.16,
+        "days": 40,
+        "note": "Same-day correlation of Amazon revenue with D2C ad spend. It describes; it does not measure a halo. Promotions move both."
+      },
+      "halo_estimate": null,
+      "halo_estimate_why": "needs a holdout test read on Amazon revenue, or the media-mix model with an Amazon KPI",
+      "basis": "Shopify net revenue ex tax, Amazon (Sellerboard), TikTok Shop (ShipHero), Whatnot; ad spend is D2C channels plus Amazon ads, TikTok Shop ads and Whatnot promotion. Only days with every core source are summed."
+    },
+    "margin_inventory": {
+      "status": "ok",
+      "window_days": 28,
+      "products": [
+        {
+          "product_id": "9018145702120",
+          "title": "COLDEST 36oz Limitless Ultra v8",
+          "units": 3051,
+          "cost_basis": [
+            "shopify_parent"
+          ],
+          "revenue": 174749.72,
+          "cogs": 26208.09,
+          "fulfillment": 13880.28,
+          "payment_fees": 4190.98,
+          "contribution_before_ads": 130470.36,
+          "contribution_margin_pct": 74.7,
+          "breakeven_roas": 1.34,
+          "revenue_share_pct": 19.5,
+          "days_of_stock": 3.9,
+          "stock_flag": "low"
+        },
+        {
+          "product_id": "8263285407976",
+          "title": "COLDEST 46oz Limitless Ultra v8",
+          "units": 2220,
+          "cost_basis": [
+            "shopify_parent"
+          ],
+          "revenue": 148345.72,
+          "cogs": 19069.8,
+          "fulfillment": 10365.02,
+          "payment_fees": 3370.65,
+          "contribution_before_ads": 115540.26,
+          "contribution_margin_pct": 77.9,
+          "breakeven_roas": 1.28,
+          "revenue_share_pct": 16.6,
+          "days_of_stock": 50.4,
+          "stock_flag": null
+        },
+        {
+          "product_id": "15368278278376",
+          "title": "COLDEST Drive Thru",
+          "units": 2992,
+          "cost_basis": [
+            "fallback",
+            "free_item_default"
+          ],
+          "revenue": 128834.55,
+          "cogs": 25282.03,
+          "fulfillment": 13100.82,
+          "payment_fees": 3245.17,
+          "contribution_before_ads": 87206.53,
+          "contribution_margin_pct": 67.7,
+          "breakeven_roas": 1.48,
+          "revenue_share_pct": 14.4,
+          "days_of_stock": 1058.6,
+          "stock_flag": null
+        },
+        {
+          "product_id": "9519247851752",
+          "title": "COLDEST 32oz Go Series Bottle",
+          "units": 1858,
+          "cost_basis": [
+            "manual_parent"
+          ],
+          "revenue": 96563.53,
+          "cogs": 15793.0,
+          "fulfillment": 7529.68,
+          "payment_fees": 2282.16,
+          "contribution_before_ads": 70958.69,
+          "contribution_margin_pct": 73.5,
+          "breakeven_roas": 1.36,
+          "revenue_share_pct": 10.8,
+          "days_of_stock": 327.5,
+          "stock_flag": null
+        },
+        {
+          "product_id": "9177311084776",
+          "title": "COLDEST 24oz Limitless Ultra v8",
+          "units": 1481,
+          "cost_basis": [
+            "manual_parent"
+          ],
+          "revenue": 77514.69,
+          "cogs": 12588.5,
+          "fulfillment": 6489.03,
+          "payment_fees": 1866.75,
+          "contribution_before_ads": 56570.41,
+          "contribution_margin_pct": 73.0,
+          "breakeven_roas": 1.37,
+          "revenue_share_pct": 8.7,
+          "days_of_stock": 260.5,
+          "stock_flag": null
+        },
+        {
+          "product_id": "9193941074152",
+          "title": "COLDEST 15oz Limitless Ultra v8",
+          "units": 1288,
+          "cost_basis": [
+            "manual_parent"
+          ],
+          "revenue": 55539.25,
+          "cogs": 9119.04,
+          "fulfillment": 5395.2,
+          "payment_fees": 1401.19,
+          "contribution_before_ads": 39623.82,
+          "contribution_margin_pct": 71.3,
+          "breakeven_roas": 1.4,
+          "revenue_share_pct": 6.2,
+          "days_of_stock": 501.3,
+          "stock_flag": null
+        },
+        {
+          "product_id": "8006465454312",
+          "title": "Coldest 20 oz Tumbler v2",
+          "units": 1717,
+          "cost_basis": [
+            "shopify_parent"
+          ],
+          "revenue": 49001.21,
+          "cogs": 9254.63,
+          "fulfillment": 4368.45,
+          "payment_fees": 1324.59,
+          "contribution_before_ads": 34053.54,
+          "contribution_margin_pct": 69.5,
+          "breakeven_roas": 1.44,
+          "revenue_share_pct": 5.5,
+          "days_of_stock": 393.8,
+          "stock_flag": null
+        },
+        {
+          "product_id": "9209364873448",
+          "title": "COLDEST Limitless Gallon",
+          "units": 501,
+          "cost_basis": [
+            "fallback",
+            "free_item_default"
+          ],
+          "revenue": 40564.49,
+          "cogs": 8265.1,
+          "fulfillment": 2725.84,
+          "payment_fees": 911.53,
+          "contribution_before_ads": 28662.02,
+          "contribution_margin_pct": 70.7,
+          "breakeven_roas": 1.42,
+          "revenue_share_pct": 4.5,
+          "days_of_stock": 354.0,
+          "stock_flag": null
+        },
+        {
+          "product_id": "8203235688680",
+          "title": "Coldest Paracord Handle",
+          "units": 2002,
+          "cost_basis": [
+            "fallback",
+            "free_item_default"
+          ],
+          "revenue": 23014.93,
+          "cogs": 4740.87,
+          "fulfillment": 2210.93,
+          "payment_fees": 579.07,
+          "contribution_before_ads": 15484.06,
+          "contribution_margin_pct": 67.3,
+          "breakeven_roas": 1.49,
+          "revenue_share_pct": 2.6,
+          "days_of_stock": 2596.1,
+          "stock_flag": null
+        },
+        {
+          "product_id": "9505970159848",
+          "title": "Shipping protection",
+          "units": 5835,
+          "cost_basis": [
+            "fallback",
+            "free_item_default"
+          ],
+          "revenue": 14612.73,
+          "cogs": 2885.08,
+          "fulfillment": 1655.38,
+          "payment_fees": 386.18,
+          "contribution_before_ads": 9686.09,
+          "contribution_margin_pct": 66.3,
+          "breakeven_roas": 1.51,
+          "revenue_share_pct": 1.6,
+          "days_of_stock": 44.7,
+          "stock_flag": null
+        },
+        {
+          "product_id": "9094102909160",
+          "title": "Coldest Boots - 5 Pack",
+          "units": 299,
+          "cost_basis": [
+            "shopify_parent"
+          ],
+          "revenue": 7635.46,
+          "cogs": 636.87,
+          "fulfillment": 569.04,
+          "payment_fees": 182.35,
+          "contribution_before_ads": 6247.2,
+          "contribution_margin_pct": 81.8,
+          "breakeven_roas": 1.22,
+          "revenue_share_pct": 0.9,
+          "days_of_stock": 2423.2,
+          "stock_flag": null
+        },
+        {
+          "product_id": "9288049000680",
+          "title": "Mini Backpack & Squeeze Holder, Key Hanger, Mint Box",
+          "units": 166,
+          "cost_basis": [
+            "fallback",
+            "free_item_default"
+          ],
+          "revenue": 7633.8,
+          "cogs": 1611.66,
+          "fulfillment": 463.38,
+          "payment_fees": 173.48,
+          "contribution_before_ads": 5385.28,
+          "contribution_margin_pct": 70.5,
+          "breakeven_roas": 1.42,
+          "revenue_share_pct": 0.9,
+          "days_of_stock": 1223.1,
+          "stock_flag": null
+        },
+        {
+          "product_id": "8062312284392",
+          "title": "Personalize",
+          "units": 616,
+          "cost_basis": [
+            "fallback",
+            "free_item_default"
+          ],
+          "revenue": 7220.63,
+          "cogs": 1487.01,
+          "fulfillment": 557.03,
+          "payment_fees": 168.01,
+          "contribution_before_ads": 5008.58,
+          "contribution_margin_pct": 69.4,
+          "breakeven_roas": 1.44,
+          "revenue_share_pct": 0.8,
+          "days_of_stock": null,
+          "stock_flag": "not_tracked"
+        },
+        {
+          "product_id": "8006465388776",
+          "title": "The Coldest Water Bottle Brush: 3 Tools in 1",
+          "units": 493,
+          "cost_basis": [
+            "fallback",
+            "free_item_default"
+          ],
+          "revenue": 6372.63,
+          "cogs": 1276.2,
+          "fulfillment": 642.85,
+          "payment_fees": 162.74,
+          "contribution_before_ads": 4290.84,
+          "contribution_margin_pct": 67.3,
+          "breakeven_roas": 1.49,
+          "revenue_share_pct": 0.7,
+          "days_of_stock": null,
+          "stock_flag": "not_tracked"
+        },
+        {
+          "product_id": "15397014569192",
+          "title": "T20 - Early Access Group A",
+          "units": 161,
+          "cost_basis": [
+            "fallback"
+          ],
+          "revenue": 5636.25,
+          "cogs": 1193.73,
+          "fulfillment": 338.91,
+          "payment_fees": 123.73,
+          "contribution_before_ads": 3979.88,
+          "contribution_margin_pct": 70.6,
+          "breakeven_roas": 1.42,
+          "revenue_share_pct": 0.6,
+          "days_of_stock": 440.7,
+          "stock_flag": null
+        }
+      ],
+      "blended": {
+        "revenue": 896021.09,
+        "cogs": 151359.94,
+        "fulfillment": 77350.44,
+        "payment_fees": 21745.79,
+        "contribution_before_ads": 645564.92,
+        "contribution_margin_pct": 72.0,
+        "breakeven_roas": 1.39,
+        "orders": 10584,
+        "cogs_on_fallback_pct": 27.5,
+        "orders_without_actual_fee": 1638
+      },
+      "inventory": {
+        "status": "ok",
+        "as_of": "2026-11-10",
+        "window": "2026-10-14..2026-11-10",
+        "source": "ShopifyQL via the Shopify connector (net_sales, ex tax; Shopify-defined new / returning)",
+        "low_cover_days": 21.0,
+        "products": [
+          {
+            "title": "Shipping protection",
+            "units_on_hand": 9187,
+            "units_sold": 5754,
+            "units_per_day": 205.5,
+            "days_of_stock": 44.7,
+            "flag": null
+          },
+          {
+            "title": "COLDEST 36oz Limitless Ultra v8",
+            "units_on_hand": 426,
+            "units_sold": 3087,
+            "units_per_day": 110.2,
+            "days_of_stock": 3.9,
+            "flag": "low"
+          },
+          {
+            "title": "COLDEST Drive Thru",
+            "units_on_hand": 110243,
+            "units_sold": 2916,
+            "units_per_day": 104.1,
+            "days_of_stock": 1058.6,
+            "flag": null
+          },
+          {
+            "title": "COLDEST 46oz Limitless Ultra v8",
+            "units_on_hand": 3969,
+            "units_sold": 2206,
+            "units_per_day": 78.8,
+            "days_of_stock": 50.4,
+            "flag": null
+          },
+          {
+            "title": "Coldest Paracord Handle",
+            "units_on_hand": 187381,
+            "units_sold": 2021,
+            "units_per_day": 72.2,
+            "days_of_stock": 2596.1,
+            "flag": null
+          },
+          {
+            "title": "COLDEST 32oz Go Series Bottle",
+            "units_on_hand": 21521,
+            "units_sold": 1840,
+            "units_per_day": 65.7,
+            "days_of_stock": 327.5,
+            "flag": null
+          },
+          {
+            "title": "Coldest 20 oz Tumbler v2",
+            "units_on_hand": 24079,
+            "units_sold": 1712,
+            "units_per_day": 61.1,
+            "days_of_stock": 393.8,
+            "flag": null
+          },
+          {
+            "title": "COLDEST 24oz Limitless Ultra v8",
+            "units_on_hand": 13900,
+            "units_sold": 1494,
+            "units_per_day": 53.4,
+            "days_of_stock": 260.5,
+            "flag": null
+          },
+          {
+            "title": "COLDEST 15oz Limitless Ultra v8",
+            "units_on_hand": 22074,
+            "units_sold": 1233,
+            "units_per_day": 44.0,
+            "days_of_stock": 501.3,
+            "flag": null
+          },
+          {
+            "title": "Personalize",
+            "units_on_hand": 10006558,
+            "units_sold": 607,
+            "units_per_day": 21.7,
+            "days_of_stock": null,
+            "flag": "not_tracked"
+          },
+          {
+            "title": "The Coldest Water Bottle Brush: 3 Tools in 1",
+            "units_on_hand": 92264,
+            "units_sold": 490,
+            "units_per_day": 17.5,
+            "days_of_stock": null,
+            "flag": "not_tracked"
+          },
+          {
+            "title": "COLDEST Mystery Mini",
+            "units_on_hand": 72988,
+            "units_sold": 474,
+            "units_per_day": 16.9,
+            "days_of_stock": null,
+            "flag": "not_tracked"
+          },
+          {
+            "title": "COLDEST Limitless Gallon",
+            "units_on_hand": 5638,
+            "units_sold": 446,
+            "units_per_day": 15.9,
+            "days_of_stock": 354.0,
+            "flag": null
+          },
+          {
+            "title": "Coldest Boots - 5 Pack",
+            "units_on_hand": 25530,
+            "units_sold": 295,
+            "units_per_day": 10.5,
+            "days_of_stock": 2423.2,
+            "flag": null
+          },
+          {
+            "title": "Wide Mouth Flip Top Sports Lid 2.0",
+            "units_on_hand": 272,
+            "units_sold": 195,
+            "units_per_day": 7.0,
+            "days_of_stock": 39.1,
+            "flag": null
+          },
+          {
+            "title": "Baby Mystery Mini",
+            "units_on_hand": 79382,
+            "units_sold": 185,
+            "units_per_day": 6.6,
+            "days_of_stock": null,
+            "flag": "not_tracked"
+          },
+          {
+            "title": "Tumbler Lid",
+            "units_on_hand": 99952,
+            "units_sold": 175,
+            "units_per_day": 6.2,
+            "days_of_stock": null,
+            "flag": "not_tracked"
+          },
+          {
+            "title": "Mini Backpack & Squeeze Holder, Key Hanger, Mint Box",
+            "units_on_hand": 7426,
+            "units_sold": 170,
+            "units_per_day": 6.1,
+            "days_of_stock": 1223.1,
+            "flag": null
+          },
+          {
+            "title": "T20 - Early Access Group A",
+            "units_on_hand": 2062,
+            "units_sold": 131,
+            "units_per_day": 4.7,
+            "days_of_stock": 440.7,
+            "flag": null
+          },
+          {
+            "title": "Mystery Limitless 36oz Tumbler",
+            "units_on_hand": 995599,
+            "units_sold": 102,
+            "units_per_day": 3.6,
+            "days_of_stock": null,
+            "flag": "not_tracked"
+          }
+        ],
+        "low": [
+          "COLDEST 36oz Limitless Ultra v8"
+        ],
+        "note": "Shopify-reported units; the warehouse count is not in this feed."
+      },
+      "window": "2026-10-15..2026-11-11",
+      "missing_order_days": [],
+      "basis": "Shopify orders in the finance database: order revenue ex tax, product cost from the owner settings and Shopify unit costs, the flat fulfillment cost per shipped order, actual payment fees. Before ad spend and before overhead.",
+      "settings_effective_from": "2026-10-30"
+    },
+    "creative": {
+      "status": "stale",
+      "as_of": "2026-11-09",
+      "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
+      "winners": 8,
+      "winner_spend_7d": 11932.23,
+      "winner_share_of_meta_spend_pct": 15.9,
+      "top_winner_share_of_winner_spend_pct": 22.8,
+      "new_this_week": 8,
+      "median_age_days": 47,
+      "oldest_age_days": 282,
+      "formats": {
+        "video": 3,
+        "image": 5
+      },
+      "landing_pages": [
+        {
+          "url": "https://coldest.com/collections/limitless-bottle-with-handle",
+          "winner_spend_7d": 5263.08,
+          "share_pct": 44.1
+        },
+        {
+          "url": "unknown",
+          "winner_spend_7d": 2471.25,
+          "share_pct": 20.7
+        },
+        {
+          "url": "https://coldest.com/pages/facebook-sign-up",
+          "winner_spend_7d": 1915.86,
+          "share_pct": 16.1
+        },
+        {
+          "url": "https://coldest.com/products/15oz",
+          "winner_spend_7d": 1752.85,
+          "share_pct": 14.7
+        },
+        {
+          "url": "https://coldest.com/collections/glowie-meow",
+          "winner_spend_7d": 529.19,
+          "share_pct": 4.4
+        }
+      ],
+      "ports": {
+        "reported": 0,
+        "live": 0,
+        "with_a_read": 0,
+        "above_raise_band": 0,
+        "unported_winners": 8
+      },
+      "fatigue": {
+        "status": "needs_two_snapshots",
+        "rows": [],
+        "snapshots_kept": 1
+      },
+      "note": "By design (David 11/12): new creative is developed on Meta first, winners are found there and pushed out to every other channel. Ports appear through ads_throttle/creative_ports.json as Grok reports them."
+    },
+    "pacing": {
+      "status": "ok",
+      "plan_file": "ops/plan/growth_plan.json",
+      "target_annual_revenue": 100000000.0,
+      "target_date": "2028-11-12",
+      "window": "2026-10-15..2026-11-11",
+      "days_used": 28,
+      "days_skipped": [],
+      "revenue_per_day": {
+        "shopify": 31632.51,
+        "amazon": 15482.54,
+        "tiktok_shop": 26878.77,
+        "whatnot": 6743.5
+      },
+      "total_revenue_per_day": 80737.31,
+      "annual_run_rate": 29469118.0,
+      "d2c_annual_run_rate": 11545864.0,
+      "basis": "Average daily revenue over the days used x 365. A run-rate, not a forecast: the window is not adjusted for season or promotions.",
+      "multiple_to_target": 3.39,
+      "revenue_per_day_at_target": 273972.6,
+      "weeks_to_target_date": 104.3,
+      "weekly_growth_needed_pct": 1.18
+    },
+    "autonomy": {
+      "status": "ok",
+      "channels": {
+        "meta": {
+          "label": "Meta",
+          "mode": "frozen",
+          "spend_7d": 75117.01,
+          "score": "5/7",
+          "checks": [
+            {
+              "id": "feed_14_of_14",
+              "pass": true,
+              "detail": "14-day strip ##############"
+            },
+            {
+              "id": "full_7d_read",
+              "pass": true,
+              "detail": "7/7 days with a platform read"
+            },
+            {
+              "id": "tracking_ok",
+              "pass": true,
+              "detail": "tracking OK"
+            },
+            {
+              "id": "no_dispute",
+              "pass": true,
+              "detail": "CFO and Grok reads agree"
+            },
+            {
+              "id": "budget_known",
+              "pass": false,
+              "detail": "daily_budget in settings.json"
+            },
+            {
+              "id": "two_measured_changes",
+              "pass": false,
+              "detail": "0 executed changes with a before / after read"
+            },
+            {
+              "id": "changes_not_mostly_worse",
+              "pass": true,
+              "detail": "0 of 0 worse"
+            }
+          ],
+          "failing": [
+            "budget_known",
+            "two_measured_changes"
+          ],
+          "suggestion": "not_yet"
+        },
+        "google": {
+          "label": "Google Ads",
+          "mode": "auto",
+          "spend_7d": 14167.24,
+          "score": "5/7",
+          "checks": [
+            {
+              "id": "feed_14_of_14",
+              "pass": true,
+              "detail": "14-day strip ##############"
+            },
+            {
+              "id": "full_7d_read",
+              "pass": true,
+              "detail": "7/7 days with a platform read"
+            },
+            {
+              "id": "tracking_ok",
+              "pass": true,
+              "detail": "tracking OK"
+            },
+            {
+              "id": "no_dispute",
+              "pass": false,
+              "detail": "CFO and Grok reads agree"
+            },
+            {
+              "id": "budget_known",
+              "pass": true,
+              "detail": "daily_budget in settings.json"
+            },
+            {
+              "id": "two_measured_changes",
+              "pass": false,
+              "detail": "0 executed changes with a before / after read"
+            },
+            {
+              "id": "changes_not_mostly_worse",
+              "pass": true,
+              "detail": "0 of 0 worse"
+            }
+          ],
+          "failing": [
+            "no_dispute",
+            "two_measured_changes"
+          ],
+          "suggestion": "review_auto"
+        },
+        "tiktok": {
+          "label": "TikTok (website)",
+          "mode": "view",
+          "spend_7d": 10655.16,
+          "score": "4/7",
+          "checks": [
+            {
+              "id": "feed_14_of_14",
+              "pass": true,
+              "detail": "14-day strip ##############"
+            },
+            {
+              "id": "full_7d_read",
+              "pass": true,
+              "detail": "7/7 days with a platform read"
+            },
+            {
+              "id": "tracking_ok",
+              "pass": true,
+              "detail": "tracking OK"
+            },
+            {
+              "id": "no_dispute",
+              "pass": false,
+              "detail": "CFO and Grok reads agree"
+            },
+            {
+              "id": "budget_known",
+              "pass": false,
+              "detail": "daily_budget in settings.json"
+            },
+            {
+              "id": "two_measured_changes",
+              "pass": false,
+              "detail": "0 executed changes with a before / after read"
+            },
+            {
+              "id": "changes_not_mostly_worse",
+              "pass": true,
+              "detail": "0 of 0 worse"
+            }
+          ],
+          "failing": [
+            "no_dispute",
+            "budget_known",
+            "two_measured_changes"
+          ],
+          "suggestion": "not_yet"
+        },
+        "snapchat": {
+          "label": "Snapchat",
+          "mode": "auto",
+          "spend_7d": 4157.56,
+          "score": "6/7",
+          "checks": [
+            {
+              "id": "feed_14_of_14",
+              "pass": true,
+              "detail": "14-day strip ##############"
+            },
+            {
+              "id": "full_7d_read",
+              "pass": true,
+              "detail": "7/7 days with a platform read"
+            },
+            {
+              "id": "tracking_ok",
+              "pass": true,
+              "detail": "tracking OK"
+            },
+            {
+              "id": "no_dispute",
+              "pass": true,
+              "detail": "CFO and Grok reads agree"
+            },
+            {
+              "id": "budget_known",
+              "pass": true,
+              "detail": "daily_budget in settings.json"
+            },
+            {
+              "id": "two_measured_changes",
+              "pass": false,
+              "detail": "1 executed changes with a before / after read"
+            },
+            {
+              "id": "changes_not_mostly_worse",
+              "pass": true,
+              "detail": "0 of 1 worse"
+            }
+          ],
+          "failing": [
+            "two_measured_changes"
+          ],
+          "suggestion": "review_auto"
+        },
+        "applovin": {
+          "label": "AppLovin",
+          "mode": "view",
+          "spend_7d": 1223.56,
+          "score": "4/7",
+          "checks": [
+            {
+              "id": "feed_14_of_14",
+              "pass": true,
+              "detail": "14-day strip ##############"
+            },
+            {
+              "id": "full_7d_read",
+              "pass": true,
+              "detail": "7/7 days with a platform read"
+            },
+            {
+              "id": "tracking_ok",
+              "pass": false,
+              "detail": "tracking unknown"
+            },
+            {
+              "id": "no_dispute",
+              "pass": true,
+              "detail": "CFO and Grok reads agree"
+            },
+            {
+              "id": "budget_known",
+              "pass": false,
+              "detail": "daily_budget in settings.json"
+            },
+            {
+              "id": "two_measured_changes",
+              "pass": false,
+              "detail": "0 executed changes with a before / after read"
+            },
+            {
+              "id": "changes_not_mostly_worse",
+              "pass": true,
+              "detail": "0 of 0 worse"
+            }
+          ],
+          "failing": [
+            "tracking_ok",
+            "budget_known",
+            "two_measured_changes"
+          ],
+          "suggestion": "not_yet"
+        },
+        "bing": {
+          "label": "Bing",
+          "mode": "auto",
+          "spend_7d": 1749.63,
+          "score": "4/7",
+          "checks": [
+            {
+              "id": "feed_14_of_14",
+              "pass": true,
+              "detail": "14-day strip ##############"
+            },
+            {
+              "id": "full_7d_read",
+              "pass": true,
+              "detail": "7/7 days with a platform read"
+            },
+            {
+              "id": "tracking_ok",
+              "pass": true,
+              "detail": "tracking OK"
+            },
+            {
+              "id": "no_dispute",
+              "pass": false,
+              "detail": "CFO and Grok reads agree"
+            },
+            {
+              "id": "budget_known",
+              "pass": false,
+              "detail": "daily_budget in settings.json"
+            },
+            {
+              "id": "two_measured_changes",
+              "pass": false,
+              "detail": "1 executed changes with a before / after read"
+            },
+            {
+              "id": "changes_not_mostly_worse",
+              "pass": true,
+              "detail": "0 of 1 worse"
+            }
+          ],
+          "failing": [
+            "no_dispute",
+            "budget_known",
+            "two_measured_changes"
+          ],
+          "suggestion": "review_auto"
+        },
+        "x": {
+          "label": "X",
+          "mode": "auto",
+          "spend_7d": 1402.48,
+          "score": "6/7",
+          "checks": [
+            {
+              "id": "feed_14_of_14",
+              "pass": true,
+              "detail": "14-day strip ------########"
+            },
+            {
+              "id": "full_7d_read",
+              "pass": true,
+              "detail": "7/7 days with a platform read"
+            },
+            {
+              "id": "tracking_ok",
+              "pass": true,
+              "detail": "tracking OK"
+            },
+            {
+              "id": "no_dispute",
+              "pass": true,
+              "detail": "CFO and Grok reads agree"
+            },
+            {
+              "id": "budget_known",
+              "pass": true,
+              "detail": "daily_budget in settings.json"
+            },
+            {
+              "id": "two_measured_changes",
+              "pass": false,
+              "detail": "0 executed changes with a before / after read"
+            },
+            {
+              "id": "changes_not_mostly_worse",
+              "pass": true,
+              "detail": "0 of 0 worse"
+            }
+          ],
+          "failing": [
+            "two_measured_changes"
+          ],
+          "suggestion": "review_auto"
+        },
+        "reddit": {
+          "label": "Reddit",
+          "mode": "hold",
+          "spend_7d": 446.56,
+          "score": "3/7",
+          "checks": [
+            {
+              "id": "feed_14_of_14",
+              "pass": false,
+              "detail": "14-day strip .####0##.##..."
+            },
+            {
+              "id": "full_7d_read",
+              "pass": false,
+              "detail": "7/7 days with a platform read"
+            },
+            {
+              "id": "tracking_ok",
+              "pass": true,
+              "detail": "tracking WARN"
+            },
+            {
+              "id": "no_dispute",
+              "pass": true,
+              "detail": "CFO and Grok reads agree"
+            },
+            {
+              "id": "budget_known",
+              "pass": false,
+              "detail": "daily_budget in settings.json"
+            },
+            {
+              "id": "two_measured_changes",
+              "pass": false,
+              "detail": "0 executed changes with a before / after read"
+            },
+            {
+              "id": "changes_not_mostly_worse",
+              "pass": true,
+              "detail": "0 of 0 worse"
+            }
+          ],
+          "failing": [
+            "feed_14_of_14",
+            "full_7d_read",
+            "budget_known",
+            "two_measured_changes"
+          ],
+          "suggestion": "not_yet"
+        }
+      },
+      "spend_ready_or_auto_pct": 0.0,
+      "note": "A suggestion, not a switch: mode in ads_throttle/settings.json stays David's and Grok's. Meta is frozen by David's carve-out whatever the score."
+    },
+    "grok_requests": {
+      "status": "ok",
+      "file": "ads_throttle/grok_requests.json",
+      "answers_file": "ads_throttle/cfo_answers.json",
+      "open": 0,
+      "requests": [],
+      "how": "docs/GROK_LOOP.md \"Asking the CFO side\"."
+    },
+    "asks": [
+      {
+        "id": "growth.new_customers.stale",
+        "severity": "medium",
+        "channel": null,
+        "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
+        "title": "growth/shopify_customers_daily.json is 3 days old",
+        "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
+        "first_seen": "2026-11-13",
+        "age_days": 0
+      },
+      {
+        "id": "tracking.new_customer_utm_coverage",
+        "severity": "medium",
+        "channel": null,
+        "owner": "Jarvis",
+        "title": "Only 49.5% of new-customer orders carry a UTM",
+        "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
+        "first_seen": "2026-11-11",
+        "age_days": 2
+      },
+      {
+        "id": "history.backfill",
+        "severity": "low",
+        "channel": null,
+        "owner": "Workspace cron",
+        "title": "Media-mix model has 34 of 180 usable days",
+        "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
+        "first_seen": "2026-11-11",
+        "age_days": 2
+      },
+      {
+        "id": "inventory.low_cover",
+        "severity": "low",
+        "channel": null,
+        "owner": "Jarvis",
+        "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
+        "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
+        "first_seen": "2026-11-11",
+        "age_days": 2,
+        "evidence": {
+          "products": [
+            "COLDEST 36oz Limitless Ultra v8"
+          ]
+        }
+      }
+    ],
+    "headline": {
+      "mer_7d": 1.8379,
+      "mer_target": 3.24,
+      "breakeven_mer_before_overhead": 1.39,
+      "stance": "room_to_add",
+      "rule_conflict": false,
+      "target_scope": "total_company",
+      "first_holdout_not_before": "2027-01-01",
+      "first_to_give_back": [],
+      "blended_ncac": null,
+      "first_order_value": 72.34,
+      "new_share_of_net_sales_pct": 30.9,
+      "revenue_per_customer_m2": 105.38,
+      "paid_back_by": null,
+      "contribution_margin_pct": 72.0,
+      "low_stock": [
+        "COLDEST 36oz Limitless Ultra v8"
+      ],
+      "annual_run_rate": 29469118.0,
+      "multiple_to_target": 3.39,
+      "total_mer_7d": 3.25,
+      "usable_history_days": 34,
+      "open_grok_requests": 0,
+      "tests_running": 0
     }
   }
 }
