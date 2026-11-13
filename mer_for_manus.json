@@ -80,7 +80,7 @@
       "meta": 10052.74,
       "google": 1450.56,
       "tiktok": 778.71,
-      "bing": null,
+      "bing": 197.28,
       "reddit": 0.0,
       "snapchat": null,
       "chatgpt": 0.0,
@@ -22952,25 +22952,23 @@
         "owner_bot": null
       },
       "bing_ads": {
-        "spend": null,
-        "clicks": null,
-        "conversions": null,
-        "revenue": null,
-        "impressions": null,
-        "roas": null,
-        "source": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0",
-        "live": null,
-        "complete": false,
-        "closed_day": false,
-        "missing": true,
-        "spend_status": "unverified",
-        "spend_d2c": null,
-        "spend_amazon": null,
+        "spend": 197.28,
+        "clicks": 188,
+        "conversions": 5,
+        "revenue": 404.69,
+        "impressions": 7310,
+        "roas": 2.05,
+        "source": "Pipeboard Microsoft Ads campaign report 2026-11-12 Daily (ConversionsQualified/Revenue, goal 172222236, platform-reported, click-date), pulled 2026-11-13 ET",
+        "live": true,
+        "complete": true,
+        "closed_day": true,
+        "spend_d2c": 197.28,
+        "spend_amazon": 0,
         "destination": "d2c",
-        "display_state": "pending_backfill",
-        "display_amount": null,
-        "last_confirmed_date": "2026-11-11",
-        "last_confirmed_amount": 273.3,
+        "display_state": "spend",
+        "display_amount": 197.28,
+        "last_confirmed_date": "2026-11-12",
+        "last_confirmed_amount": 197.28,
         "owner_bot": "Bing Ads bot"
       },
       "reddit_ads": {
@@ -33035,12 +33033,12 @@
           "measured_spend": 3579.56
         },
         "bing": {
-          "display_state": "pending_backfill",
-          "display_amount": null,
-          "last_confirmed_date": "2026-11-11",
-          "last_confirmed_amount": 273.3,
+          "display_state": "spend",
+          "display_amount": 197.28,
+          "last_confirmed_date": "2026-11-12",
+          "last_confirmed_amount": 197.28,
           "owner_bot": "Bing Ads bot",
-          "measured_spend": null
+          "measured_spend": 197.28
         },
         "reddit": {
           "display_state": "off",
@@ -37085,13 +37083,6 @@
         "last_confirmed_amount": null
       },
       {
-        "channel": "bing",
-        "day": "2026-11-12",
-        "owner_bot": "Bing Ads bot",
-        "last_confirmed_date": "2026-11-11",
-        "last_confirmed_amount": 273.3
-      },
-      {
         "channel": "snapchat",
         "day": "2026-11-12",
         "owner_bot": "snapchat ads bot",
@@ -37130,8 +37121,8 @@
         "channel": "bing",
         "day": "2026-11-13",
         "owner_bot": "Bing Ads bot",
-        "last_confirmed_date": "2026-11-11",
-        "last_confirmed_amount": 273.3
+        "last_confirmed_date": "2026-11-12",
+        "last_confirmed_amount": 197.28
       },
       {
         "channel": "snapchat",
@@ -37167,7 +37158,7 @@
   "mer_includes_carry_forward": false,
   "pending_backfill": {
     "as_of": "2026-11-12",
-    "count": 558,
+    "count": 557,
     "items": [
       {
         "channel": "meta",
@@ -40999,13 +40990,6 @@
         "last_confirmed_amount": null
       },
       {
-        "channel": "bing",
-        "day": "2026-11-12",
-        "owner_bot": "Bing Ads bot",
-        "last_confirmed_date": "2026-11-11",
-        "last_confirmed_amount": 273.3
-      },
-      {
         "channel": "snapchat",
         "day": "2026-11-12",
         "owner_bot": "snapchat ads bot",
@@ -41044,8 +41028,8 @@
         "channel": "bing",
         "day": "2026-11-13",
         "owner_bot": "Bing Ads bot",
-        "last_confirmed_date": "2026-11-11",
-        "last_confirmed_amount": 273.3
+        "last_confirmed_date": "2026-11-12",
+        "last_confirmed_amount": 197.28
       },
       {
         "channel": "snapchat",
@@ -41080,36 +41064,36 @@
   },
   "bing": {
     "status": "live",
-    "live": null,
+    "live": true,
     "as_of": "2026-11-12",
-    "spend": null,
-    "spend_d2c": null,
-    "spend_amazon": null,
+    "spend": 197.28,
+    "spend_d2c": 197.28,
+    "spend_amazon": 0,
     "destination": "d2c",
-    "clicks": null,
-    "conversions": null,
-    "revenue": null,
-    "impressions": null,
-    "roas": null,
-    "spend_7d": 1651.92,
-    "spend_d2c_7d": 1651.92,
+    "clicks": 188,
+    "conversions": 5,
+    "revenue": 404.69,
+    "impressions": 7310,
+    "roas": 2.05,
+    "spend_7d": 1849.2,
+    "spend_d2c_7d": 1849.2,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
-      "measured_days": 6,
+      "measured_days": 7,
       "window_days": 7,
-      "status": "unverified"
+      "status": "verified"
     },
     "coverage_30d": {
-      "measured_days": 29,
+      "measured_days": 30,
       "window_days": 30,
-      "status": "unverified"
+      "status": "verified"
     },
-    "clicks_7d": 2423,
-    "conversions_7d": 36,
-    "revenue_7d": 2934.57,
-    "impressions_7d": 132104,
-    "roas_7d": 1.78,
-    "spend_30d": 3375.23,
+    "clicks_7d": 2611,
+    "conversions_7d": 41,
+    "revenue_7d": 3339.26,
+    "impressions_7d": 139414,
+    "roas_7d": 1.81,
+    "spend_30d": 3572.51,
     "by_date": {
       "2026-09-28": {
         "spend": 73.65,
@@ -43110,17 +43094,100 @@
             "impressions": 325
           }
         ]
+      },
+      "2026-11-12": {
+        "spend": 197.28,
+        "spend_d2c": 197.28,
+        "spend_amazon": 0,
+        "clicks": 188,
+        "conversions": 5,
+        "revenue": 404.69,
+        "impressions": 7310,
+        "roas": 2.05,
+        "destination": "d2c",
+        "live": true,
+        "campaigns": [
+          {
+            "id": "607657866",
+            "name": "Grok Bot | Bing | Brand Search",
+            "destination": "d2c",
+            "spend": 117.03,
+            "clicks": 82,
+            "conversions": 5,
+            "revenue": 404.69,
+            "impressions": 611
+          },
+          {
+            "id": "607657867",
+            "name": "Grok Bot | Bing | Non-brand Search",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "607657868",
+            "name": "Grok Bot | Bing | Competitor Conquest",
+            "destination": "d2c",
+            "spend": 6.16,
+            "clicks": 4,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 79
+          },
+          {
+            "id": "607657869",
+            "name": "Grok Bot | Bing | Shopping",
+            "destination": "d2c",
+            "spend": 54.89,
+            "clicks": 88,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 5864
+          },
+          {
+            "id": "607657870",
+            "name": "Grok Bot | Bing | MSAN Retargeting",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "607676059",
+            "name": "Grok Bot | Bing | NB Exact - Tumblers 40oz",
+            "destination": "d2c",
+            "spend": 3.74,
+            "clicks": 2,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 152
+          },
+          {
+            "id": "607691062",
+            "name": "Grok Bot | Bing | Performance Max",
+            "destination": "d2c",
+            "spend": 15.46,
+            "clicks": 12,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 604
+          }
+        ]
       }
     },
     "source": "Pipeboard Microsoft Ads campaign report (platform-reported)",
     "note": "Bing is live. Campaign 605195379 (bing to amz tumbler listing 1) is Amazon-bound and excluded from Shopify D2C MER. Leftover D2C is JS_SNO_Brand_Beta_Mobile_$24 (~$1/day).",
-    "display_state": "pending_backfill",
-    "display_amount": null,
-    "last_confirmed_date": null,
-    "last_confirmed_amount": null,
+    "display_state": "spend",
+    "display_amount": 197.28,
+    "last_confirmed_date": "2026-11-12",
+    "last_confirmed_amount": 197.28,
     "planned_daily_budget": 1000,
-    "account_id": "141681759",
-    "latest_day_missing": true
+    "account_id": "141681759"
   },
   "reddit": {
     "status": "off",

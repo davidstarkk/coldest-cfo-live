@@ -2275,7 +2275,7 @@
           "revenue": 0.0,
           "impressions": 0,
           "evidence": "verified_zero_paused",
-          "evidence_note": "no row in full-account 11/12 report; campaign paused"
+          "evidence_note": "no row in full-account 11/12 report; campaign paused 11/10"
         },
         {
           "id": "607657868",
@@ -2286,7 +2286,8 @@
           "clicks": 4,
           "conversions": 0,
           "revenue": 0.0,
-          "impressions": 79
+          "impressions": 79,
+          "evidence_note": "paused 11/12 ~10:35 ET by under-1x kill; spend is pre-pause, measured"
         },
         {
           "id": "607657869",
@@ -2297,7 +2298,8 @@
           "clicks": 88,
           "conversions": 0,
           "revenue": 0.0,
-          "impressions": 5864
+          "impressions": 5864,
+          "evidence_note": "paused 11/12 ~10:35 ET by under-1x kill; spend is pre-pause, measured"
         },
         {
           "id": "607657870",
@@ -2310,7 +2312,7 @@
           "revenue": 0.0,
           "impressions": 0,
           "evidence": "verified_zero_paused",
-          "evidence_note": "no row in full-account 11/12 report; campaign paused"
+          "evidence_note": "no row in full-account 11/12 report; campaign paused 11/9"
         },
         {
           "id": "607676059",
