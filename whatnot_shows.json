@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "as_of": "2026-11-12",
-  "computed_at": "2026-11-13T05:31:16Z",
+  "as_of": "2026-11-13",
+  "computed_at": "2026-11-14T14:32:39Z",
   "basis": "Whatnot show-summary emails. A day is the Eastern day the summary arrived; revenue is Total Sales (tips excluded); orders are shipments. Start times are Eastern, as the email prints them.",
   "window": {
     "first_day": "2026-10-27",
@@ -111,6 +111,12 @@
       "recorded": 11199.0,
       "shows_total": 8330.0,
       "difference": 2869.0
+    },
+    {
+      "date": "2026-11-12",
+      "recorded": 17118.0,
+      "shows_total": 13880.0,
+      "difference": 3238.0
     }
   ],
   "incomplete_days": [
@@ -134,13 +140,25 @@
     "2026-10-21",
     "2026-10-22",
     "2026-10-23",
-    "2026-10-26"
+    "2026-10-26",
+    "2026-11-13"
   ],
   "by_date": {
+    "2026-11-13": {
+      "date": "2026-11-13",
+      "recorded_revenue": 15365.0,
+      "recorded_shows": 4,
+      "shows": [],
+      "status": "no_show_detail",
+      "note": "the day has a total but no per-show rows yet",
+      "show_count": null,
+      "shows_revenue": null,
+      "revenue_per_show": null
+    },
     "2026-11-12": {
       "date": "2026-11-12",
-      "recorded_revenue": null,
-      "recorded_shows": null,
+      "recorded_revenue": 17118.0,
+      "recorded_shows": 5,
       "shows": [
         {
           "title": "Wake Up Wins - COLDEST Mystery Tumblers",
@@ -208,10 +226,11 @@
         }
       ],
       "status": "ok",
-      "note": null,
+      "note": "the recorded day total counts a restated summary as an extra show",
       "show_count": 4,
       "shows_revenue": 13880.0,
-      "revenue_per_show": 3470.0
+      "revenue_per_show": 3470.0,
+      "recorded_differs_by": 3238.0
     },
     "2026-11-11": {
       "date": "2026-11-11",
