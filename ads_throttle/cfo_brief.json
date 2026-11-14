@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-12",
-  "computed_at": "2026-11-13T14:33:36Z",
+  "computed_at": "2026-11-14T14:11:25Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -13,21 +13,17 @@
     "window_days": 7
   },
   "portfolio": {
-    "mer_7d": 1.9043,
-    "mer_30d": 2.2475,
+    "mer_7d": 1.9008,
+    "mer_30d": 2.2465,
     "mer_target": 3.24,
     "mer_gap": -1.34,
     "stance": "below_target",
     "d2c_revenue_7d": 204892.57,
-    "d2c_spend_7d": 107594.6,
-    "channel_spend_7d": 107594.6,
-    "spend_judged_pct": 72.8,
-    "spend_in_auto_mode_pct": 18.7,
+    "d2c_spend_7d": 107791.88,
+    "channel_spend_7d": 107791.88,
+    "spend_judged_pct": 72.6,
+    "spend_in_auto_mode_pct": 18.8,
     "excluded_from_d2c_spend": [
-      {
-        "channel": "bing",
-        "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-      },
       {
         "channel": "snapchat",
         "reason": "snapchat_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
@@ -44,12 +40,14 @@
         "google",
         "x"
       ],
+      "cut": [
+        "bing"
+      ],
       "hold": [
         "meta",
         "tiktok"
       ],
       "insufficient": [
-        "bing",
         "chatgpt",
         "pinterest",
         "reddit",
@@ -64,7 +62,7 @@
         "applovin"
       ]
     },
-    "open_asks": 12,
+    "open_asks": 13,
     "open_asks_high": 2,
     "feed_status": "degraded"
   },
@@ -259,24 +257,24 @@
       "label": "Bing",
       "mode": "auto",
       "owner_bot": "Bing Ads bot",
-      "verdict": "insufficient",
-      "rule_says": "Not enough data",
+      "verdict": "cut",
+      "rule_says": "Cut -20% + new strategy",
       "actionable": false,
       "blockers": [
-        "feed_gap:6/7 days measured"
+        "roas_disputed"
       ],
       "cautions": [],
-      "spend_7d": 1651.92,
-      "spend_days_measured": 6,
-      "roas_7d": null,
-      "roas_days": 6,
+      "spend_7d": 1849.2,
+      "spend_days_measured": 7,
+      "roas_7d": 1.81,
+      "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": null,
+      "platform_revenue_7d": 3339.26,
       "roas_prior_7d": 9.62,
       "spend_prior_7d": 353.77,
       "tracking_status": "OK",
-      "feed_status": "stale",
-      "last_measured_day": "2026-11-11",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-12",
       "last_change": {
         "date": "2026-10-27",
         "action": "cut_20pct_and_change_strategy"
@@ -287,7 +285,8 @@
         "spend_7d": 918.86,
         "tier": "Steady",
         "tier_label": "Steady",
-        "tracking": "OK (ratio 0.74 in band)"
+        "tracking": "OK (ratio 0.74 in band)",
+        "roas_gap_pct": 56.9
       },
       "mmm_verdict": null
     },
@@ -540,27 +539,6 @@
   },
   "asks": [
     {
-      "id": "feed.bing",
-      "severity": "high",
-      "channel": "bing",
-      "owner": "Bing Ads bot",
-      "title": "Bing: no measured row since 2026-11-11",
-      "detail": "bing_ads_daily.json has no measured row for 2026-11-12. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
-      "first_seen": "2026-11-13",
-      "age_days": 0,
-      "evidence": {
-        "missing_days": [
-          "2026-11-12"
-        ],
-        "last_measured_day": "2026-11-11"
-      },
-      "ack": {
-        "status": "done",
-        "note": "bing_ads_daily.json has the 11/11 closed-day row (commit 4e29820; spend $273.30, platform revenue $486.33, 1.78x, complete/closed_day true, as_of 11/11).",
-        "at": "2026-11-12T09:57:31-05:00"
-      }
-    },
-    {
       "id": "feed.reddit",
       "severity": "high",
       "channel": "reddit",
@@ -568,7 +546,7 @@
       "title": "Reddit: no measured row since 2026-11-08",
       "detail": "reddit_ads_daily.json has no measured row for 2026-11-06, 2026-11-09, 2026-11-10, 2026-11-11, 2026-11-12. The platform reported spend on 2026-11-06 ($142.88), 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-09",
-      "age_days": 4,
+      "age_days": 5,
       "evidence": {
         "missing_days": [
           "2026-11-06",
@@ -593,7 +571,7 @@
       "title": "Snapchat: no measured row since 2026-11-11",
       "detail": "snapchat_ads_daily.json has no measured row for 2026-11-12. The platform reported spend on 2026-11-12 ($623.38). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-13",
-      "age_days": 0,
+      "age_days": 1,
       "evidence": {
         "missing_days": [
           "2026-11-12"
@@ -609,7 +587,7 @@
       "title": "Taboola: no measured row since 2026-11-10",
       "detail": "taboola_ads_daily.json has no measured row for 2026-11-11, 2026-11-12. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-12",
-      "age_days": 1,
+      "age_days": 2,
       "evidence": {
         "missing_days": [
           "2026-11-11",
@@ -624,6 +602,26 @@
       }
     },
     {
+      "id": "roas.bing.disputed",
+      "severity": "high",
+      "channel": "bing",
+      "owner": "Bing Ads bot",
+      "title": "Bing: CFO reads 1.81x, Grok reads 4.20x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 1.81x (channel daily file, 2026-11-06..2026-11-12) says cut; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "first_seen": "2026-11-14",
+      "age_days": 0,
+      "evidence": {
+        "cfo_roas_7d": 1.81,
+        "grok_roas_7d": 4.2,
+        "gap_pct": 56.9
+      },
+      "ack": {
+        "status": "done",
+        "note": "Agreed Bing ROAS basis written to channels.bing.notes on 11/12 (commit 1a2b7a3): goal 172222236 ConversionsQualified/Revenue, click-date, 30-day click window, trailing 7 closed ET days, Shopify-destination only. Nov 5-11 feed snapshot 2.08x, live reread 2.38x, both hold band.",
+        "at": "2026-11-12T09:57:31-05:00"
+      }
+    },
+    {
       "id": "roas.google.disputed",
       "severity": "high",
       "channel": "google",
@@ -631,7 +629,7 @@
       "title": "Google Ads: CFO reads 1.48x, Grok reads 6.07x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 1.48x (daily_inputs.platform_roas, 2026-11-06..2026-11-12) says cut; Grok ranking 2026-11-09 says 6.07x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
-      "age_days": 4,
+      "age_days": 5,
       "evidence": {
         "cfo_roas_7d": 1.48,
         "grok_roas_7d": 6.07,
@@ -651,7 +649,7 @@
       "title": "TikTok (website): CFO reads 2.25x, Grok reads 3.36x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 2.25x (daily_inputs.platform_roas, 2026-11-06..2026-11-12) says hold; Grok ranking 2026-11-09 says 3.36x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
-      "age_days": 4,
+      "age_days": 5,
       "evidence": {
         "cfo_roas_7d": 2.25,
         "grok_roas_7d": 3.36,
@@ -671,7 +669,7 @@
       "title": "8 winning Meta creative(s) not yet on any other channel",
       "detail": "\"best tumbler for gifting- Copy\" (3.52x on $2,718), \"David's email - New Drop | BFCMR SA03\" (3.91x on $2,546), \"New Sales Ad | BFCMR SA01\" (4.14x on $1,916), \"PENDING PERMISSIONS | T2#2 | @coldestsami08 | 7548496099791670559 | moms-school-runs | copy-proven\" (3.76x on $1,753), \"EV#2 - 16 - Copy\" (3.44x on $980). Rebuild each for the channels in `not_on` (the landing page and Meta ad id are in creatives.winners) and add one entry per launch to ads_throttle/creative_ports.json; a creative that does not fit a channel gets status \"rejected\" with a one-line note.",
       "first_seen": "2026-11-12",
-      "age_days": 1,
+      "age_days": 2,
       "evidence": {
         "creative_ids": [
           "21f428981646c9d1bdcc84f6dbb987c6",
@@ -695,10 +693,10 @@
       "severity": "medium",
       "channel": null,
       "owner": "CFO creative routine",
-      "title": "ads_throttle/creative_winners.json is 4 days old",
+      "title": "ads_throttle/creative_winners.json is 5 days old",
       "detail": "Last Adnova snapshot 2026-11-10T00:07:07.178Z. The daily creative routine (ops/creative/ROUTINE.md) did not run or could not push.",
       "first_seen": "2026-11-12",
-      "age_days": 1,
+      "age_days": 2,
       "ack": {
         "status": "working",
         "note": "Owner CFO creative routine; flagged for Builder, not routable from Jarvis.",
@@ -713,7 +711,7 @@
       "title": "ChatGPT: no measured row since 2026-11-11",
       "detail": "chatgpt_ads_daily.json has no measured row for 2026-11-12. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-13",
-      "age_days": 0,
+      "age_days": 1,
       "evidence": {
         "missing_days": [
           "2026-11-12"
@@ -734,7 +732,7 @@
       "title": "Pinterest: no measured row since 2026-11-11",
       "detail": "pinterest_ads_daily.json has no measured row for 2026-11-12. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-13",
-      "age_days": 0,
+      "age_days": 1,
       "evidence": {
         "missing_days": [
           "2026-11-12"
@@ -747,20 +745,20 @@
       "severity": "medium",
       "channel": null,
       "owner": "mmm-refit.yml (weekly)",
-      "title": "ads_throttle/mmm_recommendation.json is 9 days old",
+      "title": "ads_throttle/mmm_recommendation.json is 10 days old",
       "detail": "Last written 2026-11-04T16:05:21Z; expected at most 8 days old (mmm-refit.yml (weekly)). The dashboard is showing old data from it.",
       "first_seen": "2026-11-13",
-      "age_days": 0
+      "age_days": 1
     },
     {
       "id": "file.shopify_attribution.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO box ShopifyQL sync (daily)",
-      "title": "shopify_attribution_daily.json is 14 days old",
+      "title": "shopify_attribution_daily.json is 15 days old",
       "detail": "Last written 2026-10-30; expected at most 2 days old (CFO box ShopifyQL sync (daily)). The dashboard is showing old data from it.",
       "first_seen": "2026-11-09",
-      "age_days": 4,
+      "age_days": 5,
       "ack": {
         "status": "working",
         "note": "Owner is CFO box ShopifyQL sync; not routable from Jarvis today, flagged for Builder fix.",
@@ -768,14 +766,24 @@
       }
     },
     {
+      "id": "growth.inventory.stale",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
+      "title": "growth/shopify_inventory.json is 4 days old",
+      "detail": "Run the Shopify inventory pull and ingest it with cfo_backend/growth_feeds.py.",
+      "first_seen": "2026-11-14",
+      "age_days": 0
+    },
+    {
       "id": "growth.new_customers.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_customers_daily.json is 3 days old",
+      "title": "growth/shopify_customers_daily.json is 4 days old",
       "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-13",
-      "age_days": 0
+      "age_days": 1
     },
     {
       "id": "tracking.new_customer_utm_coverage",
@@ -785,7 +793,7 @@
       "title": "Only 49.5% of new-customer orders carry a UTM",
       "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
       "first_seen": "2026-11-11",
-      "age_days": 2
+      "age_days": 3
     },
     {
       "id": "history.backfill",
@@ -795,7 +803,7 @@
       "title": "Media-mix model has 34 of 180 usable days",
       "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
       "first_seen": "2026-11-11",
-      "age_days": 2
+      "age_days": 3
     },
     {
       "id": "inventory.low_cover",
@@ -805,7 +813,7 @@
       "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
       "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
       "first_seen": "2026-11-11",
-      "age_days": 2,
+      "age_days": 3,
       "evidence": {
         "products": [
           "COLDEST 36oz Limitless Ultra v8"
@@ -820,7 +828,7 @@
       "title": "Current daily budget unknown for bing",
       "detail": "Write channels.<channel>.daily_budget in ads_throttle/settings.json after each change. Without it the dashboard can say raise / cut but not the new dollar budget.",
       "first_seen": "2026-11-09",
-      "age_days": 4,
+      "age_days": 5,
       "evidence": {
         "channels": [
           "bing"
@@ -1110,7 +1118,7 @@
     "file": "ads_throttle/creative_winners.json",
     "as_of": "2026-11-09",
     "snapshot_at": "2026-11-10T00:07:07.178Z",
-    "age_days": 4,
+    "age_days": 5,
     "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
     "rule": {
       "min_roas": 2.8,
@@ -1356,7 +1364,7 @@
   "growth": {
     "file": "ads_throttle/growth_brief.json",
     "headline": {
-      "mer_7d": 1.9043,
+      "mer_7d": 1.9008,
       "mer_target": 3.24,
       "breakeven_mer_before_overhead": 1.39,
       "stance": "room_to_add",
