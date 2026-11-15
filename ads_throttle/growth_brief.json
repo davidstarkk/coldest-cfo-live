@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-13",
-  "computed_at": "2026-11-14T14:32:38Z",
+  "computed_at": "2026-11-15T14:23:08Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
   "governor": {
     "status": "ok",
@@ -1022,8 +1022,8 @@
     "winner_share_of_meta_spend_pct": 16.0,
     "top_winner_share_of_winner_spend_pct": 22.8,
     "new_this_week": 8,
-    "median_age_days": 48,
-    "oldest_age_days": 283,
+    "median_age_days": 49,
+    "oldest_age_days": 284,
     "formats": {
       "video": 3,
       "image": 5
@@ -1089,7 +1089,7 @@
     "basis": "Average daily revenue over the days used x 365. A run-rate, not a forecast: the window is not adjusted for season or promotions.",
     "multiple_to_target": 3.46,
     "revenue_per_day_at_target": 273972.6,
-    "weeks_to_target_date": 104.1,
+    "weeks_to_target_date": 104.0,
     "weekly_growth_needed_pct": 1.2
   },
   "autonomy": {
@@ -1493,30 +1493,54 @@
     "status": "ok",
     "file": "ads_throttle/grok_requests.json",
     "answers_file": "ads_throttle/cfo_answers.json",
-    "open": 0,
-    "requests": [],
+    "open": 1,
+    "requests": [
+      {
+        "id": "2026-11-14-intl-meta-ad-channels",
+        "asked_on": "2026-11-14",
+        "by": "International Meta Bot",
+        "about": "channel",
+        "creative_id": null,
+        "ask": "Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta campaigns are being built paused for Canada, the UK and Australia only, at a discussed envelope of about $650 per country and about $2,000 total. David has not yet confirmed whether the $650 is daily or a test total, and has not yet acknowledged the Meta hold (7-day D2C MER about 1.97 vs a 3.24 target, as of 11/13). Please add rows that can accept spend and revenue once those campaigns go live, without treating paused $0 days as a missing feed.",
+        "status": "open",
+        "age_days": 1,
+        "answer": null,
+        "answered_on": null,
+        "where": null
+      }
+    ],
     "how": "docs/GROK_LOOP.md \"Asking the CFO side\"."
   },
   "asks": [
+    {
+      "id": "grok.request.2026-11-14-intl-meta-ad-channels",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO (Claude session)",
+      "title": "Grok asked: Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta ca",
+      "detail": "Asked 2026-11-14 by International Meta Bot. Answer it in ads_throttle/cfo_answers.json (and build the block with the new-brief-field skill if it should be read every morning).",
+      "first_seen": "2026-11-15",
+      "age_days": 0
+    },
     {
       "id": "growth.inventory.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_inventory.json is 4 days old",
+      "title": "growth/shopify_inventory.json is 5 days old",
       "detail": "Run the Shopify inventory pull and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-14",
-      "age_days": 0
+      "age_days": 1
     },
     {
       "id": "growth.new_customers.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_customers_daily.json is 4 days old",
+      "title": "growth/shopify_customers_daily.json is 5 days old",
       "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-13",
-      "age_days": 1
+      "age_days": 2
     },
     {
       "id": "tracking.new_customer_utm_coverage",
@@ -1526,7 +1550,7 @@
       "title": "Only 49.5% of new-customer orders carry a UTM",
       "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
       "first_seen": "2026-11-11",
-      "age_days": 3
+      "age_days": 4
     },
     {
       "id": "history.backfill",
@@ -1536,7 +1560,7 @@
       "title": "Media-mix model has 34 of 180 usable days",
       "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
       "first_seen": "2026-11-11",
-      "age_days": 3
+      "age_days": 4
     },
     {
       "id": "inventory.low_cover",
@@ -1546,7 +1570,7 @@
       "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
       "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
       "first_seen": "2026-11-11",
-      "age_days": 3,
+      "age_days": 4,
       "evidence": {
         "products": [
           "COLDEST 36oz Limitless Ultra v8"
@@ -1576,7 +1600,54 @@
     "multiple_to_target": 3.46,
     "total_mer_7d": 3.42,
     "usable_history_days": 34,
-    "open_grok_requests": 0,
+    "open_grok_requests": 1,
     "tests_running": 0
+  },
+  "intl_meta_budget_calls": {
+    "as_of": "2026-11-13",
+    "status": "OK",
+    "advisory": true,
+    "lines": [
+      {
+        "code": "CA",
+        "display_name": "Meta Canada",
+        "action": "OFF",
+        "reason": "registry status off",
+        "advisory": true,
+        "cooldown_until": null,
+        "roas_7d": null,
+        "spend_7d": null
+      },
+      {
+        "code": "GB",
+        "display_name": "Meta UK",
+        "action": "OFF",
+        "reason": "registry status off",
+        "advisory": true,
+        "cooldown_until": null,
+        "roas_7d": null,
+        "spend_7d": null
+      },
+      {
+        "code": "AU",
+        "display_name": "Meta Australia",
+        "action": "OFF",
+        "reason": "registry status off",
+        "advisory": true,
+        "cooldown_until": null,
+        "roas_7d": null,
+        "spend_7d": null
+      },
+      {
+        "code": "US",
+        "display_name": "Meta USA",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
+        "advisory": true,
+        "cooldown_until": null,
+        "roas_7d": null,
+        "spend_7d": null
+      }
+    ]
   }
 }
