@@ -145,5 +145,7 @@
         "fix": "Before go-live, place a test order and confirm Purchase in Reddit Events Manager with conversion_id = order id (pixel + CAPI dedup); confirm UTMs on ad URLs. Needs David (Reddit UI) at launch."
       }
     }
-  }
+  },
+  "updated_at": "2026-11-15T09:55:00-05:00",
+  "refresh_note": "11/15 8:15 AM checkout-signals run failed; figures above carried from the 11/14 8:36 AM run (Shopify 11/13). Not re-measured today."
 }
