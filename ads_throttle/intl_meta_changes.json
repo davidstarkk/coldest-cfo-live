@@ -1,0 +1,5 @@
+{
+  "schema": "intl_meta_changes.v1",
+  "note": "Owner-confirmed RAISE_20 / CUT_20 actions only. Do not invent rows. Used for 7-day raise and 3-day cut cooldowns.",
+  "actions": []
+}
