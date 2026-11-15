@@ -79,18 +79,55 @@ test('producer PR #52 payload field names are used as-is (daily + shopify + regi
   assert.strictEqual(FEED.reconciliation.delta, 0);
 });
 
-test('registry sort_order drives rows; residual US is first; CA/GB/AU follow', function () {
+test('registry.domestic renders as its own first row (Meta USA) and is not summed into other lines', function () {
+  assert.strictEqual(REG.countries.some(function (c) { return c.code === 'US'; }), false, 'US is not in countries[]');
+  assert.strictEqual(REG.domestic.code, 'US');
+  assert.strictEqual(REG.domestic.display_name, 'Meta USA');
+  assert.strictEqual(REG.domestic.residual, true);
+
   var rows = M.countryRows(REG, FEED, false);
   assert.deepStrictEqual(rows.map(function (r) { return r.code; }), ['US', 'CA', 'GB', 'AU']);
   assert.strictEqual(rows[0].label, 'Meta USA');
+  assert.strictEqual(rows[0].residual, true);
+  assert.strictEqual(rows[0].display_state, 'spend');
+  assert.strictEqual(rows[0].spend_1d, 875);
+  assert.strictEqual(rows[0].spend_7d, 1765);
+  assert.strictEqual(rows[0].aov_7d, 80.77);
   assert.strictEqual(rows[1].label, 'Meta Canada');
   assert.strictEqual(rows[2].label, 'Meta UK');
   assert.strictEqual(rows[3].label, 'Meta Australia');
-  assert.strictEqual(rows[0].display_state, 'spend');
-  assert.strictEqual(rows[0].residual, true);
+  rows.slice(1).forEach(function (r) {
+    assert.strictEqual(r.residual, false);
+    assert.notStrictEqual(r.spend_1d, 875);
+  });
+
   var html = M.renderPanel(REG, FEED);
+  var us = card(html, 'US');
+  assert.ok(us);
+  assert.ok(us.indexOf('data-im-residual="1"') !== -1);
+  assert.ok(us.indexOf('Meta USA') !== -1);
+  assert.ok(us.indexOf('$875') !== -1);
+  assert.ok(us.indexOf('$1,765') !== -1);
+  assert.ok(us.indexOf('$80.77') !== -1);
   assert.ok(html.indexOf('data-im-code="US"') < html.indexOf('data-im-code="CA"'));
-  assert.ok(html.indexOf('Meta USA') !== -1 && html.indexOf('Meta Canada') !== -1);
+  ['CA', 'GB', 'AU'].forEach(function (code) {
+    var c = card(html, code);
+    assert.ok(c.indexOf('data-im-residual') === -1, code + ' is not the domestic row');
+    assert.ok(c.indexOf('Meta USA') === -1, code + ' does not absorb the USA label');
+    assert.ok(c.indexOf('$875') === -1, code + ' does not absorb USA 1d spend');
+  });
+
+  var lied = clone(FEED);
+  lied.countries.US.display_amount = 1;
+  lied.countries.US.spend_1d = 1;
+  lied.countries.US.spend_7d = 1;
+  var liedHtml = M.renderPanel(REG, lied);
+  assert.ok(card(liedHtml, 'US').indexOf('$1') !== -1);
+  assert.ok(liedHtml.indexOf('$1,000') !== -1, 'totals stay the feed figures, not a sum of country rows');
+  assert.ok(liedHtml.indexOf('$2,000') !== -1);
+
+  var src = fs.readFileSync(path.join(ROOT, 'intl_meta_module.js'), 'utf8');
+  assert.ok(!/\.reduce\s*\(/.test(src), 'module must not sum country spend');
 });
 
 test('display_name present is the row label; absent falls back to name', function () {
@@ -333,10 +370,11 @@ test('intl_meta.status RECONCILIATION_FAILED shows a tab-level banner and keeps 
   assert.ok(so.indexOf('reconciled 11/14') !== -1);
 });
 
-test('per-line aov_7d renders as AOV (platform-reported); null is a dash, never $0', function () {
+test('per-line aov_7d renders as AOV (Shopify, ship-to); null is a dash, never $0', function () {
   var html = M.renderPanel(REG, FEED);
   var ca = card(html, 'CA');
-  assert.ok(ca.indexOf('AOV (platform-reported)') !== -1);
+  assert.ok(ca.indexOf('AOV (Shopify, ship-to)') !== -1);
+  assert.ok(ca.indexOf('AOV (platform-reported)') === -1);
   assert.ok(ca.indexOf('$57.14') !== -1);
   assert.ok(card(html, 'GB').indexOf('$76.25') !== -1);
   assert.ok(card(html, 'AU').indexOf('$92.50') !== -1);
@@ -344,7 +382,7 @@ test('per-line aov_7d renders as AOV (platform-reported); null is a dash, never 
   var none = clone(FEED);
   none.countries.CA.aov_7d = null;
   var dash = card(M.renderPanel(REG, none), 'CA');
-  assert.ok(/AOV \(platform-reported\)<\/div><div class="im-v">—<\/div>/.test(dash));
+  assert.ok(/AOV \(Shopify, ship-to\)<\/div><div class="im-v">—<\/div>/.test(dash));
   assert.ok(dash.indexOf('$0.00') === -1);
   var nan = M.renderCountry({
     code: 'XX', label: 'X', flag: '', display_state: 'spend', display_amount: 1,
@@ -352,7 +390,7 @@ test('per-line aov_7d renders as AOV (platform-reported); null is a dash, never 
     trend: { direction: 'insufficient_data' }, notes: [], fromFeed: true
   });
   assert.ok(nan.indexOf('NaN') === -1);
-  assert.ok(/AOV \(platform-reported\)<\/div><div class="im-v">—<\/div>/.test(nan));
+  assert.ok(/AOV \(Shopify, ship-to\)<\/div><div class="im-v">—<\/div>/.test(nan));
 });
 
 test('totals are the feed\'s Meta (breakdown) figures, not a client-side sum, and ROAS is not MER', function () {

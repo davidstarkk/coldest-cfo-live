@@ -376,7 +376,8 @@
     var off = sp.caption ? pill(sp.caption, 'im-muted') : '';
     var badge = sp.badge ? pill(sp.badge, 'im-warn') : '';
     var contrib = contributionTxt(row);
-    var h = '<article class="im-row" data-im-code="' + esc(row.code) + '" data-im-state="' + esc(row.display_state) + '">';
+    var h = '<article class="im-row" data-im-code="' + esc(row.code) + '" data-im-state="' + esc(row.display_state) + '"' +
+      (row.residual ? ' data-im-residual="1"' : '') + '>';
     h += '<h3>' + esc(row.flag ? row.flag + ' ' : '') + esc(row.label) + off + badge + '</h3>';
     h += '<div class="im-nums">';
     h += '<div><div class="im-l">Spend (1d)</div><div class="im-v">' + (sp.amount === '' ? '' : esc(sp.amount)) + '</div>' +
@@ -386,7 +387,7 @@
     h += '<div><div class="im-l">ROAS 7d</div><div class="im-v">' + esc(x(row.roas_7d)) + '</div><div class="im-s">' + esc(PLATFORM_ROAS) + '</div></div>';
     h += '<div><div class="im-l">CPP 7d</div><div class="im-v">' + esc(row.cpp_7d == null ? '—' : usd(row.cpp_7d, 2)) + '</div></div>';
     h += '<div><div class="im-l">Purchases 7d</div><div class="im-v">' + esc(int(row.purchases_7d)) + '</div></div>';
-    h += '<div><div class="im-l">AOV (platform-reported)</div><div class="im-v">' + esc(usd(row.aov_7d, 2)) + '</div></div>';
+    h += '<div><div class="im-l">AOV (Shopify, ship-to)</div><div class="im-v">' + esc(usd(row.aov_7d, 2)) + '</div></div>';
     h += '</div>';
     h += '<div>' + trendHtml(row.trend) + '</div>';
     h += '<div style="margin-top:8px">' + budgetChip(row.budget_call) + '</div>';
