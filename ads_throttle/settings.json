@@ -20,7 +20,7 @@
       "owner_bot": "reddit bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "HOLD. David closed Reddit indefinitely on 2026-11-09; reopen review ~May 2027. settings.json mode_legend has no closed/paused mode (only auto/hold/frozen/view), so mode stays hold — no raise or cut. Prior 10/28 tracking-HOLD: purchase/checkout events not firing (pixel a2_j3pu0ku22iae) and no Shopify UTM sessions."
+      "notes": "HOLD. David closed Reddit indefinitely on 2026-11-09; reopen review ~May 2027. settings.json mode_legend has no closed/paused mode (only auto/hold/frozen/view), so mode stays hold \u2014 no raise or cut. Prior 10/28 tracking-HOLD: purchase/checkout events not firing (pixel a2_j3pu0ku22iae) and no Shopify UTM sessions."
     },
     "snapchat": {
       "mode": "auto",
@@ -42,7 +42,7 @@
       "owner_bot": "ads bot for chatgpt",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "HOLD. Paused since 10/30 (rankings 2026-11-09). No raise or cut until David relaunches. Prior: David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan — still paused."
+      "notes": "HOLD. Paused since 10/30 (rankings 2026-11-09). No raise or cut until David relaunches. Prior: David 10/30 9:22 PM ET approved relaunch at $60/day per relaunch plan \u2014 still paused."
     },
     "meta": {
       "mode": "frozen",
@@ -86,7 +86,11 @@
       "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable."
+      "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable. | Agreed ROAS basis 2026-11-15 (Applovin Bot + Finance CFO): platform-reported click-only chka_usd_7d, booked on purchase date, campaign 07e26de8 only, trailing 7 full UTC days reread live; spend-only days count as missing revenue, never $0; serve-date ROAS and Shopify UTM advisory only.",
+      "daily_budget": 216,
+      "roas_source": "platform_reported",
+      "raise_above_roas": 3.0,
+      "raise_above_roas_source": "David 10/29/2026 4:56 PM ET to Applovin Bot, AppLovin-specific: 'I wouldn't raise the budgets if you're only at 2 ROAS. If it goes above 3 ROAS you can raise the budgets.' Registered as a channel exception in ops/ad_rules.md. Hold 2.0-3.0, cut <2.0."
     },
     "taboola": {
       "mode": "hold",
@@ -118,7 +122,7 @@
       "max_daily_budget": null,
       "min_daily_budget": null,
       "roas_source": "platform_reported",
-      "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend − ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution).",
+      "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution).",
       "daily_budget": 70
     }
   },

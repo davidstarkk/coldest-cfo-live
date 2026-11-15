@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-12T09:59:05-05:00",
+  "updated_at": "2026-11-15T16:30:00-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
@@ -76,6 +76,11 @@
       "status": "working",
       "note": "Owner CFO creative routine; flagged for Builder, not routable from Jarvis.",
       "at": "2026-11-12T09:55:00-05:00"
+    },
+    "roas.applovin.disputed": {
+      "status": "done",
+      "note": "Agreed basis written to channels.applovin.notes 2026-11-15. Gap was mostly window (stale 11/2-11/8 vs 11/7-11/13) plus a CFO feed bug counting spend-only rows as $0. Raise threshold 3.0 is David's AppLovin-specific 10/29 rule.",
+      "at": "2026-11-15T16:30:00-05:00"
     }
   }
 }

@@ -128,7 +128,7 @@
     "old_budget": 88.2,
     "new_budget": 105.84,
     "budget_note": "Non-JS_ PMax NCA sandbox only, not account-wide. $88.20 -> $105.84 (+20%) at 2026-11-10T18:38:30Z (1:38 PM ET). Campaign 24373267631, budget 15960180711, account 5108535701.",
-    "status": "done (executed by Google · Ads at 1:38 PM ET)",
+    "status": "done (executed by Google \u00b7 Ads at 1:38 PM ET)",
     "by": "Grok Bot",
     "approved_by": "David 11/10 1:36 PM ET",
     "next_eligible": "2026-11-17",
@@ -177,5 +177,18 @@
     "logged_by": "jarvis",
     "next_eligible": "2026-11-18",
     "note": "Hoodies is not eligible again before Tue 11/18 9:55:19 AM ET. Account live total $624/day (Launch $504 + Hoodies $120), under $784."
+  },
+  {
+    "date": "2026-11-13",
+    "channel": "applovin",
+    "entity": "campaign 07e26de8 (main)",
+    "roas_7d": 3.27,
+    "roas_source": "platform_reported click-only chka_usd_7d, as read by Applovin Bot at raise time",
+    "action": "raise_20pct",
+    "old_budget": 180,
+    "new_budget": 216,
+    "status": "done (Applovin Bot, ~11:23 AM ET 11/13)",
+    "by": "applovin_bot, logged by jarvis 11/15",
+    "note": "Next eligible 2026-11-20 11:23 AM ET. Latest 7 full days 11/8-11/14 on the agreed basis = 1.89x (cut band) per Applovin Bot."
   }
 ]

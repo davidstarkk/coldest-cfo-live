@@ -1,12 +1,12 @@
 {
   "schema_version": "intl_meta.v1",
-  "as_of": "2026-11-13",
+  "as_of": "2026-11-14",
   "status": "OK",
   "intl_meta": {
     "schema_version": "intl_meta.v1",
-    "as_of": "2026-11-13",
-    "computed_at": "2026-11-15T14:24:54Z",
-    "github_sha": "122d39d381b2e504f9a348b1e0395e05a09cead4",
+    "as_of": "2026-11-14",
+    "computed_at": "2026-11-15T17:42:30Z",
+    "github_sha": "33782058274136e69ac0202ab24641372f972601",
     "currency": "USD",
     "account_id": "act_24723036",
     "status": "OK",
@@ -19,14 +19,14 @@
         "name": "Canada",
         "display_name": "Meta Canada",
         "flag": "\ud83c\udde8\ud83c\udde6",
-        "status": "off",
+        "status": "on",
         "residual": false,
         "meta_campaign_ids": [
           "52562731737847",
           "52562737655847"
         ],
-        "display_state": "off",
-        "display_amount": 0.0,
+        "display_state": "pending_backfill",
+        "display_amount": null,
         "measured_spend": null,
         "last_confirmed_date": null,
         "last_confirmed_amount": null,
@@ -56,8 +56,8 @@
           "arrow": "\u2014"
         },
         "budget_call": {
-          "action": "OFF",
-          "reason": "registry status off",
+          "action": "INSUFFICIENT_DATA",
+          "reason": "missing 7d spend, purchases or platform ROAS",
           "advisory": true,
           "cooldown_until": null
         },
@@ -70,14 +70,14 @@
         "name": "United Kingdom",
         "display_name": "Meta UK",
         "flag": "\ud83c\uddec\ud83c\udde7",
-        "status": "off",
+        "status": "on",
         "residual": false,
         "meta_campaign_ids": [
           "52562731746047",
           "52562737657847"
         ],
-        "display_state": "off",
-        "display_amount": 0.0,
+        "display_state": "pending_backfill",
+        "display_amount": null,
         "measured_spend": null,
         "last_confirmed_date": null,
         "last_confirmed_amount": null,
@@ -107,8 +107,8 @@
           "arrow": "\u2014"
         },
         "budget_call": {
-          "action": "OFF",
-          "reason": "registry status off",
+          "action": "INSUFFICIENT_DATA",
+          "reason": "missing 7d spend, purchases or platform ROAS",
           "advisory": true,
           "cooldown_until": null
         },
@@ -121,14 +121,14 @@
         "name": "Australia",
         "display_name": "Meta Australia",
         "flag": "\ud83c\udde6\ud83c\uddfa",
-        "status": "off",
+        "status": "on",
         "residual": false,
         "meta_campaign_ids": [
           "52562731747247",
           "52562737658847"
         ],
-        "display_state": "off",
-        "display_amount": 0.0,
+        "display_state": "pending_backfill",
+        "display_amount": null,
         "measured_spend": null,
         "last_confirmed_date": null,
         "last_confirmed_amount": null,
@@ -158,8 +158,8 @@
           "arrow": "\u2014"
         },
         "budget_call": {
-          "action": "OFF",
-          "reason": "registry status off",
+          "action": "INSUFFICIENT_DATA",
+          "reason": "missing 7d spend, purchases or platform ROAS",
           "advisory": true,
           "cooldown_until": null
         },
@@ -223,7 +223,7 @@
       "note": "Lines sum to Meta account act_24723036. Do not add them to d2c_ad_spend / blended MER."
     },
     "reconciliation": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "account_spend": null,
       "lines_spend": null,
       "delta": null,
@@ -252,7 +252,7 @@
           "roas_7d": null,
           "trend_arrow": "\u2014",
           "budget_call": {
-            "action": "OFF"
+            "action": "INSUFFICIENT_DATA"
           }
         },
         {
@@ -263,7 +263,7 @@
           "roas_7d": null,
           "trend_arrow": "\u2014",
           "budget_call": {
-            "action": "OFF"
+            "action": "INSUFFICIENT_DATA"
           }
         },
         {
@@ -274,7 +274,7 @@
           "roas_7d": null,
           "trend_arrow": "\u2014",
           "budget_call": {
-            "action": "OFF"
+            "action": "INSUFFICIENT_DATA"
           }
         }
       ]
