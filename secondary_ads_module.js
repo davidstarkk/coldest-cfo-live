@@ -92,15 +92,13 @@
     // 2) nav button
     var existingBtn = document.querySelector('.tab[data-tab="' + SA_TAB_KEY + '"]');
     if (!existingBtn) {
-      var afterTab = document.querySelector('.tab[data-tab="throttles"]')
-        || document.querySelector('.tab[data-tab="reports"]')
-        || document.querySelector('.tab');
-      if (afterTab && afterTab.parentNode) {
+      var firstTab = document.querySelector('.tab[data-tab="reports"]') || document.querySelector('.tab');
+      if (firstTab && firstTab.parentNode) {
         var btn = document.createElement('div');
         btn.className = 'tab';
         btn.setAttribute('data-tab', SA_TAB_KEY);
         btn.textContent = SA_TAB_LABEL;
-        afterTab.parentNode.insertBefore(btn, afterTab.nextSibling);
+        firstTab.parentNode.insertBefore(btn, firstTab.nextSibling);
         // Wire click — mirror the dashboard's own tab behavior.
         btn.addEventListener('click', function () {
           document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
@@ -114,10 +112,6 @@
     } else {
       // Tab already present in markup — just make sure it renders on click.
       existingBtn.addEventListener('click', function () { setTimeout(saRender, 0); });
-      var throttlesTab = document.querySelector('.tab[data-tab="throttles"]');
-      if (throttlesTab && existingBtn.parentNode === throttlesTab.parentNode && throttlesTab.nextElementSibling !== existingBtn) {
-        throttlesTab.parentNode.insertBefore(existingBtn, throttlesTab.nextSibling);
-      }
     }
   }
 
