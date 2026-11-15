@@ -49,7 +49,7 @@
   function partRows(doc) {
     return ((doc && doc.by_daypart) || []).map(function (p) {
       return { part: p.daypart, hours: p.hours, shows: num(p.shows), days: num(p.days), perShow: num(p.revenue_per_show), best: num(p.best_show), worst: num(p.worst_show),
-        orders: num(p.orders_per_show), buyers: num(p.first_time_buyers_per_show) };
+        orders: num(p.orders_per_show), buyers: num(p.first_time_buyers_per_show), promoReturn: num(p.revenue_per_promotion_dollar), promoShows: num(p.shows_with_promotion_spend) };
     });
   }
   function hostRows(doc) {
@@ -105,9 +105,9 @@
     var rows = partRows(doc);
     if (!rows.length) return '';
     var html = '<div class="ws-card"><h3>By time of day</h3><p class="ws-note">' + esc(doc.caveat || '') + '</p>' +
-      table([['Start time (Eastern)', 1], ['Shows'], ['Revenue per show'], ['Best'], ['Lowest'], ['Orders per show'], ['First-time buyers per show']], rows.map(function (r) {
+      table([['Start time (Eastern)', 1], ['Shows'], ['Revenue per show'], ['Best'], ['Lowest'], ['Orders per show'], ['First-time buyers per show'], ['Revenue per promotion $']], rows.map(function (r) {
         return '<tr><td>' + esc(PART[r.part] || r.part) + '<span class="ws-sub">' + esc(r.hours) + '</span></td><td>' + int(r.shows) + '</td><td>' + usd(r.perShow) + '</td><td>' + usd(r.best) +
-          '</td><td>' + usd(r.worst) + '</td><td>' + one(r.orders) + '</td><td>' + one(r.buyers) + '</td></tr>';
+          '</td><td>' + usd(r.worst) + '</td><td>' + one(r.orders) + '</td><td>' + one(r.buyers) + '</td><td>' + (r.promoReturn == null ? '—' : '$' + r.promoReturn.toFixed(2) + '<span class="ws-sub">' + int(r.promoShows) + ' shows</span>') + '</td></tr>';
       }));
     var hosts = hostRows(doc);
     if (hosts.length) {
