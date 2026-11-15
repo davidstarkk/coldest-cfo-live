@@ -1,0 +1,122 @@
+{
+  "example": true,
+  "label": "EXAMPLE DATA",
+  "EXAMPLE_DATA": true,
+  "note": "EXAMPLE DATA — not live dollars. Fixture for intl_meta.v1 tests only.",
+  "schema": "intl_meta_daily.v1",
+  "account_id": "act_24723036",
+  "campaigns": [
+    {
+      "date": "2026-11-08",
+      "campaign_id": "52562731737847",
+      "spend": 40,
+      "purchases": 8,
+      "purchase_value": 160
+    },
+    {
+      "date": "2026-11-08",
+      "campaign_id": "52562737655847",
+      "spend": 10,
+      "purchases": 2,
+      "purchase_value": 40
+    },
+    {
+      "date": "2026-11-08",
+      "campaign_id": "52562731746047",
+      "spend": 30,
+      "purchases": 6,
+      "purchase_value": 120
+    },
+    {
+      "date": "2026-11-08",
+      "campaign_id": "52562737657847",
+      "spend": 5,
+      "purchases": 1,
+      "purchase_value": 20
+    },
+    {
+      "date": "2026-11-08",
+      "campaign_id": "52562731747247",
+      "spend": 20,
+      "purchases": 4,
+      "purchase_value": 80
+    },
+    {
+      "date": "2026-11-08",
+      "campaign_id": "52562737658847",
+      "spend": 5,
+      "purchases": 1,
+      "purchase_value": 20
+    },
+    {
+      "date": "2026-11-08",
+      "campaign_id": "99900000000001",
+      "spend": 890,
+      "purchases": 80,
+      "purchase_value": 3560
+    },
+    {
+      "date": "2026-11-14",
+      "campaign_id": "52562731737847",
+      "spend": 50,
+      "purchases": 10,
+      "purchase_value": 200
+    },
+    {
+      "date": "2026-11-14",
+      "campaign_id": "52562737655847",
+      "spend": 10,
+      "purchases": 2,
+      "purchase_value": 40
+    },
+    {
+      "date": "2026-11-14",
+      "campaign_id": "52562731746047",
+      "spend": 35,
+      "purchases": 7,
+      "purchase_value": 140
+    },
+    {
+      "date": "2026-11-14",
+      "campaign_id": "52562737657847",
+      "spend": 5,
+      "purchases": 1,
+      "purchase_value": 20
+    },
+    {
+      "date": "2026-11-14",
+      "campaign_id": "52562731747247",
+      "spend": 22,
+      "purchases": 5,
+      "purchase_value": 88
+    },
+    {
+      "date": "2026-11-14",
+      "campaign_id": "52562737658847",
+      "spend": 3,
+      "purchases": 1,
+      "purchase_value": 12
+    },
+    {
+      "date": "2026-11-14",
+      "campaign_id": "99900000000001",
+      "spend": 875,
+      "purchases": 74,
+      "purchase_value": 3500
+    }
+  ],
+  "account_totals": [
+    {
+      "date": "2026-11-08",
+      "spend": 1000,
+      "purchases": 102,
+      "purchase_value": 4000
+    },
+    {
+      "date": "2026-11-14",
+      "spend": 1000,
+      "purchases": 100,
+      "purchase_value": 4000
+    }
+  ]
+}
