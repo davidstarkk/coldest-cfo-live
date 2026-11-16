@@ -2,7 +2,7 @@
   "schema": "intl_meta_registry.v1",
   "account_id": "act_24723036",
   "currency": "USD",
-  "note": "Adding a country is a registry entry only (code, display_name, meta_campaign_ids, status, added). Domestic US is residual: account minus every registry campaign, catalog campaigns included. Next up: DE, FR, NL, AE, JP, IE, NZ.",
+  "note": "Adding a country is a registry entry only (code, display_name, meta_campaign_ids, status, added / effective_date). CA/GB/AU were reported live 2026-11-14 — status is on from that effective_date; display_state then comes from the measured feed (spend / $0 / pending_backfill), never a hard-coded off. Domestic US is residual: account minus every registry campaign, catalog campaigns included. Next up: DE, FR, NL, AE, JP, IE, NZ.",
   "upcoming": ["DE", "FR", "NL", "AE", "JP", "IE", "NZ"],
   "domestic": {
     "code": "US",
@@ -20,6 +20,7 @@
       "status": "on",
       "sort_order": 1,
       "added": "2026-11-14",
+      "effective_date": "2026-11-14",
       "live_since_et": "2026-11-14T22:07:00-05:00",
       "meta_campaign_ids": ["52562731737847", "52562737655847"],
       "meta_campaign_match": {"country_breakdown": true}
@@ -32,6 +33,7 @@
       "status": "on",
       "sort_order": 2,
       "added": "2026-11-14",
+      "effective_date": "2026-11-14",
       "live_since_et": "2026-11-14T22:07:00-05:00",
       "meta_campaign_ids": ["52562731746047", "52562737657847"],
       "meta_campaign_match": {"country_breakdown": true}
@@ -44,6 +46,7 @@
       "status": "on",
       "sort_order": 3,
       "added": "2026-11-14",
+      "effective_date": "2026-11-14",
       "live_since_et": "2026-11-14T22:07:00-05:00",
       "meta_campaign_ids": ["52562731747247", "52562737658847"],
       "meta_campaign_match": {"country_breakdown": true}

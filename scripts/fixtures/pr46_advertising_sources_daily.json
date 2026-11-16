@@ -1,0 +1,17 @@
+{
+  "as_of": "2026-11-09",
+  "advertising_sources": {
+    "2026-11-09": {
+      "x_ads": {
+        "display_state": "spend",
+        "display_amount": 223.01,
+        "last_confirmed_date": "2026-11-09",
+        "last_confirmed_amount": 223.01,
+        "measured_spend": 223.01,
+        "spend": 223.01,
+        "cash_cost": null,
+        "cash_cost_status": "missing"
+      }
+    }
+  }
+}
