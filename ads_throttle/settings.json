@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-16T13:23:00-05:00",
-  "updated_by": "jarvis (11/16 1:22 PM ET: David \"I want the floor to be held\"; meta US daily_budget 10000 after partial reversal of 1:05 pullback)",
+  "updated_at": "2026-11-16T13:40:00-05:00",
+  "updated_by": "International Meta Bot (11/16 1:39 PM ET: David \"the internationals move to $150/day if they are doing bad\"; CA/GB/AU to $150/day each ($125 main + $25 catalog), intl total $1,230 -> $450; meta US daily_budget unchanged at 10000)",
   "global": {
     "step_pct": 20,
     "window_days": 7,
@@ -52,7 +52,7 @@
       "min_daily_budget": null,
       "notes": "Frozen in this file. Separate David carve-out (10/27 10:39 PM ET) runs in routine meta-roas-kill-cbo-scale: pause ads <1x 7d ROAS; +20% weekly on CBOs >=3x for 7+ days.",
       "daily_budget": 10000,
-      "daily_budget_note": "US Meta live CBO+ABO total after 11/16 1:22 PM ET floor restore ($10k floor held), excluding MEGMAS 6 ($1,000/day, starts 11/19) and International CA/GB/AU ($1,230/day total)."
+      "daily_budget_note": "US Meta live CBO+ABO total after 11/16 1:22 PM ET floor restore ($10k floor held), excluding MEGMAS 6 ($1,000/day, starts 11/19) and International CA/GB/AU ($450/day total after 11/16 1:32 PM ET owner-ordered cut to $150/day per country)."
     },
     "google": {
       "mode": "auto",

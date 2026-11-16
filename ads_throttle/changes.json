@@ -2256,5 +2256,287 @@
       "note": "Not yet measured."
     },
     "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.88,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend since launch (2026-11-14 10:07 PM ET to 2026-11-16 ~10:30 AM ET), country-level CA (main+catalog combined). Campaigns live since 2026-11-14 ~22:07 ET, so ~1.5 days of data; 7-day window not yet complete.",
+    "rule_band": "cut",
+    "recommended_action": "Owner-ordered cut (overrides 11/19 cooldown): INTL CA Top20 ASC $378 -> $125 (66.9% cut; live before this write $378). Country since-launch Meta ROAS CA 0.88x. Standing rule: $150/day per badly performing international country ($125 main + $25 catalog).",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:32 PM ET (Jarvis chat, verbatim): \"the internationals move to $150/day if they are doing bad\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562731737847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 378,
+      "after": 125,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:39:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by International Meta Bot via Pipeboard at ~1:36 PM ET; read back via get_campaign_details at ~1:39 PM ET, all confirmed."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:32 PM ET owner-ordered cut: \"the internationals move to $150/day if they are doing bad\" (overrides the 11/19 cooldown). CA/GB/AU each $378+$32=$410 -> $125+$25=$150/day ($1,230 -> $450 total intl). Standing rule: $150/day per country is the level a badly performing international country drops to. No raises. US Meta unchanged at $10,000. All-channel total now $12,038.44/day vs $12,818.44 after the 1:18 PM floor restore and $14,126.64 on 11/15."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.56,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend since launch (2026-11-14 10:07 PM ET to 2026-11-16 ~10:30 AM ET), country-level GB (main+catalog combined). Campaigns live since 2026-11-14 ~22:07 ET, so ~1.5 days of data; 7-day window not yet complete.",
+    "rule_band": "cut",
+    "recommended_action": "Owner-ordered cut (overrides 11/19 cooldown): INTL GB Top20 ASC $378 -> $125 (66.9% cut; live before this write $378). Country since-launch Meta ROAS GB 0.56x. Standing rule: $150/day per badly performing international country ($125 main + $25 catalog).",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:32 PM ET (Jarvis chat, verbatim): \"the internationals move to $150/day if they are doing bad\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562731746047"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 378,
+      "after": 125,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:39:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by International Meta Bot via Pipeboard at ~1:36 PM ET; read back via get_campaign_details at ~1:39 PM ET, all confirmed."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:32 PM ET owner-ordered cut: \"the internationals move to $150/day if they are doing bad\" (overrides the 11/19 cooldown). CA/GB/AU each $378+$32=$410 -> $125+$25=$150/day ($1,230 -> $450 total intl). Standing rule: $150/day per country is the level a badly performing international country drops to. No raises. US Meta unchanged at $10,000. All-channel total now $12,038.44/day vs $12,818.44 after the 1:18 PM floor restore and $14,126.64 on 11/15."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.54,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend since launch (2026-11-14 10:07 PM ET to 2026-11-16 ~10:30 AM ET), country-level AU (main+catalog combined). Campaigns live since 2026-11-14 ~22:07 ET, so ~1.5 days of data; 7-day window not yet complete.",
+    "rule_band": "cut",
+    "recommended_action": "Owner-ordered cut (overrides 11/19 cooldown): INTL AU Top20 ASC $378 -> $125 (66.9% cut; live before this write $378). Country since-launch Meta ROAS AU 0.54x. Standing rule: $150/day per badly performing international country ($125 main + $25 catalog).",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:32 PM ET (Jarvis chat, verbatim): \"the internationals move to $150/day if they are doing bad\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562731747247"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 378,
+      "after": 125,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:39:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by International Meta Bot via Pipeboard at ~1:36 PM ET; read back via get_campaign_details at ~1:39 PM ET, all confirmed."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:32 PM ET owner-ordered cut: \"the internationals move to $150/day if they are doing bad\" (overrides the 11/19 cooldown). CA/GB/AU each $378+$32=$410 -> $125+$25=$150/day ($1,230 -> $450 total intl). Standing rule: $150/day per country is the level a badly performing international country drops to. No raises. US Meta unchanged at $10,000. All-channel total now $12,038.44/day vs $12,818.44 after the 1:18 PM floor restore and $14,126.64 on 11/15."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.88,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend since launch (2026-11-14 10:07 PM ET to 2026-11-16 ~10:30 AM ET), country-level CA (main+catalog combined). Campaigns live since 2026-11-14 ~22:07 ET, so ~1.5 days of data; 7-day window not yet complete.",
+    "rule_band": "cut",
+    "recommended_action": "Owner-ordered cut (overrides 11/19 cooldown): INTL CA Catalog $32 -> $25 (21.9% cut; live before this write $32). Country since-launch Meta ROAS CA 0.88x. Standing rule: $150/day per badly performing international country ($125 main + $25 catalog).",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:32 PM ET (Jarvis chat, verbatim): \"the internationals move to $150/day if they are doing bad\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562737655847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 32,
+      "after": 25,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:39:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by International Meta Bot via Pipeboard at ~1:36 PM ET; read back via get_campaign_details at ~1:39 PM ET, all confirmed."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:32 PM ET owner-ordered cut: \"the internationals move to $150/day if they are doing bad\" (overrides the 11/19 cooldown). CA/GB/AU each $378+$32=$410 -> $125+$25=$150/day ($1,230 -> $450 total intl). Standing rule: $150/day per country is the level a badly performing international country drops to. No raises. US Meta unchanged at $10,000. All-channel total now $12,038.44/day vs $12,818.44 after the 1:18 PM floor restore and $14,126.64 on 11/15."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.56,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend since launch (2026-11-14 10:07 PM ET to 2026-11-16 ~10:30 AM ET), country-level GB (main+catalog combined). Campaigns live since 2026-11-14 ~22:07 ET, so ~1.5 days of data; 7-day window not yet complete.",
+    "rule_band": "cut",
+    "recommended_action": "Owner-ordered cut (overrides 11/19 cooldown): INTL GB Catalog $32 -> $25 (21.9% cut; live before this write $32). Country since-launch Meta ROAS GB 0.56x. Standing rule: $150/day per badly performing international country ($125 main + $25 catalog).",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:32 PM ET (Jarvis chat, verbatim): \"the internationals move to $150/day if they are doing bad\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562737657847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 32,
+      "after": 25,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:39:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by International Meta Bot via Pipeboard at ~1:36 PM ET; read back via get_campaign_details at ~1:39 PM ET, all confirmed."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:32 PM ET owner-ordered cut: \"the internationals move to $150/day if they are doing bad\" (overrides the 11/19 cooldown). CA/GB/AU each $378+$32=$410 -> $125+$25=$150/day ($1,230 -> $450 total intl). Standing rule: $150/day per country is the level a badly performing international country drops to. No raises. US Meta unchanged at $10,000. All-channel total now $12,038.44/day vs $12,818.44 after the 1:18 PM floor restore and $14,126.64 on 11/15."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.54,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend since launch (2026-11-14 10:07 PM ET to 2026-11-16 ~10:30 AM ET), country-level AU (main+catalog combined). Campaigns live since 2026-11-14 ~22:07 ET, so ~1.5 days of data; 7-day window not yet complete.",
+    "rule_band": "cut",
+    "recommended_action": "Owner-ordered cut (overrides 11/19 cooldown): INTL AU Catalog $32 -> $25 (21.9% cut; live before this write $32). Country since-launch Meta ROAS AU 0.54x. Standing rule: $150/day per badly performing international country ($125 main + $25 catalog).",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:32 PM ET (Jarvis chat, verbatim): \"the internationals move to $150/day if they are doing bad\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562737658847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 32,
+      "after": 25,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:39:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by International Meta Bot via Pipeboard at ~1:36 PM ET; read back via get_campaign_details at ~1:39 PM ET, all confirmed."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:32 PM ET owner-ordered cut: \"the internationals move to $150/day if they are doing bad\" (overrides the 11/19 cooldown). CA/GB/AU each $378+$32=$410 -> $125+$25=$150/day ($1,230 -> $450 total intl). Standing rule: $150/day per country is the level a badly performing international country drops to. No raises. US Meta unchanged at $10,000. All-channel total now $12,038.44/day vs $12,818.44 after the 1:18 PM floor restore and $14,126.64 on 11/15."
   }
 ]
