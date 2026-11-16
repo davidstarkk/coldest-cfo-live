@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-14",
-  "count": 565,
+  "as_of": "2026-11-15",
+  "count": 560,
   "items": [
     {
       "channel": "meta",
@@ -3860,34 +3860,6 @@
       "last_confirmed_amount": null
     },
     {
-      "channel": "meta",
-      "day": "2026-11-15",
-      "owner_bot": "Meta \u00b7 Ad Buyer",
-      "last_confirmed_date": "2026-11-14",
-      "last_confirmed_amount": 9675.03
-    },
-    {
-      "channel": "google",
-      "day": "2026-11-15",
-      "owner_bot": "Google \u00b7 Ads",
-      "last_confirmed_date": "2026-11-14",
-      "last_confirmed_amount": 1665.11
-    },
-    {
-      "channel": "tiktok",
-      "day": "2026-11-15",
-      "owner_bot": null,
-      "last_confirmed_date": "2026-11-14",
-      "last_confirmed_amount": 3750.7
-    },
-    {
-      "channel": "snapchat",
-      "day": "2026-11-15",
-      "owner_bot": "snapchat ads bot",
-      "last_confirmed_date": "2026-11-14",
-      "last_confirmed_amount": 724.8
-    },
-    {
       "channel": "amazon",
       "day": "2026-11-15",
       "owner_bot": null,
@@ -3895,32 +3867,25 @@
       "last_confirmed_amount": null
     },
     {
-      "channel": "whatnot",
-      "day": "2026-11-15",
-      "owner_bot": null,
-      "last_confirmed_date": "2026-11-14",
-      "last_confirmed_amount": 0.0
-    },
-    {
       "channel": "meta",
       "day": "2026-11-16",
       "owner_bot": "Meta \u00b7 Ad Buyer",
-      "last_confirmed_date": "2026-11-14",
-      "last_confirmed_amount": 9675.03
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 13724.15
     },
     {
       "channel": "google",
       "day": "2026-11-16",
       "owner_bot": "Google \u00b7 Ads",
-      "last_confirmed_date": "2026-11-14",
-      "last_confirmed_amount": 1665.11
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 1675.96
     },
     {
       "channel": "tiktok",
       "day": "2026-11-16",
       "owner_bot": null,
-      "last_confirmed_date": "2026-11-14",
-      "last_confirmed_amount": 3750.7
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 3220.94
     },
     {
       "channel": "bing",
@@ -3933,7 +3898,7 @@
       "channel": "snapchat",
       "day": "2026-11-16",
       "owner_bot": "snapchat ads bot",
-      "last_confirmed_date": "2026-11-14",
+      "last_confirmed_date": "2026-11-15",
       "last_confirmed_amount": 724.8
     },
     {
@@ -3954,7 +3919,7 @@
       "channel": "whatnot",
       "day": "2026-11-16",
       "owner_bot": null,
-      "last_confirmed_date": "2026-11-14",
+      "last_confirmed_date": "2026-11-15",
       "last_confirmed_amount": 0.0
     }
   ],

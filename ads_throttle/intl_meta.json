@@ -1,12 +1,12 @@
 {
   "schema_version": "intl_meta.v1",
-  "as_of": "2026-11-14",
+  "as_of": "2026-11-15",
   "status": "OK",
   "intl_meta": {
     "schema_version": "intl_meta.v1",
-    "as_of": "2026-11-14",
-    "computed_at": "2026-11-16T15:26:21Z",
-    "github_sha": "c28ce452ab94de597252c17e5d31bf75ef5cb6f5",
+    "as_of": "2026-11-15",
+    "computed_at": "2026-11-16T16:58:06Z",
+    "github_sha": "87dc7d64f33fbc5ab622abf7b0d4b55a9da9cab1",
     "currency": "USD",
     "account_id": "act_24723036",
     "status": "OK",
@@ -223,7 +223,7 @@
       "note": "Lines sum to Meta account act_24723036. Do not add them to d2c_ad_spend / blended MER."
     },
     "reconciliation": {
-      "date": "2026-11-14",
+      "date": "2026-11-15",
       "account_spend": null,
       "lines_spend": null,
       "delta": null,

@@ -209,5 +209,1431 @@
       "next_check": "2026-11-19",
       "note": "C02 campaign-level trips under-1x (4 days); kept live as last X campaign (never abandon channel)."
     }
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.379,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Main CBO - Limitless Bottles $1544 (11/15) -> $1351 (12.5% vs 11/15; live before this write $1477). Blended ROAS 2.02 = 2/3 x 7d 2.379 + 1/3 x 11/15 1.303.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "6573071905243"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 1477,
+      "after": 1351.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.062,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Founder Whitelist $1600 (11/15) -> $1230 (23.1% vs 11/15; live before this write $1600). Blended ROAS 1.88 = 2/3 x 7d 2.062 + 1/3 x 11/15 1.514.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "6901649714443"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 1600,
+      "after": 1230.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.922,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: NEW | Limitless CBO $578 (11/15) -> $444 (23.2% vs 11/15; live before this write $534). Blended ROAS 1.72 = 2/3 x 7d 1.922 + 1/3 x 11/15 1.303.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "6916817456043"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 534,
+      "after": 444.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.089,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: CBO - 5.19 $667 (11/15) -> $584 (12.4% vs 11/15; live before this write $625). Blended ROAS 2.19 = 2/3 x 7d 2.089 + 1/3 x 11/15 2.4.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "6970012439243"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 625,
+      "after": 584.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.376,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: cbo - JOIN OUR VIP $40 (11/15) -> $25 (37.5% vs 11/15; live before this write $40). Blended ROAS 0.92 = 2/3 x 7d 1.376 + 1/3 x 11/15 0.0.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52510137276647"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 40,
+      "after": 25.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.485,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: top 10 whitelisting $483 (11/15) -> $423 (12.4% vs 11/15; live before this write $466). Blended ROAS 2.49 = 2/3 x 7d 2.485 + 1/3 x 11/15 2.486.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52551168353847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 466,
+      "after": 423.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.08,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: TEST | Value Opt (ABO) $144 (11/15) -> $111 (22.9% vs 11/15; live before this write $144). Blended ROAS 1.72 = 2/3 x 7d 2.08 + 1/3 x 11/15 0.999.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52553743950447"
+      ],
+      "adgroups": [
+        "52553743974247"
+      ]
+    },
+    "budget": {
+      "before": 144,
+      "after": 111.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.612,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: CBO - Drive-Thru Launch $499 (11/15) -> $476 (4.6% vs 11/15; live before this write $485). Blended ROAS 2.64 = 2/3 x 7d 2.612 + 1/3 x 11/15 2.707.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52555456497047"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 485,
+      "after": 476.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.729,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Grokbot Full Automation - Limitless $581 (11/15) -> $447 (23.1% vs 11/15; live before this write $581). Blended ROAS 1.61 = 2/3 x 7d 1.729 + 1/3 x 11/15 1.386.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52556278584647"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 581,
+      "after": 447.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.304,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Grokbot Drive-Thru $118 (11/15) -> $74 (37.3% vs 11/15; live before this write $104). Blended ROAS 1.01 = 2/3 x 7d 1.304 + 1/3 x 11/15 0.422.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52556289195647"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 104,
+      "after": 74.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.425,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Grokbot Hoodies $50 (11/15) -> $38 (24.0% vs 11/15; live before this write $50). Blended ROAS 1.62 = 2/3 x 7d 2.425 + 1/3 x 11/15 0.0.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52556289200847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 50,
+      "after": 38.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.685,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Grok Re-edits Test (ABO) $150 (11/15) -> $95 (36.7% vs 11/15; live before this write $150). Blended ROAS 1.3 = 2/3 x 7d 1.685 + 1/3 x 11/15 0.525.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52558224931047"
+      ],
+      "adgroups": [
+        "52558224974847"
+      ]
+    },
+    "budget": {
+      "before": 150,
+      "after": 95.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.74,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: 32oz Go - CBO $355 (11/15) -> $273 (23.1% vs 11/15; live before this write $324). Blended ROAS 1.82 = 2/3 x 7d 1.74 + 1/3 x 11/15 1.985.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52559081215647"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 324,
+      "after": 273.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.047,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Gallon - CBO - 10/30 $271 (11/15) -> $237 (12.5% vs 11/15; live before this write $253). Blended ROAS 2.07 = 2/3 x 7d 2.047 + 1/3 x 11/15 2.112.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52559119694247"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 253,
+      "after": 237.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.899,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Drive-Thru User video testing (ABO) $300 (11/15) -> $231 (23.0% vs 11/15; live before this write $300). Blended ROAS 1.55 = 2/3 x 7d 1.899 + 1/3 x 11/15 0.848.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52560701739247"
+      ],
+      "adgroups": [
+        "52560701759847"
+      ]
+    },
+    "budget": {
+      "before": 300,
+      "after": 231.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.648,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Euka WL Testing (ABO, 7 ad sets) $1050 (11/15) -> $808 (23.0% vs 11/15; live before this write $1050). Blended ROAS 1.57 = 2/3 x 7d 1.648 + 1/3 x 11/15 1.41.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52560701768247"
+      ],
+      "adgroups": [
+        "52560701775247",
+        "52560701780847",
+        "52560703998247",
+        "52560701791047",
+        "52560705090247",
+        "52560707617247",
+        "52560707621447"
+      ]
+    },
+    "budget": {
+      "before": 1050,
+      "after": 808,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.62,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: BFCM26 Gallon CBO $400 (11/15) -> $308 (23.0% vs 11/15; live before this write $361). Blended ROAS 1.51 = 2/3 x 7d 1.62 + 1/3 x 11/15 1.281.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52561116781247"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 361,
+      "after": 308.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.513,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: BFCM26 v2 Statics CBO $1000 (11/15) -> $769 (23.1% vs 11/15; live before this write $896). Blended ROAS 1.69 = 2/3 x 7d 1.513 + 1/3 x 11/15 2.043.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52561534565247"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 896,
+      "after": 769.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.927,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15; campaign live since 2026-11-14 ~22:07 ET, so ~1.5 days of data)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: INTL CA Top20 ASC $600 (11/15) -> $378 (37.0% vs 11/15; live before this write $600). Blended ROAS 0.96 = 2/3 x 7d 0.927 + 1/3 x 11/15 1.04.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562731737847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 600,
+      "after": 378.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.251,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15; campaign live since 2026-11-14 ~22:07 ET, so ~1.5 days of data)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: INTL GB Top20 ASC $600 (11/15) -> $378 (37.0% vs 11/15; live before this write $600). Blended ROAS 0.26 = 2/3 x 7d 0.251 + 1/3 x 11/15 0.283.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562731746047"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 600,
+      "after": 378.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.251,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15; campaign live since 2026-11-14 ~22:07 ET, so ~1.5 days of data)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: INTL AU Top20 ASC $600 (11/15) -> $378 (37.0% vs 11/15; live before this write $600). Blended ROAS 0.26 = 2/3 x 7d 0.251 + 1/3 x 11/15 0.284.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562731747247"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 600,
+      "after": 378.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.965,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15; campaign live since 2026-11-14 ~22:07 ET, so ~1.5 days of data)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: INTL CA Catalog $50 (11/15) -> $32 (36.0% vs 11/15; live before this write $50). Blended ROAS 1.02 = 2/3 x 7d 0.965 + 1/3 x 11/15 1.135.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562737655847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 50,
+      "after": 32.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.132,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15; campaign live since 2026-11-14 ~22:07 ET, so ~1.5 days of data)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: INTL GB Catalog $50 (11/15) -> $32 (36.0% vs 11/15; live before this write $50). Blended ROAS 1.2 = 2/3 x 7d 1.132 + 1/3 x 11/15 1.331.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562737657847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 50,
+      "after": 32.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta_intl",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.0,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15; campaign live since 2026-11-14 ~22:07 ET, so ~1.5 days of data)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: INTL AU Catalog $50 (11/15) -> $32 (36.0% vs 11/15; live before this write $50). Blended ROAS 0.0 = 2/3 x 7d 0.0 + 1/3 x 11/15 0.0.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "International Meta Bot",
+    "platform_ids": {
+      "campaigns": [
+        "52562737658847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 50,
+      "after": 32.0,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "google",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.964,
+    "trailing_7d_roas_source": "Google Ads conversions_value_by_conversion_date/cost (GAQL customer 5108535701, 2026-11-09..2026-11-15, account time zone; 11/15 not settled)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Grok Bot | PMax NCA $105.84 (11/15) -> $92.64 (12.5% vs 11/15; live before this write $105.84). Blended ROAS 2.12 = 2/3 x 7d 2.964 + 1/3 x 11/15 0.436.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "Google \u00b7 Ads",
+    "platform_ids": {
+      "campaigns": [
+        "24373267631"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 105.84,
+      "after": 92.64,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "bing",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.0,
+    "trailing_7d_roas_source": "Microsoft Ads campaign report Revenue/Spend, ConversionsQualified goal 172222236 (account 141681759, 2026-11-09..2026-11-15)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: NB Exact - Tumblers 40oz $30 (11/15) -> $19 (36.7% vs 11/15; live before this write $30). Blended ROAS 0.0 = 2/3 x 7d 0.0 + 1/3 x 11/15 0.0.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "BING ADS",
+    "platform_ids": {
+      "campaigns": [
+        "607676059"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 30,
+      "after": 19,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "bing",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.946,
+    "trailing_7d_roas_source": "Microsoft Ads campaign report Revenue/Spend, ConversionsQualified goal 172222236 (account 141681759, 2026-11-09..2026-11-15)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: Performance Max $200 (11/15) -> $126 (37.0% vs 11/15; live before this write $200). Blended ROAS 0.63 = 2/3 x 7d 0.946 + 1/3 x 11/15 0.0.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "BING ADS",
+    "platform_ids": {
+      "campaigns": [
+        "607691062"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 200,
+      "after": 126,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "x",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.86,
+    "trailing_7d_roas_source": "X Ads platform ROAS per x.com ads ledger 2026-11-16 09:46 ET (C02 full days 11/9-11/15 ET)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: C02 Limitless $70 (11/15) -> $44 (37.1% vs 11/15; live before this write $56). Blended ROAS 0.86 = 2/3 x 7d 0.86 + 1/3 x 11/15 None.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "x.com ads",
+    "platform_ids": {
+      "campaigns": [
+        "pkcye"
+      ],
+      "adgroups": [
+        "y2kpi"
+      ]
+    },
+    "budget": {
+      "before": 56,
+      "after": 44,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "amazon",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.56,
+    "trailing_7d_roas_source": "Amazon Ads SB attributed sales/spend per Amazon Ads and listing Bot ledger 2026-11-16 09:38 ET (Nov 9-15)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: David - SBV Limitless 36oz $100 (11/15) -> $63 (37.0% vs 11/15; live before this write $80). Blended ROAS 0.56 = 2/3 x 7d 0.56 + 1/3 x 11/15 None.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "Amazon Ads and listing Bot",
+    "platform_ids": {
+      "campaigns": [
+        "166773544844149"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 80,
+      "after": 63,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "amazon",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 0.65,
+    "trailing_7d_roas_source": "Amazon Ads SB attributed sales/spend per Amazon Ads and listing Bot ledger 2026-11-16 09:38 ET (Nov 9-15)",
+    "rule_band": "cut",
+    "recommended_action": "Strategic pullback: David - SBV 15oz Mug $100 (11/15) -> $63 (37.0% vs 11/15; live before this write $80). Blended ROAS 0.65 = 2/3 x 7d 0.65 + 1/3 x 11/15 None.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:05 PM ET (Jarvis chat, verbatim): \"We need to pull 20% back on ads bad performance yesterday Let's start by pulling back allocated proportions based on the performance per Cbo and channel I wanted to be a strategic pullback not an equal\""
+    },
+    "owner_bot": "Amazon Ads and listing Bot",
+    "platform_ids": {
+      "campaigns": [
+        "145620207075147"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 80,
+      "after": 63,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:12:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard connector; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
   }
 ]
