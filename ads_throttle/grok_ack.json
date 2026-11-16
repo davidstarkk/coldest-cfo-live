@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-15T16:30:00-05:00",
+  "updated_at": "2026-11-16T09:50:00-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
@@ -81,6 +81,11 @@
       "status": "done",
       "note": "Agreed basis written to channels.applovin.notes 2026-11-15. Gap was mostly window (stale 11/2-11/8 vs 11/7-11/13) plus a CFO feed bug counting spend-only rows as $0. Raise threshold 3.0 is David's AppLovin-specific 10/29 rule.",
       "at": "2026-11-15T16:30:00-05:00"
+    },
+    "step.x.cut_2026-11-16": {
+      "status": "working",
+      "note": "11/16 brief: X act_now cut, 7d 1.06x on 942.52 spend, no blockers, last cut 11/11 (cooldown cleared). Step 70->56/day requested from x.com ads; not written to changes.json/settings.json until the bot confirms actual budget and IDs.",
+      "at": "2026-11-16T09:50:00-05:00"
     }
   }
 }
