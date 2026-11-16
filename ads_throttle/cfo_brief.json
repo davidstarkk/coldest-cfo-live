@@ -1,0 +1,1422 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-15",
+  "computed_at": "2026-11-16T16:58:06Z",
+  "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
+  "rule": {
+    "source": "ads_throttle/settings.json",
+    "roas_source": "platform_reported",
+    "raise_above_roas": 2.8,
+    "cut_below_roas": 2.0,
+    "min_spend_7d": 200.0,
+    "step_pct": 20,
+    "window_days": 7
+  },
+  "portfolio": {
+    "mer_7d": 1.9518,
+    "mer_30d": 2.1248,
+    "mer_target": 3.24,
+    "mer_gap": -1.29,
+    "stance": "below_target",
+    "d2c_revenue_7d": 200285.05,
+    "d2c_spend_7d": 102617.25,
+    "channel_spend_7d": 102617.25,
+    "spend_judged_pct": 77.0,
+    "spend_in_auto_mode_pct": 17.7,
+    "excluded_from_d2c_spend": [],
+    "mer_target_scope": "total_company",
+    "total_company_mer_7d": 3.47,
+    "stance_on_target_scope": "room_to_add"
+  },
+  "summary": {
+    "act_now": [
+      "bing"
+    ],
+    "by_verdict": {
+      "cooldown": [
+        "applovin",
+        "x"
+      ],
+      "cut": [
+        "bing",
+        "google",
+        "meta"
+      ],
+      "hold": [
+        "tiktok"
+      ],
+      "insufficient": [
+        "chatgpt",
+        "pinterest",
+        "reddit",
+        "snapchat",
+        "spotify"
+      ],
+      "not_launched": [
+        "outbrain",
+        "taboola"
+      ]
+    },
+    "open_asks": 12,
+    "open_asks_high": 0,
+    "feed_status": "degraded"
+  },
+  "channels": {
+    "meta": {
+      "label": "Meta",
+      "mode": "frozen",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "verdict": "cut",
+      "rule_says": "Cut -20% + new strategy",
+      "actionable": false,
+      "blockers": [
+        "mode:frozen"
+      ],
+      "cautions": [
+        "ROAS from daily_inputs.platform_roas, not the channel daily file"
+      ],
+      "spend_7d": 75260.77,
+      "spend_days_measured": 7,
+      "roas_7d": 1.98,
+      "roas_days": 7,
+      "roas_source": "daily_inputs.platform_roas",
+      "platform_revenue_7d": 149479.11,
+      "roas_prior_7d": 2.26,
+      "spend_prior_7d": 70102.91,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": 1.98,
+        "spend_7d": 75583.65,
+        "tier": "Lagging",
+        "tier_label": "Lagging",
+        "tracking": "OK (EMQ/CAPI not re-read; tracking_health 11/16 OK, 272 purchases 11/15)",
+        "roas_gap_pct": 0.0
+      },
+      "mmm_verdict": null
+    },
+    "google": {
+      "label": "Google Ads",
+      "mode": "auto",
+      "owner_bot": "Google \u00b7 Ads",
+      "verdict": "cut",
+      "rule_says": "Cut -20% + new strategy",
+      "actionable": false,
+      "blockers": [
+        "roas_disputed"
+      ],
+      "cautions": [
+        "ROAS from daily_inputs.platform_roas, not the channel daily file",
+        "No data"
+      ],
+      "spend_7d": 11749.17,
+      "spend_days_measured": 7,
+      "roas_7d": 1.65,
+      "roas_days": 7,
+      "roas_source": "daily_inputs.platform_roas",
+      "platform_revenue_7d": 19292.96,
+      "roas_prior_7d": 1.53,
+      "spend_prior_7d": 13902.66,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": {
+        "date": "2026-11-10",
+        "action": "raise_20pct"
+      },
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": 7.47,
+        "spend_7d": 11725.51,
+        "tier": "Lead",
+        "tier_label": "Lead (disputed read)",
+        "tracking": "OK; attribution ratio 1.703 (11/9), raises frozen; CFO feed reads 1.65x on a different basis",
+        "roas_gap_pct": 77.9
+      },
+      "mmm_verdict": null
+    },
+    "tiktok": {
+      "label": "TikTok (website)",
+      "mode": "view",
+      "owner_bot": null,
+      "verdict": "hold",
+      "rule_says": "Hold - in band",
+      "actionable": false,
+      "blockers": [
+        "mode:view",
+        "roas_disputed"
+      ],
+      "cautions": [
+        "ROAS from daily_inputs.platform_roas, not the channel daily file"
+      ],
+      "spend_7d": 7824.72,
+      "spend_days_measured": 7,
+      "roas_7d": 2.39,
+      "roas_days": 7,
+      "roas_source": "daily_inputs.platform_roas",
+      "platform_revenue_7d": 32033.37,
+      "roas_prior_7d": 2.39,
+      "spend_prior_7d": 10329.52,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": 3.71,
+        "spend_7d": 13380.71,
+        "tier": "Steady",
+        "tier_label": "Steady",
+        "tracking": "OK",
+        "roas_gap_pct": 35.6
+      },
+      "mmm_verdict": null
+    },
+    "snapchat": {
+      "label": "Snapchat",
+      "mode": "auto",
+      "owner_bot": "snapchat ads bot",
+      "verdict": "insufficient",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "feed_gap:6/7 days measured"
+      ],
+      "cautions": [
+        "ROAS from daily_inputs.platform_roas, not the channel daily file"
+      ],
+      "spend_7d": 4000.03,
+      "spend_days_measured": 6,
+      "roas_7d": null,
+      "roas_days": 7,
+      "roas_source": "channel daily file + daily_inputs.platform_roas",
+      "platform_revenue_7d": null,
+      "roas_prior_7d": 8.67,
+      "spend_prior_7d": 3791.93,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": {
+        "date": "2026-11-11",
+        "action": "raise_20pct"
+      },
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": 7.06,
+        "spend_7d": 4623.41,
+        "tier": "Steady",
+        "tier_label": "Steady (view-through caveat)",
+        "tracking": "OK; 7d swipe/1d view; swipe-only sensitivity 0.76x (10/31-11/6) not refreshed"
+      },
+      "mmm_verdict": null
+    },
+    "applovin": {
+      "label": "AppLovin",
+      "mode": "view",
+      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
+      "verdict": "cooldown",
+      "rule_says": "Hold - cooldown",
+      "actionable": false,
+      "blockers": [
+        "mode:view",
+        "cooldown"
+      ],
+      "cautions": [],
+      "spend_7d": 1361.02,
+      "spend_days_measured": 7,
+      "roas_7d": 1.79,
+      "roas_days": 7,
+      "roas_source": "channel daily file",
+      "platform_revenue_7d": 2432.07,
+      "roas_prior_7d": 3.73,
+      "spend_prior_7d": 1153.21,
+      "tracking_status": "unknown",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": {
+        "date": "2026-11-13",
+        "action": "raise_20pct"
+      },
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": 1.79,
+        "spend_7d": 1361.02,
+        "tier": "Lagging",
+        "tier_label": "Lagging",
+        "tracking": "Basis agreed 11/15 (click, chka_usd_7d, UTC purchase date); CFO brief still lists roas_disputed",
+        "roas_gap_pct": 0.0
+      },
+      "mmm_verdict": null
+    },
+    "bing": {
+      "label": "Bing",
+      "mode": "auto",
+      "owner_bot": "Bing Ads bot",
+      "verdict": "cut",
+      "rule_says": "Cut -20% + new strategy",
+      "actionable": true,
+      "blockers": [],
+      "cautions": [],
+      "spend_7d": 1633.2,
+      "spend_days_measured": 7,
+      "roas_7d": 1.52,
+      "roas_days": 7,
+      "roas_source": "channel daily file",
+      "platform_revenue_7d": 2485.77,
+      "roas_prior_7d": 4.19,
+      "spend_prior_7d": 918.86,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": {
+        "date": "2026-10-27",
+        "action": "cut_20pct_and_change_strategy"
+      },
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": 1.52,
+        "spend_7d": 1633.2,
+        "tier": "Lagging",
+        "tier_label": "Lagging",
+        "tracking": "OK (ratio_utm 1.308 in band)",
+        "roas_gap_pct": 0.0
+      },
+      "mmm_verdict": null
+    },
+    "x": {
+      "label": "X",
+      "mode": "auto",
+      "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
+      "verdict": "cooldown",
+      "rule_says": "Hold - cooldown",
+      "actionable": false,
+      "blockers": [
+        "cooldown"
+      ],
+      "cautions": [],
+      "spend_7d": 788.34,
+      "spend_days_measured": 7,
+      "roas_7d": 0.83,
+      "roas_days": 7,
+      "roas_source": "channel daily file",
+      "platform_revenue_7d": 654.16,
+      "roas_prior_7d": 1.37,
+      "spend_prior_7d": 893.37,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": {
+        "date": "2026-11-16",
+        "action": "cut_20pct_and_change_strategy"
+      },
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": 0.83,
+        "spend_7d": 788.34,
+        "tier": "Lagging",
+        "tier_label": "Lagging",
+        "tracking": "OK; raises frozen (Shopify UTM far below platform; click-through only about 0.2x on C02)",
+        "roas_gap_pct": 0.0
+      },
+      "mmm_verdict": null
+    },
+    "reddit": {
+      "label": "Reddit",
+      "mode": "hold",
+      "owner_bot": "reddit bot",
+      "verdict": "insufficient",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "mode:hold",
+        "feed_gap:0/7 days measured"
+      ],
+      "cautions": [
+        "tracking WARN",
+        "ROAS from daily_inputs.platform_roas, not the channel daily file"
+      ],
+      "spend_7d": null,
+      "spend_days_measured": 0,
+      "roas_7d": null,
+      "roas_days": 7,
+      "roas_source": "daily_inputs.platform_roas",
+      "platform_revenue_7d": null,
+      "roas_prior_7d": 0.76,
+      "spend_prior_7d": null,
+      "tracking_status": "WARN",
+      "feed_status": "stale",
+      "last_measured_day": "2026-11-08",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": null,
+        "spend_7d": 0.0,
+        "tier": "Closed",
+        "tier_label": "CLOSED (David 2026-11-09, reopen ~May 2027)",
+        "tracking": null
+      },
+      "mmm_verdict": null
+    },
+    "pinterest": {
+      "label": "Pinterest",
+      "mode": "hold",
+      "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
+      "verdict": "insufficient",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "mode:hold"
+      ],
+      "cautions": [
+        "ROAS from daily_inputs.platform_roas, not the channel daily file"
+      ],
+      "spend_7d": 0.0,
+      "spend_days_measured": 6,
+      "roas_7d": null,
+      "roas_days": 7,
+      "roas_source": "daily_inputs.platform_roas",
+      "platform_revenue_7d": null,
+      "roas_prior_7d": null,
+      "spend_prior_7d": 0.0,
+      "tracking_status": "OK",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": {
+        "date": "2026-10-29",
+        "action": "kill_under_1x"
+      },
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": null,
+        "spend_7d": 0.0,
+        "tier": "Paused",
+        "tier_label": "Paused (since 10/31)",
+        "tracking": null
+      },
+      "mmm_verdict": null
+    },
+    "chatgpt": {
+      "label": "ChatGPT",
+      "mode": "hold",
+      "owner_bot": "ads bot for chatgpt",
+      "verdict": "insufficient",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "mode:hold"
+      ],
+      "cautions": [],
+      "spend_7d": 0.0,
+      "spend_days_measured": 3,
+      "roas_7d": null,
+      "roas_days": 3,
+      "roas_source": null,
+      "platform_revenue_7d": null,
+      "roas_prior_7d": null,
+      "spend_prior_7d": 0.0,
+      "tracking_status": "OK",
+      "feed_status": "quiet",
+      "last_measured_day": "2026-11-11",
+      "last_change": {
+        "date": "2026-10-30",
+        "action": "kill_under_1x"
+      },
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": null,
+        "spend_7d": 0.0,
+        "tier": "Paused",
+        "tier_label": "Paused (since 10/30)",
+        "tracking": null
+      },
+      "mmm_verdict": null
+    },
+    "taboola": {
+      "label": "Taboola",
+      "mode": "hold",
+      "owner_bot": null,
+      "verdict": "not_launched",
+      "rule_says": "Not launched",
+      "actionable": false,
+      "blockers": [
+        "mode:hold",
+        "feed_gap:2/7 days measured"
+      ],
+      "cautions": [
+        "tracking WARN"
+      ],
+      "spend_7d": 0.0,
+      "spend_days_measured": 2,
+      "roas_7d": null,
+      "roas_days": 2,
+      "roas_source": null,
+      "platform_revenue_7d": null,
+      "roas_prior_7d": 0.0,
+      "spend_prior_7d": 506.68,
+      "tracking_status": "WARN",
+      "feed_status": "stale",
+      "last_measured_day": "2026-11-10",
+      "last_change": {
+        "date": "2026-11-04",
+        "action": "pause"
+      },
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": null,
+        "spend_7d": 0.0,
+        "tier": "Paused",
+        "tier_label": "Paused (since 11/4)",
+        "tracking": null
+      },
+      "mmm_verdict": null
+    },
+    "outbrain": {
+      "label": "Outbrain",
+      "mode": "auto",
+      "owner_bot": "outbrain ads",
+      "verdict": "not_launched",
+      "rule_says": "Not launched",
+      "actionable": false,
+      "blockers": [],
+      "cautions": [],
+      "spend_7d": 0.0,
+      "spend_days_measured": 7,
+      "roas_7d": null,
+      "roas_days": 7,
+      "roas_source": null,
+      "platform_revenue_7d": null,
+      "roas_prior_7d": null,
+      "spend_prior_7d": null,
+      "tracking_status": "unknown",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-15",
+      "last_change": null,
+      "grok": {
+        "as_of": "2026-11-16",
+        "roas_7d": null,
+        "spend_7d": 0.0,
+        "tier": "Not live",
+        "tier_label": "Not live",
+        "tracking": null
+      },
+      "mmm_verdict": null
+    },
+    "spotify": {
+      "label": "Spotify",
+      "mode": "view",
+      "owner_bot": null,
+      "verdict": "insufficient",
+      "rule_says": "Not enough data",
+      "actionable": false,
+      "blockers": [
+        "mode:view"
+      ],
+      "cautions": [],
+      "spend_7d": null,
+      "spend_days_measured": 0,
+      "roas_7d": null,
+      "roas_days": 0,
+      "roas_source": null,
+      "platform_revenue_7d": null,
+      "roas_prior_7d": null,
+      "spend_prior_7d": null,
+      "tracking_status": "unknown",
+      "feed_status": "quiet",
+      "last_measured_day": null,
+      "last_change": null,
+      "grok": null,
+      "mmm_verdict": null
+    }
+  },
+  "asks": [
+    {
+      "id": "feed.reddit",
+      "severity": "high",
+      "channel": "reddit",
+      "owner": "reddit bot",
+      "title": "Reddit: no measured row since 2026-11-08",
+      "detail": "reddit_ads_daily.json has no measured row for 2026-11-09, 2026-11-10, 2026-11-11, 2026-11-12, 2026-11-13, 2026-11-14, 2026-11-15. The platform reported spend on 2026-11-09 ($48.99). Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+      "first_seen": "2026-11-09",
+      "age_days": 7,
+      "evidence": {
+        "missing_days": [
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-13",
+          "2026-11-14",
+          "2026-11-15"
+        ],
+        "last_measured_day": "2026-11-08"
+      },
+      "ack": {
+        "status": "wont_do",
+        "note": "David closed Reddit 11/9 until ~May 2027; no Reddit feed work. Closed-day rows 11/6-11/9 may be backfilled once from the platform spend already listed if CFO wants a complete history.",
+        "at": "2026-11-10T09:50:00-05:00"
+      }
+    },
+    {
+      "id": "roas.google.disputed",
+      "severity": "high",
+      "channel": "google",
+      "owner": "Google \u00b7 Ads",
+      "title": "Google Ads: CFO reads 1.65x, Grok reads 7.47x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 1.65x (daily_inputs.platform_roas, 2026-11-09..2026-11-15) says cut; Grok ranking 2026-11-16 says 7.47x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "first_seen": "2026-11-09",
+      "age_days": 7,
+      "evidence": {
+        "cfo_roas_7d": 1.65,
+        "grok_roas_7d": 7.47,
+        "gap_pct": 77.9
+      },
+      "ack": {
+        "status": "done",
+        "note": "Agreed Google ROAS basis written to channels.google.notes on 2026-11-10 (conversion-date, primary action 7685918144).",
+        "at": "2026-11-10T09:55:27-05:00"
+      }
+    },
+    {
+      "id": "roas.tiktok.disputed",
+      "severity": "high",
+      "channel": "tiktok",
+      "owner": null,
+      "title": "TikTok (website): CFO reads 2.39x, Grok reads 3.71x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 2.39x (daily_inputs.platform_roas, 2026-11-09..2026-11-15) says hold; Grok ranking 2026-11-16 says 3.71x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "first_seen": "2026-11-09",
+      "age_days": 7,
+      "evidence": {
+        "cfo_roas_7d": 2.39,
+        "grok_roas_7d": 3.71,
+        "gap_pct": 35.6
+      },
+      "ack": {
+        "status": "done",
+        "note": "Agreed TikTok ROAS basis written to channels.tiktok.notes on 2026-11-10 (complete_payment_roas on WEB_CONVERSIONS only).",
+        "at": "2026-11-10T09:55:27-05:00"
+      }
+    },
+    {
+      "id": "creative.unported",
+      "severity": "medium",
+      "channel": null,
+      "owner": "Jarvis",
+      "title": "8 winning Meta creative(s) not yet on any other channel",
+      "detail": "\"best tumbler for gifting- Copy\" (3.52x on $2,718), \"David's email - New Drop | BFCMR SA03\" (3.91x on $2,546), \"New Sales Ad | BFCMR SA01\" (4.14x on $1,916), \"PENDING PERMISSIONS | T2#2 | @coldestsami08 | 7548496099791670559 | moms-school-runs | copy-proven\" (3.76x on $1,753), \"EV#2 - 16 - Copy\" (3.44x on $980). Rebuild each for the channels in `not_on` (the landing page and Meta ad id are in creatives.winners) and add one entry per launch to ads_throttle/creative_ports.json; a creative that does not fit a channel gets status \"rejected\" with a one-line note.",
+      "first_seen": "2026-11-12",
+      "age_days": 4,
+      "evidence": {
+        "creative_ids": [
+          "21f428981646c9d1bdcc84f6dbb987c6",
+          "bf4bf9c6c6fe7cd5c32dd4e39bdb4469",
+          "819f18c250183889d7b2ca01f94a58b5",
+          "70aca745a00762ba739f43ef749bfc7f",
+          "54ccf257c3fd96d58c6bc8682d33a547",
+          "a992f47e8c1417c26361015218b4015f",
+          "838e7cfa33a35d94659718ae7d47ff46",
+          "f0d6f8731163588dabee5f65fdf5b353"
+        ]
+      },
+      "ack": {
+        "status": "working",
+        "note": "8 Meta winners unported; handled by the Meta winners -> all channels routine.",
+        "at": "2026-11-12T09:55:00-05:00"
+      }
+    },
+    {
+      "id": "creative.winners.stale",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO creative routine",
+      "title": "ads_throttle/creative_winners.json is 7 days old",
+      "detail": "Last Adnova snapshot 2026-11-10T00:07:07.178Z. The daily creative routine (ops/creative/ROUTINE.md) did not run or could not push.",
+      "first_seen": "2026-11-12",
+      "age_days": 4,
+      "ack": {
+        "status": "working",
+        "note": "Owner CFO creative routine; flagged for Builder, not routable from Jarvis.",
+        "at": "2026-11-12T09:55:00-05:00"
+      }
+    },
+    {
+      "id": "feed.taboola",
+      "severity": "medium",
+      "channel": "taboola",
+      "owner": null,
+      "title": "Taboola: no measured row since 2026-11-10",
+      "detail": "taboola_ads_daily.json has no measured row for 2026-11-11, 2026-11-12, 2026-11-13, 2026-11-14, 2026-11-15. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+      "first_seen": "2026-11-12",
+      "age_days": 4,
+      "evidence": {
+        "missing_days": [
+          "2026-11-11",
+          "2026-11-12",
+          "2026-11-13",
+          "2026-11-14",
+          "2026-11-15"
+        ],
+        "last_measured_day": "2026-11-10"
+      },
+      "ack": {
+        "status": "working",
+        "note": "11/11 row still unwritten. taboola bot blocked: TABOOLA_CLIENT_ID and TABOOLA_CLIENT_SECRET are not in the box env (and there is no /home/box/.secrets/taboola.env). Jarvis also found them unset and could not restore them. No hand-typed row. Will raise on the 4 PM list if still missing; once env is back, taboola bot will run taboola_sync.py --start 2026-11-11 --end 2026-11-11 only.",
+        "at": "2026-11-12T09:59:05-05:00"
+      }
+    },
+    {
+      "id": "file.mmm_recommendation.stale",
+      "severity": "medium",
+      "channel": null,
+      "owner": "mmm-refit.yml (weekly)",
+      "title": "ads_throttle/mmm_recommendation.json is 12 days old",
+      "detail": "Last written 2026-11-04T16:05:21Z; expected at most 8 days old (mmm-refit.yml (weekly)). The dashboard is showing old data from it.",
+      "first_seen": "2026-11-13",
+      "age_days": 3
+    },
+    {
+      "id": "file.shopify_attribution.stale",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO box ShopifyQL sync (daily)",
+      "title": "shopify_attribution_daily.json is 17 days old",
+      "detail": "Last written 2026-10-30; expected at most 2 days old (CFO box ShopifyQL sync (daily)). The dashboard is showing old data from it.",
+      "first_seen": "2026-11-09",
+      "age_days": 7,
+      "ack": {
+        "status": "working",
+        "note": "Owner is CFO box ShopifyQL sync; not routable from Jarvis today, flagged for Builder fix.",
+        "at": "2026-11-11T10:00:00-05:00"
+      }
+    },
+    {
+      "id": "grok.request.2026-11-14-intl-meta-ad-channels",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO (Claude session)",
+      "title": "Grok asked: Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta ca",
+      "detail": "Asked 2026-11-14 by International Meta Bot. Answer it in ads_throttle/cfo_answers.json (and build the block with the new-brief-field skill if it should be read every morning).",
+      "first_seen": "2026-11-15",
+      "age_days": 1
+    },
+    {
+      "id": "growth.inventory.stale",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
+      "title": "growth/shopify_inventory.json is 6 days old",
+      "detail": "Run the Shopify inventory pull and ingest it with cfo_backend/growth_feeds.py.",
+      "first_seen": "2026-11-14",
+      "age_days": 2
+    },
+    {
+      "id": "growth.new_customers.stale",
+      "severity": "medium",
+      "channel": null,
+      "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
+      "title": "growth/shopify_customers_daily.json is 6 days old",
+      "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
+      "first_seen": "2026-11-13",
+      "age_days": 3
+    },
+    {
+      "id": "tracking.new_customer_utm_coverage",
+      "severity": "medium",
+      "channel": null,
+      "owner": "Jarvis",
+      "title": "Only 49.5% of new-customer orders carry a UTM",
+      "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
+      "first_seen": "2026-11-11",
+      "age_days": 5
+    },
+    {
+      "id": "history.backfill",
+      "severity": "low",
+      "channel": null,
+      "owner": "Workspace cron",
+      "title": "Media-mix model has 34 of 180 usable days",
+      "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
+      "first_seen": "2026-11-11",
+      "age_days": 5
+    },
+    {
+      "id": "inventory.low_cover",
+      "severity": "low",
+      "channel": null,
+      "owner": "Jarvis",
+      "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
+      "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
+      "first_seen": "2026-11-11",
+      "age_days": 5,
+      "evidence": {
+        "products": [
+          "COLDEST 36oz Limitless Ultra v8"
+        ]
+      }
+    },
+    {
+      "id": "settings.daily_budget.unknown",
+      "severity": "low",
+      "channel": null,
+      "owner": "Jarvis",
+      "title": "Current daily budget unknown for bing",
+      "detail": "Write channels.<channel>.daily_budget in ads_throttle/settings.json after each change. Without it the dashboard can say raise / cut but not the new dollar budget.",
+      "first_seen": "2026-11-09",
+      "age_days": 7,
+      "evidence": {
+        "channels": [
+          "bing"
+        ]
+      },
+      "ack": {
+        "status": "working",
+        "note": "Snapchat live budget written 11/12 (624/day). X live budget 70/day (C02 only). Google 105.84 already set. Bing and Taboola budgets still to be written once their bots report actual values.",
+        "at": "2026-11-12T09:57:31-05:00"
+      }
+    }
+  ],
+  "change_outcomes": [
+    {
+      "date": "2026-11-16",
+      "channel": "x",
+      "action": "cut_20pct_and_change_strategy",
+      "by": "jarvis via x.com ads",
+      "status_logged": "done (x.com ads bot, 11/16 9:46 AM ET, API read-back $56)",
+      "executed": true,
+      "budget": {
+        "old": 70,
+        "new": 56
+      },
+      "before": {
+        "window": "2026-11-09..2026-11-15",
+        "spend": 788.34,
+        "roas": 0.83,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-24"
+    },
+    {
+      "date": "2026-11-13",
+      "channel": "applovin",
+      "action": "raise_20pct",
+      "by": "applovin_bot, logged by jarvis 11/15",
+      "status_logged": "done (Applovin Bot, ~11:23 AM ET 11/13)",
+      "executed": true,
+      "budget": {
+        "old": 180,
+        "new": 216
+      },
+      "before": {
+        "window": "2026-11-06..2026-11-12",
+        "spend": 1252.66,
+        "roas": 3.27,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-21"
+    },
+    {
+      "date": "2026-11-11",
+      "channel": "x",
+      "action": "cut_20pct_and_change_strategy",
+      "by": "x.com ads",
+      "status_logged": "done (executed by x.com ads 11/11 11:50 AM ET; live read confirmed 11/12 9:51 AM ET). No further cut on 11/12 (do not double-cut; 3-day cooldown until 11/14).",
+      "executed": true,
+      "budget": {
+        "old": 87.5,
+        "new": 70
+      },
+      "before": {
+        "window": "2026-11-04..2026-11-10",
+        "spend": 1300.4,
+        "roas": 1.1,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-19"
+    },
+    {
+      "date": "2026-11-11",
+      "channel": "snapchat",
+      "action": "raise_20pct",
+      "by": "SNAPCHAT ADS",
+      "status_logged": "done (executed 11/11 9:55:19 AM ET; live read 11/12 9:52 AM ET). Logged 11/12 because throttle files were stale. No 11/12 raise.",
+      "executed": true,
+      "budget": {
+        "old": 100,
+        "new": 120
+      },
+      "before": {
+        "window": "2026-11-04..2026-11-10",
+        "spend": 4059.92,
+        "roas": 8.16,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-19"
+    },
+    {
+      "date": "2026-11-10",
+      "channel": "google",
+      "action": "raise_20pct",
+      "by": "Grok Bot",
+      "status_logged": "done (executed by Google \u00b7 Ads at 1:38 PM ET)",
+      "executed": true,
+      "budget": {
+        "old": 88.2,
+        "new": 105.84
+      },
+      "before": {
+        "window": "2026-11-03..2026-11-09",
+        "spend": 13846.42,
+        "roas": 1.54,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-18"
+    },
+    {
+      "date": "2026-11-06",
+      "channel": "snapchat",
+      "action": "raise_20pct",
+      "by": "SNAPCHAT ADS",
+      "status_logged": "done (executed 11/6 9:40:12 AM ET; live read 11/12 9:52 AM ET). Logged 11/12 because throttle files were stale (brief still showed last raise 10/30).",
+      "executed": true,
+      "budget": {
+        "old": 420,
+        "new": 504
+      },
+      "before": {
+        "window": "2026-10-30..2026-11-05",
+        "spend": 3175.11,
+        "roas": 8.33,
+        "roas_days": 7
+      },
+      "after": {
+        "window": "2026-11-07..2026-11-13",
+        "spend": 3758.43,
+        "roas": 8.01,
+        "roas_days": 7
+      },
+      "roas_change_pct": -3.8,
+      "outcome": "flat",
+      "spend_change_pct": 18.4
+    },
+    {
+      "date": "2026-11-04",
+      "channel": "taboola",
+      "action": "manual_cut",
+      "by": "jarvis",
+      "status_logged": "done (David cut 11/4 9:24 AM ET; logged 11/10 after taboola bot confirmed the pre-cut $500 and post-cut $250 caps)",
+      "executed": true,
+      "budget": {
+        "old": 500,
+        "new": 250
+      },
+      "before": {
+        "window": "2026-10-28..2026-11-03",
+        "spend": 150.27,
+        "roas": 0.0,
+        "roas_days": 7
+      },
+      "after": {
+        "window": "2026-11-05..2026-11-11",
+        "spend": 0.0,
+        "roas": null,
+        "roas_days": 6
+      },
+      "outcome": "unmeasured",
+      "why": "fewer than 5 of 7 days with a platform read on one side of the change",
+      "spend_change_pct": -100.0
+    },
+    {
+      "date": "2026-11-04",
+      "channel": "taboola",
+      "action": "pause",
+      "by": "jarvis",
+      "status_logged": "paused ~9:28 AM ET 11/4; logged 11/10 after taboola bot confirmed the pre-pause $250/day caps (later read back on the paused campaigns; 11/9 watch still showed the same caps)",
+      "executed": true,
+      "budget": {
+        "old": 250,
+        "new": 0
+      },
+      "before": {
+        "window": "2026-10-28..2026-11-03",
+        "spend": 150.27,
+        "roas": 0.0,
+        "roas_days": 7
+      },
+      "after": {
+        "window": "2026-11-05..2026-11-11",
+        "spend": 0.0,
+        "roas": null,
+        "roas_days": 6
+      },
+      "outcome": "unmeasured",
+      "why": "fewer than 5 of 7 days with a platform read on one side of the change",
+      "spend_change_pct": -100.0
+    },
+    {
+      "date": "2026-10-30",
+      "channel": "chatgpt",
+      "action": "kill_under_1x",
+      "by": "jarvis",
+      "status_logged": "paused by jarvis 10/30 10:06 AM ET",
+      "executed": true,
+      "budget": {
+        "old": 90,
+        "new": 0
+      },
+      "before": {
+        "window": "2026-10-23..2026-10-29",
+        "spend": 904.01,
+        "roas": null,
+        "roas_days": 4
+      },
+      "after": {
+        "window": "2026-10-31..2026-11-06",
+        "spend": 0.0,
+        "roas": null,
+        "roas_days": 7
+      },
+      "outcome": "spend_stopped",
+      "spend_change_pct": -100.0
+    },
+    {
+      "date": "2026-10-30",
+      "channel": "snapchat",
+      "action": "raise_20pct",
+      "by": "jarvis",
+      "status_logged": "raised by jarvis 10/30 10:50 PM ET (Limitless d8cfb148 200->240, Drive-Thru 2c049090 150->180), read back OK",
+      "executed": true,
+      "budget": {
+        "old": 350,
+        "new": 420
+      },
+      "before": {
+        "window": "2026-10-23..2026-10-29",
+        "spend": 1467.59,
+        "roas": 7.61,
+        "roas_days": 6
+      },
+      "after": {
+        "window": "2026-10-31..2026-11-06",
+        "spend": 3421.78,
+        "roas": 9.01,
+        "roas_days": 7
+      },
+      "roas_change_pct": 18.4,
+      "outcome": "improved",
+      "partial_window": true,
+      "spend_change_pct": 133.2
+    },
+    {
+      "date": "2026-10-29",
+      "channel": "google",
+      "action": "cut_20pct_and_change_strategy",
+      "by": "jarvis",
+      "status_logged": "held",
+      "executed": false,
+      "budget": {
+        "old": 73.5,
+        "new": 58.8
+      },
+      "before": {
+        "window": "2026-10-22..2026-10-28",
+        "spend": 13311.26,
+        "roas": 3.19,
+        "roas_days": 5
+      },
+      "after": {
+        "window": "2026-10-30..2026-11-05",
+        "spend": 12948.19,
+        "roas": 1.53,
+        "roas_days": 7
+      },
+      "roas_change_pct": -52.0,
+      "outcome": "worse",
+      "partial_window": true,
+      "spend_change_pct": -2.7
+    },
+    {
+      "date": "2026-10-29",
+      "channel": "pinterest",
+      "action": "kill_under_1x",
+      "by": "jarvis",
+      "status_logged": "found PAUSED (updated 10/29 4:54 PM ET, before this run); logged 10/30 by jarvis",
+      "executed": true,
+      "budget": {
+        "old": 65,
+        "new": 0
+      },
+      "before": {
+        "window": "2026-10-22..2026-10-28",
+        "spend": 181.41,
+        "roas": 0.0,
+        "roas_days": 7
+      },
+      "after": {
+        "window": "2026-10-30..2026-11-05",
+        "spend": 167.04,
+        "roas": 0.4,
+        "roas_days": 7
+      },
+      "roas_change_pct": null,
+      "outcome": "improved",
+      "spend_change_pct": -7.9
+    },
+    {
+      "date": "2026-10-27",
+      "channel": "bing",
+      "action": "cut_20pct_and_change_strategy",
+      "by": "jarvis",
+      "status_logged": "done (Bing Ads bot confirmed 10/27 ~11:00 ET)",
+      "executed": true,
+      "budget": {
+        "old": 700,
+        "new": 560
+      },
+      "before": {
+        "window": "2026-10-20..2026-10-26",
+        "spend": 240.79,
+        "roas": 2.39,
+        "roas_days": 7
+      },
+      "after": {
+        "window": "2026-10-28..2026-11-03",
+        "spend": 305.83,
+        "roas": 8.94,
+        "roas_days": 7
+      },
+      "roas_change_pct": 274.1,
+      "outcome": "improved",
+      "spend_change_pct": 27.0
+    }
+  ],
+  "creatives": {
+    "status": "stale",
+    "file": "ads_throttle/creative_winners.json",
+    "as_of": "2026-11-09",
+    "snapshot_at": "2026-11-10T00:07:07.178Z",
+    "age_days": 7,
+    "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
+    "rule": {
+      "min_roas": 2.8,
+      "min_spend_7d": 500.0,
+      "source": "ads_throttle/settings.json (raise_above_roas, creative_min_spend_7d)"
+    },
+    "target_channels": [
+      "google",
+      "tiktok",
+      "snapchat",
+      "applovin",
+      "bing",
+      "x"
+    ],
+    "winners": [
+      {
+        "creative_id": "21f428981646c9d1bdcc84f6dbb987c6",
+        "name": "best tumbler for gifting- Copy",
+        "format": "video",
+        "status": "ACTIVE",
+        "campaign": "Founder Whitelist",
+        "adset": "New Sales Ad Set",
+        "meta_ad_id": "6905495841243",
+        "launched_on": "2026-02-04",
+        "landing_page": "https://coldest.com/collections/limitless-bottle-with-handle",
+        "spend_7d": 2717.51,
+        "purchase_value_7d": 9568.91,
+        "purchases_7d": 114,
+        "roas_7d": 3.52,
+        "ctr_pct": 3.89,
+        "first_seen": "2026-11-10",
+        "ported_to": [],
+        "not_on": [
+          "google",
+          "tiktok",
+          "snapchat",
+          "applovin",
+          "bing",
+          "x"
+        ]
+      },
+      {
+        "creative_id": "bf4bf9c6c6fe7cd5c32dd4e39bdb4469",
+        "name": "David's email - New Drop | BFCMR SA03",
+        "format": "image",
+        "status": "ACTIVE",
+        "campaign": "Main CBO - Limitless Bottles",
+        "adset": "Static Top 10 All-Time",
+        "meta_ad_id": "52554571149647",
+        "launched_on": "2026-10-13",
+        "landing_page": "https://coldest.com/collections/limitless-bottle-with-handle",
+        "spend_7d": 2545.57,
+        "purchase_value_7d": 9950.48,
+        "purchases_7d": 130,
+        "roas_7d": 3.91,
+        "ctr_pct": 2.54,
+        "first_seen": "2026-11-10",
+        "ported_to": [],
+        "not_on": [
+          "google",
+          "tiktok",
+          "snapchat",
+          "applovin",
+          "bing",
+          "x"
+        ]
+      },
+      {
+        "creative_id": "819f18c250183889d7b2ca01f94a58b5",
+        "name": "New Sales Ad | BFCMR SA01",
+        "format": "image",
+        "status": "ACTIVE",
+        "campaign": "Main CBO - Limitless Bottles",
+        "adset": "Static Top 10 All-Time",
+        "meta_ad_id": "52554571163047",
+        "launched_on": "2026-10-13",
+        "landing_page": "https://coldest.com/pages/facebook-sign-up",
+        "spend_7d": 1915.86,
+        "purchase_value_7d": 7928.01,
+        "purchases_7d": 93,
+        "roas_7d": 4.14,
+        "ctr_pct": 2.48,
+        "first_seen": "2026-11-10",
+        "ported_to": [],
+        "not_on": [
+          "google",
+          "tiktok",
+          "snapchat",
+          "applovin",
+          "bing",
+          "x"
+        ]
+      },
+      {
+        "creative_id": "70aca745a00762ba739f43ef749bfc7f",
+        "name": "PENDING PERMISSIONS | T2#2 | @coldestsami08 | 7548496099791670559 | moms-school-runs | copy-proven",
+        "format": "video",
+        "status": "ACTIVE",
+        "campaign": "top 10 whitelisting",
+        "adset": "Top 10 Tier 2 | Euka all-time #11-20 | videos",
+        "meta_ad_id": "52555906574447",
+        "launched_on": "2026-10-18",
+        "landing_page": "https://coldest.com/products/15oz",
+        "spend_7d": 1752.85,
+        "purchase_value_7d": 6598.16,
+        "purchases_7d": 105,
+        "roas_7d": 3.76,
+        "ctr_pct": 7.57,
+        "first_seen": "2026-11-10",
+        "ported_to": [],
+        "not_on": [
+          "google",
+          "tiktok",
+          "snapchat",
+          "applovin",
+          "bing",
+          "x"
+        ]
+      },
+      {
+        "creative_id": "54ccf257c3fd96d58c6bc8682d33a547",
+        "name": "EV#2 - 16 - Copy",
+        "format": "image",
+        "status": "ACTIVE",
+        "campaign": "NEW |  Limitless CBO",
+        "adset": "David's winners with 3 roas",
+        "meta_ad_id": "52551223120647",
+        "launched_on": "2026-09-27",
+        "landing_page": null,
+        "spend_7d": 980.3,
+        "purchase_value_7d": 3370.5,
+        "purchases_7d": 35,
+        "roas_7d": 3.44,
+        "ctr_pct": 5.56,
+        "first_seen": "2026-11-10",
+        "ported_to": [],
+        "not_on": [
+          "google",
+          "tiktok",
+          "snapchat",
+          "applovin",
+          "bing",
+          "x"
+        ]
+      },
+      {
+        "creative_id": "a992f47e8c1417c26361015218b4015f",
+        "name": "EV#2 - 5 - Copy",
+        "format": "image",
+        "status": "ACTIVE",
+        "campaign": "NEW |  Limitless CBO",
+        "adset": "David's winners with 3 roas",
+        "meta_ad_id": "52551222804447",
+        "launched_on": "2026-09-27",
+        "landing_page": null,
+        "spend_7d": 870.68,
+        "purchase_value_7d": 3454.84,
+        "purchases_7d": 26,
+        "roas_7d": 3.97,
+        "ctr_pct": 4.11,
+        "first_seen": "2026-11-10",
+        "ported_to": [],
+        "not_on": [
+          "google",
+          "tiktok",
+          "snapchat",
+          "applovin",
+          "bing",
+          "x"
+        ]
+      },
+      {
+        "creative_id": "838e7cfa33a35d94659718ae7d47ff46",
+        "name": "Taste this Potion - 2026-10-05 - dynamic - wp-just-dropped - sc-suspended-vines",
+        "format": "image",
+        "status": "ACTIVE",
+        "campaign": "NEW |  Limitless CBO",
+        "adset": "David's winners with 3 roas",
+        "meta_ad_id": "52552797297847",
+        "launched_on": "2026-10-05",
+        "landing_page": null,
+        "spend_7d": 620.27,
+        "purchase_value_7d": 1881.69,
+        "purchases_7d": 21,
+        "roas_7d": 3.03,
+        "ctr_pct": 2.78,
+        "first_seen": "2026-11-10",
+        "ported_to": [],
+        "not_on": [
+          "google",
+          "tiktok",
+          "snapchat",
+          "applovin",
+          "bing",
+          "x"
+        ]
+      },
+      {
+        "creative_id": "f0d6f8731163588dabee5f65fdf5b353",
+        "name": "Meow AI 1",
+        "format": "video",
+        "status": "ACTIVE",
+        "campaign": "CBO - 5.19",
+        "adset": "Halloween 2026+",
+        "meta_ad_id": "52542598811247",
+        "launched_on": "2026-08-20",
+        "landing_page": "https://coldest.com/collections/glowie-meow",
+        "spend_7d": 529.19,
+        "purchase_value_7d": 1630.9,
+        "purchases_7d": 19,
+        "roas_7d": 3.08,
+        "ctr_pct": 2.19,
+        "first_seen": "2026-11-10",
+        "ported_to": [],
+        "not_on": [
+          "google",
+          "tiktok",
+          "snapchat",
+          "applovin",
+          "bing",
+          "x"
+        ]
+      }
+    ],
+    "ports_reported": 0,
+    "ports_file": "ads_throttle/creative_ports.json"
+  },
+  "reply": {
+    "file": "ads_throttle/grok_ack.json",
+    "shape": {
+      "updated_at": "ISO time",
+      "by": "jarvis",
+      "acks": {
+        "<ask id>": {
+          "status": "working | done | wont_do",
+          "note": "one line",
+          "at": "ISO time"
+        }
+      }
+    },
+    "note": "Optional. An ask disappears on its own when the condition clears."
+  },
+  "growth": {
+    "file": "ads_throttle/growth_brief.json",
+    "headline": {
+      "mer_7d": 1.9518,
+      "mer_target": 3.24,
+      "breakeven_mer_before_overhead": 1.39,
+      "stance": "room_to_add",
+      "rule_conflict": false,
+      "target_scope": "total_company",
+      "first_holdout_not_before": "2027-01-01",
+      "first_to_give_back": [],
+      "blended_ncac": null,
+      "first_order_value": 73.68,
+      "new_share_of_net_sales_pct": 29.4,
+      "revenue_per_customer_m2": 105.38,
+      "paid_back_by": null,
+      "contribution_margin_pct": 71.7,
+      "low_stock": [
+        "COLDEST 36oz Limitless Ultra v8"
+      ],
+      "annual_run_rate": 27964133.0,
+      "multiple_to_target": 3.58,
+      "total_mer_7d": 3.47,
+      "usable_history_days": 34,
+      "open_grok_requests": 1,
+      "tests_running": 0
+    }
+  },
+  "intl_meta_budget_calls": {
+    "as_of": "2026-11-15",
+    "status": "OK",
+    "advisory": true,
+    "lines": [
+      {
+        "code": "CA",
+        "display_name": "Meta Canada",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
+        "advisory": true,
+        "cooldown_until": null,
+        "roas_7d": null,
+        "spend_7d": null
+      },
+      {
+        "code": "GB",
+        "display_name": "Meta UK",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
+        "advisory": true,
+        "cooldown_until": null,
+        "roas_7d": null,
+        "spend_7d": null
+      },
+      {
+        "code": "AU",
+        "display_name": "Meta Australia",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
+        "advisory": true,
+        "cooldown_until": null,
+        "roas_7d": null,
+        "spend_7d": null
+      },
+      {
+        "code": "US",
+        "display_name": "Meta USA",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
+        "advisory": true,
+        "cooldown_until": null,
+        "roas_7d": null,
+        "spend_7d": null
+      }
+    ]
+  }
+}

@@ -285,6 +285,22 @@ One block per ad platform (Meta, Google, TikTok, Bing, Snapchat, AppLovin, Pinte
 
 Window: 14 / 28 / 60 / 90 days (remembered in `localStorage`). Deep link `#ad-channels`. Tests: `node scripts/test_ad_channels.js`.
 
+## Subscriptions tab (`subscriptions_module.js`)
+
+Last item in the dashboard nav. Deep link `#subscriptions`.
+
+The list is **not** in this public repo as plaintext. The page fetches `subscriptions.enc.json` and decrypts it in the browser (PBKDF2-SHA256 → AES-256-GCM, same envelope `scripts/encrypt_subscriptions.mjs` writes). Until the password is entered the tab is only a prompt; a wrong password fails closed. Unlock can stay in `sessionStorage` until Lock / the tab closes — never `localStorage` of the password.
+
+Per-row **Mark as canceled** / **Undo** drops that row from active run-rate KPIs and charts immediately. Marks persist in `localStorage` as an AES-GCM blob (same derived key as the dump, fresh IV) so ids never sit in plaintext. **Export changes** downloads `{id, status:"canceled", marked_at}` JSON to fold into the master dump. An optional committed `subscriptions_overrides.enc.json` (same envelope format; ignored if missing) is merged under the local marks so they can be made permanent across browsers. `?su_example=1` loads the tiny example fixture for UI testing only.
+
+Replace the live envelope by encrypting a dump (never commit the plaintext):
+
+```bash
+PASS='…' node scripts/encrypt_subscriptions.mjs dump.json subscriptions.enc.json
+```
+
+Do **not** commit `subscriptions.json` / other plaintext `subscriptions*.json` (gitignored). Tests decrypt a tiny example envelope at `scripts/fixtures/subscriptions.example.enc.json`, not the live file. Tests: `node scripts/test_subscriptions.js`.
+
 **Spotify Ads** (canonical key `spotify_ads`, aliases `spotify` / `Spotify` / `Spotify Ads`, optional `spotify_ads_daily.json`) is on both Ad Channels and Daily Reports. Until CFO publishes measured rows it shows a genuine **No data** state: an unmeasured day is never $0, complete or paused, and is excluded from tracked / D2C spend with a coverage note (MER is never inflated — Daily Reports keeps Spotify display-only; CFO folds measured spend). Measured $0 shows the number only; spend-only rows keep ROAS "No data"; `cash_cost` (billing) stays separate from platform spend. `mer.spotify {status:'not_launched', live:false}` or `settings.channels.spotify.not_launched_while_zero` → NOT LAUNCHED, no metrics.
 
 A **planned 7-day test cap** is a separate labelled plan, never spend. Read `mer_for_manus.json#spotify_ads_config` (or optional `spotify_ads_config.json`): `planned_daily_cap_usd`, `planned_test_total_cap_usd`, `test_duration_days`, `start_date` / `end_date`, `cap_type` (`daily_total_starting_cap`), `split` (`performance_weighted_eligible_formats`; still accept `even_across_enabled_format_groups`), `format_groups_status`, and `format_groups` (`id` + `confirmed`; `horizontal` may be `conditional`). Example when formats are pending and start is unset: `Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.` When `start_date` is set, show the 7-day range (`end` = start + 6 inclusive if `end_date` is null) and drop “start date not set”. Per-format dollars appear only when `format_groups_status` is `confirmed`. If those fields are absent, show nothing — do not hardcode. Legacy `planned_total_cap_usd` / `per_ad` $100 product caps are ignored. The cap is not budget pacing, not D2C spend, and is never folded into blended MER / ROAS / tracked spend.

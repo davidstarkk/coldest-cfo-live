@@ -1,0 +1,91 @@
+{
+  "updated_at": "2026-11-16T09:50:00-05:00",
+  "by": "jarvis",
+  "acks": {
+    "feed.bing": {
+      "status": "done",
+      "note": "Bing closed days 11/13-11/15 backfilled (commit c28ce45; 2.95x/2.35x/2.35x, complete/closed_day true). Awaiting CFO rebuild.",
+      "at": "2026-11-16T10:30:00-05:00"
+    },
+    "feed.chatgpt": {
+      "status": "done",
+      "note": "chatgpt_ads_daily.json has the 11/11 closed-day $0 row (commit 88d7f51; all 10 campaigns paused; complete/closed_day true).",
+      "at": "2026-11-12T09:55:41-05:00"
+    },
+    "feed.reddit": {
+      "status": "wont_do",
+      "note": "David closed Reddit 11/9 until ~May 2027; no Reddit feed work. Closed-day rows 11/6-11/9 may be backfilled once from the platform spend already listed if CFO wants a complete history.",
+      "at": "2026-11-10T09:50:00-05:00"
+    },
+    "roas.google.disputed": {
+      "status": "done",
+      "note": "Agreed Google ROAS basis written to channels.google.notes on 2026-11-10 (conversion-date, primary action 7685918144).",
+      "at": "2026-11-10T09:55:27-05:00"
+    },
+    "roas.tiktok.disputed": {
+      "status": "done",
+      "note": "Agreed TikTok ROAS basis written to channels.tiktok.notes on 2026-11-10 (complete_payment_roas on WEB_CONVERSIONS only).",
+      "at": "2026-11-10T09:55:27-05:00"
+    },
+    "file.tracking_health.stale": {
+      "status": "done",
+      "note": "tracking_health.json rewritten 2026-11-11 from the 8:30 AM checkout-signals run.",
+      "at": "2026-11-11T10:00:00-05:00"
+    },
+    "settings.daily_budget.unknown": {
+      "status": "working",
+      "note": "Snapchat live budget written 11/12 (624/day). X live budget 70/day (C02 only). Google 105.84 already set. Bing and Taboola budgets still to be written once their bots report actual values.",
+      "at": "2026-11-12T09:57:31-05:00"
+    },
+    "changes.taboola.unlogged": {
+      "status": "done",
+      "note": "Logged the 11/4 9:24 AM ET $500->$250 cut and the ~9:28 AM ET pause ($250->$0) in changes.json after taboola bot confirmed the pre-pause caps.",
+      "at": "2026-11-10T09:51:00-05:00"
+    },
+    "roas.bing.disputed": {
+      "status": "done",
+      "note": "Agreed Bing ROAS basis written to channels.bing.notes on 11/12 (commit 1a2b7a3): goal 172222236 ConversionsQualified/Revenue, click-date, 30-day click window, trailing 7 closed ET days, Shopify-destination only. Nov 5-11 feed snapshot 2.08x, live reread 2.38x, both hold band.",
+      "at": "2026-11-12T09:57:31-05:00"
+    },
+    "file.shopify_attribution.stale": {
+      "status": "working",
+      "note": "Owner is CFO box ShopifyQL sync; not routable from Jarvis today, flagged for Builder fix.",
+      "at": "2026-11-11T10:00:00-05:00"
+    },
+    "step.snapchat.raise_20pct": {
+      "status": "working",
+      "note": "No 11/12 raise (7-day per-campaign cooldown). Live total $624 (Launch 17ba5e2d $504, Hoodies $120), confirmed by SNAPCHAT ADS 11/12 9:52 AM ET. settings.json daily_budget set to 624. Launch next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account $724.80, under $784). Hoodies next eligible 11/18 9:55:19 AM ET. 11/6 Launch and 11/11 Hoodies raises logged in changes.json; no 11/12 raise written.",
+      "at": "2026-11-12T09:57:31-05:00"
+    },
+    "step.x.cut_20pct": {
+      "status": "done",
+      "note": "Already applied 11/11: C02 $87.50->$70 at 11:50 AM ET (x.com ads). No 11/12 cut (double-cut + 3-day cooldown until 11/14). Live total $70 (C02 only; C01 paused 11/11, C03 paused 11/10). Logged in changes.json and settings.json daily_budget 70. Next weekday review Mon 11/16 unless pinged 11/14.",
+      "at": "2026-11-12T09:55:41-05:00"
+    },
+    "feed.taboola": {
+      "status": "working",
+      "note": "11/11 row still unwritten. taboola bot blocked: TABOOLA_CLIENT_ID and TABOOLA_CLIENT_SECRET are not in the box env (and there is no /home/box/.secrets/taboola.env). Jarvis also found them unset and could not restore them. No hand-typed row. Will raise on the 4 PM list if still missing; once env is back, taboola bot will run taboola_sync.py --start 2026-11-11 --end 2026-11-11 only.",
+      "at": "2026-11-12T09:59:05-05:00"
+    },
+    "creative.unported": {
+      "status": "working",
+      "note": "8 Meta winners unported; handled by the Meta winners -> all channels routine.",
+      "at": "2026-11-12T09:55:00-05:00"
+    },
+    "creative.winners.stale": {
+      "status": "working",
+      "note": "Owner CFO creative routine; flagged for Builder, not routable from Jarvis.",
+      "at": "2026-11-12T09:55:00-05:00"
+    },
+    "roas.applovin.disputed": {
+      "status": "done",
+      "note": "Agreed basis written to channels.applovin.notes 2026-11-15. Gap was mostly window (stale 11/2-11/8 vs 11/7-11/13) plus a CFO feed bug counting spend-only rows as $0. Raise threshold 3.0 is David's AppLovin-specific 10/29 rule.",
+      "at": "2026-11-15T16:30:00-05:00"
+    },
+    "step.x.cut_2026-11-16": {
+      "status": "done",
+      "note": "Applied 11/16 9:46 AM ET by x.com ads: C02 pkcye/y2kpi $70->$56 (API read-back $56); paused under-1x ads b6d6pq and b6hg8m. Logged in changes.json; settings.json x.daily_budget=56. Next eligible 11/19.",
+      "at": "2026-11-16T09:52:00-05:00"
+    }
+  }
+}
