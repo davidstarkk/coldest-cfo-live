@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-16T13:40:00-05:00",
-  "updated_by": "International Meta Bot (11/16 1:39 PM ET: David \"the internationals move to $150/day if they are doing bad\"; CA/GB/AU to $150/day each ($125 main + $25 catalog), intl total $1,230 -> $450; meta US daily_budget unchanged at 10000)",
+  "updated_at": "2026-11-16T13:41:00-05:00",
+  "updated_by": "jarvis (11/16 1:41 PM ET: applovin daily_budget 216 -> 162, Applovin Bot dashboard cut 13:37 ET under David 11/16 1:05 PM ET pullback)",
   "global": {
     "step_pct": 20,
     "window_days": 7,
@@ -90,7 +90,7 @@
       "max_daily_budget": null,
       "min_daily_budget": null,
       "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable. | Agreed ROAS basis 2026-11-15 (Applovin Bot + Finance CFO): platform-reported click-only chka_usd_7d, booked on purchase date, campaign 07e26de8 only, trailing 7 full UTC days reread live; spend-only days count as missing revenue, never $0; serve-date ROAS and Shopify UTM advisory only.",
-      "daily_budget": 216,
+      "daily_budget": 162,
       "roas_source": "platform_reported",
       "raise_above_roas": 3.0,
       "raise_above_roas_source": "David 10/29/2026 4:56 PM ET to Applovin Bot, AppLovin-specific: 'I wouldn't raise the budgets if you're only at 2 ROAS. If it goes above 3 ROAS you can raise the budgets.' Registered as a channel exception in ops/ad_rules.md. Hold 2.0-3.0, cut <2.0."
