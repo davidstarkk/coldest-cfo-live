@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-14",
-  "computed_at": "2026-11-16T14:20:39Z",
+  "computed_at": "2026-11-16T14:26:21Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",

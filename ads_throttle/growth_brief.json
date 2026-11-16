@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-14",
-  "computed_at": "2026-11-16T13:31:37Z",
+  "computed_at": "2026-11-16T14:21:43Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
   "governor": {
     "status": "ok",
@@ -13,9 +13,9 @@
     "mer_target": 3.24,
     "stance": "room_to_add",
     "d2c_revenue_7d": 204556.92,
-    "d2c_spend_7d": 101609.08,
+    "d2c_spend_7d": 101609.19,
     "spend_the_target_supports_at_this_revenue": 63134.85,
-    "spend_above_that": 38474.23,
+    "spend_above_that": 38474.34,
     "total_company_mer_7d": 3.47,
     "target_scope_note": "David 11/12: 3.24 is a total-company target, he believes \u2014 where the company is making money, not just breaking even. Shopify D2C MER is read against D2C break-even instead.",
     "breakeven_mer_before_overhead": 1.39,
@@ -39,7 +39,7 @@
       {
         "channel": "x",
         "label": "X",
-        "spend_7d": 942.41,
+        "spend_7d": 942.52,
         "share_of_spend_pct": 0.9,
         "roas_7d": 1.06,
         "marginal_roas": 0.42,
@@ -194,14 +194,14 @@
         "label": "X",
         "window": "2026-11-08..2026-11-14",
         "prior_window": "2026-11-01..2026-11-07",
-        "spend": 942.41,
+        "spend": 942.52,
         "spend_prior": 670.35,
         "revenue": 998.46,
         "revenue_prior": 883.33,
         "roas": 1.06,
         "roas_prior": 1.32,
         "marginal_roas": 0.42,
-        "spend_change": 272.06,
+        "spend_change": 272.17,
         "revenue_change": 115.13,
         "spend_change_pct": 40.6,
         "read": "added_spend"
@@ -249,7 +249,7 @@
       "returning_net_sales": 51521.45,
       "new_share_of_net_sales_pct": 31.4,
       "first_order_value": 72.8,
-      "d2c_ad_spend": 101609.08,
+      "d2c_ad_spend": 101609.19,
       "blended_ncac": null,
       "new_customer_mer": null
     },
@@ -480,13 +480,13 @@
         "whatnot": 65305.0
       },
       "ad_spend": {
-        "d2c": 101609.08,
+        "d2c": 101609.19,
         "amazon": 25090.94,
         "tiktok_shop": 13459.6,
         "whatnot": 7036.42
       },
       "total_revenue": 511404.34,
-      "total_ad_spend": 147196.04,
+      "total_ad_spend": 147196.15,
       "total_mer": 3.47,
       "d2c_mer": 2.01,
       "amazon_tacos_pct": 22.2,
@@ -504,13 +504,13 @@
         "whatnot": 201053.0
       },
       "ad_spend": {
-        "d2c": 400878.56,
+        "d2c": 400878.67,
         "amazon": 89758.44,
         "tiktok_shop": 68931.04,
         "whatnot": 22777.15
       },
       "total_revenue": 2233645.69,
-      "total_ad_spend": 582345.19,
+      "total_ad_spend": 582345.3,
       "total_mer": 3.84,
       "d2c_mer": 2.17,
       "amazon_tacos_pct": 20.7,
@@ -1375,7 +1375,7 @@
       "x": {
         "label": "X",
         "mode": "auto",
-        "spend_7d": 942.41,
+        "spend_7d": 942.52,
         "score": "6/7",
         "checks": [
           {
