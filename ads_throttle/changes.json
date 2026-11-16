@@ -1635,5 +1635,626 @@
       "note": "Not yet measured."
     },
     "note": "Part of David 11/16 strategic 20% pullback: total paid daily budget (US+intl, excl. MEGMAS starting 11/19, excl. JS_ and Sufyan campaigns) $14,126.64 -> $11,302.44 (-19.99%). Tiers on blended ROAS: <1.5x ~37%, 1.5-2.0x ~23%, 2.0-2.5x ~12.5%, 2.5-3.0x ~4.6%, >=3.0x 0. Baseline counts today's 9:38-9:46 AM ET cuts."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.612,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: CBO - Drive-Thru Launch $476 -> $499 (11/15 $499). Blended ROAS 2.64.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52555456497047"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 476,
+      "after": 499,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.485,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: top 10 whitelisting $423 -> $483 (11/15 $483). Blended ROAS 2.49.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52551168353847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 423,
+      "after": 483,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.089,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: CBO - 5.19 $584 -> $667 (11/15 $667). Blended ROAS 2.19.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "6970012439243"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 584,
+      "after": 667,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.047,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: Gallon - CBO - 10/30 $237 -> $271 (11/15 $271). Blended ROAS 2.07.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52559119694247"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 237,
+      "after": 271,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.379,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: Main CBO - Limitless Bottles $1351 -> $1544 (11/15 $1544). Blended ROAS 2.02.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "6573071905243"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 1351,
+      "after": 1544,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.062,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: Founder Whitelist $1230 -> $1600 (11/15 $1600). Blended ROAS 1.88.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "6901649714443"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 1230,
+      "after": 1600,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.74,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: 32oz Go - CBO $273 -> $355 (11/15 $355). Blended ROAS 1.82.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52559081215647"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 273,
+      "after": 355,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.08,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: TEST | Value Opt (ABO) $111 -> $144 (11/15 $144). Blended ROAS 1.72.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52553743950447"
+      ],
+      "adgroups": [
+        "52553743974247"
+      ]
+    },
+    "budget": {
+      "before": 111,
+      "after": 144,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.922,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: NEW | Limitless CBO $444 -> $578 (11/15 $578). Blended ROAS 1.72.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "6916817456043"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 444,
+      "after": 578,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.513,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: BFCM26 v2 Statics CBO $769 -> $1000 (11/15 $1000). Blended ROAS 1.69.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52561534565247"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 769,
+      "after": 1000,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 2.425,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: Grokbot Hoodies $38 -> $50 (11/15 $50). Blended ROAS 1.62.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52556289200847"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 38,
+      "after": 50,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.729,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: Grokbot Full Automation - Limitless $447 -> $581 (11/15 $581). Blended ROAS 1.61.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52556278584647"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 447,
+      "after": 581,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "meta",
+    "window": {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.648,
+    "trailing_7d_roas_source": "Meta Ads platform-reported purchase value/spend (Pipeboard get_insights act_24723036, campaign level, 2026-11-09..2026-11-15, account default attribution)",
+    "rule_band": "mode_hold",
+    "recommended_action": "Restore toward 11/15 budget to hold $10k US Meta floor: Euka WL Testing (ABO, 7 ad sets) $808 -> $935 (11/15 $1050). Blended ROAS 1.57.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David 2026-11-16 1:18 PM ET (Jarvis chat, verbatim): \"I want the floor to be held\""
+    },
+    "owner_bot": "META AD BUYER",
+    "platform_ids": {
+      "campaigns": [
+        "52560701768247"
+      ],
+      "adgroups": [
+        "52560701775247",
+        "52560701780847",
+        "52560703998247",
+        "52560701791047",
+        "52560705090247",
+        "52560707617247",
+        "52560707621447"
+      ]
+    },
+    "budget": {
+      "before": 808,
+      "after": 935,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-16T13:22:00-05:00",
+      "confirmed": true,
+      "detail": "Executed by Jarvis executor via Pipeboard; post-write read shows new daily budget."
+    },
+    "next_eligible_date": "2026-11-19",
+    "observed_outcome": {
+      "date": "2026-11-23",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "David 11/16 1:18 PM ET hold $10k Meta floor (partial reversal of 1:05 pullback). Restored in blended-ROAS order, highest first; Euka WL partial. US Meta (excl. MEGMAS, excl. intl) $8,484 -> $10,000. All-channel total now $12,818.44/day vs $14,126.64 on 11/15 (-9.26%)."
   }
 ]

@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-16T13:15:00-05:00",
-  "updated_by": "jarvis (11/16 1:13 PM ET: David strategic 20% pullback; daily_budget google 92.64, x 44, bing 385, meta US 8484 + intl 1230; snapchat 724.80 per SNAPCHAT ADS live read 11/16 10:42 ET, unchanged)",
+  "updated_at": "2026-11-16T13:23:00-05:00",
+  "updated_by": "jarvis (11/16 1:22 PM ET: David \"I want the floor to be held\"; meta US daily_budget 10000 after partial reversal of 1:05 pullback)",
   "global": {
     "step_pct": 20,
     "window_days": 7,
@@ -51,8 +51,8 @@
       "max_daily_budget": null,
       "min_daily_budget": null,
       "notes": "Frozen in this file. Separate David carve-out (10/27 10:39 PM ET) runs in routine meta-roas-kill-cbo-scale: pause ads <1x 7d ROAS; +20% weekly on CBOs >=3x for 7+ days.",
-      "daily_budget": 8484,
-      "daily_budget_note": "US Meta live CBO+ABO total after 11/16 1:13 PM ET pullback, excluding MEGMAS 6 ($1,000/day, starts 11/19) and International CA/GB/AU ($1,230/day total)."
+      "daily_budget": 10000,
+      "daily_budget_note": "US Meta live CBO+ABO total after 11/16 1:22 PM ET floor restore ($10k floor held), excluding MEGMAS 6 ($1,000/day, starts 11/19) and International CA/GB/AU ($1,230/day total)."
     },
     "google": {
       "mode": "auto",
