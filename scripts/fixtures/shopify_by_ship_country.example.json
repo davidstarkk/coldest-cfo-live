@@ -1,0 +1,62 @@
+{
+  "example": true,
+  "label": "EXAMPLE DATA",
+  "EXAMPLE_DATA": true,
+  "note": "EXAMPLE DATA — shipping country, falling back to billing. Diagnostic only.",
+  "schema": "shopify_by_ship_country.v1",
+  "rows": [
+    {
+      "date": "2026-11-08",
+      "shipping_country": "CA",
+      "billing_country": "CA",
+      "revenue": 180,
+      "orders": 3
+    },
+    {
+      "date": "2026-11-08",
+      "shipping_country": "GB",
+      "billing_country": "GB",
+      "revenue": 150,
+      "orders": 2
+    },
+    {
+      "date": "2026-11-08",
+      "shipping_country": null,
+      "billing_country": "AU",
+      "revenue": 90,
+      "orders": 1
+    },
+    {
+      "date": "2026-11-08",
+      "shipping_country": "US",
+      "billing_country": "US",
+      "revenue": 3200,
+      "orders": 40
+    },
+    {
+      "date": "2026-11-14",
+      "shipping_country": "CA",
+      "billing_country": "US",
+      "revenue": 220,
+      "orders": 4
+    },
+    {
+      "date": "2026-11-14",
+      "country": "GB",
+      "revenue": 155,
+      "orders": 2
+    },
+    {
+      "date": "2026-11-14",
+      "shipping_country": "AU",
+      "revenue": 95,
+      "orders": 1
+    },
+    {
+      "date": "2026-11-14",
+      "shipping_country": "US",
+      "revenue": 3100,
+      "orders": 38
+    }
+  ]
+}
