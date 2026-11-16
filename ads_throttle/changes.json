@@ -190,5 +190,24 @@
     "status": "done (Applovin Bot, ~11:23 AM ET 11/13)",
     "by": "applovin_bot, logged by jarvis 11/15",
     "note": "Next eligible 2026-11-20 11:23 AM ET. Latest 7 full days 11/8-11/14 on the agreed basis = 1.89x (cut band) per Applovin Bot."
+  },
+  {
+    "date": "2026-11-16",
+    "channel": "x",
+    "entity": "C02 Limitless, campaign pkcye / ad group y2kpi",
+    "roas_7d": 0.86,
+    "spend_7d": 521.24,
+    "revenue_7d": 447.57,
+    "roas_source": "platform_reported, C02 trailing full days 11/9-11/15 ET (CFO brief channel 7d 1.06x on $942.52)",
+    "action": "cut_20pct_and_change_strategy",
+    "old_budget": 70,
+    "new_budget": 56,
+    "status": "done (x.com ads bot, 11/16 9:46 AM ET, API read-back $56)",
+    "by": "jarvis via x.com ads",
+    "actual": {
+      "strategy": "ad-level under-1x kill: paused b6d6pq (0.27x on $221.15) and b6hg8m (0x on $141.70); b6d6ps (2.32x) carries spend",
+      "next_check": "2026-11-19",
+      "note": "C02 campaign-level trips under-1x (4 days); kept live as last X campaign (never abandon channel)."
+    }
   }
 ]
