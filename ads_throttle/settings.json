@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-16T13:41:00-05:00",
-  "updated_by": "jarvis (11/16 1:41 PM ET: applovin daily_budget 216 -> 162, Applovin Bot dashboard cut 13:37 ET under David 11/16 1:05 PM ET pullback)",
+  "updated_at": "2026-11-16T13:54:00-05:00",
+  "updated_by": "jarvis (11/16 1:54 PM ET: after cfo-dashboard #60, set channels.google.elevar_ratio=1.657 and roas_disputed=true; other keys unchanged)",
   "global": {
     "step_pct": 20,
     "window_days": 7,
@@ -63,7 +63,9 @@
       "exclude_campaign_prefixes": [
         "JS_"
       ],
-      "daily_budget": 92.64
+      "daily_budget": 92.64,
+      "elevar_ratio": 1.657,
+      "roas_disputed": true
     },
     "tiktok": {
       "mode": "view",
