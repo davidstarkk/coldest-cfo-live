@@ -83,9 +83,9 @@
       "at": "2026-11-15T16:30:00-05:00"
     },
     "step.x.cut_2026-11-16": {
-      "status": "working",
-      "note": "11/16 brief: X act_now cut, 7d 1.06x on 942.52 spend, no blockers, last cut 11/11 (cooldown cleared). Step 70->56/day requested from x.com ads; not written to changes.json/settings.json until the bot confirms actual budget and IDs.",
-      "at": "2026-11-16T09:50:00-05:00"
+      "status": "done",
+      "note": "Applied 11/16 9:46 AM ET by x.com ads: C02 pkcye/y2kpi $70->$56 (API read-back $56); paused under-1x ads b6d6pq and b6hg8m. Logged in changes.json; settings.json x.daily_budget=56. Next eligible 11/19.",
+      "at": "2026-11-16T09:52:00-05:00"
     }
   }
 }
