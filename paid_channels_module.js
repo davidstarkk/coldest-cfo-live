@@ -75,6 +75,7 @@
   });
   var MER_DOC = null;
   var ADV_DAILY = null;
+  var SPOTIFY_CONFIG = null;
   var CHANNEL_STATUS = null;
   var PENDING_BACKFILL = null;
 
@@ -1489,10 +1490,178 @@
   // Spotify Ads (canonical feed key spotify_ads) is display-only like X / Taboola / Outbrain:
   // CFO (coldest-cfo-dashboard) folds only measured Spotify spend into d2c_ad_spend / blended_mer.
   // This module never overlays it, so unknown Spotify spend stays out of D2C totals / MER.
-  // Display rule (CFO): a measured day shows numbers only; an unmeasured day shows "No data"
-  // only; spend-only rows show ROAS "No data"; platform spend and billing / cash cost stay separate.
+  // Display rule (David): unmeasured / never-launched spend cells are "Channel off".
+  // Outcome metrics may still read "No data". Measured days show numbers only.
+  // Spend-only rows show ROAS "No data"; platform spend and billing / cash cost stay separate.
   var SPOTIFY_NO_DATA = 'No data';
+  var SPOTIFY_CHANNEL_OFF = 'Channel off';
   var SPOTIFY_KEYS = ['spotify_ads', 'spotify', 'Spotify', 'Spotify Ads'];
+  function moneyPlain(v) {
+    var n = Number(v);
+    if (!Number.isFinite(n)) return null;
+    if (Math.abs(n - Math.round(n)) < 1e-9) return '$' + Math.round(n).toLocaleString('en-US');
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function capHasPlanFields(node) {
+    if (!node || typeof node !== 'object') return false;
+    return node.planned_daily_cap_usd != null || node.daily_cap_usd != null
+      || node.planned_daily_budget_usd != null
+      || node.planned_test_total_cap_usd != null || node.test_duration_days != null
+      || node.format_groups != null || node.formatGroups != null
+      || node.format_groups_status != null || node.formats_status != null
+      || node.cap_type === 'daily_total_starting_cap'
+      || (typeof node.split === 'string' && /format/i.test(node.split));
+  }
+  function readSpotifyCapNode(src) {
+    if (!src || typeof src !== 'object') return null;
+    if (src.spotify_ads_config && typeof src.spotify_ads_config === 'object') return src.spotify_ads_config;
+    if (src.spotifyAdsConfig && typeof src.spotifyAdsConfig === 'object') return src.spotifyAdsConfig;
+    if (capHasPlanFields(src)) return src;
+    if (capHasPlanFields(src.spotify_ads)) return src.spotify_ads;
+    if (capHasPlanFields(src.spotify)) return src.spotify;
+    return null;
+  }
+  function flagOn(v) {
+    if (v === true || v === 1) return true;
+    if (v === false || v === 0 || v == null || v === '') return false;
+    var s = String(v).toLowerCase();
+    return s === 'true' || s === 'yes' || s === 'enabled' || s === '1';
+  }
+  function parseFormatGroups(raw) {
+    var groups = [];
+    function push(name, node) {
+      var n = name ? String(name) : '';
+      var enabled = false;
+      var confirmed = false;
+      var conditional = false;
+      if (node && typeof node === 'object') {
+        if (!n) n = String(node.id || node.name || node.label || node.format || '');
+        enabled = flagOn(node.enabled);
+        confirmed = flagOn(node.confirmed);
+        conditional = flagOn(node.conditional);
+      } else if (typeof node === 'boolean' || typeof node === 'number' || typeof node === 'string') {
+        enabled = flagOn(node);
+      }
+      if (!n && !enabled && !confirmed) return;
+      groups.push({ name: n, enabled: enabled, confirmed: confirmed, conditional: conditional });
+    }
+    if (Array.isArray(raw)) {
+      raw.forEach(function (g) {
+        if (g == null) return;
+        if (typeof g === 'string') { push(g, null); return; }
+        if (typeof g !== 'object') return;
+        push(g.id || g.name || g.label || g.format, g);
+      });
+    } else if (raw && typeof raw === 'object') {
+      Object.keys(raw).forEach(function (k) { push(k, raw[k]); });
+    }
+    return groups;
+  }
+  function ymd(v) {
+    if (v == null || v === '') return null;
+    var s = String(v).trim().slice(0, 10);
+    return /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : null;
+  }
+  function addDaysYmd(start, days) {
+    var p = start.split('-').map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    d.setUTCDate(d.getUTCDate() + days);
+    return d.toISOString().slice(0, 10);
+  }
+  function parseSpotifyPlannedCap(src) {
+    var cfg = readSpotifyCapNode(src);
+    if (!cfg) return null;
+    var daily = finiteNum(cfg.planned_daily_cap_usd);
+    if (daily == null) daily = finiteNum(cfg.daily_cap_usd);
+    if (daily == null) daily = finiteNum(cfg.planned_daily_budget_usd);
+    if (daily == null) return null;
+    var total = finiteNum(cfg.planned_test_total_cap_usd);
+    if (total == null) total = finiteNum(cfg.test_total_cap_usd);
+    if (total == null) total = finiteNum(cfg.planned_overall_cap_usd);
+    var duration = finiteNum(cfg.test_duration_days);
+    if (duration == null) duration = finiteNum(cfg.duration_days);
+    if (duration == null) duration = finiteNum(cfg.test_days);
+    var start = ymd(cfg.start_date != null ? cfg.start_date : cfg.start);
+    var end = ymd(cfg.end_date != null ? cfg.end_date : cfg.end);
+    if (start && !end && duration != null && duration > 0) end = addDaysYmd(start, Math.round(duration) - 1);
+    if (!start) end = null;
+    var groups = parseFormatGroups(cfg.format_groups || cfg.formatGroups || cfg.formats);
+    var status = cfg.format_groups_status != null ? String(cfg.format_groups_status)
+      : (cfg.formatGroupsStatus != null ? String(cfg.formatGroupsStatus)
+      : (cfg.formats_status != null ? String(cfg.formats_status) : ''));
+    var split = cfg.split != null ? String(cfg.split) : (cfg.split_type != null ? String(cfg.split_type) : '');
+    var capType = cfg.cap_type != null ? String(cfg.cap_type) : (cfg.capType != null ? String(cfg.capType) : '');
+    var enabled = groups.filter(function (g) { return g.confirmed || g.enabled; });
+    var perFormat = null;
+    if (/^confirmed$/i.test(status) && enabled.length) perFormat = daily / enabled.length;
+    return {
+      daily: daily,
+      total: total,
+      duration: duration,
+      start: start,
+      end: end,
+      capType: capType,
+      split: split,
+      formatGroupsStatus: status,
+      formatGroups: groups,
+      enabledCount: enabled.length,
+      enabledNames: enabled.map(function (g) { return g.name; }).filter(Boolean),
+      perFormat: perFormat,
+      raw: cfg
+    };
+  }
+  function splitPhrase(split) {
+    var s = split != null ? String(split) : '';
+    if (/even/i.test(s) && !/performance/i.test(s)) return ', split evenly across enabled formats';
+    if (!s || /performance/i.test(s) || /weighted/i.test(s) || /eligible_format/i.test(s)) {
+      return ', allocated by performance across eligible formats';
+    }
+    return ', ' + s.replace(/_/g, ' ');
+  }
+  function spotifyPlannedCapLabel(src) {
+    var cap = parseSpotifyPlannedCap(src);
+    if (!cap || cap.daily == null) return '';
+    var out = (cap.duration != null && cap.duration > 0)
+      ? ('Planned ' + Math.round(cap.duration) + '-day test: ')
+      : 'Planned test: ';
+    out += moneyPlain(cap.daily) + '/day total cap';
+    if (cap.total != null) out += ', ' + moneyPlain(cap.total) + ' overall';
+    out += splitPhrase(cap.split);
+    var bits = [];
+    if (/^confirmed$/i.test(cap.formatGroupsStatus) && cap.perFormat != null) {
+      var pf = moneyPlain(cap.perFormat) + ' each';
+      if (cap.enabledNames.length) pf += ': ' + cap.enabledNames.join(', ');
+      bits.push(pf);
+    } else {
+      bits.push('formats pending');
+    }
+    if (cap.start) bits.push(cap.start + ' to ' + (cap.end || cap.start));
+    else bits.push('start date not set');
+    out += ' (' + bits.join('; ') + '). Plan only, not spend.';
+    return out;
+  }
+  function spotifyPlannedCapFromDoc() {
+    var bags = [SPOTIFY_CONFIG, MER_DOC];
+    for (var i = 0; i < bags.length; i++) {
+      var cap = parseSpotifyPlannedCap(bags[i]);
+      if (cap) return cap;
+    }
+    return null;
+  }
+  function spotifyCapNote() {
+    var cap = spotifyPlannedCapFromDoc();
+    return cap ? spotifyPlannedCapLabel(cap.raw) : '';
+  }
+  function spotifyCapSuffix() {
+    var label = spotifyCapNote();
+    if (!label) return '';
+    return ' · ' + label + ' · not spend · excluded from MER / ROAS';
+  }
+  function spotifyCapFoot() {
+    var label = spotifyCapNote();
+    if (!label) return '';
+    return '<p class="pc-cap">' + esc(label) + ' · not spend · excluded from MER / ROAS</p>';
+  }
   var SPOTIFY_DISPLAY = {
     id: 'spotify',
     label: 'Spotify Ads',
@@ -1550,7 +1719,11 @@
     var nd = SPOTIFY_NO_DATA;
     var spendLabel = spendCellTxt(SPOTIFY_DISPLAY, date, { plain: true });
     if (!r) {
-      return '<tr><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc((spotifyBlock() || {}).source || 'Spotify Ads') + '</td></tr>';
+      var srcNote = spotifyNotLaunched()
+        ? ((spotifyBlock() || {}).source || 'Spotify Ads not launched')
+        : 'no spotify_ads feed published · not in D2C ad spend / MER';
+      return '<tr><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>'
+        + esc(srcNote + spotifyCapSuffix()) + '</td></tr>';
     }
     var spend = finiteNum(r.spend);
     if (spend == null) spend = finiteNum(r.daily_spend);
@@ -1567,7 +1740,7 @@
     var cashTitle = cash == null ? '' : ' title="' + esc('billing / cash cost ' + usd(cash) + ' · separate from platform spend, not added to spend') + '"';
     var html = '<tr' + cashTitle + '><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>' + (clicks == null ? gap : intOrDash(clicks)) + '</td><td>' + (conv == null ? gap : intOrDash(conv))
       + '</td><td>' + (plat && plat.revenue != null ? usd(plat.revenue) : gap) + '</td><td>' + esc(roasCell) + '</td><td>'
-      + esc(r.source || 'spotify_ads') + '</td></tr>';
+      + esc((r.source || 'spotify_ads') + spotifyCapSuffix()) + '</td></tr>';
     return html;
   }
 
@@ -1783,7 +1956,7 @@
     var foot = estimated
       ? '<p class="pc-estimated" style="margin:8px 0 0;font-size:12px;color:var(--text-muted,#8888a8)">Totals that include a carried figure are estimated.</p>'
       : '';
-    return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>' + foot;
+    return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>' + foot + spotifyCapFoot();
   }
 
   /* One row per channel. The D2C share is only worth a note when it differs
@@ -1993,6 +2166,7 @@
         FEEDS[id].daily = d;
       }).catch(function () { /* optional */ }));
     });
+    jobs.push(fetchJson('spotify_ads_config.json').then(function (d) { SPOTIFY_CONFIG = d; }).catch(function () { SPOTIFY_CONFIG = null; }));
     if (examplePinterestRequested()) {
       jobs.push(fetchJson('scripts/fixtures/pinterest_example.json').then(function (fx) {
         MER_DOC = applyPinterestMerExample(MER_DOC, fx);
@@ -2048,9 +2222,13 @@
     outbrainSpendTxt: outbrainSpendTxt,
     SPOTIFY_DISPLAY: SPOTIFY_DISPLAY,
     SPOTIFY_NO_DATA: SPOTIFY_NO_DATA,
+    SPOTIFY_CHANNEL_OFF: SPOTIFY_CHANNEL_OFF,
     spotifyDetailHtml: spotifyDetailHtml,
     spotifySpendTxt: spotifySpendTxt,
     spotifyDayRow: spotifyDayRow,
+    parseSpotifyPlannedCap: parseSpotifyPlannedCap,
+    spotifyPlannedCapLabel: spotifyPlannedCapLabel,
+    spotifyCapNote: spotifyCapNote,
     xDetailHtml: xDetailHtml,
     xSpendTxt: xSpendTxt,
     xSectionHtml: xSectionHtml,
@@ -2076,6 +2254,7 @@
       FEEDS[id] = FEEDS[id] || { file: null, mer: null, manual: null, daily: null };
       FEEDS[id].daily = doc || null;
     },
+    _setSpotifyConfig: function (doc) { SPOTIFY_CONFIG = doc || null; },
     _setChannelStatus: function (doc) { CHANNEL_STATUS = doc || null; },
     _setPendingBackfill: function (doc) { PENDING_BACKFILL = doc || null; },
     Display: Display

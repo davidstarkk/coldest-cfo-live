@@ -325,23 +325,25 @@ test('Daily Reports advDaily bare $0 is missing; complete $0 is measured — sam
 });
 
 /* ---------------------------------------------------------- Spotify Ads */
-function spotifyReset() { Paid._setMerDoc(null); Paid._setAdvDaily(null); Paid._setDailyFile('spotify', null); }
+function spotifyReset() { Paid._setMerDoc(null); Paid._setAdvDaily(null); Paid._setDailyFile('spotify', null); Paid._setSpotifyConfig(null); }
 function noConflict(txt) {
   assert.ok(txt.indexOf('missing') === -1, 'no "missing" text on a Spotify row: ' + txt);
   assert.ok(txt.indexOf('unverified') === -1, 'no "unverified" text on a Spotify row: ' + txt);
 }
 function spotifyMainRow(html) { return html.split('</tr>')[0]; }
 
-test('Spotify: unavailable day → Channel off (spend cell never No data / missing / $0)', function () {
+test('Spotify: unavailable day → Channel off spend (no $0, no missing/unverified), excluded from D2C coverage note', function () {
   spotifyReset();
   Paid._setMerDoc({ as_of: '2026-11-05', advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } }, '2026-11-04': { spotify_ads: { spend: 0 } } } });
   ['2026-11-03', '2026-11-04', '2026-11-05'].forEach(function (d) {
     assert.strictEqual(Paid.spotifySpendTxt(d), 'Channel off', d);
     var html = Paid.spotifyDetailHtml(d);
     assert.ok(html.indexOf('$0.00') === -1, 'unmeasured day is never $0: ' + d);
-    assert.ok(html.indexOf('Channel off') !== -1);
+    assert.ok(spotifyMainRow(html).indexOf('<td>Channel off</td>') !== -1);
+    assert.ok(html.indexOf('not in D2C ad spend / MER') !== -1, 'coverage labelled');
     assert.ok(html.indexOf('missing') === -1);
     assert.ok(html.indexOf('pc-split') === -1, 'one row per channel');
+    assert.ok(html.indexOf('↳') === -1, 'no sub-rows');
     noConflict(html);
   });
   var strip = Paid.spendPerChannelHtml('2026-11-05');
@@ -394,6 +396,7 @@ test('Spotify: no conflicting labels — every day is either a number or "No dat
     assert.ok(!(hasNum && txt.indexOf('Channel off') !== -1), 'number + Channel off on ' + d);
     var spendCell = spotifyMainRow(Paid.spotifyDetailHtml(d)).split('<td>')[2].replace(/<\/td>.*/, '');
     assert.ok(/^\$\d/.test(spendCell) !== (spendCell === 'Channel off'), 'spend cell is exactly one of number / Channel off: ' + spendCell);
+    noConflict(Paid.spotifyDetailHtml(d));
   });
   spotifyReset();
 });
@@ -422,11 +425,14 @@ test('Spotify: cash_cost kept separate from platform spend (mirrors X)', functio
   spotifyReset();
 });
 
-test('Spotify: not-launched config → Channel off; absence alone is also Channel off, not $0', function () {
+test('Spotify: not-launched config → Channel off, no metrics; absence alone is Channel off, not paused', function () {
   spotifyReset();
   Paid._setMerDoc({ as_of: '2026-11-05', spotify: { status: 'not_launched', live: false } });
   assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
   var html = Paid.spotifyDetailHtml('2026-11-05');
+  assert.ok(html.indexOf('$') === -1, 'no metrics for not launched: ' + html);
+  assert.ok(spotifyMainRow(html).indexOf('<td>Channel off</td>') !== -1);
+  noConflict(html);
   assert.ok(html.indexOf('$0.00') === -1, 'no invented $0: ' + html);
   assert.ok(html.indexOf('No data') === -1);
   assert.ok(html.indexOf('missing') === -1);
@@ -441,6 +447,101 @@ test('Spotify is display-only on Daily Reports (never overlaid into D2C totals)'
   assert.ok(Paid.CHANNELS.every(function (c) { return c.id !== 'spotify'; }), 'not in the overlay CHANNELS list');
 });
 
+var SPOTIFY_CAP = require('./fixtures/spotify_ads_config.json');
+var SPOTIFY_CAP_LABEL = 'Planned 7-day test: $250/day total cap, $1,750 overall, allocated by performance across eligible formats (formats pending; start date not set). Plan only, not spend.';
+
+test('Spotify: companion daily starting cap labels the plan, not spend; legacy $300 ignored', function () {
+  spotifyReset();
+  assert.strictEqual(SPOTIFY_CAP.planned_daily_cap_usd, 250);
+  assert.strictEqual(SPOTIFY_CAP.planned_test_total_cap_usd, 1750);
+  assert.strictEqual(SPOTIFY_CAP.test_duration_days, 7);
+  assert.strictEqual(SPOTIFY_CAP.start_date, null);
+  assert.strictEqual(SPOTIFY_CAP.format_groups[0].id, 'audio');
+  assert.ok(!Object.prototype.hasOwnProperty.call(SPOTIFY_CAP.format_groups[0], 'name'));
+  assert.ok(!Object.prototype.hasOwnProperty.call(SPOTIFY_CAP.format_groups[0], 'enabled'));
+  assert.ok(!Object.prototype.hasOwnProperty.call(SPOTIFY_CAP, 'per_ad'));
+  assert.ok(!Object.prototype.hasOwnProperty.call(SPOTIFY_CAP, 'planned_total_cap_usd'));
+  Paid._setMerDoc({
+    as_of: '2026-11-05',
+    d2c_ad_spend: 13895.86,
+    blended_mer: 2.51,
+    total_ad_spend: 14695.42,
+    spotify_ads_config: SPOTIFY_CAP,
+    advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } } }
+  });
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
+  assert.strictEqual(Paid.spotifyCapNote(), SPOTIFY_CAP_LABEL);
+  Paid._setMerDoc({
+    as_of: '2026-11-05',
+    spotify_ads_config: {
+      planned_total_cap_usd: 300,
+      cap_type: 'lifetime_test',
+      per_ad: [{ name: 'Drive-Thru', planned_cap_usd: 100 }]
+    }
+  });
+  assert.strictEqual(Paid.spotifyCapNote(), '');
+  var spends = Paid.channelSpends('2026-11-05');
+  assert.ok(!spends.channels.spotify);
+  spotifyReset();
+});
+
+test('Spotify: planned cap present is labelled separately from No data spend; MER unchanged', function () {
+  spotifyReset();
+  var mer = {
+    as_of: '2026-11-05',
+    d2c_ad_spend: 13895.86,
+    blended_mer: 2.51,
+    total_ad_spend: 14695.42,
+    shop_revenue: 34876.92,
+    spotify_ads_config: SPOTIFY_CAP,
+    advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } } }
+  };
+  Paid._setMerDoc(mer);
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
+  assert.strictEqual(Paid.spotifyCapNote(), SPOTIFY_CAP_LABEL);
+  var strip = Paid.spendPerChannelHtml('2026-11-05');
+  assert.ok(strip.indexOf('<td>Spotify Ads</td><td>Channel off</td>') !== -1);
+  assert.ok(strip.indexOf(SPOTIFY_CAP_LABEL) !== -1);
+  assert.ok(strip.indexOf('<td>$250') === -1, 'cap is not the spend cell');
+  assert.ok(strip.indexOf('split evenly') === -1);
+  assert.ok(strip.indexOf('Drive-Thru') === -1);
+  var html = Paid.spotifyDetailHtml('2026-11-05');
+  assert.ok(spotifyMainRow(html).indexOf('<td>Channel off</td>') !== -1);
+  assert.ok(html.indexOf(SPOTIFY_CAP_LABEL) !== -1);
+  assert.ok(html.indexOf('not spend') !== -1);
+  var spends = Paid.channelSpends('2026-11-05');
+  assert.strictEqual(spends.d2cAdSpend, 13895.86);
+  assert.strictEqual(spends.blendedMer, 2.51);
+  assert.strictEqual(spends.totalAdSpend, 14695.42);
+  assert.ok(!spends.channels.spotify, 'Spotify is not in overlay spend map');
+  spotifyReset();
+});
+
+test('Spotify: planned cap absent renders nothing (never hardcoded)', function () {
+  spotifyReset();
+  Paid._setMerDoc({ as_of: '2026-11-05', advertising_sources: { '2026-11-05': { spotify_ads: { spend: null, missing: true } } } });
+  assert.strictEqual(Paid.spotifyCapNote(), '');
+  var strip = Paid.spendPerChannelHtml('2026-11-05');
+  var html = Paid.spotifyDetailHtml('2026-11-05');
+  assert.ok(strip.indexOf('Planned 7-day test') === -1);
+  assert.ok(html.indexOf('Planned starting cap') === -1);
+  assert.ok(strip.indexOf('Planned starting cap') === -1);
+  assert.ok(strip.indexOf('Planned test cap') === -1);
+  assert.ok(html.indexOf('Planned test cap') === -1);
+  assert.ok(strip.indexOf('$250') === -1);
+  assert.ok(html.indexOf('$1,750') === -1);
+  assert.ok(strip.indexOf('$500') === -1);
+  assert.ok(html.indexOf('$3,500') === -1);
+  assert.ok(html.indexOf('split evenly') === -1);
+  assert.ok(html.indexOf('$300') === -1);
+  assert.ok(html.indexOf('Drive-Thru') === -1);
+  assert.strictEqual(Paid.spotifySpendTxt('2026-11-05'), 'Channel off');
+  var mer = require('./fixtures/cfo_2026_11_05_mer.json');
+  Paid._setMerDoc(mer);
+  assert.strictEqual(Paid.spotifyCapNote(), '', '11/5 fixture has no cap fields');
+  spotifyReset();
+});
+
 function allowedSpend(txt) {
   if (txt === 'Channel off' || txt === '$0.00') return true;
   if (/^\$[\d,]+\.\d{2}$/.test(txt)) return true;
@@ -453,6 +554,7 @@ function resetAll() {
   delete globalThis.PARTIAL_REPORTS;
   Paid._setMerDoc(null);
   Paid._setAdvDaily(null);
+  Paid._setSpotifyConfig(null);
   Paid._setChannelStatus(null);
   Paid._setPendingBackfill(null);
   ['meta', 'google', 'bing', 'reddit', 'snapchat', 'chatgpt', 'pinterest', 'x', 'taboola', 'outbrain', 'spotify', 'applovin'].forEach(function (id) {
