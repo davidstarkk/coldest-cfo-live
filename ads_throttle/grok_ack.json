@@ -4,8 +4,8 @@
   "acks": {
     "feed.bing": {
       "status": "done",
-      "note": "bing_ads_daily.json has the 11/11 closed-day row (commit 4e29820; spend $273.30, platform revenue $486.33, 1.78x, complete/closed_day true, as_of 11/11).",
-      "at": "2026-11-12T09:57:31-05:00"
+      "note": "Bing closed days 11/13-11/15 backfilled (commit c28ce45; 2.95x/2.35x/2.35x, complete/closed_day true). Awaiting CFO rebuild.",
+      "at": "2026-11-16T10:30:00-05:00"
     },
     "feed.chatgpt": {
       "status": "done",

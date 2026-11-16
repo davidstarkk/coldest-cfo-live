@@ -1,21 +1,21 @@
 {
   "as_of": "2026-11-14",
-  "computed_at": "2026-11-16T14:27:12.525238+00:00",
-  "github_sha": "81ed673ae9b2d8b88b5b3a5fa4e3b78e3fd5f0b8",
-  "publish_run_id": "43885803765",
+  "computed_at": "2026-11-16T15:26:21.149324+00:00",
+  "github_sha": "c28ce452ab94de597252c17e5d31bf75ef5cb6f5",
+  "publish_run_id": "43896269064",
   "source": "daily_inputs",
   "db": "private_finance_data/data.db",
-  "mer_7d_pooled": 2.0132,
-  "mer_30d_pooled": 2.1567,
+  "mer_7d_pooled": 2.0082,
+  "mer_30d_pooled": 2.1554,
   "mer_target": 3.24,
   "mer_breakeven": null,
   "status": "PARTIAL_DAILY_INPUTS",
-  "delta_dod": 0.0445,
-  "delta_wow": -0.0928,
+  "delta_dod": 0.0418,
+  "delta_wow": -0.0978,
   "rev_7d": 204556.92,
-  "spend_7d": 101609.19,
+  "spend_7d": 101859.55,
   "rev_30d": 922316.7,
-  "spend_30d": 427658.44,
+  "spend_30d": 427908.8,
   "profit_7d": null,
   "net_margin_7d_pct": null,
   "budget_recommendation": {
@@ -36,12 +36,13 @@
   },
   "schema_version": "1.1",
   "_notes": "Current daily mer rebuilt from private_finance_data/data.db daily_inputs. blended_mer / mer_7d_pooled / mer_30d_pooled share one D2C spend basis: Shopify D2C net_revenue_ex_tax / d2c_ad_spend. rev_7d / spend_7d are calendar-window sums of the same daily shop_revenue / d2c_ad_spend used for blended_mer. TikTok in that spend is shopify_spend (website / Shopify-credited), never shop_spend and never total TikTok. Bing D2C (spend_d2c) and Snapchat fold whenever the durable feed has a measured row for that date; a missing Bing/Snapchat day is omitted, never a silent $0. Also in d2c_ad_spend: Meta + Google + Reddit + ChatGPT if tracking_verified + Pinterest + AppLovin D2C + Taboola + Outbrain + Spotify when measured + X Ads platform spend; cash_cost is missing unless billed in the source. Registry-off days count as $0. Amazon-bound Bing, Whatnot, TikTok Shop, and Amazon ads are non-D2C lines and remain in total_ad_spend. AppLovin is D2C (coldest.com); only an amazon/amz campaign-name split stays in non_d2c.applovin. Unverified/missing channels (incl. Spotify with no pull) are excluded from d2c_ad_spend / blended MER \u2014 never a silent $0. See d2c_coverage. data_ready is false while incomplete_fields lists usual missing closed-day sources (Whatnot, Sellerboard, ShipHero, TikTok Shop GMV Max); those stay null, not $0.",
-  "d2c_ad_spend": 13155.75,
+  "d2c_ad_spend": 13285.31,
   "d2c_coverage": {
     "as_of": "2026-11-14",
     "included_channels": [
       "meta",
       "google",
+      "bing",
       "reddit",
       "snapchat",
       "chatgpt",
@@ -53,18 +54,11 @@
       "tiktok",
       "x"
     ],
-    "excluded_channels": [
-      {
-        "channel": "bing",
-        "status": "unverified",
-        "included_in_d2c": false,
-        "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-      }
-    ],
+    "excluded_channels": [],
     "spotify_included_in_d2c": true,
     "note": "Missing/unverified channels are omitted from d2c_ad_spend and blended MER. Only a closed measured pull (complete/closed_day/spend_status=verified, or positive spend) is included. Spotify has no connector pull in this repo; UI No data is Builder-owned."
   },
-  "blended_mer": 1.9,
+  "blended_mer": 1.88,
   "shop_revenue": 25000.58,
   "channel_revenue": {
     "shopify": 25000.58,
@@ -91,10 +85,10 @@
       "whatnot": 0.0
     }
   },
-  "total_ad_spend": 19888.92,
+  "total_ad_spend": 20018.48,
   "non_d2c": {
     "bing_amazon": {
-      "spend": null,
+      "spend": 0.0,
       "destination": "amazon"
     },
     "applovin": {
@@ -52444,71 +52438,71 @@
     "orchestrator": "Jarvis",
     "source": "daily_inputs + ads_throttle/settings.json + ads_throttle/changes.json + ads_throttle/tracking_health.json + ads_throttle/rankings.json + shopify_attribution_daily.json",
     "tracking_health": {
-      "as_of": "2026-11-14T08:36:00-05:00",
+      "as_of": "2026-11-16T08:56:43-05:00",
       "channels": {
         "meta": {
           "status": "OK",
-          "last_checkout_event": "2026-11-14 (27 InitiateCheckout so far today)",
-          "last_purchase_event": "2026-11-14 (17 purchases so far today)",
-          "purchases_24h": 259,
-          "purchases_7d_avg": 260.3,
-          "notes": "11/13: 259 purchases, 261 checkouts on $10,385.83 spend, down 0.5% vs 11/6-11/12 avg (260.3) while Shopify down 2.0%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/6-11/13: 277/240/280/208/242/277/298/259; checkouts 259/287/298/188/219/255/214/261; spend $11,766.97/$10,704.37/$11,892.78/$9,211.80/$10,640.90/$11,631.97/$10,036.14/$10,385.83. Prior-day revisions vs yesterday's read: 11/12 spend $9,994.90\u2192$10,036.14 and checkouts 206\u2192214 (purchases stayed 298); 11/11 spend $11,631.89\u2192$11,631.97 and checkouts 251\u2192255; 11/10 checkouts 216\u2192219; 11/9 checkouts 187\u2192188; 11/7 checkouts 285\u2192287; 11/6 checkouts 258\u2192259. Events flowing today (17 purchases / 27 checkouts / $1,035.57 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.3% (hourly; was 98.9% yesterday); InitiateCheckout EMQ 8.4 (was 8.6), CAPI 94.1%. Pixel 562761383897004 last_fired_time field read 11/13 6:59:55 PM ET (may lag, same pattern as prior days); insights confirm live 11/14 activity. No duplicate event-name groups."
+          "last_checkout_event": "2026-11-16 (37 InitiateCheckout so far today)",
+          "last_purchase_event": "2026-11-16 (35 purchases so far today)",
+          "purchases_24h": 272,
+          "purchases_7d_avg": 256.1,
+          "notes": "11/15: 272 purchases, 300 checkouts on $14,194.84 spend, up 6.2% vs 11/8-11/14 avg (256.1) while Shopify down 2.2%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/8-11/16: 280/208/242/277/298/259/229/272/35; checkouts 303/191/221/258/218/266/235/300/37; spend $11,892.78/$9,211.80/$10,640.90/$11,631.97/$10,036.65/$10,427.00/$9,411.07/$14,194.84/$1,525.53. 11/14 complete day: 229 purchases / 235 checkouts / $9,411.07. Prior-day revisions vs the 11/14 read: 11/13 spend $10,385.83\u2192$10,427.00 and checkouts 261\u2192266 (purchases stayed 259); 11/12 spend $10,036.14\u2192$10,036.65 and checkouts 214\u2192218 (purchases stayed 298); 11/8 checkouts 298\u2192303. Events flowing today (35 purchases / 37 checkouts / $1,525.53 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.6% (hourly; was 99.3% on 11/14); InitiateCheckout EMQ 8.3 (was 8.4), CAPI 93.6%. Pixel 562761383897004 last_fired_time field read 11/15 6:59:59 PM ET (may lag, same pattern as prior days); insights confirm live 11/16 activity. No duplicate event-name groups. purchases_7d_avg is the 11/8-11/14 mean (280/208/242/277/298/259/229)."
         },
         "google": {
           "status": "OK",
-          "last_checkout_event": "2026-11-13 (89 Shopping App begin checkout, conversion date; may still grow)",
-          "last_purchase_event": "2026-11-13 (108 Shopping App purchases, conversion date; may still grow)",
-          "purchases_24h": 108,
-          "purchases_7d_avg": 150.6,
-          "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer 5108535701). Shopping App Purchase 11/11 133 (36.8% of 361), 11/12 147 (33.3% of 441); Elevar server-side 11/11 113 (31.3%), 11/12 124 (28.1%). 11/13 108 Shopping App (31.4% of 344) and 93 Elevar (27.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised vs yesterday's read: 11/12 Shopping 134\u2192147 / Elevar stayed 124; 11/11 Shopping 131\u2192133 / Elevar stayed 113; 11/10 Shopping 151\u2192157 / Elevar stayed 126, as expected for filling conversion-date days. All above the 25%/20% WARN floors on two consecutive days that are each at least a day old (11/11 and 11/12). Begin checkout 127/110/105/81/99/101/123/89 (11/6-11/13). 11/14 so far: 2 Shopping App purchases / 0 Elevar / 3.33 begin checkout \u2014 early, not judged. Shopping App Purchase and Purchase (elevar server-side) and Shopping App Begin Checkout all ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/6-11/12 mean of Shopping App (158/148/161/150/157/133/147)."
+          "last_checkout_event": "2026-11-15 (73 Shopping App begin checkout, conversion date; may still grow)",
+          "last_purchase_event": "2026-11-15 (102 Shopping App purchases, conversion date; may still grow)",
+          "purchases_24h": 102,
+          "purchases_7d_avg": 151.4,
+          "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer 5108535701). Shopping App Purchase 11/13 150 (43.6% of 344), 11/14 109 (36.0% of 303); Elevar server-side 11/13 95 (27.6%), 11/14 91 (30.0%). Both pairs are at least a day old and above the 25%/20% WARN floors. 11/15 102 Shopping App (30.2% of 338) and 91 Elevar (26.9%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the floors. Earlier days filled vs the 11/14 read, as expected for conversion-date: 11/13 Shopping 108\u2192150 / Elevar 93\u219295; 11/12 Shopping 147\u2192172 / Elevar stayed 124; 11/11 Shopping 133\u2192160 / Elevar 113\u2192126. Begin checkout 105/82/96/112/139/124/97/73 (11/8-11/15). 11/16 so far: 9 Shopping App purchases / 10 Elevar / 2 begin checkout \u2014 early, not judged. Shopping App Purchase, Purchase (elevar server-side), and Shopping App Begin Checkout all ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/8-11/14 mean of Shopping App (160/151/158/160/172/150/109)."
         },
         "bing": {
           "status": "OK",
           "last_checkout_event": null,
-          "last_purchase_event": "2026-11-13 (Brand Search 4 conv $355.93)",
+          "last_purchase_event": "2026-11-15 (Brand Search 4 conv $341.59)",
           "purchases_24h": 4,
-          "purchases_7d_avg": 6.6,
-          "notes": "11/13: 4 conv / $355.93 revenue on $120.80 spend (Brand Search 4 / $355.93 on $94.43; PMax 0 on $20.53; NB Exact $5.84). 4 vs 11/6-11/12 avg 6.6 is not a >50% drop. Shopify 11/13 bing UTM: 3 orders / $229.53 vs 4 platform conv (not a 2x double count; likely assisted). No double count (GTM tag 250 still paused). Prior days: 11/8 10 (Brand 9 + Shopping 1 / $1,114.63), 11/9 5 (Brand 4 + PMax 1), 11/10 6 (Brand 5 + PMax 1), 11/11 5 (Brand 5 / $486.33), 11/12 5 (Brand 5 / $404.69). Daily conv 11/6-11/13: 8/7/10/5/6/5/5/4. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. ShopifyImport UET 211021853 remains Inactive and is not used. No begin-checkout goal. 11/14 so far: $7.40 spend (Brand $5.51, PMax $1.89) and 0 conv \u2014 early, not judged."
+          "purchases_7d_avg": 5.7,
+          "notes": "11/15: 4 conv / $341.59 revenue on $145.24 spend (Brand Search 4 / $341.59 on $77.15; PMax 0 on $66.12; NB Exact $1.97). 4 vs 11/8-11/14 avg 5.7 is down 30%, not a >50% drop. Shopify 11/15 bing UTM: 4 orders / $240.21 (cpc 3 / $190.69 plus shopping 1 / $49.52) vs 4 platform conv (not a 2x double count; shopping UTM may be residual). 11/14: 4 conv / $304.91 on $129.56 (Brand 3 / $228.68 on $74.51; PMax 1 / $76.23 on $49.26) vs Shopify 11/14 bing UTM 2 orders / $114.46 (likely assisted). No double count (GTM tag 250 still paused). Daily conv 11/8-11/15: 10/5/7/5/5/4/4/4. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. ShopifyImport UET 211021853 remains Inactive and is not used. No begin-checkout goal. 11/16 so far: $9.29 spend (Brand $7.27, PMax $2.02) and 0 conv \u2014 early, not judged."
         },
         "reddit": {
           "status": "WARN",
           "last_checkout_event": "n/a (Reddit has no standard checkout event)",
-          "last_purchase_event": "2026-11-09 ET (4 view purchases, restated this morning; was 2 on yesterday's read); 11/7 also restated 2 view purchases (was 0); 11/6 still 2 view purchases",
+          "last_purchase_event": "2026-11-09 ET (6 view purchases, restated this morning; was 4 on the 11/14 read); 11/8 also restated 4 view purchases (was 0 on the 11/14 read)",
           "purchases_24h": 0,
           "purchases_7d_avg": 0,
-          "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-05T05:00:00Z to 2026-11-15T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10, 11/11, 11/12, 11/13 or 11/14 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 34 page visit clicks / 27 page visit views, 0 click + 4 view purchases / 10 purchase items) \u2014 spend unchanged from yesterday's $48.99; the 4 view purchases were 2 on yesterday's read and restated overnight, not a new alert and not worse. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 click + 2 view purchases (restated from 0 on yesterday's read); 11/6 $142.88, 64 clicks, 5 add-to-cart, 0 click + 2 view purchases; 11/5 $150.12, 86 clicks, 0 purchases. Pixel last proved alive via page visits on 11/9 (pixel t2_u2crtzyo still listed). Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/13: 0 reddit UTM orders. purchases_7d_avg is 11/6-11/12 click-purchase mean (0/0/0/0/0/0/0 = 0.0)."
+          "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-08T05:00:00Z to 2026-11-17T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10-11/16 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 0 click + 6 view purchases / 14 purchase items) \u2014 spend unchanged from the 11/14 read of $48.99; the 6 view purchases were 4 on that read and restated, not a new alert and not worse. 11/8 $143.78, 85 clicks, 0 click + 4 view purchases / 18 purchase items (restated from 0 purchases on the 11/14 read). Pixel t2_u2crtzyo still listed. Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/15 and 11/14: 0 reddit UTM orders. purchases_7d_avg is 11/8-11/14 click-purchase mean (0/0/0/0/0/0/0 = 0.0)."
         },
         "snapchat": {
           "status": "OK",
-          "last_checkout_event": "2026-11-14 ET (16 attributed START_CHECKOUT so far today; 50 on 11/13)",
-          "last_purchase_event": "2026-11-14 ET (6 attributed purchases so far today; 51 on 11/13)",
-          "purchases_24h": 51,
-          "purchases_7d_avg": 53.9,
-          "notes": "7-day swipe / 1-day view on the two ACTIVE WEB_CONVERSION campaigns (Meta Winners 17ba5e2d + Hoodies b4333284). 11/13: 51 attributed purchases (Meta Winners 40 / Hoodies 11) and 50 start-checkout on $724.80 spend, down 5.4% vs 11/6-11/12 avg (53.9) while Shopify down 2.0%; 51 does not exceed 344 Shopify orders, so not a tracking WARN. Daily attributed purchases 11/6-11/13: 58/53/50/44/51/47/74/51; start-checkout 53/70/49/28/49/36/48/50; spend $603.93/$604/$604/$604/$603.99/$617.64/$623.38/$724.80. purchases_7d_avg is the 11/6-11/12 mean (58/53/50/44/51/47/74). 11/12 stayed 74 vs yesterday's live read. Other 2 accounts (DAVE RIBIERO LLC Self Service ea27a52a and Android In-App Promotions cae95517) $0 spend 11/6-11/14. GTM Snap tag 339 still has the __snapFresh guard. Events flowing today (6 purchases / 16 checkouts / $170.66 so far). Shopify 11/13: 0 snapchat UTM orders (view-through-heavy, expected)."
+          "last_checkout_event": "2026-11-16 ET (15 attributed START_CHECKOUT so far today; 44 on 11/15)",
+          "last_purchase_event": "2026-11-16 ET (12 attributed purchases so far today; 56 on 11/15)",
+          "purchases_24h": 56,
+          "purchases_7d_avg": 50.6,
+          "notes": "7-day swipe / 1-day view on the two ACTIVE WEB_CONVERSION campaigns (Meta Winners 17ba5e2d + Hoodies b4333284). 11/15: 56 attributed purchases (Meta Winners 48 / Hoodies 8) and 44 start-checkout on $724.80 spend, up 10.7% vs 11/8-11/14 avg (50.6) while Shopify down 2.2%; 56 does not exceed 338 Shopify orders, so not a tracking WARN. Daily attributed purchases 11/8-11/16: 50/44/51/47/74/51/37/56/12; start-checkout 50/28/49/38/50/51/40/44/15; spend $604/$604/$603.99/$617.64/$623.38/$724.80/$724.80/$724.80/$206.14. purchases_7d_avg is the 11/8-11/14 mean (50/44/51/47/74/51/37). 11/14 complete day: 37 purchases / 40 checkouts / $724.80 (Meta Winners 27 / Hoodies 10). 11/12 stayed 74 and 11/13 stayed 51 vs the 11/14 read. Other 2 accounts (DAVE RIBIERO LLC Self Service ea27a52a and Android In-App Promotions cae95517) $0 spend 11/8-11/16. Coldest Snap Pixel 8cf7328d ACTIVE; GTM Snap tag 339 still has the __snapFresh guard. Raw pixel purchases remain well above attributed (browser+server before dedup; not judged vs Shopify). Events flowing today (12 purchases / 15 checkouts / $206.14 so far). Shopify 11/15: 1 snapchat UTM order / $150.23; 11/14: 0."
         },
         "chatgpt": {
           "status": "OK",
           "last_checkout_event": "not readable (API returns only last 15 min of events)",
-          "last_purchase_event": "2026-10-28: 1 click-through conversion",
+          "last_purchase_event": "none in 11/8-11/16 conversion-time window (0 click-through and 0 view-through)",
           "purchases_24h": 0,
           "purchases_7d_avg": 0,
-          "notes": "Read 11/14: 0 conversions by conversion date 11/6-11/14 (conversion_time basis). All 10 campaigns paused (dark, reboot eligible 11/24). Account adacct_6a1b1659000481908159c4d783e1deec review approved. Not spending, so no tracking judgment. Shopify 11/13 had 0 chatgpt.com UTM orders."
+          "notes": "Read 11/16: 0 conversions by conversion date 11/8-11/16 (conversion_time basis). All 10 campaigns paused (dark, reboot eligible 11/24). Account adacct_6a1b1659000481908159c4d783e1deec review approved. Not spending, so no tracking judgment. Shopify 11/15 had 1 chatgpt.com UTM order / $79.13 with no medium (likely organic catalog, not ads); 11/14 had 0."
         },
         "pinterest": {
           "status": "OK",
-          "last_checkout_event": "tag + Conversions API both present in 14d EQS (CAPI external_event_id coverage 100% on checkout and initiate_checkout)",
-          "last_purchase_event": "last platform checkout 10/30 UTC (1); tag 2613877824208 last fired 11/14 8:31 AM ET (site-wide)",
+          "last_checkout_event": "tag + Conversions API both present in 14d EQS (overall_status FAIR on TAG and CONVERSIONS_API; checkout/initiate_checkout still populated)",
+          "last_purchase_event": "no new ad-attributed purchases (all campaigns paused); tag 2613877824208 last fired 11/16 8:53 AM ET (site-wide)",
           "purchases_24h": 0,
           "purchases_7d_avg": 0,
-          "notes": "All 8 campaigns PAUSED (confirmed 11/14). Dark since 10/30, reboot eligible 11/24. Tag 2613877824208 ACTIVE + CAPI still receiving site-wide checkout/initiate_checkout (14d EQS FAIR on both TAG and CONVERSIONS_API; last_fired_time_ms 1794663074740 = 11/14 8:31:14 AM ET). CAPI external_event_id coverage is 100% on checkout and initiate_checkout. No spend, no new ad-attributed events to judge. Remaining quality gap: click ID (epik) coverage 0; AEM off. Owner: Pinterest Ads bot. Shopify 11/13: 0 pinterest UTM orders."
+          "notes": "All 8 campaigns PAUSED (confirmed 11/16). Dark since 10/30, reboot eligible 11/24. Tag 2613877824208 ACTIVE + CAPI still receiving site-wide checkout/initiate_checkout (14d EQS FAIR on both TAG and CONVERSIONS_API; last_fired_time_ms 1794837183196 = 11/16 8:53:03 AM ET). No spend, no new ad-attributed events to judge. Remaining quality gap from prior reads: click ID (epik) coverage still a known gap; AEM off. Owner: Pinterest Ads bot. Shopify 11/15 and 11/14: 0 pinterest UTM orders."
         },
         "tiktok": {
           "status": "OK",
-          "last_checkout_event": "2026-11-13 (74 initiate_checkout; checkout metric still reads 0 on all days)",
-          "last_purchase_event": "2026-11-13 (70 real-time conversions; complete_payment 27, may still grow)",
-          "purchases_24h": 70,
-          "purchases_7d_avg": 104.4,
-          "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/6-11/13: 122/72/105/89/119/118/106/70 on $1.6-3.0k/day (11/13 $1,554.45; 11/12 $1,579.25; 11/11 $2,899.96; 11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03). 11/13 down 32.9% vs 11/6-11/12 avg (104.4) while Shopify down 2.0%; not a >50% drop. 11/12 complete_payment revised from yesterday's 40 to 65 (still-filling); 11/11 complete_payment 97\u2192104; 11/10 89\u219294; 11/9 103\u2192109; 11/8 114\u2192118 (real-time stayed the same on those days). 11/14 so far: 13 real-time / 1 complete_payment / 6 initiate_checkout / $424.26. The generic checkout metric still reads 0 on all days, but INITIATE_ORDER/initiate_checkout is firing (224/192/224/181/183/208/107/74 on 11/6-11/13). TikTok 10/29 dip item already closed 11/4."
+          "last_checkout_event": "2026-11-16 (14 initiate_checkout so far today; 109 on 11/15; checkout metric still reads 0 on all days)",
+          "last_purchase_event": "2026-11-16 (7 complete_payment so far today; 54 on 11/15, may still grow)",
+          "purchases_24h": 54,
+          "purchases_7d_avg": 86.1,
+          "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (numeric 7440194986429120530, Elevar Pixel, activity_status ACTIVE). Integrated BASIC advertiser-day report: conversion equals complete_payment on every day in this window (the older higher 'real-time conversions' series was not available on this report). complete_payment 11/8-11/16: 120/116/96/109/69/44/49/54/7 on $2.1-2.9k then ~$1.4-1.6k/day (11/15 $1,399.93; 11/14 $1,591.60; 11/13 $1,554.45; 11/12 $1,579.25; 11/11 $2,899.96; 11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03). 11/15 down 37.3% vs 11/8-11/14 avg (86.1) while Shopify down 2.2%; not a >50% drop. 11/13 complete_payment 44 and 11/12 69 may still differ from prior real-time reads (70 and 106 on 11/14); events are still firing so not a tracking WARN. 11/16 so far: 7 complete_payment / 14 initiate_checkout / $420.45. The generic checkout metric still reads 0 on all days, but INITIATE_ORDER/initiate_checkout is firing (231/187/183/224/112/107/113/109/14 on 11/8-11/16). TikTok 10/29 dip item already closed 11/4. Shopify 11/15: 0 tiktok UTM; 11/14: 3 / $268.03."
         },
         "taboola": {
           "status": "WARN",
@@ -52516,20 +52510,20 @@
           "last_purchase_event": "none since launch",
           "purchases_24h": 0,
           "purchases_7d_avg": 0,
-          "notes": "WARN carried (first flagged 11/5): $506.68 spent 11/3-11/4 (11/3 $150.27, 11/4 $356.41) with 0 platform purchases, 0 taboola-UTM Shopify orders. Latest CFO Taboola sync as_of 11/12 (computed 11/13 9:33 AM ET, from davidstarkk.github.io/coldest-cfo-live/mer_for_manus.json) shows $0 on 11/5-11/10 and confirms those two spend days with 0 conversions; no 11/11, 11/12 or 11/13 row yet (unpulled, not a measured $0). Shopify 11/13 UTM: 0 taboola orders. Dark since 11/4, reboot eligible 11/29 with postmortem c97c9211. Not worse, no new spend, so not re-alerted; purchase tracking must be verified before any relaunch. Elevar 213 not checked (no read-only Elevar access here)."
+          "notes": "WARN carried (first flagged 11/5): $506.68 spent 11/3-11/4 (11/3 $150.27, 11/4 $356.41) with 0 platform purchases, 0 taboola-UTM Shopify orders. Latest published taboola_ads_daily.json is still as_of 11/10 (updated 11/11 8:57 AM ET) and confirms $0 on 11/5-11/10 with those two spend days at 0 conversions; 11/11-11/15 have no pulled row yet (unpulled, not a measured $0). mer_for_manus.json likewise has taboola_ads as unverified/missing on recent days. Shopify 11/15 and 11/14 UTM: 0 taboola orders. Dark since 11/4, reboot eligible 11/29 with postmortem c97c9211. Not worse, no new spend evidence, so not re-alerted; purchase tracking must be verified before any relaunch. Elevar 213 not checked (no read-only Elevar access here)."
         },
         "x": {
           "status": "OK",
-          "last_checkout_event": "Begin Checkout tag 14yy8z TRACKING, last_tracked 2026-11-14 8:27 AM ET (2026-11-14T13:27:50Z)",
-          "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-14 8:20 AM ET (2026-11-14T13:20:33Z); 1 attributed purchase 11/13",
-          "purchases_24h": 1,
-          "purchases_7d_avg": 3,
-          "notes": "Begin Checkout 14yy8z (website_tag rifyu) is TRACKING this run via list_web_event_tags (last_tracked 2026-11-14T13:27:50Z = 11/14 8:27 AM ET); no DORMANT flicker on this morning's read. Purchase 14yxvf TRACKING (last fire 11/14 8:20 AM ET); typed ATC 14zy3w TRACKING (last fire 11/14 8:32 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/13 $69.71 spend (all pkcye; pkcwu and pkcyg $0 after earlier pauses), 1 purchase (pkcye 1 view-through $76.23), 9 add-to-cart, 210 custom checkout-tag events (pkcye 208 + pkcwu 2). 11/12 restated $69.61 spend and 3 purchases (pkcwu 1 click-through $61.63 on $0 spend after pause, pkcye 2 view-through $195.44), matching yesterday's complete-day read. Daily purchases 11/6-11/13: 4/6/4/2/1/1/3/1; purchases_7d_avg is the 11/6-11/12 mean (3.0). 1 vs 3.0 is a >50% numeric dip, but not treated as a tracking WARN: tags are live this morning, 11/13 still recorded a purchase plus checkout/ATC events, and days of 1 purchase already sit inside the 7d window (11/10 and 11/11). Shopify 11/13 x UTM stayed 0 (view-through-heavy). checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night; first week ended ~11/11. C02 RUNNING/servable; C01 Drive-Thru still PAUSED 11/11 11:36 AM ET; C03 Hoodies still PAUSED. 11/14 so far: $17.74 spend (all pkcye), 0 purchases, 10 ATC, 37 custom checkout events \u2014 purchase and checkout tags firing today."
+          "last_checkout_event": "Begin Checkout tag 14yy8z TRACKING, last_tracked 2026-11-16 8:47 AM ET (2026-11-16T13:47:39Z)",
+          "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-16 8:34 AM ET (2026-11-16T13:34:01Z); 0 attributed purchases 11/15, 1 on 11/14",
+          "purchases_24h": 0,
+          "purchases_7d_avg": 1.9,
+          "notes": "Begin Checkout 14yy8z (website_tag rifyu) is TRACKING this run via list_web_event_tags (last_tracked 2026-11-16T13:47:39Z = 11/16 8:47 AM ET); no DORMANT flicker on this morning's read. Purchase 14yxvf TRACKING (last fire 11/16 8:34 AM ET); typed ATC 14zy3w TRACKING (last fire 11/16 8:52 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/15 $68.84 spend (all pkcye; pkcwu and pkcyg $0 after earlier pauses), 0 attributed purchases, 27 add-to-cart, 176 custom checkout-tag events. 0 vs 11/8-11/14 avg 1.9 is a numeric >50% dip and checkout-tag events fired with 0 campaign purchases, but not treated as a tracking WARN: the Purchase and Begin Checkout tags are live this morning (Purchase last fire 8:34 AM ET), 11/15 still recorded checkout/ATC events, Shopify 11/15 had 0 x UTM orders, and 1-purchase days already sit inside the 7d window (11/10/11/13/11/14). 11/14 $69.51 spend, 1 click-through purchase ($44.98) matching the Shopify 11/14 x paid_social order, 16 ATC, 124 custom checkout events (pkcye 123 + pkcwu 1). Daily attributed purchases 11/8-11/16: 4/2/1/1/3/1/1/0/0; purchases_7d_avg is the 11/8-11/14 mean (1.9). checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night; first week ended ~11/11. C02 RUNNING/servable; C01 Drive-Thru still PAUSED 11/11 11:36 AM ET; C03 Hoodies still PAUSED. 11/16 so far: $17.41 spend (all pkcye), 0 purchases, 1 ATC, 28 custom checkout events \u2014 purchase and checkout tags firing today."
         }
       },
       "file_status": "ok",
       "source": "ads_throttle/tracking_health.json",
-      "shopify_orders_yesterday": 344
+      "shopify_orders_yesterday": 338
     },
     "rankings": {
       "date": "2026-11-09",
@@ -52927,7 +52921,7 @@
           "min_daily_budget": null,
           "roas_source": "platform_reported",
           "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution).",
-          "daily_budget": 70
+          "daily_budget": 56
         }
       },
       "mode_legend": {
@@ -52940,11 +52934,11 @@
         "note": "10/28 3:48 PM ET: no double-fire. Elevar server-side purchase covers ALL Shopify channels (Tapcart/Shop/Draft), so compare Snap purchases to all-channel Shopify orders, never Online Store only. Browser tag 339 + server share order-ID dedup; tag 339 stays on. Hold until Elevar's 10/29-data check confirms dedup, then back to auto."
       }
     },
-    "d2c_ad_spend": 13155.75,
-    "total_ad_spend": 19888.92,
+    "d2c_ad_spend": 13285.31,
+    "total_ad_spend": 20018.48,
     "shopify_d2c_revenue": 25000.58,
-    "blended_mer": 1.9,
-    "blended_mer_vs_threshold": -0.9,
+    "blended_mer": 1.88,
+    "blended_mer_vs_threshold": -0.92,
     "channels": {
       "meta": {
         "daily_budget": null,
@@ -53046,11 +53040,11 @@
         "tracking_status": "OK",
         "tracking": {
           "status": "OK",
-          "last_checkout_event": "2026-11-14 (27 InitiateCheckout so far today)",
-          "last_purchase_event": "2026-11-14 (17 purchases so far today)",
-          "purchases_24h": 259,
-          "purchases_7d_avg": 260.3,
-          "notes": "11/13: 259 purchases, 261 checkouts on $10,385.83 spend, down 0.5% vs 11/6-11/12 avg (260.3) while Shopify down 2.0%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/6-11/13: 277/240/280/208/242/277/298/259; checkouts 259/287/298/188/219/255/214/261; spend $11,766.97/$10,704.37/$11,892.78/$9,211.80/$10,640.90/$11,631.97/$10,036.14/$10,385.83. Prior-day revisions vs yesterday's read: 11/12 spend $9,994.90\u2192$10,036.14 and checkouts 206\u2192214 (purchases stayed 298); 11/11 spend $11,631.89\u2192$11,631.97 and checkouts 251\u2192255; 11/10 checkouts 216\u2192219; 11/9 checkouts 187\u2192188; 11/7 checkouts 285\u2192287; 11/6 checkouts 258\u2192259. Events flowing today (17 purchases / 27 checkouts / $1,035.57 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.3% (hourly; was 98.9% yesterday); InitiateCheckout EMQ 8.4 (was 8.6), CAPI 94.1%. Pixel 562761383897004 last_fired_time field read 11/13 6:59:55 PM ET (may lag, same pattern as prior days); insights confirm live 11/14 activity. No duplicate event-name groups."
+          "last_checkout_event": "2026-11-16 (37 InitiateCheckout so far today)",
+          "last_purchase_event": "2026-11-16 (35 purchases so far today)",
+          "purchases_24h": 272,
+          "purchases_7d_avg": 256.1,
+          "notes": "11/15: 272 purchases, 300 checkouts on $14,194.84 spend, up 6.2% vs 11/8-11/14 avg (256.1) while Shopify down 2.2%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/8-11/16: 280/208/242/277/298/259/229/272/35; checkouts 303/191/221/258/218/266/235/300/37; spend $11,892.78/$9,211.80/$10,640.90/$11,631.97/$10,036.65/$10,427.00/$9,411.07/$14,194.84/$1,525.53. 11/14 complete day: 229 purchases / 235 checkouts / $9,411.07. Prior-day revisions vs the 11/14 read: 11/13 spend $10,385.83\u2192$10,427.00 and checkouts 261\u2192266 (purchases stayed 259); 11/12 spend $10,036.14\u2192$10,036.65 and checkouts 214\u2192218 (purchases stayed 298); 11/8 checkouts 298\u2192303. Events flowing today (35 purchases / 37 checkouts / $1,525.53 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.6% (hourly; was 99.3% on 11/14); InitiateCheckout EMQ 8.3 (was 8.4), CAPI 93.6%. Pixel 562761383897004 last_fired_time field read 11/15 6:59:59 PM ET (may lag, same pattern as prior days); insights confirm live 11/16 activity. No duplicate event-name groups. purchases_7d_avg is the 11/8-11/14 mean (280/208/242/277/298/259/229)."
         },
         "rule_status": "Frozen - view only",
         "last_change_date": null,
@@ -53169,11 +53163,11 @@
         "tracking_status": "OK",
         "tracking": {
           "status": "OK",
-          "last_checkout_event": "2026-11-13 (89 Shopping App begin checkout, conversion date; may still grow)",
-          "last_purchase_event": "2026-11-13 (108 Shopping App purchases, conversion date; may still grow)",
-          "purchases_24h": 108,
-          "purchases_7d_avg": 150.6,
-          "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer 5108535701). Shopping App Purchase 11/11 133 (36.8% of 361), 11/12 147 (33.3% of 441); Elevar server-side 11/11 113 (31.3%), 11/12 124 (28.1%). 11/13 108 Shopping App (31.4% of 344) and 93 Elevar (27.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised vs yesterday's read: 11/12 Shopping 134\u2192147 / Elevar stayed 124; 11/11 Shopping 131\u2192133 / Elevar stayed 113; 11/10 Shopping 151\u2192157 / Elevar stayed 126, as expected for filling conversion-date days. All above the 25%/20% WARN floors on two consecutive days that are each at least a day old (11/11 and 11/12). Begin checkout 127/110/105/81/99/101/123/89 (11/6-11/13). 11/14 so far: 2 Shopping App purchases / 0 Elevar / 3.33 begin checkout \u2014 early, not judged. Shopping App Purchase and Purchase (elevar server-side) and Shopping App Begin Checkout all ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/6-11/12 mean of Shopping App (158/148/161/150/157/133/147)."
+          "last_checkout_event": "2026-11-15 (73 Shopping App begin checkout, conversion date; may still grow)",
+          "last_purchase_event": "2026-11-15 (102 Shopping App purchases, conversion date; may still grow)",
+          "purchases_24h": 102,
+          "purchases_7d_avg": 151.4,
+          "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer 5108535701). Shopping App Purchase 11/13 150 (43.6% of 344), 11/14 109 (36.0% of 303); Elevar server-side 11/13 95 (27.6%), 11/14 91 (30.0%). Both pairs are at least a day old and above the 25%/20% WARN floors. 11/15 102 Shopping App (30.2% of 338) and 91 Elevar (26.9%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the floors. Earlier days filled vs the 11/14 read, as expected for conversion-date: 11/13 Shopping 108\u2192150 / Elevar 93\u219295; 11/12 Shopping 147\u2192172 / Elevar stayed 124; 11/11 Shopping 133\u2192160 / Elevar 113\u2192126. Begin checkout 105/82/96/112/139/124/97/73 (11/8-11/15). 11/16 so far: 9 Shopping App purchases / 10 Elevar / 2 begin checkout \u2014 early, not judged. Shopping App Purchase, Purchase (elevar server-side), and Shopping App Begin Checkout all ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/8-11/14 mean of Shopping App (160/151/158/160/172/150/109)."
         },
         "rule_status": "Not enough data",
         "last_change_date": "2026-11-10",
@@ -53199,31 +53193,31 @@
         "daily_budget_status": "unverified",
         "min_daily_budget": null,
         "max_daily_budget": null,
-        "spend_7d": 1507.37,
-        "spend_7d_status": "unverified",
-        "spend_source": "bing_ads_daily.json has no row (missing, not $0)",
-        "spend_d2c_7d": null,
+        "spend_7d": 1757.73,
+        "spend_7d_status": "verified",
+        "spend_source": "bing_ads_daily.json spend_d2c",
+        "spend_d2c_7d": 1757.73,
         "spend_amazon_7d": 0.0,
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
         "shopify_revenue_status": "unverified",
-        "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
+        "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
         "shopify_roas_7d": null,
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
         "coverage_pct_raw": null,
-        "platform_conversions_7d": null,
-        "platform_revenue_7d": null,
-        "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no bing_ads_daily.json row for 2026-11-14",
-        "platform_roas_7d": null,
-        "platform_roas_status": "unverified",
+        "platform_conversions_7d": 35,
+        "platform_revenue_7d": 3058.4,
+        "platform_revenue_status": "verified",
+        "platform_revenue_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
+        "platform_roas_7d": 1.74,
+        "platform_roas_status": "verified",
         "roas_basis": "platform",
         "roas_source": "platform_reported",
         "rule_roas_source": "platform_reported",
         "roas_label": "platform-reported",
-        "roas_7d": null,
-        "roas_7d_status": "unverified",
+        "roas_7d": 1.74,
+        "roas_7d_status": "verified",
         "trend_3d": [
           {
             "date": "2026-11-12",
@@ -53247,40 +53241,40 @@
           },
           {
             "date": "2026-11-13",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "spend": 120.8,
+            "spend_status": "verified",
+            "spend_d2c": 120.8,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no bing_ads_daily.json row for 2026-11-13",
-            "roas": null,
-            "roas_status": "unverified",
+            "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 4,
+            "platform_revenue": 355.93,
+            "platform_roas": 2.95,
+            "platform_status": "verified",
+            "platform_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
+            "roas": 2.95,
+            "roas_status": "verified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
           },
           {
             "date": "2026-11-14",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "spend": 129.56,
+            "spend_status": "verified",
+            "spend_d2c": 129.56,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no bing_ads_daily.json row for 2026-11-14",
-            "roas": null,
-            "roas_status": "unverified",
+            "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 4,
+            "platform_revenue": 304.91,
+            "platform_roas": 2.35,
+            "platform_status": "verified",
+            "platform_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
+            "roas": 2.35,
+            "roas_status": "verified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
             "roas_label": "platform-reported"
@@ -53288,19 +53282,19 @@
         ],
         "destination": "shopify",
         "destination_split": {
-          "shopify": 0.0,
+          "shopify": 1757.73,
           "amazon": 0.0
         },
         "tracking_status": "OK",
         "tracking": {
           "status": "OK",
           "last_checkout_event": null,
-          "last_purchase_event": "2026-11-13 (Brand Search 4 conv $355.93)",
+          "last_purchase_event": "2026-11-15 (Brand Search 4 conv $341.59)",
           "purchases_24h": 4,
-          "purchases_7d_avg": 6.6,
-          "notes": "11/13: 4 conv / $355.93 revenue on $120.80 spend (Brand Search 4 / $355.93 on $94.43; PMax 0 on $20.53; NB Exact $5.84). 4 vs 11/6-11/12 avg 6.6 is not a >50% drop. Shopify 11/13 bing UTM: 3 orders / $229.53 vs 4 platform conv (not a 2x double count; likely assisted). No double count (GTM tag 250 still paused). Prior days: 11/8 10 (Brand 9 + Shopping 1 / $1,114.63), 11/9 5 (Brand 4 + PMax 1), 11/10 6 (Brand 5 + PMax 1), 11/11 5 (Brand 5 / $486.33), 11/12 5 (Brand 5 / $404.69). Daily conv 11/6-11/13: 8/7/10/5/6/5/5/4. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. ShopifyImport UET 211021853 remains Inactive and is not used. No begin-checkout goal. 11/14 so far: $7.40 spend (Brand $5.51, PMax $1.89) and 0 conv \u2014 early, not judged."
+          "purchases_7d_avg": 5.7,
+          "notes": "11/15: 4 conv / $341.59 revenue on $145.24 spend (Brand Search 4 / $341.59 on $77.15; PMax 0 on $66.12; NB Exact $1.97). 4 vs 11/8-11/14 avg 5.7 is down 30%, not a >50% drop. Shopify 11/15 bing UTM: 4 orders / $240.21 (cpc 3 / $190.69 plus shopping 1 / $49.52) vs 4 platform conv (not a 2x double count; shopping UTM may be residual). 11/14: 4 conv / $304.91 on $129.56 (Brand 3 / $228.68 on $74.51; PMax 1 / $76.23 on $49.26) vs Shopify 11/14 bing UTM 2 orders / $114.46 (likely assisted). No double count (GTM tag 250 still paused). Daily conv 11/8-11/15: 10/5/7/5/5/4/4/4. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. ShopifyImport UET 211021853 remains Inactive and is not used. No begin-checkout goal. 11/16 so far: $9.29 spend (Brand $7.27, PMax $2.02) and 0 conv \u2014 early, not judged."
         },
-        "rule_status": "Not enough data",
+        "rule_status": "Cut -20% + new strategy",
         "last_change_date": "2026-10-27",
         "last_change_action": "cut_20pct_and_change_strategy",
         "next_eligible_date": null,
@@ -53309,7 +53303,7 @@
         "auto_rules": true,
         "mode": "auto",
         "recommended_daily_budget": null,
-        "recommended_action": null,
+        "recommended_action": "Cut -20% + new strategy",
         "launch_date": null,
         "soft_read_date": null,
         "first_binding_date": null,
@@ -53418,10 +53412,10 @@
         "tracking": {
           "status": "WARN",
           "last_checkout_event": "n/a (Reddit has no standard checkout event)",
-          "last_purchase_event": "2026-11-09 ET (4 view purchases, restated this morning; was 2 on yesterday's read); 11/7 also restated 2 view purchases (was 0); 11/6 still 2 view purchases",
+          "last_purchase_event": "2026-11-09 ET (6 view purchases, restated this morning; was 4 on the 11/14 read); 11/8 also restated 4 view purchases (was 0 on the 11/14 read)",
           "purchases_24h": 0,
           "purchases_7d_avg": 0,
-          "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-05T05:00:00Z to 2026-11-15T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10, 11/11, 11/12, 11/13 or 11/14 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 34 page visit clicks / 27 page visit views, 0 click + 4 view purchases / 10 purchase items) \u2014 spend unchanged from yesterday's $48.99; the 4 view purchases were 2 on yesterday's read and restated overnight, not a new alert and not worse. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 click + 2 view purchases (restated from 0 on yesterday's read); 11/6 $142.88, 64 clicks, 5 add-to-cart, 0 click + 2 view purchases; 11/5 $150.12, 86 clicks, 0 purchases. Pixel last proved alive via page visits on 11/9 (pixel t2_u2crtzyo still listed). Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/13: 0 reddit UTM orders. purchases_7d_avg is 11/6-11/12 click-purchase mean (0/0/0/0/0/0/0 = 0.0)."
+          "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-08T05:00:00Z to 2026-11-17T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10-11/16 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 0 click + 6 view purchases / 14 purchase items) \u2014 spend unchanged from the 11/14 read of $48.99; the 6 view purchases were 4 on that read and restated, not a new alert and not worse. 11/8 $143.78, 85 clicks, 0 click + 4 view purchases / 18 purchase items (restated from 0 purchases on the 11/14 read). Pixel t2_u2crtzyo still listed. Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/15 and 11/14: 0 reddit UTM orders. purchases_7d_avg is 11/8-11/14 click-purchase mean (0/0/0/0/0/0/0 = 0.0)."
         },
         "rule_status": "Hold",
         "last_change_date": null,
@@ -53540,11 +53534,11 @@
         "tracking_status": "OK",
         "tracking": {
           "status": "OK",
-          "last_checkout_event": "2026-11-14 ET (16 attributed START_CHECKOUT so far today; 50 on 11/13)",
-          "last_purchase_event": "2026-11-14 ET (6 attributed purchases so far today; 51 on 11/13)",
-          "purchases_24h": 51,
-          "purchases_7d_avg": 53.9,
-          "notes": "7-day swipe / 1-day view on the two ACTIVE WEB_CONVERSION campaigns (Meta Winners 17ba5e2d + Hoodies b4333284). 11/13: 51 attributed purchases (Meta Winners 40 / Hoodies 11) and 50 start-checkout on $724.80 spend, down 5.4% vs 11/6-11/12 avg (53.9) while Shopify down 2.0%; 51 does not exceed 344 Shopify orders, so not a tracking WARN. Daily attributed purchases 11/6-11/13: 58/53/50/44/51/47/74/51; start-checkout 53/70/49/28/49/36/48/50; spend $603.93/$604/$604/$604/$603.99/$617.64/$623.38/$724.80. purchases_7d_avg is the 11/6-11/12 mean (58/53/50/44/51/47/74). 11/12 stayed 74 vs yesterday's live read. Other 2 accounts (DAVE RIBIERO LLC Self Service ea27a52a and Android In-App Promotions cae95517) $0 spend 11/6-11/14. GTM Snap tag 339 still has the __snapFresh guard. Events flowing today (6 purchases / 16 checkouts / $170.66 so far). Shopify 11/13: 0 snapchat UTM orders (view-through-heavy, expected)."
+          "last_checkout_event": "2026-11-16 ET (15 attributed START_CHECKOUT so far today; 44 on 11/15)",
+          "last_purchase_event": "2026-11-16 ET (12 attributed purchases so far today; 56 on 11/15)",
+          "purchases_24h": 56,
+          "purchases_7d_avg": 50.6,
+          "notes": "7-day swipe / 1-day view on the two ACTIVE WEB_CONVERSION campaigns (Meta Winners 17ba5e2d + Hoodies b4333284). 11/15: 56 attributed purchases (Meta Winners 48 / Hoodies 8) and 44 start-checkout on $724.80 spend, up 10.7% vs 11/8-11/14 avg (50.6) while Shopify down 2.2%; 56 does not exceed 338 Shopify orders, so not a tracking WARN. Daily attributed purchases 11/8-11/16: 50/44/51/47/74/51/37/56/12; start-checkout 50/28/49/38/50/51/40/44/15; spend $604/$604/$603.99/$617.64/$623.38/$724.80/$724.80/$724.80/$206.14. purchases_7d_avg is the 11/8-11/14 mean (50/44/51/47/74/51/37). 11/14 complete day: 37 purchases / 40 checkouts / $724.80 (Meta Winners 27 / Hoodies 10). 11/12 stayed 74 and 11/13 stayed 51 vs the 11/14 read. Other 2 accounts (DAVE RIBIERO LLC Self Service ea27a52a and Android In-App Promotions cae95517) $0 spend 11/8-11/16. Coldest Snap Pixel 8cf7328d ACTIVE; GTM Snap tag 339 still has the __snapFresh guard. Raw pixel purchases remain well above attributed (browser+server before dedup; not judged vs Shopify). Events flowing today (12 purchases / 15 checkouts / $206.14 so far). Shopify 11/15: 1 snapchat UTM order / $150.23; 11/14: 0."
         },
         "rule_status": "Not enough data",
         "last_change_date": "2026-11-11",
@@ -53664,10 +53658,10 @@
         "tracking": {
           "status": "OK",
           "last_checkout_event": "not readable (API returns only last 15 min of events)",
-          "last_purchase_event": "2026-10-28: 1 click-through conversion",
+          "last_purchase_event": "none in 11/8-11/16 conversion-time window (0 click-through and 0 view-through)",
           "purchases_24h": 0,
           "purchases_7d_avg": 0,
-          "notes": "Read 11/14: 0 conversions by conversion date 11/6-11/14 (conversion_time basis). All 10 campaigns paused (dark, reboot eligible 11/24). Account adacct_6a1b1659000481908159c4d783e1deec review approved. Not spending, so no tracking judgment. Shopify 11/13 had 0 chatgpt.com UTM orders."
+          "notes": "Read 11/16: 0 conversions by conversion date 11/8-11/16 (conversion_time basis). All 10 campaigns paused (dark, reboot eligible 11/24). Account adacct_6a1b1659000481908159c4d783e1deec review approved. Not spending, so no tracking judgment. Shopify 11/15 had 1 chatgpt.com UTM order / $79.13 with no medium (likely organic catalog, not ads); 11/14 had 0."
         },
         "rule_status": "Hold",
         "last_change_date": "2026-10-30",
@@ -53786,11 +53780,11 @@
         "tracking_status": "OK",
         "tracking": {
           "status": "OK",
-          "last_checkout_event": "2026-11-13 (74 initiate_checkout; checkout metric still reads 0 on all days)",
-          "last_purchase_event": "2026-11-13 (70 real-time conversions; complete_payment 27, may still grow)",
-          "purchases_24h": 70,
-          "purchases_7d_avg": 104.4,
-          "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/6-11/13: 122/72/105/89/119/118/106/70 on $1.6-3.0k/day (11/13 $1,554.45; 11/12 $1,579.25; 11/11 $2,899.96; 11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03). 11/13 down 32.9% vs 11/6-11/12 avg (104.4) while Shopify down 2.0%; not a >50% drop. 11/12 complete_payment revised from yesterday's 40 to 65 (still-filling); 11/11 complete_payment 97\u2192104; 11/10 89\u219294; 11/9 103\u2192109; 11/8 114\u2192118 (real-time stayed the same on those days). 11/14 so far: 13 real-time / 1 complete_payment / 6 initiate_checkout / $424.26. The generic checkout metric still reads 0 on all days, but INITIATE_ORDER/initiate_checkout is firing (224/192/224/181/183/208/107/74 on 11/6-11/13). TikTok 10/29 dip item already closed 11/4."
+          "last_checkout_event": "2026-11-16 (14 initiate_checkout so far today; 109 on 11/15; checkout metric still reads 0 on all days)",
+          "last_purchase_event": "2026-11-16 (7 complete_payment so far today; 54 on 11/15, may still grow)",
+          "purchases_24h": 54,
+          "purchases_7d_avg": 86.1,
+          "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (numeric 7440194986429120530, Elevar Pixel, activity_status ACTIVE). Integrated BASIC advertiser-day report: conversion equals complete_payment on every day in this window (the older higher 'real-time conversions' series was not available on this report). complete_payment 11/8-11/16: 120/116/96/109/69/44/49/54/7 on $2.1-2.9k then ~$1.4-1.6k/day (11/15 $1,399.93; 11/14 $1,591.60; 11/13 $1,554.45; 11/12 $1,579.25; 11/11 $2,899.96; 11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03). 11/15 down 37.3% vs 11/8-11/14 avg (86.1) while Shopify down 2.2%; not a >50% drop. 11/13 complete_payment 44 and 11/12 69 may still differ from prior real-time reads (70 and 106 on 11/14); events are still firing so not a tracking WARN. 11/16 so far: 7 complete_payment / 14 initiate_checkout / $420.45. The generic checkout metric still reads 0 on all days, but INITIATE_ORDER/initiate_checkout is firing (231/187/183/224/112/107/113/109/14 on 11/8-11/16). TikTok 10/29 dip item already closed 11/4. Shopify 11/15: 0 tiktok UTM; 11/14: 3 / $268.03."
         },
         "rule_status": "View only",
         "last_change_date": null,
@@ -53909,11 +53903,11 @@
         "tracking_status": "OK",
         "tracking": {
           "status": "OK",
-          "last_checkout_event": "tag + Conversions API both present in 14d EQS (CAPI external_event_id coverage 100% on checkout and initiate_checkout)",
-          "last_purchase_event": "last platform checkout 10/30 UTC (1); tag 2613877824208 last fired 11/14 8:31 AM ET (site-wide)",
+          "last_checkout_event": "tag + Conversions API both present in 14d EQS (overall_status FAIR on TAG and CONVERSIONS_API; checkout/initiate_checkout still populated)",
+          "last_purchase_event": "no new ad-attributed purchases (all campaigns paused); tag 2613877824208 last fired 11/16 8:53 AM ET (site-wide)",
           "purchases_24h": 0,
           "purchases_7d_avg": 0,
-          "notes": "All 8 campaigns PAUSED (confirmed 11/14). Dark since 10/30, reboot eligible 11/24. Tag 2613877824208 ACTIVE + CAPI still receiving site-wide checkout/initiate_checkout (14d EQS FAIR on both TAG and CONVERSIONS_API; last_fired_time_ms 1794663074740 = 11/14 8:31:14 AM ET). CAPI external_event_id coverage is 100% on checkout and initiate_checkout. No spend, no new ad-attributed events to judge. Remaining quality gap: click ID (epik) coverage 0; AEM off. Owner: Pinterest Ads bot. Shopify 11/13: 0 pinterest UTM orders."
+          "notes": "All 8 campaigns PAUSED (confirmed 11/16). Dark since 10/30, reboot eligible 11/24. Tag 2613877824208 ACTIVE + CAPI still receiving site-wide checkout/initiate_checkout (14d EQS FAIR on both TAG and CONVERSIONS_API; last_fired_time_ms 1794837183196 = 11/16 8:53:03 AM ET). No spend, no new ad-attributed events to judge. Remaining quality gap from prior reads: click ID (epik) coverage still a known gap; AEM off. Owner: Pinterest Ads bot. Shopify 11/15 and 11/14: 0 pinterest UTM orders."
         },
         "rule_status": "Hold",
         "last_change_date": "2026-10-29",
@@ -54156,7 +54150,7 @@
           "last_purchase_event": "none since launch",
           "purchases_24h": 0,
           "purchases_7d_avg": 0,
-          "notes": "WARN carried (first flagged 11/5): $506.68 spent 11/3-11/4 (11/3 $150.27, 11/4 $356.41) with 0 platform purchases, 0 taboola-UTM Shopify orders. Latest CFO Taboola sync as_of 11/12 (computed 11/13 9:33 AM ET, from davidstarkk.github.io/coldest-cfo-live/mer_for_manus.json) shows $0 on 11/5-11/10 and confirms those two spend days with 0 conversions; no 11/11, 11/12 or 11/13 row yet (unpulled, not a measured $0). Shopify 11/13 UTM: 0 taboola orders. Dark since 11/4, reboot eligible 11/29 with postmortem c97c9211. Not worse, no new spend, so not re-alerted; purchase tracking must be verified before any relaunch. Elevar 213 not checked (no read-only Elevar access here)."
+          "notes": "WARN carried (first flagged 11/5): $506.68 spent 11/3-11/4 (11/3 $150.27, 11/4 $356.41) with 0 platform purchases, 0 taboola-UTM Shopify orders. Latest published taboola_ads_daily.json is still as_of 11/10 (updated 11/11 8:57 AM ET) and confirms $0 on 11/5-11/10 with those two spend days at 0 conversions; 11/11-11/15 have no pulled row yet (unpulled, not a measured $0). mer_for_manus.json likewise has taboola_ads as unverified/missing on recent days. Shopify 11/15 and 11/14 UTM: 0 taboola orders. Dark since 11/4, reboot eligible 11/29 with postmortem c97c9211. Not worse, no new spend evidence, so not re-alerted; purchase tracking must be verified before any relaunch. Elevar 213 not checked (no read-only Elevar access here)."
         },
         "rule_status": "Hold",
         "last_change_date": "2026-11-04",
@@ -54411,7 +54405,7 @@
         "known_gap": null
       },
       "x": {
-        "daily_budget": 70.0,
+        "daily_budget": 56.0,
         "daily_budget_status": "settings_reported",
         "min_daily_budget": null,
         "max_daily_budget": null,
@@ -54510,22 +54504,22 @@
         "tracking_status": "OK",
         "tracking": {
           "status": "OK",
-          "last_checkout_event": "Begin Checkout tag 14yy8z TRACKING, last_tracked 2026-11-14 8:27 AM ET (2026-11-14T13:27:50Z)",
-          "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-14 8:20 AM ET (2026-11-14T13:20:33Z); 1 attributed purchase 11/13",
-          "purchases_24h": 1,
-          "purchases_7d_avg": 3,
-          "notes": "Begin Checkout 14yy8z (website_tag rifyu) is TRACKING this run via list_web_event_tags (last_tracked 2026-11-14T13:27:50Z = 11/14 8:27 AM ET); no DORMANT flicker on this morning's read. Purchase 14yxvf TRACKING (last fire 11/14 8:20 AM ET); typed ATC 14zy3w TRACKING (last fire 11/14 8:32 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/13 $69.71 spend (all pkcye; pkcwu and pkcyg $0 after earlier pauses), 1 purchase (pkcye 1 view-through $76.23), 9 add-to-cart, 210 custom checkout-tag events (pkcye 208 + pkcwu 2). 11/12 restated $69.61 spend and 3 purchases (pkcwu 1 click-through $61.63 on $0 spend after pause, pkcye 2 view-through $195.44), matching yesterday's complete-day read. Daily purchases 11/6-11/13: 4/6/4/2/1/1/3/1; purchases_7d_avg is the 11/6-11/12 mean (3.0). 1 vs 3.0 is a >50% numeric dip, but not treated as a tracking WARN: tags are live this morning, 11/13 still recorded a purchase plus checkout/ATC events, and days of 1 purchase already sit inside the 7d window (11/10 and 11/11). Shopify 11/13 x UTM stayed 0 (view-through-heavy). checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night; first week ended ~11/11. C02 RUNNING/servable; C01 Drive-Thru still PAUSED 11/11 11:36 AM ET; C03 Hoodies still PAUSED. 11/14 so far: $17.74 spend (all pkcye), 0 purchases, 10 ATC, 37 custom checkout events \u2014 purchase and checkout tags firing today."
+          "last_checkout_event": "Begin Checkout tag 14yy8z TRACKING, last_tracked 2026-11-16 8:47 AM ET (2026-11-16T13:47:39Z)",
+          "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-16 8:34 AM ET (2026-11-16T13:34:01Z); 0 attributed purchases 11/15, 1 on 11/14",
+          "purchases_24h": 0,
+          "purchases_7d_avg": 1.9,
+          "notes": "Begin Checkout 14yy8z (website_tag rifyu) is TRACKING this run via list_web_event_tags (last_tracked 2026-11-16T13:47:39Z = 11/16 8:47 AM ET); no DORMANT flicker on this morning's read. Purchase 14yxvf TRACKING (last fire 11/16 8:34 AM ET); typed ATC 14zy3w TRACKING (last fire 11/16 8:52 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/15 $68.84 spend (all pkcye; pkcwu and pkcyg $0 after earlier pauses), 0 attributed purchases, 27 add-to-cart, 176 custom checkout-tag events. 0 vs 11/8-11/14 avg 1.9 is a numeric >50% dip and checkout-tag events fired with 0 campaign purchases, but not treated as a tracking WARN: the Purchase and Begin Checkout tags are live this morning (Purchase last fire 8:34 AM ET), 11/15 still recorded checkout/ATC events, Shopify 11/15 had 0 x UTM orders, and 1-purchase days already sit inside the 7d window (11/10/11/13/11/14). 11/14 $69.51 spend, 1 click-through purchase ($44.98) matching the Shopify 11/14 x paid_social order, 16 ATC, 124 custom checkout events (pkcye 123 + pkcwu 1). Daily attributed purchases 11/8-11/16: 4/2/1/1/3/1/1/0/0; purchases_7d_avg is the 11/8-11/14 mean (1.9). checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night; first week ended ~11/11. C02 RUNNING/servable; C01 Drive-Thru still PAUSED 11/11 11:36 AM ET; C03 Hoodies still PAUSED. 11/16 so far: $17.41 spend (all pkcye), 0 purchases, 1 ATC, 28 custom checkout events \u2014 purchase and checkout tags firing today."
         },
-        "rule_status": "Cut -20% + new strategy",
-        "last_change_date": "2026-11-11",
+        "rule_status": "Hold - cooldown",
+        "last_change_date": "2026-11-16",
         "last_change_action": "cut_20pct_and_change_strategy",
-        "next_eligible_date": null,
+        "next_eligible_date": "2026-11-19",
         "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
         "strategy_notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution). ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
         "auto_rules": true,
         "mode": "auto",
         "recommended_daily_budget": 56.0,
-        "recommended_action": "Cut -20% + new strategy",
+        "recommended_action": null,
         "launch_date": null,
         "soft_read_date": null,
         "first_binding_date": null,
@@ -56183,45 +56177,43 @@
           },
           {
             "date": "2026-11-13",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "spend": 120.8,
+            "spend_status": "verified",
+            "spend_d2c": 120.8,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no bing_ads_daily.json row for 2026-11-13",
-            "roas": null,
-            "roas_status": "unverified",
+            "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 4,
+            "platform_revenue": 355.93,
+            "platform_roas": 2.95,
+            "platform_status": "verified",
+            "platform_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
+            "roas": 2.95,
+            "roas_status": "verified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
-            "roas_label": "platform-reported",
-            "missing": true
+            "roas_label": "platform-reported"
           },
           {
             "date": "2026-11-14",
-            "spend": null,
-            "spend_status": "unverified",
-            "spend_d2c": null,
+            "spend": 129.56,
+            "spend_status": "verified",
+            "spend_d2c": 129.56,
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in bing_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
-            "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no bing_ads_daily.json row for 2026-11-14",
-            "roas": null,
-            "roas_status": "unverified",
+            "shopify_revenue_source": "bing feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 4,
+            "platform_revenue": 304.91,
+            "platform_roas": 2.35,
+            "platform_status": "verified",
+            "platform_source": "Pipeboard Microsoft Ads campaign report (platform-reported) D2C campaigns only; Amazon-destination excluded from the rule",
+            "roas": 2.35,
+            "roas_status": "verified",
             "roas_basis": "platform",
             "roas_source": "platform_reported",
-            "roas_label": "platform-reported",
-            "missing": true
+            "roas_label": "platform-reported"
           }
         ],
         "reddit": [
@@ -62196,31 +62188,41 @@
         },
         {
           "date": "2026-11-13",
-          "d2c_ad_spend": 13824.17,
+          "d2c_ad_spend": 13944.97,
           "d2c_ad_spend_status": "verified",
-          "total_ad_spend": 21195.68,
+          "total_ad_spend": 21316.48,
           "total_ad_spend_status": "verified",
           "shopify_revenue": 28669.85,
           "shopify_revenue_status": "verified",
           "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
-          "blended_mer": 2.07,
+          "blended_mer": 2.06,
           "blended_mer_status": "verified"
         },
         {
           "date": "2026-11-14",
-          "d2c_ad_spend": 13155.75,
+          "d2c_ad_spend": 13285.31,
           "d2c_ad_spend_status": "verified",
-          "total_ad_spend": 19888.92,
+          "total_ad_spend": 20018.48,
           "total_ad_spend_status": "verified",
           "shopify_revenue": 25000.58,
           "shopify_revenue_status": "verified",
           "shopify_revenue_source": "daily_inputs.shopify_analytics.net_revenue_ex_tax",
-          "blended_mer": 1.9,
+          "blended_mer": 1.88,
           "blended_mer_status": "verified"
         }
       ]
     },
     "recent_changes": [
+      {
+        "date": "2026-11-16",
+        "channel": "x",
+        "roas_7d": 0.86,
+        "spend_7d": 521.24,
+        "action": "cut_20pct_and_change_strategy",
+        "old_budget": 70,
+        "new_budget": 56,
+        "by": "jarvis via x.com ads"
+      },
       {
         "date": "2026-11-13",
         "channel": "applovin",
@@ -62354,71 +62356,71 @@
     ]
   },
   "tracking_health": {
-    "as_of": "2026-11-14T08:36:00-05:00",
+    "as_of": "2026-11-16T08:56:43-05:00",
     "channels": {
       "meta": {
         "status": "OK",
-        "last_checkout_event": "2026-11-14 (27 InitiateCheckout so far today)",
-        "last_purchase_event": "2026-11-14 (17 purchases so far today)",
-        "purchases_24h": 259,
-        "purchases_7d_avg": 260.3,
-        "notes": "11/13: 259 purchases, 261 checkouts on $10,385.83 spend, down 0.5% vs 11/6-11/12 avg (260.3) while Shopify down 2.0%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/6-11/13: 277/240/280/208/242/277/298/259; checkouts 259/287/298/188/219/255/214/261; spend $11,766.97/$10,704.37/$11,892.78/$9,211.80/$10,640.90/$11,631.97/$10,036.14/$10,385.83. Prior-day revisions vs yesterday's read: 11/12 spend $9,994.90\u2192$10,036.14 and checkouts 206\u2192214 (purchases stayed 298); 11/11 spend $11,631.89\u2192$11,631.97 and checkouts 251\u2192255; 11/10 checkouts 216\u2192219; 11/9 checkouts 187\u2192188; 11/7 checkouts 285\u2192287; 11/6 checkouts 258\u2192259. Events flowing today (17 purchases / 27 checkouts / $1,035.57 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.3% (hourly; was 98.9% yesterday); InitiateCheckout EMQ 8.4 (was 8.6), CAPI 94.1%. Pixel 562761383897004 last_fired_time field read 11/13 6:59:55 PM ET (may lag, same pattern as prior days); insights confirm live 11/14 activity. No duplicate event-name groups."
+        "last_checkout_event": "2026-11-16 (37 InitiateCheckout so far today)",
+        "last_purchase_event": "2026-11-16 (35 purchases so far today)",
+        "purchases_24h": 272,
+        "purchases_7d_avg": 256.1,
+        "notes": "11/15: 272 purchases, 300 checkouts on $14,194.84 spend, up 6.2% vs 11/8-11/14 avg (256.1) while Shopify down 2.2%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/8-11/16: 280/208/242/277/298/259/229/272/35; checkouts 303/191/221/258/218/266/235/300/37; spend $11,892.78/$9,211.80/$10,640.90/$11,631.97/$10,036.65/$10,427.00/$9,411.07/$14,194.84/$1,525.53. 11/14 complete day: 229 purchases / 235 checkouts / $9,411.07. Prior-day revisions vs the 11/14 read: 11/13 spend $10,385.83\u2192$10,427.00 and checkouts 261\u2192266 (purchases stayed 259); 11/12 spend $10,036.14\u2192$10,036.65 and checkouts 214\u2192218 (purchases stayed 298); 11/8 checkouts 298\u2192303. Events flowing today (35 purchases / 37 checkouts / $1,525.53 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.6% (hourly; was 99.3% on 11/14); InitiateCheckout EMQ 8.3 (was 8.4), CAPI 93.6%. Pixel 562761383897004 last_fired_time field read 11/15 6:59:59 PM ET (may lag, same pattern as prior days); insights confirm live 11/16 activity. No duplicate event-name groups. purchases_7d_avg is the 11/8-11/14 mean (280/208/242/277/298/259/229)."
       },
       "google": {
         "status": "OK",
-        "last_checkout_event": "2026-11-13 (89 Shopping App begin checkout, conversion date; may still grow)",
-        "last_purchase_event": "2026-11-13 (108 Shopping App purchases, conversion date; may still grow)",
-        "purchases_24h": 108,
-        "purchases_7d_avg": 150.6,
-        "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer 5108535701). Shopping App Purchase 11/11 133 (36.8% of 361), 11/12 147 (33.3% of 441); Elevar server-side 11/11 113 (31.3%), 11/12 124 (28.1%). 11/13 108 Shopping App (31.4% of 344) and 93 Elevar (27.0%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the 25%/20% floors. Earlier days also revised vs yesterday's read: 11/12 Shopping 134\u2192147 / Elevar stayed 124; 11/11 Shopping 131\u2192133 / Elevar stayed 113; 11/10 Shopping 151\u2192157 / Elevar stayed 126, as expected for filling conversion-date days. All above the 25%/20% WARN floors on two consecutive days that are each at least a day old (11/11 and 11/12). Begin checkout 127/110/105/81/99/101/123/89 (11/6-11/13). 11/14 so far: 2 Shopping App purchases / 0 Elevar / 3.33 begin checkout \u2014 early, not judged. Shopping App Purchase and Purchase (elevar server-side) and Shopping App Begin Checkout all ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/6-11/12 mean of Shopping App (158/148/161/150/157/133/147)."
+        "last_checkout_event": "2026-11-15 (73 Shopping App begin checkout, conversion date; may still grow)",
+        "last_purchase_event": "2026-11-15 (102 Shopping App purchases, conversion date; may still grow)",
+        "purchases_24h": 102,
+        "purchases_7d_avg": 151.4,
+        "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer 5108535701). Shopping App Purchase 11/13 150 (43.6% of 344), 11/14 109 (36.0% of 303); Elevar server-side 11/13 95 (27.6%), 11/14 91 (30.0%). Both pairs are at least a day old and above the 25%/20% WARN floors. 11/15 102 Shopping App (30.2% of 338) and 91 Elevar (26.9%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the floors. Earlier days filled vs the 11/14 read, as expected for conversion-date: 11/13 Shopping 108\u2192150 / Elevar 93\u219295; 11/12 Shopping 147\u2192172 / Elevar stayed 124; 11/11 Shopping 133\u2192160 / Elevar 113\u2192126. Begin checkout 105/82/96/112/139/124/97/73 (11/8-11/15). 11/16 so far: 9 Shopping App purchases / 10 Elevar / 2 begin checkout \u2014 early, not judged. Shopping App Purchase, Purchase (elevar server-side), and Shopping App Begin Checkout all ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/8-11/14 mean of Shopping App (160/151/158/160/172/150/109)."
       },
       "bing": {
         "status": "OK",
         "last_checkout_event": null,
-        "last_purchase_event": "2026-11-13 (Brand Search 4 conv $355.93)",
+        "last_purchase_event": "2026-11-15 (Brand Search 4 conv $341.59)",
         "purchases_24h": 4,
-        "purchases_7d_avg": 6.6,
-        "notes": "11/13: 4 conv / $355.93 revenue on $120.80 spend (Brand Search 4 / $355.93 on $94.43; PMax 0 on $20.53; NB Exact $5.84). 4 vs 11/6-11/12 avg 6.6 is not a >50% drop. Shopify 11/13 bing UTM: 3 orders / $229.53 vs 4 platform conv (not a 2x double count; likely assisted). No double count (GTM tag 250 still paused). Prior days: 11/8 10 (Brand 9 + Shopping 1 / $1,114.63), 11/9 5 (Brand 4 + PMax 1), 11/10 6 (Brand 5 + PMax 1), 11/11 5 (Brand 5 / $486.33), 11/12 5 (Brand 5 / $404.69). Daily conv 11/6-11/13: 8/7/10/5/6/5/5/4. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. ShopifyImport UET 211021853 remains Inactive and is not used. No begin-checkout goal. 11/14 so far: $7.40 spend (Brand $5.51, PMax $1.89) and 0 conv \u2014 early, not judged."
+        "purchases_7d_avg": 5.7,
+        "notes": "11/15: 4 conv / $341.59 revenue on $145.24 spend (Brand Search 4 / $341.59 on $77.15; PMax 0 on $66.12; NB Exact $1.97). 4 vs 11/8-11/14 avg 5.7 is down 30%, not a >50% drop. Shopify 11/15 bing UTM: 4 orders / $240.21 (cpc 3 / $190.69 plus shopping 1 / $49.52) vs 4 platform conv (not a 2x double count; shopping UTM may be residual). 11/14: 4 conv / $304.91 on $129.56 (Brand 3 / $228.68 on $74.51; PMax 1 / $76.23 on $49.26) vs Shopify 11/14 bing UTM 2 orders / $114.46 (likely assisted). No double count (GTM tag 250 still paused). Daily conv 11/8-11/15: 10/5/7/5/5/4/4/4. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. ShopifyImport UET 211021853 remains Inactive and is not used. No begin-checkout goal. 11/16 so far: $9.29 spend (Brand $7.27, PMax $2.02) and 0 conv \u2014 early, not judged."
       },
       "reddit": {
         "status": "WARN",
         "last_checkout_event": "n/a (Reddit has no standard checkout event)",
-        "last_purchase_event": "2026-11-09 ET (4 view purchases, restated this morning; was 2 on yesterday's read); 11/7 also restated 2 view purchases (was 0); 11/6 still 2 view purchases",
+        "last_purchase_event": "2026-11-09 ET (6 view purchases, restated this morning; was 4 on the 11/14 read); 11/8 also restated 4 view purchases (was 0 on the 11/14 read)",
         "purchases_24h": 0,
         "purchases_7d_avg": 0,
-        "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-05T05:00:00Z to 2026-11-15T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10, 11/11, 11/12, 11/13 or 11/14 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 34 page visit clicks / 27 page visit views, 0 click + 4 view purchases / 10 purchase items) \u2014 spend unchanged from yesterday's $48.99; the 4 view purchases were 2 on yesterday's read and restated overnight, not a new alert and not worse. 11/8 $143.78, 85 clicks, 0 purchases; 11/7 $158.10, 96 clicks, 0 click + 2 view purchases (restated from 0 on yesterday's read); 11/6 $142.88, 64 clicks, 5 add-to-cart, 0 click + 2 view purchases; 11/5 $150.12, 86 clicks, 0 purchases. Pixel last proved alive via page visits on 11/9 (pixel t2_u2crtzyo still listed). Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/13: 0 reddit UTM orders. purchases_7d_avg is 11/6-11/12 click-purchase mean (0/0/0/0/0/0/0 = 0.0)."
+        "notes": "WARN unchanged (do not re-alert). t2_u2crtzyo. ET-bounded report (2026-11-08T05:00:00Z to 2026-11-17T05:00:00Z, America/New_York). David closed the Reddit ad channel indefinitely on 11/9 at 10:46 AM ET (retry ~May 2027). No report rows for 11/10-11/16 (dark, $0). 11/9 spent $48.99 that morning (32 clicks, 0 click + 6 view purchases / 14 purchase items) \u2014 spend unchanged from the 11/14 read of $48.99; the 6 view purchases were 4 on that read and restated, not a new alert and not worse. 11/8 $143.78, 85 clicks, 0 click + 4 view purchases / 18 purchase items (restated from 0 purchases on the 11/14 read). Pixel t2_u2crtzyo still listed. Zero purchases at zero spend is expected now that the channel is closed. WARN carried for known under-count risk (Shopify Reddit app fires to retired pixel a2, CAPI token 403 on t2; owner reddit bot) until that cleanup is verified, even while dark. a2_j3pu0ku22iae retired, not judged. Shopify 11/15 and 11/14: 0 reddit UTM orders. purchases_7d_avg is 11/8-11/14 click-purchase mean (0/0/0/0/0/0/0 = 0.0)."
       },
       "snapchat": {
         "status": "OK",
-        "last_checkout_event": "2026-11-14 ET (16 attributed START_CHECKOUT so far today; 50 on 11/13)",
-        "last_purchase_event": "2026-11-14 ET (6 attributed purchases so far today; 51 on 11/13)",
-        "purchases_24h": 51,
-        "purchases_7d_avg": 53.9,
-        "notes": "7-day swipe / 1-day view on the two ACTIVE WEB_CONVERSION campaigns (Meta Winners 17ba5e2d + Hoodies b4333284). 11/13: 51 attributed purchases (Meta Winners 40 / Hoodies 11) and 50 start-checkout on $724.80 spend, down 5.4% vs 11/6-11/12 avg (53.9) while Shopify down 2.0%; 51 does not exceed 344 Shopify orders, so not a tracking WARN. Daily attributed purchases 11/6-11/13: 58/53/50/44/51/47/74/51; start-checkout 53/70/49/28/49/36/48/50; spend $603.93/$604/$604/$604/$603.99/$617.64/$623.38/$724.80. purchases_7d_avg is the 11/6-11/12 mean (58/53/50/44/51/47/74). 11/12 stayed 74 vs yesterday's live read. Other 2 accounts (DAVE RIBIERO LLC Self Service ea27a52a and Android In-App Promotions cae95517) $0 spend 11/6-11/14. GTM Snap tag 339 still has the __snapFresh guard. Events flowing today (6 purchases / 16 checkouts / $170.66 so far). Shopify 11/13: 0 snapchat UTM orders (view-through-heavy, expected)."
+        "last_checkout_event": "2026-11-16 ET (15 attributed START_CHECKOUT so far today; 44 on 11/15)",
+        "last_purchase_event": "2026-11-16 ET (12 attributed purchases so far today; 56 on 11/15)",
+        "purchases_24h": 56,
+        "purchases_7d_avg": 50.6,
+        "notes": "7-day swipe / 1-day view on the two ACTIVE WEB_CONVERSION campaigns (Meta Winners 17ba5e2d + Hoodies b4333284). 11/15: 56 attributed purchases (Meta Winners 48 / Hoodies 8) and 44 start-checkout on $724.80 spend, up 10.7% vs 11/8-11/14 avg (50.6) while Shopify down 2.2%; 56 does not exceed 338 Shopify orders, so not a tracking WARN. Daily attributed purchases 11/8-11/16: 50/44/51/47/74/51/37/56/12; start-checkout 50/28/49/38/50/51/40/44/15; spend $604/$604/$603.99/$617.64/$623.38/$724.80/$724.80/$724.80/$206.14. purchases_7d_avg is the 11/8-11/14 mean (50/44/51/47/74/51/37). 11/14 complete day: 37 purchases / 40 checkouts / $724.80 (Meta Winners 27 / Hoodies 10). 11/12 stayed 74 and 11/13 stayed 51 vs the 11/14 read. Other 2 accounts (DAVE RIBIERO LLC Self Service ea27a52a and Android In-App Promotions cae95517) $0 spend 11/8-11/16. Coldest Snap Pixel 8cf7328d ACTIVE; GTM Snap tag 339 still has the __snapFresh guard. Raw pixel purchases remain well above attributed (browser+server before dedup; not judged vs Shopify). Events flowing today (12 purchases / 15 checkouts / $206.14 so far). Shopify 11/15: 1 snapchat UTM order / $150.23; 11/14: 0."
       },
       "chatgpt": {
         "status": "OK",
         "last_checkout_event": "not readable (API returns only last 15 min of events)",
-        "last_purchase_event": "2026-10-28: 1 click-through conversion",
+        "last_purchase_event": "none in 11/8-11/16 conversion-time window (0 click-through and 0 view-through)",
         "purchases_24h": 0,
         "purchases_7d_avg": 0,
-        "notes": "Read 11/14: 0 conversions by conversion date 11/6-11/14 (conversion_time basis). All 10 campaigns paused (dark, reboot eligible 11/24). Account adacct_6a1b1659000481908159c4d783e1deec review approved. Not spending, so no tracking judgment. Shopify 11/13 had 0 chatgpt.com UTM orders."
+        "notes": "Read 11/16: 0 conversions by conversion date 11/8-11/16 (conversion_time basis). All 10 campaigns paused (dark, reboot eligible 11/24). Account adacct_6a1b1659000481908159c4d783e1deec review approved. Not spending, so no tracking judgment. Shopify 11/15 had 1 chatgpt.com UTM order / $79.13 with no medium (likely organic catalog, not ads); 11/14 had 0."
       },
       "pinterest": {
         "status": "OK",
-        "last_checkout_event": "tag + Conversions API both present in 14d EQS (CAPI external_event_id coverage 100% on checkout and initiate_checkout)",
-        "last_purchase_event": "last platform checkout 10/30 UTC (1); tag 2613877824208 last fired 11/14 8:31 AM ET (site-wide)",
+        "last_checkout_event": "tag + Conversions API both present in 14d EQS (overall_status FAIR on TAG and CONVERSIONS_API; checkout/initiate_checkout still populated)",
+        "last_purchase_event": "no new ad-attributed purchases (all campaigns paused); tag 2613877824208 last fired 11/16 8:53 AM ET (site-wide)",
         "purchases_24h": 0,
         "purchases_7d_avg": 0,
-        "notes": "All 8 campaigns PAUSED (confirmed 11/14). Dark since 10/30, reboot eligible 11/24. Tag 2613877824208 ACTIVE + CAPI still receiving site-wide checkout/initiate_checkout (14d EQS FAIR on both TAG and CONVERSIONS_API; last_fired_time_ms 1794663074740 = 11/14 8:31:14 AM ET). CAPI external_event_id coverage is 100% on checkout and initiate_checkout. No spend, no new ad-attributed events to judge. Remaining quality gap: click ID (epik) coverage 0; AEM off. Owner: Pinterest Ads bot. Shopify 11/13: 0 pinterest UTM orders."
+        "notes": "All 8 campaigns PAUSED (confirmed 11/16). Dark since 10/30, reboot eligible 11/24. Tag 2613877824208 ACTIVE + CAPI still receiving site-wide checkout/initiate_checkout (14d EQS FAIR on both TAG and CONVERSIONS_API; last_fired_time_ms 1794837183196 = 11/16 8:53:03 AM ET). No spend, no new ad-attributed events to judge. Remaining quality gap from prior reads: click ID (epik) coverage still a known gap; AEM off. Owner: Pinterest Ads bot. Shopify 11/15 and 11/14: 0 pinterest UTM orders."
       },
       "tiktok": {
         "status": "OK",
-        "last_checkout_event": "2026-11-13 (74 initiate_checkout; checkout metric still reads 0 on all days)",
-        "last_purchase_event": "2026-11-13 (70 real-time conversions; complete_payment 27, may still grow)",
-        "purchases_24h": 70,
-        "purchases_7d_avg": 104.4,
-        "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (CT0E prefix, Elevar Pixel, activity_status ACTIVE). Real-time purchases 11/6-11/13: 122/72/105/89/119/118/106/70 on $1.6-3.0k/day (11/13 $1,554.45; 11/12 $1,579.25; 11/11 $2,899.96; 11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03). 11/13 down 32.9% vs 11/6-11/12 avg (104.4) while Shopify down 2.0%; not a >50% drop. 11/12 complete_payment revised from yesterday's 40 to 65 (still-filling); 11/11 complete_payment 97\u2192104; 11/10 89\u219294; 11/9 103\u2192109; 11/8 114\u2192118 (real-time stayed the same on those days). 11/14 so far: 13 real-time / 1 complete_payment / 6 initiate_checkout / $424.26. The generic checkout metric still reads 0 on all days, but INITIATE_ORDER/initiate_checkout is firing (224/192/224/181/183/208/107/74 on 11/6-11/13). TikTok 10/29 dip item already closed 11/4."
+        "last_checkout_event": "2026-11-16 (14 initiate_checkout so far today; 109 on 11/15; checkout metric still reads 0 on all days)",
+        "last_purchase_event": "2026-11-16 (7 complete_payment so far today; 54 on 11/15, may still grow)",
+        "purchases_24h": 54,
+        "purchases_7d_avg": 86.1,
+        "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (numeric 7440194986429120530, Elevar Pixel, activity_status ACTIVE). Integrated BASIC advertiser-day report: conversion equals complete_payment on every day in this window (the older higher 'real-time conversions' series was not available on this report). complete_payment 11/8-11/16: 120/116/96/109/69/44/49/54/7 on $2.1-2.9k then ~$1.4-1.6k/day (11/15 $1,399.93; 11/14 $1,591.60; 11/13 $1,554.45; 11/12 $1,579.25; 11/11 $2,899.96; 11/10 $1,803.00; 11/9 $2,552.52; 11/8 $2,122.03). 11/15 down 37.3% vs 11/8-11/14 avg (86.1) while Shopify down 2.2%; not a >50% drop. 11/13 complete_payment 44 and 11/12 69 may still differ from prior real-time reads (70 and 106 on 11/14); events are still firing so not a tracking WARN. 11/16 so far: 7 complete_payment / 14 initiate_checkout / $420.45. The generic checkout metric still reads 0 on all days, but INITIATE_ORDER/initiate_checkout is firing (231/187/183/224/112/107/113/109/14 on 11/8-11/16). TikTok 10/29 dip item already closed 11/4. Shopify 11/15: 0 tiktok UTM; 11/14: 3 / $268.03."
       },
       "taboola": {
         "status": "WARN",
@@ -62426,20 +62428,20 @@
         "last_purchase_event": "none since launch",
         "purchases_24h": 0,
         "purchases_7d_avg": 0,
-        "notes": "WARN carried (first flagged 11/5): $506.68 spent 11/3-11/4 (11/3 $150.27, 11/4 $356.41) with 0 platform purchases, 0 taboola-UTM Shopify orders. Latest CFO Taboola sync as_of 11/12 (computed 11/13 9:33 AM ET, from davidstarkk.github.io/coldest-cfo-live/mer_for_manus.json) shows $0 on 11/5-11/10 and confirms those two spend days with 0 conversions; no 11/11, 11/12 or 11/13 row yet (unpulled, not a measured $0). Shopify 11/13 UTM: 0 taboola orders. Dark since 11/4, reboot eligible 11/29 with postmortem c97c9211. Not worse, no new spend, so not re-alerted; purchase tracking must be verified before any relaunch. Elevar 213 not checked (no read-only Elevar access here)."
+        "notes": "WARN carried (first flagged 11/5): $506.68 spent 11/3-11/4 (11/3 $150.27, 11/4 $356.41) with 0 platform purchases, 0 taboola-UTM Shopify orders. Latest published taboola_ads_daily.json is still as_of 11/10 (updated 11/11 8:57 AM ET) and confirms $0 on 11/5-11/10 with those two spend days at 0 conversions; 11/11-11/15 have no pulled row yet (unpulled, not a measured $0). mer_for_manus.json likewise has taboola_ads as unverified/missing on recent days. Shopify 11/15 and 11/14 UTM: 0 taboola orders. Dark since 11/4, reboot eligible 11/29 with postmortem c97c9211. Not worse, no new spend evidence, so not re-alerted; purchase tracking must be verified before any relaunch. Elevar 213 not checked (no read-only Elevar access here)."
       },
       "x": {
         "status": "OK",
-        "last_checkout_event": "Begin Checkout tag 14yy8z TRACKING, last_tracked 2026-11-14 8:27 AM ET (2026-11-14T13:27:50Z)",
-        "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-14 8:20 AM ET (2026-11-14T13:20:33Z); 1 attributed purchase 11/13",
-        "purchases_24h": 1,
-        "purchases_7d_avg": 3,
-        "notes": "Begin Checkout 14yy8z (website_tag rifyu) is TRACKING this run via list_web_event_tags (last_tracked 2026-11-14T13:27:50Z = 11/14 8:27 AM ET); no DORMANT flicker on this morning's read. Purchase 14yxvf TRACKING (last fire 11/14 8:20 AM ET); typed ATC 14zy3w TRACKING (last fire 11/14 8:32 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/13 $69.71 spend (all pkcye; pkcwu and pkcyg $0 after earlier pauses), 1 purchase (pkcye 1 view-through $76.23), 9 add-to-cart, 210 custom checkout-tag events (pkcye 208 + pkcwu 2). 11/12 restated $69.61 spend and 3 purchases (pkcwu 1 click-through $61.63 on $0 spend after pause, pkcye 2 view-through $195.44), matching yesterday's complete-day read. Daily purchases 11/6-11/13: 4/6/4/2/1/1/3/1; purchases_7d_avg is the 11/6-11/12 mean (3.0). 1 vs 3.0 is a >50% numeric dip, but not treated as a tracking WARN: tags are live this morning, 11/13 still recorded a purchase plus checkout/ATC events, and days of 1 purchase already sit inside the 7d window (11/10 and 11/11). Shopify 11/13 x UTM stayed 0 (view-through-heavy). checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night; first week ended ~11/11. C02 RUNNING/servable; C01 Drive-Thru still PAUSED 11/11 11:36 AM ET; C03 Hoodies still PAUSED. 11/14 so far: $17.74 spend (all pkcye), 0 purchases, 10 ATC, 37 custom checkout events \u2014 purchase and checkout tags firing today."
+        "last_checkout_event": "Begin Checkout tag 14yy8z TRACKING, last_tracked 2026-11-16 8:47 AM ET (2026-11-16T13:47:39Z)",
+        "last_purchase_event": "Purchase tag 14yxvf TRACKING, last_tracked 2026-11-16 8:34 AM ET (2026-11-16T13:34:01Z); 0 attributed purchases 11/15, 1 on 11/14",
+        "purchases_24h": 0,
+        "purchases_7d_avg": 1.9,
+        "notes": "Begin Checkout 14yy8z (website_tag rifyu) is TRACKING this run via list_web_event_tags (last_tracked 2026-11-16T13:47:39Z = 11/16 8:47 AM ET); no DORMANT flicker on this morning's read. Purchase 14yxvf TRACKING (last fire 11/16 8:34 AM ET); typed ATC 14zy3w TRACKING (last fire 11/16 8:52 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/15 $68.84 spend (all pkcye; pkcwu and pkcyg $0 after earlier pauses), 0 attributed purchases, 27 add-to-cart, 176 custom checkout-tag events. 0 vs 11/8-11/14 avg 1.9 is a numeric >50% dip and checkout-tag events fired with 0 campaign purchases, but not treated as a tracking WARN: the Purchase and Begin Checkout tags are live this morning (Purchase last fire 8:34 AM ET), 11/15 still recorded checkout/ATC events, Shopify 11/15 had 0 x UTM orders, and 1-purchase days already sit inside the 7d window (11/10/11/13/11/14). 11/14 $69.51 spend, 1 click-through purchase ($44.98) matching the Shopify 11/14 x paid_social order, 16 ATC, 124 custom checkout events (pkcye 123 + pkcwu 1). Daily attributed purchases 11/8-11/16: 4/2/1/1/3/1/1/0/0; purchases_7d_avg is the 11/8-11/14 mean (1.9). checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night; first week ended ~11/11. C02 RUNNING/servable; C01 Drive-Thru still PAUSED 11/11 11:36 AM ET; C03 Hoodies still PAUSED. 11/16 so far: $17.41 spend (all pkcye), 0 purchases, 1 ATC, 28 custom checkout events \u2014 purchase and checkout tags firing today."
       }
     },
     "file_status": "ok",
     "source": "ads_throttle/tracking_health.json",
-    "shopify_orders_yesterday": 344
+    "shopify_orders_yesterday": 338
   },
   "attribution": {
     "as_of": "2026-11-14",
@@ -62457,12 +62459,13 @@
   "feed_health": {
     "schema_version": 1,
     "as_of": "2026-11-14",
-    "computed_at": "2026-11-16T14:27:12Z",
+    "computed_at": "2026-11-16T15:26:21Z",
     "summary": {
       "status": "degraded",
       "as_of_lag_days": 1,
       "channels_fresh": [
         "applovin",
+        "bing",
         "google",
         "meta",
         "outbrain",
@@ -62472,7 +62475,6 @@
         "x"
       ],
       "channels_stale": [
-        "bing",
         "reddit",
         "taboola"
       ],
@@ -62557,18 +62559,15 @@
       },
       "bing": {
         "label": "Bing",
-        "status": "stale",
-        "last_measured_day": "2026-11-12",
-        "days_behind": 2,
-        "missing_days_7d": [
-          "2026-11-13",
-          "2026-11-14"
-        ],
+        "status": "fresh",
+        "last_measured_day": "2026-11-14",
+        "days_behind": 0,
+        "missing_days_7d": [],
         "spend_seen_in_platform_roas": null,
         "expected_daily": true,
         "source": "bing_ads_daily.json",
         "owner_bot": "Bing Ads bot",
-        "days_14": "############..",
+        "days_14": "##############",
         "window_14": "2026-11-01..2026-11-14"
       },
       "x": {
@@ -62694,8 +62693,8 @@
     "files": {
       "tracking_health": {
         "file": "ads_throttle/tracking_health.json",
-        "as_of": "2026-11-14T08:36:00-05:00",
-        "age_days": 2,
+        "as_of": "2026-11-16T08:56:43-05:00",
+        "age_days": 0,
         "max_age_days": 2,
         "status": "fresh",
         "writer": "Jarvis (daily)"
@@ -62732,15 +62731,15 @@
       },
       "grok_ack": {
         "file": "ads_throttle/grok_ack.json",
-        "as_of": "2026-11-15T16:30:00-05:00",
-        "age_days": 1,
+        "as_of": "2026-11-16T09:50:00-05:00",
+        "age_days": 0,
         "status": "info"
       },
       "changes": {
         "file": "ads_throttle/changes.json",
-        "as_of": "2026-11-13",
-        "age_days": 3,
-        "entries": 13,
+        "as_of": "2026-11-16",
+        "age_days": 0,
+        "entries": 14,
         "status": "info"
       }
     },
@@ -62752,7 +62751,7 @@
   "cfo_brief": {
     "schema_version": 1,
     "as_of": "2026-11-14",
-    "computed_at": "2026-11-16T14:27:12Z",
+    "computed_at": "2026-11-16T15:26:21Z",
     "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
     "rule": {
       "source": "ads_throttle/settings.json",
@@ -62764,44 +62763,37 @@
       "window_days": 7
     },
     "portfolio": {
-      "mer_7d": 2.0132,
-      "mer_30d": 2.1567,
+      "mer_7d": 2.0082,
+      "mer_30d": 2.1554,
       "mer_target": 3.24,
       "mer_gap": -1.23,
       "stance": "below_target",
       "d2c_revenue_7d": 204556.92,
-      "d2c_spend_7d": 101609.19,
-      "channel_spend_7d": 101609.19,
-      "spend_judged_pct": 72.7,
-      "spend_in_auto_mode_pct": 18.4,
-      "excluded_from_d2c_spend": [
-        {
-          "channel": "bing",
-          "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-        }
-      ],
+      "d2c_spend_7d": 101859.55,
+      "channel_spend_7d": 101859.55,
+      "spend_judged_pct": 72.5,
+      "spend_in_auto_mode_pct": 18.6,
+      "excluded_from_d2c_spend": [],
       "mer_target_scope": "total_company",
       "total_company_mer_7d": 3.47,
       "stance_on_target_scope": "room_to_add"
     },
     "summary": {
-      "act_now": [
-        "x"
-      ],
+      "act_now": [],
       "by_verdict": {
         "cooldown": [
-          "applovin"
+          "applovin",
+          "x"
         ],
         "cut": [
-          "google",
-          "x"
+          "bing",
+          "google"
         ],
         "hold": [
           "meta",
           "tiktok"
         ],
         "insufficient": [
-          "bing",
           "chatgpt",
           "pinterest",
           "reddit",
@@ -63012,24 +63004,24 @@
         "label": "Bing",
         "mode": "auto",
         "owner_bot": "Bing Ads bot",
-        "verdict": "insufficient",
-        "rule_says": "Not enough data",
+        "verdict": "cut",
+        "rule_says": "Cut -20% + new strategy",
         "actionable": false,
         "blockers": [
-          "feed_gap:5/7 days measured"
+          "roas_disputed"
         ],
         "cautions": [],
-        "spend_7d": 1507.37,
-        "spend_days_measured": 5,
-        "roas_7d": null,
-        "roas_days": 5,
+        "spend_7d": 1757.73,
+        "spend_days_measured": 7,
+        "roas_7d": 1.74,
+        "roas_days": 7,
         "roas_source": "channel daily file",
-        "platform_revenue_7d": null,
+        "platform_revenue_7d": 3058.4,
         "roas_prior_7d": 4.79,
         "spend_prior_7d": 668.7,
         "tracking_status": "OK",
-        "feed_status": "stale",
-        "last_measured_day": "2026-11-12",
+        "feed_status": "fresh",
+        "last_measured_day": "2026-11-14",
         "last_change": {
           "date": "2026-10-27",
           "action": "cut_20pct_and_change_strategy"
@@ -63040,7 +63032,8 @@
           "spend_7d": 918.86,
           "tier": "Steady",
           "tier_label": "Steady",
-          "tracking": "OK (ratio 0.74 in band)"
+          "tracking": "OK (ratio 0.74 in band)",
+          "roas_gap_pct": 58.6
         },
         "mmm_verdict": null
       },
@@ -63048,10 +63041,12 @@
         "label": "X",
         "mode": "auto",
         "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
-        "verdict": "cut",
-        "rule_says": "Cut -20% + new strategy",
-        "actionable": true,
-        "blockers": [],
+        "verdict": "cooldown",
+        "rule_says": "Hold - cooldown",
+        "actionable": false,
+        "blockers": [
+          "cooldown"
+        ],
         "cautions": [],
         "spend_7d": 942.52,
         "spend_days_measured": 7,
@@ -63065,7 +63060,7 @@
         "feed_status": "fresh",
         "last_measured_day": "2026-11-14",
         "last_change": {
-          "date": "2026-11-11",
+          "date": "2026-11-16",
           "action": "cut_20pct_and_change_strategy"
         },
         "grok": {
@@ -63289,28 +63284,6 @@
     },
     "asks": [
       {
-        "id": "feed.bing",
-        "severity": "high",
-        "channel": "bing",
-        "owner": "Bing Ads bot",
-        "title": "Bing: no measured row since 2026-11-12",
-        "detail": "bing_ads_daily.json has no measured row for 2026-11-13, 2026-11-14. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
-        "first_seen": "2026-11-14",
-        "age_days": 2,
-        "evidence": {
-          "missing_days": [
-            "2026-11-13",
-            "2026-11-14"
-          ],
-          "last_measured_day": "2026-11-12"
-        },
-        "ack": {
-          "status": "done",
-          "note": "bing_ads_daily.json has the 11/11 closed-day row (commit 4e29820; spend $273.30, platform revenue $486.33, 1.78x, complete/closed_day true, as_of 11/11).",
-          "at": "2026-11-12T09:57:31-05:00"
-        }
-      },
-      {
         "id": "feed.reddit",
         "severity": "high",
         "channel": "reddit",
@@ -63378,6 +63351,26 @@
           "status": "done",
           "note": "Agreed basis written to channels.applovin.notes 2026-11-15. Gap was mostly window (stale 11/2-11/8 vs 11/7-11/13) plus a CFO feed bug counting spend-only rows as $0. Raise threshold 3.0 is David's AppLovin-specific 10/29 rule.",
           "at": "2026-11-15T16:30:00-05:00"
+        }
+      },
+      {
+        "id": "roas.bing.disputed",
+        "severity": "high",
+        "channel": "bing",
+        "owner": "Bing Ads bot",
+        "title": "Bing: CFO reads 1.74x, Grok reads 4.20x \u2014 the rule lands in different bands",
+        "detail": "CFO 7d platform ROAS 1.74x (channel daily file, 2026-11-08..2026-11-14) says cut; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+        "first_seen": "2026-11-16",
+        "age_days": 0,
+        "evidence": {
+          "cfo_roas_7d": 1.74,
+          "grok_roas_7d": 4.2,
+          "gap_pct": 58.6
+        },
+        "ack": {
+          "status": "done",
+          "note": "Agreed Bing ROAS basis written to channels.bing.notes on 11/12 (commit 1a2b7a3): goal 172222236 ConversionsQualified/Revenue, click-date, 30-day click window, trailing 7 closed ET days, Shopify-destination only. Nov 5-11 feed snapshot 2.08x, live reread 2.38x, both hold band.",
+          "at": "2026-11-12T09:57:31-05:00"
         }
       },
       {
@@ -63574,6 +63567,26 @@
       }
     ],
     "change_outcomes": [
+      {
+        "date": "2026-11-16",
+        "channel": "x",
+        "action": "cut_20pct_and_change_strategy",
+        "by": "jarvis via x.com ads",
+        "status_logged": "done (x.com ads bot, 11/16 9:46 AM ET, API read-back $56)",
+        "executed": true,
+        "budget": {
+          "old": 70,
+          "new": 56
+        },
+        "before": {
+          "window": "2026-11-09..2026-11-15",
+          "spend": 788.34,
+          "roas": 0.83,
+          "roas_days": 7
+        },
+        "outcome": "pending",
+        "ready_on": "2026-11-24"
+      },
       {
         "date": "2026-11-13",
         "channel": "applovin",
@@ -64123,7 +64136,7 @@
     "growth": {
       "file": "ads_throttle/growth_brief.json",
       "headline": {
-        "mer_7d": 2.0132,
+        "mer_7d": 2.0082,
         "mer_target": 3.24,
         "breakeven_mer_before_overhead": 1.39,
         "stance": "room_to_add",
@@ -64199,7 +64212,7 @@
   "growth_brief": {
     "schema_version": 1,
     "as_of": "2026-11-14",
-    "computed_at": "2026-11-16T14:27:12Z",
+    "computed_at": "2026-11-16T15:26:21Z",
     "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
     "governor": {
       "status": "ok",
@@ -64207,18 +64220,18 @@
       "compared_mer_7d": 3.47,
       "adopted": false,
       "adopted_note": "Advisory until David sets global.portfolio_governor in ads_throttle/settings.json. It orders channels; it does not change any channel's rule verdict.",
-      "mer_7d": 2.0132,
+      "mer_7d": 2.0082,
       "mer_target": 3.24,
       "stance": "room_to_add",
       "d2c_revenue_7d": 204556.92,
-      "d2c_spend_7d": 101609.19,
+      "d2c_spend_7d": 101859.55,
       "spend_the_target_supports_at_this_revenue": 63134.85,
-      "spend_above_that": 38474.34,
+      "spend_above_that": 38724.7,
       "total_company_mer_7d": 3.47,
       "target_scope_note": "David 11/12: 3.24 is a total-company target, he believes \u2014 where the company is making money, not just breaking even. Shopify D2C MER is read against D2C break-even instead.",
       "breakeven_mer_before_overhead": 1.39,
       "mer_vs_breakeven": 0.62,
-      "spend_reading_hold_or_raise_pct": 81.4,
+      "spend_reading_hold_or_raise_pct": 82.1,
       "rule_conflict": false,
       "give_back_order": [],
       "add_order": [
@@ -64226,7 +64239,7 @@
           "channel": "meta",
           "label": "Meta",
           "spend_7d": 72898.09,
-          "share_of_spend_pct": 71.7,
+          "share_of_spend_pct": 71.6,
           "roas_7d": 2.09,
           "marginal_roas": null,
           "ranked_on": "roas_7d",
@@ -64242,9 +64255,9 @@
           "roas_7d": 1.06,
           "marginal_roas": 0.42,
           "ranked_on": "marginal_roas",
-          "rule_verdict": "cut",
+          "rule_verdict": "cooldown",
           "mode": "auto",
-          "who_can_act": "Grok"
+          "who_can_act": "David"
         }
       ],
       "unranked": [
@@ -64270,8 +64283,8 @@
         },
         {
           "channel": "bing",
-          "spend_7d": 1507.37,
-          "why": "no full 7-day read"
+          "spend_7d": 1757.73,
+          "why": "disputed read"
         },
         {
           "channel": "reddit",
@@ -64378,15 +64391,17 @@
           "label": "Bing",
           "window": "2026-11-08..2026-11-14",
           "prior_window": "2026-11-01..2026-11-07",
-          "spend": 1507.37,
+          "spend": 1757.73,
           "spend_prior": 668.7,
-          "revenue": 2397.56,
+          "revenue": 3058.4,
           "revenue_prior": 3201.1,
-          "roas": null,
+          "roas": 1.74,
           "roas_prior": 4.79,
-          "marginal_roas": null,
-          "read": "insufficient",
-          "why": "needs a full 7-day platform read in both weeks (7/7, 5/7)"
+          "marginal_roas": -0.13,
+          "spend_change": 1089.03,
+          "revenue_change": -142.7,
+          "spend_change_pct": 162.9,
+          "read": "added_spend_lost_revenue"
         },
         "x": {
           "label": "X",
@@ -64447,7 +64462,7 @@
         "returning_net_sales": 51521.45,
         "new_share_of_net_sales_pct": 31.4,
         "first_order_value": 72.8,
-        "d2c_ad_spend": 101609.19,
+        "d2c_ad_spend": 101859.55,
         "blended_ncac": null,
         "new_customer_mer": null
       },
@@ -64678,18 +64693,18 @@
           "whatnot": 65305.0
         },
         "ad_spend": {
-          "d2c": 101609.19,
+          "d2c": 101859.55,
           "amazon": 25090.94,
           "tiktok_shop": 13459.6,
           "whatnot": 7036.42
         },
         "total_revenue": 511404.34,
-        "total_ad_spend": 147196.15,
+        "total_ad_spend": 147446.51,
         "total_mer": 3.47,
         "d2c_mer": 2.01,
         "amazon_tacos_pct": 22.2,
         "amazon_share_of_revenue_pct": 22.1,
-        "d2c_ads_share_of_ad_spend_pct": 69.0
+        "d2c_ads_share_of_ad_spend_pct": 69.1
       },
       "d28": {
         "window": "2026-10-18..2026-11-14",
@@ -64702,18 +64717,18 @@
           "whatnot": 201053.0
         },
         "ad_spend": {
-          "d2c": 400878.67,
+          "d2c": 401129.03,
           "amazon": 89758.44,
           "tiktok_shop": 68931.04,
           "whatnot": 22777.15
         },
         "total_revenue": 2233645.69,
-        "total_ad_spend": 582345.3,
-        "total_mer": 3.84,
+        "total_ad_spend": 582595.66,
+        "total_mer": 3.83,
         "d2c_mer": 2.17,
         "amazon_tacos_pct": 20.7,
         "amazon_share_of_revenue_pct": 19.5,
-        "d2c_ads_share_of_ad_spend_pct": 68.8
+        "d2c_ads_share_of_ad_spend_pct": 68.9
       },
       "amazon_vs_d2c_spend": {
         "correlation": -0.16,
@@ -65523,18 +65538,18 @@
         "bing": {
           "label": "Bing",
           "mode": "auto",
-          "spend_7d": 1507.37,
-          "score": "3/7",
+          "spend_7d": 1757.73,
+          "score": "4/7",
           "checks": [
             {
               "id": "feed_14_of_14",
-              "pass": false,
-              "detail": "14-day strip ############.."
+              "pass": true,
+              "detail": "14-day strip ##############"
             },
             {
               "id": "full_7d_read",
-              "pass": false,
-              "detail": "5/7 days with a platform read"
+              "pass": true,
+              "detail": "7/7 days with a platform read"
             },
             {
               "id": "tracking_ok",
@@ -65543,7 +65558,7 @@
             },
             {
               "id": "no_dispute",
-              "pass": true,
+              "pass": false,
               "detail": "CFO and Grok reads agree"
             },
             {
@@ -65563,8 +65578,7 @@
             }
           ],
           "failing": [
-            "feed_14_of_14",
-            "full_7d_read",
+            "no_dispute",
             "budget_known",
             "two_measured_changes"
           ],
@@ -65761,7 +65775,7 @@
       }
     ],
     "headline": {
-      "mer_7d": 2.0132,
+      "mer_7d": 2.0082,
       "mer_target": 3.24,
       "breakeven_mer_before_overhead": 1.39,
       "stance": "room_to_add",
@@ -65836,8 +65850,8 @@
   "intl_meta": {
     "schema_version": "intl_meta.v1",
     "as_of": "2026-11-14",
-    "computed_at": "2026-11-16T14:27:12Z",
-    "github_sha": "81ed673ae9b2d8b88b5b3a5fa4e3b78e3fd5f0b8",
+    "computed_at": "2026-11-16T15:26:21Z",
+    "github_sha": "c28ce452ab94de597252c17e5d31bf75ef5cb6f5",
     "currency": "USD",
     "account_id": "act_24723036",
     "status": "OK",

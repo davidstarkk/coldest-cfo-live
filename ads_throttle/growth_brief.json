@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-14",
-  "computed_at": "2026-11-16T14:27:12Z",
+  "computed_at": "2026-11-16T15:26:21Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
   "governor": {
     "status": "ok",
@@ -9,18 +9,18 @@
     "compared_mer_7d": 3.47,
     "adopted": false,
     "adopted_note": "Advisory until David sets global.portfolio_governor in ads_throttle/settings.json. It orders channels; it does not change any channel's rule verdict.",
-    "mer_7d": 2.0132,
+    "mer_7d": 2.0082,
     "mer_target": 3.24,
     "stance": "room_to_add",
     "d2c_revenue_7d": 204556.92,
-    "d2c_spend_7d": 101609.19,
+    "d2c_spend_7d": 101859.55,
     "spend_the_target_supports_at_this_revenue": 63134.85,
-    "spend_above_that": 38474.34,
+    "spend_above_that": 38724.7,
     "total_company_mer_7d": 3.47,
     "target_scope_note": "David 11/12: 3.24 is a total-company target, he believes \u2014 where the company is making money, not just breaking even. Shopify D2C MER is read against D2C break-even instead.",
     "breakeven_mer_before_overhead": 1.39,
     "mer_vs_breakeven": 0.62,
-    "spend_reading_hold_or_raise_pct": 81.4,
+    "spend_reading_hold_or_raise_pct": 82.1,
     "rule_conflict": false,
     "give_back_order": [],
     "add_order": [
@@ -28,7 +28,7 @@
         "channel": "meta",
         "label": "Meta",
         "spend_7d": 72898.09,
-        "share_of_spend_pct": 71.7,
+        "share_of_spend_pct": 71.6,
         "roas_7d": 2.09,
         "marginal_roas": null,
         "ranked_on": "roas_7d",
@@ -44,9 +44,9 @@
         "roas_7d": 1.06,
         "marginal_roas": 0.42,
         "ranked_on": "marginal_roas",
-        "rule_verdict": "cut",
+        "rule_verdict": "cooldown",
         "mode": "auto",
-        "who_can_act": "Grok"
+        "who_can_act": "David"
       }
     ],
     "unranked": [
@@ -72,8 +72,8 @@
       },
       {
         "channel": "bing",
-        "spend_7d": 1507.37,
-        "why": "no full 7-day read"
+        "spend_7d": 1757.73,
+        "why": "disputed read"
       },
       {
         "channel": "reddit",
@@ -180,15 +180,17 @@
         "label": "Bing",
         "window": "2026-11-08..2026-11-14",
         "prior_window": "2026-11-01..2026-11-07",
-        "spend": 1507.37,
+        "spend": 1757.73,
         "spend_prior": 668.7,
-        "revenue": 2397.56,
+        "revenue": 3058.4,
         "revenue_prior": 3201.1,
-        "roas": null,
+        "roas": 1.74,
         "roas_prior": 4.79,
-        "marginal_roas": null,
-        "read": "insufficient",
-        "why": "needs a full 7-day platform read in both weeks (7/7, 5/7)"
+        "marginal_roas": -0.13,
+        "spend_change": 1089.03,
+        "revenue_change": -142.7,
+        "spend_change_pct": 162.9,
+        "read": "added_spend_lost_revenue"
       },
       "x": {
         "label": "X",
@@ -249,7 +251,7 @@
       "returning_net_sales": 51521.45,
       "new_share_of_net_sales_pct": 31.4,
       "first_order_value": 72.8,
-      "d2c_ad_spend": 101609.19,
+      "d2c_ad_spend": 101859.55,
       "blended_ncac": null,
       "new_customer_mer": null
     },
@@ -480,18 +482,18 @@
         "whatnot": 65305.0
       },
       "ad_spend": {
-        "d2c": 101609.19,
+        "d2c": 101859.55,
         "amazon": 25090.94,
         "tiktok_shop": 13459.6,
         "whatnot": 7036.42
       },
       "total_revenue": 511404.34,
-      "total_ad_spend": 147196.15,
+      "total_ad_spend": 147446.51,
       "total_mer": 3.47,
       "d2c_mer": 2.01,
       "amazon_tacos_pct": 22.2,
       "amazon_share_of_revenue_pct": 22.1,
-      "d2c_ads_share_of_ad_spend_pct": 69.0
+      "d2c_ads_share_of_ad_spend_pct": 69.1
     },
     "d28": {
       "window": "2026-10-18..2026-11-14",
@@ -504,18 +506,18 @@
         "whatnot": 201053.0
       },
       "ad_spend": {
-        "d2c": 400878.67,
+        "d2c": 401129.03,
         "amazon": 89758.44,
         "tiktok_shop": 68931.04,
         "whatnot": 22777.15
       },
       "total_revenue": 2233645.69,
-      "total_ad_spend": 582345.3,
-      "total_mer": 3.84,
+      "total_ad_spend": 582595.66,
+      "total_mer": 3.83,
       "d2c_mer": 2.17,
       "amazon_tacos_pct": 20.7,
       "amazon_share_of_revenue_pct": 19.5,
-      "d2c_ads_share_of_ad_spend_pct": 68.8
+      "d2c_ads_share_of_ad_spend_pct": 68.9
     },
     "amazon_vs_d2c_spend": {
       "correlation": -0.16,
@@ -1325,18 +1327,18 @@
       "bing": {
         "label": "Bing",
         "mode": "auto",
-        "spend_7d": 1507.37,
-        "score": "3/7",
+        "spend_7d": 1757.73,
+        "score": "4/7",
         "checks": [
           {
             "id": "feed_14_of_14",
-            "pass": false,
-            "detail": "14-day strip ############.."
+            "pass": true,
+            "detail": "14-day strip ##############"
           },
           {
             "id": "full_7d_read",
-            "pass": false,
-            "detail": "5/7 days with a platform read"
+            "pass": true,
+            "detail": "7/7 days with a platform read"
           },
           {
             "id": "tracking_ok",
@@ -1345,7 +1347,7 @@
           },
           {
             "id": "no_dispute",
-            "pass": true,
+            "pass": false,
             "detail": "CFO and Grok reads agree"
           },
           {
@@ -1365,8 +1367,7 @@
           }
         ],
         "failing": [
-          "feed_14_of_14",
-          "full_7d_read",
+          "no_dispute",
           "budget_known",
           "two_measured_changes"
         ],
@@ -1563,7 +1564,7 @@
     }
   ],
   "headline": {
-    "mer_7d": 2.0132,
+    "mer_7d": 2.0082,
     "mer_target": 3.24,
     "breakeven_mer_before_overhead": 1.39,
     "stance": "room_to_add",

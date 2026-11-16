@@ -2534,9 +2534,9 @@
     {
       "date": "2026-11-13",
       "shopify_d2c_revenue": 28669.85,
-      "total_ad_spend": 21195.68,
-      "d2c_ad_spend": 13824.17,
-      "blended_mer": 2.07,
+      "total_ad_spend": 21316.48,
+      "d2c_ad_spend": 13944.97,
+      "blended_mer": 2.06,
       "channels": {
         "meta": {
           "spend": 10476.03,
@@ -2553,9 +2553,11 @@
           "amazon": 0.0
         },
         "bing": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 120.8,
+          "roas": 2.95,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 120.8,
+          "amazon": 0.0
         },
         "reddit": {
           "spend": 0.0,
@@ -2632,9 +2634,9 @@
     {
       "date": "2026-11-14",
       "shopify_d2c_revenue": 25000.58,
-      "total_ad_spend": 19888.92,
-      "d2c_ad_spend": 13155.75,
-      "blended_mer": 1.9,
+      "total_ad_spend": 20018.48,
+      "d2c_ad_spend": 13285.31,
+      "blended_mer": 1.88,
       "channels": {
         "meta": {
           "spend": 9675.03,
@@ -2651,9 +2653,11 @@
           "amazon": 0.0
         },
         "bing": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 129.56,
+          "roas": 2.35,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 129.56,
+          "amazon": 0.0
         },
         "reddit": {
           "spend": 0.0,

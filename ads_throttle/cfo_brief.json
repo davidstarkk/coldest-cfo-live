@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-14",
-  "computed_at": "2026-11-16T14:27:12Z",
+  "computed_at": "2026-11-16T15:26:21Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -13,44 +13,37 @@
     "window_days": 7
   },
   "portfolio": {
-    "mer_7d": 2.0132,
-    "mer_30d": 2.1567,
+    "mer_7d": 2.0082,
+    "mer_30d": 2.1554,
     "mer_target": 3.24,
     "mer_gap": -1.23,
     "stance": "below_target",
     "d2c_revenue_7d": 204556.92,
-    "d2c_spend_7d": 101609.19,
-    "channel_spend_7d": 101609.19,
-    "spend_judged_pct": 72.7,
-    "spend_in_auto_mode_pct": 18.4,
-    "excluded_from_d2c_spend": [
-      {
-        "channel": "bing",
-        "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-      }
-    ],
+    "d2c_spend_7d": 101859.55,
+    "channel_spend_7d": 101859.55,
+    "spend_judged_pct": 72.5,
+    "spend_in_auto_mode_pct": 18.6,
+    "excluded_from_d2c_spend": [],
     "mer_target_scope": "total_company",
     "total_company_mer_7d": 3.47,
     "stance_on_target_scope": "room_to_add"
   },
   "summary": {
-    "act_now": [
-      "x"
-    ],
+    "act_now": [],
     "by_verdict": {
       "cooldown": [
-        "applovin"
+        "applovin",
+        "x"
       ],
       "cut": [
-        "google",
-        "x"
+        "bing",
+        "google"
       ],
       "hold": [
         "meta",
         "tiktok"
       ],
       "insufficient": [
-        "bing",
         "chatgpt",
         "pinterest",
         "reddit",
@@ -261,24 +254,24 @@
       "label": "Bing",
       "mode": "auto",
       "owner_bot": "Bing Ads bot",
-      "verdict": "insufficient",
-      "rule_says": "Not enough data",
+      "verdict": "cut",
+      "rule_says": "Cut -20% + new strategy",
       "actionable": false,
       "blockers": [
-        "feed_gap:5/7 days measured"
+        "roas_disputed"
       ],
       "cautions": [],
-      "spend_7d": 1507.37,
-      "spend_days_measured": 5,
-      "roas_7d": null,
-      "roas_days": 5,
+      "spend_7d": 1757.73,
+      "spend_days_measured": 7,
+      "roas_7d": 1.74,
+      "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": null,
+      "platform_revenue_7d": 3058.4,
       "roas_prior_7d": 4.79,
       "spend_prior_7d": 668.7,
       "tracking_status": "OK",
-      "feed_status": "stale",
-      "last_measured_day": "2026-11-12",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-14",
       "last_change": {
         "date": "2026-10-27",
         "action": "cut_20pct_and_change_strategy"
@@ -289,7 +282,8 @@
         "spend_7d": 918.86,
         "tier": "Steady",
         "tier_label": "Steady",
-        "tracking": "OK (ratio 0.74 in band)"
+        "tracking": "OK (ratio 0.74 in band)",
+        "roas_gap_pct": 58.6
       },
       "mmm_verdict": null
     },
@@ -297,10 +291,12 @@
       "label": "X",
       "mode": "auto",
       "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
-      "verdict": "cut",
-      "rule_says": "Cut -20% + new strategy",
-      "actionable": true,
-      "blockers": [],
+      "verdict": "cooldown",
+      "rule_says": "Hold - cooldown",
+      "actionable": false,
+      "blockers": [
+        "cooldown"
+      ],
       "cautions": [],
       "spend_7d": 942.52,
       "spend_days_measured": 7,
@@ -314,7 +310,7 @@
       "feed_status": "fresh",
       "last_measured_day": "2026-11-14",
       "last_change": {
-        "date": "2026-11-11",
+        "date": "2026-11-16",
         "action": "cut_20pct_and_change_strategy"
       },
       "grok": {
@@ -538,28 +534,6 @@
   },
   "asks": [
     {
-      "id": "feed.bing",
-      "severity": "high",
-      "channel": "bing",
-      "owner": "Bing Ads bot",
-      "title": "Bing: no measured row since 2026-11-12",
-      "detail": "bing_ads_daily.json has no measured row for 2026-11-13, 2026-11-14. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
-      "first_seen": "2026-11-14",
-      "age_days": 2,
-      "evidence": {
-        "missing_days": [
-          "2026-11-13",
-          "2026-11-14"
-        ],
-        "last_measured_day": "2026-11-12"
-      },
-      "ack": {
-        "status": "done",
-        "note": "bing_ads_daily.json has the 11/11 closed-day row (commit 4e29820; spend $273.30, platform revenue $486.33, 1.78x, complete/closed_day true, as_of 11/11).",
-        "at": "2026-11-12T09:57:31-05:00"
-      }
-    },
-    {
       "id": "feed.reddit",
       "severity": "high",
       "channel": "reddit",
@@ -627,6 +601,26 @@
         "status": "done",
         "note": "Agreed basis written to channels.applovin.notes 2026-11-15. Gap was mostly window (stale 11/2-11/8 vs 11/7-11/13) plus a CFO feed bug counting spend-only rows as $0. Raise threshold 3.0 is David's AppLovin-specific 10/29 rule.",
         "at": "2026-11-15T16:30:00-05:00"
+      }
+    },
+    {
+      "id": "roas.bing.disputed",
+      "severity": "high",
+      "channel": "bing",
+      "owner": "Bing Ads bot",
+      "title": "Bing: CFO reads 1.74x, Grok reads 4.20x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 1.74x (channel daily file, 2026-11-08..2026-11-14) says cut; Grok ranking 2026-11-09 says 4.20x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "first_seen": "2026-11-16",
+      "age_days": 0,
+      "evidence": {
+        "cfo_roas_7d": 1.74,
+        "grok_roas_7d": 4.2,
+        "gap_pct": 58.6
+      },
+      "ack": {
+        "status": "done",
+        "note": "Agreed Bing ROAS basis written to channels.bing.notes on 11/12 (commit 1a2b7a3): goal 172222236 ConversionsQualified/Revenue, click-date, 30-day click window, trailing 7 closed ET days, Shopify-destination only. Nov 5-11 feed snapshot 2.08x, live reread 2.38x, both hold band.",
+        "at": "2026-11-12T09:57:31-05:00"
       }
     },
     {
@@ -823,6 +817,26 @@
     }
   ],
   "change_outcomes": [
+    {
+      "date": "2026-11-16",
+      "channel": "x",
+      "action": "cut_20pct_and_change_strategy",
+      "by": "jarvis via x.com ads",
+      "status_logged": "done (x.com ads bot, 11/16 9:46 AM ET, API read-back $56)",
+      "executed": true,
+      "budget": {
+        "old": 70,
+        "new": 56
+      },
+      "before": {
+        "window": "2026-11-09..2026-11-15",
+        "spend": 788.34,
+        "roas": 0.83,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-24"
+    },
     {
       "date": "2026-11-13",
       "channel": "applovin",
@@ -1372,7 +1386,7 @@
   "growth": {
     "file": "ads_throttle/growth_brief.json",
     "headline": {
-      "mer_7d": 2.0132,
+      "mer_7d": 2.0082,
       "mer_target": 3.24,
       "breakeven_mer_before_overhead": 1.39,
       "stance": "room_to_add",
