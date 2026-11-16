@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-14",
-  "computed_at": "2026-11-15T17:42:29Z",
+  "computed_at": "2026-11-16T14:20:39Z",
   "summary": {
     "status": "degraded",
-    "as_of_lag_days": 0,
+    "as_of_lag_days": 1,
     "channels_fresh": [
       "applovin",
       "google",
@@ -239,7 +239,7 @@
     "tracking_health": {
       "file": "ads_throttle/tracking_health.json",
       "as_of": "2026-11-14T08:36:00-05:00",
-      "age_days": 1,
+      "age_days": 2,
       "max_age_days": 2,
       "status": "fresh",
       "writer": "Jarvis (daily)"
@@ -247,7 +247,7 @@
     "rankings": {
       "file": "ads_throttle/rankings.json",
       "as_of": "2026-11-09",
-      "age_days": 6,
+      "age_days": 7,
       "max_age_days": 8,
       "status": "fresh",
       "writer": "Jarvis (Mondays)"
@@ -255,7 +255,7 @@
     "shopify_attribution": {
       "file": "shopify_attribution_daily.json",
       "as_of": "2026-10-30",
-      "age_days": 16,
+      "age_days": 17,
       "max_age_days": 2,
       "status": "stale",
       "writer": "CFO box ShopifyQL sync (daily)"
@@ -263,7 +263,7 @@
     "mmm_recommendation": {
       "file": "ads_throttle/mmm_recommendation.json",
       "as_of": "2026-11-04T16:05:21Z",
-      "age_days": 11,
+      "age_days": 12,
       "max_age_days": 8,
       "status": "stale",
       "writer": "mmm-refit.yml (weekly)"
@@ -271,20 +271,20 @@
     "settings": {
       "file": "ads_throttle/settings.json",
       "as_of": "2026-11-12T09:57:31-05:00",
-      "age_days": 3,
+      "age_days": 4,
       "status": "info"
     },
     "grok_ack": {
       "file": "ads_throttle/grok_ack.json",
-      "as_of": "2026-11-12T09:59:05-05:00",
-      "age_days": 3,
+      "as_of": "2026-11-15T16:30:00-05:00",
+      "age_days": 1,
       "status": "info"
     },
     "changes": {
       "file": "ads_throttle/changes.json",
-      "as_of": "2026-11-11",
-      "age_days": 4,
-      "entries": 12,
+      "as_of": "2026-11-13",
+      "age_days": 3,
+      "entries": 13,
       "status": "info"
     }
   },

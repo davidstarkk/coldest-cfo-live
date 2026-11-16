@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-14",
-  "computed_at": "2026-11-15T17:42:29Z",
+  "computed_at": "2026-11-16T13:31:37Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
   "governor": {
     "status": "ok",
@@ -20,7 +20,7 @@
     "target_scope_note": "David 11/12: 3.24 is a total-company target, he believes \u2014 where the company is making money, not just breaking even. Shopify D2C MER is read against D2C break-even instead.",
     "breakeven_mer_before_overhead": 1.39,
     "mer_vs_breakeven": 0.62,
-    "spend_reading_hold_or_raise_pct": 80.1,
+    "spend_reading_hold_or_raise_pct": 81.4,
     "rule_conflict": false,
     "give_back_order": [],
     "add_order": [
@@ -166,13 +166,13 @@
         "prior_window": "2026-11-01..2026-11-07",
         "spend": 1319.98,
         "spend_prior": 1122.87,
-        "revenue": 2205.32,
+        "revenue": 2496.52,
         "revenue_prior": 4265.81,
-        "roas": 1.67,
+        "roas": 1.89,
         "roas_prior": 3.8,
-        "marginal_roas": -10.45,
+        "marginal_roas": -8.98,
         "spend_change": 197.11,
-        "revenue_change": -2060.49,
+        "revenue_change": -1769.29,
         "spend_change_pct": 17.6,
         "read": "added_spend_lost_revenue"
       },
@@ -1007,8 +1007,8 @@
     "winner_share_of_meta_spend_pct": 16.4,
     "top_winner_share_of_winner_spend_pct": 22.8,
     "new_this_week": 8,
-    "median_age_days": 49,
-    "oldest_age_days": 284,
+    "median_age_days": 50,
+    "oldest_age_days": 285,
     "formats": {
       "video": 3,
       "image": 5
@@ -1074,8 +1074,8 @@
     "basis": "Average daily revenue over the days used x 365. A run-rate, not a forecast: the window is not adjusted for season or promotions.",
     "multiple_to_target": 3.43,
     "revenue_per_day_at_target": 273972.6,
-    "weeks_to_target_date": 104.0,
-    "weekly_growth_needed_pct": 1.19
+    "weeks_to_target_date": 103.9,
+    "weekly_growth_needed_pct": 1.2
   },
   "autonomy": {
     "status": "ok",
@@ -1277,7 +1277,7 @@
         "label": "AppLovin",
         "mode": "view",
         "spend_7d": 1319.98,
-        "score": "3/7",
+        "score": "4/7",
         "checks": [
           {
             "id": "feed_14_of_14",
@@ -1301,7 +1301,7 @@
           },
           {
             "id": "budget_known",
-            "pass": false,
+            "pass": true,
             "detail": "daily_budget in settings.json"
           },
           {
@@ -1318,7 +1318,6 @@
         "failing": [
           "tracking_ok",
           "no_dispute",
-          "budget_known",
           "two_measured_changes"
         ],
         "suggestion": "not_yet"
@@ -1488,7 +1487,7 @@
         "creative_id": null,
         "ask": "Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta campaigns are being built paused for Canada, the UK and Australia only, at a discussed envelope of about $650 per country and about $2,000 total. David has not yet confirmed whether the $650 is daily or a test total, and has not yet acknowledged the Meta hold (7-day D2C MER about 1.97 vs a 3.24 target, as of 11/13). Please add rows that can accept spend and revenue once those campaigns go live, without treating paused $0 days as a missing feed.",
         "status": "open",
-        "age_days": 1,
+        "age_days": 2,
         "answer": null,
         "answered_on": null,
         "where": null
@@ -1505,27 +1504,27 @@
       "title": "Grok asked: Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta ca",
       "detail": "Asked 2026-11-14 by International Meta Bot. Answer it in ads_throttle/cfo_answers.json (and build the block with the new-brief-field skill if it should be read every morning).",
       "first_seen": "2026-11-15",
-      "age_days": 0
+      "age_days": 1
     },
     {
       "id": "growth.inventory.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_inventory.json is 5 days old",
+      "title": "growth/shopify_inventory.json is 6 days old",
       "detail": "Run the Shopify inventory pull and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-14",
-      "age_days": 1
+      "age_days": 2
     },
     {
       "id": "growth.new_customers.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_customers_daily.json is 5 days old",
+      "title": "growth/shopify_customers_daily.json is 6 days old",
       "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-13",
-      "age_days": 2
+      "age_days": 3
     },
     {
       "id": "tracking.new_customer_utm_coverage",
@@ -1535,7 +1534,7 @@
       "title": "Only 49.5% of new-customer orders carry a UTM",
       "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
       "first_seen": "2026-11-11",
-      "age_days": 4
+      "age_days": 5
     },
     {
       "id": "history.backfill",
@@ -1545,7 +1544,7 @@
       "title": "Media-mix model has 34 of 180 usable days",
       "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
       "first_seen": "2026-11-11",
-      "age_days": 4
+      "age_days": 5
     },
     {
       "id": "inventory.low_cover",
@@ -1555,7 +1554,7 @@
       "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
       "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
       "first_seen": "2026-11-11",
-      "age_days": 4,
+      "age_days": 5,
       "evidence": {
         "products": [
           "COLDEST 36oz Limitless Ultra v8"

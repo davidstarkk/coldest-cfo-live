@@ -5,8 +5,8 @@
   "intl_meta": {
     "schema_version": "intl_meta.v1",
     "as_of": "2026-11-14",
-    "computed_at": "2026-11-15T17:42:30Z",
-    "github_sha": "33782058274136e69ac0202ab24641372f972601",
+    "computed_at": "2026-11-16T13:31:37Z",
+    "github_sha": "e1ee70a10bfb48a735a2adb4aebcbb401a3ab9e6",
     "currency": "USD",
     "account_id": "act_24723036",
     "status": "OK",

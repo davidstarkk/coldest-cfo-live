@@ -2593,10 +2593,10 @@
           "amazon": 0.0
         },
         "applovin": {
-          "spend": 0.0,
-          "roas": null,
+          "spend": 212.92,
+          "roas": 0.59,
           "source": "ad_channel_throttles.series_28d",
-          "d2c": 0.0,
+          "d2c": 212.92,
           "amazon": 0.0
         },
         "taboola": {
@@ -2691,10 +2691,10 @@
           "amazon": 0.0
         },
         "applovin": {
-          "spend": 0.0,
-          "roas": null,
+          "spend": 218.55,
+          "roas": 0.76,
           "source": "ad_channel_throttles.series_28d",
-          "d2c": 0.0,
+          "d2c": 218.55,
           "amazon": 0.0
         },
         "taboola": {
