@@ -1,0 +1,288 @@
+{
+  "schema_version": "intl_meta.v1",
+  "as_of": "2026-11-15",
+  "status": "OK",
+  "intl_meta": {
+    "schema_version": "intl_meta.v1",
+    "as_of": "2026-11-15",
+    "computed_at": "2026-11-16T16:58:06Z",
+    "github_sha": "87dc7d64f33fbc5ab622abf7b0d4b55a9da9cab1",
+    "currency": "USD",
+    "account_id": "act_24723036",
+    "status": "OK",
+    "windows": {
+      "trend_days": 7,
+      "compare_days": 7
+    },
+    "countries": {
+      "CA": {
+        "name": "Canada",
+        "display_name": "Meta Canada",
+        "flag": "\ud83c\udde8\ud83c\udde6",
+        "status": "on",
+        "residual": false,
+        "meta_campaign_ids": [
+          "52562731737847",
+          "52562737655847"
+        ],
+        "display_state": "pending_backfill",
+        "display_amount": null,
+        "measured_spend": null,
+        "last_confirmed_date": null,
+        "last_confirmed_amount": null,
+        "spend_1d": null,
+        "purchases_1d": null,
+        "revenue_1d": null,
+        "roas_1d": null,
+        "spend_7d": null,
+        "revenue_7d": null,
+        "purchases_7d": null,
+        "cpp_7d": null,
+        "roas_7d": null,
+        "revenue_source": "meta_platform_reported",
+        "shopify_revenue_7d": null,
+        "shopify_orders_7d": null,
+        "aov_7d": null,
+        "revenue_gap_7d": null,
+        "gap_pct": null,
+        "contribution_profit_7d": null,
+        "contribution_profit_status": "pending_landed_costs",
+        "trend": {
+          "metric": "roas_7d",
+          "window_days": 7,
+          "prior_value": null,
+          "delta_pct": null,
+          "direction": "insufficient_data",
+          "arrow": "\u2014"
+        },
+        "budget_call": {
+          "action": "INSUFFICIENT_DATA",
+          "reason": "missing 7d spend, purchases or platform ROAS",
+          "advisory": true,
+          "cooldown_until": null
+        },
+        "notes": [
+          "shopify_by_ship_country_daily.json pending; shopify_revenue_7d is null, not $0",
+          "contribution_profit pending_landed_costs (shipping, duties, fulfillment)"
+        ]
+      },
+      "GB": {
+        "name": "United Kingdom",
+        "display_name": "Meta UK",
+        "flag": "\ud83c\uddec\ud83c\udde7",
+        "status": "on",
+        "residual": false,
+        "meta_campaign_ids": [
+          "52562731746047",
+          "52562737657847"
+        ],
+        "display_state": "pending_backfill",
+        "display_amount": null,
+        "measured_spend": null,
+        "last_confirmed_date": null,
+        "last_confirmed_amount": null,
+        "spend_1d": null,
+        "purchases_1d": null,
+        "revenue_1d": null,
+        "roas_1d": null,
+        "spend_7d": null,
+        "revenue_7d": null,
+        "purchases_7d": null,
+        "cpp_7d": null,
+        "roas_7d": null,
+        "revenue_source": "meta_platform_reported",
+        "shopify_revenue_7d": null,
+        "shopify_orders_7d": null,
+        "aov_7d": null,
+        "revenue_gap_7d": null,
+        "gap_pct": null,
+        "contribution_profit_7d": null,
+        "contribution_profit_status": "pending_landed_costs",
+        "trend": {
+          "metric": "roas_7d",
+          "window_days": 7,
+          "prior_value": null,
+          "delta_pct": null,
+          "direction": "insufficient_data",
+          "arrow": "\u2014"
+        },
+        "budget_call": {
+          "action": "INSUFFICIENT_DATA",
+          "reason": "missing 7d spend, purchases or platform ROAS",
+          "advisory": true,
+          "cooldown_until": null
+        },
+        "notes": [
+          "shopify_by_ship_country_daily.json pending; shopify_revenue_7d is null, not $0",
+          "contribution_profit pending_landed_costs (shipping, duties, fulfillment)"
+        ]
+      },
+      "AU": {
+        "name": "Australia",
+        "display_name": "Meta Australia",
+        "flag": "\ud83c\udde6\ud83c\uddfa",
+        "status": "on",
+        "residual": false,
+        "meta_campaign_ids": [
+          "52562731747247",
+          "52562737658847"
+        ],
+        "display_state": "pending_backfill",
+        "display_amount": null,
+        "measured_spend": null,
+        "last_confirmed_date": null,
+        "last_confirmed_amount": null,
+        "spend_1d": null,
+        "purchases_1d": null,
+        "revenue_1d": null,
+        "roas_1d": null,
+        "spend_7d": null,
+        "revenue_7d": null,
+        "purchases_7d": null,
+        "cpp_7d": null,
+        "roas_7d": null,
+        "revenue_source": "meta_platform_reported",
+        "shopify_revenue_7d": null,
+        "shopify_orders_7d": null,
+        "aov_7d": null,
+        "revenue_gap_7d": null,
+        "gap_pct": null,
+        "contribution_profit_7d": null,
+        "contribution_profit_status": "pending_landed_costs",
+        "trend": {
+          "metric": "roas_7d",
+          "window_days": 7,
+          "prior_value": null,
+          "delta_pct": null,
+          "direction": "insufficient_data",
+          "arrow": "\u2014"
+        },
+        "budget_call": {
+          "action": "INSUFFICIENT_DATA",
+          "reason": "missing 7d spend, purchases or platform ROAS",
+          "advisory": true,
+          "cooldown_until": null
+        },
+        "notes": [
+          "shopify_by_ship_country_daily.json pending; shopify_revenue_7d is null, not $0",
+          "contribution_profit pending_landed_costs (shipping, duties, fulfillment)"
+        ]
+      },
+      "US": {
+        "name": "United States",
+        "display_name": "Meta USA",
+        "flag": "\ud83c\uddfa\ud83c\uddf8",
+        "status": "on",
+        "residual": true,
+        "meta_campaign_ids": [],
+        "display_state": "pending_backfill",
+        "display_amount": null,
+        "measured_spend": null,
+        "last_confirmed_date": null,
+        "last_confirmed_amount": null,
+        "spend_1d": null,
+        "purchases_1d": null,
+        "revenue_1d": null,
+        "roas_1d": null,
+        "spend_7d": null,
+        "revenue_7d": null,
+        "purchases_7d": null,
+        "cpp_7d": null,
+        "roas_7d": null,
+        "revenue_source": "meta_platform_reported",
+        "shopify_revenue_7d": null,
+        "shopify_orders_7d": null,
+        "aov_7d": null,
+        "revenue_gap_7d": null,
+        "gap_pct": null,
+        "contribution_profit_7d": null,
+        "contribution_profit_status": "pending_landed_costs",
+        "trend": {
+          "metric": "roas_7d",
+          "window_days": 7,
+          "prior_value": null,
+          "delta_pct": null,
+          "direction": "insufficient_data",
+          "arrow": "\u2014"
+        },
+        "budget_call": {
+          "action": "INSUFFICIENT_DATA",
+          "reason": "missing 7d spend, purchases or platform ROAS",
+          "advisory": true,
+          "cooldown_until": null
+        },
+        "notes": [
+          "shopify_by_ship_country_daily.json pending; shopify_revenue_7d is null, not $0",
+          "contribution_profit pending_landed_costs (shipping, duties, fulfillment)"
+        ]
+      }
+    },
+    "totals": {
+      "spend_1d": null,
+      "spend_7d": null,
+      "note": "Lines sum to Meta account act_24723036. Do not add them to d2c_ad_spend / blended MER."
+    },
+    "reconciliation": {
+      "date": "2026-11-15",
+      "account_spend": null,
+      "lines_spend": null,
+      "delta": null,
+      "ok": true,
+      "duplicate_campaign_ids": []
+    },
+    "reconciliation_days": [],
+    "daily_report": {
+      "meta_lines": [
+        {
+          "display_name": "Meta USA",
+          "spend_1d": null,
+          "purchases_1d": null,
+          "roas_1d": null,
+          "roas_7d": null,
+          "trend_arrow": "\u2014",
+          "budget_call": {
+            "action": "INSUFFICIENT_DATA"
+          }
+        },
+        {
+          "display_name": "Meta Australia",
+          "spend_1d": null,
+          "purchases_1d": null,
+          "roas_1d": null,
+          "roas_7d": null,
+          "trend_arrow": "\u2014",
+          "budget_call": {
+            "action": "INSUFFICIENT_DATA"
+          }
+        },
+        {
+          "display_name": "Meta Canada",
+          "spend_1d": null,
+          "purchases_1d": null,
+          "roas_1d": null,
+          "roas_7d": null,
+          "trend_arrow": "\u2014",
+          "budget_call": {
+            "action": "INSUFFICIENT_DATA"
+          }
+        },
+        {
+          "display_name": "Meta UK",
+          "spend_1d": null,
+          "purchases_1d": null,
+          "roas_1d": null,
+          "roas_7d": null,
+          "trend_arrow": "\u2014",
+          "budget_call": {
+            "action": "INSUFFICIENT_DATA"
+          }
+        }
+      ]
+    },
+    "notes": [
+      "Breakdown of Meta act_24723036. Not a second D2C spend line.",
+      "US is residual (account campaigns minus every registry campaign, catalogs included).",
+      "Shopify country revenue is diagnostic (shipping, else billing) and does not change blended MER."
+    ]
+  }
+}

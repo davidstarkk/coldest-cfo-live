@@ -1337,20 +1337,24 @@
       var note = displayViewFor(X_DISPLAY, date).display_state === 'off'
         ? 'X Ads channel off'
         : 'X Ads pending backfill — last confirmed amount carried; not $0.';
-      return '<tr><td>X Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc(note) + '</td></tr>'
-        + '<tr class="pc-split"><td colspan="7">↳ ' + esc(note) + ' CFO publishes advertising_sources.x_ads / x_ads_daily.json.</td></tr>';
+      if (!b && displayViewFor(X_DISPLAY, date).display_state !== 'off') {
+        note = 'X Ads pending backfill — last confirmed amount carried; not $0.';
+      }
+      return '<tr><td>X Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc(note) + '</td></tr>';
     }
     var spend = num(r.spend);
     var cash = finiteNum(r.cash_cost);
     var srcLabel = (b && b.source) || r.source || 'advertising_sources';
     var plan = (b && b.plan) || r.plan || 'monthly';
     var flags = (b && b.flags) || r.flags || [];
-    var html = '<tr><td>X Ads</td><td>' + esc(spendLabel) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
+    // One row per channel: cash-cost detail (credit, fee) is the row tooltip.
+    var cashLbl = Display.cashCostLabel(r.cash_cost, r.cash_cost_status);
+    var cashNote = 'cash cost ' + (cashLbl || (cash == null ? 'not billed yet' : usd(cash))) + ' · ad credit −' + usd(r.credit_used)
+      + ' · cash spend ' + usd(r.cash_spend) + ' · Premium fee ' + usd(r.fee) + ' (' + plan
+      + ') · ROAS on cash cost ' + rx(cash > 0 ? num(r.revenue) / cash : null);
+    var html = '<tr title="' + esc(cashNote) + '"><td>X Ads</td><td>' + esc(spendLabel) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
       + '</td><td>' + usd(r.revenue) + '</td><td>' + esc(rx(spend > 0 ? num(r.revenue) / spend : null)) + ' · platform-reported</td><td>'
-      + esc(srcLabel) + '</td></tr>'
-      + '<tr class="pc-split"><td>↳ X cash cost</td><td>' + esc(Display.cashCostLabel(r.cash_cost, r.cash_cost_status) || '—') + '</td><td colspan="5">ad credit −' + usd(r.credit_used)
-      + ' · cash spend ' + usd(r.cash_spend) + ' · Premium fee ' + usd(r.fee) + ' (' + esc(plan)
-      + ') · ROAS on cash cost ' + esc(rx(cash > 0 ? num(r.revenue) / cash : null)) + '</td></tr>';
+      + esc(srcLabel) + '</td></tr>';
     flags.forEach(function (f) {
       html += '<tr class="pc-split"><td colspan="7" style="color:#f5bc62">⚠ ' + esc(f) + '</td></tr>';
     });
@@ -1403,20 +1407,18 @@
   function taboolaDetailHtml(date) {
     var r = taboolaDayRow(date);
     var shop = taboolaShopify(date);
-    var shopTxt = shop == null ? '—' : usd(shop);
+    // Shopify-attributed revenue is shown only when it was measured; one row per channel.
+    var shopNote = shop == null ? '' : ' · Shopify-attributed ' + usd(shop);
     var spendLabel = taboolaSpendTxt(date);
     function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
     if (!r) {
-      return '<tr><td>Taboola Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>no Taboola report pulled</td></tr>'
-        + '<tr class="pc-split"><td>↳ Taboola Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=taboola / utm_medium=paid_native</td></tr>';
+      return '<tr><td>Taboola Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>no Taboola report pulled' + esc(shopNote) + '</td></tr>';
     }
     var spend = num(r.spend);
     var rev = num(r.platform_revenue != null ? r.platform_revenue : r.revenue);
     return '<tr><td>Taboola Ads</td><td>' + esc(spendLabel) + '</td><td>' + intOrDash(r.clicks) + '</td><td>' + intOrDash(r.conversions)
       + '</td><td>' + usd(rev) + '</td><td>' + esc(rx(spend > 0 ? rev / spend : null)) + ' · platform-reported</td><td>'
-      + esc(r.source || 'Taboola Backstage API') + '</td></tr>'
-      + '<tr class="pc-split"><td>↳ Taboola Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=taboola / utm_medium=paid_native · platform ROAS '
-      + esc(rx(spend > 0 ? rev / spend : null)) + ' platform-reported</td></tr>';
+      + esc((r.source || 'Taboola Backstage API') + shopNote) + '</td></tr>';
   }
 
   // Outbrain (Teads DR) is display-only like Taboola: mer_for_manus.json (rebuild_mer.py,
@@ -1465,12 +1467,12 @@
   function outbrainDetailHtml(date) {
     var r = outbrainDayRow(date);
     var shop = outbrainShopify(date);
-    var shopTxt = shop == null ? '—' : usd(shop);
+    // Shopify-attributed revenue is shown only when it was measured; one row per channel.
+    var shopNote = shop == null ? '' : ' · Shopify-attributed ' + usd(shop);
     var spendLabel = outbrainSpendTxt(date);
     function rx(v) { return v == null || !(Number(v) > 0) ? '—' : Number(v).toFixed(2) + 'x'; }
     if (!r) {
-      return '<tr><td>Outbrain Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>no Outbrain file imported</td></tr>'
-        + '<tr class="pc-split"><td>↳ Outbrain Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=outbrain / click id obclid</td></tr>';
+      return '<tr><td>Outbrain Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>no Outbrain file imported' + esc(shopNote) + '</td></tr>';
     }
     var spend = num(r.spend);
     var revKnown = r.revenue_known !== false && r.revenue != null;
@@ -1481,9 +1483,7 @@
     var cpa = conv == null ? 'unknown' : (conv > 0 ? usd(spend / conv) : '—');
     return '<tr><td>Outbrain Ads</td><td>' + esc(spendLabel) + '</td><td>' + (r.clicks == null ? 'unknown' : intOrDash(r.clicks))
       + '</td><td>' + (conv == null ? 'unknown' : intOrDash(conv)) + '</td><td>' + (rev == null ? 'unknown' : usd(rev)) + '</td><td>'
-      + esc(roas) + ' · platform-reported</td><td>' + esc(r.source || 'Outbrain UI') + '</td></tr>'
-      + '<tr class="pc-split"><td>↳ Outbrain Shopify-attributed</td><td>' + esc(shopTxt) + '</td><td colspan="5">utm_source=outbrain / obclid · CPA '
-      + esc(cpa) + ' · platform ROAS ' + esc(roas) + ' platform-reported</td></tr>';
+      + esc(roas) + ' · platform-reported</td><td>' + esc((r.source || 'Outbrain UI') + (conv == null ? '' : ' · CPA ' + cpa) + shopNote) + '</td></tr>';
   }
 
   // Spotify Ads (canonical feed key spotify_ads) is display-only like X / Taboola / Outbrain:
@@ -1550,8 +1550,7 @@
     var nd = SPOTIFY_NO_DATA;
     var spendLabel = spendCellTxt(SPOTIFY_DISPLAY, date, { plain: true });
     if (!r) {
-      return '<tr><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc((spotifyBlock() || {}).source || 'Spotify Ads') + '</td></tr>'
-        + '<tr class="pc-split"><td colspan="7">↳ Spotify spend cell follows display_state (Channel off / $0 / amount / pending backfill). Outcome metrics stay unmeasured until a Spotify row exists.</td></tr>';
+      return '<tr><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>—</td><td>—</td><td>—</td><td>—</td><td>' + esc((spotifyBlock() || {}).source || 'Spotify Ads') + '</td></tr>';
     }
     var spend = finiteNum(r.spend);
     if (spend == null) spend = finiteNum(r.daily_spend);
@@ -1564,13 +1563,11 @@
     // A measured $0 day is a number-only row: unpublished metrics read "—" (n/a at $0 spend), never "No data".
     var gap = spend === 0 ? '—' : nd;
     var roasCell = roas != null && Number.isFinite(roas) && roas > 0 ? Number(roas).toFixed(2) + 'x · platform-reported' : gap;
-    var html = '<tr><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>' + (clicks == null ? gap : intOrDash(clicks)) + '</td><td>' + (conv == null ? gap : intOrDash(conv))
+    var cash = finiteNum(r.cash_cost);
+    var cashTitle = cash == null ? '' : ' title="' + esc('billing / cash cost ' + usd(cash) + ' · separate from platform spend, not added to spend') + '"';
+    var html = '<tr' + cashTitle + '><td>Spotify Ads</td><td>' + esc(spendLabel) + '</td><td>' + (clicks == null ? gap : intOrDash(clicks)) + '</td><td>' + (conv == null ? gap : intOrDash(conv))
       + '</td><td>' + (plat && plat.revenue != null ? usd(plat.revenue) : gap) + '</td><td>' + esc(roasCell) + '</td><td>'
       + esc(r.source || 'spotify_ads') + '</td></tr>';
-    var cash = finiteNum(r.cash_cost);
-    if (cash != null) {
-      html += '<tr class="pc-split"><td>↳ Spotify billing / cash cost</td><td>' + usd(cash) + '</td><td colspan="5">separate from platform spend · not added to spend</td></tr>';
-    }
     return html;
   }
 
@@ -1789,6 +1786,15 @@
     return '<table><thead><tr><th>Channel</th><th>Ad spend</th></tr></thead><tbody>' + rows + '</tbody></table>' + foot;
   }
 
+  /* One row per channel. The D2C share is only worth a note when it differs
+     from the channel's spend (e.g. Amazon-bound Bing). */
+  function d2cNote(d) {
+    if (!d || !d.hasFeed || d.d2c == null) return '';
+    var spend = finiteNum(d.spend);
+    if (spend == null || Math.abs(spend - Number(d.d2c)) < 0.005) return '';
+    return ' · D2C ' + usd(d.d2c);
+  }
+
   function detailBreakdownHtml(date) {
     var rows = displayChannels().map(function (ch) {
       if (ch.id === 'x') return xDetailHtml(date);
@@ -1798,16 +1804,13 @@
       var d = dayForDisplay(ch, date);
       var html = '<tr>'
         + '<td>' + esc(ch.label) + '</td>'
-        + '<td>' + esc(spendCellTxt(ch, date, { plain: true })) + '</td>'
+        + '<td>' + esc(spendCellTxt(ch, date, { plain: true })) + esc(d2cNote(d)) + '</td>'
         + '<td>' + esc(metricTxt(d, 'clicks', ch)) + '</td>'
         + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'conversions', ch)) + '</td>'
         + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(metricTxt(d, 'revenue', ch)) + '</td>'
         + '<td' + (isTrackingUnverified(d, ch) ? ' class="pc-unverified"' : '') + '>' + esc(roasDisplay(d, ch)) + '</td>'
         + '<td>' + esc(metricTxt(d, 'source', ch)) + '</td>'
         + '</tr>';
-      if (d.hasFeed && d.d2c != null) {
-        html += '<tr class="pc-split"><td>↳ ' + esc(ch.label) + ' D2C</td><td>' + usd(d.d2c) + '</td><td colspan="5">' + esc(ch.merKey) + '.d2c</td></tr>';
-      }
       return html;
     }).join('');
     return xSectionHtml(date)
