@@ -2,6 +2,7 @@
 
 var assert = require('assert');
 var A = require('../ad_channels_module.js');
+var Paid = require('../paid_channels_module.js');
 
 var failed = 0;
 function test(name, fn) {
@@ -837,6 +838,20 @@ test('heatmap header carries the weekday above each date; Thursday (email drop) 
   assert.ok(html.indexOf('Thu = email drop (email blast)') !== -1, 'legend names the drop day');
   var none = A.heatmapHtml(A.heatmap(s, '2026-11-06', 7, SETTINGS), A.dropConfig({ global: { drop_weekdays: [] } }));
   assert.strictEqual((none.match(/ac-drop(?!-tag)/g) || []).length, 0);
+});
+
+test('X Ad Channels spend label agrees with the day-card formatter', function () {
+  var x = A.CHANNELS.filter(function (c) { return c.id === 'x'; })[0];
+  Paid._setMerDoc(null);
+  Paid._setDailyFile('x', null);
+  var off = A.channelSpendLabel(x, '2026-11-02', { spend: 0, live: false }, {});
+  assert.strictEqual(off, 'Channel off');
+  assert.strictEqual(Paid.xSpendTxt('2026-11-02'), 'Channel off');
+  var spend = A.channelSpendLabel(x, '2026-11-09', { spend: 223.01, live: true, cash_cost: 250.41 }, {});
+  assert.ok(spend.indexOf('$223.01') === 0, spend);
+  Paid._setDailyFile('x', { live: true, by_date: { '2026-11-09': { spend: 223.01, cash_cost: 250.41, complete: true, live: true } } });
+  assert.ok(Paid.xSpendTxt('2026-11-09').indexOf('$223.01') === 0);
+  Paid._setDailyFile('x', null);
 });
 
 if (failed) {
