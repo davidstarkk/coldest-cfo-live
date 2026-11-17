@@ -2678,5 +2678,27 @@
     "api_readback": "2026-11-17 17:46:15Z $35.20 (agent-reported)",
     "next_eligible_date": "2026-11-20",
     "note": "11/16 ROAS 1.92x ($43.46 spend, $83.23, view-through)"
+  },
+  {
+    "date": "2026-11-17",
+    "channel": "tiktok",
+    "window": "2026-11-16 (1 day)",
+    "trailing_7d_roas": null,
+    "rule_band": "pullback tiers (<1x -40%, 1-1.5x -30%, 1.5-2x -20%)",
+    "recommended_action": "cut 18 campaigns/ad groups",
+    "authority": "David direct order 11/17 11:44 AM CT: pull back channels at <=2.0x yesterday, per campaign by performance",
+    "owner_bot": "Jarvis (no TikTok bot)",
+    "platform_ids": [
+      "COLDEST0604 7376735830968287249"
+    ],
+    "budget": {
+      "reduction_immediate_per_day": 2603.2,
+      "reduction_scheduled_11pm_ct_per_day": 542.89,
+      "total_reduction_per_day": 3146.09
+    },
+    "api_readback": "2026-11-17 11:52 AM CT; detail in /workspace/ops/budget_ledger.jsonl (18 lines)",
+    "next_eligible_date": "2026-11-24",
+    "observed_outcome": null,
+    "note": "Account 1.76x complete_payment ($3,224 spend); GMV Max cut on shop ROI. TikTok auto rule 7474364228469784594 (+20%/48h) still ON."
   }
 ]
