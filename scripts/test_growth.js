@@ -130,8 +130,70 @@ test('Grok requests: open and answered are drawn as written', function () {
   assert.ok(M.renderRequests({}).indexOf('None yet') !== -1);
 });
 
+var eng = {
+  creative_spend: { status: 'ok', as_of: '2026-11-09', listed_min_spend: 500, account_spend_7d: 70354.16, account_roas_7d: 2.26, basis: 'b',
+    tiers: [{ tier: 'winner', creatives: 8, spend_7d: 11932.23, roas_7d: 3.72, share_of_account_pct: 17 }, { tier: 'below_cut', creatives: 18, spend_7d: 19108.52, roas_7d: 1.7, share_of_account_pct: 27.2 }],
+    unlisted_tail: { spend_7d: 29861.4, roas_7d: 2.05, share_of_account_pct: 42.4 } },
+  creative_recipe: { status: 'ok', creatives: 36, overall_win_rate_pct: 22.2, basis: 'b', attributes: {
+    age: { values: [{ value: '0-14 days', creatives: 14, winners: 0, below_cut: 10, win_rate_pct: 0, spend_7d: 15327.88, roas_7d: 1.84 }] },
+    format: { values: [{ value: 'carousel', creatives: 2, winners: 1, below_cut: 0, win_rate_pct: null, spend_7d: 900, roas_7d: 3 }] } } },
+  creative_hit_rate: { status: 'ok', win_rate_pct: 22.2, winners: 8, creatives: 36, non_winner_spend_per_winner: 3570.07, launched_last_30_days: { creatives: 24, winners: 3, win_rate_pct: 12.5, spend_7d: 29340.5 }, basis: 'h' },
+  creative_fatigue: { status: 'needs_two_pulls', why: 'the first full pull' },
+  creative_ports: { status: 'ok', target_channels: ['snapchat', 'bing'], cells: 4, cells_ported: 1, cells_live: 1, longest_wait_days: 9, basis: 'b', rows: [
+    { name: 'A', meta_roas_7d: 4, days_since_first_seen: 6, ported_channels: 1, channels: { snapchat: { status: 'live', roas: 6.1 }, bing: { status: 'not_ported', roas: null } } }] },
+  utm_audit: { status: 'ok', window: '2026-11-08..2026-11-14', untagged_share_pct: 59.5, total_orders: 2369, untagged_orders_listed: 1409, truncated: true, basis: 'b',
+    rows: [{ referrer: 'sendibm1', kind: 'referrer_without_utm', orders: 87, net_sales: 6699.38, share_of_untagged_pct: 6.2 }] },
+  landing_pages: { status: 'sessions_undercounted', window: '2026-11-08..2026-11-14', why: '60.2% of the sessions ended in a completed checkout', basis: 'b',
+    pages: [{ path: '/products/15oz', sessions: 219, cart_additions: 214, completed_checkout: 98, conversion_pct: null, listed_ad_spend_7d: 1752.85, winner_ad_spend_7d: 1752.85 }] },
+  customer_voice: { status: 'no_feed', why: 'Comment access is not enabled' },
+  scorecard: { status: 'ok', week: '2026-11-07..2026-11-13', budget_changes: { logged_this_week: 3, improved: 3, flat: 1, worse: 0 }, winners: { on_the_board: 8, new_since_last_pull: null, feed_as_of: '2026-11-09' },
+    ports: { winner_channel_slots: 48, ported: 0, launched_this_week: 0 }, grok_requests: { open: 1, answered_this_week: 0 }, asks: { open: 7, oldest_days: 5 }, note: 'n' }
+};
+
+test('creative spend: tiers, the unlisted tail and the account total as the feed gave them', function () {
+  assert.deepStrictEqual(M.tierRows(eng).map(function (t) { return [t.tier, t.creatives, t.share]; }), [['winner', 8, 17], ['below_cut', 18, 27.2]]);
+  var html = M.renderCreativeSpend(eng);
+  assert.ok(html.indexOf('$19,109') !== -1 && html.indexOf('1.70x') !== -1);
+  assert.ok(html.indexOf('Smaller ads, not listed') !== -1 && html.indexOf('$29,861') !== -1);
+  assert.ok(html.indexOf('$70,354') !== -1);
+  assert.ok(M.renderCreativeSpend({ creative_spend: { status: 'no_feed', why: 'not ingested' } }).indexOf('Feed not pulled yet — not ingested') !== -1);
+});
+
+test('recipe: a value with too few creatives shows no win rate', function () {
+  var html = M.renderRecipe(eng);
+  assert.ok(html.indexOf('too few') !== -1);
+  assert.ok(html.indexOf('0-14 days') !== -1 && html.indexOf('0.0%') !== -1);
+  assert.ok(html.indexOf('$3,570') !== -1);
+  assert.strictEqual(M.recipeRows(eng, 'format')[0].winRate, null);
+});
+
+test('fatigue and customer voice say why they are empty', function () {
+  assert.ok(M.renderFatigue(eng).indexOf('the first full pull') !== -1);
+  assert.ok(M.renderVoice(eng).indexOf('Comment access is not enabled') !== -1);
+});
+
+test('port grid: a port shows its status and ROAS, an empty slot shows a dash', function () {
+  var rows = M.portRows(eng);
+  assert.deepStrictEqual(rows[0].cells.map(function (c) { return [c.channel, c.status, c.roas]; }), [['snapchat', 'live', 6.1], ['bing', 'not_ported', null]]);
+  var html = M.renderPorts(eng);
+  assert.ok(html.indexOf('1 of 4 winner-by-channel slots are ported') !== -1 && html.indexOf('6.10x') !== -1);
+});
+
+test('UTM audit and landing pages: counts shown, conversion withheld when the feed withheld it', function () {
+  assert.ok(M.renderUtm(eng).indexOf('59.5% of 2,369 orders carry no UTM') !== -1);
+  var html = M.renderLanding(eng);
+  assert.ok(html.indexOf('withheld') !== -1 && html.indexOf('60.2% of the sessions') !== -1);
+  assert.ok(html.indexOf('44.7%') === -1, 'no conversion rate may be computed in the page');
+});
+
+test('scorecard draws the counts', function () {
+  var html = M.renderScorecard(eng);
+  assert.ok(html.indexOf('0 / 48') !== -1 && html.indexOf('first full pull') !== -1);
+  assert.strictEqual(M.renderScorecard({}), '');
+});
+
 test('blocks that are missing render a reason and no table', function () {
-  ['renderGovernor', 'renderMarginal', 'renderHalo', 'renderMargin', 'renderCreative', 'renderPacing'].forEach(function (fn) {
+  ['renderGovernor', 'renderMarginal', 'renderHalo', 'renderMargin', 'renderCreative', 'renderPacing', 'renderCreativeSpend', 'renderRecipe', 'renderFatigue', 'renderPorts', 'renderUtm', 'renderLanding', 'renderVoice'].forEach(function (fn) {
     var html = M[fn]({});
     assert.ok(html.indexOf('<table') === -1, fn);
   });
