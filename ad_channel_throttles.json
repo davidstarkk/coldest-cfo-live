@@ -176,7 +176,9 @@
         "tracking": "Basis agreed 11/15 (click, chka_usd_7d, UTC purchase date); CFO brief still lists roas_disputed",
         "roas_source": "platform-reported",
         "wow_spend_change_pct": 18.0,
-        "attribution": "click, chka_usd_7d"
+        "attribution": "platform-reported; campaign 07e26de89b54bb5e60f76aae37406d61; /webReport attribution_mode=click; purchase-date booking; spend=cost, revenue=chka_usd_7d; trailing 7 full UTC days",
+        "roas_basis": "platform_reported",
+        "roas_campaign_id": "07e26de89b54bb5e60f76aae37406d61"
       },
       {
         "channel": "bing",
@@ -347,8 +349,8 @@
     "roas_label": "platform-reported"
   },
   "settings": {
-    "updated_at": "2026-11-12T09:57:31-05:00",
-    "updated_by": "jarvis (11/12: Snap daily_budget 624 from SNAPCHAT ADS live read; no 11/12 raise)",
+    "updated_at": "2026-11-16T13:54:00-05:00",
+    "updated_by": "jarvis (11/16 1:54 PM ET: after cfo-dashboard #60, set channels.google.elevar_ratio=1.657 and roas_disputed=true; other keys unchanged)",
     "global": {
       "step_pct": 20,
       "window_days": 7,
@@ -376,14 +378,15 @@
         "max_daily_budget": null,
         "min_daily_budget": null,
         "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. Live daily_budget 624 confirmed by SNAPCHAT ADS 11/12 9:52 AM ET (Launch 17ba5e2d $504: Limitless d8cfb148 $288, Drive-Thru 2c049090 $216; Hoodies b4333284 squad 7189c922 $120). Launch last raised 11/6 9:40:12 AM ET ($420->$504), next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account would be $724.80, under $784 cap). Hoodies last raised 11/11 9:55:19 AM ET ($100->$120), next eligible 11/18 9:55:19 AM ET. No 11/12 raise.",
-        "daily_budget": 624
+        "daily_budget": 724.8
       },
       "bing": {
         "mode": "auto",
         "owner_bot": "Bing Ads bot",
         "max_daily_budget": null,
         "min_daily_budget": null,
-        "notes": "Agreed ROAS basis 2026-11-12 (Bing Ads bot, for Finance \u00b7 CFO 7-day rule): account 141681759 (customer 251620287). Use Microsoft Advertising campaign-report ConversionsQualified and Revenue on the conversion goal Grok Bot | Purchase (UET event, revenue) (172222236) only. API read 11/12: it is the only Active goal in the account (the other 10 are Paused), tracking_status RecordingConversions, UET tag 134596770, event action=purchase, variable revenue, count_type All, 30-day click-through conversion window (43,200 min), not excluded from bidding. Attribution is Microsoft's last-click, and conversions and revenue are reported on the ad-click date, not the conversion date (Microsoft Learn), so recent days keep maturing: 11/10 Brand was 4 conv/$254.97 at the 11/11 pull and 5/$322.81 at the 11/12 reread. The connector does not expose a view-through window. Window is the trailing 7 completed America/New_York days (all campaigns are EasternTimeUSCanada), read from bing_ads_daily.json by_date rows with complete/closed_day true. Each row records its pull time. Rows are a next-day click-date snapshot and are not rewritten as conversions mature (CLAUDE.md never-overwrite rule). Mark days under 7 old as provisional. ROAS = sum Revenue / sum Spend for Shopify-destination (d2c) campaigns only. Amazon-destination campaigns (605195379, 605195381, 603215198 and any other Amazon-bound campaign) are excluded from the rule and flagged. Never use the legacy Conversions column (deprecated, returns 0), the paused URL goals, Elevar, GA4 or Shopify UTM as the ROAS source. Label it platform-reported. Bands unchanged: above 2.8 raise 20% at most once per 7 days; 2.0-2.8 hold; below 2.0 cut 20% and change strategy; never pause the channel. Under-1x kill: pause a campaign or ad group under 1.0x for more than 3 days with at least $50 spend; relaunch needs David. David 11/6: go aggressive and balance around 4 ROAS (supersedes trimming); log every budget change in the ledger. Reconciliation for Nov 5-11: the feed snapshot is $1,749.63 spend / $3,638.96 revenue = 2.08x; the live click-date reread on 11/12 is $1,751.62 / $4,177.14 = 2.38x. Both are in the hold band."
+        "notes": "Agreed ROAS basis 2026-11-12 (Bing Ads bot, for Finance \u00b7 CFO 7-day rule): account 141681759 (customer 251620287). Use Microsoft Advertising campaign-report ConversionsQualified and Revenue on the conversion goal Grok Bot | Purchase (UET event, revenue) (172222236) only. API read 11/12: it is the only Active goal in the account (the other 10 are Paused), tracking_status RecordingConversions, UET tag 134596770, event action=purchase, variable revenue, count_type All, 30-day click-through conversion window (43,200 min), not excluded from bidding. Attribution is Microsoft's last-click, and conversions and revenue are reported on the ad-click date, not the conversion date (Microsoft Learn), so recent days keep maturing: 11/10 Brand was 4 conv/$254.97 at the 11/11 pull and 5/$322.81 at the 11/12 reread. The connector does not expose a view-through window. Window is the trailing 7 completed America/New_York days (all campaigns are EasternTimeUSCanada), read from bing_ads_daily.json by_date rows with complete/closed_day true. Each row records its pull time. Rows are a next-day click-date snapshot and are not rewritten as conversions mature (CLAUDE.md never-overwrite rule). Mark days under 7 old as provisional. ROAS = sum Revenue / sum Spend for Shopify-destination (d2c) campaigns only. Amazon-destination campaigns (605195379, 605195381, 603215198 and any other Amazon-bound campaign) are excluded from the rule and flagged. Never use the legacy Conversions column (deprecated, returns 0), the paused URL goals, Elevar, GA4 or Shopify UTM as the ROAS source. Label it platform-reported. Bands unchanged: above 2.8 raise 20% at most once per 7 days; 2.0-2.8 hold; below 2.0 cut 20% and change strategy; never pause the channel. Under-1x kill: pause a campaign or ad group under 1.0x for more than 3 days with at least $50 spend; relaunch needs David. David 11/6: go aggressive and balance around 4 ROAS (supersedes trimming); log every budget change in the ledger. Reconciliation for Nov 5-11: the feed snapshot is $1,749.63 spend / $3,638.96 revenue = 2.08x; the live click-date reread on 11/12 is $1,751.62 / $4,177.14 = 2.38x. Both are in the hold band.",
+        "daily_budget": 385
       },
       "chatgpt": {
         "mode": "hold",
@@ -397,7 +400,9 @@
         "owner_bot": "Meta \u00b7 Ad Buyer",
         "max_daily_budget": null,
         "min_daily_budget": null,
-        "notes": "Frozen in this file. Separate David carve-out (10/27 10:39 PM ET) runs in routine meta-roas-kill-cbo-scale: pause ads <1x 7d ROAS; +20% weekly on CBOs >=3x for 7+ days."
+        "notes": "Frozen in this file. Separate David carve-out (10/27 10:39 PM ET) runs in routine meta-roas-kill-cbo-scale: pause ads <1x 7d ROAS; +20% weekly on CBOs >=3x for 7+ days.",
+        "daily_budget": 10000,
+        "daily_budget_note": "US Meta live CBO+ABO total after 11/16 1:22 PM ET floor restore ($10k floor held), excluding MEGMAS 6 ($1,000/day, starts 11/19) and International CA/GB/AU ($450/day total after 11/16 1:32 PM ET owner-ordered cut to $150/day per country)."
       },
       "google": {
         "mode": "auto",
@@ -408,7 +413,9 @@
         "exclude_campaign_prefixes": [
           "JS_"
         ],
-        "daily_budget": 105.84
+        "daily_budget": 92.64,
+        "elevar_ratio": 1.657,
+        "roas_disputed": true
       },
       "tiktok": {
         "mode": "view",
@@ -435,7 +442,7 @@
         "max_daily_budget": null,
         "min_daily_budget": null,
         "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable. | Agreed ROAS basis 2026-11-15 (Applovin Bot + Finance CFO): platform-reported click-only chka_usd_7d, booked on purchase date, campaign 07e26de8 only, trailing 7 full UTC days reread live; spend-only days count as missing revenue, never $0; serve-date ROAS and Shopify UTM advisory only.",
-        "daily_budget": 216,
+        "daily_budget": 162,
         "roas_source": "platform_reported",
         "raise_above_roas": 3.0,
         "raise_above_roas_source": "David 10/29/2026 4:56 PM ET to Applovin Bot, AppLovin-specific: 'I wouldn't raise the budgets if you're only at 2 ROAS. If it goes above 3 ROAS you can raise the budgets.' Registered as a channel exception in ops/ad_rules.md. Hold 2.0-3.0, cut <2.0."
@@ -471,7 +478,7 @@
         "min_daily_budget": null,
         "roas_source": "platform_reported",
         "notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution).",
-        "daily_budget": 56
+        "daily_budget": 44
       }
     },
     "mode_legend": {
@@ -484,15 +491,15 @@
       "note": "10/28 3:48 PM ET: no double-fire. Elevar server-side purchase covers ALL Shopify channels (Tapcart/Shop/Draft), so compare Snap purchases to all-channel Shopify orders, never Online Store only. Browser tag 339 + server share order-ID dedup; tag 339 stays on. Hold until Elevar's 10/29-data check confirms dedup, then back to auto."
     }
   },
-  "d2c_ad_spend": 17199.25,
-  "total_ad_spend": 23749.94,
+  "d2c_ad_spend": 17199.58,
+  "total_ad_spend": 23750.27,
   "shopify_d2c_revenue": 26343.59,
   "blended_mer": 1.53,
   "blended_mer_vs_threshold": -1.27,
   "channels": {
     "meta": {
-      "daily_budget": null,
-      "daily_budget_status": "unverified",
+      "daily_budget": 10000.0,
+      "daily_budget_status": "settings_reported",
       "min_daily_budget": null,
       "max_daily_budget": null,
       "spend_7d": 75260.77,
@@ -597,14 +604,14 @@
         "notes": "11/15: 272 purchases, 300 checkouts on $14,194.84 spend, up 6.2% vs 11/8-11/14 avg (256.1) while Shopify down 2.2%; not a >50% drop. Platform-reported account insights act_24723036. Daily purchases 11/8-11/16: 280/208/242/277/298/259/229/272/35; checkouts 303/191/221/258/218/266/235/300/37; spend $11,892.78/$9,211.80/$10,640.90/$11,631.97/$10,036.65/$10,427.00/$9,411.07/$14,194.84/$1,525.53. 11/14 complete day: 229 purchases / 235 checkouts / $9,411.07. Prior-day revisions vs the 11/14 read: 11/13 spend $10,385.83\u2192$10,427.00 and checkouts 261\u2192266 (purchases stayed 259); 11/12 spend $10,036.14\u2192$10,036.65 and checkouts 214\u2192218 (purchases stayed 298); 11/8 checkouts 298\u2192303. Events flowing today (35 purchases / 37 checkouts / $1,525.53 so far). Dataset quality: Purchase EMQ 9.2, CAPI coverage 99.6% (hourly; was 99.3% on 11/14); InitiateCheckout EMQ 8.3 (was 8.4), CAPI 93.6%. Pixel 562761383897004 last_fired_time field read 11/15 6:59:59 PM ET (may lag, same pattern as prior days); insights confirm live 11/16 activity. No duplicate event-name groups. purchases_7d_avg is the 11/8-11/14 mean (280/208/242/277/298/259/229)."
       },
       "rule_status": "Frozen - view only",
-      "last_change_date": null,
+      "last_change_date": "2026-11-16",
       "last_change_action": null,
-      "next_eligible_date": null,
+      "next_eligible_date": "2026-11-19",
       "owner_bot": "Meta \u00b7 Ad Buyer",
       "strategy_notes": "Frozen in this file. Separate David carve-out (10/27 10:39 PM ET) runs in routine meta-roas-kill-cbo-scale: pause ads <1x 7d ROAS; +20% weekly on CBOs >=3x for 7+ days. Platform-reported conversion value unverified \u2014 ROAS not judged.",
       "auto_rules": "frozen_view_only",
       "mode": "frozen",
-      "recommended_daily_budget": null,
+      "recommended_daily_budget": 10000.0,
       "recommended_action": null,
       "launch_date": null,
       "soft_read_date": null,
@@ -614,7 +621,7 @@
       "known_gap": null
     },
     "google": {
-      "daily_budget": 105.84,
+      "daily_budget": 92.64,
       "daily_budget_status": "settings_reported",
       "min_daily_budget": null,
       "max_daily_budget": null,
@@ -720,14 +727,14 @@
         "notes": "Conversion-date rule (all_conversions_by_conversion_date from customer 5108535701). Shopping App Purchase 11/13 150 (43.6% of 344), 11/14 109 (36.0% of 303); Elevar server-side 11/13 95 (27.6%), 11/14 91 (30.0%). Both pairs are at least a day old and above the 25%/20% WARN floors. 11/15 102 Shopping App (30.2% of 338) and 91 Elevar (26.9%), may still grow \u2014 do not WARN on a still-filling yesterday alone; already above the floors. Earlier days filled vs the 11/14 read, as expected for conversion-date: 11/13 Shopping 108\u2192150 / Elevar 93\u219295; 11/12 Shopping 147\u2192172 / Elevar stayed 124; 11/11 Shopping 133\u2192160 / Elevar 113\u2192126. Begin checkout 105/82/96/112/139/124/97/73 (11/8-11/15). 11/16 so far: 9 Shopping App purchases / 10 Elevar / 2 begin checkout \u2014 early, not judged. Shopping App Purchase, Purchase (elevar server-side), and Shopping App Begin Checkout all ENABLED. Never report all_conversions totals as Google ROAS. purchases_7d_avg is the 11/8-11/14 mean of Shopping App (160/151/158/160/172/150/109)."
       },
       "rule_status": "Not enough data",
-      "last_change_date": "2026-11-10",
-      "last_change_action": "raise_20pct",
-      "next_eligible_date": null,
+      "last_change_date": "2026-11-16",
+      "last_change_action": null,
+      "next_eligible_date": "2026-11-19",
       "owner_bot": "Google \u00b7 Ads",
       "strategy_notes": "Agreed ROAS basis 2026-11-10 (Finance \u00b7 CFO and Google \u00b7 Ads): account 5108535701. Use Google Ads conversions_value_by_conversion_date on the primary action Google Shopping App Purchase (7685918144) only. API read 11/10: data-driven attribution, 90-day click-through lookback, 30-day view-through lookback, primary_for_goal true. Window is the trailing 7 completed America/Los_Angeles days, reread at report time; each reread records pulled_at and how many days have matured. Never use all_conversions, Elevar, GA4, or the webpage Purchase tag as the ROAS source. Label it platform-reported, split JS_ from non-JS_, and mark days under 7 old as provisional. The 2.8/2.0 bands apply to the non-JS_ sandbox only; JS_* campaigns stay read-only unless David extends the rule (asked 10/27 1:20 PM ET). The Shopify view divides by the weekly Elevar broad-union ratio (1.703 for Nov 2-8: 1,023.39 platform purchases against 601 orders) as an advisory estimate only, not causal. A raise freeze while that ratio is out of range is proposed by Google \u00b7 Ads, pending CFO/David confirmation, and is not an agreed rule. daily_inputs.platform_roas (the frozen next-morning click-date snapshot) is not used for Google; the CFO PR will switch it. Reconciliation for Nov 2-8: the CFO's 1.54x was a stale click-date snapshot; live click-date is 2.95x; conversion-date is 6.49x ($89,957.47 / $13,861.86). JS_* was $13,227 at 6.50x; non-JS_ PMax NCA was $635 at 3.96x. daily_budget 105.84 (written 2026-11-10 after the +20% PMax NCA sandbox raise) is the non-JS_ sandbox only, not account-wide. Platform-reported conversion value unverified \u2014 ROAS not judged.",
       "auto_rules": true,
       "mode": "auto",
-      "recommended_daily_budget": 105.84,
+      "recommended_daily_budget": 92.64,
       "recommended_action": null,
       "launch_date": null,
       "soft_read_date": null,
@@ -739,8 +746,8 @@
       "shopify_view_caution": "No data"
     },
     "bing": {
-      "daily_budget": null,
-      "daily_budget_status": "unverified",
+      "daily_budget": 385.0,
+      "daily_budget_status": "settings_reported",
       "min_daily_budget": null,
       "max_daily_budget": null,
       "spend_7d": 1633.2,
@@ -844,16 +851,16 @@
         "purchases_7d_avg": 5.7,
         "notes": "11/15: 4 conv / $341.59 revenue on $145.24 spend (Brand Search 4 / $341.59 on $77.15; PMax 0 on $66.12; NB Exact $1.97). 4 vs 11/8-11/14 avg 5.7 is down 30%, not a >50% drop. Shopify 11/15 bing UTM: 4 orders / $240.21 (cpc 3 / $190.69 plus shopping 1 / $49.52) vs 4 platform conv (not a 2x double count; shopping UTM may be residual). 11/14: 4 conv / $304.91 on $129.56 (Brand 3 / $228.68 on $74.51; PMax 1 / $76.23 on $49.26) vs Shopify 11/14 bing UTM 2 orders / $114.46 (likely assisted). No double count (GTM tag 250 still paused). Daily conv 11/8-11/15: 10/5/7/5/5/4/4/4. Goal 'Grok Bot | Purchase (UET event, revenue)' Active, RecordingConversions on tag 134596770 (tag tracking_status Active); legacy ATC/Begin Checkout goals paused. ShopifyImport UET 211021853 remains Inactive and is not used. No begin-checkout goal. 11/16 so far: $9.29 spend (Brand $7.27, PMax $2.02) and 0 conv \u2014 early, not judged."
       },
-      "rule_status": "Cut -20% + new strategy",
-      "last_change_date": "2026-10-27",
-      "last_change_action": "cut_20pct_and_change_strategy",
-      "next_eligible_date": null,
+      "rule_status": "Hold - cooldown",
+      "last_change_date": "2026-11-16",
+      "last_change_action": null,
+      "next_eligible_date": "2026-11-19",
       "owner_bot": "Bing Ads bot",
       "strategy_notes": "Agreed ROAS basis 2026-11-12 (Bing Ads bot, for Finance \u00b7 CFO 7-day rule): account 141681759 (customer 251620287). Use Microsoft Advertising campaign-report ConversionsQualified and Revenue on the conversion goal Grok Bot | Purchase (UET event, revenue) (172222236) only. API read 11/12: it is the only Active goal in the account (the other 10 are Paused), tracking_status RecordingConversions, UET tag 134596770, event action=purchase, variable revenue, count_type All, 30-day click-through conversion window (43,200 min), not excluded from bidding. Attribution is Microsoft's last-click, and conversions and revenue are reported on the ad-click date, not the conversion date (Microsoft Learn), so recent days keep maturing: 11/10 Brand was 4 conv/$254.97 at the 11/11 pull and 5/$322.81 at the 11/12 reread. The connector does not expose a view-through window. Window is the trailing 7 completed America/New_York days (all campaigns are EasternTimeUSCanada), read from bing_ads_daily.json by_date rows with complete/closed_day true. Each row records its pull time. Rows are a next-day click-date snapshot and are not rewritten as conversions mature (CLAUDE.md never-overwrite rule). Mark days under 7 old as provisional. ROAS = sum Revenue / sum Spend for Shopify-destination (d2c) campaigns only. Amazon-destination campaigns (605195379, 605195381, 603215198 and any other Amazon-bound campaign) are excluded from the rule and flagged. Never use the legacy Conversions column (deprecated, returns 0), the paused URL goals, Elevar, GA4 or Shopify UTM as the ROAS source. Label it platform-reported. Bands unchanged: above 2.8 raise 20% at most once per 7 days; 2.0-2.8 hold; below 2.0 cut 20% and change strategy; never pause the channel. Under-1x kill: pause a campaign or ad group under 1.0x for more than 3 days with at least $50 spend; relaunch needs David. David 11/6: go aggressive and balance around 4 ROAS (supersedes trimming); log every budget change in the ledger. Reconciliation for Nov 5-11: the feed snapshot is $1,749.63 spend / $3,638.96 revenue = 2.08x; the live click-date reread on 11/12 is $1,751.62 / $4,177.14 = 2.38x. Both are in the hold band. Rule uses D2C campaign spend and platform-reported ROAS only. Amazon-destination spend $0.00 (7d) is excluded from the rule.",
       "auto_rules": true,
       "mode": "auto",
-      "recommended_daily_budget": null,
-      "recommended_action": "Cut -20% + new strategy",
+      "recommended_daily_budget": 385.0,
+      "recommended_action": null,
       "launch_date": null,
       "soft_read_date": null,
       "first_binding_date": null,
@@ -985,7 +992,7 @@
       "known_gap": null
     },
     "snapchat": {
-      "daily_budget": 624.0,
+      "daily_budget": 724.8,
       "daily_budget_status": "settings_reported",
       "min_daily_budget": null,
       "max_daily_budget": null,
@@ -1098,7 +1105,7 @@
       "strategy_notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. Live daily_budget 624 confirmed by SNAPCHAT ADS 11/12 9:52 AM ET (Launch 17ba5e2d $504: Limitless d8cfb148 $288, Drive-Thru 2c049090 $216; Hoodies b4333284 squad 7189c922 $120). Launch last raised 11/6 9:40:12 AM ET ($420->$504), next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account would be $724.80, under $784 cap). Hoodies last raised 11/11 9:55:19 AM ET ($100->$120), next eligible 11/18 9:55:19 AM ET. No 11/12 raise. Platform-reported conversion value unverified \u2014 ROAS not judged.",
       "auto_rules": true,
       "mode": "auto",
-      "recommended_daily_budget": 624.0,
+      "recommended_daily_budget": 724.8,
       "recommended_action": null,
       "launch_date": null,
       "soft_read_date": null,
@@ -1478,7 +1485,8 @@
     },
     "applovin": {
       "raise_above_roas": 3.0,
-      "daily_budget": 216.0,
+      "raise_above_roas_source": "David 10/29/2026 4:56 PM ET to Applovin Bot, AppLovin-specific: 'I wouldn't raise the budgets if you're only at 2 ROAS. If it goes above 3 ROAS you can raise the budgets.' Registered as a channel exception in ops/ad_rules.md. Hold 2.0-3.0, cut <2.0.",
+      "daily_budget": 162.0,
       "daily_budget_status": "settings_reported",
       "min_daily_budget": null,
       "max_daily_budget": null,
@@ -1495,7 +1503,7 @@
       "shopify_roas_status": "unverified",
       "coverage_pct": null,
       "coverage_pct_raw": null,
-      "platform_conversions_7d": 61,
+      "platform_conversions_7d": 54,
       "platform_revenue_7d": 2432.07,
       "platform_revenue_status": "verified",
       "platform_revenue_source": "AppLovin Reporting API (platform-reported, click)",
@@ -1537,7 +1545,7 @@
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
           "shopify_revenue_source": "no Shopify-attributed revenue",
-          "platform_conversions": 3,
+          "platform_conversions": 2,
           "platform_revenue": 165.74,
           "platform_roas": 0.76,
           "platform_status": "verified",
@@ -1557,7 +1565,7 @@
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
           "shopify_revenue_source": "no Shopify-attributed revenue",
-          "platform_conversions": 11,
+          "platform_conversions": 5,
           "platform_revenue": 307.48,
           "platform_roas": 1.37,
           "platform_status": "verified",
@@ -1577,21 +1585,23 @@
       "tracking_status": "unknown",
       "tracking": null,
       "rule_status": "View only",
-      "last_change_date": "2026-11-13",
-      "last_change_action": "raise_20pct",
-      "next_eligible_date": "2026-11-16",
+      "last_change_date": "2026-11-16",
+      "last_change_action": null,
+      "next_eligible_date": "2026-11-19",
       "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
       "strategy_notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable. | Agreed ROAS basis 2026-11-15 (Applovin Bot + Finance CFO): platform-reported click-only chka_usd_7d, booked on purchase date, campaign 07e26de8 only, trailing 7 full UTC days reread live; spend-only days count as missing revenue, never $0; serve-date ROAS and Shopify UTM advisory only. ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
       "auto_rules": "view_only",
       "mode": "view",
-      "recommended_daily_budget": 216.0,
+      "recommended_daily_budget": 162.0,
       "recommended_action": null,
       "launch_date": null,
       "soft_read_date": null,
       "first_binding_date": null,
       "soft_read_cut_below_roas": null,
       "attribution_window": null,
-      "known_gap": null
+      "known_gap": null,
+      "attribution": "platform-reported; campaign 07e26de89b54bb5e60f76aae37406d61; /webReport attribution_mode=click; purchase-date booking; spend=cost, revenue=chka_usd_7d; trailing 7 full UTC days",
+      "roas_campaign_id": "07e26de89b54bb5e60f76aae37406d61"
     },
     "taboola": {
       "raise_above_roas": 2.8,
@@ -1955,14 +1965,14 @@
       "known_gap": null
     },
     "x": {
-      "daily_budget": 56.0,
+      "daily_budget": 44.0,
       "daily_budget_status": "settings_reported",
       "min_daily_budget": null,
       "max_daily_budget": null,
-      "spend_7d": 788.34,
+      "spend_7d": 788.67,
       "spend_7d_status": "verified",
       "spend_source": "X Ads API via user-X-ads get_account_stats (platform-reported)",
-      "spend_d2c_7d": 788.34,
+      "spend_d2c_7d": 788.67,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
       "shopify_revenue_7d": null,
@@ -2027,9 +2037,9 @@
         },
         {
           "date": "2026-11-15",
-          "spend": 68.84,
+          "spend": 69.17,
           "spend_status": "verified",
-          "spend_d2c": 68.84,
+          "spend_d2c": 69.17,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -2048,7 +2058,7 @@
       ],
       "destination": "shopify",
       "destination_split": {
-        "shopify": 788.34,
+        "shopify": 788.67,
         "amazon": 0.0
       },
       "tracking_status": "OK",
@@ -2062,13 +2072,13 @@
       },
       "rule_status": "Hold - cooldown",
       "last_change_date": "2026-11-16",
-      "last_change_action": "cut_20pct_and_change_strategy",
+      "last_change_action": null,
       "next_eligible_date": "2026-11-19",
       "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
       "strategy_notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution). ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
       "auto_rules": true,
       "mode": "auto",
-      "recommended_daily_budget": 56.0,
+      "recommended_daily_budget": 44.0,
       "recommended_action": null,
       "launch_date": null,
       "soft_read_date": null,
@@ -7138,7 +7148,7 @@
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
           "shopify_revenue_source": "no Shopify-attributed revenue",
-          "platform_conversions": 3,
+          "platform_conversions": 2,
           "platform_revenue": 165.74,
           "platform_roas": 0.76,
           "platform_status": "verified",
@@ -7158,7 +7168,7 @@
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
           "shopify_revenue_source": "no Shopify-attributed revenue",
-          "platform_conversions": 11,
+          "platform_conversions": 5,
           "platform_revenue": 307.48,
           "platform_roas": 1.37,
           "platform_status": "verified",
@@ -9399,9 +9409,9 @@
         },
         {
           "date": "2026-11-15",
-          "spend": 68.84,
+          "spend": 69.17,
           "spend_status": "verified",
-          "spend_d2c": 68.84,
+          "spend_d2c": 69.17,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9746,9 +9756,9 @@
       },
       {
         "date": "2026-11-15",
-        "d2c_ad_spend": 17199.25,
+        "d2c_ad_spend": 17199.58,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 23749.94,
+        "total_ad_spend": 23750.27,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 26343.59,
         "shopify_revenue_status": "verified",
@@ -9761,143 +9771,203 @@
   "recent_changes": [
     {
       "date": "2026-11-16",
-      "channel": "x",
-      "roas_7d": 0.86,
-      "spend_7d": 521.24,
-      "action": "cut_20pct_and_change_strategy",
-      "old_budget": 70,
-      "new_budget": 56,
-      "by": "jarvis via x.com ads"
-    },
-    {
-      "date": "2026-11-13",
       "channel": "applovin",
-      "roas_7d": 3.27,
-      "spend_7d": null,
-      "action": "raise_20pct",
-      "old_budget": 180,
-      "new_budget": 216,
-      "by": "applovin_bot, logged by jarvis 11/15"
-    },
-    {
-      "date": "2026-11-11",
-      "channel": "snapchat",
       "roas_7d": null,
       "spend_7d": null,
-      "action": "raise_20pct",
-      "old_budget": 100,
-      "new_budget": 120,
-      "by": "SNAPCHAT ADS"
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-11-11",
-      "channel": "x",
-      "roas_7d": 1.6,
-      "spend_7d": null,
-      "action": "cut_20pct_and_change_strategy",
-      "old_budget": 87.5,
-      "new_budget": 70,
-      "by": "x.com ads"
-    },
-    {
-      "date": "2026-11-10",
-      "channel": "google",
-      "roas_7d": 3.96,
-      "spend_7d": 635,
-      "action": "raise_20pct",
-      "old_budget": 88.2,
-      "new_budget": 105.84,
-      "by": "Grok Bot"
-    },
-    {
-      "date": "2026-11-06",
-      "channel": "snapchat",
+      "date": "2026-11-16",
+      "channel": "meta_intl",
       "roas_7d": null,
       "spend_7d": null,
-      "action": "raise_20pct",
-      "old_budget": 420,
-      "new_budget": 504,
-      "by": "SNAPCHAT ADS"
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-11-04",
-      "channel": "taboola",
+      "date": "2026-11-16",
+      "channel": "meta_intl",
       "roas_7d": null,
       "spend_7d": null,
-      "action": "pause",
-      "old_budget": 250,
-      "new_budget": 0,
-      "by": "jarvis"
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-11-04",
-      "channel": "taboola",
+      "date": "2026-11-16",
+      "channel": "meta_intl",
       "roas_7d": null,
       "spend_7d": null,
-      "action": "manual_cut",
-      "old_budget": 500,
-      "new_budget": 250,
-      "by": "jarvis"
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-10-30",
-      "channel": "snapchat",
-      "roas_7d": 7.61,
-      "spend_7d": 1467.59,
-      "action": "raise_20pct",
-      "old_budget": 350,
-      "new_budget": 420,
-      "by": "jarvis"
+      "date": "2026-11-16",
+      "channel": "meta_intl",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-10-30",
-      "channel": "chatgpt",
-      "roas_7d": "<=0.16 (account 0.08x; the single $69.66 order isn't split by campaign in this read)",
-      "spend_7d": 434.03,
-      "action": "kill_under_1x",
-      "old_budget": 110,
-      "new_budget": 0,
-      "by": "jarvis"
+      "date": "2026-11-16",
+      "channel": "meta_intl",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-10-30",
-      "channel": "chatgpt",
-      "roas_7d": "<=0.16 (account 0.08x; the single $69.66 order isn't split by campaign in this read)",
-      "spend_7d": 469.98,
-      "action": "kill_under_1x",
-      "old_budget": 90,
-      "new_budget": 0,
-      "by": "jarvis"
+      "date": "2026-11-16",
+      "channel": "meta_intl",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-10-29",
-      "channel": "pinterest",
-      "roas_7d": 0.19,
-      "spend_7d": 246.41,
-      "action": "kill_under_1x",
-      "old_budget": 65,
-      "new_budget": 0,
-      "by": "jarvis"
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-10-29",
-      "channel": "google",
-      "roas_7d": 1.46,
-      "spend_7d": 1598.8,
-      "action": "cut_20pct_and_change_strategy",
-      "old_budget": 73.5,
-      "new_budget": 58.8,
-      "by": "jarvis"
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     },
     {
-      "date": "2026-10-27",
-      "channel": "bing",
-      "roas_7d": 2.44,
-      "spend_7d": 251.02,
-      "action": "cut_20pct_and_change_strategy",
-      "old_budget": 700,
-      "new_budget": 560,
-      "by": "jarvis"
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-16",
+      "channel": "meta",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
     }
   ]
 }
