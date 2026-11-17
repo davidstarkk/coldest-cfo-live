@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T09:50:00-05:00",
+  "updated_at": "2026-11-17T09:55:00-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
@@ -86,6 +86,11 @@
       "status": "done",
       "note": "Applied 11/16 9:46 AM ET by x.com ads: C02 pkcye/y2kpi $70->$56 (API read-back $56); paused under-1x ads b6d6pq and b6hg8m. Logged in changes.json; settings.json x.daily_budget=56. Next eligible 11/19.",
       "at": "2026-11-16T09:52:00-05:00"
+    },
+    "step.2026-11-17.none": {
+      "status": "done",
+      "note": "11/17 brief fresh (computed 14:32Z, as_of 11/16); act_now empty, so no budget steps. Open asks already acked and unchanged; none re-sent.",
+      "at": "2026-11-17T09:55:00-05:00"
     }
   }
 }

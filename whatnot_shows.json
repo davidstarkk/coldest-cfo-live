@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "as_of": "2026-11-15",
-  "computed_at": "2026-11-16T16:58:06Z",
+  "as_of": "2026-11-16",
+  "computed_at": "2026-11-17T14:32:12Z",
   "basis": "Whatnot show-summary emails. A day is the Eastern day the summary arrived; revenue is Total Sales (tips excluded); orders are shipments. Start times are Eastern, as the email prints them.",
   "window": {
     "first_day": "2026-10-27",
@@ -141,9 +141,21 @@
     "2026-10-22",
     "2026-10-23",
     "2026-10-26",
-    "2026-11-13"
+    "2026-11-13",
+    "2026-11-16"
   ],
   "by_date": {
+    "2026-11-16": {
+      "date": "2026-11-16",
+      "recorded_revenue": 11103.0,
+      "recorded_shows": 4,
+      "shows": [],
+      "status": "no_show_detail",
+      "note": "the day has a total but no per-show rows yet",
+      "show_count": null,
+      "shows_revenue": null,
+      "revenue_per_show": null
+    },
     "2026-11-15": {
       "date": "2026-11-15",
       "recorded_revenue": 0.0,
