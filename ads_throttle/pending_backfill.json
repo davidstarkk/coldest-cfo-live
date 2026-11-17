@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-15",
-  "count": 559,
+  "count": 567,
   "items": [
     {
       "channel": "meta",
@@ -3911,6 +3911,62 @@
     {
       "channel": "whatnot",
       "day": "2026-11-16",
+      "owner_bot": null,
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 0.0
+    },
+    {
+      "channel": "meta",
+      "day": "2026-11-17",
+      "owner_bot": "Meta \u00b7 Ad Buyer",
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 13724.15
+    },
+    {
+      "channel": "google",
+      "day": "2026-11-17",
+      "owner_bot": "Google \u00b7 Ads",
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 1675.96
+    },
+    {
+      "channel": "tiktok",
+      "day": "2026-11-17",
+      "owner_bot": null,
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 3220.94
+    },
+    {
+      "channel": "bing",
+      "day": "2026-11-17",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 145.24
+    },
+    {
+      "channel": "snapchat",
+      "day": "2026-11-17",
+      "owner_bot": "snapchat ads bot",
+      "last_confirmed_date": "2026-11-15",
+      "last_confirmed_amount": 724.8
+    },
+    {
+      "channel": "applovin",
+      "day": "2026-11-17",
+      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
+      "last_confirmed_date": "2026-11-16",
+      "last_confirmed_amount": 234.77
+    },
+    {
+      "channel": "amazon",
+      "day": "2026-11-17",
+      "owner_bot": null,
+      "last_confirmed_date": null,
+      "last_confirmed_amount": null
+    },
+    {
+      "channel": "whatnot",
+      "day": "2026-11-17",
       "owner_bot": null,
       "last_confirmed_date": "2026-11-15",
       "last_confirmed_amount": 0.0
