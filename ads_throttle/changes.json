@@ -2586,5 +2586,55 @@
       "note": "Not yet measured."
     },
     "note": "Next change eligible 2026-11-23 13:37 ET. All-channel paid daily budget after this cut $11,984.44 vs $14,126.64 on 11/15 (-15.2%), counting the 1:05 pullback, the 1:18 Meta floor restore and International Meta Bot's 1:32 PM intl cut to $150/day per country."
+  },
+  {
+    "date": "2026-11-17",
+    "channel": "applovin",
+    "window": {
+      "start": "2026-11-10",
+      "end": "2026-11-16",
+      "days": 7
+    },
+    "trailing_7d_roas": 1.7,
+    "trailing_7d_roas_source": "AppLovin platform-reported, campaign 3142498, 11/10-11/16 (agent-reported by Applovin Bot); paused set 0.73x on $606.50, 42.6% of spend",
+    "rule_band": "hold",
+    "recommended_action": "Creative-set pause, no budget change: META_WrittenInTheStars-20off_781847 (set 1053051262) Live -> Paused so delivery returns to DT_B (3.30x). 'Change the strategy' step under David's under-2x rule.",
+    "authority": {
+      "who": "Jarvis (ops, within rules)",
+      "reference": "Jarvis 2026-11-17 10:44 AM ET decision on Applovin Bot's 11/17 creative read; reactivation needs David."
+    },
+    "owner_bot": "Applovin Bot",
+    "platform_ids": {
+      "campaigns": [
+        "07e26de8",
+        "3142498"
+      ],
+      "adgroups": [
+        "1053051262"
+      ]
+    },
+    "budget": {
+      "before": 162,
+      "after": 162,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-17T10:45:00-05:00",
+      "confirmed": true,
+      "detail": "Paused by Applovin Bot in AppLovin UI, verified after reload: set Paused, campaign Live $162/day, 300% goal, 14 sets Live (agent-reported)."
+    },
+    "next_eligible_date": "2026-11-23",
+    "observed_outcome": {
+      "date": "2026-11-20",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 3,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Applovin Bot checks DT_B spend recovery on 11/20."
+    },
+    "note": "Not a budget step; 11/23 budget cooldown unchanged."
   }
 ]
