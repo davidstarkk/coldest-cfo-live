@@ -2636,5 +2636,47 @@
       "note": "Applovin Bot checks DT_B spend recovery on 11/20."
     },
     "note": "Not a budget step; 11/23 budget cooldown unchanged."
+  },
+  {
+    "date": "2026-11-17",
+    "window": "2026-11-16 (1 day)",
+    "authority": "David direct order 11/17 11:44 AM CT: pull back channels at <=2.0x yesterday, per campaign by performance, overrides cooldown",
+    "observed_outcome": null,
+    "channel": "applovin",
+    "trailing_7d_roas": null,
+    "rule_band": "pullback_1.5-2.0x",
+    "recommended_action": "cut 20%",
+    "owner_bot": "Applovin Bot",
+    "platform_ids": [
+      "Coldest_ROAS_Q4_2026"
+    ],
+    "budget": {
+      "from": 162,
+      "to": 129.6
+    },
+    "api_readback": "2026-11-17 11:48 AM CT $129.60 (agent-reported)",
+    "next_eligible_date": "2026-11-24",
+    "note": "11/16 platform ROAS 1.58x click-only ($369.88/$234.77)"
+  },
+  {
+    "date": "2026-11-17",
+    "window": "2026-11-16 (1 day)",
+    "authority": "David direct order 11/17 11:44 AM CT: pull back channels at <=2.0x yesterday, per campaign by performance, overrides cooldown",
+    "observed_outcome": null,
+    "channel": "x",
+    "trailing_7d_roas": null,
+    "rule_band": "pullback_1.5-2.0x",
+    "recommended_action": "cut 20%",
+    "owner_bot": "x.com ads",
+    "platform_ids": [
+      "C02 Limitless pkcye/y2kpi"
+    ],
+    "budget": {
+      "from": 44.0,
+      "to": 35.2
+    },
+    "api_readback": "2026-11-17 17:46:15Z $35.20 (agent-reported)",
+    "next_eligible_date": "2026-11-20",
+    "note": "11/16 ROAS 1.92x ($43.46 spend, $83.23, view-through)"
   }
 ]
