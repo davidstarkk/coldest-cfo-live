@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-16",
-  "count": 562,
+  "count": 561,
   "items": [
     {
       "channel": "meta",
@@ -3867,13 +3867,6 @@
       "last_confirmed_amount": null
     },
     {
-      "channel": "bing",
-      "day": "2026-11-16",
-      "owner_bot": "Bing Ads bot",
-      "last_confirmed_date": "2026-11-15",
-      "last_confirmed_amount": 145.24
-    },
-    {
       "channel": "amazon",
       "day": "2026-11-16",
       "owner_bot": null,
@@ -3905,8 +3898,8 @@
       "channel": "bing",
       "day": "2026-11-17",
       "owner_bot": "Bing Ads bot",
-      "last_confirmed_date": "2026-11-15",
-      "last_confirmed_amount": 145.24
+      "last_confirmed_date": "2026-11-16",
+      "last_confirmed_amount": 213.55
     },
     {
       "channel": "snapchat",
