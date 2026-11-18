@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-16",
-  "computed_at": "2026-11-17T15:26:45Z",
+  "computed_at": "2026-11-17T23:27:47Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -199,7 +199,10 @@
       "tracking_status": "OK",
       "feed_status": "fresh",
       "last_measured_day": "2026-11-16",
-      "last_change": null,
+      "last_change": {
+        "date": "2026-11-17",
+        "action": null
+      },
       "grok": {
         "as_of": "2026-11-16",
         "roas_7d": 3.71,
@@ -279,7 +282,7 @@
       "feed_status": "fresh",
       "last_measured_day": "2026-11-16",
       "last_change": {
-        "date": "2026-11-16",
+        "date": "2026-11-17",
         "action": null
       },
       "grok": {
@@ -363,7 +366,7 @@
       "feed_status": "fresh",
       "last_measured_day": "2026-11-16",
       "last_change": {
-        "date": "2026-11-16",
+        "date": "2026-11-17",
         "action": null
       },
       "grok": {
@@ -829,6 +832,66 @@
     }
   ],
   "change_outcomes": [
+    {
+      "date": "2026-11-17",
+      "channel": "applovin",
+      "action": null,
+      "by": null,
+      "status_logged": null,
+      "executed": true,
+      "budget": {
+        "old": null,
+        "new": null
+      },
+      "before": {
+        "window": "2026-11-10..2026-11-16",
+        "spend": 1422.49,
+        "roas": 1.7,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-25"
+    },
+    {
+      "date": "2026-11-17",
+      "channel": "x",
+      "action": null,
+      "by": null,
+      "status_logged": null,
+      "executed": true,
+      "budget": {
+        "old": null,
+        "new": null
+      },
+      "before": {
+        "window": "2026-11-10..2026-11-16",
+        "spend": 609.12,
+        "roas": 1.0,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-25"
+    },
+    {
+      "date": "2026-11-17",
+      "channel": "tiktok",
+      "action": null,
+      "by": null,
+      "status_logged": null,
+      "executed": true,
+      "budget": {
+        "old": null,
+        "new": null
+      },
+      "before": {
+        "window": "2026-11-10..2026-11-16",
+        "spend": 8597.02,
+        "roas": 2.25,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-25"
+    },
     {
       "date": "2026-11-16",
       "channel": "x",
