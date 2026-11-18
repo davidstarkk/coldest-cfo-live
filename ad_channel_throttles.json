@@ -1344,9 +1344,9 @@
         "notes": "Advertiser 7376735830968287249, pixel CT0EA0JC77UB52N3D6VG (numeric 7440194986429120530, Elevar Pixel, activity_status ACTIVE). Integrated BASIC advertiser-day report: conversion equals complete_payment on every day in this window. complete_payment 11/9-11/17: 116/96/113/71/45/51/67/60/2 on ~$1.4-2.9k most days, then $3,224.10 on 11/16 (11/15 $1,399.93; 11/14 $1,591.60; 11/13 $1,554.45; 11/12 $1,579.25; 11/11 $2,899.96; 11/10 $1,803.00; 11/9 $2,552.52; 11/17 so far $243.12). 11/16 down 24.9% vs 11/9-11/15 avg (79.9) while Shopify down 14.7%; not a >50% drop. The 11/16 spend jump is a delivery/spend change, not a tracking outage \u2014 payments and initiate_checkout both still fired. Prior days filled vs the 11/16 read: 11/15 54\u219267, 11/14 49\u219251, 11/13 44\u219245, 11/12 69\u219271, 11/11 109\u2192113. The generic checkout metric still reads 0 on all days, but INITIATE_ORDER/initiate_checkout is firing (187/183/226/113/116/118/145/95/3 on 11/9-11/17). TikTok 10/29 dip item already closed 11/4. Shopify 11/16 and 11/15: 0 tiktok UTM; 11/14: 3 / $268.03."
       },
       "rule_status": "View only",
-      "last_change_date": null,
+      "last_change_date": "2026-11-17",
       "last_change_action": null,
-      "next_eligible_date": null,
+      "next_eligible_date": "2026-11-20",
       "owner_bot": null,
       "strategy_notes": "Agreed ROAS basis 2026-11-10: use complete_payment_roas on WEB_CONVERSIONS (Shopify website) campaigns only, advertiser 7376735830968287249, reread at report time. GMV Max/Shop and the GMV-link VIDEO_VIEWS traffic spend go on separate lines. This matches 'Shopify share only'. Reconciliation: account-wide 3.59x includes $5,603 of traffic campaigns with $0 web payments; website-only is about 5.53x on $10,330; the CFO's 2.37x was a frozen snapshot. Platform-reported conversion value unverified \u2014 ROAS not judged.",
       "auto_rules": "view_only",
@@ -1585,9 +1585,9 @@
       "tracking_status": "unknown",
       "tracking": null,
       "rule_status": "View only",
-      "last_change_date": "2026-11-16",
+      "last_change_date": "2026-11-17",
       "last_change_action": null,
-      "next_eligible_date": "2026-11-19",
+      "next_eligible_date": "2026-11-20",
       "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
       "strategy_notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable. | Agreed ROAS basis 2026-11-15 (Applovin Bot + Finance CFO): platform-reported click-only chka_usd_7d, booked on purchase date, campaign 07e26de8 only, trailing 7 full UTC days reread live; spend-only days count as missing revenue, never $0; serve-date ROAS and Shopify UTM advisory only. ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
       "auto_rules": "view_only",
@@ -2071,9 +2071,9 @@
         "notes": "Begin Checkout 14yy8z (website_tag rifyu) is TRACKING this run via list_web_event_tags (last_tracked 2026-11-17T13:08:38Z = 11/17 8:08 AM ET); no DORMANT flicker on this morning's read. Purchase 14yxvf TRACKING (last fire 11/17 8:29 AM ET); typed ATC 14zy3w TRACKING (last fire 11/17 8:35 AM ET). Old custom ATC 14yxzi still DORMANT (last fire 11/5 12:14 PM ET). 11/16 $43.46 spend (all pkcye; pkcwu and pkcyg $0 after earlier pauses), 1 attributed purchase ($83.23), 2 add-to-cart, 92 custom checkout-tag events. 1 vs 11/9-11/15 avg 1.3 is not a >50% drop. Shopify 11/16 had 0 x UTM orders (the platform purchase may be view-through or assisted). 11/15 $69.17 spend, 0 attributed purchases, 27 ATC, 176 custom checkout events. Daily attributed purchases 11/9-11/17: 2/1/1/3/1/1/0/1/0; purchases_7d_avg is the 11/9-11/15 mean (1.3). checkouts_initiated still null in campaign stats because the checkout tag is custom. Live since 11/4 night; first week ended ~11/11. C02 RUNNING/servable; C01 Drive-Thru still PAUSED 11/11 11:36 AM ET; C03 Hoodies still PAUSED. 11/17 so far: $11.89 spend (all pkcye), 0 purchases, 0 ATC, 8 custom checkout events \u2014 purchase and checkout tags fired this morning."
       },
       "rule_status": "Hold - cooldown",
-      "last_change_date": "2026-11-16",
+      "last_change_date": "2026-11-17",
       "last_change_action": null,
-      "next_eligible_date": "2026-11-19",
+      "next_eligible_date": "2026-11-20",
       "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
       "strategy_notes": "X Ads. Rule uses platform-reported ROAS; raise/cut/hold thresholds are global. MER folds cash_cost only (spend \u2212 ad credit used + Premium Business fee), never platform spend. x_ads_sync.py is the only writer of x_ads_daily.json. Live daily_budget 70 is C02 Limitless only (cut 11/11 11:50 AM ET, $87.50->$70, confirmed by x.com ads 11/12 9:51 AM ET). C01 Drive-Thru paused 11/11 under-1x; C03 Hoodies paused 11/10 under-1x. Next cut eligible 11/14 (3-day cooldown). Raises stay frozen (platform vs Shopify attribution). ROAS judged on platform-reported conversion value (not Shopify-attributed). Shopify-attributed revenue still unverified.",
       "auto_rules": true,
@@ -9766,6 +9766,46 @@
   },
   "recent_changes": [
     {
+      "date": "2026-11-17",
+      "channel": "tiktok",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-17",
+      "channel": "x",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-17",
+      "channel": "applovin",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
+      "date": "2026-11-17",
+      "channel": "applovin",
+      "roas_7d": null,
+      "spend_7d": null,
+      "action": null,
+      "old_budget": null,
+      "new_budget": null,
+      "by": null
+    },
+    {
       "date": "2026-11-16",
       "channel": "applovin",
       "roas_7d": null,
@@ -9828,46 +9868,6 @@
     {
       "date": "2026-11-16",
       "channel": "meta_intl",
-      "roas_7d": null,
-      "spend_7d": null,
-      "action": null,
-      "old_budget": null,
-      "new_budget": null,
-      "by": null
-    },
-    {
-      "date": "2026-11-16",
-      "channel": "meta",
-      "roas_7d": null,
-      "spend_7d": null,
-      "action": null,
-      "old_budget": null,
-      "new_budget": null,
-      "by": null
-    },
-    {
-      "date": "2026-11-16",
-      "channel": "meta",
-      "roas_7d": null,
-      "spend_7d": null,
-      "action": null,
-      "old_budget": null,
-      "new_budget": null,
-      "by": null
-    },
-    {
-      "date": "2026-11-16",
-      "channel": "meta",
-      "roas_7d": null,
-      "spend_7d": null,
-      "action": null,
-      "old_budget": null,
-      "new_budget": null,
-      "by": null
-    },
-    {
-      "date": "2026-11-16",
-      "channel": "meta",
       "roas_7d": null,
       "spend_7d": null,
       "action": null,
