@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "as_of": "2026-11-17",
-  "computed_at": "2026-11-19T14:01:04Z",
+  "as_of": "2026-11-18",
+  "computed_at": "2026-11-19T14:31:19Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
   "governor": {
     "status": "ok",
@@ -9,27 +9,39 @@
     "compared_mer_7d": 3.3,
     "adopted": false,
     "adopted_note": "Advisory until David sets global.portfolio_governor in ads_throttle/settings.json. It orders channels; it does not change any channel's rule verdict.",
-    "mer_7d": 1.8645,
+    "mer_7d": 1.9072,
     "mer_target": 3.24,
     "stance": "room_to_add",
-    "d2c_revenue_7d": 193382.49,
-    "d2c_spend_7d": 103719.97,
-    "spend_the_target_supports_at_this_revenue": 59685.95,
-    "spend_above_that": 44034.02,
+    "d2c_revenue_7d": 193567.9,
+    "d2c_spend_7d": 101495.85,
+    "spend_the_target_supports_at_this_revenue": 59743.18,
+    "spend_above_that": 41752.67,
     "total_company_mer_7d": 3.3,
     "target_scope_note": "David 11/12: 3.24 is a total-company target, he believes \u2014 where the company is making money, not just breaking even. Shopify D2C MER is read against D2C break-even instead.",
     "breakeven_mer_before_overhead": 1.4,
-    "mer_vs_breakeven": 0.46,
-    "spend_reading_hold_or_raise_pct": 95.9,
+    "mer_vs_breakeven": 0.51,
+    "spend_reading_hold_or_raise_pct": 94.7,
     "rule_conflict": false,
     "give_back_order": [],
     "add_order": [
       {
+        "channel": "applovin",
+        "label": "AppLovin",
+        "spend_7d": 1331.04,
+        "share_of_spend_pct": 1.3,
+        "roas_7d": 2.23,
+        "marginal_roas": null,
+        "ranked_on": "roas_7d",
+        "rule_verdict": "hold",
+        "mode": "view",
+        "who_can_act": "David"
+      },
+      {
         "channel": "meta",
         "label": "Meta",
-        "spend_7d": 77268.41,
-        "share_of_spend_pct": 74.5,
-        "roas_7d": 1.89,
+        "spend_7d": 76287.94,
+        "share_of_spend_pct": 75.2,
+        "roas_7d": 1.92,
         "marginal_roas": null,
         "ranked_on": "roas_7d",
         "rule_verdict": "cooldown",
@@ -39,48 +51,36 @@
       {
         "channel": "x",
         "label": "X",
-        "spend_7d": 459.12,
+        "spend_7d": 389.82,
         "share_of_spend_pct": 0.4,
-        "roas_7d": 1.17,
-        "marginal_roas": 1.06,
+        "roas_7d": 1.18,
+        "marginal_roas": 1.03,
         "ranked_on": "roas_7d",
         "rule_verdict": "cooldown",
         "mode": "auto",
-        "who_can_act": "David"
-      },
-      {
-        "channel": "applovin",
-        "label": "AppLovin",
-        "spend_7d": 1379.82,
-        "share_of_spend_pct": 1.3,
-        "roas_7d": 2.06,
-        "marginal_roas": -7.82,
-        "ranked_on": "marginal_roas",
-        "rule_verdict": "hold",
-        "mode": "view",
         "who_can_act": "David"
       }
     ],
     "unranked": [
       {
         "channel": "google",
-        "spend_7d": 11062.28,
+        "spend_7d": 11242.53,
         "why": "disputed read"
       },
       {
         "channel": "tiktok",
-        "spend_7d": 8024.13,
+        "spend_7d": 6860.6,
         "why": "disputed read"
       },
       {
         "channel": "snapchat",
-        "spend_7d": 4241.64,
+        "spend_7d": 4372.65,
         "why": "no full 7-day read"
       },
       {
         "channel": "bing",
-        "spend_7d": 1284.57,
-        "why": "disputed read"
+        "spend_7d": 1011.27,
+        "why": "no full 7-day read"
       }
     ],
     "basis": "Ordered by what the last added dollars returned (marginal block) where spend rose, else by 7-day platform ROAS; lowest first. Disputed and unread channels are left out, not guessed."
@@ -97,138 +97,123 @@
     "channels": {
       "meta": {
         "label": "Meta",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
-        "spend": 77073.38,
-        "spend_prior": 73433.46,
-        "revenue": 145886.59,
-        "revenue_prior": 151111.03,
-        "roas": 1.89,
-        "roas_prior": 2.06,
+        "window": "2026-11-12..2026-11-18",
+        "prior_window": "2026-11-05..2026-11-11",
+        "spend": 76083.1,
+        "spend_prior": 75041.31,
+        "revenue": 146010.12,
+        "revenue_prior": 155665.23,
+        "roas": 1.92,
+        "roas_prior": 2.07,
         "marginal_roas": null,
-        "spend_change": 3639.92,
-        "revenue_change": -5224.44,
-        "spend_change_pct": 5.0,
+        "spend_change": 1041.79,
+        "revenue_change": -9655.11,
+        "spend_change_pct": 1.4,
         "read": "flat_spend",
-        "why": "spend moved +5.0%, under 10%: no margin to read"
+        "why": "spend moved +1.4%, under 10%: no margin to read"
       },
       "google": {
         "label": "Google Ads",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
-        "spend": 11019.62,
-        "spend_prior": 14118.9,
-        "revenue": 20179.18,
-        "revenue_prior": 21597.99,
-        "roas": 1.83,
-        "roas_prior": 1.53,
-        "marginal_roas": 0.46,
-        "spend_change": -3099.28,
-        "revenue_change": -1418.81,
-        "spend_change_pct": -22.0,
+        "window": "2026-11-12..2026-11-18",
+        "prior_window": "2026-11-05..2026-11-11",
+        "spend": 11255.18,
+        "spend_prior": 14073.47,
+        "revenue": 20200.18,
+        "revenue_prior": 21451.07,
+        "roas": 1.79,
+        "roas_prior": 1.52,
+        "marginal_roas": 0.44,
+        "spend_change": -2818.29,
+        "revenue_change": -1250.89,
+        "spend_change_pct": -20.0,
         "read": "cut_spend"
       },
       "tiktok": {
         "label": "TikTok (website)",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
-        "spend": 13098.7,
-        "spend_prior": 14956.66,
-        "revenue": 28988.41,
-        "revenue_prior": 36583.28,
-        "roas": 2.21,
-        "roas_prior": 2.45,
-        "marginal_roas": 4.09,
-        "spend_change": -1857.96,
-        "revenue_change": -7594.87,
-        "spend_change_pct": -12.4,
+        "window": "2026-11-12..2026-11-18",
+        "prior_window": "2026-11-05..2026-11-11",
+        "spend": 11555.56,
+        "spend_prior": 16254.82,
+        "revenue": 30444.62,
+        "revenue_prior": 39436.31,
+        "roas": 2.63,
+        "roas_prior": 2.43,
+        "marginal_roas": 1.91,
+        "spend_change": -4699.26,
+        "revenue_change": -8991.69,
+        "spend_change_pct": -28.9,
         "read": "cut_spend"
       },
       "snapchat": {
         "label": "Snapchat",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
-        "spend": 4865.02,
-        "spend_prior": 4059.92,
-        "revenue": 33042.61,
-        "revenue_prior": 33145.39,
-        "roas": 6.79,
-        "roas_prior": 8.16,
-        "marginal_roas": -0.13,
-        "spend_change": 805.1,
-        "revenue_change": -102.78,
-        "spend_change_pct": 19.8,
+        "window": "2026-11-12..2026-11-18",
+        "prior_window": "2026-11-05..2026-11-11",
+        "spend": 4996.03,
+        "spend_prior": 4157.56,
+        "revenue": 33109.27,
+        "revenue_prior": 34529.51,
+        "roas": 6.63,
+        "roas_prior": 8.31,
+        "marginal_roas": -1.69,
+        "spend_change": 838.47,
+        "revenue_change": -1420.24,
+        "spend_change_pct": 20.2,
         "read": "added_spend_lost_revenue"
       },
       "applovin": {
         "label": "AppLovin",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
-        "spend": 1379.82,
-        "spend_prior": 1195.5,
-        "revenue": 2848.17,
-        "revenue_prior": 4289.3,
-        "roas": 2.06,
-        "roas_prior": 3.59,
-        "marginal_roas": -7.82,
-        "spend_change": 184.32,
-        "revenue_change": -1441.13,
-        "spend_change_pct": 15.4,
-        "read": "added_spend_lost_revenue"
+        "window": "2026-11-12..2026-11-18",
+        "prior_window": "2026-11-05..2026-11-11",
+        "spend": 1331.04,
+        "spend_prior": 1223.56,
+        "revenue": 2966.38,
+        "revenue_prior": 4403.83,
+        "roas": 2.23,
+        "roas_prior": 3.6,
+        "marginal_roas": null,
+        "spend_change": 107.48,
+        "revenue_change": -1437.45,
+        "spend_change_pct": 8.8,
+        "read": "flat_spend",
+        "why": "spend moved +8.8%, under 10%: no margin to read"
       },
       "bing": {
         "label": "Bing",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
-        "spend": 1284.57,
-        "spend_prior": 1579.54,
-        "revenue": 2793.37,
-        "revenue_prior": 3711.38,
-        "roas": 2.17,
-        "roas_prior": 2.35,
-        "marginal_roas": 3.11,
-        "spend_change": -294.97,
-        "revenue_change": -918.01,
-        "spend_change_pct": -18.7,
-        "read": "cut_spend"
+        "window": "2026-11-12..2026-11-18",
+        "prior_window": "2026-11-05..2026-11-11",
+        "spend": 1011.27,
+        "spend_prior": 1749.63,
+        "revenue": 2307.04,
+        "revenue_prior": 3638.96,
+        "roas": null,
+        "roas_prior": 2.08,
+        "marginal_roas": null,
+        "read": "insufficient",
+        "why": "needs a full 7-day platform read in both weeks (7/7, 6/7)"
       },
       "x": {
         "label": "X",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
-        "spend": 459.12,
-        "spend_prior": 1300.4,
-        "revenue": 537.74,
-        "revenue_prior": 1427.28,
-        "roas": 1.17,
-        "roas_prior": 1.1,
-        "marginal_roas": 1.06,
-        "spend_change": -841.28,
-        "revenue_change": -889.54,
-        "spend_change_pct": -64.7,
+        "window": "2026-11-12..2026-11-18",
+        "prior_window": "2026-11-05..2026-11-11",
+        "spend": 389.82,
+        "spend_prior": 1402.61,
+        "revenue": 461.51,
+        "revenue_prior": 1503.51,
+        "roas": 1.18,
+        "roas_prior": 1.07,
+        "marginal_roas": 1.03,
+        "spend_change": -1012.79,
+        "revenue_change": -1042.0,
+        "spend_change_pct": -72.2,
         "read": "cut_spend"
       },
       "reddit": {
         "label": "Reddit",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
+        "window": "2026-11-12..2026-11-18",
+        "prior_window": "2026-11-05..2026-11-11",
         "spend": 0.0,
-        "spend_prior": 835.86,
+        "spend_prior": 637.92,
         "revenue": 0.0,
-        "revenue_prior": 660.06,
-        "roas": null,
-        "roas_prior": 0.79,
-        "marginal_roas": null,
-        "read": "insufficient",
-        "why": "under $200 of spend in one of the two weeks"
-      },
-      "taboola": {
-        "label": "Taboola",
-        "window": "2026-11-11..2026-11-17",
-        "prior_window": "2026-11-04..2026-11-10",
-        "spend": null,
-        "spend_prior": 356.41,
-        "revenue": null,
         "revenue_prior": 0.0,
         "roas": null,
         "roas_prior": 0.0,
@@ -243,7 +228,7 @@
     "as_of": "2026-11-10",
     "source": "ShopifyQL via the Shopify connector (net_sales, ex tax; Shopify-defined new / returning)",
     "now": {
-      "window": "2026-11-11..2026-11-17",
+      "window": "2026-11-12..2026-11-18",
       "days_with_customers": 0,
       "days_with_spend": 7,
       "new_customers": null,
@@ -251,22 +236,22 @@
       "returning_net_sales": null,
       "new_share_of_net_sales_pct": null,
       "first_order_value": null,
-      "d2c_ad_spend": 103719.97,
+      "d2c_ad_spend": 101495.85,
       "blended_ncac": null,
       "new_customer_mer": null
     },
     "prior": {
-      "window": "2026-11-04..2026-11-10",
-      "days_with_customers": 7,
+      "window": "2026-11-05..2026-11-11",
+      "days_with_customers": 6,
       "days_with_spend": 7,
-      "new_customers": 751,
-      "new_customer_net_sales": 54581.01,
-      "returning_net_sales": 121165.87,
-      "new_share_of_net_sales_pct": 31.1,
-      "first_order_value": 72.68,
-      "d2c_ad_spend": 106041.99,
-      "blended_ncac": 141.2,
-      "new_customer_mer": 0.51
+      "new_customers": 662,
+      "new_customer_net_sales": 47888.91,
+      "returning_net_sales": 107195.25,
+      "new_share_of_net_sales_pct": 30.9,
+      "first_order_value": 72.34,
+      "d2c_ad_spend": 108938.54,
+      "blended_ncac": null,
+      "new_customer_mer": null
     },
     "basis": "Blended: all D2C ad spend over all new Shopify customers. Organic and email first orders lower it; charging every ad dollar to new customers, although ads also bring returning customers back, raises it. Net sales exclude shipping charges and tax.",
     "by_channel": {
@@ -418,53 +403,53 @@
     "daily_inputs": {
       "shopify_analytics": {
         "first_day": "2026-09-28",
-        "last_day": "2026-11-17",
-        "days": 49
+        "last_day": "2026-11-18",
+        "days": 50
       },
       "meta": {
         "first_day": "2026-09-28",
-        "last_day": "2026-11-17",
-        "days": 50
+        "last_day": "2026-11-18",
+        "days": 51
       },
       "google_ads": {
         "first_day": "2026-09-30",
-        "last_day": "2026-11-17",
-        "days": 47
+        "last_day": "2026-11-18",
+        "days": 48
       },
       "tiktok_ads": {
         "first_day": "2026-09-28",
-        "last_day": "2026-11-17",
-        "days": 50
+        "last_day": "2026-11-18",
+        "days": 51
       },
       "applovin": {
         "first_day": "2026-07-31",
-        "last_day": "2026-11-17",
-        "days": 106
+        "last_day": "2026-11-18",
+        "days": 107
       },
       "snapchat_ads": {
         "first_day": "2026-10-01",
-        "last_day": "2026-11-17",
-        "days": 48
+        "last_day": "2026-11-18",
+        "days": 49
       },
       "pinterest_ads": {
         "first_day": "2026-10-01",
-        "last_day": "2026-11-17",
-        "days": 48
+        "last_day": "2026-11-18",
+        "days": 49
       },
       "reddit_ads": {
         "first_day": "2026-10-01",
-        "last_day": "2026-11-17",
-        "days": 44
+        "last_day": "2026-11-18",
+        "days": 45
       },
       "sellerboard": {
         "first_day": "2026-09-28",
-        "last_day": "2026-11-17",
-        "days": 49
+        "last_day": "2026-11-18",
+        "days": 50
       },
       "whatnot": {
         "first_day": "2026-09-28",
-        "last_day": "2026-11-17",
-        "days": 50
+        "last_day": "2026-11-18",
+        "days": 51
       }
     },
     "how": "ops/growth/ROUTINE.md \"History backfill\": per-channel spend from each platform, fill-holes only through store.put_input, never over a measured day."
@@ -472,56 +457,56 @@
   "halo": {
     "status": "ok",
     "d7": {
-      "window": "2026-11-11..2026-11-17",
+      "window": "2026-11-12..2026-11-18",
       "days_used": 7,
       "days_skipped": [],
       "revenue": {
-        "shopify": 193382.49,
-        "amazon": 110275.86,
-        "tiktok_shop": 123293.38,
-        "whatnot": 71385.0
+        "shopify": 193567.9,
+        "amazon": 107195.99,
+        "tiktok_shop": 116885.36,
+        "whatnot": 70336.0
       },
       "ad_spend": {
-        "d2c": 103719.97,
-        "amazon": 25018.66,
-        "tiktok_shop": 13737.76,
-        "whatnot": 8353.15
+        "d2c": 101495.85,
+        "amazon": 24825.19,
+        "tiktok_shop": 13287.06,
+        "whatnot": 8120.98
       },
-      "total_revenue": 498336.73,
-      "total_ad_spend": 150829.54,
+      "total_revenue": 487985.25,
+      "total_ad_spend": 147729.08,
       "total_mer": 3.3,
-      "d2c_mer": 1.86,
-      "amazon_tacos_pct": 22.7,
-      "amazon_share_of_revenue_pct": 22.1,
-      "d2c_ads_share_of_ad_spend_pct": 68.8
+      "d2c_mer": 1.91,
+      "amazon_tacos_pct": 23.2,
+      "amazon_share_of_revenue_pct": 22.0,
+      "d2c_ads_share_of_ad_spend_pct": 68.7
     },
     "d28": {
-      "window": "2026-10-21..2026-11-17",
+      "window": "2026-10-22..2026-11-18",
       "days_used": 28,
       "days_skipped": [],
       "revenue": {
-        "shopify": 809339.53,
-        "amazon": 433019.61,
-        "tiktok_shop": 647961.32,
-        "whatnot": 205302.0
+        "shopify": 790875.22,
+        "amazon": 431846.45,
+        "tiktok_shop": 599945.31,
+        "whatnot": 214642.0
       },
       "ad_spend": {
-        "d2c": 405044.97,
-        "amazon": 91094.97,
-        "tiktok_shop": 66968.04,
-        "whatnot": 23093.03
+        "d2c": 404360.57,
+        "amazon": 91619.29,
+        "tiktok_shop": 63169.76,
+        "whatnot": 24586.51
       },
-      "total_revenue": 2095622.46,
-      "total_ad_spend": 586201.01,
-      "total_mer": 3.57,
-      "d2c_mer": 2.0,
-      "amazon_tacos_pct": 21.0,
-      "amazon_share_of_revenue_pct": 20.7,
-      "d2c_ads_share_of_ad_spend_pct": 69.1
+      "total_revenue": 2037308.98,
+      "total_ad_spend": 583736.13,
+      "total_mer": 3.49,
+      "d2c_mer": 1.96,
+      "amazon_tacos_pct": 21.2,
+      "amazon_share_of_revenue_pct": 21.2,
+      "d2c_ads_share_of_ad_spend_pct": 69.3
     },
     "amazon_vs_d2c_spend": {
       "correlation": -0.17,
-      "days": 46,
+      "days": 47,
       "note": "Same-day correlation of Amazon revenue with D2C ad spend. It describes; it does not measure a halo. Promotions move both."
     },
     "halo_estimate": null,
@@ -535,182 +520,182 @@
       {
         "product_id": "8263285407976",
         "title": "COLDEST 46oz Limitless Ultra v8",
-        "units": 2005,
+        "units": 1925,
         "cost_basis": [
           "shopify_parent"
         ],
-        "revenue": 135131.98,
-        "cogs": 17222.95,
-        "fulfillment": 9668.78,
-        "payment_fees": 3129.36,
-        "contribution_before_ads": 105110.9,
-        "contribution_margin_pct": 77.8,
+        "revenue": 129905.61,
+        "cogs": 16535.75,
+        "fulfillment": 9358.38,
+        "payment_fees": 3044.02,
+        "contribution_before_ads": 100967.46,
+        "contribution_margin_pct": 77.7,
         "breakeven_roas": 1.29,
-        "revenue_share_pct": 16.4,
+        "revenue_share_pct": 16.2,
         "days_of_stock": 50.4,
         "stock_flag": null
       },
       {
         "product_id": "9018145702120",
         "title": "COLDEST 36oz Limitless Ultra v8",
-        "units": 2305,
+        "units": 2145,
         "cost_basis": [
           "shopify_parent"
         ],
-        "revenue": 132585.43,
-        "cogs": 19799.95,
-        "fulfillment": 10773.94,
-        "payment_fees": 3211.72,
-        "contribution_before_ads": 98799.82,
-        "contribution_margin_pct": 74.5,
+        "revenue": 123685.02,
+        "cogs": 18425.55,
+        "fulfillment": 10200.02,
+        "payment_fees": 3030.4,
+        "contribution_before_ads": 92029.05,
+        "contribution_margin_pct": 74.4,
         "breakeven_roas": 1.34,
-        "revenue_share_pct": 16.1,
+        "revenue_share_pct": 15.4,
         "days_of_stock": 3.9,
         "stock_flag": "low"
       },
       {
         "product_id": "15368278278376",
         "title": "COLDEST Drive Thru",
-        "units": 2737,
+        "units": 2600,
         "cost_basis": [
           "fallback",
           "free_item_default"
         ],
-        "revenue": 117599.76,
-        "cogs": 23141.87,
-        "fulfillment": 11731.95,
-        "payment_fees": 2962.04,
-        "contribution_before_ads": 79763.9,
+        "revenue": 111576.91,
+        "cogs": 21952.56,
+        "fulfillment": 11180.34,
+        "payment_fees": 2830.81,
+        "contribution_before_ads": 75613.2,
         "contribution_margin_pct": 67.8,
-        "breakeven_roas": 1.47,
-        "revenue_share_pct": 14.3,
+        "breakeven_roas": 1.48,
+        "revenue_share_pct": 13.9,
         "days_of_stock": 1058.6,
         "stock_flag": null
       },
       {
         "product_id": "9519247851752",
         "title": "COLDEST 32oz Go Series Bottle",
-        "units": 1655,
+        "units": 1600,
         "cost_basis": [
           "manual_parent"
         ],
-        "revenue": 86911.24,
-        "cogs": 14067.5,
-        "fulfillment": 7047.12,
-        "payment_fees": 2100.92,
-        "contribution_before_ads": 63695.7,
-        "contribution_margin_pct": 73.3,
-        "breakeven_roas": 1.36,
-        "revenue_share_pct": 10.6,
-        "days_of_stock": 327.5,
-        "stock_flag": null
-      },
-      {
-        "product_id": "9177311084776",
-        "title": "COLDEST 24oz Limitless Ultra v8",
-        "units": 1260,
-        "cost_basis": [
-          "manual_parent"
-        ],
-        "revenue": 66020.99,
-        "cogs": 10710.0,
-        "fulfillment": 5536.15,
-        "payment_fees": 1601.52,
-        "contribution_before_ads": 48173.32,
-        "contribution_margin_pct": 73.0,
+        "revenue": 83992.29,
+        "cogs": 13600.0,
+        "fulfillment": 6849.57,
+        "payment_fees": 2039.18,
+        "contribution_before_ads": 61503.54,
+        "contribution_margin_pct": 73.2,
         "breakeven_roas": 1.37,
-        "revenue_share_pct": 8.0,
-        "days_of_stock": 260.5,
+        "revenue_share_pct": 10.5,
+        "days_of_stock": 327.5,
         "stock_flag": null
       },
       {
         "product_id": "9193941074152",
         "title": "COLDEST 15oz Limitless Ultra v8",
-        "units": 1519,
+        "units": 1555,
         "cost_basis": [
           "manual_parent"
         ],
-        "revenue": 63504.2,
-        "cogs": 10754.52,
-        "fulfillment": 6572.86,
-        "payment_fees": 1630.49,
-        "contribution_before_ads": 44546.34,
-        "contribution_margin_pct": 70.1,
+        "revenue": 64815.71,
+        "cogs": 11009.4,
+        "fulfillment": 6824.41,
+        "payment_fees": 1671.29,
+        "contribution_before_ads": 45310.61,
+        "contribution_margin_pct": 69.9,
         "breakeven_roas": 1.43,
-        "revenue_share_pct": 7.7,
+        "revenue_share_pct": 8.1,
         "days_of_stock": 501.3,
+        "stock_flag": null
+      },
+      {
+        "product_id": "9177311084776",
+        "title": "COLDEST 24oz Limitless Ultra v8",
+        "units": 1201,
+        "cost_basis": [
+          "manual_parent"
+        ],
+        "revenue": 62872.78,
+        "cogs": 10208.5,
+        "fulfillment": 5290.82,
+        "payment_fees": 1532.29,
+        "contribution_before_ads": 45841.17,
+        "contribution_margin_pct": 72.9,
+        "breakeven_roas": 1.37,
+        "revenue_share_pct": 7.8,
+        "days_of_stock": 260.5,
         "stock_flag": null
       },
       {
         "product_id": "9209364873448",
         "title": "COLDEST Limitless Gallon",
-        "units": 760,
+        "units": 803,
         "cost_basis": [
           "fallback",
           "free_item_default"
         ],
-        "revenue": 58163.91,
-        "cogs": 11811.81,
-        "fulfillment": 4095.48,
-        "payment_fees": 1369.24,
-        "contribution_before_ads": 40887.39,
-        "contribution_margin_pct": 70.3,
+        "revenue": 61173.65,
+        "cogs": 12404.01,
+        "fulfillment": 4348.97,
+        "payment_fees": 1448.16,
+        "contribution_before_ads": 42972.51,
+        "contribution_margin_pct": 70.2,
         "breakeven_roas": 1.42,
-        "revenue_share_pct": 7.1,
+        "revenue_share_pct": 7.6,
         "days_of_stock": 354.0,
         "stock_flag": null
       },
       {
         "product_id": "8006465454312",
         "title": "Coldest 20 oz Tumbler v2",
-        "units": 1626,
+        "units": 1584,
         "cost_basis": [
           "shopify_parent"
         ],
-        "revenue": 45090.29,
-        "cogs": 8764.14,
-        "fulfillment": 4014.1,
-        "payment_fees": 1237.76,
-        "contribution_before_ads": 31074.29,
-        "contribution_margin_pct": 68.9,
-        "breakeven_roas": 1.45,
-        "revenue_share_pct": 5.5,
+        "revenue": 43595.02,
+        "cogs": 8537.76,
+        "fulfillment": 3906.08,
+        "payment_fees": 1205.07,
+        "contribution_before_ads": 29946.11,
+        "contribution_margin_pct": 68.7,
+        "breakeven_roas": 1.46,
+        "revenue_share_pct": 5.4,
         "days_of_stock": 393.8,
         "stock_flag": null
       },
       {
         "product_id": "8203235688680",
         "title": "Coldest Paracord Handle",
-        "units": 1842,
+        "units": 1767,
         "cost_basis": [
           "fallback",
           "free_item_default"
         ],
-        "revenue": 21142.11,
-        "cogs": 4414.2,
-        "fulfillment": 2016.13,
-        "payment_fees": 527.18,
-        "contribution_before_ads": 14184.6,
+        "revenue": 20279.77,
+        "cogs": 4230.69,
+        "fulfillment": 1944.56,
+        "payment_fees": 506.65,
+        "contribution_before_ads": 13597.87,
         "contribution_margin_pct": 67.1,
         "breakeven_roas": 1.49,
-        "revenue_share_pct": 2.6,
+        "revenue_share_pct": 2.5,
         "days_of_stock": 2596.1,
         "stock_flag": null
       },
       {
         "product_id": "9505970159848",
         "title": "Shipping protection",
-        "units": 5516,
+        "units": 5428,
         "cost_basis": [
           "fallback",
           "free_item_default"
         ],
-        "revenue": 13820.53,
-        "cogs": 2733.53,
-        "fulfillment": 1534.48,
-        "payment_fees": 367.2,
-        "contribution_before_ads": 9185.32,
-        "contribution_margin_pct": 66.5,
+        "revenue": 13591.72,
+        "cogs": 2684.67,
+        "fulfillment": 1494.55,
+        "payment_fees": 361.82,
+        "contribution_before_ads": 9050.68,
+        "contribution_margin_pct": 66.6,
         "breakeven_roas": 1.5,
         "revenue_share_pct": 1.7,
         "days_of_stock": 44.7,
@@ -719,16 +704,16 @@
       {
         "product_id": "8062312284392",
         "title": "Personalize",
-        "units": 650,
+        "units": 651,
         "cost_basis": [
           "fallback",
           "free_item_default"
         ],
-        "revenue": 7616.38,
-        "cogs": 1572.89,
-        "fulfillment": 580.69,
-        "payment_fees": 178.19,
-        "contribution_before_ads": 5284.61,
+        "revenue": 7629.46,
+        "cogs": 1574.35,
+        "fulfillment": 580.95,
+        "payment_fees": 179.37,
+        "contribution_before_ads": 5294.79,
         "contribution_margin_pct": 69.4,
         "breakeven_roas": 1.44,
         "revenue_share_pct": 0.9,
@@ -736,21 +721,22 @@
         "stock_flag": "not_tracked"
       },
       {
-        "product_id": "9094102909160",
-        "title": "Coldest Boots - 5 Pack",
-        "units": 261,
+        "product_id": "9177945178344",
+        "title": "COLDEST Mystery Crate",
+        "units": 42,
         "cost_basis": [
-          "shopify_parent"
+          "fallback",
+          "free_item_default"
         ],
-        "revenue": 6721.18,
-        "cogs": 555.93,
-        "fulfillment": 518.29,
-        "payment_fees": 161.42,
-        "contribution_before_ads": 5485.54,
-        "contribution_margin_pct": 81.6,
-        "breakeven_roas": 1.23,
-        "revenue_share_pct": 0.8,
-        "days_of_stock": 2423.2,
+        "revenue": 7170.75,
+        "cogs": 1623.48,
+        "fulfillment": 149.71,
+        "payment_fees": 139.34,
+        "contribution_before_ads": 5258.22,
+        "contribution_margin_pct": 73.3,
+        "breakeven_roas": 1.36,
+        "revenue_share_pct": 0.9,
+        "days_of_stock": null,
         "stock_flag": null
       },
       {
@@ -772,38 +758,37 @@
         "stock_flag": null
       },
       {
-        "product_id": "9288049000680",
-        "title": "Mini Backpack & Squeeze Holder, Key Hanger, Mint Box",
-        "units": 142,
+        "product_id": "9094102909160",
+        "title": "Coldest Boots - 5 Pack",
+        "units": 248,
         "cost_basis": [
-          "fallback",
-          "free_item_default"
+          "shopify_parent"
         ],
-        "revenue": 6470.9,
-        "cogs": 1376.06,
-        "fulfillment": 366.3,
-        "payment_fees": 152.57,
-        "contribution_before_ads": 4575.97,
-        "contribution_margin_pct": 70.7,
-        "breakeven_roas": 1.41,
+        "revenue": 6357.84,
+        "cogs": 528.24,
+        "fulfillment": 474.86,
+        "payment_fees": 153.94,
+        "contribution_before_ads": 5200.79,
+        "contribution_margin_pct": 81.8,
+        "breakeven_roas": 1.22,
         "revenue_share_pct": 0.8,
-        "days_of_stock": 1223.1,
+        "days_of_stock": 2423.2,
         "stock_flag": null
       },
       {
         "product_id": "8006465388776",
         "title": "The Coldest Water Bottle Brush: 3 Tools in 1",
-        "units": 491,
+        "units": 484,
         "cost_basis": [
           "fallback",
           "free_item_default"
         ],
-        "revenue": 6391.89,
-        "cogs": 1268.98,
-        "fulfillment": 657.07,
-        "payment_fees": 165.29,
-        "contribution_before_ads": 4300.55,
-        "contribution_margin_pct": 67.3,
+        "revenue": 6293.71,
+        "cogs": 1255.44,
+        "fulfillment": 649.32,
+        "payment_fees": 164.22,
+        "contribution_before_ads": 4224.73,
+        "contribution_margin_pct": 67.1,
         "breakeven_roas": 1.49,
         "revenue_share_pct": 0.8,
         "days_of_stock": null,
@@ -811,16 +796,16 @@
       }
     ],
     "blended": {
-      "revenue": 821819.17,
-      "cogs": 140855.47,
-      "fulfillment": 72160.56,
-      "payment_fees": 20197.5,
-      "contribution_before_ads": 588605.64,
-      "contribution_margin_pct": 71.6,
+      "revenue": 803122.21,
+      "cogs": 138447.27,
+      "fulfillment": 70601.4,
+      "payment_fees": 19829.68,
+      "contribution_before_ads": 574243.86,
+      "contribution_margin_pct": 71.5,
       "breakeven_roas": 1.4,
-      "orders": 9874,
-      "cogs_on_fallback_pct": 30.0,
-      "orders_without_actual_fee": 1480
+      "orders": 9660,
+      "cogs_on_fallback_pct": 31.0,
+      "orders_without_actual_fee": 1426
     },
     "inventory": {
       "status": "ok",
@@ -995,7 +980,7 @@
       ],
       "note": "Shopify-reported units; the warehouse count is not in this feed."
     },
-    "window": "2026-10-21..2026-11-17",
+    "window": "2026-10-22..2026-11-18",
     "missing_order_days": [],
     "basis": "Shopify orders in the finance database: order revenue ex tax, product cost from the owner settings and Shopify unit costs, the flat fulfillment cost per shipped order, actual payment fees. Before ad spend and before overhead.",
     "settings_effective_from": "2026-10-30"
@@ -1006,7 +991,7 @@
     "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
     "winners": 8,
     "winner_spend_7d": 11932.23,
-    "winner_share_of_meta_spend_pct": 15.4,
+    "winner_share_of_meta_spend_pct": 15.6,
     "top_winner_share_of_winner_spend_pct": 22.8,
     "new_this_week": 0,
     "median_age_days": 53,
@@ -1061,23 +1046,23 @@
     "plan_file": "ops/plan/growth_plan.json",
     "target_annual_revenue": 100000000.0,
     "target_date": "2028-11-12",
-    "window": "2026-10-21..2026-11-17",
+    "window": "2026-10-22..2026-11-18",
     "days_used": 28,
     "days_skipped": [],
     "revenue_per_day": {
-      "shopify": 28904.98,
-      "amazon": 15464.99,
-      "tiktok_shop": 23141.48,
-      "whatnot": 7332.21
+      "shopify": 28245.54,
+      "amazon": 15423.09,
+      "tiktok_shop": 21426.62,
+      "whatnot": 7665.79
     },
-    "total_revenue_per_day": 74843.66,
-    "annual_run_rate": 27317936.0,
-    "d2c_annual_run_rate": 10550319.0,
+    "total_revenue_per_day": 72761.03,
+    "annual_run_rate": 26557778.0,
+    "d2c_annual_run_rate": 10309623.0,
     "basis": "Average daily revenue over the days used x 365. A run-rate, not a forecast: the window is not adjusted for season or promotions.",
-    "multiple_to_target": 3.66,
+    "multiple_to_target": 3.77,
     "revenue_per_day_at_target": 273972.6,
     "weeks_to_target_date": 103.4,
-    "weekly_growth_needed_pct": 1.26
+    "weekly_growth_needed_pct": 1.29
   },
   "autonomy": {
     "status": "ok",
@@ -1085,7 +1070,7 @@
       "meta": {
         "label": "Meta",
         "mode": "frozen",
-        "spend_7d": 77268.41,
+        "spend_7d": 76287.94,
         "score": "6/7",
         "checks": [
           {
@@ -1132,7 +1117,7 @@
       "google": {
         "label": "Google Ads",
         "mode": "auto",
-        "spend_7d": 11062.28,
+        "spend_7d": 11242.53,
         "score": "5/7",
         "checks": [
           {
@@ -1180,7 +1165,7 @@
       "tiktok": {
         "label": "TikTok (website)",
         "mode": "view",
-        "spend_7d": 8024.13,
+        "spend_7d": 6860.6,
         "score": "4/7",
         "checks": [
           {
@@ -1229,13 +1214,13 @@
       "snapchat": {
         "label": "Snapchat",
         "mode": "auto",
-        "spend_7d": 4241.64,
+        "spend_7d": 4372.65,
         "score": "5/7",
         "checks": [
           {
             "id": "feed_14_of_14",
             "pass": false,
-            "detail": "14-day strip ########.#####"
+            "detail": "14-day strip #######.######"
           },
           {
             "id": "full_7d_read",
@@ -1260,12 +1245,12 @@
           {
             "id": "two_measured_changes",
             "pass": true,
-            "detail": "2 executed changes with a before / after read"
+            "detail": "3 executed changes with a before / after read"
           },
           {
             "id": "changes_not_mostly_worse",
             "pass": true,
-            "detail": "0 of 2 worse"
+            "detail": "1 of 3 worse"
           }
         ],
         "failing": [
@@ -1277,7 +1262,7 @@
       "applovin": {
         "label": "AppLovin",
         "mode": "view",
-        "spend_7d": 1379.82,
+        "spend_7d": 1331.04,
         "score": "5/7",
         "checks": [
           {
@@ -1325,18 +1310,18 @@
       "bing": {
         "label": "Bing",
         "mode": "auto",
-        "spend_7d": 1284.57,
-        "score": "5/7",
+        "spend_7d": 1011.27,
+        "score": "4/7",
         "checks": [
           {
             "id": "feed_14_of_14",
-            "pass": true,
-            "detail": "14-day strip ##############"
+            "pass": false,
+            "detail": "14-day strip #############."
           },
           {
             "id": "full_7d_read",
-            "pass": true,
-            "detail": "7/7 days with a platform read"
+            "pass": false,
+            "detail": "6/7 days with a platform read"
           },
           {
             "id": "tracking_ok",
@@ -1345,7 +1330,7 @@
           },
           {
             "id": "no_dispute",
-            "pass": false,
+            "pass": true,
             "detail": "CFO and Grok reads agree"
           },
           {
@@ -1365,7 +1350,8 @@
           }
         ],
         "failing": [
-          "no_dispute",
+          "feed_14_of_14",
+          "full_7d_read",
           "two_measured_changes"
         ],
         "suggestion": "review_auto"
@@ -1373,7 +1359,7 @@
       "x": {
         "label": "X",
         "mode": "auto",
-        "spend_7d": 459.12,
+        "spend_7d": 389.82,
         "score": "6/7",
         "checks": [
           {
@@ -1404,12 +1390,12 @@
           {
             "id": "two_measured_changes",
             "pass": false,
-            "detail": "0 executed changes with a before / after read"
+            "detail": "1 executed changes with a before / after read"
           },
           {
             "id": "changes_not_mostly_worse",
             "pass": true,
-            "detail": "0 of 0 worse"
+            "detail": "0 of 1 worse"
           }
         ],
         "failing": [
@@ -1511,7 +1497,7 @@
     }
   ],
   "headline": {
-    "mer_7d": 1.8645,
+    "mer_7d": 1.9072,
     "mer_target": 3.24,
     "breakeven_mer_before_overhead": 1.4,
     "stance": "room_to_add",
@@ -1524,85 +1510,85 @@
     "new_share_of_net_sales_pct": null,
     "revenue_per_customer_m2": 105.38,
     "paid_back_by": null,
-    "contribution_margin_pct": 71.6,
+    "contribution_margin_pct": 71.5,
     "low_stock": [
       "COLDEST 36oz Limitless Ultra v8"
     ],
-    "annual_run_rate": 27317936.0,
-    "multiple_to_target": 3.66,
+    "annual_run_rate": 26557778.0,
+    "multiple_to_target": 3.77,
     "total_mer_7d": 3.3,
     "usable_history_days": 34,
     "open_grok_requests": 1,
     "tests_running": 0
   },
   "intl_meta_budget_calls": {
-    "as_of": "2026-11-17",
-    "status": "PENDING_INPUT",
+    "as_of": "2026-11-18",
+    "status": "OK",
     "advisory": true,
     "lines": [
       {
         "code": "CA",
         "display_name": "Meta Canada",
-        "action": "INSUFFICIENT_DATA",
-        "reason": "missing 7d spend, purchases or platform ROAS",
+        "action": "CUT_20",
+        "reason": "roas_7d 1.02x < 2.0",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": null,
+        "roas_7d": 1.02,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": null
+        "spend_7d": 1527.28
       },
       {
         "code": "GB",
         "display_name": "Meta UK",
-        "action": "INSUFFICIENT_DATA",
-        "reason": "missing 7d spend, purchases or platform ROAS",
+        "action": "CUT_20",
+        "reason": "roas_7d 0.66x < 2.0",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": null,
+        "roas_7d": 0.66,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": null
+        "spend_7d": 1536.48
       },
       {
         "code": "AU",
         "display_name": "Meta Australia",
         "action": "INSUFFICIENT_DATA",
-        "reason": "missing 7d spend, purchases or platform ROAS",
+        "reason": "spend_7d $1486.60 / purchases_7d 8 below $300 and 10 purchases",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": null,
+        "roas_7d": 0.59,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": null
+        "spend_7d": 1486.6
       },
       {
         "code": "US",
         "display_name": "Meta USA",
-        "action": "INSUFFICIENT_DATA",
-        "reason": "missing 7d spend, purchases or platform ROAS",
+        "action": "CUT_20",
+        "reason": "roas_7d 1.84x < 2.0",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": null,
+        "roas_7d": 1.84,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": null
+        "spend_7d": 51237.95
       }
     ]
   }
