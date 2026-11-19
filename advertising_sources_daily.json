@@ -24715,6 +24715,16 @@
           },
           {
             "id": "",
+            "name": "Coldest_ROAS",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "",
             "name": "Christmas/Black Friday Ads",
             "destination": "d2c",
             "spend": 0.0,
@@ -24726,16 +24736,6 @@
           {
             "id": "",
             "name": "New Ad style - Ridg Style",
-            "destination": "d2c",
-            "spend": 0.0,
-            "clicks": 0,
-            "conversions": 0,
-            "revenue": 0.0,
-            "impressions": 0
-          },
-          {
-            "id": "",
-            "name": "Coldest_ROAS",
             "destination": "d2c",
             "spend": 0.0,
             "clicks": 0,
@@ -25070,7 +25070,7 @@
           },
           {
             "id": "",
-            "name": "Coldest_ROAS",
+            "name": "New Ad style - Ridg Style",
             "destination": "d2c",
             "spend": 0.0,
             "clicks": 0,
@@ -25080,7 +25080,7 @@
           },
           {
             "id": "",
-            "name": "New Ad style - Ridg Style",
+            "name": "Coldest_ROAS",
             "destination": "d2c",
             "spend": 0.0,
             "clicks": 0,
@@ -25307,6 +25307,62 @@
       }
     },
     "2026-11-18": {
+      "applovin": {
+        "spend": 130.5,
+        "clicks": 121,
+        "conversions": 8,
+        "revenue": 714.52,
+        "impressions": 1506,
+        "roas": 5.48,
+        "source": "AppLovin Reporting API (platform-reported, click)",
+        "live": true,
+        "spend_d2c": 130.5,
+        "spend_amazon": 0.0,
+        "destination": "d2c",
+        "complete": true,
+        "revenue_known": true,
+        "platform_revenue": 714.52,
+        "platform_revenue_0d": 422.4,
+        "platform_roas": 5.48,
+        "revenue_basis": "platform_reported (AppLovin chka_usd_7d, attribution_mode=click)",
+        "campaigns": [
+          {
+            "id": "",
+            "name": "Coldest_ROAS_Q4_2026",
+            "destination": "d2c",
+            "spend": 130.5,
+            "clicks": 121,
+            "conversions": 8,
+            "revenue": 714.52,
+            "impressions": 1506
+          },
+          {
+            "id": "",
+            "name": "New Ad style - Ridg Style",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "",
+            "name": "Coldest_ROAS",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          }
+        ],
+        "display_state": "spend",
+        "display_amount": 130.5,
+        "last_confirmed_date": "2026-11-18",
+        "last_confirmed_amount": 130.5,
+        "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)"
+      },
       "bing_ads": {
         "spend": null,
         "clicks": null,
@@ -25325,8 +25381,8 @@
         "destination": "d2c",
         "display_state": "pending_backfill",
         "display_amount": null,
-        "last_confirmed_date": "2026-11-16",
-        "last_confirmed_amount": 213.55,
+        "last_confirmed_date": "2026-11-17",
+        "last_confirmed_amount": 204.84,
         "owner_bot": "Bing Ads bot"
       },
       "reddit_ads": {

@@ -1,12 +1,13 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-17",
-  "computed_at": "2026-11-18T14:30:54Z",
+  "computed_at": "2026-11-18T22:55:33Z",
   "summary": {
     "status": "degraded",
     "as_of_lag_days": 0,
     "channels_fresh": [
       "applovin",
+      "bing",
       "google",
       "meta",
       "outbrain",
@@ -16,7 +17,6 @@
       "x"
     ],
     "channels_stale": [
-      "bing",
       "reddit",
       "taboola"
     ],
@@ -101,17 +101,15 @@
     },
     "bing": {
       "label": "Bing",
-      "status": "stale",
-      "last_measured_day": "2026-11-16",
-      "days_behind": 1,
-      "missing_days_7d": [
-        "2026-11-17"
-      ],
+      "status": "fresh",
+      "last_measured_day": "2026-11-17",
+      "days_behind": 0,
+      "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
       "expected_daily": true,
       "source": "bing_ads_daily.json",
       "owner_bot": "Bing Ads bot",
-      "days_14": "#############.",
+      "days_14": "##############",
       "window_14": "2026-11-04..2026-11-17"
     },
     "x": {
@@ -242,8 +240,8 @@
   "files": {
     "tracking_health": {
       "file": "ads_throttle/tracking_health.json",
-      "as_of": "2026-11-17T08:40:39-05:00",
-      "age_days": 1,
+      "as_of": "2026-11-18T08:43:24-05:00",
+      "age_days": 0,
       "max_age_days": 2,
       "status": "fresh",
       "writer": "Jarvis (daily)"
