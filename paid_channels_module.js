@@ -1807,7 +1807,9 @@
     if (fromRow) return fromRow;
     var known = CHANNELS.filter(function (c) { return c.id === ch.id; })[0];
     if (known) {
-      var days = mergeDaysFor(known);
+      /* lastConfirmedFor walks up to 180 days back; rebuilding the merged
+         day map for every one of them froze the page for minutes. */
+      var days = MERGE_MEMO ? (MERGE_MEMO['days|' + known.id] || (MERGE_MEMO['days|' + known.id] = mergeDaysFor(known))) : mergeDaysFor(known);
       if (days[date]) return days[date];
     }
     var src = MER_DOC && MER_DOC.advertising_sources && MER_DOC.advertising_sources[date];
@@ -1861,8 +1863,16 @@
     return null;
   }
 
+  /* Memoized while MERGE_MEMO is open (one synchronous render pass): the
+     180-day lastConfirmed scans of 80+ day cards revisit the same days. */
   function measuredNodeFor(ch, date) {
     if (!ch) return null;
+    if (!MERGE_MEMO) return measuredNodeRaw(ch, date);
+    var key = 'node|' + ch.id + '|' + date;
+    if (!(key in MERGE_MEMO)) MERGE_MEMO[key] = measuredNodeRaw(ch, date);
+    return MERGE_MEMO[key];
+  }
+  function measuredNodeRaw(ch, date) {
     if (ch.id === 'x') return xDayRow(date);
     if (ch.id === 'taboola') return taboolaDayRow(date);
     if (ch.id === 'outbrain') return outbrainDayRow(date);
@@ -1872,8 +1882,14 @@
     return day;
   }
 
+  var MERGE_MEMO = null;
   function lastConfirmedFor(ch, date) {
     if (!Display || !date) return null;
+    var own = !MERGE_MEMO;
+    if (own) MERGE_MEMO = {};
+    try { return lastConfirmedScan(ch, date); } finally { if (own) MERGE_MEMO = null; }
+  }
+  function lastConfirmedScan(ch, date) {
     var d = date;
     for (var i = 0; i < 180; i++) {
       d = addCalendarDay(d, -1);
@@ -2001,6 +2017,11 @@
   }
 
   function renderStrip() {
+    var own = !MERGE_MEMO;
+    if (own) MERGE_MEMO = {};
+    try { return renderStripPass(); } finally { if (own) MERGE_MEMO = null; }
+  }
+  function renderStripPass() {
     if (typeof document === 'undefined') return;
     removeDashboardStrip();
     var old = document.getElementById('bing-ads-daily');
