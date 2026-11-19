@@ -491,8 +491,8 @@
       "note": "10/28 3:48 PM ET: no double-fire. Elevar server-side purchase covers ALL Shopify channels (Tapcart/Shop/Draft), so compare Snap purchases to all-channel Shopify orders, never Online Store only. Browser tag 339 + server share order-ID dedup; tag 339 stays on. Hold until Elevar's 10/29-data check confirms dedup, then back to auto."
     }
   },
-  "d2c_ad_spend": 13090.3,
-  "total_ad_spend": 20141.56,
+  "d2c_ad_spend": 13090.34,
+  "total_ad_spend": 20141.6,
   "shopify_d2c_revenue": 20562.73,
   "blended_mer": 1.57,
   "blended_mer_vs_threshold": -1.23,
@@ -1969,10 +1969,10 @@
       "daily_budget_status": "settings_reported",
       "min_daily_budget": null,
       "max_daily_budget": null,
-      "spend_7d": 459.08,
+      "spend_7d": 459.12,
       "spend_7d_status": "verified",
       "spend_source": "X Ads API via user-X-ads get_account_stats (platform-reported)",
-      "spend_d2c_7d": 459.08,
+      "spend_d2c_7d": 459.12,
       "spend_amazon_7d": 0.0,
       "shopify_orders_7d": null,
       "shopify_revenue_7d": null,
@@ -2037,9 +2037,9 @@
         },
         {
           "date": "2026-11-17",
-          "spend": 33.98,
+          "spend": 34.02,
           "spend_status": "verified",
-          "spend_d2c": 33.98,
+          "spend_d2c": 34.02,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -2058,7 +2058,7 @@
       ],
       "destination": "shopify",
       "destination_split": {
-        "shopify": 459.08,
+        "shopify": 459.12,
         "amazon": 0.0
       },
       "tracking_status": "OK",
@@ -9401,9 +9401,9 @@
         },
         {
           "date": "2026-11-17",
-          "spend": 33.98,
+          "spend": 34.02,
           "spend_status": "verified",
-          "spend_d2c": 33.98,
+          "spend_d2c": 34.02,
           "spend_amazon": 0.0,
           "shopify_revenue": null,
           "shopify_revenue_status": "unverified",
@@ -9748,9 +9748,9 @@
       },
       {
         "date": "2026-11-17",
-        "d2c_ad_spend": 13090.3,
+        "d2c_ad_spend": 13090.34,
         "d2c_ad_spend_status": "verified",
-        "total_ad_spend": 20141.56,
+        "total_ad_spend": 20141.6,
         "total_ad_spend_status": "verified",
         "shopify_revenue": 20562.73,
         "shopify_revenue_status": "verified",

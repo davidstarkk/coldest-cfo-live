@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-17",
-  "count": 562,
+  "count": 561,
   "items": [
     {
       "channel": "meta",
@@ -3914,13 +3914,6 @@
       "owner_bot": "snapchat ads bot",
       "last_confirmed_date": "2026-11-17",
       "last_confirmed_amount": 724.8
-    },
-    {
-      "channel": "applovin",
-      "day": "2026-11-18",
-      "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
-      "last_confirmed_date": "2026-11-17",
-      "last_confirmed_amount": 128.97
     },
     {
       "channel": "amazon",
