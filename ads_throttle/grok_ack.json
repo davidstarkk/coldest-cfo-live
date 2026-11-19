@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17T09:55:00-05:00",
+  "updated_at": "2026-11-19T10:31:00-05:00",
   "by": "jarvis",
   "acks": {
     "feed.bing": {
@@ -53,9 +53,9 @@
       "at": "2026-11-11T10:00:00-05:00"
     },
     "step.snapchat.raise_20pct": {
-      "status": "working",
-      "note": "No 11/12 raise (7-day per-campaign cooldown). Live total $624 (Launch 17ba5e2d $504, Hoodies $120), confirmed by SNAPCHAT ADS 11/12 9:52 AM ET. settings.json daily_budget set to 624. Launch next eligible 11/13 9:40:12 AM ET ($504->$604.80 if still above 2.8x, account $724.80, under $784). Hoodies next eligible 11/18 9:55:19 AM ET. 11/6 Launch and 11/11 Hoodies raises logged in changes.json; no 11/12 raise written.",
-      "at": "2026-11-12T09:57:31-05:00"
+      "status": "done",
+      "note": "Both previously missing Snap automatic +20% raises are now logged in changes.json (backfilled 2026-11-19 by Jarvis from SNAPCHAT ADS API readbacks confirmed 11/19 10:28 AM ET): (1) Launch 17ba5e2d 11/13 10:40:33 AM ET $504->$604.80 (Limitless d8cfb148 $288->$345.60, Drive-Thru 2c049090 $216->$259.20), 7.43x Nov 6-12, next eligible 11/20 after 10:40 AM ET; (2) Hoodies b4333284 squad 7189c922 11/18 10:45:29 AM ET $120->$144, 8.35x Nov 11-17, 168.84h cooldown met, next eligible 11/25 after 10:45 AM ET. Live 11/19 10:28 AM ET: Launch $604.80 + Hoodies $144 = $748.80/day, $35.20 headroom under the $784 cap.",
+      "at": "2026-11-19T10:31:00-05:00"
     },
     "step.x.cut_20pct": {
       "status": "done",
