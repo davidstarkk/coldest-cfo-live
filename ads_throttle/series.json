@@ -2466,8 +2466,8 @@
     {
       "date": "2026-11-16",
       "shopify_d2c_revenue": 24183.59,
-      "total_ad_spend": 24820.83,
-      "d2c_ad_spend": 16824.94,
+      "total_ad_spend": 24788.93,
+      "d2c_ad_spend": 16793.04,
       "blended_mer": 1.44,
       "channels": {
         "meta": {
@@ -2527,10 +2527,10 @@
           "amazon": 0.0
         },
         "applovin": {
-          "spend": 234.77,
-          "roas": 1.58,
+          "spend": 202.87,
+          "roas": 1.82,
           "source": "ad_channel_throttles.series_28d",
-          "d2c": 234.77,
+          "d2c": 202.87,
           "amazon": 0.0
         },
         "taboola": {
