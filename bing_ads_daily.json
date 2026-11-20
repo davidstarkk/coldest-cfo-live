@@ -1,7 +1,7 @@
 {
   "status": "live",
   "live": true,
-  "as_of": "2026-11-18",
+  "as_of": "2026-11-19",
   "source": "Pipeboard Microsoft Ads campaign report (platform-reported)",
   "note": "Bing is live. Campaign 605195379 (bing to amz tumbler listing 1) is Amazon-bound and excluded from Shopify D2C MER. Leftover D2C is JS_SNO_Brand_Beta_Mobile_$24 (~$1/day).",
   "ingest": "pipeboard_or_file",
@@ -2973,6 +2973,112 @@
           "impressions": 3824
         }
       ]
+    },
+    "2026-11-19": {
+      "spend": 272.89,
+      "clicks": 233,
+      "conversions": 16,
+      "revenue": 2257.55,
+      "platform_conversions": 16,
+      "platform_revenue": 2257.55,
+      "impressions": 6119,
+      "roas": 8.27,
+      "platform_roas": 8.27,
+      "source": "Pipeboard Microsoft Ads campaign report 2026-11-19 Daily (ConversionsQualified/Revenue, goal 172222236, platform-reported, click-date), pulled 2026-11-20 ET",
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "live": true,
+      "complete": true,
+      "closed_day": true,
+      "spend_d2c": 272.89,
+      "spend_amazon": 0.0,
+      "destination": "d2c",
+      "campaigns": [
+        {
+          "id": "607657866",
+          "name": "Grok Bot | Bing | Brand Search",
+          "destination": "d2c",
+          "status": "active",
+          "spend": 222.67,
+          "clicks": 147,
+          "conversions": 15,
+          "revenue": 2150.33,
+          "impressions": 781
+        },
+        {
+          "id": "607657867",
+          "name": "Grok Bot | Bing | Non-brand Search",
+          "destination": "d2c",
+          "status": "paused",
+          "spend": 0.0,
+          "clicks": 0,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 0,
+          "evidence": "verified_zero_paused",
+          "evidence_note": "no row in full-account 11/19 report; campaign paused 11/10"
+        },
+        {
+          "id": "607657868",
+          "name": "Grok Bot | Bing | Competitor Conquest",
+          "destination": "d2c",
+          "status": "paused",
+          "spend": 0.0,
+          "clicks": 0,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 0,
+          "evidence": "verified_zero_paused",
+          "evidence_note": "no row in full-account 11/19 report; campaign paused 11/12"
+        },
+        {
+          "id": "607657869",
+          "name": "Grok Bot | Bing | Shopping",
+          "destination": "d2c",
+          "status": "paused",
+          "spend": 0.0,
+          "clicks": 0,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 0,
+          "evidence": "verified_zero_paused",
+          "evidence_note": "no row in full-account 11/19 report; campaign paused 11/12"
+        },
+        {
+          "id": "607657870",
+          "name": "Grok Bot | Bing | MSAN Retargeting",
+          "destination": "d2c",
+          "status": "paused",
+          "spend": 0.0,
+          "clicks": 0,
+          "conversions": 0,
+          "revenue": 0.0,
+          "impressions": 0,
+          "evidence": "verified_zero_paused",
+          "evidence_note": "no row in full-account 11/19 report; campaign paused 11/9"
+        },
+        {
+          "id": "607676059",
+          "name": "Grok Bot | Bing | NB Exact - Tumblers 40oz",
+          "destination": "d2c",
+          "status": "active",
+          "spend": 1.06,
+          "clicks": 1,
+          "conversions": 0,
+          "revenue": 0,
+          "impressions": 20
+        },
+        {
+          "id": "607691062",
+          "name": "Grok Bot | Bing | Performance Max",
+          "destination": "d2c",
+          "status": "active",
+          "spend": 49.16,
+          "clicks": 85,
+          "conversions": 1,
+          "revenue": 107.22,
+          "impressions": 5318
+        }
+      ]
     }
   },
   "planned_daily_budget": 1000,
@@ -3015,6 +3121,87 @@
       "pulled_at": "2026-11-19T10:35:00-05:00",
       "scope": "campaign",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; Brand Search campaign-level revenue restatement (noted on a later pull); day total not re-pulled here"
+    },
+    {
+      "date": "2026-11-18",
+      "field": "revenue",
+      "old": 188.98,
+      "new": 658.22,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $146.77; pulled in 11/20 run"
+    },
+    {
+      "date": "2026-11-18",
+      "field": "conversions",
+      "old": 3,
+      "new": 4,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $146.77; pulled in 11/20 run"
+    },
+    {
+      "date": "2026-11-18",
+      "field": "roas",
+      "old": 1.29,
+      "new": 4.48,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $146.77; pulled in 11/20 run"
+    },
+    {
+      "date": "2026-11-16",
+      "field": "revenue",
+      "old": 513.65,
+      "new": 868.26,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $213.55; pulled in 11/20 run"
+    },
+    {
+      "date": "2026-11-16",
+      "field": "conversions",
+      "old": 7,
+      "new": 9,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $213.55; pulled in 11/20 run"
+    },
+    {
+      "date": "2026-11-16",
+      "field": "roas",
+      "old": 2.41,
+      "new": 4.07,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $213.55; pulled in 11/20 run"
+    },
+    {
+      "date": "2026-11-15",
+      "field": "revenue",
+      "old": 341.59,
+      "new": 443.03,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $145.24; pulled in 11/20 run"
+    },
+    {
+      "date": "2026-11-15",
+      "field": "conversions",
+      "old": 4,
+      "new": 6,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $145.24; pulled in 11/20 run"
+    },
+    {
+      "date": "2026-11-15",
+      "field": "roas",
+      "old": 2.35,
+      "new": 3.05,
+      "pulled_at": "2026-11-20T10:35:00-05:00",
+      "scope": "account",
+      "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $145.24; pulled in 11/20 run"
     }
   ]
 }
