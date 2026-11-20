@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-18",
-  "computed_at": "2026-11-19T15:31:50Z",
+  "computed_at": "2026-11-19T23:00:03Z",
   "summary": {
     "status": "degraded",
     "as_of_lag_days": 0,
@@ -273,21 +273,21 @@
     },
     "settings": {
       "file": "ads_throttle/settings.json",
-      "as_of": "2026-11-16T13:54:00-05:00",
-      "age_days": 3,
+      "as_of": "2026-11-19T10:31:00-05:00",
+      "age_days": 0,
       "status": "info"
     },
     "grok_ack": {
       "file": "ads_throttle/grok_ack.json",
-      "as_of": "2026-11-17T09:55:00-05:00",
-      "age_days": 2,
+      "as_of": "2026-11-19T10:31:00-05:00",
+      "age_days": 0,
       "status": "info"
     },
     "changes": {
       "file": "ads_throttle/changes.json",
-      "as_of": "2026-11-17",
-      "age_days": 2,
-      "entries": 68,
+      "as_of": "2026-11-18",
+      "age_days": 1,
+      "entries": 70,
       "status": "info"
     }
   },

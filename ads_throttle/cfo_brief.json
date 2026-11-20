@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-18",
-  "computed_at": "2026-11-19T15:31:50Z",
+  "computed_at": "2026-11-19T23:00:03Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -32,14 +32,14 @@
     }
   },
   "portfolio": {
-    "mer_7d": 1.9044,
-    "mer_30d": 2.0123,
+    "mer_7d": 1.905,
+    "mer_30d": 2.0124,
     "mer_target": 3.24,
     "mer_gap": -1.34,
     "stance": "below_target",
     "d2c_revenue_7d": 193567.9,
-    "d2c_spend_7d": 101642.62,
-    "channel_spend_7d": 101642.62,
+    "d2c_spend_7d": 101610.72,
+    "channel_spend_7d": 101610.72,
     "spend_judged_pct": 76.7,
     "spend_in_auto_mode_pct": 16.9,
     "excluded_from_d2c_spend": [],
@@ -242,8 +242,8 @@
       "feed_status": "fresh",
       "last_measured_day": "2026-11-18",
       "last_change": {
-        "date": "2026-11-11",
-        "action": "raise_20pct"
+        "date": "2026-11-18",
+        "action": null
       },
       "grok": {
         "as_of": "2026-11-16",
@@ -266,9 +266,9 @@
         "mode:view"
       ],
       "cautions": [],
-      "spend_7d": 1331.04,
+      "spend_7d": 1299.14,
       "spend_days_measured": 7,
-      "roas_7d": 2.23,
+      "roas_7d": 2.28,
       "roas_days": 7,
       "roas_source": "channel daily file",
       "platform_revenue_7d": 2966.38,
@@ -291,7 +291,7 @@
         "tier": "Lagging",
         "tier_label": "Lagging",
         "tracking": "Basis agreed 11/15 (click, chka_usd_7d, UTC purchase date); CFO brief still lists roas_disputed",
-        "roas_gap_pct": 19.7
+        "roas_gap_pct": 21.5
       },
       "mmm_verdict": null,
       "raise_above_roas_source": "David 10/29/2026 4:56 PM ET to Applovin Bot, AppLovin-specific: 'I wouldn't raise the budgets if you're only at 2 ROAS. If it goes above 3 ROAS you can raise the budgets.' Registered as a channel exception in ops/ad_rules.md. Hold 2.0-3.0, cut <2.0.",
@@ -825,6 +825,26 @@
   ],
   "change_outcomes": [
     {
+      "date": "2026-11-18",
+      "channel": "snapchat",
+      "action": null,
+      "by": null,
+      "status_logged": null,
+      "executed": true,
+      "budget": {
+        "old": null,
+        "new": null
+      },
+      "before": {
+        "window": "2026-11-11..2026-11-17",
+        "spend": 4241.64,
+        "roas": 6.79,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-26"
+    },
+    {
       "date": "2026-11-17",
       "channel": "applovin",
       "action": null,
@@ -837,8 +857,8 @@
       },
       "before": {
         "window": "2026-11-10..2026-11-16",
-        "spend": 1422.49,
-        "roas": 1.7,
+        "spend": 1390.59,
+        "roas": 1.74,
         "roas_days": 7
       },
       "outcome": "pending",
@@ -1019,6 +1039,26 @@
         "window": "2026-11-06..2026-11-12",
         "spend": 1252.66,
         "roas": 3.27,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-11-21"
+    },
+    {
+      "date": "2026-11-13",
+      "channel": "snapchat",
+      "action": null,
+      "by": null,
+      "status_logged": null,
+      "executed": true,
+      "budget": {
+        "old": null,
+        "new": null
+      },
+      "before": {
+        "window": "2026-11-06..2026-11-12",
+        "spend": 3637.56,
+        "roas": 8.33,
         "roas_days": 7
       },
       "outcome": "pending",
@@ -1574,7 +1614,7 @@
   "growth": {
     "file": "ads_throttle/growth_brief.json",
     "headline": {
-      "mer_7d": 1.9044,
+      "mer_7d": 1.905,
       "mer_target": 3.24,
       "breakeven_mer_before_overhead": 1.4,
       "stance": "room_to_add",
