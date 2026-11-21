@@ -2674,9 +2674,9 @@
     {
       "date": "2026-11-19",
       "shopify_d2c_revenue": 174599.44,
-      "total_ad_spend": 69842.24,
-      "d2c_ad_spend": 34297.82,
-      "blended_mer": 5.09,
+      "total_ad_spend": 70115.13,
+      "d2c_ad_spend": 34570.71,
+      "blended_mer": 5.05,
       "channels": {
         "meta": {
           "spend": 28972.36,
@@ -2693,9 +2693,11 @@
           "amazon": 0.0
         },
         "bing": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 272.89,
+          "roas": 8.27,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 272.89,
+          "amazon": 0.0
         },
         "reddit": {
           "spend": 0.0,

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-19",
-  "computed_at": "2026-11-20T14:31:45Z",
+  "computed_at": "2026-11-21T13:52:09Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "rule": {
     "source": "ads_throttle/settings.json",
@@ -32,24 +32,19 @@
     }
   },
   "portfolio": {
-    "mer_7d": 2.6674,
-    "mer_30d": 2.2331,
+    "mer_7d": 2.6615,
+    "mer_30d": 2.2317,
     "mer_target": 3.24,
-    "mer_gap": -0.57,
+    "mer_gap": -0.58,
     "stance": "below_target",
     "d2c_revenue_7d": 328585.63,
-    "d2c_spend_7d": 123185.06,
-    "channel_spend_7d": 123185.06,
+    "d2c_spend_7d": 123457.95,
+    "channel_spend_7d": 123457.95,
     "spend_judged_pct": 11.0,
-    "spend_in_auto_mode_pct": 15.8,
-    "excluded_from_d2c_spend": [
-      {
-        "channel": "bing",
-        "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-      }
-    ],
+    "spend_in_auto_mode_pct": 16.0,
+    "excluded_from_d2c_spend": [],
     "mer_target_scope": "total_company",
-    "total_company_mer_7d": 4.84,
+    "total_company_mer_7d": 4.83,
     "stance_on_target_scope": "room_to_add"
   },
   "summary": {
@@ -62,11 +57,11 @@
       ],
       "hold": [
         "applovin",
+        "bing",
         "google",
         "meta"
       ],
       "insufficient": [
-        "bing",
         "chatgpt",
         "pinterest",
         "reddit",
@@ -309,27 +304,27 @@
       "label": "Bing",
       "mode": "auto",
       "owner_bot": "Bing Ads bot",
-      "verdict": "insufficient",
-      "rule_says": "Not enough data",
+      "verdict": "hold",
+      "rule_says": "Hold - ROAS basis disputed",
       "actionable": false,
       "blockers": [
-        "feed_gap:6/7 days measured"
+        "roas_disputed"
       ],
       "cautions": [],
-      "spend_7d": 960.76,
-      "spend_days_measured": 6,
-      "roas_7d": null,
-      "roas_days": 6,
+      "spend_7d": 1233.65,
+      "spend_days_measured": 7,
+      "roas_7d": 3.53,
+      "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": null,
+      "platform_revenue_7d": 4348.88,
       "roas_prior_7d": 1.81,
       "spend_prior_7d": 1849.2,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
       "tracking_status": "OK",
-      "feed_status": "stale",
-      "last_measured_day": "2026-11-18",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-19",
       "last_change": {
         "date": "2026-11-16",
         "action": null
@@ -340,7 +335,8 @@
         "spend_7d": 1633.2,
         "tier": "Lagging",
         "tier_label": "Lagging",
-        "tracking": "OK (ratio_utm 1.308 in band)"
+        "tracking": "OK (ratio_utm 1.308 in band)",
+        "roas_gap_pct": 56.9
       },
       "mmm_verdict": null
     },
@@ -609,27 +605,6 @@
   },
   "asks": [
     {
-      "id": "feed.bing",
-      "severity": "high",
-      "channel": "bing",
-      "owner": "Bing Ads bot",
-      "title": "Bing: no measured row since 2026-11-18",
-      "detail": "bing_ads_daily.json has no measured row for 2026-11-19. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
-      "first_seen": "2026-11-20",
-      "age_days": 0,
-      "evidence": {
-        "missing_days": [
-          "2026-11-19"
-        ],
-        "last_measured_day": "2026-11-18"
-      },
-      "ack": {
-        "status": "done",
-        "note": "Bing closed days 11/13-11/15 backfilled (commit c28ce45; 2.95x/2.35x/2.35x, complete/closed_day true). Awaiting CFO rebuild.",
-        "at": "2026-11-16T10:30:00-05:00"
-      }
-    },
-    {
       "id": "roas.applovin.disputed",
       "severity": "high",
       "channel": "applovin",
@@ -637,7 +612,7 @@
       "title": "AppLovin: CFO reads 2.90x, Grok reads 1.79x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 2.90x (channel daily file, 2026-11-13..2026-11-19) says hold; Grok ranking 2026-11-16 says 1.79x (cut). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-20",
-      "age_days": 0,
+      "age_days": 1,
       "evidence": {
         "cfo_roas_7d": 2.9,
         "grok_roas_7d": 1.79,
@@ -650,6 +625,26 @@
       }
     },
     {
+      "id": "roas.bing.disputed",
+      "severity": "high",
+      "channel": "bing",
+      "owner": "Bing Ads bot",
+      "title": "Bing: CFO reads 3.53x, Grok reads 1.52x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 3.53x (channel daily file, 2026-11-13..2026-11-19) says raise; Grok ranking 2026-11-16 says 1.52x (cut). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "first_seen": "2026-11-20",
+      "age_days": 1,
+      "evidence": {
+        "cfo_roas_7d": 3.53,
+        "grok_roas_7d": 1.52,
+        "gap_pct": 56.9
+      },
+      "ack": {
+        "status": "done",
+        "note": "Agreed Bing ROAS basis written to channels.bing.notes on 11/12 (commit 1a2b7a3): goal 172222236 ConversionsQualified/Revenue, click-date, 30-day click window, trailing 7 closed ET days, Shopify-destination only. Nov 5-11 feed snapshot 2.08x, live reread 2.38x, both hold band.",
+        "at": "2026-11-12T09:57:31-05:00"
+      }
+    },
+    {
       "id": "roas.google.disputed",
       "severity": "high",
       "channel": "google",
@@ -657,7 +652,7 @@
       "title": "Google Ads: settings.json marks ROAS basis disputed \u2014 no raise or cut",
       "detail": "channels.google.roas_disputed is true. Agree conversion-date vs click-date (and Elevar-adjusted) and set that flag to false; no throttle call until then. This repo does not write settings.json.",
       "first_seen": "2026-11-09",
-      "age_days": 11,
+      "age_days": 12,
       "evidence": {
         "settings_roas_disputed": true
       },
@@ -675,7 +670,7 @@
       "title": "Meta: CFO reads 2.66x, Grok reads 1.98x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 2.66x (daily_inputs.platform_roas, 2026-11-13..2026-11-19) says hold; Grok ranking 2026-11-16 says 1.98x (cut). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-20",
-      "age_days": 0,
+      "age_days": 1,
       "evidence": {
         "cfo_roas_7d": 2.66,
         "grok_roas_7d": 1.98,
@@ -690,7 +685,7 @@
       "title": "8 winning Meta creative(s) not yet on any other channel",
       "detail": "\"best tumbler for gifting- Copy\" (3.52x on $2,718), \"David's email - New Drop | BFCMR SA03\" (3.91x on $2,546), \"New Sales Ad | BFCMR SA01\" (4.14x on $1,916), \"PENDING PERMISSIONS | T2#2 | @coldestsami08 | 7548496099791670559 | moms-school-runs | copy-proven\" (3.76x on $1,753), \"EV#2 - 16 - Copy\" (3.44x on $980). Rebuild each for the channels in `not_on` (the landing page and Meta ad id are in creatives.winners) and add one entry per launch to ads_throttle/creative_ports.json; a creative that does not fit a channel gets status \"rejected\" with a one-line note.",
       "first_seen": "2026-11-12",
-      "age_days": 8,
+      "age_days": 9,
       "evidence": {
         "creative_ids": [
           "21f428981646c9d1bdcc84f6dbb987c6",
@@ -714,10 +709,10 @@
       "severity": "medium",
       "channel": null,
       "owner": "CFO creative routine",
-      "title": "ads_throttle/creative_winners.json is 11 days old",
+      "title": "ads_throttle/creative_winners.json is 12 days old",
       "detail": "Last Adnova snapshot 2026-11-10T00:07:07.178Z. The daily creative routine (ops/creative/ROUTINE.md) did not run or could not push.",
       "first_seen": "2026-11-12",
-      "age_days": 8,
+      "age_days": 9,
       "ack": {
         "status": "working",
         "note": "Owner CFO creative routine; flagged for Builder, not routable from Jarvis.",
@@ -732,7 +727,7 @@
       "title": "Reddit: no measured row since 2026-11-08",
       "detail": "reddit_ads_daily.json has no measured row for 2026-11-13, 2026-11-14, 2026-11-15, 2026-11-16, 2026-11-17, 2026-11-18, 2026-11-19. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-09",
-      "age_days": 11,
+      "age_days": 12,
       "evidence": {
         "missing_days": [
           "2026-11-13",
@@ -756,20 +751,20 @@
       "severity": "medium",
       "channel": null,
       "owner": "mmm-refit.yml (weekly)",
-      "title": "ads_throttle/mmm_recommendation.json is 16 days old",
+      "title": "ads_throttle/mmm_recommendation.json is 17 days old",
       "detail": "Last written 2026-11-04T16:05:21Z; expected at most 8 days old (mmm-refit.yml (weekly)). The dashboard is showing old data from it.",
       "first_seen": "2026-11-13",
-      "age_days": 7
+      "age_days": 8
     },
     {
       "id": "file.shopify_attribution.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO box ShopifyQL sync (daily)",
-      "title": "shopify_attribution_daily.json is 21 days old",
+      "title": "shopify_attribution_daily.json is 22 days old",
       "detail": "Last written 2026-10-30; expected at most 2 days old (CFO box ShopifyQL sync (daily)). The dashboard is showing old data from it.",
       "first_seen": "2026-11-09",
-      "age_days": 11,
+      "age_days": 12,
       "ack": {
         "status": "working",
         "note": "Owner is CFO box ShopifyQL sync; not routable from Jarvis today, flagged for Builder fix.",
@@ -784,27 +779,27 @@
       "title": "Grok asked: Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta ca",
       "detail": "Asked 2026-11-14 by International Meta Bot. Answer it in ads_throttle/cfo_answers.json (and build the block with the new-brief-field skill if it should be read every morning).",
       "first_seen": "2026-11-15",
-      "age_days": 5
+      "age_days": 6
     },
     {
       "id": "growth.inventory.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_inventory.json is 10 days old",
+      "title": "growth/shopify_inventory.json is 11 days old",
       "detail": "Run the Shopify inventory pull and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-14",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "id": "growth.new_customers.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_customers_daily.json is 10 days old",
+      "title": "growth/shopify_customers_daily.json is 11 days old",
       "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-13",
-      "age_days": 7
+      "age_days": 8
     },
     {
       "id": "tracking.new_customer_utm_coverage",
@@ -814,7 +809,7 @@
       "title": "Only 49.5% of new-customer orders carry a UTM",
       "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
       "first_seen": "2026-11-11",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "id": "history.backfill",
@@ -824,7 +819,7 @@
       "title": "Media-mix model has 34 of 180 usable days",
       "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
       "first_seen": "2026-11-11",
-      "age_days": 9
+      "age_days": 10
     },
     {
       "id": "inventory.low_cover",
@@ -834,7 +829,7 @@
       "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
       "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
       "first_seen": "2026-11-11",
-      "age_days": 9,
+      "age_days": 10,
       "evidence": {
         "products": [
           "COLDEST 36oz Limitless Ultra v8"
@@ -1387,7 +1382,7 @@
     "file": "ads_throttle/creative_winners.json",
     "as_of": "2026-11-09",
     "snapshot_at": "2026-11-10T00:07:07.178Z",
-    "age_days": 11,
+    "age_days": 12,
     "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
     "rule": {
       "min_roas": 2.8,
@@ -1633,7 +1628,7 @@
   "growth": {
     "file": "ads_throttle/growth_brief.json",
     "headline": {
-      "mer_7d": 2.6674,
+      "mer_7d": 2.6615,
       "mer_target": 3.24,
       "breakeven_mer_before_overhead": 1.4,
       "stance": "room_to_add",
@@ -1652,7 +1647,7 @@
       ],
       "annual_run_rate": 32512630.0,
       "multiple_to_target": 3.08,
-      "total_mer_7d": 4.84,
+      "total_mer_7d": 4.83,
       "usable_history_days": 34,
       "open_grok_requests": 1,
       "tests_running": 0
@@ -1660,73 +1655,84 @@
   },
   "intl_meta_budget_calls": {
     "as_of": "2026-11-19",
-    "status": "OK",
+    "status": "PENDING_INPUT",
     "advisory": true,
     "lines": [
       {
         "code": "CA",
         "display_name": "Meta Canada",
-        "action": "CUT_20",
-        "reason": "roas_7d 1.12x < 2.0",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 1.12,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 1527.28
+        "spend_7d": null
       },
       {
         "code": "GB",
         "display_name": "Meta UK",
-        "action": "CUT_20",
-        "reason": "roas_7d 0.66x < 2.0",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 0.66,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 1536.48
+        "spend_7d": null
       },
       {
         "code": "AU",
         "display_name": "Meta Australia",
         "action": "INSUFFICIENT_DATA",
-        "reason": "spend_7d $1486.60 / purchases_7d 8 below $300 and 10 purchases",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 0.59,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 1486.6
+        "spend_7d": null
       },
       {
         "code": "US",
         "display_name": "Meta USA",
-        "action": "RAISE_20",
-        "reason": "roas_7d 2.83x > 2.8",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 2.83,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 81741.76
+        "spend_7d": null
       }
     ]
-  }
+  },
+  "flags": [
+    {
+      "id": "intl_meta.pending_input",
+      "severity": "high",
+      "status": "PENDING_INPUT",
+      "advisory": true,
+      "title": "International Meta input feed is missing; dollars are null, not $0",
+      "ok": null,
+      "date": "2026-11-19"
+    }
+  ]
 }
