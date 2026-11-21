@@ -1,7 +1,7 @@
 {
   "status": "live",
   "live": true,
-  "as_of": "2026-11-19",
+  "as_of": "2026-11-20",
   "source": "manual_daily_file",
   "note": "Snapchat Ads live from 2026-10-25 (SNAP | Prospecting | Purchases | Meta Winners | Launch v1). Spend from Pipeboard Snapchat Ads.",
   "ingest": "pipeboard_or_file",
@@ -1055,6 +1055,24 @@
       "platform_revenue": 28916.42,
       "roas": 38.62,
       "platform_roas": 38.62
+    },
+    "2026-11-20": {
+      "spend": 783.51,
+      "spend_d2c": 783.51,
+      "spend_amazon": 0.0,
+      "destination": "d2c",
+      "live": true,
+      "complete": true,
+      "closed_day": true,
+      "conversions_known": false,
+      "revenue_known": true,
+      "source": "daily_inputs.snapchat_ads (Snapchat Ads via Pipeboard) + daily_inputs.platform_roas (Snapchat purchase value, Eastern day)",
+      "ingest": "channel_feed_sync (daily_inputs)",
+      "observed_at": "2026-11-21T15:24:15-05:00",
+      "revenue": 9085.71,
+      "platform_revenue": 9085.71,
+      "roas": 11.6,
+      "platform_roas": 11.6
     }
   }
 }
