@@ -1,26 +1,40 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-20",
-  "computed_at": "2026-11-21T20:26:53Z",
+  "computed_at": "2026-11-22T14:00:26Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
+  "action_exclusions": {
+    "file": "ops/plan/action_exclusions.json",
+    "days": [
+      "2026-11-19"
+    ],
+    "entries": [
+      {
+        "date": "2026-11-19",
+        "reason": "MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it",
+        "scope": "channel_actions",
+        "expires_when": "out of trailing 7d window"
+      }
+    ]
+  },
   "governor": {
     "status": "ok",
     "target_scope": "total_company",
     "compared_mer_7d": 4.62,
     "adopted": false,
     "adopted_note": "Advisory until David sets global.portfolio_governor in ads_throttle/settings.json. It orders channels; it does not change any channel's rule verdict.",
-    "mer_7d": 2.5269,
+    "mer_7d": 2.5268,
     "mer_target": 3.24,
     "stance": "room_to_add",
     "d2c_revenue_7d": 348575.0,
-    "d2c_spend_7d": 137948.39,
+    "d2c_spend_7d": 137948.44,
     "spend_the_target_supports_at_this_revenue": 107584.88,
-    "spend_above_that": 30363.51,
+    "spend_above_that": 30363.56,
     "total_company_mer_7d": 4.62,
     "target_scope_note": "David 11/12: 3.24 is a total-company target, he believes \u2014 where the company is making money, not just breaking even. Shopify D2C MER is read against D2C break-even instead.",
     "breakeven_mer_before_overhead": 1.4,
     "mer_vs_breakeven": 1.13,
-    "spend_reading_hold_or_raise_pct": 97.8,
+    "spend_reading_hold_or_raise_pct": 19.6,
     "rule_conflict": false,
     "give_back_order": [],
     "add_order": [
@@ -34,7 +48,11 @@
         "ranked_on": "marginal_roas",
         "rule_verdict": "raise",
         "mode": "auto",
-        "who_can_act": "Grok"
+        "who_can_act": "Grok",
+        "excluded_days": [
+          "2026-11-19"
+        ],
+        "roas_7d_action": 6.75
       },
       {
         "channel": "tiktok",
@@ -46,7 +64,11 @@
         "ranked_on": "roas_7d",
         "rule_verdict": "raise",
         "mode": "view",
-        "who_can_act": "David"
+        "who_can_act": "David",
+        "excluded_days": [
+          "2026-11-19"
+        ],
+        "roas_7d_action": 3.29
       },
       {
         "channel": "meta",
@@ -56,21 +78,29 @@
         "roas_7d": 2.5,
         "marginal_roas": 3.43,
         "ranked_on": "marginal_roas",
-        "rule_verdict": "hold",
+        "rule_verdict": "cut",
         "mode": "frozen",
-        "who_can_act": "David"
+        "who_can_act": "David",
+        "excluded_days": [
+          "2026-11-19"
+        ],
+        "roas_7d_action": 1.71
       },
       {
         "channel": "x",
         "label": "X",
-        "spend_7d": 1857.09,
+        "spend_7d": 1857.14,
         "share_of_spend_pct": 1.3,
         "roas_7d": 0.73,
         "marginal_roas": -0.07,
         "ranked_on": "marginal_roas",
         "rule_verdict": "cut",
         "mode": "auto",
-        "who_can_act": "Grok"
+        "who_can_act": "Grok",
+        "excluded_days": [
+          "2026-11-19"
+        ],
+        "roas_7d_action": 1.09
       }
     ],
     "unranked": [
@@ -202,14 +232,14 @@
         "label": "X",
         "window": "2026-11-14..2026-11-20",
         "prior_window": "2026-11-07..2026-11-13",
-        "spend": 1857.09,
+        "spend": 1857.14,
         "spend_prior": 1096.51,
         "revenue": 1347.48,
         "revenue_prior": 1398.27,
         "roas": 0.73,
         "roas_prior": 1.28,
         "marginal_roas": -0.07,
-        "spend_change": 760.58,
+        "spend_change": 760.63,
         "revenue_change": -50.79,
         "spend_change_pct": 69.4,
         "read": "added_spend_lost_revenue"
@@ -243,7 +273,7 @@
       "returning_net_sales": null,
       "new_share_of_net_sales_pct": null,
       "first_order_value": null,
-      "d2c_ad_spend": 137948.39,
+      "d2c_ad_spend": 137948.44,
       "blended_ncac": null,
       "new_customer_mer": null
     },
@@ -474,13 +504,13 @@
         "whatnot": 56132.0
       },
       "ad_spend": {
-        "d2c": 137948.39,
+        "d2c": 137948.44,
         "amazon": 28390.28,
         "tiktok_shop": 39400.18,
         "whatnot": 6367.75
       },
       "total_revenue": 980401.93,
-      "total_ad_spend": 212106.6,
+      "total_ad_spend": 212106.65,
       "total_mer": 4.62,
       "d2c_mer": 2.53,
       "amazon_tacos_pct": 21.7,
@@ -498,13 +528,13 @@
         "whatnot": 212944.0
       },
       "ad_spend": {
-        "d2c": 431439.76,
+        "d2c": 431439.81,
         "amazon": 95867.57,
         "tiktok_shop": 86634.27,
         "whatnot": 24223.56
       },
       "total_revenue": 2513267.44,
-      "total_ad_spend": 638165.16,
+      "total_ad_spend": 638165.21,
       "total_mer": 3.94,
       "d2c_mer": 2.15,
       "amazon_tacos_pct": 21.0,
@@ -1001,8 +1031,8 @@
     "winner_share_of_meta_spend_pct": 11.1,
     "top_winner_share_of_winner_spend_pct": 22.8,
     "new_this_week": 0,
-    "median_age_days": 55,
-    "oldest_age_days": 290,
+    "median_age_days": 56,
+    "oldest_age_days": 291,
     "formats": {
       "video": 3,
       "image": 5
@@ -1068,7 +1098,7 @@
     "basis": "Average daily revenue over the days used x 365. A run-rate, not a forecast: the window is not adjusted for season or promotions.",
     "multiple_to_target": 3.05,
     "revenue_per_day_at_target": 273972.6,
-    "weeks_to_target_date": 103.1,
+    "weeks_to_target_date": 103.0,
     "weekly_growth_needed_pct": 1.09
   },
   "autonomy": {
@@ -1365,7 +1395,7 @@
       "x": {
         "label": "X",
         "mode": "auto",
-        "spend_7d": 1857.09,
+        "spend_7d": 1857.14,
         "score": "6/7",
         "checks": [
           {
@@ -1427,7 +1457,7 @@
         "creative_id": null,
         "ask": "Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta campaigns are being built paused for Canada, the UK and Australia only, at a discussed envelope of about $650 per country and about $2,000 total. David has not yet confirmed whether the $650 is daily or a test total, and has not yet acknowledged the Meta hold (7-day D2C MER about 1.97 vs a 3.24 target, as of 11/13). Please add rows that can accept spend and revenue once those campaigns go live, without treating paused $0 days as a missing feed.",
         "status": "open",
-        "age_days": 7,
+        "age_days": 8,
         "answer": null,
         "answered_on": null,
         "where": null
@@ -1444,27 +1474,27 @@
       "title": "Grok asked: Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta ca",
       "detail": "Asked 2026-11-14 by International Meta Bot. Answer it in ads_throttle/cfo_answers.json (and build the block with the new-brief-field skill if it should be read every morning).",
       "first_seen": "2026-11-15",
-      "age_days": 6
+      "age_days": 7
     },
     {
       "id": "growth.inventory.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_inventory.json is 11 days old",
+      "title": "growth/shopify_inventory.json is 12 days old",
       "detail": "Run the Shopify inventory pull and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-14",
-      "age_days": 7
+      "age_days": 8
     },
     {
       "id": "growth.new_customers.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_customers_daily.json is 11 days old",
+      "title": "growth/shopify_customers_daily.json is 12 days old",
       "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-13",
-      "age_days": 8
+      "age_days": 9
     },
     {
       "id": "tracking.new_customer_utm_coverage",
@@ -1474,7 +1504,7 @@
       "title": "Only 49.5% of new-customer orders carry a UTM",
       "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
       "first_seen": "2026-11-11",
-      "age_days": 10
+      "age_days": 11
     },
     {
       "id": "history.backfill",
@@ -1484,7 +1514,7 @@
       "title": "Media-mix model has 34 of 180 usable days",
       "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
       "first_seen": "2026-11-11",
-      "age_days": 10
+      "age_days": 11
     },
     {
       "id": "inventory.low_cover",
@@ -1494,7 +1524,7 @@
       "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
       "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
       "first_seen": "2026-11-11",
-      "age_days": 10,
+      "age_days": 11,
       "evidence": {
         "products": [
           "COLDEST 36oz Limitless Ultra v8"
@@ -1503,7 +1533,7 @@
     }
   ],
   "headline": {
-    "mer_7d": 2.5269,
+    "mer_7d": 2.5268,
     "mer_target": 3.24,
     "breakeven_mer_before_overhead": 1.4,
     "stance": "room_to_add",
@@ -1529,72 +1559,72 @@
   },
   "intl_meta_budget_calls": {
     "as_of": "2026-11-20",
-    "status": "OK",
+    "status": "PENDING_INPUT",
     "advisory": true,
     "lines": [
       {
         "code": "CA",
         "display_name": "Meta Canada",
-        "action": "CUT_20",
-        "reason": "roas_7d 1.17x < 2.0",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 1.17,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 1527.28
+        "spend_7d": null
       },
       {
         "code": "GB",
         "display_name": "Meta UK",
-        "action": "CUT_20",
-        "reason": "roas_7d 0.66x < 2.0",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 0.66,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 1536.48
+        "spend_7d": null
       },
       {
         "code": "AU",
         "display_name": "Meta Australia",
         "action": "INSUFFICIENT_DATA",
-        "reason": "spend_7d $1486.60 / purchases_7d 9 below $300 and 10 purchases",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 1.0,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 1486.6
+        "spend_7d": null
       },
       {
         "code": "US",
         "display_name": "Meta USA",
-        "action": "HOLD",
-        "reason": "roas_7d 2.56x in 2.0\u20132.8 hold band",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 2.56,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 103660.66
+        "spend_7d": null
       }
     ]
   }
