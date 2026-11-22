@@ -207,6 +207,7 @@
     '.sh .sh-kpi .n{font-size:.78rem;color:var(--text-muted,#8888a8)}',
     '.sh .sh-verdict{font-size:.95rem;line-height:1.65;max-width:980px}',
     '.sh .sh-verdict li{margin:0 0 6px 18px}',
+    '.sh .sh-play{font-size:1.25rem;font-weight:700;line-height:1.35;margin:0 0 12px;padding-left:14px;border-left:4px solid #3987e5}',
     '.sh .sh-controls{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;margin-bottom:14px}',
     '.sh .sh-controls label{display:flex;flex-direction:column;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim,#5c5c7a);gap:4px}',
     '.sh .sh-controls input[type=range]{width:150px;accent-color:#3987e5}',
@@ -341,21 +342,31 @@
     }
 
     function renderVerdict(S) {
-      var li = [], b = S.bands;
-      if (S.best && b.length > 1) {
-        var top = b[b.length - 1];
-        li.push('Estimated profit per day was highest in weeks spending <b>' + S.best.label + '</b> a day on Meta (' + usdK(S.best.profit) + ' a day, ' + pct(S.best.margin) + ' of revenue, ' + S.best.weeks + ' weeks).' +
-          (top !== S.best ? ' At the highest level we have run, ' + top.label + ', it was ' + usdK(top.profit) + ' a day (' + pct(top.margin) + ', ' + top.weeks + ' weeks).' : ' That is also the highest level we have run for ' + MIN_WEEKS + '+ weeks.'));
+      var b = S.bands, be = S.breakevenMer, html = '';
+      if (!S.best || b.length < 2) { q('verdict').innerHTML = '<p>Not enough weeks at different spend levels to make a call yet.</p>'; return; }
+      // Ceiling: the top of the highest band where the step up still earned break-even revenue per extra dollar.
+      var ceil = S.best;
+      b.forEach(function (x) { if (x.band > ceil.band && x.band === ceil.band + 1 && x.marginalRev != null && x.marginalRev >= be) ceil = x; });
+      var cap = (ceil.band + 1) * BAND, above = b.filter(function (x) { return x.band > ceil.band; });
+      var floor = S.best.band * BAND;
+      html += '<div class="sh-play">The play: hold Meta at ' + usdK(floor).replace('.0k', 'k') + '–' + usdK(cap).replace('.0k', 'k') + ' a day.' +
+        (above.length ? ' Go above ' + usdK(cap).replace('.0k', 'k') + ' only while the extra spend returns ' + usd(be, 2) + ' or more per dollar.' : '') + '</div><ul>';
+      html += '<li><b>Profit:</b> weeks at ' + S.best.label + ' a day made the most, about ' + usdK(S.best.profit) + ' a day (' + pct(S.best.margin) + ' of revenue, ' + S.best.weeks + ' weeks).</li>';
+      above.forEach(function (x) {
+        var dRev = x.rev - ceil.rev, dProfit = x.profit - ceil.profit;
+        html += '<li><b>' + x.label + ' a day:</b> ' + (dRev >= 0 ? '+' : '') + usdK(dRev).replace('−', '-') + ' revenue a day, ' +
+          (dProfit >= 0 ? '+' + usdK(dProfit) : usdK(dProfit)) + ' profit a day. Over a month that is about ' +
+          usdK(dRev * 30) + ' more revenue for ' + usdK(Math.abs(dProfit) * 30) + (dProfit < 0 ? ' less' : ' more') + ' profit (' + x.weeks + ' weeks).</li>';
+      });
+      if (above.length) {
+        html += '<li><b>If revenue is the goal:</b> each revenue dollar bought above ' + usdK(cap).replace('.0k', 'k') + ' cost ' +
+          above.map(function (x) { var c = (ceil.profit - x.profit) / (x.rev - ceil.rev); return (c > 0 && isFinite(c) ? usd(c, 2) : '$0') + ' of profit at ' + x.label; }).join(', ') + '.</li>';
+        html += '<li><b>How to raise:</b> one step of 20% or less, hold a week, keep it only if revenue rose ' + usd(be, 2) + ' or more per extra dollar. Otherwise go back.</li>';
       }
-      if (S.firstNegative) {
-        li.push('The first step up that lost money was into <b>' + S.firstNegative.label + '</b>: each extra Meta dollar came with ' + usd(S.firstNegative.marginalRev, 2) + ' of extra revenue, against ' + usd(S.breakevenMer, 2) + ' needed to break even.');
-      } else if (b.length > 1) {
-        li.push('No spend band we have run for ' + MIN_WEEKS + '+ weeks shows lower profit than the band below it.');
-      }
-      var st = steps(S.points), all = stepSummary(st, 0, Infinity);
-      if (all.raises) li.push('Week to week, spend was raised 10%+ <b>' + all.raises.n + '</b> times. Profit rose in ' + all.raises.profitUp + ' of them; the typical raise added ' + usd(all.raises.revPerDollar, 2) + ' of revenue per extra dollar.');
-      if (all.cuts) li.push('It was cut 10%+ <b>' + all.cuts.n + '</b> times. Profit rose in ' + all.cuts.profitUp + ' of them; the typical cut gave up ' + usd(all.cuts.revPerDollar, 2) + ' of revenue per dollar saved.');
-      q('verdict').innerHTML = '<ul>' + li.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>';
+      var st = steps(S.points), hi = stepSummary(st, cap, Infinity);
+      if (hi.raises) html += '<li><b>Track record above ' + usdK(cap).replace('.0k', 'k') + ':</b> spend was raised 10%+ ' + hi.raises.n + ' times from there; profit rose in ' + hi.raises.profitUp + '. It was cut ' + (hi.cuts ? hi.cuts.n : 0) + ' times; profit rose in ' + (hi.cuts ? hi.cuts.profitUp : 0) + '.</li>';
+      if (S.recent) html += '<li><b>Now:</b> the last 4 weeks averaged ' + usdK(S.recent.spend) + ' a day, ' + (S.recent.spend > cap ? 'above' : S.recent.spend < floor ? 'below' : 'inside') + ' that range.</li>';
+      q('verdict').innerHTML = html + '</ul>';
     }
 
     function series() {
