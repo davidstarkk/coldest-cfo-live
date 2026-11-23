@@ -2747,10 +2747,10 @@
           "amazon": 0.0
         },
         "applovin": {
-          "spend": 0.0,
-          "roas": null,
+          "spend": 134.05,
+          "roas": 2.28,
           "source": "ad_channel_throttles.series_28d",
-          "d2c": 0.0,
+          "d2c": 134.05,
           "amazon": 0.0
         },
         "taboola": {
