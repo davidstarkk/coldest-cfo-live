@@ -3091,7 +3091,7 @@
       "roas": 1.13,
       "platform_roas": 1.13,
       "source": "Pipeboard Microsoft Ads campaign report 2026-11-20 Daily (ConversionsQualified/Revenue, goal 172222236, platform-reported, click-date), pulled 2026-11-23 ET",
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "live": true,
       "complete": true,
       "closed_day": true,
@@ -3197,7 +3197,7 @@
       "roas": 4.89,
       "platform_roas": 4.89,
       "source": "Pipeboard Microsoft Ads campaign report 2026-11-21 Daily (ConversionsQualified/Revenue, goal 172222236, platform-reported, click-date), pulled 2026-11-23 ET",
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "live": true,
       "complete": true,
       "closed_day": true,
@@ -3303,7 +3303,7 @@
       "roas": 3.66,
       "platform_roas": 3.66,
       "source": "Pipeboard Microsoft Ads campaign report 2026-11-22 Daily (ConversionsQualified/Revenue, goal 172222236, platform-reported, click-date), pulled 2026-11-23 ET",
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "live": true,
       "complete": true,
       "closed_day": true,
@@ -3526,7 +3526,7 @@
       "field": "revenue",
       "old": 868.26,
       "new": 988.78,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $213.55; pulled in 11/23 run"
     },
@@ -3535,7 +3535,7 @@
       "field": "conversions",
       "old": 9,
       "new": 11,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $213.55; pulled in 11/23 run"
     },
@@ -3544,7 +3544,7 @@
       "field": "roas",
       "old": 4.07,
       "new": 4.63,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $213.55; pulled in 11/23 run"
     },
@@ -3553,7 +3553,7 @@
       "field": "revenue",
       "old": 304.91,
       "new": 521.16,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $129.56; pulled in 11/23 run"
     },
@@ -3562,7 +3562,7 @@
       "field": "conversions",
       "old": 4,
       "new": 5,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $129.56; pulled in 11/23 run"
     },
@@ -3571,7 +3571,7 @@
       "field": "roas",
       "old": 2.35,
       "new": 4.02,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $129.56; pulled in 11/23 run"
     },
@@ -3580,7 +3580,7 @@
       "field": "revenue",
       "old": 404.69,
       "new": 536.92,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $197.28; pulled in 11/23 run"
     },
@@ -3589,7 +3589,7 @@
       "field": "conversions",
       "old": 5,
       "new": 6,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $197.28; pulled in 11/23 run"
     },
@@ -3598,7 +3598,7 @@
       "field": "roas",
       "old": 2.05,
       "new": 2.72,
-      "pulled_at": "2026-11-23T10:45:00-05:00",
+      "pulled_at": "2026-11-23T10:32:00-05:00",
       "scope": "account",
       "note": "Platform restatement (late-attributed conversions); original closed-day row kept as written, not overwritten; spend unchanged $197.28; pulled in 11/23 run"
     }
