@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-23T10:10:00-05:00",
+  "updated_at": "2026-11-23T10:36:00-05:00",
   "by": "Jarvis",
   "acks": {
     "feed.bing": {
-      "status": "working",
-      "note": "Bing Monday routine ~10:25 AM ET 11/23 writing measured rows 11/20-11/22.",
-      "at": "2026-11-23T10:10:00-05:00"
+      "status": "done",
+      "note": "Bing 11/20-11/22 rows written on private master by BING ADS (commits ee0c77f, d8e7131), 11/23 ~10:30 AM ET.",
+      "at": "2026-11-23T10:36:00-05:00"
     },
     "feed.chatgpt": {
       "status": "done",

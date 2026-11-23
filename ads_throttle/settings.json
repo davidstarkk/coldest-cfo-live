@@ -65,7 +65,7 @@
       ],
       "daily_budget": 92.64,
       "elevar_ratio": 1.657,
-      "roas_disputed": true
+      "roas_disputed": false
     },
     "tiktok": {
       "mode": "view",
