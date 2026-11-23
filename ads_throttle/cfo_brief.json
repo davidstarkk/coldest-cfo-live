@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "as_of": "2026-11-20",
-  "computed_at": "2026-11-22T14:00:26Z",
+  "as_of": "2026-11-21",
+  "computed_at": "2026-11-22T21:41:54Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "action_exclusions": {
     "file": "ops/plan/action_exclusions.json",
@@ -46,22 +46,22 @@
     }
   },
   "portfolio": {
-    "mer_7d": 2.5268,
-    "mer_30d": 2.17,
+    "mer_7d": 2.4786,
+    "mer_30d": 2.1247,
     "mer_target": 3.24,
-    "mer_gap": -0.71,
+    "mer_gap": -0.76,
     "stance": "below_target",
-    "mer_7d_action": 1.6841,
-    "rev_7d_action": 173975.56,
-    "spend_7d_action": 103306.01,
+    "mer_7d_action": 1.663,
+    "rev_7d_action": 180949.95,
+    "spend_7d_action": 108806.71,
     "excluded_days": [
       "2026-11-19"
     ],
-    "d2c_revenue_7d": 348575.0,
-    "d2c_spend_7d": 137948.44,
-    "channel_spend_7d": 137948.44,
-    "spend_judged_pct": 88.8,
-    "spend_in_auto_mode_pct": 15.4,
+    "d2c_revenue_7d": 355549.39,
+    "d2c_spend_7d": 143449.14,
+    "channel_spend_7d": 143449.14,
+    "spend_judged_pct": 88.6,
+    "spend_in_auto_mode_pct": 16.1,
     "excluded_from_d2c_spend": [
       {
         "channel": "bing",
@@ -69,7 +69,7 @@
       }
     ],
     "mer_target_scope": "total_company",
-    "total_company_mer_7d": 4.62,
+    "total_company_mer_7d": 4.55,
     "stance_on_target_scope": "room_to_add"
   },
   "summary": {
@@ -122,20 +122,20 @@
         "ROAS from daily_inputs.platform_roas, not the channel daily file",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 107964.94,
+      "spend_7d": 111174.35,
       "spend_days_measured": 7,
-      "roas_7d": 2.5,
+      "roas_7d": 2.45,
       "roas_days": 7,
       "roas_source": "daily_inputs.platform_roas",
-      "platform_revenue_7d": 269556.51,
-      "roas_prior_7d": 2.07,
-      "spend_prior_7d": 74558.73,
+      "platform_revenue_7d": 271670.25,
+      "roas_prior_7d": 2.09,
+      "spend_prior_7d": 72898.5,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-20",
+      "last_measured_day": "2026-11-21",
       "last_change": {
         "date": "2026-11-16",
         "action": null
@@ -147,16 +147,16 @@
         "tier": "Lagging",
         "tier_label": "Lagging",
         "tracking": "OK (EMQ/CAPI not re-read; tracking_health 11/16 OK, 272 purchases 11/15)",
-        "roas_gap_pct": 20.8
+        "roas_gap_pct": 19.2
       },
       "mmm_verdict": null,
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 78920.86,
-      "roas_7d_action": 1.71,
+      "spend_7d_action": 82130.27,
+      "roas_7d_action": 1.67,
       "roas_days_action": 6,
-      "platform_revenue_7d_action": 132322.71
+      "platform_revenue_7d_action": 134436.45
     },
     "google": {
       "label": "Google Ads",
@@ -174,20 +174,20 @@
         "No data",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 13107.32,
+      "spend_7d": 14269.64,
       "spend_days_measured": 7,
-      "roas_7d": 2.29,
+      "roas_7d": 2.14,
       "roas_days": 7,
       "roas_source": "daily_inputs.platform_roas",
-      "platform_revenue_7d": 29931.59,
-      "roas_prior_7d": 1.53,
-      "spend_prior_7d": 13100.57,
+      "platform_revenue_7d": 30814.0,
+      "roas_prior_7d": 1.65,
+      "spend_prior_7d": 12411.69,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-20",
+      "last_measured_day": "2026-11-21",
       "last_change": {
         "date": "2026-11-16",
         "action": null
@@ -199,7 +199,7 @@
         "tier": "Lead",
         "tier_label": "Lead (disputed read)",
         "tracking": "OK; attribution ratio 1.703 (11/9), raises frozen; CFO feed reads 1.65x on a different basis",
-        "roas_gap_pct": 69.3
+        "roas_gap_pct": 71.4
       },
       "mmm_verdict": null,
       "roas_basis": "platform_reported_conversion_date",
@@ -213,10 +213,10 @@
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 10676.21,
-      "roas_7d_action": 1.83,
+      "spend_7d_action": 11838.53,
+      "roas_7d_action": 1.7,
       "roas_days_action": 6,
-      "platform_revenue_7d_action": 19413.13
+      "platform_revenue_7d_action": 20295.54
     },
     "tiktok": {
       "label": "TikTok (website)",
@@ -233,20 +233,20 @@
         "ROAS from daily_inputs.platform_roas, not the channel daily file",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 7554.1,
+      "spend_7d": 8154.77,
       "spend_days_measured": 7,
-      "roas_7d": 5.89,
+      "roas_7d": 5.84,
       "roas_days": 7,
       "roas_source": "daily_inputs.platform_roas",
-      "platform_revenue_7d": 67744.6,
-      "roas_prior_7d": 2.28,
-      "spend_prior_7d": 8673.58,
+      "platform_revenue_7d": 68422.11,
+      "roas_prior_7d": 2.35,
+      "spend_prior_7d": 8506.02,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-20",
+      "last_measured_day": "2026-11-21",
       "last_change": {
         "date": "2026-11-17",
         "action": null
@@ -258,16 +258,16 @@
         "tier": "Steady",
         "tier_label": "Steady",
         "tracking": "OK",
-        "roas_gap_pct": 37.0
+        "roas_gap_pct": 36.5
       },
       "mmm_verdict": null,
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 6395.32,
-      "roas_7d_action": 3.29,
+      "spend_7d_action": 6995.99,
+      "roas_7d_action": 3.28,
       "roas_days_action": 6,
-      "platform_revenue_7d_action": 32624.93
+      "platform_revenue_7d_action": 33302.44
     },
     "snapchat": {
       "label": "Snapchat",
@@ -281,20 +281,20 @@
         "tracking_health is 3 days old",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 5180.16,
+      "spend_7d": 5239.34,
       "spend_days_measured": 7,
-      "roas_7d": 11.36,
+      "roas_7d": 11.41,
       "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": 58823.79,
-      "roas_prior_7d": 8.01,
+      "platform_revenue_7d": 59784.99,
+      "roas_prior_7d": 7.53,
       "spend_prior_7d": null,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-20",
+      "last_measured_day": "2026-11-21",
       "last_change": {
         "date": "2026-11-18",
         "action": null
@@ -306,16 +306,16 @@
         "tier": "Steady",
         "tier_label": "Steady (view-through caveat)",
         "tracking": "OK; 7d swipe/1d view; swipe-only sensitivity 0.76x (10/31-11/6) not refreshed",
-        "roas_gap_pct": 37.9
+        "roas_gap_pct": 38.1
       },
       "mmm_verdict": null,
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 4431.36,
-      "roas_7d_action": 6.75,
+      "spend_7d_action": 4490.54,
+      "roas_7d_action": 6.87,
       "roas_days_action": 6,
-      "platform_revenue_7d_action": 29907.37
+      "platform_revenue_7d_action": 30868.57
     },
     "applovin": {
       "label": "AppLovin",
@@ -331,20 +331,20 @@
       "cautions": [
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 1171.93,
+      "spend_7d": 1087.43,
       "spend_days_measured": 7,
-      "roas_7d": 3.41,
+      "roas_7d": 3.8,
       "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": 3992.16,
-      "roas_prior_7d": 2.55,
-      "spend_prior_7d": 1283.16,
+      "platform_revenue_7d": 4132.09,
+      "roas_prior_7d": 1.89,
+      "spend_prior_7d": 1319.98,
       "raise_above_roas": 3.0,
       "cut_below_roas": 2.0,
       "band_source": "channels.applovin",
       "tracking_status": "unknown",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-20",
+      "last_measured_day": "2026-11-21",
       "last_change": {
         "date": "2026-11-17",
         "action": null
@@ -356,17 +356,17 @@
         "tier": "Lagging",
         "tier_label": "Lagging",
         "tracking": "Basis agreed 11/15 (click, chka_usd_7d, UTC purchase date); CFO brief still lists roas_disputed",
-        "roas_gap_pct": 47.5
+        "roas_gap_pct": 52.9
       },
       "mmm_verdict": null,
       "raise_above_roas_source": "David 10/29/2026 4:56 PM ET to Applovin Bot, AppLovin-specific: 'I wouldn't raise the budgets if you're only at 2 ROAS. If it goes above 3 ROAS you can raise the budgets.' Registered as a channel exception in ops/ad_rules.md. Hold 2.0-3.0, cut <2.0.",
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 1039.77,
-      "roas_7d_action": 2.86,
+      "spend_7d_action": 955.27,
+      "roas_7d_action": 3.26,
       "roas_days_action": 6,
-      "platform_revenue_7d_action": 2973.39,
+      "platform_revenue_7d_action": 3113.32,
       "attribution": "platform-reported; campaign 07e26de89b54bb5e60f76aae37406d61; /webReport attribution_mode=click; purchase-date booking; spend=cost, revenue=chka_usd_7d; trailing 7 full UTC days",
       "roas_basis": "platform_reported",
       "roas_campaign_id": "07e26de89b54bb5e60f76aae37406d61"
@@ -379,20 +379,20 @@
       "rule_says": "Not enough data",
       "actionable": false,
       "blockers": [
-        "feed_gap:6/7 days measured"
+        "feed_gap:5/7 days measured"
       ],
       "cautions": [
         "tracking_health is 3 days old",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 1112.85,
-      "spend_days_measured": 6,
+      "spend_7d": 983.29,
+      "spend_days_measured": 5,
       "roas_7d": null,
-      "roas_days": 6,
+      "roas_days": 5,
       "roas_source": "channel daily file",
       "platform_revenue_7d": null,
-      "roas_prior_7d": 1.71,
-      "spend_prior_7d": 1804.81,
+      "roas_prior_7d": 1.74,
+      "spend_prior_7d": 1757.73,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
@@ -415,9 +415,9 @@
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 839.96,
+      "spend_7d_action": 710.4,
       "roas_7d_action": null,
-      "roas_days_action": 5,
+      "roas_days_action": 4,
       "platform_revenue_7d_action": null
     },
     "x": {
@@ -432,20 +432,20 @@
         "tracking_health is 3 days old",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 1857.14,
+      "spend_7d": 2540.32,
       "spend_days_measured": 7,
       "roas_7d": 0.73,
       "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": 1347.48,
-      "roas_prior_7d": 1.28,
-      "spend_prior_7d": 1096.51,
+      "platform_revenue_7d": 1861.76,
+      "roas_prior_7d": 1.06,
+      "spend_prior_7d": 942.52,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
       "tracking_status": "OK",
       "feed_status": "fresh",
-      "last_measured_day": "2026-11-20",
+      "last_measured_day": "2026-11-21",
       "last_change": {
         "date": "2026-11-17",
         "action": null
@@ -463,10 +463,10 @@
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 1002.53,
-      "roas_7d_action": 1.09,
+      "spend_7d_action": 1685.71,
+      "roas_7d_action": 0.95,
       "roas_days_action": 6,
-      "platform_revenue_7d_action": 1093.0
+      "platform_revenue_7d_action": 1607.28
     },
     "reddit": {
       "label": "Reddit",
@@ -491,7 +491,7 @@
       "roas_source": "daily_inputs.platform_roas",
       "platform_revenue_7d": null,
       "roas_prior_7d": 0.0,
-      "spend_prior_7d": 296.44,
+      "spend_prior_7d": 144.29,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
@@ -678,7 +678,7 @@
       "spend_7d": 0.0,
       "spend_days_measured": 7,
       "roas_7d": null,
-      "roas_days": 7,
+      "roas_days": 6,
       "roas_source": null,
       "platform_revenue_7d": null,
       "roas_prior_7d": null,
@@ -704,7 +704,7 @@
       ],
       "spend_7d_action": 0.0,
       "roas_7d_action": null,
-      "roas_days_action": 6,
+      "roas_days_action": 5,
       "platform_revenue_7d_action": null
     },
     "spotify": {
@@ -753,12 +753,13 @@
       "channel": "bing",
       "owner": "Bing Ads bot",
       "title": "Bing: no measured row since 2026-11-19",
-      "detail": "bing_ads_daily.json has no measured row for 2026-11-20. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
+      "detail": "bing_ads_daily.json has no measured row for 2026-11-20, 2026-11-21. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
       "first_seen": "2026-11-21",
       "age_days": 1,
       "evidence": {
         "missing_days": [
-          "2026-11-20"
+          "2026-11-20",
+          "2026-11-21"
         ],
         "last_measured_day": "2026-11-19"
       },
@@ -788,14 +789,14 @@
       "severity": "high",
       "channel": "applovin",
       "owner": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
-      "title": "AppLovin: CFO reads 3.41x, Grok reads 1.79x \u2014 the rule lands in different bands",
-      "detail": "CFO 7d platform ROAS 3.41x (channel daily file, 2026-11-14..2026-11-20) says raise; Grok ranking 2026-11-16 says 1.79x (cut). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
-      "first_seen": "2026-11-20",
-      "age_days": 2,
+      "title": "AppLovin: CFO reads 3.80x, Grok reads 1.79x \u2014 the rule lands in different bands",
+      "detail": "CFO 7d platform ROAS 3.80x (channel daily file, 2026-11-15..2026-11-21) says raise; Grok ranking 2026-11-16 says 1.79x (cut). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
+      "first_seen": "2026-11-22",
+      "age_days": 0,
       "evidence": {
-        "cfo_roas_7d": 3.41,
+        "cfo_roas_7d": 3.8,
         "grok_roas_7d": 1.79,
-        "gap_pct": 47.5
+        "gap_pct": 52.9
       },
       "ack": {
         "status": "done",
@@ -1756,7 +1757,7 @@
   "growth": {
     "file": "ads_throttle/growth_brief.json",
     "headline": {
-      "mer_7d": 2.5268,
+      "mer_7d": 2.4786,
       "mer_target": 3.24,
       "breakeven_mer_before_overhead": 1.4,
       "stance": "room_to_add",
@@ -1769,20 +1770,20 @@
       "new_share_of_net_sales_pct": null,
       "revenue_per_customer_m2": 105.38,
       "paid_back_by": null,
-      "contribution_margin_pct": 71.4,
+      "contribution_margin_pct": 71.3,
       "low_stock": [
         "COLDEST 36oz Limitless Ultra v8"
       ],
-      "annual_run_rate": 32762236.0,
-      "multiple_to_target": 3.05,
-      "total_mer_7d": 4.62,
+      "annual_run_rate": 32978368.0,
+      "multiple_to_target": 3.03,
+      "total_mer_7d": 4.55,
       "usable_history_days": 34,
       "open_grok_requests": 1,
       "tests_running": 0
     }
   },
   "intl_meta_budget_calls": {
-    "as_of": "2026-11-20",
+    "as_of": "2026-11-21",
     "status": "PENDING_INPUT",
     "advisory": true,
     "lines": [
@@ -1860,7 +1861,7 @@
       "advisory": true,
       "title": "International Meta input feed is missing; dollars are null, not $0",
       "ok": null,
-      "date": "2026-11-20"
+      "date": "2026-11-21"
     }
   ]
 }
