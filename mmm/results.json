@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "as_of": "2026-11-22",
- "computed_at": "2026-11-23T15:18:21Z",
+ "as_of": "2026-11-02",
+ "computed_at": "2026-11-04T16:05:21Z",
  "source": "cfo_backend/mmm (in-house media mix model)",
  "basis": "mmm_marginal (Shopify D2C net revenue; platform-reported ROAS as prior)",
  "rule_status": "Advisory. Jarvis live rule stays ads_throttle/settings.json platform_reported 7d ROAS (raise > 2.8, hold 2.0-2.8, cut < 2.0) until David changes roas_source.",
@@ -9,124 +9,115 @@
  "data_sufficiency": {
   "sufficient_for_mmm": false,
   "min_days_required": 180,
-  "consecutive_usable_days": 54,
-  "run_days": 56,
+  "consecutive_usable_days": 34,
+  "run_days": 36,
   "kpi_gap_days_in_run": [
    "2026-10-09",
    "2026-10-10"
   ],
   "usable_span": {
    "start": "2026-09-28",
-   "end": "2026-11-22"
+   "end": "2026-11-02"
   },
-  "days_with_channel_split": 55,
-  "days_with_kpi": 856,
+  "days_with_channel_split": 35,
+  "days_with_kpi": 837,
   "reasons": [
-   "only 54 usable days in the longest per-channel run (56 days, 2 missing spend or Shopify revenue); need 180"
+   "only 34 usable days in the longest per-channel run (36 days, 2 missing spend or Shopify revenue); need 180"
   ]
  },
  "channel_coverage": {
   "meta": {
-   "days_reported": 55,
-   "days_with_spend": 55,
-   "spend_cv": 0.398,
-   "d2c_share_pct": 73.42,
+   "days_reported": 35,
+   "days_with_spend": 35,
+   "spend_cv": 0.282,
+   "d2c_share_pct": 73.66,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": false
   },
   "google": {
-   "days_reported": 52,
-   "days_with_spend": 52,
+   "days_reported": 32,
+   "days_with_spend": 32,
    "spend_cv": 0.358,
-   "d2c_share_pct": 11.53,
+   "d2c_share_pct": 11.39,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": false
   },
   "tiktok_web": {
-   "days_reported": 55,
-   "days_with_spend": 55,
-   "spend_cv": 0.512,
-   "d2c_share_pct": 10.58,
+   "days_reported": 35,
+   "days_with_spend": 35,
+   "spend_cv": 0.521,
+   "d2c_share_pct": 13.2,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": false
   },
   "tiktok_shop": {
-   "days_reported": 55,
-   "days_with_spend": 55,
-   "spend_cv": 1.474,
+   "days_reported": 35,
+   "days_with_spend": 35,
+   "spend_cv": 0.499,
    "d2c_share_pct": null,
    "d2c": false,
    "curve_eligible": false,
    "prior_dominated_expected": false
   },
   "applovin": {
-   "days_reported": 55,
-   "days_with_spend": 27,
-   "spend_cv": 0.241,
-   "d2c_share_pct": 0.63,
+   "days_reported": 35,
+   "days_with_spend": 7,
+   "spend_cv": 0.297,
+   "d2c_share_pct": 0.34,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": true
   },
   "bing": {
-   "days_reported": 52,
-   "days_with_spend": 49,
-   "spend_cv": 1.309,
-   "d2c_share_pct": 0.52,
+   "days_reported": 35,
+   "days_with_spend": 29,
+   "spend_cv": 2.207,
+   "d2c_share_pct": 0.13,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": true
   },
   "pinterest": {
-   "days_reported": 55,
+   "days_reported": 35,
    "days_with_spend": 6,
    "spend_cv": 0.609,
-   "d2c_share_pct": 0.05,
+   "d2c_share_pct": 0.1,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": true
   },
   "snapchat": {
-   "days_reported": 55,
-   "days_with_spend": 29,
-   "spend_cv": 0.311,
-   "d2c_share_pct": 2.17,
+   "days_reported": 35,
+   "days_with_spend": 9,
+   "spend_cv": 0.294,
+   "d2c_share_pct": 0.75,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": true
   },
   "reddit": {
-   "days_reported": 54,
-   "days_with_spend": 9,
-   "spend_cv": 0.521,
-   "d2c_share_pct": 0.25,
+   "days_reported": 35,
+   "days_with_spend": 3,
+   "spend_cv": 0.391,
+   "d2c_share_pct": 0.2,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": true
   },
   "chatgpt": {
-   "days_reported": 55,
+   "days_reported": 35,
    "days_with_spend": 5,
    "spend_cv": 0.485,
-   "d2c_share_pct": 0.12,
+   "d2c_share_pct": 0.23,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": true
   },
   "taboola": {
-   "days_reported": 37,
-   "days_with_spend": 2,
-   "spend_cv": 0.407,
-   "d2c_share_pct": 0.07,
-   "d2c": true,
-   "curve_eligible": false,
-   "prior_dominated_expected": true
-  },
-  "outbrain": {
-   "days_reported": 55,
+   "days_reported": 35,
    "days_with_spend": 0,
    "spend_cv": null,
    "d2c_share_pct": 0.0,
@@ -134,8 +125,8 @@
    "curve_eligible": false,
    "prior_dominated_expected": true
   },
-  "spotify": {
-   "days_reported": 0,
+  "outbrain": {
+   "days_reported": 35,
    "days_with_spend": 0,
    "spend_cv": null,
    "d2c_share_pct": 0.0,
@@ -144,31 +135,31 @@
    "prior_dominated_expected": true
   },
   "x": {
-   "days_reported": 55,
-   "days_with_spend": 19,
-   "spend_cv": 1.081,
-   "d2c_share_pct": 0.65,
+   "days_reported": 35,
+   "days_with_spend": 0,
+   "spend_cv": null,
+   "d2c_share_pct": 0.0,
    "d2c": true,
    "curve_eligible": false,
    "prior_dominated_expected": true
   },
   "amazon": {
-   "days_reported": 54,
-   "days_with_spend": 54,
-   "spend_cv": 0.213,
+   "days_reported": 34,
+   "days_with_spend": 34,
+   "spend_cv": 0.231,
    "d2c_share_pct": null,
    "d2c": false,
    "curve_eligible": false,
    "prior_dominated_expected": false
   },
   "whatnot": {
-   "days_reported": 55,
-   "days_with_spend": 40,
-   "spend_cv": 0.478,
+   "days_reported": 35,
+   "days_with_spend": 26,
+   "spend_cv": 0.459,
    "d2c_share_pct": null,
    "d2c": false,
    "curve_eligible": false,
-   "prior_dominated_expected": false
+   "prior_dominated_expected": true
   }
  },
  "status": "insufficient_data",
@@ -176,12 +167,12 @@
  "learnings": [],
  "panel_meta": {
   "panel_version": 1,
-  "as_of": "2026-11-23",
-  "computed_at": "2026-11-23T15:18:21Z",
+  "as_of": "2026-11-03",
+  "computed_at": "2026-11-04T16:05:21Z",
   "kpi": "shopify_net_revenue_ex_tax (Shopify D2C net, same definition as blended_mer)",
-  "rows": 967,
+  "rows": 947,
   "first_day": "2024-04-01",
-  "last_day": "2026-11-23",
+  "last_day": "2026-11-03",
   "channels": [
    "meta",
    "google",
@@ -195,7 +186,6 @@
    "chatgpt",
    "taboola",
    "outbrain",
-   "spotify",
    "x",
    "amazon",
    "whatnot"
@@ -212,7 +202,6 @@
    "chatgpt",
    "taboola",
    "outbrain",
-   "spotify",
    "x"
   ],
   "non_d2c_channels": [
@@ -227,123 +216,114 @@
   "data_sufficiency": {
    "sufficient_for_mmm": false,
    "min_days_required": 180,
-   "consecutive_usable_days": 54,
-   "run_days": 56,
+   "consecutive_usable_days": 34,
+   "run_days": 36,
    "kpi_gap_days_in_run": [
     "2026-10-09",
     "2026-10-10"
    ],
    "usable_span": {
     "start": "2026-09-28",
-    "end": "2026-11-22"
+    "end": "2026-11-02"
    },
-   "days_with_channel_split": 55,
-   "days_with_kpi": 856,
+   "days_with_channel_split": 35,
+   "days_with_kpi": 837,
    "reasons": [
-    "only 54 usable days in the longest per-channel run (56 days, 2 missing spend or Shopify revenue); need 180"
+    "only 34 usable days in the longest per-channel run (36 days, 2 missing spend or Shopify revenue); need 180"
    ],
    "channels": {
     "meta": {
-     "days_reported": 55,
-     "days_with_spend": 55,
-     "spend_cv": 0.398,
-     "d2c_share_pct": 73.42,
+     "days_reported": 35,
+     "days_with_spend": 35,
+     "spend_cv": 0.282,
+     "d2c_share_pct": 73.66,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": false
     },
     "google": {
-     "days_reported": 52,
-     "days_with_spend": 52,
+     "days_reported": 32,
+     "days_with_spend": 32,
      "spend_cv": 0.358,
-     "d2c_share_pct": 11.53,
+     "d2c_share_pct": 11.39,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": false
     },
     "tiktok_web": {
-     "days_reported": 55,
-     "days_with_spend": 55,
-     "spend_cv": 0.512,
-     "d2c_share_pct": 10.58,
+     "days_reported": 35,
+     "days_with_spend": 35,
+     "spend_cv": 0.521,
+     "d2c_share_pct": 13.2,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": false
     },
     "tiktok_shop": {
-     "days_reported": 55,
-     "days_with_spend": 55,
-     "spend_cv": 1.474,
+     "days_reported": 35,
+     "days_with_spend": 35,
+     "spend_cv": 0.499,
      "d2c_share_pct": null,
      "d2c": false,
      "curve_eligible": false,
      "prior_dominated_expected": false
     },
     "applovin": {
-     "days_reported": 55,
-     "days_with_spend": 27,
-     "spend_cv": 0.241,
-     "d2c_share_pct": 0.63,
+     "days_reported": 35,
+     "days_with_spend": 7,
+     "spend_cv": 0.297,
+     "d2c_share_pct": 0.34,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": true
     },
     "bing": {
-     "days_reported": 52,
-     "days_with_spend": 49,
-     "spend_cv": 1.309,
-     "d2c_share_pct": 0.52,
+     "days_reported": 35,
+     "days_with_spend": 29,
+     "spend_cv": 2.207,
+     "d2c_share_pct": 0.13,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": true
     },
     "pinterest": {
-     "days_reported": 55,
+     "days_reported": 35,
      "days_with_spend": 6,
      "spend_cv": 0.609,
-     "d2c_share_pct": 0.05,
+     "d2c_share_pct": 0.1,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": true
     },
     "snapchat": {
-     "days_reported": 55,
-     "days_with_spend": 29,
-     "spend_cv": 0.311,
-     "d2c_share_pct": 2.17,
+     "days_reported": 35,
+     "days_with_spend": 9,
+     "spend_cv": 0.294,
+     "d2c_share_pct": 0.75,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": true
     },
     "reddit": {
-     "days_reported": 54,
-     "days_with_spend": 9,
-     "spend_cv": 0.521,
-     "d2c_share_pct": 0.25,
+     "days_reported": 35,
+     "days_with_spend": 3,
+     "spend_cv": 0.391,
+     "d2c_share_pct": 0.2,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": true
     },
     "chatgpt": {
-     "days_reported": 55,
+     "days_reported": 35,
      "days_with_spend": 5,
      "spend_cv": 0.485,
-     "d2c_share_pct": 0.12,
+     "d2c_share_pct": 0.23,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": true
     },
     "taboola": {
-     "days_reported": 37,
-     "days_with_spend": 2,
-     "spend_cv": 0.407,
-     "d2c_share_pct": 0.07,
-     "d2c": true,
-     "curve_eligible": false,
-     "prior_dominated_expected": true
-    },
-    "outbrain": {
-     "days_reported": 55,
+     "days_reported": 35,
      "days_with_spend": 0,
      "spend_cv": null,
      "d2c_share_pct": 0.0,
@@ -351,8 +331,8 @@
      "curve_eligible": false,
      "prior_dominated_expected": true
     },
-    "spotify": {
-     "days_reported": 0,
+    "outbrain": {
+     "days_reported": 35,
      "days_with_spend": 0,
      "spend_cv": null,
      "d2c_share_pct": 0.0,
@@ -361,31 +341,31 @@
      "prior_dominated_expected": true
     },
     "x": {
-     "days_reported": 55,
-     "days_with_spend": 19,
-     "spend_cv": 1.081,
-     "d2c_share_pct": 0.65,
+     "days_reported": 35,
+     "days_with_spend": 0,
+     "spend_cv": null,
+     "d2c_share_pct": 0.0,
      "d2c": true,
      "curve_eligible": false,
      "prior_dominated_expected": true
     },
     "amazon": {
-     "days_reported": 54,
-     "days_with_spend": 54,
-     "spend_cv": 0.213,
+     "days_reported": 34,
+     "days_with_spend": 34,
+     "spend_cv": 0.231,
      "d2c_share_pct": null,
      "d2c": false,
      "curve_eligible": false,
      "prior_dominated_expected": false
     },
     "whatnot": {
-     "days_reported": 55,
-     "days_with_spend": 40,
-     "spend_cv": 0.478,
+     "days_reported": 35,
+     "days_with_spend": 26,
+     "spend_cv": 0.459,
      "d2c_share_pct": null,
      "d2c": false,
      "curve_eligible": false,
-     "prior_dominated_expected": false
+     "prior_dominated_expected": true
     }
    }
   },
@@ -403,18 +383,17 @@
   ]
  },
  "priors": {
-  "meta": 2.21,
-  "google": 7.39,
-  "tiktok_web": 4.12,
-  "applovin": 2.38,
-  "bing": 2.57,
-  "pinterest": 2.39,
-  "snapchat": 7.76,
-  "reddit": 2.39,
-  "chatgpt": 2.39,
-  "taboola": 2.39,
-  "outbrain": 2.39,
-  "spotify": 2.39,
-  "x": 1.12
+  "meta": 2.75,
+  "google": 6.62,
+  "tiktok_web": 2.05,
+  "applovin": 2.05,
+  "bing": 2.05,
+  "pinterest": 2.05,
+  "snapchat": 2.05,
+  "reddit": 2.05,
+  "chatgpt": 2.05,
+  "taboola": 2.05,
+  "outbrain": 2.05,
+  "x": 2.05
  }
 }
