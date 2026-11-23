@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "as_of": "2026-11-21",
-  "computed_at": "2026-11-23T13:57:58Z",
+  "as_of": "2026-11-22",
+  "computed_at": "2026-11-23T14:31:29Z",
   "summary": {
     "status": "degraded",
-    "as_of_lag_days": 1,
+    "as_of_lag_days": 0,
     "channels_fresh": [
       "applovin",
       "google",
@@ -34,7 +34,7 @@
     "meta": {
       "label": "Meta",
       "status": "fresh",
-      "last_measured_day": "2026-11-21",
+      "last_measured_day": "2026-11-22",
       "days_behind": 0,
       "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
@@ -42,12 +42,12 @@
       "source": "daily_inputs.meta",
       "owner_bot": "Meta \u00b7 Ad Buyer",
       "days_14": "##############",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "google": {
       "label": "Google Ads",
       "status": "fresh",
-      "last_measured_day": "2026-11-21",
+      "last_measured_day": "2026-11-22",
       "days_behind": 0,
       "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
@@ -55,12 +55,12 @@
       "source": "daily_inputs.google_ads",
       "owner_bot": "Google \u00b7 Ads",
       "days_14": "##############",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "tiktok": {
       "label": "TikTok (website)",
       "status": "fresh",
-      "last_measured_day": "2026-11-21",
+      "last_measured_day": "2026-11-22",
       "days_behind": 0,
       "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
@@ -68,25 +68,25 @@
       "source": "daily_inputs.tiktok_ads",
       "owner_bot": null,
       "days_14": "##############",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "snapchat": {
       "label": "Snapchat",
       "status": "fresh",
-      "last_measured_day": "2026-11-21",
+      "last_measured_day": "2026-11-22",
       "days_behind": 0,
       "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
       "expected_daily": true,
       "source": "snapchat_ads_daily.json",
       "owner_bot": "snapchat ads bot",
-      "days_14": "####.#########",
-      "window_14": "2026-11-08..2026-11-21"
+      "days_14": "###.##########",
+      "window_14": "2026-11-09..2026-11-22"
     },
     "applovin": {
       "label": "AppLovin",
       "status": "fresh",
-      "last_measured_day": "2026-11-21",
+      "last_measured_day": "2026-11-22",
       "days_behind": 0,
       "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
@@ -94,28 +94,29 @@
       "source": "applovin_ads_daily.json",
       "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
       "days_14": "##############",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "bing": {
       "label": "Bing",
       "status": "stale",
       "last_measured_day": "2026-11-19",
-      "days_behind": 2,
+      "days_behind": 3,
       "missing_days_7d": [
         "2026-11-20",
-        "2026-11-21"
+        "2026-11-21",
+        "2026-11-22"
       ],
       "spend_seen_in_platform_roas": null,
       "expected_daily": true,
       "source": "bing_ads_daily.json",
       "owner_bot": "Bing Ads bot",
-      "days_14": "############..",
-      "window_14": "2026-11-08..2026-11-21"
+      "days_14": "###########...",
+      "window_14": "2026-11-09..2026-11-22"
     },
     "x": {
       "label": "X",
       "status": "fresh",
-      "last_measured_day": "2026-11-21",
+      "last_measured_day": "2026-11-22",
       "days_behind": 0,
       "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
@@ -123,20 +124,20 @@
       "source": "x_ads_daily.json",
       "owner_bot": "x.com ads (8889e108-fd8c-4e4a-bb67-b97564944a62)",
       "days_14": "##############",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "reddit": {
       "label": "Reddit",
       "status": "quiet",
-      "last_measured_day": "2026-11-08",
-      "days_behind": 13,
+      "last_measured_day": null,
+      "days_behind": null,
       "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
       "expected_daily": false,
       "source": "reddit_ads_daily.json",
       "owner_bot": "reddit bot",
-      "days_14": "#-------------",
-      "window_14": "2026-11-08..2026-11-21"
+      "days_14": "--------------",
+      "window_14": "2026-11-09..2026-11-22"
     },
     "pinterest": {
       "label": "Pinterest",
@@ -149,7 +150,7 @@
       "source": "pinterest_ads_daily.json",
       "owner_bot": "Pinterest Ads (e9b26c29-fdd2-459a-b98d-c7a995082024)",
       "days_14": "--------------",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "chatgpt": {
       "label": "ChatGPT",
@@ -162,7 +163,7 @@
       "source": "chatgpt_ads_daily.json",
       "owner_bot": "ads bot for chatgpt",
       "days_14": "--------------",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "taboola": {
       "label": "Taboola",
@@ -175,7 +176,7 @@
       "source": "taboola_ads_daily.json",
       "owner_bot": null,
       "days_14": "--------------",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "outbrain": {
       "label": "Outbrain",
@@ -188,7 +189,7 @@
       "source": "outbrain_ads_daily.json",
       "owner_bot": "outbrain ads",
       "days_14": "--------------",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     },
     "spotify": {
       "label": "Spotify",
@@ -201,7 +202,7 @@
       "source": "spotify_ads_daily.json",
       "owner_bot": null,
       "days_14": "--------------",
-      "window_14": "2026-11-08..2026-11-21"
+      "window_14": "2026-11-09..2026-11-22"
     }
   },
   "files": {

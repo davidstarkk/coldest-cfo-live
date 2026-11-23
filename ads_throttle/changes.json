@@ -2799,5 +2799,55 @@
       "note": "Not yet measured. Backfilled 2026-11-19 by Jarvis; outcome window still open."
     },
     "note": "Backfilled 2026-11-19 by Jarvis from SNAPCHAT ADS API readbacks confirmed 2026-11-19 10:28 AM ET. Squad 7189c922. 168.84h since the last change. Live account total as of 2026-11-19 10:28 AM ET: Launch $604.80 + Hoodies $144 = $748.80/day, $35.20 headroom under the $784 cap. Next Launch step eligible 2026-11-20 after 10:40 AM ET, limited to that headroom. Next Hoodies step not before 2026-11-25 10:45 AM ET."
+  },
+  {
+    "date": "2026-11-20",
+    "channel": "snapchat",
+    "window": {
+      "start": "2026-11-13",
+      "end": "2026-11-19",
+      "days": 7
+    },
+    "trailing_7d_roas": 9.94,
+    "trailing_7d_roas_source": "Snap platform-reported 7-day swipe / 1-day view, Nov 13-19, confirmed by SNAPCHAT ADS API readback on 2026-11-20 10:40:58 AM ET (relayed to Jarvis 2026-11-23 10:03 AM ET)",
+    "rule_band": "raise",
+    "recommended_action": "Scale +20% (capped at +5.82% / +$35.20 by the $784/day account cap; full +20% would have been +$120.96)",
+    "authority": {
+      "who": "SNAPCHAT ADS (automatic band raise under the >2.8 band rule plus David's Nov 7 cap and Nov 10 priority)",
+      "reference": "SNAPCHAT ADS confirmation to Jarvis, 2026-11-23 10:03 AM ET: Launch campaign 17ba5e2d-8cd3-426b-94b6-fa634db9f6e3 +$35.20 (+5.82%) $604.80 to $640.00/day on 2026-11-20 10:40:51 AM ET, capped at the headroom left under $784 (full +20% would have been +$120.96). Squads: Limitless d8cfb148-c4f6-4c2d-bc60-44da29a7fd1e $345.60 to $365.71, Drive-Thru 2c049090-908e-46c9-ae3f-84e661133d5f $259.20 to $274.29. 7d ROAS 9.94x for Nov 13-19, above the 2.8x band. 168.005h after the 11/13 10:40:33 AM ET raise. Live readback verified 2026-11-20 10:40:58 AM ET."
+    },
+    "owner_bot": "SNAPCHAT ADS",
+    "platform_ids": {
+      "campaigns": [
+        "17ba5e2d-8cd3-426b-94b6-fa634db9f6e3"
+      ],
+      "adgroups": [
+        "d8cfb148",
+        "2c049090"
+      ]
+    },
+    "budget": {
+      "before": 604.8,
+      "after": 640,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-20T15:40:58Z",
+      "confirmed": true,
+      "detail": "SNAPCHAT ADS confirmed API readback at 2026-11-20 10:40:58 AM ET: Launch $640.00/day (Limitless d8cfb148 $365.71, Drive-Thru 2c049090 $274.29). Confirmation relayed to Jarvis 2026-11-23 10:03 AM ET."
+    },
+    "next_eligible_date": "2026-11-27",
+    "observed_outcome": {
+      "date": "2026-11-27",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured. Backfilled 2026-11-23 by Jarvis; outcome window still open."
+    },
+    "note": "Backfilled 2026-11-23 by Jarvis from SNAPCHAT ADS confirmation 2026-11-23 10:03 AM ET (executed_by SNAPCHAT ADS; readback verified 11/20 10:40:58 AM ET). Limitless d8cfb148-c4f6-4c2d-bc60-44da29a7fd1e $345.60 to $365.71, Drive-Thru 2c049090-908e-46c9-ae3f-84e661133d5f $259.20 to $274.29. Raise was +$35.20 (+5.82%), capped by the $784 account cap; the full +20% would have been +$120.96. 168.005h after the 11/13 10:40:33 AM ET raise. Live account total after this step: Launch $640 + Hoodies $144 = $784/day, $0 headroom. Next Hoodies step not before 2026-11-25 10:45:29 AM ET. Next Launch step not before 2026-11-27 10:40:51 AM ET."
   }
 ]

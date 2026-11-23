@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-11-21",
-  "count": 6,
+  "as_of": "2026-11-22",
+  "count": 7,
   "items": [
     {
       "channel": "reddit",
@@ -40,6 +40,13 @@
     {
       "channel": "bing",
       "day": "2026-11-21",
+      "owner_bot": "Bing Ads bot",
+      "last_confirmed_date": "2026-11-19",
+      "last_confirmed_amount": 272.89
+    },
+    {
+      "channel": "bing",
+      "day": "2026-11-22",
       "owner_bot": "Bing Ads bot",
       "last_confirmed_date": "2026-11-19",
       "last_confirmed_amount": 272.89
