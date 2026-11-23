@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-23T10:10:00-05:00",
-  "updated_by": "jarvis (11/23 10:10 AM ET: backfilled Snap Launch 11/20 $604.80->$640.00; set channels.snapchat.daily_budget=784 and channels.x.daily_budget=759 from live reads; 11/23 Snap raise and X cut not applied)",
+  "updated_at": "2026-11-23T12:05:00-05:00",
+  "updated_by": "jarvis (11/23 12:05 PM ET: logged Snap BFCM +20% $784->$940.80 and AppLovin $129.60->$155.52 from SNAPCHAT ADS and Applovin Bot readbacks; set channels.snapchat.daily_budget=940.80 (new cap per David 11/23) and channels.applovin.daily_budget=155.52)",
   "global": {
     "step_pct": 20,
     "window_days": 7,
@@ -27,8 +27,8 @@
       "owner_bot": "snapchat ads bot",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. Live daily_budget 784 confirmed by SNAPCHAT ADS 11/23 10:03 AM ET (Launch 17ba5e2d $640.00: Limitless d8cfb148 $365.71, Drive-Thru 2c049090 $274.29; Hoodies b4333284 squad 7189c922 $144.00). Launch last raised 11/20 10:40:51 AM ET ($604.80->$640.00, +5.82%, capped by the $784 account cap; full +20% would have been +$120.96), next eligible 11/27 10:40:51 AM ET. Hoodies last raised 11/18 10:45:29 AM ET ($120->$144), next eligible 11/25 10:45:29 AM ET. Account total $784/day, at cap, no raise. $0 headroom.",
-      "daily_budget": 784
+      "notes": "David 10/30 9:22 PM ET: judge on Snap's own platform numbers; tracking WARN does not block. 3 ad accounts. Judge on 7-day swipe / 1-day view platform ROAS (squads default 28d swipe/1d view inflates); flag Shopify UTM gap in reports. Live daily_budget 940.80 confirmed by SNAPCHAT ADS 11/23 11:56:18 AM ET (Launch 17ba5e2d $768.00: Limitless d8cfb148 $438.85, Drive-Thru 2c049090 $329.15; Hoodies b4333284 squad 7189c922 $172.80). Both Launch and Hoodies last raised 11/23 11:56:18 AM ET (+20% on every line, David BFCM order in Jarvis chat t766u 11:55 AM ET), which overrides the 11/25 Hoodies and 11/27 Launch cooldowns and lifts the $784 cap for this one raise. New cap $940.80 per David 11/23. Account total $940.80/day, at cap, $0 headroom. Next change not before 11/30 11:56:18 AM ET.",
+      "daily_budget": 940.80
     },
     "bing": {
       "mode": "auto",
@@ -91,8 +91,8 @@
       "owner_bot": "Applovin Bot (71ef12e8-05c1-4425-aeac-3f3281b78d40)",
       "max_daily_budget": null,
       "min_daily_budget": null,
-      "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable. | Agreed ROAS basis 2026-11-15 (Applovin Bot + Finance CFO): platform-reported click-only chka_usd_7d, booked on purchase date, campaign 07e26de8 only, trailing 7 full UTC days reread live; spend-only days count as missing revenue, never $0; serve-date ROAS and Shopify UTM advisory only.",
-      "daily_budget": 162,
+      "notes": "Counts as D2C (David 10/27). No connector yet; switch to auto once spend/ROAS is readable. | Agreed ROAS basis 2026-11-15 (Applovin Bot + Finance CFO): platform-reported click-only chka_usd_7d, booked on purchase date, campaign 07e26de8 only, trailing 7 full UTC days reread live; spend-only days count as missing revenue, never $0; serve-date ROAS and Shopify UTM advisory only. Live daily_budget 155.52 confirmed by Applovin Bot 11/23 11:58 AM ET (readback 2026-11-23T16:57:59Z): Coldest_ROAS_Q4_2026 (3142498) $129.60->$155.52/day, ROAS goal 300% unchanged, Live. David's 11/23 11:55 AM ET BFCM +20% order (Jarvis chat t766u) overrides the 11/24 cooldown for this one raise. Next change not before 11/30 11:58 AM ET.",
+      "daily_budget": 155.52,
       "roas_source": "platform_reported",
       "raise_above_roas": 3.0,
       "raise_above_roas_source": "David 10/29/2026 4:56 PM ET to Applovin Bot, AppLovin-specific: 'I wouldn't raise the budgets if you're only at 2 ROAS. If it goes above 3 ROAS you can raise the budgets.' Registered as a channel exception in ops/ad_rules.md. Hold 2.0-3.0, cut <2.0."

@@ -2849,5 +2849,152 @@
       "note": "Not yet measured. Backfilled 2026-11-23 by Jarvis; outcome window still open."
     },
     "note": "Backfilled 2026-11-23 by Jarvis from SNAPCHAT ADS confirmation 2026-11-23 10:03 AM ET (executed_by SNAPCHAT ADS; readback verified 11/20 10:40:58 AM ET). Limitless d8cfb148-c4f6-4c2d-bc60-44da29a7fd1e $345.60 to $365.71, Drive-Thru 2c049090-908e-46c9-ae3f-84e661133d5f $259.20 to $274.29. Raise was +$35.20 (+5.82%), capped by the $784 account cap; the full +20% would have been +$120.96. 168.005h after the 11/13 10:40:33 AM ET raise. Live account total after this step: Launch $640 + Hoodies $144 = $784/day, $0 headroom. Next Hoodies step not before 2026-11-25 10:45:29 AM ET. Next Launch step not before 2026-11-27 10:40:51 AM ET."
+  },
+  {
+    "date": "2026-11-23",
+    "channel": "snapchat",
+    "window": {
+      "start": "2026-11-16",
+      "end": "2026-11-22",
+      "days": 7
+    },
+    "trailing_7d_roas": null,
+    "trailing_7d_roas_source": "Snap platform-reported 7-day swipe / 1-day view, Nov 16-22 excluding 11/19, as reported by SNAPCHAT ADS: Limitless 8.44x, Drive-Thru 6.36x (both above the 2.8x band). Swipe-only is weak across the board (Drive-Thru 0.74x). No single blended Launch ROAS was reported for this raise.",
+    "rule_band": "raise",
+    "recommended_action": "Scale +20% (David BFCM order; lifts the $784 cap to $940.80; overrides the 11/27 Launch cooldown)",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David's own words in Jarvis chat, t766u, 2026-11-23 11:55 AM ET: \"i want you to boost app lovin by 20% (figure where spend goes accordingly) same with snap / we are going to lean into black friday cyber monday\". This overrides the cooldowns and the Snap $784 cap for this one raise."
+    },
+    "owner_bot": "SNAPCHAT ADS",
+    "platform_ids": {
+      "campaigns": [
+        "17ba5e2d-8cd3-426b-94b6-fa634db9f6e3"
+      ],
+      "adgroups": [
+        "d8cfb148",
+        "2c049090"
+      ]
+    },
+    "budget": {
+      "before": 640,
+      "after": 768,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-23T16:56:18Z",
+      "confirmed": true,
+      "detail": "SNAPCHAT ADS confirmed API readback at 2026-11-23 11:56:18 AM ET: Launch 17ba5e2d $768.00/day (Limitless d8cfb148 $438.85, Drive-Thru 2c049090 $329.15). Account total after this step plus the Hoodies raise: $940.80/day, new cap, $0 headroom."
+    },
+    "next_eligible_date": "2026-11-30",
+    "observed_outcome": {
+      "date": "2026-11-30",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured. Logged 2026-11-23 by Jarvis; outcome window still open."
+    },
+    "note": "Logged 2026-11-23 by Jarvis from SNAPCHAT ADS confirmation (executed_by SNAPCHAT ADS; readback verified 11/23 11:56:18 AM ET). David's Jarvis chat t766u 11/23 11:55 AM ET +20% BFCM order, which overrides the 11/27 Launch cooldown and lifts the $784 cap for this one raise. Limitless d8cfb148 $365.71 to $438.85, Drive-Thru 2c049090 $274.29 to $329.15. Even +20% on every line (all above 2.8x ex-11/19; swipe-only weak, so no extra shift). Live account total after this step plus Hoodies $144.00 to $172.80: Launch $768 + Hoodies $172.80 = $940.80/day, new cap $940.80 per David 11/23, $0 headroom. Next Launch step not before 2026-11-30 11:56:18 AM ET."
+  },
+  {
+    "date": "2026-11-23",
+    "channel": "snapchat",
+    "window": {
+      "start": "2026-11-16",
+      "end": "2026-11-22",
+      "days": 7
+    },
+    "trailing_7d_roas": 9.22,
+    "trailing_7d_roas_source": "Snap platform-reported 7-day swipe / 1-day view, Nov 16-22 excluding 11/19, as reported by SNAPCHAT ADS: Hoodies 9.22x (above the 2.8x band). Swipe-only is weak.",
+    "rule_band": "raise",
+    "recommended_action": "Scale +20% (David BFCM order; overrides the 11/25 Hoodies cooldown)",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David's own words in Jarvis chat, t766u, 2026-11-23 11:55 AM ET: \"i want you to boost app lovin by 20% (figure where spend goes accordingly) same with snap / we are going to lean into black friday cyber monday\". This overrides the cooldowns and the Snap $784 cap for this one raise."
+    },
+    "owner_bot": "SNAPCHAT ADS",
+    "platform_ids": {
+      "campaigns": [
+        "b4333284-5130-4c67-afe9-8e052aef839b"
+      ],
+      "adgroups": [
+        "7189c922"
+      ]
+    },
+    "budget": {
+      "before": 144,
+      "after": 172.8,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-23T16:56:18Z",
+      "confirmed": true,
+      "detail": "SNAPCHAT ADS confirmed API readback at 2026-11-23 11:56:18 AM ET: Hoodies campaign b4333284 squad 7189c922 $172.80/day. Account total after this step plus the Launch raise: $940.80/day, new cap, $0 headroom."
+    },
+    "next_eligible_date": "2026-11-30",
+    "observed_outcome": {
+      "date": "2026-11-30",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured. Logged 2026-11-23 by Jarvis; outcome window still open."
+    },
+    "note": "Logged 2026-11-23 by Jarvis from SNAPCHAT ADS confirmation (executed_by SNAPCHAT ADS; readback verified 11/23 11:56:18 AM ET). David's Jarvis chat t766u 11/23 11:55 AM ET +20% BFCM order, which overrides the 11/25 Hoodies cooldown and lifts the $784 cap for this one raise. Squad 7189c922 $144.00 to $172.80. Even +20% on every line (all above 2.8x ex-11/19; swipe-only weak, so no extra shift). Live account total after this step plus Launch $640 to $768: Launch $768 + Hoodies $172.80 = $940.80/day, new cap $940.80 per David 11/23, $0 headroom. Next Hoodies step not before 2026-11-30 11:56:18 AM ET."
+  },
+  {
+    "date": "2026-11-23",
+    "channel": "applovin",
+    "window": {
+      "start": "2026-11-16",
+      "end": "2026-11-22",
+      "days": 7
+    },
+    "trailing_7d_roas": 3.67,
+    "trailing_7d_roas_source": "AppLovin platform-reported, campaign Coldest_ROAS_Q4_2026 (3142498 / 07e26de8), 11/16-11/22 excluding 11/19, 3.67x, as reported by Applovin Bot (4.21x including 11/19, advisory).",
+    "rule_band": "raise",
+    "recommended_action": "Scale +20%: Coldest_ROAS_Q4_2026 (UI 3142498, id 07e26de8) $129.60 -> $155.52. David's BFCM lean-in; overrides the 11/24 cooldown from the 11/17 cut.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "David's own words in Jarvis chat, t766u, 2026-11-23 11:55 AM ET: \"i want you to boost app lovin by 20% (figure where spend goes accordingly) same with snap / we are going to lean into black friday cyber monday\". This overrides the cooldowns and the Snap $784 cap for this one raise."
+    },
+    "owner_bot": "Applovin Bot",
+    "platform_ids": {
+      "campaigns": [
+        "07e26de8",
+        "3142498"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 129.6,
+      "after": 155.52,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-23T16:57:59Z",
+      "confirmed": true,
+      "detail": "Executed 2026-11-23 by Applovin Bot; saved and read back at 11:58 AM ET 11/23 (2026-11-23T16:57:59Z): Coldest_ROAS_Q4_2026 (3142498) $155.52/day, ROAS goal 300% unchanged, campaign Live. Single campaign-level budget; Axon allocates across sets. No sets or other settings changed."
+    },
+    "next_eligible_date": "2026-11-30",
+    "observed_outcome": {
+      "date": "2026-11-30",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured. Logged 2026-11-23 by Jarvis; outcome window still open."
+    },
+    "note": "Logged 2026-11-23 by Jarvis from Applovin Bot confirmation (readback 2026-11-23T16:57:59Z / 11:58 AM ET). Cross-checked against Applovin Bot's budget_ledger row: Coldest_ROAS_Q4_2026 $129.60 -> $155.52, ROAS goal 300%, Live. Only active AppLovin campaign; no per-set budgets; nothing was cut, paused, or added. David's 11/23 11:55 AM ET BFCM order (Jarvis chat t766u) overrides the 11/24 cooldown for this one raise. Next change not before 2026-11-30 11:58 AM ET."
   }
 ]
