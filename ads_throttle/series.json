@@ -2496,9 +2496,9 @@
     {
       "date": "2026-11-20",
       "shopify_d2c_revenue": 48659.22,
-      "total_ad_spend": 35652.51,
-      "d2c_ad_spend": 28364.1,
-      "blended_mer": 1.72,
+      "total_ad_spend": 35795.83,
+      "d2c_ad_spend": 28507.42,
+      "blended_mer": 1.71,
       "channels": {
         "meta": {
           "spend": 23155.13,
@@ -2515,9 +2515,11 @@
           "amazon": 0.0
         },
         "bing": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 143.32,
+          "roas": 1.13,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 143.32,
+          "amazon": 0.0
         },
         "reddit": {
           "spend": 0.0,
@@ -2594,9 +2596,9 @@
     {
       "date": "2026-11-21",
       "shopify_d2c_revenue": 31974.97,
-      "total_ad_spend": 25776.85,
-      "d2c_ad_spend": 18790.24,
-      "blended_mer": 1.7,
+      "total_ad_spend": 25895.96,
+      "d2c_ad_spend": 18909.35,
+      "blended_mer": 1.69,
       "channels": {
         "meta": {
           "spend": 12888.67,
@@ -2613,9 +2615,11 @@
           "amazon": 0.0
         },
         "bing": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 119.11,
+          "roas": 4.89,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 119.11,
+          "amazon": 0.0
         },
         "reddit": {
           "spend": 0.0,
@@ -2692,9 +2696,9 @@
     {
       "date": "2026-11-22",
       "shopify_d2c_revenue": 55320.32,
-      "total_ad_spend": 29643.91,
-      "d2c_ad_spend": 23143.33,
-      "blended_mer": 2.39,
+      "total_ad_spend": 29742.81,
+      "d2c_ad_spend": 23242.23,
+      "blended_mer": 2.38,
       "channels": {
         "meta": {
           "spend": 16172.01,
@@ -2711,9 +2715,11 @@
           "amazon": 0.0
         },
         "bing": {
-          "spend": null,
-          "roas": null,
-          "source": "no_feed"
+          "spend": 98.9,
+          "roas": 3.66,
+          "source": "ad_channel_throttles.series_28d",
+          "d2c": 98.9,
+          "amazon": 0.0
         },
         "reddit": {
           "spend": 0.0,

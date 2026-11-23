@@ -1,21 +1,20 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-22",
-  "computed_at": "2026-11-23T14:31:29Z",
+  "computed_at": "2026-11-23T16:52:15Z",
   "summary": {
     "status": "degraded",
     "as_of_lag_days": 0,
     "channels_fresh": [
       "applovin",
+      "bing",
       "google",
       "meta",
       "snapchat",
       "tiktok",
       "x"
     ],
-    "channels_stale": [
-      "bing"
-    ],
+    "channels_stale": [],
     "channels_quiet": [
       "chatgpt",
       "outbrain",
@@ -26,8 +25,7 @@
     ],
     "grok_files_stale": [
       "mmm_recommendation",
-      "shopify_attribution",
-      "tracking_health"
+      "shopify_attribution"
     ]
   },
   "channels": {
@@ -98,19 +96,15 @@
     },
     "bing": {
       "label": "Bing",
-      "status": "stale",
-      "last_measured_day": "2026-11-19",
-      "days_behind": 3,
-      "missing_days_7d": [
-        "2026-11-20",
-        "2026-11-21",
-        "2026-11-22"
-      ],
+      "status": "fresh",
+      "last_measured_day": "2026-11-22",
+      "days_behind": 0,
+      "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
       "expected_daily": true,
       "source": "bing_ads_daily.json",
       "owner_bot": "Bing Ads bot",
-      "days_14": "###########...",
+      "days_14": "##############",
       "window_14": "2026-11-09..2026-11-22"
     },
     "x": {
@@ -208,16 +202,16 @@
   "files": {
     "tracking_health": {
       "file": "ads_throttle/tracking_health.json",
-      "as_of": "2026-11-19T08:40:07-05:00",
-      "age_days": 4,
+      "as_of": "2026-11-23T08:35:37-05:00",
+      "age_days": 0,
       "max_age_days": 2,
-      "status": "stale",
+      "status": "fresh",
       "writer": "Jarvis (daily)"
     },
     "rankings": {
       "file": "ads_throttle/rankings.json",
-      "as_of": "2026-11-16",
-      "age_days": 7,
+      "as_of": "2026-11-23",
+      "age_days": 0,
       "max_age_days": 8,
       "status": "fresh",
       "writer": "Jarvis (Mondays)"
@@ -240,21 +234,21 @@
     },
     "settings": {
       "file": "ads_throttle/settings.json",
-      "as_of": "2026-11-19T10:31:00-05:00",
-      "age_days": 4,
+      "as_of": "2026-11-23T10:10:00-05:00",
+      "age_days": 0,
       "status": "info"
     },
     "grok_ack": {
       "file": "ads_throttle/grok_ack.json",
-      "as_of": "2026-11-19T10:31:00-05:00",
-      "age_days": 4,
+      "as_of": "2026-11-23T10:36:00-05:00",
+      "age_days": 0,
       "status": "info"
     },
     "changes": {
       "file": "ads_throttle/changes.json",
-      "as_of": "2026-11-18",
-      "age_days": 5,
-      "entries": 70,
+      "as_of": "2026-11-20",
+      "age_days": 3,
+      "entries": 71,
       "status": "info"
     }
   },

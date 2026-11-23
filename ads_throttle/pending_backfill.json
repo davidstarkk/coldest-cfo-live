@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-22",
-  "count": 7,
+  "count": 4,
   "items": [
     {
       "channel": "reddit",
@@ -29,27 +29,6 @@
       "owner_bot": "snapchat ads bot",
       "last_confirmed_date": "2026-11-11",
       "last_confirmed_amount": 617.64
-    },
-    {
-      "channel": "bing",
-      "day": "2026-11-20",
-      "owner_bot": "Bing Ads bot",
-      "last_confirmed_date": "2026-11-19",
-      "last_confirmed_amount": 272.89
-    },
-    {
-      "channel": "bing",
-      "day": "2026-11-21",
-      "owner_bot": "Bing Ads bot",
-      "last_confirmed_date": "2026-11-19",
-      "last_confirmed_amount": 272.89
-    },
-    {
-      "channel": "bing",
-      "day": "2026-11-22",
-      "owner_bot": "Bing Ads bot",
-      "last_confirmed_date": "2026-11-19",
-      "last_confirmed_amount": 272.89
     }
   ],
   "note": "Display-only. pending_backfill must not be written into measured spend, daily_inputs, or sqlite. Off days are $0, not pending. Keep an item only when the channel was on that day and no confirmed source row has arrived."
