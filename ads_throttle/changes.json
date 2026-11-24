@@ -2996,5 +2996,52 @@
       "note": "Not yet measured. Logged 2026-11-23 by Jarvis; outcome window still open."
     },
     "note": "Logged 2026-11-23 by Jarvis from Applovin Bot confirmation (readback 2026-11-23T16:57:59Z / 11:58 AM ET). Cross-checked against Applovin Bot's budget_ledger row: Coldest_ROAS_Q4_2026 $129.60 -> $155.52, ROAS goal 300%, Live. Only active AppLovin campaign; no per-set budgets; nothing was cut, paused, or added. David's 11/23 11:55 AM ET BFCM order (Jarvis chat t766u) overrides the 11/24 cooldown for this one raise. Next change not before 2026-11-30 11:58 AM ET."
+  },
+  {
+    "date": "2026-11-24",
+    "channel": "bing",
+    "window": {
+      "start": "2026-11-17",
+      "end": "2026-11-23",
+      "days": 7
+    },
+    "trailing_7d_roas": 4.16,
+    "trailing_7d_roas_source": "Microsoft Ads Brand Search 607657866, 11/17-11/23 excluding 11/19 MegaLive: $2,932.28 / $705.25, 30 conv, as reported by BING ADS (0% IS lost to budget, 10-22% lost to rank).",
+    "rule_band": "raise",
+    "recommended_action": "Bid raise (not a budget change): Brand Search 607657866 max CPC cap $2.25 -> $2.48 (+10%); target impression share 90% MainLine unchanged; daily budget $240 unchanged. Within the 11/24 max +20%/day rule.",
+    "authority": {
+      "who": "David (owner)",
+      "reference": "ops/ad_rules.md Bing aggressive 4x mode, David 11/6 ~11:16 AM ET in the BING ADS chat (verbatim): \"I think you also increase bids\""
+    },
+    "owner_bot": "BING ADS",
+    "platform_ids": {
+      "campaigns": [
+        "607657866"
+      ],
+      "adgroups": []
+    },
+    "budget": {
+      "before": 240,
+      "after": 240,
+      "currency": "USD"
+    },
+    "api_readback": {
+      "at": "2026-11-24T10:33:21-05:00",
+      "confirmed": true,
+      "detail": "BING ADS API readback MaxCpc 2.48; logged in ops budget_ledger.jsonl."
+    },
+    "next_eligible_date": "2026-12-01",
+    "observed_outcome": {
+      "date": "2026-12-01",
+      "unknown": true,
+      "source_coverage": {
+        "measured_days": 0,
+        "window_days": 7,
+        "status": "unverified"
+      },
+      "trailing_7d_roas": null,
+      "note": "Not yet measured."
+    },
+    "note": "Bid-cap change logged in budget fields with before=after because budget did not change."
   }
 ]
