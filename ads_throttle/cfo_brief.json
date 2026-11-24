@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-22",
-  "computed_at": "2026-11-23T16:52:15Z",
+  "computed_at": "2026-11-24T02:52:40Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "action_exclusions": {
     "file": "ops/plan/action_exclusions.json",
@@ -47,7 +47,7 @@
   },
   "portfolio": {
     "mer_7d": 2.5677,
-    "mer_30d": 2.142,
+    "mer_30d": 2.1392,
     "mer_target": 3.24,
     "mer_gap": -0.67,
     "stance": "below_target",
@@ -275,12 +275,12 @@
       ],
       "spend_7d": 5298.54,
       "spend_days_measured": 7,
-      "roas_7d": 12.5,
+      "roas_7d": 12.28,
       "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": 66236.82,
-      "roas_prior_7d": 7.41,
-      "spend_prior_7d": null,
+      "platform_revenue_7d": 65041.11,
+      "roas_prior_7d": 7.36,
+      "spend_prior_7d": 4623.41,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
@@ -288,7 +288,7 @@
       "feed_status": "fresh",
       "last_measured_day": "2026-11-22",
       "last_change": {
-        "date": "2026-11-20",
+        "date": "2026-11-23",
         "action": null
       },
       "grok": {
@@ -298,16 +298,16 @@
         "tier": "Lead",
         "tier_label": "Lead (view-through dominated)",
         "tracking": "OK; swipe-only 7d (Launch 1.79x, ex-11/19 1.08x) far below the blended 7-day swipe/1-day view read",
-        "roas_gap_pct": 34.4
+        "roas_gap_pct": 33.2
       },
       "mmm_verdict": null,
       "excluded_days": [
         "2026-11-19"
       ],
       "spend_7d_action": 4549.74,
-      "roas_7d_action": 8.2,
+      "roas_7d_action": 7.94,
       "roas_days_action": 6,
-      "platform_revenue_7d_action": 37320.4
+      "platform_revenue_7d_action": 36124.69
     },
     "applovin": {
       "label": "AppLovin",
@@ -337,7 +337,7 @@
       "feed_status": "fresh",
       "last_measured_day": "2026-11-22",
       "last_change": {
-        "date": "2026-11-17",
+        "date": "2026-11-23",
         "action": null
       },
       "grok": {
@@ -901,6 +901,46 @@
   ],
   "change_outcomes": [
     {
+      "date": "2026-11-23",
+      "channel": "snapchat",
+      "action": null,
+      "by": null,
+      "status_logged": null,
+      "executed": true,
+      "budget": {
+        "old": null,
+        "new": null
+      },
+      "before": {
+        "window": "2026-11-16..2026-11-22",
+        "spend": 5298.54,
+        "roas": 12.28,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-12-01"
+    },
+    {
+      "date": "2026-11-23",
+      "channel": "applovin",
+      "action": null,
+      "by": null,
+      "status_logged": null,
+      "executed": true,
+      "budget": {
+        "old": null,
+        "new": null
+      },
+      "before": {
+        "window": "2026-11-16..2026-11-22",
+        "spend": 994.21,
+        "roas": 4.17,
+        "roas_days": 7
+      },
+      "outcome": "pending",
+      "ready_on": "2026-12-01"
+    },
+    {
       "date": "2026-11-20",
       "channel": "snapchat",
       "action": null,
@@ -933,8 +973,8 @@
       },
       "before": {
         "window": "2026-11-11..2026-11-17",
-        "spend": 4241.64,
-        "roas": 6.79,
+        "spend": 4865.02,
+        "roas": 6.74,
         "roas_days": 7
       },
       "outcome": "pending",
@@ -1160,19 +1200,19 @@
       },
       "before": {
         "window": "2026-11-06..2026-11-12",
-        "spend": 3637.56,
-        "roas": 8.33,
+        "spend": 4260.94,
+        "roas": 8.27,
         "roas_days": 7
       },
       "after": {
         "window": "2026-11-14..2026-11-20",
         "spend": 5180.16,
-        "roas": 11.36,
+        "roas": 11.33,
         "roas_days": 7
       },
-      "roas_change_pct": 36.4,
+      "roas_change_pct": 37.0,
       "outcome": "improved",
-      "spend_change_pct": 42.4
+      "spend_change_pct": 21.6
     },
     {
       "date": "2026-11-11",
@@ -1220,13 +1260,13 @@
       },
       "after": {
         "window": "2026-11-12..2026-11-18",
-        "spend": 4372.65,
-        "roas": 6.63,
+        "spend": 4996.03,
+        "roas": 6.58,
         "roas_days": 7
       },
-      "roas_change_pct": -18.8,
+      "roas_change_pct": -19.4,
       "outcome": "worse",
-      "spend_change_pct": 7.7
+      "spend_change_pct": 23.1
     },
     {
       "date": "2026-11-10",
@@ -1274,13 +1314,13 @@
       },
       "after": {
         "window": "2026-11-07..2026-11-13",
-        "spend": 3758.43,
-        "roas": 8.01,
+        "spend": 4381.81,
+        "roas": 7.95,
         "roas_days": 7
       },
-      "roas_change_pct": -3.8,
+      "roas_change_pct": -4.6,
       "outcome": "flat",
-      "spend_change_pct": 18.4
+      "spend_change_pct": 38.0
     },
     {
       "date": "2026-11-04",

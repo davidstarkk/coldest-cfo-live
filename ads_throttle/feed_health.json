@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-22",
-  "computed_at": "2026-11-23T16:52:15Z",
+  "computed_at": "2026-11-24T02:52:40Z",
   "summary": {
     "status": "degraded",
     "as_of_lag_days": 0,
@@ -78,7 +78,7 @@
       "expected_daily": true,
       "source": "snapchat_ads_daily.json",
       "owner_bot": "snapchat ads bot",
-      "days_14": "###.##########",
+      "days_14": "##############",
       "window_14": "2026-11-09..2026-11-22"
     },
     "applovin": {
@@ -234,7 +234,7 @@
     },
     "settings": {
       "file": "ads_throttle/settings.json",
-      "as_of": "2026-11-23T10:10:00-05:00",
+      "as_of": "2026-11-23T12:05:00-05:00",
       "age_days": 0,
       "status": "info"
     },
@@ -246,9 +246,9 @@
     },
     "changes": {
       "file": "ads_throttle/changes.json",
-      "as_of": "2026-11-20",
-      "age_days": 3,
-      "entries": 71,
+      "as_of": "2026-11-23",
+      "age_days": 0,
+      "entries": 74,
       "status": "info"
     }
   },
