@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-24T09:46:58-05:00",
+  "updated_at": "2026-11-24T09:48:08-05:00",
   "by": "Jarvis",
   "acks": {
     "feed.bing": {
@@ -103,9 +103,9 @@
       "at": "2026-11-24T09:46:58-05:00"
     },
     "roas.meta.disputed": {
-      "status": "working",
-      "note": "Sent to Meta \u00b7 Ad Buyer 11/24 to agree a ROAS basis with CFO (CFO 2.58x vs Grok 1.88x). Meta frozen, no raise or cut meanwhile.",
-      "at": "2026-11-24T09:46:58-05:00"
+      "status": "done",
+      "note": "Basis agreed 11/24 (Ad Buyer + CFO): platform ROAS = Meta default 7d-click/1d-view, 2.57x for 11/17-23; written to settings.json channels.meta.notes.",
+      "at": "2026-11-24T09:48:08-05:00"
     }
   },
   "updated_by": "Jarvis"
