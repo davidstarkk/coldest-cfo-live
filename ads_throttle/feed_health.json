@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-22",
-  "computed_at": "2026-11-24T02:52:40Z",
+  "computed_at": "2026-11-24T14:00:59Z",
   "summary": {
     "status": "degraded",
-    "as_of_lag_days": 0,
+    "as_of_lag_days": 1,
     "channels_fresh": [
       "applovin",
       "bing",
@@ -203,7 +203,7 @@
     "tracking_health": {
       "file": "ads_throttle/tracking_health.json",
       "as_of": "2026-11-23T08:35:37-05:00",
-      "age_days": 0,
+      "age_days": 1,
       "max_age_days": 2,
       "status": "fresh",
       "writer": "Jarvis (daily)"
@@ -211,7 +211,7 @@
     "rankings": {
       "file": "ads_throttle/rankings.json",
       "as_of": "2026-11-23",
-      "age_days": 0,
+      "age_days": 1,
       "max_age_days": 8,
       "status": "fresh",
       "writer": "Jarvis (Mondays)"
@@ -219,7 +219,7 @@
     "shopify_attribution": {
       "file": "shopify_attribution_daily.json",
       "as_of": "2026-10-30",
-      "age_days": 24,
+      "age_days": 25,
       "max_age_days": 2,
       "status": "stale",
       "writer": "CFO box ShopifyQL sync (daily)"
@@ -227,7 +227,7 @@
     "mmm_recommendation": {
       "file": "ads_throttle/mmm_recommendation.json",
       "as_of": "2026-11-04T16:05:21Z",
-      "age_days": 19,
+      "age_days": 20,
       "max_age_days": 8,
       "status": "stale",
       "writer": "mmm-refit.yml (weekly)"
@@ -235,19 +235,19 @@
     "settings": {
       "file": "ads_throttle/settings.json",
       "as_of": "2026-11-23T12:05:00-05:00",
-      "age_days": 0,
+      "age_days": 1,
       "status": "info"
     },
     "grok_ack": {
       "file": "ads_throttle/grok_ack.json",
       "as_of": "2026-11-23T10:36:00-05:00",
-      "age_days": 0,
+      "age_days": 1,
       "status": "info"
     },
     "changes": {
       "file": "ads_throttle/changes.json",
       "as_of": "2026-11-23",
-      "age_days": 0,
+      "age_days": 1,
       "entries": 74,
       "status": "info"
     }
