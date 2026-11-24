@@ -1,7 +1,7 @@
 {
   "as_of": "2026-11-22",
-  "computed_at": "2026-11-24T14:00:59.338100+00:00",
-  "github_sha": "8e49d0e72943f27e9e67c8ba0c6a1c97911d9a5d",
+  "computed_at": "2026-11-24T14:24:57.529710+00:00",
+  "github_sha": "1afede060470a6a352366f540d482f6c7af248bc",
   "publish_run_id": null,
   "source": "daily_inputs",
   "db": "private_finance_data/data.db",
@@ -86,28 +86,14 @@
   },
   "data_ready": false,
   "missing_report_dates": [],
-  "incomplete_fields": [
-    {
-      "field": "outbrain",
-      "status": "missing",
-      "close_blocker": false,
-      "reason": "no outbrain_ads_daily.json day; not guessed as $0 (never a close blocker)"
-    }
-  ],
+  "incomplete_fields": [],
   "provenance": {
     "db": "private_finance_data/data.db",
     "overlay_days": [],
     "overlay_as_of": null,
     "overlay_sources": [],
     "rebuild_casualty": null,
-    "incomplete_fields": [
-      {
-        "field": "outbrain",
-        "status": "missing",
-        "close_blocker": false,
-        "reason": "no outbrain_ads_daily.json day; not guessed as $0 (never a close blocker)"
-      }
-    ]
+    "incomplete_fields": []
   },
   "schema_version": "1.1",
   "_notes": "Current daily mer rebuilt from private_finance_data/data.db daily_inputs. blended_mer / mer_7d_pooled / mer_30d_pooled share one D2C spend basis: Shopify D2C net_revenue_ex_tax / d2c_ad_spend. rev_7d / spend_7d are calendar-window sums of the same daily shop_revenue / d2c_ad_spend used for blended_mer. profit_7d is Shopify D2C contribution profit (not net profit; no opex). COGS is units \u00d7 products.shopify_cost only when cost_status=consistent; coverage below 95% leaves profit_7d / net_margin_7d_pct null (pending_cogs) \u2014 never $0 or fallback_cogs_pct. ShipHero fulfillment and payment fees enter only when measured; otherwise they are listed excluded. TikTok in that spend is shopify_spend (website / Shopify-credited), never shop_spend and never total TikTok. Bing D2C (spend_d2c) and Snapchat fold whenever the durable feed has a measured row for that date; a missing Bing/Snapchat day is omitted, never a silent $0. Also in d2c_ad_spend: Meta + Google + Reddit + ChatGPT if tracking_verified + Pinterest + AppLovin D2C + Taboola + Outbrain + Spotify when measured + X Ads platform spend; cash_cost is missing unless billed in the source. Registry-off days count as $0. Amazon-bound Bing, Whatnot, TikTok Shop, and Amazon ads are non-D2C lines and remain in total_ad_spend. AppLovin is D2C (coldest.com); only an amazon/amz campaign-name split stays in non_d2c.applovin. Unverified/missing channels (incl. Spotify with no pull) are excluded from d2c_ad_spend / blended MER \u2014 never a silent $0. See d2c_coverage. data_ready is false while incomplete_fields lists usual missing closed-day sources (Whatnot, Sellerboard, ShipHero, TikTok Shop GMV Max); those stay null, not $0.",
@@ -26783,20 +26769,18 @@
         "owner_bot": null
       },
       "outbrain_ads": {
-        "spend": null,
-        "clicks": null,
-        "conversions": null,
-        "revenue": null,
-        "impressions": null,
+        "spend": 0.0,
+        "clicks": 0,
+        "conversions": 0,
+        "revenue": 0.0,
+        "impressions": 0,
         "roas": null,
-        "source": "outbrain_ads_daily.json has no row (not pulled / unverified) - missing, not $0",
-        "live": null,
-        "complete": false,
-        "closed_day": false,
-        "missing": true,
-        "spend_status": "unverified",
-        "spend_d2c": null,
-        "spend_amazon": null,
+        "source": "Outbrain UI (platform-reported) \u00b7 export",
+        "live": false,
+        "complete": true,
+        "closed_day": true,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
         "destination": "d2c",
         "display_state": "off",
         "display_amount": 0.0,
@@ -27130,20 +27114,18 @@
         "owner_bot": null
       },
       "outbrain_ads": {
-        "spend": null,
-        "clicks": null,
-        "conversions": null,
-        "revenue": null,
-        "impressions": null,
+        "spend": 0.0,
+        "clicks": 0,
+        "conversions": 0,
+        "revenue": 0.0,
+        "impressions": 0,
         "roas": null,
-        "source": "outbrain_ads_daily.json has no row (not pulled / unverified) - missing, not $0",
-        "live": null,
-        "complete": false,
-        "closed_day": false,
-        "missing": true,
-        "spend_status": "unverified",
-        "spend_d2c": null,
-        "spend_amazon": null,
+        "source": "Outbrain UI (platform-reported) \u00b7 export",
+        "live": false,
+        "complete": true,
+        "closed_day": true,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
         "destination": "d2c",
         "display_state": "off",
         "display_amount": 0.0,
@@ -27405,20 +27387,18 @@
         "owner_bot": null
       },
       "outbrain_ads": {
-        "spend": null,
-        "clicks": null,
-        "conversions": null,
-        "revenue": null,
-        "impressions": null,
+        "spend": 0.0,
+        "clicks": 0,
+        "conversions": 0,
+        "revenue": 0.0,
+        "impressions": 0,
         "roas": null,
-        "source": "outbrain_ads_daily.json has no row (not pulled / unverified) - missing, not $0",
-        "live": null,
-        "complete": false,
-        "closed_day": false,
-        "missing": true,
-        "spend_status": "unverified",
-        "spend_d2c": null,
-        "spend_amazon": null,
+        "source": "Outbrain UI (platform-reported) \u00b7 export",
+        "live": false,
+        "complete": true,
+        "closed_day": true,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
         "destination": "d2c",
         "display_state": "off",
         "display_amount": 0.0,
@@ -38525,7 +38505,7 @@
           "last_confirmed_date": null,
           "last_confirmed_amount": null,
           "owner_bot": "outbrain ads",
-          "measured_spend": null
+          "measured_spend": 0.0
         },
         "spotify": {
           "display_state": "off",
@@ -38647,7 +38627,7 @@
           "last_confirmed_date": null,
           "last_confirmed_amount": null,
           "owner_bot": "outbrain ads",
-          "measured_spend": null
+          "measured_spend": 0.0
         },
         "spotify": {
           "display_state": "off",
@@ -38769,7 +38749,7 @@
           "last_confirmed_date": null,
           "last_confirmed_amount": null,
           "owner_bot": "outbrain ads",
-          "measured_spend": null
+          "measured_spend": 0.0
         },
         "spotify": {
           "display_state": "off",
@@ -44924,25 +44904,25 @@
     "status": "off",
     "live": false,
     "as_of": "2026-11-22",
-    "spend": null,
-    "spend_d2c": null,
-    "spend_amazon": null,
+    "spend": 0.0,
+    "spend_d2c": 0,
+    "spend_amazon": 0,
     "destination": "d2c",
-    "clicks": null,
-    "conversions": null,
-    "revenue": null,
-    "impressions": null,
+    "clicks": 0,
+    "conversions": 0,
+    "revenue": 0.0,
+    "impressions": 0,
     "roas": null,
     "spend_7d": 0.0,
     "spend_d2c_7d": 0.0,
     "spend_amazon_7d": 0.0,
     "coverage_7d": {
-      "measured_days": 5,
+      "measured_days": 7,
       "window_days": 7,
-      "status": "unverified"
+      "status": "verified"
     },
     "coverage_30d": {
-      "measured_days": 18,
+      "measured_days": 20,
       "window_days": 30,
       "status": "unverified"
     },
@@ -45744,6 +45724,138 @@
             "impressions": 0
           }
         ]
+      },
+      "2026-11-21": {
+        "spend": 0.0,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
+        "clicks": 0,
+        "conversions": 0,
+        "revenue": 0.0,
+        "impressions": 0,
+        "roas": null,
+        "destination": "d2c",
+        "live": false,
+        "campaigns": [
+          {
+            "id": "00de59dfcefbc8f1f5a922a59f71a7b664",
+            "name": "OB_US_SALES_DRIVETHRU_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "00c424aa2351bda8b042554daca0fc79c0",
+            "name": "OB_US_SALES_LIMITLESS_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "00bb60acb6e1bacfbf7e6e808d40744096",
+            "name": "OB_US_SALES_HOODIES_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          }
+        ]
+      },
+      "2026-11-22": {
+        "spend": 0.0,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
+        "clicks": 0,
+        "conversions": 0,
+        "revenue": 0.0,
+        "impressions": 0,
+        "roas": null,
+        "destination": "d2c",
+        "live": false,
+        "campaigns": [
+          {
+            "id": "00de59dfcefbc8f1f5a922a59f71a7b664",
+            "name": "OB_US_SALES_DRIVETHRU_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "00c424aa2351bda8b042554daca0fc79c0",
+            "name": "OB_US_SALES_LIMITLESS_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "00bb60acb6e1bacfbf7e6e808d40744096",
+            "name": "OB_US_SALES_HOODIES_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          }
+        ]
+      },
+      "2026-11-23": {
+        "spend": 0.0,
+        "spend_d2c": 0,
+        "spend_amazon": 0,
+        "clicks": 0,
+        "conversions": 0,
+        "revenue": 0.0,
+        "impressions": 0,
+        "roas": null,
+        "destination": "d2c",
+        "live": false,
+        "campaigns": [
+          {
+            "id": "00de59dfcefbc8f1f5a922a59f71a7b664",
+            "name": "OB_US_SALES_DRIVETHRU_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "00c424aa2351bda8b042554daca0fc79c0",
+            "name": "OB_US_SALES_LIMITLESS_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          },
+          {
+            "id": "00bb60acb6e1bacfbf7e6e808d40744096",
+            "name": "OB_US_SALES_HOODIES_MOBILE_MAXCONV",
+            "destination": "d2c",
+            "spend": 0.0,
+            "clicks": 0,
+            "conversions": 0,
+            "revenue": 0.0,
+            "impressions": 0
+          }
+        ]
       }
     },
     "source": "Outbrain UI (platform-reported)",
@@ -45751,8 +45863,7 @@
     "display_state": "off",
     "display_amount": 0.0,
     "last_confirmed_date": null,
-    "last_confirmed_amount": null,
-    "latest_day_missing": true
+    "last_confirmed_amount": null
   },
   "spotify": {
     "status": "off",
@@ -52270,7 +52381,7 @@
         "shopify_orders_7d": null,
         "shopify_revenue_7d": null,
         "shopify_revenue_status": "unverified",
-        "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
+        "shopify_revenue_source": "outbrain feed revenue is ads-platform attributed, not Shopify D2C",
         "shopify_roas_7d": null,
         "shopify_roas_status": "unverified",
         "coverage_pct": null,
@@ -52278,7 +52389,7 @@
         "platform_conversions_7d": null,
         "platform_revenue_7d": null,
         "platform_revenue_status": "unverified",
-        "platform_revenue_source": "no outbrain_ads_daily.json row for 2026-11-22",
+        "platform_revenue_source": "Outbrain UI (platform-reported)",
         "platform_roas_7d": null,
         "platform_roas_status": "unverified",
         "roas_basis": "platform",
@@ -52316,12 +52427,12 @@
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
+            "shopify_revenue_source": "outbrain feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 0,
+            "platform_revenue": 0.0,
             "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no outbrain_ads_daily.json row for 2026-11-21",
+            "platform_status": "verified",
+            "platform_source": "Outbrain UI (platform-reported)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
@@ -52336,12 +52447,12 @@
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
+            "shopify_revenue_source": "outbrain feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 0,
+            "platform_revenue": 0.0,
             "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no outbrain_ads_daily.json row for 2026-11-22",
+            "platform_status": "verified",
+            "platform_source": "Outbrain UI (platform-reported)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
@@ -58768,12 +58879,12 @@
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
+            "shopify_revenue_source": "outbrain feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 0,
+            "platform_revenue": 0.0,
             "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no outbrain_ads_daily.json row for 2026-11-21",
+            "platform_status": "verified",
+            "platform_source": "Outbrain UI (platform-reported)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
@@ -58788,12 +58899,12 @@
             "spend_amazon": 0.0,
             "shopify_revenue": null,
             "shopify_revenue_status": "unverified",
-            "shopify_revenue_source": "no Shopify-attributed revenue in outbrain_ads_daily.json",
-            "platform_conversions": null,
-            "platform_revenue": null,
+            "shopify_revenue_source": "outbrain feed revenue is ads-platform attributed, not Shopify D2C",
+            "platform_conversions": 0,
+            "platform_revenue": 0.0,
             "platform_roas": null,
-            "platform_status": "unverified",
-            "platform_source": "no outbrain_ads_daily.json row for 2026-11-22",
+            "platform_status": "verified",
+            "platform_source": "Outbrain UI (platform-reported)",
             "roas": null,
             "roas_status": "unverified",
             "roas_basis": "platform",
@@ -60572,7 +60683,7 @@
   "feed_health": {
     "schema_version": 1,
     "as_of": "2026-11-22",
-    "computed_at": "2026-11-24T14:00:59Z",
+    "computed_at": "2026-11-24T14:24:57Z",
     "summary": {
       "status": "degraded",
       "as_of_lag_days": 1,
@@ -60831,7 +60942,7 @@
   "cfo_brief": {
     "schema_version": 1,
     "as_of": "2026-11-22",
-    "computed_at": "2026-11-24T14:00:59Z",
+    "computed_at": "2026-11-24T14:24:57Z",
     "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
     "action_exclusions": {
       "file": "ops/plan/action_exclusions.json",
@@ -61492,7 +61603,7 @@
         "spend_7d": 0.0,
         "spend_days_measured": 7,
         "roas_7d": null,
-        "roas_days": 5,
+        "roas_days": 7,
         "roas_source": null,
         "platform_revenue_7d": null,
         "roas_prior_7d": null,
@@ -61518,7 +61629,7 @@
         ],
         "spend_7d_action": 0.0,
         "roas_7d_action": null,
-        "roas_days_action": 4,
+        "roas_days_action": 6,
         "platform_revenue_7d_action": null
       },
       "spotify": {
@@ -62702,7 +62813,7 @@
   "growth_brief": {
     "schema_version": 1,
     "as_of": "2026-11-22",
-    "computed_at": "2026-11-24T14:00:59Z",
+    "computed_at": "2026-11-24T14:24:57Z",
     "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
     "action_exclusions": {
       "file": "ops/plan/action_exclusions.json",
@@ -64340,8 +64451,8 @@
   "intl_meta": {
     "schema_version": "intl_meta.v1",
     "as_of": "2026-11-22",
-    "computed_at": "2026-11-24T14:00:59Z",
-    "github_sha": "8e49d0e72943f27e9e67c8ba0c6a1c97911d9a5d",
+    "computed_at": "2026-11-24T14:24:57Z",
+    "github_sha": "1afede060470a6a352366f540d482f6c7af248bc",
     "currency": "USD",
     "account_id": "act_24723036",
     "status": "PENDING_INPUT",

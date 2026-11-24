@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-22",
-  "computed_at": "2026-11-24T14:00:59Z",
+  "computed_at": "2026-11-24T14:24:57Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "action_exclusions": {
     "file": "ops/plan/action_exclusions.json",
@@ -662,7 +662,7 @@
       "spend_7d": 0.0,
       "spend_days_measured": 7,
       "roas_7d": null,
-      "roas_days": 5,
+      "roas_days": 7,
       "roas_source": null,
       "platform_revenue_7d": null,
       "roas_prior_7d": null,
@@ -688,7 +688,7 @@
       ],
       "spend_7d_action": 0.0,
       "roas_7d_action": null,
-      "roas_days_action": 4,
+      "roas_days_action": 6,
       "platform_revenue_7d_action": null
     },
     "spotify": {

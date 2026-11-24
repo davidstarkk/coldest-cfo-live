@@ -2,7 +2,7 @@
   "channel": "outbrain",
   "status": "not_live",
   "live": false,
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-23",
   "source": "Outbrain UI (platform-reported)",
   "ingest": "cfo_backend/outbrain_import.py (manual: /workspace/outbrain_exports/YYYY-MM-DD.csv or UI export)",
   "currency": "USD",
@@ -26,7 +26,7 @@
     "click_id": "obclid"
   },
   "note": "Outbrain / Teads Direct Response. No API. Real reported spend only (never a budget figure). Blank = unknown, never 0; a day with unknown spend is missing. Re-sending a date replaces it. D2C. Single writer: cfo_backend/outbrain_import.py.",
-  "updated_at": "2026-11-21T14:30:17.029560+00:00",
+  "updated_at": "2026-11-24T14:24:54.814581+00:00",
   "imports": {
     "2026-11-03.csv": {
       "sha256": "7486b2219d25a0beb6f7b6cd4cdc9fccb784e0b4fb20a09035457d146c4a77bb",
@@ -117,6 +117,21 @@
       "sha256": "6e98c5f358f32e701919f73fa9885cf0ac79d6b6b0854605209f7d711245dc7c",
       "kind": "export",
       "at": "2026-11-21T14:30:17.029540+00:00"
+    },
+    "2026-11-21.csv": {
+      "sha256": "14da6ed19daf8e8677b23fbbaa294db20f68e4a48fbea66e766b4e2d5aebcb82",
+      "kind": "export",
+      "at": "2026-11-24T14:24:54.814322+00:00"
+    },
+    "2026-11-22.csv": {
+      "sha256": "636d2516cb08d17b22390c3d3555f59332a3b70a16cef98732f43afaf6d5c956",
+      "kind": "export",
+      "at": "2026-11-24T14:24:54.814459+00:00"
+    },
+    "2026-11-23.csv": {
+      "sha256": "6b053d21cbb3a23fca9caeb8702ed7ce7955e958b89baf537535ec8e5587ae26",
+      "kind": "export",
+      "at": "2026-11-24T14:24:54.814569+00:00"
     }
   },
   "unknown_days": {},
@@ -1165,6 +1180,186 @@
       "input_source": "export",
       "input_file": "/workspace/outbrain_exports/2026-11-20.csv",
       "imported_at": "2026-11-21T14:30:17.029464+00:00",
+      "campaigns": [
+        {
+          "name": "OB_US_SALES_DRIVETHRU_MOBILE_MAXCONV",
+          "campaign_id": "00de59dfcefbc8f1f5a922a59f71a7b664",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        },
+        {
+          "name": "OB_US_SALES_LIMITLESS_MOBILE_MAXCONV",
+          "campaign_id": "00c424aa2351bda8b042554daca0fc79c0",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        },
+        {
+          "name": "OB_US_SALES_HOODIES_MOBILE_MAXCONV",
+          "campaign_id": "00bb60acb6e1bacfbf7e6e808d40744096",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        }
+      ]
+    },
+    "2026-11-21": {
+      "spend": 0.0,
+      "spend_d2c": 0.0,
+      "spend_amazon": 0,
+      "destination": "d2c",
+      "clicks": 0,
+      "impressions": 0,
+      "conversions": 0,
+      "platform_conversions": 0,
+      "revenue": 0.0,
+      "platform_revenue": 0.0,
+      "conversions_known": true,
+      "revenue_known": true,
+      "platform_roas": null,
+      "roas": null,
+      "cpa": null,
+      "revenue_basis": "platform_reported (Outbrain UI conversion value; display only, not store sales)",
+      "complete": true,
+      "closed_day": true,
+      "live": false,
+      "source": "Outbrain UI (platform-reported) \u00b7 export",
+      "input_source": "export",
+      "input_file": "/workspace/outbrain_exports/2026-11-21.csv",
+      "imported_at": "2026-11-24T14:24:54.814257+00:00",
+      "campaigns": [
+        {
+          "name": "OB_US_SALES_DRIVETHRU_MOBILE_MAXCONV",
+          "campaign_id": "00de59dfcefbc8f1f5a922a59f71a7b664",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        },
+        {
+          "name": "OB_US_SALES_LIMITLESS_MOBILE_MAXCONV",
+          "campaign_id": "00c424aa2351bda8b042554daca0fc79c0",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        },
+        {
+          "name": "OB_US_SALES_HOODIES_MOBILE_MAXCONV",
+          "campaign_id": "00bb60acb6e1bacfbf7e6e808d40744096",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        }
+      ]
+    },
+    "2026-11-22": {
+      "spend": 0.0,
+      "spend_d2c": 0.0,
+      "spend_amazon": 0,
+      "destination": "d2c",
+      "clicks": 0,
+      "impressions": 0,
+      "conversions": 0,
+      "platform_conversions": 0,
+      "revenue": 0.0,
+      "platform_revenue": 0.0,
+      "conversions_known": true,
+      "revenue_known": true,
+      "platform_roas": null,
+      "roas": null,
+      "cpa": null,
+      "revenue_basis": "platform_reported (Outbrain UI conversion value; display only, not store sales)",
+      "complete": true,
+      "closed_day": true,
+      "live": false,
+      "source": "Outbrain UI (platform-reported) \u00b7 export",
+      "input_source": "export",
+      "input_file": "/workspace/outbrain_exports/2026-11-22.csv",
+      "imported_at": "2026-11-24T14:24:54.814432+00:00",
+      "campaigns": [
+        {
+          "name": "OB_US_SALES_DRIVETHRU_MOBILE_MAXCONV",
+          "campaign_id": "00de59dfcefbc8f1f5a922a59f71a7b664",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        },
+        {
+          "name": "OB_US_SALES_LIMITLESS_MOBILE_MAXCONV",
+          "campaign_id": "00c424aa2351bda8b042554daca0fc79c0",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        },
+        {
+          "name": "OB_US_SALES_HOODIES_MOBILE_MAXCONV",
+          "campaign_id": "00bb60acb6e1bacfbf7e6e808d40744096",
+          "spend": 0.0,
+          "clicks": 0,
+          "impressions": 0,
+          "conversions": 0,
+          "conversion_value": 0.0,
+          "destination": "d2c",
+          "name_matches_convention": true
+        }
+      ]
+    },
+    "2026-11-23": {
+      "spend": 0.0,
+      "spend_d2c": 0.0,
+      "spend_amazon": 0,
+      "destination": "d2c",
+      "clicks": 0,
+      "impressions": 0,
+      "conversions": 0,
+      "platform_conversions": 0,
+      "revenue": 0.0,
+      "platform_revenue": 0.0,
+      "conversions_known": true,
+      "revenue_known": true,
+      "platform_roas": null,
+      "roas": null,
+      "cpa": null,
+      "revenue_basis": "platform_reported (Outbrain UI conversion value; display only, not store sales)",
+      "complete": true,
+      "closed_day": true,
+      "live": false,
+      "source": "Outbrain UI (platform-reported) \u00b7 export",
+      "input_source": "export",
+      "input_file": "/workspace/outbrain_exports/2026-11-23.csv",
+      "imported_at": "2026-11-24T14:24:54.814548+00:00",
       "campaigns": [
         {
           "name": "OB_US_SALES_DRIVETHRU_MOBILE_MAXCONV",
