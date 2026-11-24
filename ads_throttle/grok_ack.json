@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-11-23T10:36:00-05:00",
+  "updated_at": "2026-11-24T09:46:58-05:00",
   "by": "Jarvis",
   "acks": {
     "feed.bing": {
-      "status": "done",
-      "note": "Bing 11/20-11/22 rows written on private master by BING ADS (commits ee0c77f, d8e7131), 11/23 ~10:30 AM ET.",
-      "at": "2026-11-23T10:36:00-05:00"
+      "status": "working",
+      "note": "11/23 closed-day row requested from BING ADS 11/24.",
+      "at": "2026-11-24T09:46:58-05:00"
     },
     "feed.chatgpt": {
       "status": "done",
@@ -91,6 +91,22 @@
       "status": "done",
       "note": "11/17 brief fresh (computed 14:32Z, as_of 11/16); act_now empty, so no budget steps. Open asks already acked and unchanged; none re-sent.",
       "at": "2026-11-17T09:55:00-05:00"
+    },
+    "step.2026-11-24.snapchat": {
+      "status": "done",
+      "note": "Snap +20% already executed 11/23 11:56 AM ET (Launch $768 + Hoodies $172.80 = $940.80, at David's cap); cooldown to 11/30. No new step.",
+      "at": "2026-11-24T09:46:58-05:00"
+    },
+    "step.2026-11-24.x": {
+      "status": "wont_do",
+      "note": "Brief cut -20% uses a stale $35.20 baseline; live X budget ~$753/day on David's credit-burn plan ($7,378.88 left 11/24). Strategy proposal pending David. Not applied.",
+      "at": "2026-11-24T09:46:58-05:00"
+    },
+    "roas.meta.disputed": {
+      "status": "working",
+      "note": "Sent to Meta \u00b7 Ad Buyer 11/24 to agree a ROAS basis with CFO (CFO 2.58x vs Grok 1.88x). Meta frozen, no raise or cut meanwhile.",
+      "at": "2026-11-24T09:46:58-05:00"
     }
-  }
+  },
+  "updated_by": "Jarvis"
 }

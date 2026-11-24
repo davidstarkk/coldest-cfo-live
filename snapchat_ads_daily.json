@@ -1,7 +1,7 @@
 {
   "status": "live",
   "live": true,
-  "as_of": "2026-11-22",
+  "as_of": "2026-11-23",
   "source": "manual_daily_file",
   "note": "Snapchat Ads live from 2026-10-25 (SNAP | Prospecting | Purchases | Meta Winners | Launch v1). Spend from Pipeboard Snapchat Ads.",
   "ingest": "pipeboard_or_file",
@@ -1166,6 +1166,24 @@
       "swipe_only_roas": 2.49,
       "swipe_only_attribution": "7_DAY swipe / NONE view",
       "prior_value_note": "replaced 11214.65 revenue / 14.3x: channel_feed_sync used the squads' default SWIPE_28DAY_VIEW_1DAY window; feed now states 7d swipe / 1d view to match the Snap band rule"
+    },
+    "2026-11-23": {
+      "spend": 940.71,
+      "spend_d2c": 940.71,
+      "spend_amazon": 0.0,
+      "destination": "d2c",
+      "live": true,
+      "complete": true,
+      "closed_day": true,
+      "conversions_known": false,
+      "revenue_known": true,
+      "source": "daily_inputs.snapchat_ads (Snapchat Ads via Pipeboard) + daily_inputs.platform_roas (Snapchat purchase value, Eastern day)",
+      "ingest": "channel_feed_sync (daily_inputs)",
+      "observed_at": "2026-11-24T09:29:16-05:00",
+      "revenue": 9521.29,
+      "platform_revenue": 9521.29,
+      "roas": 10.12,
+      "platform_roas": 10.12
     }
   }
 }
