@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-23",
-  "computed_at": "2026-11-25T13:33:02Z",
+  "computed_at": "2026-11-25T13:57:22Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
   "action_exclusions": {
     "file": "ops/plan/action_exclusions.json",
