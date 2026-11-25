@@ -358,6 +358,130 @@
     }).join(''));
   }
 
+  /* ------------------------------------------------------------ creative engine (drawn as built) */
+  var TIER = { winner: ['Winners', 'gr-good'], in_band: ['In band', 'gr-warn'], below_cut: ['Below the cut band', 'gr-bad'], under_min_spend: ['Under the spend floor', 'gr-muted'] };
+  var FATE = { still_winner: ['Still a winner', 'gr-good'], fell_out: ['Fell out', 'gr-bad'], no_longer_listed: ['No longer listed', 'gr-muted'] };
+  var PORT = { live: ['Live', 'gr-good'], planned: ['Planned', 'gr-warn'], paused: ['Paused', 'gr-muted'], rejected: ['Rejected', 'gr-muted'], not_ported: ['—', 'gr-muted'] };
+  var UTMKIND = { no_referrer: 'No referrer', organic_search: 'Organic search', referrer_without_utm: 'Named referrer, no UTM' };
+
+  function tierRows(doc) {
+    return (((doc && doc.creative_spend) || {}).tiers || []).map(function (t) {
+      var m = TIER[t.tier] || [t.tier, 'gr-muted'];
+      return { tier: t.tier, text: m[0], cls: m[1], creatives: num(t.creatives), spend: num(t.spend_7d), roas: num(t.roas_7d), share: num(t.share_of_account_pct) };
+    });
+  }
+  function recipeRows(doc, attr) {
+    var a = ((((doc && doc.creative_recipe) || {}).attributes || {})[attr] || {}).values || [];
+    return a.map(function (v) {
+      return { value: v.value, creatives: num(v.creatives), winners: num(v.winners), below: num(v.below_cut), winRate: num(v.win_rate_pct), spend: num(v.spend_7d), roas: num(v.roas_7d) };
+    });
+  }
+  function portRows(doc) {
+    var p = (doc && doc.creative_ports) || {};
+    return (p.rows || []).map(function (r) {
+      return { name: r.name, metaRoas: num(r.meta_roas_7d), waiting: num(r.days_since_first_seen), ported: num(r.ported_channels),
+        cells: (p.target_channels || []).map(function (ch) { var c = (r.channels || {})[ch] || {}; return { channel: ch, status: c.status || 'not_ported', roas: num(c.roas) }; }) };
+    });
+  }
+
+  function renderCreativeSpend(doc) {
+    var s = doc.creative_spend;
+    if (!s || !(s.tiers || []).length) return silent('Where Meta spend sits', s);
+    var rows = tierRows(doc).map(function (t) {
+      return '<tr><td>' + pill(t.text, t.cls) + '</td><td>' + int(t.creatives) + '</td><td>' + usd(t.spend) + '</td><td>' + pct(t.share) + '</td><td>' + x(t.roas) + '</td></tr>';
+    });
+    var tail = s.unlisted_tail;
+    if (tail) rows.push('<tr><td>' + pill('Smaller ads, not listed', 'gr-muted') + '<span class="gr-sub">under ' + usd(s.listed_min_spend) + ' each</span></td><td>—</td><td>' + usd(tail.spend_7d) + '</td><td>' + pct(tail.share_of_account_pct) + '</td><td>' + x(tail.roas_7d) + '</td></tr>');
+    rows.push('<tr><td><b>Meta account</b></td><td></td><td><b>' + usd(s.account_spend_7d) + '</b></td><td></td><td><b>' + x(s.account_roas_7d) + '</b></td></tr>');
+    return card('Where Meta spend sits, 7 days to ' + md(s.as_of), table([['Group', 1], ['Creatives'], ['Spend'], ['Share of Meta'], ['ROAS']], rows), s.basis);
+  }
+
+  function renderRecipe(doc) {
+    var r = doc.creative_recipe, h = doc.creative_hit_rate;
+    if (!r || r.status !== 'ok') return silent('Winner recipe', r);
+    function block(attr, title) {
+      var rows = recipeRows(doc, attr);
+      if (!rows.length) return '';
+      return '<p class="gr-note" style="margin-top:14px"><b>' + esc(title) + '</b></p>' + table([[title, 1], ['Creatives'], ['Winners'], ['Below cut'], ['Win rate'], ['Spend'], ['ROAS']], rows.map(function (v) {
+        return '<tr><td>' + esc(v.value) + '</td><td>' + int(v.creatives) + '</td><td>' + int(v.winners) + '</td><td>' + int(v.below) + '</td><td>' + (v.winRate == null ? '<span class="gr-muted">too few</span>' : pct(v.winRate)) +
+          '</td><td>' + usd(v.spend) + '</td><td>' + x(v.roas) + '</td></tr>';
+      }));
+    }
+    var body = '<p class="gr-note">' + int(r.creatives) + ' listed creatives, ' + pct(r.overall_win_rate_pct) + ' are winners. ' + esc(r.note || '') + '</p>' +
+      block('age', 'Launched') + block('format', 'Format') + block('campaign', 'Campaign') + block('landing_page', 'Landing page');
+    if (h && h.status === 'ok') {
+      var n = h.launched_last_30_days || {};
+      body = '<div class="gr-kpis" style="margin-bottom:12px">' + box(pct(h.win_rate_pct), 'Win rate, listed creatives', int(h.winners) + ' of ' + int(h.creatives)) +
+        box(n.win_rate_pct == null ? '—' : pct(n.win_rate_pct), 'Win rate, launched in 30 days', int(n.winners) + ' of ' + int(n.creatives) + ' · ' + usd(n.spend_7d) + ' spent') +
+        box(usd(h.non_winner_spend_per_winner), 'Non-winner spend per winner', 'in the week, listed creatives') + '</div>' + body;
+    }
+    return card('Winner recipe and hit rate', body, r.basis + (h && h.basis ? ' ' + h.basis : ''));
+  }
+
+  function renderFatigue(doc) {
+    var f = doc.creative_fatigue;
+    if (!f || f.status !== 'ok') return silent('Are the winners holding', f);
+    return card('Are the winners holding (since ' + md(f.compared_with) + ')', table([['Creative', 1], ['ROAS then'], ['ROAS now'], ['Change'], ['Now', 1]], (f.rows || []).map(function (r) {
+      var m = FATE[r.state] || [r.state, 'gr-muted'];
+      return '<tr><td>' + esc(r.name || r.creative_id) + '</td><td>' + x(r.roas_then) + '</td><td>' + x(r.roas_now) + '</td><td>' + pct(r.roas_change_pct, true) + '</td><td class="gr-left">' + pill(m[0], m[1]) + '</td></tr>';
+    })), f.basis);
+  }
+
+  function renderPorts(doc) {
+    var p = doc.creative_ports;
+    if (!p || p.status !== 'ok') return silent('Winners on other channels', p);
+    var chans = p.target_channels || [];
+    var heads = [['Winner', 1], ['Meta ROAS'], ['Days waiting']].concat(chans.map(function (c) { return [c, 1]; }));
+    return card('Winners on other channels', '<p class="gr-note">' + int(p.cells_ported) + ' of ' + int(p.cells) + ' winner-by-channel slots are ported; ' + int(p.cells_live) + ' live.' +
+      (p.longest_wait_days != null ? ' Longest wait with no port: ' + int(p.longest_wait_days) + ' days.' : '') + '</p>' + table(heads, portRows(doc).map(function (r) {
+      return '<tr><td>' + esc(r.name) + '</td><td>' + x(r.metaRoas) + '</td><td>' + int(r.waiting) + '</td>' + r.cells.map(function (c) {
+        var m = PORT[c.status] || [c.status, 'gr-muted'];
+        return '<td class="gr-left">' + (c.status === 'not_ported' ? '<span class="gr-muted">—</span>' : pill(m[0], m[1]) + (c.roas != null ? '<span class="gr-sub">' + x(c.roas) + '</span>' : '')) + '</td>';
+      }).join('') + '</tr>';
+    })), p.basis);
+  }
+
+  function renderUtm(doc) {
+    var u = doc.utm_audit;
+    if (!u || u.status !== 'ok') return silent('Orders with no UTM', u);
+    return card('Orders with no UTM, ' + win(u.window), '<p class="gr-note">' + (u.untagged_share_pct == null ? int(u.untagged_orders_listed) + ' orders listed with no UTM.' :
+      pct(u.untagged_share_pct) + ' of ' + int(u.total_orders) + ' orders carry no UTM.') + (u.truncated ? ' Top referrers only.' : '') + '</p>' +
+      table([['Referrer', 1], ['Kind', 1], ['Orders'], ['Net sales'], ['Share of untagged']], (u.rows || []).map(function (r) {
+        return '<tr><td>' + esc(r.referrer) + '</td><td class="gr-left' + (r.kind === 'referrer_without_utm' ? ' gr-warn' : ' gr-muted') + '">' + esc(UTMKIND[r.kind] || r.kind) + '</td><td>' + int(r.orders) + '</td><td>' + usd(r.net_sales) + '</td><td>' + pct(r.share_of_untagged_pct) + '</td></tr>';
+      })), u.basis);
+  }
+
+  function renderLanding(doc) {
+    var l = doc.landing_pages;
+    if (!l || !(l.pages || []).length) return silent('Landing pages', l);
+    var ok = l.status === 'ok';
+    return card('Landing pages, ' + win(l.window), (ok ? '' : '<p class="gr-note gr-warn">' + esc(l.why || '') + '</p>') +
+      table([['Page', 1], ['Sessions'], ['Added to cart'], ['Completed checkout'], ['Conversion'], ['Meta ad spend, listed'], ['On winners']], l.pages.map(function (p) {
+        return '<tr><td>' + esc(p.path) + '</td><td>' + int(p.sessions) + '</td><td>' + int(p.cart_additions) + '</td><td>' + int(p.completed_checkout) + '</td><td>' +
+          (p.conversion_pct == null ? '<span class="gr-muted">withheld</span>' : pct(p.conversion_pct)) + '</td><td>' + usd(p.listed_ad_spend_7d) + '</td><td>' + usd(p.winner_ad_spend_7d) + '</td></tr>';
+      })), l.basis);
+  }
+
+  function renderVoice(doc) {
+    var v = doc.customer_voice;
+    if (!v || v.status !== 'ok') return silent('What customers say under the winning ads', v);
+    return card('What customers say under the winning ads', (v.themes || []).map(function (t) {
+      return '<div class="gr-ask"><b>' + esc(t.theme) + '</b><p>' + esc((t.examples || []).join(' · ')) + '</p><div class="gr-meta">' + int(t.count) + ' comments</div></div>';
+    }).join(''), v.source);
+  }
+
+  function renderScorecard(doc) {
+    var s = doc.scorecard;
+    if (!s || s.status !== 'ok') return '';
+    var b = s.budget_changes || {}, w = s.winners || {}, p = s.ports || {}, g = s.grok_requests || {}, a = s.asks || {};
+    return card('This week, ' + win(s.week), '<div class="gr-kpis">' +
+      box(int(b.logged_this_week), 'Budget changes logged', int(b.improved) + ' improved · ' + int(b.flat) + ' flat · ' + int(b.worse) + ' worse, all measured so far') +
+      box(int(w.on_the_board), 'Winning creatives', (w.new_since_last_pull == null ? 'first full pull' : int(w.new_since_last_pull) + ' new · ' + int(w.fell_out_since_last_pull) + ' fell out') + ' · feed ' + md(w.feed_as_of)) +
+      box(int(p.ported) + ' / ' + int(p.winner_channel_slots), 'Winner slots ported', int(p.launched_this_week) + ' launched this week') +
+      box(int(g.open), 'Open requests from Grok', int(g.answered_this_week) + ' answered this week') +
+      box(int(a.open), 'Open asks', a.oldest_days == null ? '' : 'oldest ' + int(a.oldest_days) + ' days') + '</div>', s.note);
+  }
+
   function renderAsks(rows) {
     if (!rows.length) return '';
     return card('Open questions this raised', rows.map(function (a) {
@@ -376,7 +500,9 @@
         ' has not been published to this page yet. It is rebuilt every morning in the data repo and copied here by its publish step.</p></div>';
       return;
     }
-    panel.innerHTML = renderHeadline(headline(doc)) + renderAsks(askRows(doc)) + renderRequests(doc) + renderGovernor(doc) + renderMarginal(doc) + renderCustomers(doc) +
+    panel.innerHTML = renderHeadline(headline(doc)) + renderScorecard(doc) + renderAsks(askRows(doc)) + renderRequests(doc) +
+      renderCreativeSpend(doc) + renderRecipe(doc) + renderFatigue(doc) + renderPorts(doc) + renderVoice(doc) + renderUtm(doc) + renderLanding(doc) +
+      renderGovernor(doc) + renderMarginal(doc) + renderCustomers(doc) +
       renderTests(doc) + renderHalo(doc) + renderMargin(doc) + renderCreative(doc) + renderPacing(doc);
   }
 
@@ -429,7 +555,9 @@
     FEED: FEED, headline: headline, governorRows: governorRows, marginalRows: marginalRows, paybackRows: paybackRows,
     productRows: productRows, autonomyRows: autonomyRows, askRows: askRows, statusNote: statusNote,
     renderGovernor: renderGovernor, renderMarginal: renderMarginal, renderCustomers: renderCustomers, renderTests: renderTests,
-    renderHalo: renderHalo, renderRequests: renderRequests, renderMargin: renderMargin, renderCreative: renderCreative, renderPacing: renderPacing,
+    renderHalo: renderHalo, renderRequests: renderRequests, tierRows: tierRows, recipeRows: recipeRows, portRows: portRows,
+    renderCreativeSpend: renderCreativeSpend, renderRecipe: renderRecipe, renderFatigue: renderFatigue, renderPorts: renderPorts, renderUtm: renderUtm,
+    renderLanding: renderLanding, renderVoice: renderVoice, renderScorecard: renderScorecard, renderMargin: renderMargin, renderCreative: renderCreative, renderPacing: renderPacing,
     render: render, load: load, _state: STATE
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
