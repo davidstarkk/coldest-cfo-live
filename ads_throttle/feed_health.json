@@ -1,21 +1,20 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-24",
-  "computed_at": "2026-11-25T14:31:16Z",
+  "computed_at": "2026-11-26T00:13:42Z",
   "summary": {
     "status": "degraded",
     "as_of_lag_days": 0,
     "channels_fresh": [
       "applovin",
+      "bing",
       "google",
       "meta",
       "snapchat",
       "tiktok",
       "x"
     ],
-    "channels_stale": [
-      "bing"
-    ],
+    "channels_stale": [],
     "channels_quiet": [
       "chatgpt",
       "outbrain",
@@ -97,17 +96,15 @@
     },
     "bing": {
       "label": "Bing",
-      "status": "stale",
-      "last_measured_day": "2026-11-23",
-      "days_behind": 1,
-      "missing_days_7d": [
-        "2026-11-24"
-      ],
+      "status": "fresh",
+      "last_measured_day": "2026-11-24",
+      "days_behind": 0,
+      "missing_days_7d": [],
       "spend_seen_in_platform_roas": null,
       "expected_daily": true,
       "source": "bing_ads_daily.json",
       "owner_bot": "Bing Ads bot",
-      "days_14": "#############.",
+      "days_14": "##############",
       "window_14": "2026-11-11..2026-11-24"
     },
     "x": {
