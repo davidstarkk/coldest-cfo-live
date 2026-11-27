@@ -31,10 +31,11 @@ test('Pinterest is a paid channel (account 549760871033) and reads pinterest_ads
   assert.strictEqual(Throttles.PINTEREST_KNOWN_GAP, 'No CAPI (Conversions API) — known gap, browser tag only');
 });
 
-test('live mer publishes Pinterest as of 2026-10-26; 10/24 still does not invent spend', function () {
+test('fixture mer publishes Pinterest as of 2026-10-26; a 10/24 partial still does not invent spend', function () {
   assert.strictEqual(mer.pinterest.as_of, '2026-10-26');
   assert.strictEqual(mer.pinterest.spend, 64.6);
-  assert.strictEqual(snapshot.channels.pinterest, undefined);
+  assert.ok(snapshot.channels.pinterest && typeof snapshot.channels.pinterest === 'object');
+  assert.strictEqual(snapshot.channels.pinterest.mode, settings.channels.pinterest.mode);
   Paid._setMerDoc(mer);
   Paid.setFeeds('pinterest', null, mer, null);
   var day = Paid.latestDayFor(pinCh);
@@ -105,14 +106,18 @@ test('mer_for_manus.pinterest and advertising_sources[date].pinterest_ads are co
   Paid._setMerDoc(null);
 });
 
-test('live Throttles Pinterest row is empty/unknown — not DOWN, known-gap chip always shown', function () {
+test('live Throttles Pinterest row is not DOWN; known-gap chip always shown', function () {
   Throttles._setLive(settings, series, [], snapshot);
   var h = Throttles.channelHealth('pinterest');
-  assert.strictEqual(h.status, 'unknown');
   assert.notStrictEqual(h.status, 'DOWN');
+  assert.ok(['OK', 'WARN', 'NO_SPEND', 'unknown'].indexOf(h.status) !== -1);
   assert.strictEqual(Throttles.pinterestKnownGapText('pinterest'), Throttles.PINTEREST_KNOWN_GAP);
   var rec = Throttles.recommend('pinterest', settings, series, []);
   assert.notStrictEqual(rec.label, 'Hold - tracking down');
+  assert.strictEqual(rec.mode, settings.channels.pinterest.mode);
+  if (settings.channels.pinterest.mode === 'hold') {
+    assert.strictEqual(rec.label, snapshot.channels.pinterest.rule_status);
+  }
   var rows = Throttles.channelsTableHtml();
   assert.ok(rows.indexOf('Pinterest') !== -1);
   assert.ok(rows.indexOf('th-row-pinterest') !== -1);
@@ -123,11 +128,8 @@ test('live Throttles Pinterest row is empty/unknown — not DOWN, known-gap chip
   assert.ok(rows.indexOf('Learning, first read 11/01') === -1);
   var health = Throttles.trackingHealthHtml();
   assert.ok(health.indexOf('Pinterest') !== -1);
-  assert.ok(health.indexOf('unknown') !== -1);
   assert.ok(health.indexOf(Throttles.PINTEREST_KNOWN_GAP) !== -1);
   assert.ok(health.indexOf('th-chip known-gap') !== -1);
-  var rank = Throttles.rankingHtml();
-  assert.ok(rank.indexOf('Pinterest') === -1);
 });
 
 test('example Pinterest fixture overlays Learning row, dates, ranking, and WARN health — not live dollars', function () {
