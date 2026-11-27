@@ -1,8 +1,8 @@
 {
   "as_of": "2026-11-25",
-  "computed_at": "2026-11-27T13:58:45.809770+00:00",
-  "github_sha": "fe6407300b4149ea6f2db073b980688ad4cc0631",
-  "publish_run_id": null,
+  "computed_at": "2026-11-27T13:59:20.468432+00:00",
+  "github_sha": "ffbb24b3a87fbbbd1f7f905f369df4fe9965b36a",
+  "publish_run_id": "46011778844",
   "source": "daily_inputs",
   "db": "private_finance_data/data.db",
   "mer_7d_pooled": 2.3791,
@@ -62636,7 +62636,7 @@
   "feed_health": {
     "schema_version": 1,
     "as_of": "2026-11-25",
-    "computed_at": "2026-11-27T13:58:45Z",
+    "computed_at": "2026-11-27T13:59:20Z",
     "summary": {
       "status": "degraded",
       "as_of_lag_days": 1,
@@ -62896,7 +62896,7 @@
   "cfo_brief": {
     "schema_version": 1,
     "as_of": "2026-11-25",
-    "computed_at": "2026-11-27T13:58:45Z",
+    "computed_at": "2026-11-27T13:59:20Z",
     "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
     "action_exclusions": {
       "file": "ops/plan/action_exclusions.json",
@@ -64868,7 +64868,7 @@
   "growth_brief": {
     "schema_version": 1,
     "as_of": "2026-11-25",
-    "computed_at": "2026-11-27T13:58:45Z",
+    "computed_at": "2026-11-27T13:59:20Z",
     "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
     "action_exclusions": {
       "file": "ops/plan/action_exclusions.json",
@@ -66495,8 +66495,8 @@
   "intl_meta": {
     "schema_version": "intl_meta.v1",
     "as_of": "2026-11-25",
-    "computed_at": "2026-11-27T13:58:46Z",
-    "github_sha": "fe6407300b4149ea6f2db073b980688ad4cc0631",
+    "computed_at": "2026-11-27T13:59:20Z",
+    "github_sha": "ffbb24b3a87fbbbd1f7f905f369df4fe9965b36a",
     "currency": "USD",
     "account_id": "act_24723036",
     "status": "PENDING_INPUT",
