@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-25",
-  "computed_at": "2026-11-26T15:31:03Z",
+  "computed_at": "2026-11-27T13:32:06Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
   "action_exclusions": {
     "file": "ops/plan/action_exclusions.json",
@@ -1038,8 +1038,8 @@
     "winner_share_of_meta_spend_pct": 8.2,
     "top_winner_share_of_winner_spend_pct": 22.8,
     "new_this_week": 0,
-    "median_age_days": 60,
-    "oldest_age_days": 295,
+    "median_age_days": 61,
+    "oldest_age_days": 296,
     "formats": {
       "video": 3,
       "image": 5
@@ -1105,8 +1105,8 @@
     "basis": "Average daily revenue over the days used x 365. A run-rate, not a forecast: the window is not adjusted for season or promotions.",
     "multiple_to_target": 2.81,
     "revenue_per_day_at_target": 273972.6,
-    "weeks_to_target_date": 102.4,
-    "weekly_growth_needed_pct": 1.01
+    "weeks_to_target_date": 102.3,
+    "weekly_growth_needed_pct": 1.02
   },
   "autonomy": {
     "status": "ok",
@@ -1453,7 +1453,7 @@
         "creative_id": null,
         "ask": "Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta campaigns are being built paused for Canada, the UK and Australia only, at a discussed envelope of about $650 per country and about $2,000 total. David has not yet confirmed whether the $650 is daily or a test total, and has not yet acknowledged the Meta hold (7-day D2C MER about 1.97 vs a 3.24 target, as of 11/13). Please add rows that can accept spend and revenue once those campaigns go live, without treating paused $0 days as a missing feed.",
         "status": "open",
-        "age_days": 12,
+        "age_days": 13,
         "answer": null,
         "answered_on": null,
         "where": null
@@ -1470,27 +1470,27 @@
       "title": "Grok asked: Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta ca",
       "detail": "Asked 2026-11-14 by International Meta Bot. Answer it in ads_throttle/cfo_answers.json (and build the block with the new-brief-field skill if it should be read every morning).",
       "first_seen": "2026-11-15",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "id": "growth.inventory.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_inventory.json is 16 days old",
+      "title": "growth/shopify_inventory.json is 17 days old",
       "detail": "Run the Shopify inventory pull and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-14",
-      "age_days": 12
+      "age_days": 13
     },
     {
       "id": "growth.new_customers.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_customers_daily.json is 16 days old",
+      "title": "growth/shopify_customers_daily.json is 17 days old",
       "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-13",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "id": "tracking.new_customer_utm_coverage",
@@ -1500,7 +1500,7 @@
       "title": "Only 49.5% of new-customer orders carry a UTM",
       "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
       "first_seen": "2026-11-11",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "id": "history.backfill",
@@ -1510,7 +1510,7 @@
       "title": "Media-mix model has 34 of 180 usable days",
       "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
       "first_seen": "2026-11-11",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "id": "inventory.low_cover",
@@ -1520,7 +1520,7 @@
       "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
       "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
       "first_seen": "2026-11-11",
-      "age_days": 15,
+      "age_days": 16,
       "evidence": {
         "products": [
           "COLDEST 36oz Limitless Ultra v8"

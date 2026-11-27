@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-25",
-  "computed_at": "2026-11-27T00:30:23Z",
+  "computed_at": "2026-11-27T13:58:45Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "action_exclusions": {
     "file": "ops/plan/action_exclusions.json",
@@ -53,13 +53,13 @@
     "stance": "below_target",
     "mer_7d_action": 1.8163,
     "rev_7d_action": 297467.98,
-    "spend_7d_action": 163779.24,
+    "spend_7d_action": 163779.61,
     "excluded_days": [
       "2026-11-19"
     ],
     "d2c_revenue_7d": 472067.42,
-    "d2c_spend_7d": 198421.67,
-    "channel_spend_7d": 198421.67,
+    "d2c_spend_7d": 198422.04,
+    "channel_spend_7d": 198422.04,
     "spend_judged_pct": 89.0,
     "spend_in_auto_mode_pct": 17.2,
     "excluded_from_d2c_spend": [],
@@ -114,6 +114,7 @@
         "mode:frozen"
       ],
       "cautions": [
+        "tracking_health is 3 days old",
         "ROAS from daily_inputs.platform_roas, not the channel daily file",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
@@ -164,6 +165,7 @@
         "roas_disputed"
       ],
       "cautions": [
+        "tracking_health is 3 days old",
         "ROAS from daily_inputs.platform_roas, not the channel daily file",
         "No data",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
@@ -223,6 +225,7 @@
         "mode:view"
       ],
       "cautions": [
+        "tracking_health is 3 days old",
         "ROAS from daily_inputs.platform_roas, not the channel daily file",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
@@ -271,6 +274,7 @@
       "actionable": true,
       "blockers": [],
       "cautions": [
+        "tracking_health is 3 days old",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
       "spend_7d": 5920.85,
@@ -371,6 +375,7 @@
       "actionable": true,
       "blockers": [],
       "cautions": [
+        "tracking_health is 3 days old",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
       "spend_7d": 1094.56,
@@ -418,10 +423,11 @@
       "actionable": true,
       "blockers": [],
       "cautions": [
+        "tracking_health is 3 days old",
         "tracking WARN",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 5258.15,
+      "spend_7d": 5258.52,
       "spend_days_measured": 7,
       "roas_7d": 1.1,
       "roas_days": 7,
@@ -452,7 +458,7 @@
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 4403.54,
+      "spend_7d_action": 4403.91,
       "roas_7d_action": 1.26,
       "roas_days_action": 6,
       "platform_revenue_7d_action": 5528.03
@@ -468,6 +474,7 @@
         "mode:hold"
       ],
       "cautions": [
+        "tracking_health is 3 days old",
         "tracking WARN",
         "ROAS from daily_inputs.platform_roas, not the channel daily file",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
@@ -515,6 +522,7 @@
         "mode:hold"
       ],
       "cautions": [
+        "tracking_health is 3 days old",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
       "spend_7d": 0.0,
@@ -563,6 +571,7 @@
         "mode:hold"
       ],
       "cautions": [
+        "tracking_health is 3 days old",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
       "spend_7d": 0.0,
@@ -611,6 +620,7 @@
         "mode:hold"
       ],
       "cautions": [
+        "tracking_health is 3 days old",
         "tracking WARN",
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
@@ -733,6 +743,21 @@
   },
   "asks": [
     {
+      "id": "file.tracking_health.stale",
+      "severity": "high",
+      "channel": null,
+      "owner": "Jarvis (daily)",
+      "title": "ads_throttle/tracking_health.json is 3 days old",
+      "detail": "Last written 2026-11-24T08:31:53-05:00; expected at most 2 days old (Jarvis (daily)). Hold - tracking down only fires from this file, so a stale OK can let a broken pixel be scaled.",
+      "first_seen": "2026-11-27",
+      "age_days": 0,
+      "ack": {
+        "status": "done",
+        "note": "tracking_health.json refreshed 11/23 from the 8:35 AM ET checkout-signals run (as_of 2026-11-23T08:35:37-05:00).",
+        "at": "2026-11-23T10:10:00-05:00"
+      }
+    },
+    {
       "id": "roas.google.disputed",
       "severity": "high",
       "channel": "google",
@@ -740,7 +765,7 @@
       "title": "Google Ads: CFO reads 1.81x, Grok reads 6.89x \u2014 the rule lands in different bands",
       "detail": "CFO 7d platform ROAS 1.81x (daily_inputs.platform_roas, 2026-11-19..2026-11-25) says cut; Grok ranking 2026-11-23 says 6.89x (raise). Agree one basis (conversion date vs click date, primary conversions, campaign scope) and write it to settings.json channels.<channel>.notes; no raise or cut until then.",
       "first_seen": "2026-11-09",
-      "age_days": 17,
+      "age_days": 18,
       "evidence": {
         "cfo_roas_7d": 1.81,
         "grok_roas_7d": 6.89,
@@ -760,7 +785,7 @@
       "title": "8 winning Meta creative(s) not yet on any other channel",
       "detail": "\"best tumbler for gifting- Copy\" (3.52x on $2,718), \"David's email - New Drop | BFCMR SA03\" (3.91x on $2,546), \"New Sales Ad | BFCMR SA01\" (4.14x on $1,916), \"PENDING PERMISSIONS | T2#2 | @coldestsami08 | 7548496099791670559 | moms-school-runs | copy-proven\" (3.76x on $1,753), \"EV#2 - 16 - Copy\" (3.44x on $980). Rebuild each for the channels in `not_on` (the landing page and Meta ad id are in creatives.winners) and add one entry per launch to ads_throttle/creative_ports.json; a creative that does not fit a channel gets status \"rejected\" with a one-line note.",
       "first_seen": "2026-11-12",
-      "age_days": 14,
+      "age_days": 15,
       "evidence": {
         "creative_ids": [
           "21f428981646c9d1bdcc84f6dbb987c6",
@@ -784,10 +809,10 @@
       "severity": "medium",
       "channel": null,
       "owner": "CFO creative routine",
-      "title": "ads_throttle/creative_winners.json is 17 days old",
+      "title": "ads_throttle/creative_winners.json is 18 days old",
       "detail": "Last Adnova snapshot 2026-11-10T00:07:07.178Z. The daily creative routine (ops/creative/ROUTINE.md) did not run or could not push.",
       "first_seen": "2026-11-12",
-      "age_days": 14,
+      "age_days": 15,
       "ack": {
         "status": "working",
         "note": "Owner CFO creative routine; flagged for Builder, not routable from Jarvis.",
@@ -799,20 +824,20 @@
       "severity": "medium",
       "channel": null,
       "owner": "mmm-refit.yml (weekly)",
-      "title": "ads_throttle/mmm_recommendation.json is 22 days old",
+      "title": "ads_throttle/mmm_recommendation.json is 23 days old",
       "detail": "Last written 2026-11-04T16:05:21Z; expected at most 8 days old (mmm-refit.yml (weekly)). The dashboard is showing old data from it.",
       "first_seen": "2026-11-13",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "id": "file.shopify_attribution.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO box ShopifyQL sync (daily)",
-      "title": "shopify_attribution_daily.json is 27 days old",
+      "title": "shopify_attribution_daily.json is 28 days old",
       "detail": "Last written 2026-10-30; expected at most 2 days old (CFO box ShopifyQL sync (daily)). The dashboard is showing old data from it.",
       "first_seen": "2026-11-09",
-      "age_days": 17,
+      "age_days": 18,
       "ack": {
         "status": "working",
         "note": "Owner is CFO box ShopifyQL sync; not routable from Jarvis today, flagged for Builder fix.",
@@ -827,27 +852,27 @@
       "title": "Grok asked: Add international (CA/UK/AU Meta) rows to the Ad Channels tab so this spend rolls into the totals. International Meta ca",
       "detail": "Asked 2026-11-14 by International Meta Bot. Answer it in ads_throttle/cfo_answers.json (and build the block with the new-brief-field skill if it should be read every morning).",
       "first_seen": "2026-11-15",
-      "age_days": 11
+      "age_days": 12
     },
     {
       "id": "growth.inventory.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_inventory.json is 16 days old",
+      "title": "growth/shopify_inventory.json is 17 days old",
       "detail": "Run the Shopify inventory pull and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-14",
-      "age_days": 12
+      "age_days": 13
     },
     {
       "id": "growth.new_customers.stale",
       "severity": "medium",
       "channel": null,
       "owner": "CFO growth routine (ops/growth/ROUTINE.md)",
-      "title": "growth/shopify_customers_daily.json is 16 days old",
+      "title": "growth/shopify_customers_daily.json is 17 days old",
       "detail": "Run the Shopify pull for new vs returning customers and ingest it with cfo_backend/growth_feeds.py.",
       "first_seen": "2026-11-13",
-      "age_days": 13
+      "age_days": 14
     },
     {
       "id": "tracking.new_customer_utm_coverage",
@@ -857,7 +882,7 @@
       "title": "Only 49.5% of new-customer orders carry a UTM",
       "detail": "New-customer CAC per channel is withheld until coverage reaches 80%. Check that every paid channel's ads carry utm_source and utm_medium.",
       "first_seen": "2026-11-11",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "id": "history.backfill",
@@ -867,7 +892,7 @@
       "title": "Media-mix model has 34 of 180 usable days",
       "detail": "Without a backfill it is ready about 2027-03-28. Backfill per-channel spend back to 2026-05-07 (ops/growth/ROUTINE.md, History backfill).",
       "first_seen": "2026-11-11",
-      "age_days": 15
+      "age_days": 16
     },
     {
       "id": "inventory.low_cover",
@@ -877,7 +902,7 @@
       "title": "1 selling product(s) under 21 days of stock: COLDEST 36oz Limitless Ultra v8",
       "detail": "Information, not a block (David 11/12: ads on a sold-out product are fine while they convert). Watch conversion on ads that land on these. Shopify-reported units; the warehouse count is not in this feed.",
       "first_seen": "2026-11-11",
-      "age_days": 15,
+      "age_days": 16,
       "evidence": {
         "products": [
           "COLDEST 36oz Limitless Ultra v8"
@@ -1591,7 +1616,7 @@
     "file": "ads_throttle/creative_winners.json",
     "as_of": "2026-11-09",
     "snapshot_at": "2026-11-10T00:07:07.178Z",
-    "age_days": 17,
+    "age_days": 18,
     "source": "Adnova insights by creative (Meta, last 7 days, platform-reported, 7-day click / 1-day view)",
     "rule": {
       "min_roas": 2.8,
