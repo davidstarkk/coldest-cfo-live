@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-25",
-  "computed_at": "2026-11-26T14:31:04Z",
+  "computed_at": "2026-11-27T00:30:23Z",
   "for": "Jarvis / Grok and the channel bots. Advisory: no budget is written from this file.",
   "action_exclusions": {
     "file": "ops/plan/action_exclusions.json",
@@ -46,34 +46,30 @@
     }
   },
   "portfolio": {
-    "mer_7d": 2.3808,
-    "mer_30d": 2.0809,
+    "mer_7d": 2.3791,
+    "mer_30d": 2.0803,
     "mer_target": 3.24,
     "mer_gap": -0.86,
     "stance": "below_target",
-    "mer_7d_action": 1.8178,
+    "mer_7d_action": 1.8163,
     "rev_7d_action": 297467.98,
-    "spend_7d_action": 163637.31,
+    "spend_7d_action": 163779.24,
     "excluded_days": [
       "2026-11-19"
     ],
     "d2c_revenue_7d": 472067.42,
-    "d2c_spend_7d": 198279.74,
-    "channel_spend_7d": 198279.74,
-    "spend_judged_pct": 88.5,
+    "d2c_spend_7d": 198421.67,
+    "channel_spend_7d": 198421.67,
+    "spend_judged_pct": 89.0,
     "spend_in_auto_mode_pct": 17.2,
-    "excluded_from_d2c_spend": [
-      {
-        "channel": "bing",
-        "reason": "bing_ads_daily.json has no row (not pulled / unverified) - missing, not $0"
-      }
-    ],
+    "excluded_from_d2c_spend": [],
     "mer_target_scope": "total_company",
     "total_company_mer_7d": 4.35,
     "stance_on_target_scope": "room_to_add"
   },
   "summary": {
     "act_now": [
+      "bing",
       "snapchat",
       "x"
     ],
@@ -86,7 +82,6 @@
         "google"
       ],
       "insufficient": [
-        "bing",
         "chatgpt",
         "pinterest",
         "reddit",
@@ -98,12 +93,13 @@
       ],
       "raise": [
         "applovin",
+        "bing",
         "snapchat",
         "tiktok"
       ]
     },
-    "open_asks": 11,
-    "open_asks_high": 1,
+    "open_asks": 10,
+    "open_asks_high": 0,
     "feed_status": "degraded"
   },
   "channels": {
@@ -370,29 +366,27 @@
       "label": "Bing",
       "mode": "auto",
       "owner_bot": "Bing Ads bot",
-      "verdict": "insufficient",
-      "rule_says": "Not enough data",
-      "actionable": false,
-      "blockers": [
-        "feed_gap:6/7 days measured"
-      ],
+      "verdict": "raise",
+      "rule_says": "Scale +20%",
+      "actionable": true,
+      "blockers": [],
       "cautions": [
         "excluded 2026-11-19 from action 7d (MegaLive / MEGMAS 6 drop day; David 11/20: no budget adjustments because of it)"
       ],
-      "spend_7d": 952.63,
-      "spend_days_measured": 6,
-      "roas_7d": null,
-      "roas_days": 6,
+      "spend_7d": 1094.56,
+      "spend_days_measured": 7,
+      "roas_7d": 4.66,
+      "roas_days": 7,
       "roas_source": "channel daily file",
-      "platform_revenue_7d": null,
+      "platform_revenue_7d": 5100.3,
       "roas_prior_7d": 2.16,
       "spend_prior_7d": 1158.04,
       "raise_above_roas": 2.8,
       "cut_below_roas": 2.0,
       "band_source": "global",
       "tracking_status": "OK",
-      "feed_status": "stale",
-      "last_measured_day": "2026-11-24",
+      "feed_status": "fresh",
+      "last_measured_day": "2026-11-25",
       "last_change": {
         "date": "2026-11-24",
         "action": null
@@ -403,16 +397,17 @@
         "spend_7d": 1199.38,
         "tier": "Steady",
         "tier_label": "Steady (brand-only, small spend)",
-        "tracking": "OK; feed by_date rows are original closed-day values, bot restatements (late conversions) applied in 7d and prior reads"
+        "tracking": "OK; feed by_date rows are original closed-day values, bot restatements (late conversions) applied in 7d and prior reads",
+        "roas_gap_pct": 23.0
       },
       "mmm_verdict": null,
       "excluded_days": [
         "2026-11-19"
       ],
-      "spend_7d_action": 679.74,
-      "roas_7d_action": null,
-      "roas_days_action": 5,
-      "platform_revenue_7d_action": null
+      "spend_7d_action": 821.67,
+      "roas_7d_action": 3.46,
+      "roas_days_action": 6,
+      "platform_revenue_7d_action": 2842.75
     },
     "x": {
       "label": "X",
@@ -737,27 +732,6 @@
     }
   },
   "asks": [
-    {
-      "id": "feed.bing",
-      "severity": "high",
-      "channel": "bing",
-      "owner": "Bing Ads bot",
-      "title": "Bing: no measured row since 2026-11-24",
-      "detail": "bing_ads_daily.json has no measured row for 2026-11-25. Write one row per closed Eastern day (spend, platform purchase value, complete / closed_day). A paused channel still needs its measured $0 row.",
-      "first_seen": "2026-11-26",
-      "age_days": 0,
-      "evidence": {
-        "missing_days": [
-          "2026-11-25"
-        ],
-        "last_measured_day": "2026-11-24"
-      },
-      "ack": {
-        "status": "working",
-        "note": "11/23 closed-day row requested from BING ADS 11/24.",
-        "at": "2026-11-24T09:46:58-05:00"
-      }
-    },
     {
       "id": "roas.google.disputed",
       "severity": "high",
@@ -1863,7 +1837,7 @@
   "growth": {
     "file": "ads_throttle/growth_brief.json",
     "headline": {
-      "mer_7d": 2.3808,
+      "mer_7d": 2.3791,
       "mer_target": 3.24,
       "breakeven_mer_before_overhead": 1.41,
       "stance": "room_to_add",
@@ -1890,7 +1864,7 @@
   },
   "intl_meta_budget_calls": {
     "as_of": "2026-11-25",
-    "status": "OK",
+    "status": "PENDING_INPUT",
     "advisory": true,
     "lines": [
       {
@@ -1907,7 +1881,7 @@
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 0.0
+        "spend_7d": null
       },
       {
         "code": "GB",
@@ -1923,7 +1897,7 @@
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 0.0
+        "spend_7d": null
       },
       {
         "code": "AU",
@@ -1939,24 +1913,35 @@
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 0.0
+        "spend_7d": null
       },
       {
         "code": "US",
         "display_name": "Meta USA",
-        "action": "HOLD",
-        "reason": "roas_7d 2.49x in 2.0\u20132.8 hold band",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 2.49,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 146365.04
+        "spend_7d": null
       }
     ]
-  }
+  },
+  "flags": [
+    {
+      "id": "intl_meta.pending_input",
+      "severity": "high",
+      "status": "PENDING_INPUT",
+      "advisory": true,
+      "title": "International Meta input feed is missing; dollars are null, not $0",
+      "ok": null,
+      "date": "2026-11-25"
+    }
+  ]
 }
