@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "as_of": "2026-11-26",
-  "computed_at": "2026-11-27T14:29:25Z",
+  "computed_at": "2026-11-27T15:36:19Z",
   "for": "Jarvis / Grok and David. Advisory: no budget is written from this file and no channel verdict is issued here (ads_throttle/cfo_brief.json holds the rule).",
   "action_exclusions": {
     "file": "ops/plan/action_exclusions.json",
@@ -14,18 +14,18 @@
     "compared_mer_7d": 3.08,
     "adopted": false,
     "adopted_note": "Advisory until David sets global.portfolio_governor in ads_throttle/settings.json. It orders channels; it does not change any channel's rule verdict.",
-    "mer_7d": 1.9446,
+    "mer_7d": 1.9427,
     "mer_target": 3.24,
     "stance": "give_back",
     "d2c_revenue_7d": 404398.14,
-    "d2c_spend_7d": 207960.46,
+    "d2c_spend_7d": 208159.31,
     "spend_the_target_supports_at_this_revenue": 124814.24,
-    "spend_above_that": 83146.22,
+    "spend_above_that": 83345.07,
     "total_company_mer_7d": 3.08,
     "target_scope_note": "David 11/12: 3.24 is a total-company target, he believes \u2014 where the company is making money, not just breaking even. Shopify D2C MER is read against D2C break-even instead.",
     "breakeven_mer_before_overhead": 1.41,
     "mer_vs_breakeven": 0.53,
-    "spend_reading_hold_or_raise_pct": 96.8,
+    "spend_reading_hold_or_raise_pct": 97.2,
     "rule_conflict": true,
     "give_back_order": [
       {
@@ -65,6 +65,18 @@
         "who_can_act": "David"
       },
       {
+        "channel": "bing",
+        "label": "Bing",
+        "spend_7d": 1020.52,
+        "share_of_spend_pct": 0.5,
+        "roas_7d": 3.44,
+        "marginal_roas": 3.91,
+        "ranked_on": "roas_7d",
+        "rule_verdict": "raise",
+        "mode": "auto",
+        "who_can_act": "Grok"
+      },
+      {
         "channel": "applovin",
         "label": "AppLovin",
         "spend_7d": 1064.83,
@@ -95,11 +107,6 @@
         "channel": "google",
         "spend_7d": 23591.6,
         "why": "disputed read"
-      },
-      {
-        "channel": "bing",
-        "spend_7d": 821.67,
-        "why": "no full 7-day read"
       }
     ],
     "basis": "Ordered by what the last added dollars returned (marginal block) where spend rose, else by 7-day platform ROAS; lowest first. Disputed and unread channels are left out, not guessed."
@@ -196,15 +203,17 @@
         "label": "Bing",
         "window": "2026-11-20..2026-11-26",
         "prior_window": "2026-11-13..2026-11-19",
-        "spend": 821.67,
+        "spend": 1020.52,
         "spend_prior": 1233.65,
-        "revenue": 2842.75,
+        "revenue": 3515.62,
         "revenue_prior": 4348.88,
-        "roas": null,
+        "roas": 3.44,
         "roas_prior": 3.53,
-        "marginal_roas": null,
-        "read": "insufficient",
-        "why": "needs a full 7-day platform read in both weeks (7/7, 6/7)"
+        "marginal_roas": 3.91,
+        "spend_change": -213.13,
+        "revenue_change": -833.26,
+        "spend_change_pct": -17.3,
+        "read": "cut_spend"
       },
       "x": {
         "label": "X",
@@ -237,7 +246,7 @@
       "returning_net_sales": null,
       "new_share_of_net_sales_pct": null,
       "first_order_value": null,
-      "d2c_ad_spend": 207960.46,
+      "d2c_ad_spend": 208159.31,
       "blended_ncac": null,
       "new_customer_mer": null
     },
@@ -468,13 +477,13 @@
         "whatnot": 42158.55
       },
       "ad_spend": {
-        "d2c": 207960.46,
+        "d2c": 208159.31,
         "amazon": 32011.36,
         "tiktok_shop": 15872.14,
         "whatnot": 4582.09
       },
       "total_revenue": 801677.91,
-      "total_ad_spend": 260426.05,
+      "total_ad_spend": 260624.9,
       "total_mer": 3.08,
       "d2c_mer": 1.94,
       "amazon_tacos_pct": 17.9,
@@ -492,13 +501,13 @@
         "whatnot": 209475.55
       },
       "ad_spend": {
-        "d2c": 531183.71,
+        "d2c": 531382.56,
         "amazon": 105401.14,
         "tiktok_shop": 80410.59,
         "whatnot": 23802.4
       },
       "total_revenue": 2791818.16,
-      "total_ad_spend": 740797.84,
+      "total_ad_spend": 740996.69,
       "total_mer": 3.77,
       "d2c_mer": 2.14,
       "amazon_tacos_pct": 20.2,
@@ -1305,18 +1314,18 @@
       "bing": {
         "label": "Bing",
         "mode": "auto",
-        "spend_7d": 821.67,
-        "score": "5/7",
+        "spend_7d": 1020.52,
+        "score": "7/7",
         "checks": [
           {
             "id": "feed_14_of_14",
-            "pass": false,
-            "detail": "14-day strip #############."
+            "pass": true,
+            "detail": "14-day strip ##############"
           },
           {
             "id": "full_7d_read",
-            "pass": false,
-            "detail": "6/7 days with a platform read"
+            "pass": true,
+            "detail": "7/7 days with a platform read"
           },
           {
             "id": "tracking_ok",
@@ -1344,11 +1353,8 @@
             "detail": "0 of 2 worse"
           }
         ],
-        "failing": [
-          "feed_14_of_14",
-          "full_7d_read"
-        ],
-        "suggestion": "review_auto"
+        "failing": [],
+        "suggestion": "keep_auto"
       },
       "x": {
         "label": "X",
@@ -1396,7 +1402,7 @@
         "suggestion": "keep_auto"
       }
     },
-    "spend_ready_or_auto_pct": 6.0,
+    "spend_ready_or_auto_pct": 6.5,
     "note": "A suggestion, not a switch: mode in ads_throttle/settings.json stays David's and Grok's. Meta is frozen by David's carve-out whatever the score."
   },
   "grok_requests": {
@@ -1457,8 +1463,8 @@
       "severity": "medium",
       "channel": null,
       "owner": "David",
-      "title": "Total-company MER 3.08 is under the 3.24 target while 96.8% of spend reads hold or raise",
-      "detail": "The channel band and the portfolio target disagree. Shopify D2C MER is 1.9446, total-company 3.08; D2C break-even before overhead is 1.41. Either leave the band as it is or adopt the give-back order (set global.portfolio_governor in ads_throttle/settings.json) so the lowest-returning channel gives spend back first.",
+      "title": "Total-company MER 3.08 is under the 3.24 target while 97.2% of spend reads hold or raise",
+      "detail": "The channel band and the portfolio target disagree. Shopify D2C MER is 1.9427, total-company 3.08; D2C break-even before overhead is 1.41. Either leave the band as it is or adopt the give-back order (set global.portfolio_governor in ads_throttle/settings.json) so the lowest-returning channel gives spend back first.",
       "first_seen": "2026-11-27",
       "age_days": 0,
       "evidence": {
@@ -1506,7 +1512,7 @@
     }
   ],
   "headline": {
-    "mer_7d": 1.9446,
+    "mer_7d": 1.9427,
     "mer_target": 3.24,
     "breakeven_mer_before_overhead": 1.41,
     "stance": "give_back",
@@ -1536,7 +1542,7 @@
   },
   "intl_meta_budget_calls": {
     "as_of": "2026-11-26",
-    "status": "OK",
+    "status": "PENDING_INPUT",
     "advisory": true,
     "lines": [
       {
@@ -1553,7 +1559,7 @@
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 0.0
+        "spend_7d": null
       },
       {
         "code": "GB",
@@ -1569,7 +1575,7 @@
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 0.0
+        "spend_7d": null
       },
       {
         "code": "AU",
@@ -1585,23 +1591,23 @@
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 0.0
+        "spend_7d": null
       },
       {
         "code": "US",
         "display_name": "Meta USA",
-        "action": "HOLD",
-        "reason": "roas_7d 2.12x in 2.0\u20132.8 hold band",
+        "action": "INSUFFICIENT_DATA",
+        "reason": "missing 7d spend, purchases or platform ROAS",
         "advisory": true,
         "cooldown_until": null,
-        "roas_7d": 2.12,
+        "roas_7d": null,
         "roas_7d_source": "meta_platform_reported",
         "roas_shopify_total_7d": null,
         "roas_product_only_7d": null,
         "shopify_total_revenue_7d": null,
         "shopify_product_revenue_7d": null,
         "shipping_duties_share_pct": null,
-        "spend_7d": 145919.79
+        "spend_7d": null
       }
     ]
   }
